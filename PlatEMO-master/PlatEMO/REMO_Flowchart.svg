@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+    <!-- 背景 -->
+    <rect width="1200" height="900" fill="white"/>
+    
+    <!-- 标题 -->
+    <text x="600" y="40" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#333">REMO算法流程图</text>
+    <text x="600" y="70" font-family="Arial" font-size="16" text-anchor="middle" fill="#666">Expensive Multi-objective Optimization by Relation Learning and Prediction</text>
+    
+    <!-- 定义箭头标记 -->
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+        </marker>
+    </defs>
+    
+    <!-- 辅助线样式 -->
+    <style>
+        .process-box {fill: #e1f5fe; stroke: #0288d1; stroke-width: 2; rx: 8; ry: 8}
+        .decision-box {fill: #fff3e0; stroke: #f57c00; stroke-width: 2;}
+        .start-box {fill: #e8f5e9; stroke: #388e3c; stroke-width: 2; rx: 8; ry: 8}
+        .end-box {fill: #ffebee; stroke: #d32f2f; stroke-width: 2; rx: 8; ry: 8}
+        .loop-box {fill: #f3e5f5; stroke: #7b1fa2; stroke-width: 2; rx: 8; ry: 8}
+        .text-style {font-family: Arial; font-size: 14; fill: #333}
+        .arrow {stroke: #333; stroke-width: 2; marker-end: url(#arrowhead)}
+        .note-box {fill: #fffde7; stroke: #fbc02d; stroke-width: 1; rx: 5; ry: 5; opacity: 0.8}
+        .note-text {font-family: Arial; font-size: 12; fill: #333}
+    </style>
+    
+    <!-- 初始化部分 -->
+    <rect x="100" y="100" width="200" height="80" class="start-box"/>
+    <text x="200" y="130" class="text-style" text-anchor="middle">参数设置</text>
+    <text x="200" y="150" class="text-style" text-anchor="middle">k = 6, gmax = 3000</text>
+    
+    <rect x="400" y="100" width="200" height="80" class="process-box"/>
+    <text x="500" y="130" class="text-style" text-anchor="middle">拉丁超立方采样</text>
+    <text x="500" y="150" class="text-style" text-anchor="middle">初始化种群</text>
+    
+    <rect x="700" y="100" width="200" height="80" class="process-box"/>
+    <text x="800" y="130" class="text-style" text-anchor="middle">真实评估</text>
+    <text x="800" y="150" class="text-style" text-anchor="middle">初始化存档</text>
+    
+    <!-- 主循环 -->
+    <rect x="400" y="220" width="400" height="80" class="loop-box"/>
+    <text x="600" y="250" class="text-style" text-anchor="middle" font-weight="bold">主循环</text>
+    <text x="600" y="270" class="text-style" text-anchor="middle">Algorithm.NotTerminated(Archive)</text>
+    
+    <!-- 参考解选择 -->
+    <rect x="100" y="340" width="200" height="80" class="process-box"/>
+    <text x="200" y="370" class="text-style" text-anchor="middle">参考解选择</text>
+    <text x="200" y="390" class="text-style" text-anchor="middle">RefSelect(Population, k)</text>
+    
+    <!-- 数据预处理 -->
+    <rect x="400" y="340" width="200" height="80" class="process-box"/>
+    <text x="500" y="370" class="text-style" text-anchor="middle">数据预处理</text>
+    <text x="500" y="390" class="text-style" text-anchor="middle">GetOutput_PBI & GetRelationPairs</text>
+    
+    <!-- 模型训练 -->
+    <rect x="700" y="340" width="200" height="80" class="process-box"/>
+    <text x="800" y="370" class="text-style" text-anchor="middle">关系模型训练</text>
+    <text x="800" y="390" class="text-style" text-anchor="middle">patternnet + train</text>
+    
+    <!-- 代理辅助选择 -->
+    <rect x="100" y="460" width="200" height="80" class="process-box"/>
+    <text x="200" y="490" class="text-style" text-anchor="middle">代理辅助选择</text>
+    <text x="200" y="510" class="text-style" text-anchor="middle">RSurrogateAssistedSelection</text>
+    
+    <!-- 真实评估 -->
+    <rect x="400" y="460" width="200" height="80" class="process-box"/>
+    <text x="500" y="490" class="text-style" text-anchor="middle">真实评估</text>
+    <text x="500" y="510" class="text-style" text-anchor="middle">Problem.Evaluation</text>
+    
+    <!-- 更新存档 -->
+    <rect x="700" y="460" width="200" height="80" class="process-box"/>
+    <text x="800" y="490" class="text-style" text-anchor="middle">更新存档</text>
+    <text x="800" y="510" class="text-style" text-anchor="middle">Archive = [Archive, Evaluation]</text>
+    
+    <!-- 更新种群 -->
+    <rect x="400" y="580" width="200" height="80" class="process-box"/>
+    <text x="500" y="610" class="text-style" text-anchor="middle">更新种群</text>
+    <text x="500" y="630" class="text-style" text-anchor="middle">Population = RefSelect(Archive, Problem.N)</text>
+    
+    <!-- 结束 -->
+    <rect x="400" y="700" width="200" height="80" class="end-box"/>
+    <text x="500" y="730" class="text-style" text-anchor="middle" font-weight="bold">算法结束</text>
+    <text x="500" y="750" class="text-style" text-anchor="middle">返回存档</text>
+    
+    <!-- 子循环说明 -->
+    <rect x="850" y="400" width="280" height="200" class="note-box"/>
+    <text x="860" y="420" class="note-text" text-anchor="start" font-weight="bold">RSurrogateAssistedSelection子循环:</text>
+    <text x="860" y="440" class="note-text" text-anchor="start">1. 初始GA生成候选解</text>
+    <text x="860" y="460" class="note-text" text-anchor="start">2. 模型评估与排序</text>
+    <text x="860" y="480" class="note-text" text-anchor="start">3. 选择优秀解作为父代</text>
+    <text x="860" y="500" class="note-text" text-anchor="start">4. GA生成新候选解</text>
+    <text x="860" y="520" class="note-text" text-anchor="start">5. 重复gmax次</text>
+    <text x="860" y="540" class="note-text" text-anchor="start">6. 选择最终候选解</text>
+    
+    <!-- 箭头连接 -->
+    <!-- 初始化部分 -->
+    <line x1="300" y1="140" x2="400" y2="140" class="arrow"/>
+    <line x1="600" y1="140" x2="700" y2="140" class="arrow"/>
+    
+    <!-- 进入主循环 -->
+    <line x1="800" y1="180" x2="600" y2="220" class="arrow"/>
+    
+    <!-- 主循环内部 -->
+    <line x1="600" y1="300" x2="600" y2="340" class="arrow"/>
+    <line x1="200" y1="340" x2="200" y2="300" class="arrow"/>
+    <line x1="200" y1="420" x2="200" y2="460" class="arrow"/>
+    <line x1="300" y1="380" x2="400" y2="380" class="arrow"/>
+    <line x1="600" y1="380" x2="700" y2="380" class="arrow"/>
+    <line x1="800" y1="420" x2="600" y2="460" class="arrow"/>
+    <line x1="300" y1="500" x2="400" y2="500" class="arrow"/>
+    <line x1="600" y1="500" x2="700" y2="500" class="arrow"/>
+    <line x1="800" y1="500" x2="600" y2="580" class="arrow"/>
+    
+    <!-- 循环回到主循环 -->
+    <line x1="500" y1="660" x2="500" y2="300" class="arrow"/>
+    
+    <!-- 退出主循环 -->
+    <line x1="500" y1="300" x2="500" y2="700" style="stroke: #333; stroke-width: 2; marker-end: url(#arrowhead); stroke-dasharray: 5,5"/>
+    
+    <!-- 特殊标记：评估点 -->
+    <circle cx="800" cy="140" r="10" fill="#d32f2f"/>
+    <text x="800" y="115" class="text-style" text-anchor="middle" font-weight="bold">真实评估点1</text>
+    
+    <circle cx="500" cy="500" r="10" fill="#d32f2f"/>
+    <text x="500" y="440" class="text-style" text-anchor="middle" font-weight="bold">真实评估点2</text>
+</svg>

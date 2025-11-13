@@ -1,0 +1,184 @@
+<svg width="1000" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景和样式 -->
+  <rect width="100%" height="100%" fill="white"/>
+  
+  <!-- 标题 -->
+  <text x="500" y="50" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle">NSGA-III 算法流程图</text>
+  
+  <!-- 初始化部分 -->
+  <g>
+    <!-- 开始节点 -->
+    <rect x="450" y="100" width="100" height="50" rx="10" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+    <text x="500" y="130" font-family="Arial" font-size="14" text-anchor="middle">开始</text>
+    
+    <!-- 生成参考点 -->
+    <rect x="450" y="180" width="100" height="40" rx="5" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+    <text x="500" y="205" font-family="Arial" font-size="14" text-anchor="middle">生成均匀参考点 Z</text>
+    
+    <!-- 初始化种群 -->
+    <rect x="450" y="250" width="100" height="40" rx="5" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+    <text x="500" y="275" font-family="Arial" font-size="14" text-anchor="middle">随机初始化种群</text>
+    
+    <!-- 计算理想点 -->
+    <rect x="450" y="320" width="100" height="40" rx="5" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+    <text x="500" y="345" font-family="Arial" font-size="14" text-anchor="middle">计算理想点 Zmin</text>
+  </g>
+  
+  <!-- 主循环部分 -->
+  <g>
+    <!-- 循环条件 -->
+    <rect x="350" y="400" width="300" height="40" rx="20" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+    <text x="500" y="425" font-family="Arial" font-size="14" text-anchor="middle">终止条件满足？</text>
+    
+    <!-- 锦标赛选择 -->
+    <rect x="250" y="480" width="200" height="40" rx="5" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+    <text x="350" y="505" font-family="Arial" font-size="14" text-anchor="middle">锦标赛选择</text>
+    
+    <!-- 遗传操作 -->
+    <rect x="250" y="550" width="200" height="40" rx="5" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+    <text x="350" y="575" font-family="Arial" font-size="14" text-anchor="middle">GA 操作生成后代</text>
+    
+    <!-- 更新理想点 -->
+    <rect x="250" y="620" width="200" height="40" rx="5" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+    <text x="350" y="645" font-family="Arial" font-size="14" text-anchor="middle">更新理想点 Zmin</text>
+    
+    <!-- 环境选择 -->
+    <rect x="500" y="620" width="200" height="40" rx="5" fill="#fff0f6" stroke="#eb2f96" stroke-width="2"/>
+    <text x="600" y="645" font-family="Arial" font-size="14" text-anchor="middle">环境选择</text>
+  </g>
+  
+  <!-- 环境选择子流程 -->
+  <g>
+    <!-- 非支配排序 -->
+    <rect x="500" y="700" width="200" height="35" rx="5" fill="#f0f5ff" stroke="#40a9ff" stroke-width="2"/>
+    <text x="600" y="722" font-family="Arial" font-size="12" text-anchor="middle">非支配排序 (NDSort)</text>
+    
+    <!-- 检查是否需要最后前沿面选择 -->
+    <rect x="500" y="750" width="200" height="35" rx="5" fill="#f0f5ff" stroke="#40a9ff" stroke-width="2"/>
+    <text x="600" y="772" font-family="Arial" font-size="12" text-anchor="middle">是否需要最后前沿面选择？</text>
+    
+    <!-- 最后前沿面选择 -->
+    <rect x="500" y="800" width="200" height="35" rx="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+    <text x="600" y="822" font-family="Arial" font-size="12" text-anchor="middle">最后前沿面选择</text>
+    
+    <!-- 归一化 -->
+    <rect x="350" y="850" width="150" height="30" rx="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="1"/>
+    <text x="425" y="868" font-family="Arial" font-size="11" text-anchor="middle">目标空间归一化</text>
+    
+    <!-- 关联参考点 -->
+    <rect x="350" y="900" width="150" height="30" rx="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="1"/>
+    <text x="425" y="918" font-family="Arial" font-size="11" text-anchor="middle">关联解与参考点</text>
+    
+    <!-- 基于参考点的选择 -->
+    <rect x="350" y="950" width="150" height="30" rx="5" fill="#e6f7ff" stroke="#1890ff" stroke-width="1"/>
+    <text x="425" y="968" font-family="Arial" font-size="11" text-anchor="middle">基于参考点拥挤度选择</text>
+  </g>
+  
+  <!-- 结束部分 -->
+  <g>
+    <!-- 返回种群 -->
+    <rect x="450" y="1050" width="100" height="40" rx="5" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+    <text x="500" y="1075" font-family="Arial" font-size="14" text-anchor="middle">返回最终种群</text>
+    
+    <!-- 结束节点 -->
+    <rect x="450" y="1120" width="100" height="50" rx="10" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+    <text x="500" y="1150" font-family="Arial" font-size="14" text-anchor="middle">结束</text>
+  </g>
+  
+  <!-- 箭头连接 -->
+  <g>
+    <!-- 初始化部分连接 -->
+    <line x1="500" y1="150" x2="500" y2="180" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="500,180 495,172 505,172" fill="#1890ff"/>
+    
+    <line x1="500" y1="220" x2="500" y2="250" stroke="#52c41a" stroke-width="2"/>
+    <polygon points="500,250 495,242 505,242" fill="#52c41a"/>
+    
+    <line x1="500" y1="290" x2="500" y2="320" stroke="#52c41a" stroke-width="2"/>
+    <polygon points="500,320 495,312 505,312" fill="#52c41a"/>
+    
+    <line x1="500" y1="360" x2="500" y2="400" stroke="#52c41a" stroke-width="2"/>
+    <polygon points="500,400 495,392 505,392" fill="#52c41a"/>
+    
+    <!-- 主循环连接 -->
+    <line x1="500" y1="440" x2="350" y2="480" stroke="#fa8c16" stroke-width="2"/>
+    <polygon points="350,480 355,472 345,472" fill="#fa8c16"/>
+    
+    <line x1="350" y1="520" x2="350" y2="550" stroke="#722ed1" stroke-width="2"/>
+    <polygon points="350,550 345,542 355,542" fill="#722ed1"/>
+    
+    <line x1="350" y1="590" x2="350" y2="620" stroke="#722ed1" stroke-width="2"/>
+    <polygon points="350,620 345,612 355,612" fill="#722ed1"/>
+    
+    <line x1="450" y1="640" x2="500" y2="640" stroke="#722ed1" stroke-width="2"/>
+    <polygon points="500,640 492,635 492,645" fill="#722ed1"/>
+    
+    <line x1="600" y1="660" x2="600" y2="700" stroke="#eb2f96" stroke-width="2"/>
+    <polygon points="600,700 595,692 605,692" fill="#eb2f96"/>
+    
+    <!-- 环境选择子流程连接 -->
+    <line x1="600" y1="735" x2="600" y2="750" stroke="#40a9ff" stroke-width="2"/>
+    <polygon points="600,750 595,742 605,742" fill="#40a9ff"/>
+    
+    <line x1="600" y1="785" x2="600" y2="800" stroke="#40a9ff" stroke-width="2"/>
+    <polygon points="600,800 595,792 605,792" fill="#40a9ff"/>
+    
+    <line x1="500" y1="835" x2="425" y2="850" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="425,850 430,842 420,842" fill="#1890ff"/>
+    
+    <line x1="425" y1="880" x2="425" y2="900" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="425,900 420,892 430,892" fill="#1890ff"/>
+    
+    <line x1="425" y1="930" x2="425" y2="950" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="425,950 420,942 430,942" fill="#1890ff"/>
+    
+    <!-- 循环返回连接 -->
+    <line x1="425" y1="980" x2="425" y2="1020" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="425,1020 420,1012 430,1012" fill="#1890ff"/>
+    
+    <line x1="425" y1="1020" x2="500" y2="1020" stroke="#1890ff" stroke-width="2"/>
+    <polygon points="500,1020 492,1015 492,1025" fill="#1890ff"/>
+    
+    <line x1="500" y1="1020" x2="500" y2="1050" stroke="#52c41a" stroke-width="2"/>
+    <polygon points="500,1050 495,1042 505,1042" fill="#52c41a"/>
+    
+    <line x1="500" y1="1090" x2="500" y2="1120" stroke="#52c41a" stroke-width="2"/>
+    <polygon points="500,1120 495,1112 505,1112" fill="#52c41a"/>
+    
+    <!-- 循环结束返回 -->
+    <line x1="650" y1="420" x2="650" y2="1075" stroke="#fa8c16" stroke-width="2"/>
+    <polygon points="650,1075 645,1067 655,1067" fill="#fa8c16"/>
+  </g>
+  
+  <!-- 图例 -->
+  <g>
+    <rect x="750" y="150" width="120" height="150" rx="10" fill="#f5f5f5" stroke="#d9d9d9" stroke-width="1"/>
+    <text x="810" y="170" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">图例</text>
+    
+    <rect x="760" y="190" width="10" height="10" rx="2" fill="#f6ffed" stroke="#52c41a" stroke-width="2"/>
+    <text x="785" y="198" font-family="Arial" font-size="12" text-anchor="start">初始化与更新</text>
+    
+    <rect x="760" y="215" width="10" height="10" rx="2" fill="#f9f0ff" stroke="#722ed1" stroke-width="2"/>
+    <text x="785" y="223" font-family="Arial" font-size="12" text-anchor="start">遗传操作</text>
+    
+    <rect x="760" y="240" width="10" height="10" rx="2" fill="#fff0f6" stroke="#eb2f96" stroke-width="2"/>
+    <text x="785" y="248" font-family="Arial" font-size="12" text-anchor="start">环境选择</text>
+    
+    <rect x="760" y="265" width="10" height="10" rx="2" fill="#e6f7ff" stroke="#1890ff" stroke-width="2"/>
+    <text x="785" y="273" font-family="Arial" font-size="12" text-anchor="start">子流程</text>
+    
+    <rect x="760" y="290" width="10" height="10" rx="2" fill="#fff2e8" stroke="#fa8c16" stroke-width="2"/>
+    <text x="785" y="298" font-family="Arial" font-size="12" text-anchor="start">条件判断</text>
+  </g>
+  
+  <!-- 注释说明 -->
+  <g>
+    <rect x="750" y="350" width="200" height="150" rx="10" fill="#f0f5ff" stroke="#40a9ff" stroke-width="1"/>
+    <text x="850" y="370" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle">NSGA-III 关键特性</text>
+    <text x="760" y="395" font-family="Arial" font-size="12" text-anchor="start">• 均匀参考点引导</text>
+    <text x="760" y="415" font-family="Arial" font-size="12" text-anchor="start">• 非支配排序</text>
+    <text x="760" y="435" font-family="Arial" font-size="12" text-anchor="start">• 目标空间归一化</text>
+    <text x="760" y="455" font-family="Arial" font-size="12" text-anchor="start">• 基于参考点的选择机制</text>
+    <text x="760" y="475" font-family="Arial" font-size="12" text-anchor="start">• 适用于多目标优化</text>
+  </g>
+</svg>
