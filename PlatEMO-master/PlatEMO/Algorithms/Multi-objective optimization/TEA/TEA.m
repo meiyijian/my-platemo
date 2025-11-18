@@ -1,210 +1,133 @@
 classdef TEA < ALGORITHM
 % <2024> <multi/many> <real/integer> <expensive> <constrained/none>
-% TEA (Two-phase Evolutionary Algorithm) - 两阶段进化算法
-% 该算法专为昂贵多目标约束优化问题设计，通过两阶段策略和克里金代理模型提高优化效率
+% 两阶段进化算法（Two-phase Evolutionary Algorithm, TEA）
+% 核心用途：解决昂贵约束多目标优化问题（测试/仿真成本高、需优化多个目标、含约束条件）
+% 适配场景：多目标/超多目标、实数/整数变量、昂贵优化（少真实评估）、带约束/无约束问题
 %
-% 参数说明:
-% wmax --- 20 --- 进化搜索的最大代数（每阶段的进化迭代次数）
-% mu   ---  5 --- 每代选择的新候选解数量（用于真实函数评估）
+% 参数说明（可调整）：
+% wmax --- 20 --- 进化搜索的迭代代数（每次进化过程的搜索步数）
+% mu   ---  5 --- 候选解选择数量（每次迭代后筛选的最优待评估解个数）
 %
-% 算法特点:
-% 1. 两阶段优化策略：阶段1快速探索，阶段2精确优化
-% 2. DACE克里金代理模型集成，显著减少昂贵函数评估
-% 3. 智能候选解选择，最大化信息增益
-% 4. 约束处理机制，适应约束优化问题
-%    
-%------------------------------- Reference --------------------------------
+%------------------------------- 参考文献 --------------------------------
 % Z. Zhang, Y. Wang, J. Liu, G. Sun, and K. Tang. A two-phase Kriging-
 % assisted evolutionary algorithm for expensive constrained multiobjective
 % optimization problems. IEEE Transactions on Systems, Man, and
 % Cybernetics: Systems, 2024, 54(8): 4579-4591.
-%------------------------------- Copyright --------------------------------
-% Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
-% research purposes. All publications which use this platform or any code
-% in the platform should acknowledge the use of "PlatEMO" and reference "Ye
-% Tian, Ran Cheng, Xingyi Zhang, and Yaochu Jin, PlatEMO: A MATLAB platform
-% for evolutionary multi-objective optimization [educational forum], IEEE
-% Computational Intelligence Magazine, 2017, 12(4): 73-87".
+%------------------------------- 版权声明 --------------------------------
+% Copyright (c) 2025 BIMK Group. 可用于科研目的，使用时需引用PlatEMO平台文献
 %--------------------------------------------------------------------------
 
-% This function is written by Zhiyao Zhang (email: zhiyao_zhang0@163.com)
+% 代码作者：Zhiyao Zhang (邮箱: zhiyao_zhang0@163.com)
     
     methods
+        % 算法主函数：接收算法对象（参数）和问题对象（优化任务），执行完整优化流程
         function main(Algorithm,Problem)
-            %% =================== 参数设置模块 ===================
-            % 定义全局变量，用于在不同函数间共享算法状态信息
+            %% 1. 全局变量与参数初始化
+            % 全局变量：存储算法关键状态（当前阶段、种群规模、约束/目标函数数量）
             global phase NI Len_con Len_obj 
-            
-            % 从算法参数中获取进化搜索最大代数和每代选择候选解数量
-            % wmax: 每阶段的进化迭代次数，默认为20
-            % mu: 每代选择的新候选解数量，默认为5
+            % 读取/设置算法参数：wmax（进化代数）、mu（候选解数），默认值(20,5)，参数个数2
             [wmax,mu]      = Algorithm.ParameterSet(20,5,2);
-            
-            % ct: 相变计数器，记录阶段转换次数
-            ct             = 0;
-            % ct_max: 最大相变次数，限制阶段转换的频率
-            ct_max         = 2;
-            
-            % sample_success: 采样成功标志，指示是否需要重新训练代理模型
-            % 当为1时表示新采样成功，需要更新代理模型；为0时表示无新采样
-            sample_success = 1;
-            % phase: 当前算法阶段，1表示探索阶段，2表示精化阶段
-            phase          = 1;
+            ct             = 0;          % 阶段切换计数器（记录满足切换条件的次数）
+            ct_max         = 2;          % 阶段切换阈值（累计ct_max次满足条件则切换阶段）
+            sample_success = 1;          % 采样成功标记（1=成功评估新解，0=未找到有效候选解）
+            phase          = 1;          % 初始阶段：第一阶段（无约束导向搜索）
 
-            %% =================== 初始化模块 ===================
-            % NI: 获取问题规模（种群大小）
-            NI        = Problem.N;
-            
-            % 使用均匀拉丁超立方采样生成初始种群
-            % UniformPoint生成在单位超立方体中均匀分布的NI个点
+            %% 2. 初始种群生成与数据库建立
+            NI        = Problem.N;       % 种群规模（从问题对象获取，固定数量的解）
+            % 生成拉丁超立方采样的初始决策变量（均匀分布在变量空间，保证多样性）
             P         = UniformPoint(NI,Problem.D,'Latin');
-            
-            % Database: 数据库结构体，存储评估过的解集及其目标函数值和约束值
-            % 将标准化坐标转换为原始决策空间坐标并评估
-            % repmat创建重复矩阵，Problem.upper-Problem.lower得到搜索空间大小
-            % 乘以P再加上Problem.lower得到实际坐标值
+            % 真实评估初始种群：将标准化的决策变量映射到实际变量范围，存入数据库
+            % Database：存储所有已真实评估的解（含决策变量、目标值、约束值等）
             Database  = Problem.Evaluation(repmat(Problem.upper-Problem.lower,NI,1).*P+repmat(Problem.lower,NI,1));
-            
-            % P: 当前种群，用评估结果更新
-            P         = Database;
-            
-            % Len_obj: 目标函数数量
-            Len_obj   = Problem.M;
-            
-            % THETA_obj: 目标函数DACE模型的超参数矩阵
-            % 初始化为5倍单位矩阵，每行对应一个目标函数
-            THETA_obj = 5.*ones(Len_obj,Problem.D);
-            
-            % Model_obj: 目标函数DACE模型数组，每个元素对应一个目标函数的代理模型
-            Model_obj = cell(1,Len_obj); 
-            
-            % Len_con: 约束条件数量（如果无约束则为0）
-            Len_con   = size(Database.cons,2);
-            
-            % THETA_con: 约束条件DACE模型的超参数矩阵
-            THETA_con = 5.*ones(Len_con,Problem.D);
-            
-            % Model_con: 约束条件DACE模型数组
-            Model_con = cell(1,Len_con);
+            P         = Database;        % 初始种群 = 已评估的数据库（初始阶段无历史数据）
+            Len_obj   = Problem.M;       % 目标函数个数（从问题对象获取，多目标优化的“目标数”）
+            THETA_obj = 5.*ones(Len_obj,Problem.D);  % 目标函数Kriging模型的初始超参数（每个目标对应一组）
+            Model_obj = cell(1,Len_obj); % 目标函数Kriging代理模型数组（每个目标一个模型）
+            Len_con   = size(Database.cons,2);  % 约束函数个数（从数据库约束值维度获取）
+            THETA_con = 5.*ones(Len_con,Problem.D);  % 约束函数Kriging模型的初始超参数
+            Model_con = cell(1,Len_con); % 约束函数Kriging代理模型数组
 
-            %% =================== 主优化循环模块 ===================
-            % 算法主循环：持续优化直到满足终止条件
+            %% 3. 主优化循环（未满足终止条件则持续迭代）
+            % Algorithm.NotTerminated(Database)：判断是否满足终止条件（如达到最大真实评估次数）
             while Algorithm.NotTerminated(Database)
-                
-                %% ============== 代理模型构建模块 ==============
-                % 如果采样成功（新的真实评估完成），则重新训练代理模型
+                % 3.1 构建Kriging代理模型（仅当采样成功时更新模型，避免无效计算）
                 if sample_success
-                    % 调用model_train函数训练所有目标函数和约束的DACE模型
+                    % 调用model_train函数，用数据库中已真实评估的解训练/更新代理模型
+                    % 输出：更新后的目标/约束代理模型，以及优化后的超参数
                     [Model_obj,Model_con,THETA_obj,THETA_con] = model_train(Database,THETA_obj,THETA_con);
                 end
-                
-                %% ============== 进化搜索模块 ==============
-                % 执行进化搜索，基于代理模型生成新解
-                % PopDec: 新生成的解的决策变量
-                % PopObj: 新解的目标函数预测值
-                % PopCon: 新解的约束条件预测值
-                % ObjMSE: 目标函数预测的均方误差
-                % ConMSE: 约束条件预测的均方误差
+
+                % 3.2 进化搜索（基于代理模型生成新解）
+                % 调用Evo_Search函数：用当前种群P，经过wmax代进化，基于代理模型预测
+                % 输出：新生成的决策变量(PopDec)、预测目标值(PopObj)、预测约束值(PopCon)
+                % 以及目标/约束预测的均方误差(ObjMSE/ConMSE，衡量预测不确定性)
                 [PopDec,PopObj,PopCon,ObjMSE,ConMSE] = Evo_Search(P,wmax,Model_obj,Model_con,Problem);
-                
-                %% ============== 候选解选择模块 ==============
-                % 从进化搜索结果中智能选择最有价值的候选解
-                % C: 选择的候选解集，用于真实函数评估
+
+                % 3.3 候选解选择（筛选最优待真实评估的解）
+                % 调用Candi_Select函数：根据预测值、预测误差、现有数据库，筛选mu个最优候选解
+                % 核心逻辑：平衡“目标最优性”“约束满足度”“预测不确定性”
                 C = Candi_Select(PopDec,PopObj,PopCon,ObjMSE,ConMSE,Database,mu);
-                
-                %% ============== 相变控制模块 ==============
-                % 准备重置采样成功标志
-                sample_success = 0;
-                
-                % 如果有候选解被选择，则进行真实函数评估
-                if isempty(C) == 0
-                    % 对候选解进行真实函数评估
-                    C = Problem.Evaluation(C);
-                    % 标记采样成功，准备更新代理模型
-                    sample_success = 1;
-                    
-                    % 检查是否需要阶段转换
-                    % Database: 当前数据库，C: 新评估的候选解
-                    % ct: 当前相变次数，ct_max: 最大相变次数，phase: 当前阶段
+
+                % 3.4 阶段切换判断（第一阶段→第二阶段的触发逻辑）
+                sample_success = 0;  % 初始化采样成功标记为0（默认未成功）
+                if isempty(C) == 0   % 若筛选到有效候选解（C非空）
+                    C = Problem.Evaluation(C);  % 真实评估候选解（昂贵操作，仅此处执行）
+                    sample_success = 1;        % 标记采样成功（已获取真实目标/约束值）
+                    % 调用Phase_Trans函数：判断是否满足阶段切换条件，更新阶段和计数器
                     [phase,ct]     = Phase_Trans(Database,C,ct,ct_max,phase);
                 end
-                
-                %% ============== 种群重选模块 ==============
-                % 将新评估的候选解加入数据库
-                Database = [Database,C];
-                
-                % 从扩展的数据库中选择最优的NI个解作为新种群
-                % index: 被选中解的索引
+
+                % 3.5 种群重选（维持固定规模的优质种群）
+                Database = [Database,C];  % 将新评估的解加入数据库（累计所有真实评估数据）
+                % 调用Pop_Reselect函数：从数据库中筛选NI个最优解（考虑目标和约束），作为下一轮进化的父代种群
                 index    = Pop_Reselect(Database.objs,Database.cons,NI);
-                % P: 更新后的种群
-                P        = Database(index);
+                P        = Database(index);  % 更新种群P为筛选后的优质解
             end
         end
     end
 end
 
-%% =================== 代理模型训练模块 ===================
+% 辅助函数：训练/更新Kriging代理模型（目标函数+约束函数）
+% 输入：Database（已真实评估的解）、THETA_obj/THETA_con（模型超参数）
+% 输出：训练好的目标/约束模型、优化后的超参数
 function [Model_obj,Model_con,THETA_obj,THETA_con] = model_train(Database,THETA_obj,THETA_con)
-    % 全局变量声明，用于访问主函数中的参数
-    global Len_con Len_obj phase 
-    
-    % 提取数据库中的决策变量
-    Dec     = Database.decs;
-    % 提取数据库中的目标函数值
-    Obj     = Database.objs;
-    % 提取数据库中的约束条件值
-    Con     = Database.cons;
-    
-    % Len_dec: 决策变量维度
-    Len_dec = size(Dec,2);
-    % Len_obj: 目标函数数量
-    Len_obj = size(Obj,2);
-    % Len_con: 约束条件数量
-    Len_con = size(Con,2);
-    
-    %% ============== 目标函数DACE模型训练 ==============
-    % 遍历每个目标函数，为其训练独立的DACE模型
+    global Len_con Len_obj phase  % 全局变量：约束/目标个数、当前算法阶段
+    Dec     = Database.decs;      % 所有已评估解的决策变量（输入特征）
+    Obj     = Database.objs;      % 所有已评估解的目标函数值（输出标签-目标）
+    Con     = Database.cons;      % 所有已评估解的约束函数值（输出标签-约束）
+    Len_dec = size(Dec,2);        % 决策变量维度（变量个数）
+    Len_obj = size(Obj,2);        % 目标函数个数（重新确认，避免全局变量误差）
+    Len_con = size(Con,2);        % 约束函数个数（重新确认）
+
+    % 1. 训练目标函数的Kriging模型（每个目标独立训练一个模型）
     for i = 1 : Len_obj
-        % 找出决策变量和第i个目标函数的唯一有效数据点
-        % 避免重复或数值精度问题导致的无效数据
+        % 去重：删除决策变量完全相同的重复解（避免数值干扰，提高模型精度）
         [~,distinct1]  = unique(round(Dec*1e12)/1e12,'rows');
+        % 去重：删除目标函数值完全相同的重复解（进一步净化训练数据）
         [~,distinct2]  = unique(round(Obj(:,i)*1e12)/1e12,'rows');
-        % 取交集确保数据点同时在决策空间和目标空间唯一
-        distinct       = intersect(distinct1,distinct2);
-        
-        % 使用DACE方法拟合克里金模型
-        % 'regpoly1': 使用一阶多项式作为回归函数
-        % 'corrgauss': 使用高斯相关函数
-        % THETA_obj(i,:): 第i个目标函数的初始超参数
-        % 1e-5.*ones(1,Len_dec): 参数下界，防止过拟合
-        % 100.*ones(1,Len_dec): 参数上界，保证模型灵活性
+        distinct       = intersect(distinct1,distinct2);  % 同时满足决策变量和目标值唯一的索引
+        % 训练Kriging模型：dacefit为Kriging建模函数
+        % 核函数设置：regpoly1（一阶多项式趋势项）、corrgauss（高斯相关函数）
+        % 超参数范围：1e-5~100（避免超参数过大/过小导致模型失效）
         dmodel         = dacefit(Dec(distinct,:),Obj(distinct,i),'regpoly1','corrgauss',THETA_obj(i,:),1e-5.*ones(1,Len_dec),100.*ones(1,Len_dec));
-        
-        % 存储训练好的模型
-        Model_obj{i}   = dmodel;
-        % 更新超参数，为下次训练提供更好的初始值
-        THETA_obj(i,:) = dmodel.theta;
+        Model_obj{i}   = dmodel;  % 存储训练好的第i个目标的模型
+        THETA_obj(i,:) = dmodel.theta;  % 更新超参数为模型优化后的值（下次训练的初始值）
     end
-    
-    %% ============== 约束条件DACE模型训练 ==============
-    % 仅在算法第二阶段训练约束模型（阶段1主要关注目标函数优化）
+
+    % 2. 训练约束函数的Kriging模型（仅第二阶段训练，第一阶段不考虑约束）
     if phase == 2
-        % 遍历每个约束条件，为其训练独立的DACE模型
         for i = 1 : Len_con
-            % 找出决策变量和第i个约束条件的唯一有效数据点
+            % 去重：删除决策变量完全相同的重复解
             [~,distinct1]  = unique(round(Dec*1e12)/1e12,'rows');
+            % 去重：删除约束函数值完全相同的重复解
             [~,distinct2]  = unique(round(Con(:,i)*1e12)/1e12,'rows');
-            distinct       = intersect(distinct1,distinct2);
-            
-            % 使用DACE方法拟合约束条件的克里金模型
-            dmodel         = dacefit(Dec(distinct,:),Con(:,i),'regpoly1','corrgauss',THETA_con(i,:),1e-5.*ones(1,Len_dec),100.*ones(1,Len_dec));
-            % 存储训练好的约束模型
-            Model_con{i}   = dmodel;
-            % 更新约束模型超参数
-            THETA_con(i,:) = dmodel.theta;
+            distinct       = intersect(distinct1,distinct2);  % 同时唯一的索引
+            % 训练约束函数的Kriging模型（参数设置与目标函数一致）
+            dmodel         = dacefit(Dec(distinct,:),Con(distinct,i),'regpoly1','corrgauss',THETA_con(i,:),1e-5.*ones(1,Len_dec),100.*ones(1,Len_dec));
+            Model_con{i}   = dmodel;  % 存储训练好的第i个约束的模型
+            THETA_con(i,:) = dmodel.theta;  % 更新约束模型的超参数
         end
     else
-        % 阶段1不训练约束模型，设置为空
-        Model_con = [];
+        Model_con = [];  % 第一阶段：约束模型为空（不使用约束进行搜索）
     end
 end
