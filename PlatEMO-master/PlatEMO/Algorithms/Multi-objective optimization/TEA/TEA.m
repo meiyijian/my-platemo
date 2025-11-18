@@ -1,9 +1,18 @@
 classdef TEA < ALGORITHM
 % <2024> <multi/many> <real/integer> <expensive> <constrained/none>
-% Two-phase evolutionary algorithm
-% wmax --- 20 --- Generations of evolutionary search
-% mu   ---  5 --- Number of selected candidates
-    
+% TEA (Two-phase Evolutionary Algorithm) - 两阶段进化算法
+% 该算法专为昂贵多目标约束优化问题设计，通过两阶段策略和克里金代理模型提高优化效率
+%
+% 参数说明:
+% wmax --- 20 --- 进化搜索的最大代数（每阶段的进化迭代次数）
+% mu   ---  5 --- 每代选择的新候选解数量（用于真实函数评估）
+%
+% 算法特点:
+% 1. 两阶段优化策略：阶段1快速探索，阶段2精确优化
+% 2. DACE克里金代理模型集成，显著减少昂贵函数评估
+% 3. 智能候选解选择，最大化信息增益
+% 4. 约束处理机制，适应约束优化问题
+%    
 %------------------------------- Reference --------------------------------
 % Z. Zhang, Y. Wang, J. Liu, G. Sun, and K. Tang. A two-phase Kriging-
 % assisted evolutionary algorithm for expensive constrained multiobjective

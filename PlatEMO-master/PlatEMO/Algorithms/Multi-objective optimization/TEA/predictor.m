@@ -1,39 +1,37 @@
 function [y,or1,or2,dmse] = predictor(x,dmodel)
-%PREDICTOR  Predictor for y(x) using the given DACE model.
+%PREDICTOR  DACE模型预测器 - 基于给定DACE模型预测y(x)的函数值
+% 使用DACE模型对目标函数进行预测，包括函数值、梯度和均方误差估计
 %
-% Call:   y = predictor(x, dmodel)
-%         [y, or] = predictor(x, dmodel)
-%         [y, dy, mse] = predictor(x, dmodel) 
-%         [y, dy, mse, dmse] = predictor(x, dmodel) 
+% 调用格式:
+%   y = predictor(x, dmodel)
+%   [y, or] = predictor(x, dmodel)
+%   [y, dy, mse] = predictor(x, dmodel) 
+%   [y, dy, mse, dmse] = predictor(x, dmodel) 
 %
-% Input
-% x      : trial design sites with n dimensions.  
-%          For mx trial sites x:
-%          If mx = 1, then both a row and a column vector is accepted,
-%          otherwise, x must be an mx*n matrix with the sites stored
-%          rowwise.
-% dmodel : Struct with DACE model; see DACEFIT
+% 输入参数:
+% x      : 试验设计点，具有n维。对于mx个试验点x：
+%          如果mx = 1，则接受行向量和列向量，
+%          否则，x必须是mx*n矩阵，按行存储各点
+% dmodel : DACE模型结构体；参见DACEFIT
 %
-% Output
-% y    : predicted response at x.
-% or   : If mx = 1, then or = gradient vector/Jacobian matrix of predictor
-%        otherwise, or is an vector with mx rows containing the estimated
-%                   mean squared error of the predictor
-% Three or four results are allowed only when mx = 1,
-% dy   : Gradient of predictor; column vector with  n elements
-% mse  : Estimated mean squared error of the predictor;
-% dmse : Gradient vector/Jacobian matrix of mse
-
+% 输出参数:
+% y    : 在x处的预测响应值
+% or   : 如果mx = 1，则or为预测器的梯度向量/雅可比矩阵
+%        否则，or是包含mx行的向量，表示预测器的估计均方误差
+% 仅当mx = 1时允许三个或四个输出结果，
+% dy   : 预测器梯度；包含n个元素的列向量
+% mse  : 预测器的估计均方误差
+% dmse : mse的梯度向量/雅可比矩阵
 % hbn@imm.dtu.dk
-% Last update August 26, 2002
- 
-    or1 = NaN; or2 = NaN; dmse = NaN;	% Default return values
+% 最后更新 2002年8月26日
+
+    or1 = NaN; or2 = NaN; dmse = NaN;	% 默认返回值
     if isnan(dmodel.beta)
-        error('DMODEL has not been found')
+        error('DMODEL未找到')
     end
-    [m,n] = size(dmodel.S);     % number of design sites and number of dimensions
-    sx    = size(x);            % number of trial sites and their dimension
-    if min(sx) == 1 && n > 1    % Single trial point 
+    [m,n] = size(dmodel.S);     % 设计点数量和维度数量
+    sx    = size(x);            % 试验点数量及其维度
+    if min(sx) == 1 && n > 1    % 单个试验点 
         nx = max(sx);
         if nx == n 
             mx = 1;
@@ -44,66 +42,66 @@ function [y,or1,or2,dmse] = predictor(x,dmodel)
         nx = sx(2);
     end
     if nx ~= n
-        error('Dimension of trial sites should be %d',n)
+        error('试验点维度应为%d',n)
     end
-    % Normalize trial sites  
+    % 归一化试验点  
     x = (x - repmat(dmodel.Ssc(1,:),mx,1)) ./ repmat(dmodel.Ssc(2,:),mx,1);
-    q = size(dmodel.Ysc,2);  % number of response functions
-    if mx == 1  % one site only
-        dx = repmat(x,m,1) - dmodel.S;  % distances to design sites
-        if nargout > 1                  % gradient/Jacobian wanted
+    q = size(dmodel.Ysc,2);  % 响应函数数量
+    if mx == 1  % 单个试验点
+        dx = repmat(x,m,1) - dmodel.S;  % 到设计点的距离
+        if nargout > 1                  % 需要梯度/雅可比矩阵
             [f,df] = feval(dmodel.regr, x);
             [r,dr] = feval(dmodel.corr, dmodel.theta, dx);
-            % Scaled Jacobian
+            % 缩放后的雅可比矩阵
             dy = (df * dmodel.beta).' + dmodel.gamma * dr;
-            % Unscaled Jacobian
+            % 未缩放的雅可比矩阵
             or1 = dy .* repmat(dmodel.Ysc(2, :)', 1, nx) ./ repmat(dmodel.Ssc(2,:), q, 1);
             if q == 1
-                % Gradient as a column vector
+                % 梯度作为列向量
                 or1 = or1';
             end
-            if nargout > 2  % MSE wanted
+            if nargout > 2  % 需要MSE
                 rt = dmodel.C \ r;
                 u = dmodel.Ft.' * rt - f.';
                 v = dmodel.G \ u;
                 or2 = repmat(dmodel.sigma2,mx,1) .* repmat((1 + sum(v.^2) - sum(rt.^2))',1,q);
-                if nargout > 3  % gradient/Jacobian of MSE wanted
-                    % Scaled gradient as a row vector
+                if nargout > 3  % 需要MSE的梯度/雅可比矩阵
+                    % 缩放后的梯度作为行向量
                     Gv = dmodel.G' \ v;
                     g = (dmodel.Ft * Gv - rt)' * (dmodel.C \ dr) - (df * Gv)';
-                    % Unscaled Jacobian
+                    % 未缩放的雅可比矩阵
                     dmse = repmat(2 * dmodel.sigma2',1,nx) .* repmat(g ./ dmodel.Ssc(2,:),q,1);
                     if q == 1
-                    % Gradient as a column vector
+                    % 梯度作为列向量
                     dmse = dmse';
                     end
                 end
             end
-        else  % predictor only
+        else  % 仅预测器
             f = feval(dmodel.regr, x);
             r = feval(dmodel.corr, dmodel.theta, dx);
         end
-        % Scaled predictor
+        % 缩放后的预测器
         sy = f * dmodel.beta + (dmodel.gamma*r).';
-        % Predictor
+        % 预测器
         y = (dmodel.Ysc(1,:) + dmodel.Ysc(2,:) .* sy)';
-	else  % several trial sites
-        % Get distances to design sites  
+	else  % 多个试验点
+        % 获取到设计点的距离  
         dx = zeros(mx*m,n);
         kk = 1 : m;
         for k = 1 : mx
             dx(kk,:) = repmat(x(k,:),m,1) - dmodel.S;
             kk = kk + m;
         end
-        % Get regression function and correlation
+        % 获取回归函数和相关函数
         f = feval(dmodel.regr, x);
         r = feval(dmodel.corr, dmodel.theta, dx);
         r = reshape(r, m, mx);
-        % Scaled predictor 
+        % 缩放后的预测器 
         sy = f * dmodel.beta + (dmodel.gamma * r).';
-        % Predictor
+        % 预测器
         y = repmat(dmodel.Ysc(1,:),mx,1) + repmat(dmodel.Ysc(2,:),mx,1) .* sy;
-        if nargout > 1	% MSE wanted
+        if nargout > 1	% 需要MSE
             rt  = dmodel.C \ r;
             u   = dmodel.G \ (dmodel.Ft.' * rt - f.');
             or1 = repmat(dmodel.sigma2,mx,1) .* repmat((1 + sum(u.^2,1) - sum(rt.^2,1))',1,q);
@@ -115,13 +113,14 @@ function [y,or1,or2,dmse] = predictor(x,dmodel)
 end
 
 function [r,dr] = corrgauss(theta,d)
-%CORRGAUSS  Gaussian correlation function,
+%CORRGAUSS  高斯相关函数
+% 实现高斯相关函数及其导数计算，用于DACE模型的相关性建模
 
-    [m,n] = size(d);  % number of differences and dimension of data
+    [m,n] = size(d);  % 差值数量和数据维度
     if length(theta) == 1
         theta = repmat(theta,1,n);
     elseif length(theta) ~= n
-        error('Length of theta must be 1 or %d',n)
+        error('theta长度必须为1或%d',n)
     end
     td = d.^2 .* repmat(-theta(:).',m,1);
     r  = exp(sum(td, 2));
@@ -129,14 +128,16 @@ function [r,dr] = corrgauss(theta,d)
 end
 
 function [f,df] = regpoly0(S)
-%REGPOLY0  Zero order polynomial regression function
+%REGPOLY0  零阶多项式回归函数
+% 零阶多项式回归，常数模型，无自变量项
 
     f  = ones(size(S,1),1);
 	df = zeros(size(S,2),1);
 end
 
 function [f,df] = regpoly1(S)
-%REGPOLY1  First order polynomial regression function
+%REGPOLY1  一阶多项式回归函数
+% 一阶多项式回归，包含常数项和线性项
 
     f  = [ones(size(S,1),1),S];
 	df = [zeros(size(S,2),1),eye(size(S,2))];
