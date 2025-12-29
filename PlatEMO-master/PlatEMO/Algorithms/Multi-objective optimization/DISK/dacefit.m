@@ -1,3 +1,5 @@
+% 克里金模型训练函数：用于构建克里金代理模型
+% 实现了多种回归模型和相关函数，支持约束非线性最小二乘拟合
 function  [dmodel,perf] = dacefit(S,Y,regr,corr,theta0,lob,upb)
 %dacefit - Constrained non-linear least-squares fit of a given correlation
 %model to the provided data set and regression model

@@ -1,3 +1,5 @@
+% 克里金模型预测函数：使用训练好的克里金模型预测目标函数值
+% 支持单样本和多样本预测，可返回预测值、梯度和均方误差
 function [y,or1,or2,dmse] = predictor(x,dmodel)
 %PREDICTOR  Predictor for y(x) using the given DACE model.
 %
