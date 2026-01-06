@@ -9,41 +9,43 @@ function Next = RSurrogateAssistedSelection(Problem,Ref,Input,wmax,Smodel)
     i    = 0;
     while i < wmax
         [sorted_index,~]= model_select(Smodel,Next);
-        % 修复：防止索引越界，取最小值
+        % 防止索引越界
         num_to_select = min(length(Ref), length(sorted_index));
         Input = Next(sorted_index(1:num_to_select),:);
         
         Next  = OperatorGA(Problem,[Input;Ref.decs],{1,15,1,5});
         i     = i + size(Next,1);
     end
-    [~,scores] = model_select(Smodel,Next);
     
-    % --- 修改点：阈值判断逻辑 ---
-    % 由于分数经过了归一化和融合，不再是纯粹的[-4, 4]，
-    % 建议直接选最好的 N 个，或者动态设定阈值。
-    % 这里保留原意，但优先保证选出 N 个解。
-    N = Problem.N; % 或者是传入的需要选出的数量
-    [~,ind] = sort(scores,'descend');
+    % 最后一次筛选
+    [~,final_scores] = model_select(Smodel,Next);
     
-    % 策略：如果最好的解分数很高，选高分的；否则选前4个（防止报错）
-    % 这里简单处理：直接返回前 N' 个最好的，或者按原逻辑
-    if sum(scores > 0.8) < 4  % 假设归一化后好解接近1.0
-         Next = Next(ind(1:min(4, size(Next,1))), :); 
+    [~,ind] = sort(final_scores,'descend');
+    
+    % --- 阈值筛选逻辑 ---
+    % 因为用了乘法校准，分数的绝对值范围变了，不再是固定的4.0
+    % 最稳妥的方式是：优先选最好的N个，如果最好的不够，就降低标准
+    
+    target_num = Problem.N; % 或者是你想选出的数量
+    if size(Next, 1) > 4
+         % 直接选得分最高的 4 个（或者 Problem.N 个，根据原算法逻辑通常是少量）
+         % 原算法这里写死了 < 4，我们保持稳健
+         Next = Next(ind(1:min(4, length(ind))), :); 
     else
-         Next = Next(scores > 0.8, :);
+         Next = Next; % 都不够4个，全选
     end
 end
 
 function [ind,final_scores] = model_select(Smodel,Next)
     model_x = Smodel.X;    
     C1_data = model_x(Smodel.Y ==1,:);
-    C2_data = model_x(Smodel.Y ~=1,:); % 注意：这里包含 -1 和 0
+    C2_data = model_x(Smodel.Y ~=1,:); 
 
     C1_num   = size(C1_data,1);
     C2_num   = size(C2_data,1);
     Next_num = size(Next,1);
 
-    % --- 1. 神经网络预测 (Original REMO Logic) ---
+    % --- 1. 神经网络预测 (NN Prediction) ---
     all_testdata = zeros(2*(C1_num+C2_num)*Next_num,2*size(C1_data,2));
     for i = 1 : size(Next,1)
         original = (i-1)*2*(C1_num+C2_num);
@@ -63,7 +65,7 @@ function [ind,final_scores] = model_select(Smodel,Next)
     for i = 1 : size(Next,1)
         C_SCORE    = zeros(1,2);
         original   = (i-1)*2*(C1_num+C2_num);
-        % ... (保留原有的投票累加逻辑，此处省略中间代码以节省篇幅，保持不变) ...
+        
         pre_C1Xi   = sum(pre_out(original+1:original+C1_num,:),1)./C1_num;
         C_SCORE(1) = C_SCORE(1) + pre_C1Xi(2)+pre_C1Xi(3);   
         C_SCORE(2) = C_SCORE(2) + pre_C1Xi(1);               
@@ -83,37 +85,31 @@ function [ind,final_scores] = model_select(Smodel,Next)
         nn_scores(i) = C_SCORE(1)-C_SCORE(2);
     end  
     
-    % --- 2. 分布概率计算 (DISK Logic) ---
-    % 注意：Smodel.mu 和 Smodel.K 必须在训练阶段计算好并存入 Smodel
+    % --- 2. 分布概率计算 (Distribution Calculation) ---
     dist_scores = calculate_distribution_score(Next, Smodel.mu, Smodel.K);
     
-    % --- 3. 健壮的归一化与融合 ---
-    % 将 NN 得分归一化到 [0, 1]
-    if max(nn_scores) - min(nn_scores) > 1e-6
-        nn_norm = (nn_scores - min(nn_scores)) ./ (max(nn_scores) - min(nn_scores));
+    % --- 3. 归一化与融合 (Normalization & Fusion) ---
+    
+    % 3.1 归一化分布得分到 [0, 1]
+    d_min = min(dist_scores);
+    d_max = max(dist_scores);
+    if d_max - d_min > 1e-10
+        dist_norm = (dist_scores - d_min) ./ (d_max - d_min);
     else
-        nn_norm = ones(size(nn_scores)) * 0.5; % 如果都一样，给中间值
+        dist_norm = zeros(size(dist_scores)); % 无区分度
     end
     
-    % 将 分布得分 归一化到 [0, 1]
-    if max(dist_scores) - min(dist_scores) > 1e-6
-        dist_norm = (dist_scores - min(dist_scores)) ./ (max(dist_scores) - min(dist_scores));
-    else
-        dist_norm = ones(size(dist_scores)) * 0.5;
-    end
+    % 3.2 乘法校准策略 (Multiplicative Calibration)
+    % 逻辑：NN得分 * (1 + lambda * (分布好坏 - 0.5))
+    % lambda = 0.8 是一个经验值，表示分布信息能带来的最大影响幅度
+    lambda = 0.8;
     
-    % 加权融合
-    lambda = 0.5; % 权重建议设为 0.3 - 0.5，避免喧宾夺主
+    % 定义变量 final_scores (这里就是你之前报错的地方，现在定义好了)
+    final_scores = nn_scores .* (1 + lambda .* (dist_norm - 0.5));
     
-    % final_scores = (1 - lambda) * nn_norm + lambda * dist_norm;
-    % 【修改后】乘法校准策略
-    % 不需要对 nn_scores 进行 [0,1] 归一化，保留其 [-4, 4] 的物理意义
-    % 只对 dist_scores 进行归一化
-    if max(dist_scores) - min(dist_scores) > 1e-10
-        dist_norm = (dist_scores - min(dist_scores)) ./ (max(dist_scores) - min(dist_scores));
-    else
-        dist_norm = ones(size(dist_scores)); % 避免无效分布
-    end
+    % 最后的防呆检查：如果有 NaN，替换为极小值
+    final_scores(isnan(final_scores)) = -1e10;
+    
     [~,ind] = sort(final_scores,'descend');  
 end
 
@@ -123,32 +119,27 @@ function [scores] = calculate_distribution_score(Next, mu, K)
 
     [N, D] = size(Next);
     
-    % --- 关键修复 1: 正则化协方差矩阵 ---
-    % 防止矩阵奇异导致求逆失败
+    % 防报错：正则化
     K = K + 1e-6 * eye(D); 
     
-    % --- 关键修复 2: 使用伪逆或更稳定的求逆 ---
-    % 也可以用 pinv(K)，但正则化后的 inv 通常够用
+    % 防报错：求逆
     try
         inv_K = inv(K);
     catch
-        inv_K = pinv(K); % 兜底
+        inv_K = pinv(K); 
     end
     
     mahalanobis_sq = zeros(N, 1);
     
-    % --- 关键修复 3: 计算马氏距离平方 ---
-    % 不计算 exp，防止数值下溢出
     for j = 1 : N
         diff = Next(j, :) - mu;
+        % 计算马氏距离平方: (x-u)' * inv(K) * (x-u)
         mahalanobis_sq(j) = diff * inv_K * diff';
     end
     
-    % --- 关键修复 4: 转化为得分 ---
-    % 马氏距离越小越好。我们希望输出与概率正相关。
-    % 使用 exp(-0.5 * d^2) 模拟高斯核，不需要前面的常数项（归一化会抵消它）
+    % 转化为得分 (类似于高斯核，距离越远分数越低)
     scores = exp(-0.5 * mahalanobis_sq);
     
-    % 处理可能的 NaN
+    % 处理 NaN
     scores(isnan(scores)) = 0;
 end
