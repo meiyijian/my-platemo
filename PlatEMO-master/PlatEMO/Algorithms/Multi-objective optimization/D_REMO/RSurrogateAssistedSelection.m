@@ -104,8 +104,16 @@ function [ind,final_scores] = model_select(Smodel,Next)
     
     % 加权融合
     lambda = 0.5; % 权重建议设为 0.3 - 0.5，避免喧宾夺主
-    final_scores = (1 - lambda) * nn_norm + lambda * dist_norm;
     
+    % final_scores = (1 - lambda) * nn_norm + lambda * dist_norm;
+    % 【修改后】乘法校准策略
+    % 不需要对 nn_scores 进行 [0,1] 归一化，保留其 [-4, 4] 的物理意义
+    % 只对 dist_scores 进行归一化
+    if max(dist_scores) - min(dist_scores) > 1e-10
+        dist_norm = (dist_scores - min(dist_scores)) ./ (max(dist_scores) - min(dist_scores));
+    else
+        dist_norm = ones(size(dist_scores)); % 避免无效分布
+    end
     [~,ind] = sort(final_scores,'descend');  
 end
 

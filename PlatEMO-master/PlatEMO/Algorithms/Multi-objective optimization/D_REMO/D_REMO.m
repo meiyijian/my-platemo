@@ -62,7 +62,12 @@ classdef D_REMO < ALGORITHM
                 % 假设 GetOutput_PBI 返回 1 代表 Pn (非支配)，非 1 代表 Pd
                 % 如果 Catalog 的定义不同，请检查 GetOutput_PBI 的输出
                 
-                GoodDecs = Input(Catalog == 1, :);
+                % 【修改前】只用了当前代的 Input
+                % GoodDecs = Input(Catalog == 1, :); 
+
+                % 【修改后】使用整个 Archive 的非支配解，分布更精准！
+                [FrontNO, ~] = NDSort(Archive.objs, 1);
+                GoodDecs = Archive(FrontNO == 1).decs;
                 
                 % 兜底策略：如果 PBI 划分的好解太少（导致协方差无法计算），则补充 NDSort 的解
                 if size(GoodDecs, 1) < Problem.D + 2
