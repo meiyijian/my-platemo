@@ -116,19 +116,16 @@ end
 function [scores] = calculate_distribution_score(Next, mu, K)
 % 计算基于马氏距离的分布得分
 % 距离越小，得分越高（越接近分布中心）
-
     [N, D] = size(Next);
-    
     % 防报错：正则化
     K = K + 1e-6 * eye(D); 
-    
     % 防报错：求逆
     try
         inv_K = inv(K);
     catch
         inv_K = pinv(K); 
     end
-    
+
     mahalanobis_sq = zeros(N, 1);
     
     for j = 1 : N
