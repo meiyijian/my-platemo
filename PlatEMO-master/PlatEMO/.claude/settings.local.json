@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -iE \"^\\(SparseEA|HEA|REMO_My|REMO_global|REMO_new|REMO_new2|REMO_new3|REMO_SDE|REMO_global_SDE|REMO_MaO|MLP_MOO|R2_REMO|R2_REMO_SR|D_REMO|D_REMO_NoReg|D_REMO_Add|DSR_REMO|R2AEA|REMO_new2_PIEA|REMO_new2_PIEA2|REMO_new2_PIEA3|REMO_new2_SR|REMO_new2_TrueSR|REMO_new2_clean|Subproblem_REMO|Subproblem_REMO_delsample\\)$\")"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r REMO_new2_PIEA3 REMO_new2_PIEA4)",
+      "Bash(rm -f *.log)",
+      "Bash(rm -f REMO_new2_PIEA3_算法步骤.md)",
+      "Bash(mv REMO_new2_PIEA3.m REMO_new2_PIEA4.m)",
+      "Bash(cat)",
+      "Bash(python /tmp/piea4_main.py)",
+      "Read(//tmp/**)",
+      "Bash(sed -i 's/\\\\[~, ~, Catalog, ~, Ref\\\\]/[~, ~, ~, ~, Ref]/' REMO_new2_PIEA4.m)",
+      "Bash(sed -i 's/\\\\[XXs, YYs\\\\] = GetRelationPairs\\(Input, Catalog\\);/[XXs, YYs] = GetRelationPairs\\(Input, Catalog_fit\\);/' REMO_new2_PIEA4.m)",
+      "Bash(sed -i 's/Smodel\\\\.Y              = Catalog;/Smodel.Y              = Catalog_fit;/' REMO_new2_PIEA4.m)",
+      "Bash(python *)",
+      "WebSearch",
+      "WebFetch(domain:www.letpub.com.cn)"
+    ]
+  }
+}
