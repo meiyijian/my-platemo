@@ -1,0 +1,54 @@
+========== REMO_new2_PIEA3 启动 ==========
+时间=2026-05-05 22:25:36 | 问题=DTLZ2 | M=10 | D=30 | maxFE=300
+日志文件=D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_new2_PIEA3\REMO_new2_PIEA3_debug.log
+==========================================
+[Gen   1 | FE= 104/ 300] p_err=0.023 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=4.20 | n_eval=4
+[Gen   2 | FE= 108/ 300] p_err=0.016 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=4.20 | n_eval=4
+[Gen   3 | FE= 112/ 300] p_err=0.012 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=4.20 | n_eval=4
+[Gen   4 | FE= 116/ 300] p_err=0.046 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=3.10 | n_eval=4
+[Gen   5 | FE= 120/ 300] p_err=0.043 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=2.00 | n_eval=4
+[Gen   6 | FE= 124/ 300] p_err=0.087 | 指标=MD     | score=1(中  ) | Pw=[SDE=0.337 I+=0.337 MD=0.326] | Lp=2.00 | n_eval=4
+[Gen   7 | FE= 128/ 300] p_err=0.281 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.337 I+=0.337 MD=0.325] | Lp=2.00 | n_eval=4
+[Gen   8 | FE= 132/ 300] p_err=0.098 | 指标=MD     | score=1(中  ) | Pw=[SDE=0.341 I+=0.341 MD=0.317] | Lp=2.40 | n_eval=4
+[Gen   9 | FE= 136/ 300] p_err=0.119 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.342 I+=0.342 MD=0.316] | Lp=2.40 | n_eval=4
+[Gen  10 | FE= 140/ 300] p_err=0.112 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.334 I+=0.347 MD=0.318] | Lp=2.40 | n_eval=4
+[Gen  11 | FE= 144/ 300] p_err=0.041 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.335 I+=0.348 MD=0.317] | Lp=2.40 | n_eval=4
+[Gen  12 | FE= 148/ 300] p_err=0.036 | 指标=MD     | score=2(极优) | Pw=[SDE=0.334 I+=0.349 MD=0.317] | Lp=2.40 | n_eval=4
+[Gen  13 | FE= 152/ 300] p_err=0.020 | 指标=MD     | score=1(中  ) | Pw=[SDE=0.339 I+=0.355 MD=0.306] | Lp=2.40 | n_eval=4
+[Gen  14 | FE= 156/ 300] p_err=0.019 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.340 I+=0.357 MD=0.303] | Lp=2.40 | n_eval=4
+[Gen  15 | FE= 160/ 300] p_err=0.060 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.341 I+=0.359 MD=0.299] | Lp=2.00 | n_eval=4
+[Gen  16 | FE= 164/ 300] p_err=0.043 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.343 I+=0.363 MD=0.295] | Lp=2.40 | n_eval=4
+[Gen  17 | FE= 168/ 300] p_err=0.026 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.350 I+=0.356 MD=0.293] | Lp=2.40 | n_eval=4
+[Gen  18 | FE= 172/ 300] p_err=0.026 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.340 I+=0.369 MD=0.291] | Lp=2.40 | n_eval=4
+[Gen  19 | FE= 176/ 300] p_err=0.056 | 指标=MD     | score=2(极优) | Pw=[SDE=0.336 I+=0.370 MD=0.294] | Lp=2.40 | n_eval=4
+[Gen  20 | FE= 180/ 300] p_err=0.078 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.344 I+=0.367 MD=0.289] | Lp=2.40 | n_eval=4
+[Gen  21 | FE= 184/ 300] p_err=0.072 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.321 I+=0.380 MD=0.299] | Lp=2.40 | n_eval=4
+[Gen  22 | FE= 188/ 300] p_err=0.016 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.333 I+=0.371 MD=0.297] | Lp=3.10 | n_eval=4
+[Gen  23 | FE= 192/ 300] p_err=0.044 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.325 I+=0.372 MD=0.303] | Lp=2.40 | n_eval=4
+[Gen  24 | FE= 196/ 300] p_err=0.014 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.325 I+=0.372 MD=0.303] | Lp=2.00 | n_eval=4
+[Gen  25 | FE= 200/ 300] p_err=0.056 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.335 I+=0.351 MD=0.313] | Lp=2.00 | n_eval=4
+[Gen  26 | FE= 204/ 300] p_err=0.085 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=2.00 | n_eval=4
+[Gen  27 | FE= 208/ 300] p_err=0.060 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.333 I+=0.333 MD=0.333] | Lp=2.00 | n_eval=4
+[Gen  28 | FE= 212/ 300] p_err=0.054 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.329 I+=0.318 MD=0.353] | Lp=2.00 | n_eval=4
+[Gen  29 | FE= 216/ 300] p_err=0.065 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.338 I+=0.299 MD=0.363] | Lp=2.00 | n_eval=4
+[Gen  30 | FE= 220/ 300] p_err=0.077 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.343 I+=0.305 MD=0.352] | Lp=2.00 | n_eval=4
+[Gen  31 | FE= 224/ 300] p_err=0.073 | 指标=MD     | score=2(极优) | Pw=[SDE=0.330 I+=0.303 MD=0.367] | Lp=2.00 | n_eval=4
+[Gen  32 | FE= 228/ 300] p_err=0.037 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.339 I+=0.302 MD=0.359] | Lp=2.00 | n_eval=4
+[Gen  33 | FE= 232/ 300] p_err=0.052 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.323 I+=0.279 MD=0.398] | Lp=2.40 | n_eval=4
+[Gen  34 | FE= 236/ 300] p_err=0.049 | 指标=MD     | score=2(极优) | Pw=[SDE=0.316 I+=0.282 MD=0.402] | Lp=2.40 | n_eval=4
+[Gen  35 | FE= 240/ 300] p_err=0.052 | 指标=MD     | score=2(极优) | Pw=[SDE=0.320 I+=0.272 MD=0.408] | Lp=2.40 | n_eval=4
+[Gen  36 | FE= 244/ 300] p_err=0.082 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.320 I+=0.272 MD=0.408] | Lp=2.40 | n_eval=4
+[Gen  37 | FE= 248/ 300] p_err=0.083 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.313 I+=0.288 MD=0.399] | Lp=2.00 | n_eval=4
+[Gen  38 | FE= 252/ 300] p_err=0.014 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.323 I+=0.290 MD=0.387] | Lp=2.00 | n_eval=4
+[Gen  39 | FE= 256/ 300] p_err=0.073 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.310 I+=0.296 MD=0.394] | Lp=2.40 | n_eval=4
+[Gen  40 | FE= 260/ 300] p_err=0.095 | 指标=MD     | score=2(极优) | Pw=[SDE=0.307 I+=0.303 MD=0.390] | Lp=2.40 | n_eval=4
+[Gen  41 | FE= 264/ 300] p_err=0.075 | 指标=MD     | score=2(极优) | Pw=[SDE=0.319 I+=0.298 MD=0.383] | Lp=3.10 | n_eval=4
+[Gen  42 | FE= 268/ 300] p_err=0.037 | 指标=I_eps+ | score=2(极优) | Pw=[SDE=0.308 I+=0.308 MD=0.385] | Lp=2.00 | n_eval=4
+[Gen  43 | FE= 272/ 300] p_err=0.080 | 指标=SDE    | score=2(极优) | Pw=[SDE=0.333 I+=0.296 MD=0.370] | Lp=2.00 | n_eval=4
+[Gen  44 | FE= 276/ 300] p_err=0.041 | 指标=MD     | score=2(极优) | Pw=[SDE=0.336 I+=0.290 MD=0.373] | Lp=3.10 | n_eval=4
+[Gen  45 | FE= 280/ 300] p_err=0.107 | 指标=SDE    | score=1(中  ) | Pw=[SDE=0.315 I+=0.307 MD=0.378] | Lp=2.00 | n_eval=4
+[Gen  46 | FE= 284/ 300] p_err=0.027 | 指标=MD     | score=2(极优) | Pw=[SDE=0.310 I+=0.319 MD=0.372] | Lp=2.00 | n_eval=4
+[Gen  47 | FE= 288/ 300] p_err=0.011 | 指标=I_eps+ | score=1(中  ) | Pw=[SDE=0.306 I+=0.311 MD=0.383] | Lp=2.00 | n_eval=4
+[Gen  48 | FE= 292/ 300] p_err=0.038 | 指标=MD     | score=2(极优) | Pw=[SDE=0.293 I+=0.317 MD=0.390] | Lp=2.40 | n_eval=4
+[Gen  49 | FE= 296/ 300] p_err=0.081 | 指标=MD     | score=1(中  ) | Pw=[SDE=0.294 I+=0.336 MD=0.370] | Lp=2.40 | n_eval=4
+[Gen  50 | FE= 300/ 300] p_err=0.105 | 指标=MD     | score=1(中  ) | Pw=[SDE=0.302 I+=0.336 MD=0.362] | Lp=2.00 | n_eval=4
