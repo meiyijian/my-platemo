@@ -13,7 +13,19 @@
       "Bash(sed -i 's/Smodel\\\\.Y              = Catalog;/Smodel.Y              = Catalog_fit;/' REMO_new2_PIEA4.m)",
       "Bash(python *)",
       "WebSearch",
-      "WebFetch(domain:www.letpub.com.cn)"
+      "WebFetch(domain:www.letpub.com.cn)",
+      "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/HybridPBI_Classification.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
+      "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/GetOutput_PBI.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
+      "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/GetRelationPairs_confidence.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
+      "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/DataProcess_confidence.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
+      "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/RefSelect.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
+      "Bash(git clone *)",
+      "Bash(gh repo *)",
+      "WebFetch(domain:github.com)",
+      "Bash(curl -sL https://api.github.com/repos/RealZYZhang/paper-reader-heilmeier)",
+      "Bash(curl *)",
+      "Bash(pip install *)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

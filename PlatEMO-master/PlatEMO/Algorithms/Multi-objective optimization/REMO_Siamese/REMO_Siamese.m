@@ -49,11 +49,12 @@ classdef REMO_Siamese < ALGORITHM
                 p_err   = sum(TestPre ~= TestOut)/size(TestPre,1);
 
                 % Step 7: Pack model
-                Smodel.X       = Input;
-                Smodel.Y       = Catalog;
-                Smodel.net     = net;
-                Smodel.p_err   = p_err;
-                Smodel.xDim    = xDim;
+                Smodel.X          = Input;
+                Smodel.Y          = Catalog;
+                Smodel.net        = net;
+                Smodel.net_struct = net;  % net_struct contains net and normalization params
+                Smodel.p_err      = p_err;
+                Smodel.xDim       = xDim;
 
                 % Step 8: Generate new solutions using surrogate-assisted selection
                 Next = SiameseAssistedSelection(Problem,Ref,Population.decs,gmax,Smodel);
