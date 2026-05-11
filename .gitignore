@@ -1,3 +1,5 @@
-﻿Data/
-# 更清晰明确（推荐）
-PlatEMO-master/PlatEMO/Data/
+# 忽略的文件格式
+*.asv
+
+# 忽略的文件夹
+Data/
