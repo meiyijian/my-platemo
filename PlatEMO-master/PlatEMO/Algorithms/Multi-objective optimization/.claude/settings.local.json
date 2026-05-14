@@ -13,6 +13,7 @@
       "Bash(sed -i 's/Smodel\\\\.Y              = Catalog;/Smodel.Y              = Catalog_fit;/' REMO_new2_PIEA4.m)",
       "Bash(python *)",
       "WebSearch",
+<<<<<<< HEAD
       "WebFetch(domain:www.letpub.com.cn)",
       "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/HybridPBI_Classification.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
       "Bash(cp \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/GetOutput_PBI.m\" \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_uncertainty/\")",
@@ -31,6 +32,9 @@
       "Bash(python3 *)",
       "Read(//c/Users/lsx/.claude/plugins//**)",
       "Read(//c/Users/lsx/.claude/skills//**)"
+=======
+      "WebFetch(domain:www.letpub.com.cn)"
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
     ]
   }
 }

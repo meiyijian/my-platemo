@@ -2,7 +2,10 @@ function Next = SiameseAssistedSelection(Problem,Ref,Input,wmax,Smodel)
 % Surrogate-assisted selection using Siamese-inspired network
 % Uses trained network to guide genetic algorithm for new solution generation
 % Incorporates information entropy for uncertainty estimation
+<<<<<<< HEAD
 % Optimized: batch prediction instead of per-sample prediction
+=======
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
 %
 % Problem  - Optimization problem definition
 % Ref      - Reference solutions
@@ -43,7 +46,11 @@ end
 
 function [ind, selectscores, scores] = model_select_siamese(Smodel,Next,alpha,beta)
 % Score candidate solutions using Siamese-inspired network with uncertainty
+<<<<<<< HEAD
 % Optimized: batch prediction for all pairs at once
+=======
+% Incorporates information entropy for uncertainty estimation
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
 %
 % Smodel        - Trained model
 % Next          - Candidate solutions to evaluate
@@ -60,11 +67,15 @@ function [ind, selectscores, scores] = model_select_siamese(Smodel,Next,alpha,be
     C1_num   = size(C1_data,1);
     C2_num   = size(C2_data,1);
     Next_num = size(Next,1);
+<<<<<<< HEAD
     D = size(C1_data,2);
+=======
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
 
     scores = zeros(Next_num,1);
     selectscores = zeros(Next_num,1);
 
+<<<<<<< HEAD
     % Build all pairs at once for batch prediction
     % 4 types: C1_Xi, Xi_C1, C2_Xi, Xi_C2
     nPair_per_solution = 2 * (C1_num + C2_num);
@@ -110,6 +121,26 @@ function [ind, selectscores, scores] = model_select_siamese(Smodel,Next,alpha,be
         Xi_C2_prob = all_prob(base + 2*C1_num + C2_num + 1 : base + 2*C1_num + 2*C2_num, :);
 
         % Calculate performance score
+=======
+    % For each candidate solution, compare with known good and bad solutions
+    for i = 1:Next_num
+        Xi = Next(i,:);
+
+        % Create pairs with C1 solutions
+        Xi_rep_C1 = repmat(Xi, C1_num, 1);
+        [C1_Xi_pred, C1_Xi_prob] = SiameseModelPredict(Smodel.net, C1_data, Xi_rep_C1);
+        [Xi_C1_pred, Xi_C1_prob] = SiameseModelPredict(Smodel.net, Xi_rep_C1, C1_data);
+
+        % Create pairs with C2 solutions
+        Xi_rep_C2 = repmat(Xi, C2_num, 1);
+        [C2_Xi_pred, C2_Xi_prob] = SiameseModelPredict(Smodel.net, C2_data, Xi_rep_C2);
+        [Xi_C2_pred, Xi_C2_prob] = SiameseModelPredict(Smodel.net, Xi_rep_C2, C2_data);
+
+        % Initialize scores
+        C_SCORE = zeros(1,2);  % [performance, uncertainty]
+
+        %% Calculate performance score
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
         % C1_Xi: if pred=0 (similar) or pred=1 (C1优于Xi), Xi is good
         score_C1Xi = sum(C1_Xi_pred == 0) + sum(C1_Xi_pred == 1);
         % Xi_C1: if pred=0 (similar) or pred=-1 (Xi优于C1), Xi is good
@@ -122,22 +153,49 @@ function [ind, selectscores, scores] = model_select_siamese(Smodel,Next,alpha,be
         % Total performance score
         C_SCORE(1) = score_C1Xi + score_XiC1 + score_C2Xi + score_XiC2;
 
+<<<<<<< HEAD
         % Calculate uncertainty score using information entropy
         epsilon = 1e-10;
+=======
+        %% Calculate uncertainty score using information entropy
+        % Entropy H(X) = -sum(P(x) * log2(P(x)))
+        % Higher entropy means higher uncertainty
+
+        % Average probability distributions for each comparison type
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
         avg_prob_C1Xi = mean(C1_Xi_prob, 1);
         avg_prob_XiC1 = mean(Xi_C1_prob, 1);
         avg_prob_C2Xi = mean(C2_Xi_prob, 1);
         avg_prob_XiC2 = mean(Xi_C2_prob, 1);
 
+<<<<<<< HEAD
+=======
+        % Calculate entropy for each comparison type
+        % Add small epsilon to avoid log(0)
+        epsilon = 1e-10;
+
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
         entropy_C1Xi = -sum(avg_prob_C1Xi .* log2(avg_prob_C1Xi + epsilon));
         entropy_XiC1 = -sum(avg_prob_XiC1 .* log2(avg_prob_XiC1 + epsilon));
         entropy_C2Xi = -sum(avg_prob_C2Xi .* log2(avg_prob_C2Xi + epsilon));
         entropy_XiC2 = -sum(avg_prob_XiC2 .* log2(avg_prob_XiC2 + epsilon));
 
+<<<<<<< HEAD
         C_SCORE(2) = (entropy_C1Xi + entropy_XiC1 + entropy_C2Xi + entropy_XiC2) / 4;
 
         % Final scores
         scores(i) = C_SCORE(1);
+=======
+        % Total uncertainty (average entropy)
+        C_SCORE(2) = (entropy_C1Xi + entropy_XiC1 + entropy_C2Xi + entropy_XiC2) / 4;
+
+        %% Calculate final scores
+        % Pure performance score
+        scores(i) = C_SCORE(1);
+
+        % Combined score: performance - uncertainty
+        % Prioritize solutions with high performance and low uncertainty
+>>>>>>> d67d282237e7075aca3ea67bbc42efa2cc9e344c
         selectscores(i) = alpha * C_SCORE(1) - beta * C_SCORE(2);
     end
 
