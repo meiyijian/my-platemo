@@ -25,7 +25,12 @@
       "Bash(curl -sL https://api.github.com/repos/RealZYZhang/paper-reader-heilmeier)",
       "Bash(curl *)",
       "Bash(pip install *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Read(//d/我的文档/研究生/relation_model//**)",
+      "Read(//d/我的文档/研究生/relation_model/**)",
+      "Bash(python3 *)",
+      "Read(//c/Users/lsx/.claude/plugins//**)",
+      "Read(//c/Users/lsx/.claude/skills//**)"
     ]
   }
 }

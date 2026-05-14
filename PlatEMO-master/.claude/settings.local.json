@@ -5,7 +5,8 @@
       "Bash(cp REMO_new2_PIEA/HybridPBI_Classification.m REMO_DORL/)",
       "Bash(cp REMO_new2/RefSelect.m REMO_DORL/)",
       "Bash(cp REMO_new2/DataProcess.m REMO_DORL/)",
-      "Bash(cp REMO_new2/onehotconv.m REMO_DORL/)"
+      "Bash(cp REMO_new2/onehotconv.m REMO_DORL/)",
+      "Bash(python -c ' *)"
     ]
   }
 }
