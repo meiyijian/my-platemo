@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(mkdir -p \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence\")",
-      "Bash(cp HybridPBI_Classification.m GetOutput_PBI.m RSurrogateAssistedSelection.m RefSelect.m onehotconv.m Delequalsamples.m \"D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_confidence/\")",
-      "Read(//d/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/**)"
-    ]
-  }
-}

@@ -3,3 +3,6 @@
 
 # 忽略的文件夹
 Data/
+
+# Claude Code 本地配置（仅本地，不入库）
+**/.claude/settings.local.json
