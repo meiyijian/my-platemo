@@ -1,6 +1,8 @@
 classdef REMO_DiRel < ALGORITHM
-% REMO_DiRel - 难度感知双尺度关系学习算法
+% <2026> <multi/many> <real> <expensive>
+% Difficulty-aware dual-scale relation learning for expensive MOO.
 %
+% Public parameters are kept compatible with the original implementation:
 % k_easy   --- -1   --- size of the easy-objective subset (-1 = auto)
 % tau_conf --- 0.3  --- uncertainty threshold for arbitration
 % alpha    --- 0.6  --- difficulty weight for model difficulty
@@ -8,59 +10,6 @@ classdef REMO_DiRel < ALGORITHM
 % gmax     --- 1000 --- surrogate-screened candidate budget per generation
 % K_ens    --- 3    --- bagging ensemble size
 % win_K    --- 3    --- difficulty smoothing window
-% 这是算法的主入口文件，继承自 PlatEMO 框架的 ALGORITHM 基类
-% classdef 是 MATLAB 定义类的关键字，"< ALGORITHM" 表示继承 ALGORITHM 类
-%
-% 算法定位（一句话）：
-% 以"目标跨度/改进停滞 + Spearman 冲突度"联合度量在线排序目标，
-% 构造"全目标 + 易子集"双关系网络（共享 backbone + 迁移初始化），
-% 通过逐候选解的逆方差仲裁融合两模型预测。
-%
-% 标签说明（用于 PlatEMO 框架识别）：
-% <2026>           - 年份
-% <multi/many>     - 多/超多目标优化
-% <real>           - 实数决策变量
-% <expensive>      - 昂贵评估问题
-
-    % ===================================================================
-    % properties 块定义算法的超参数
-    % 在 PlatEMO 中，这些参数可以通过 platemo('algorithm', {@REMO_DiRel, -1, 0.3, 0.6}) 传入
-    % ===================================================================
-    properties
-        % k_easy - 易目标子集大小
-        % -1 表示自动取 ceil(M/2)，即目标数的一半向上取整
-        % 取值范围：[2, M-1]，至少选2个目标，最多选M-1个
-        k_easy = -1;
-
-        % tau_conf - 仲裁器的置信度阈值
-        % 当两个模型的标准差归一化值 > tau_conf 时，认为"不确定"
-        % 默认 0.3，取值范围 [0.1, 0.5]
-        tau_conf = 0.3;
-
-        % alpha - 难度公式中建模难度的权重
-        % 联合难度 d = alpha * 建模难度 + (1-alpha) * 冲突难度
-        % 默认 0.6，表示建模难度比冲突度更重要
-        alpha = 0.6;
-
-        % k - 参考解数量
-        % 用于雷达网格选择参考解，默认 6 个
-        k = 6;
-
-        % gmax - 代理模型评估预算（每代）
-        % 每代通过代理模型筛选的候选解数量上限
-        % 默认 1000，越大筛选越充分但越慢
-        gmax = 1000;
-
-        % K_ens - bagging 集成规模
-        % 训练多少个神经网络做集成，默认 3 个
-        % 集成规模 ≥ 3 才能计算预测方差
-        K_ens = 3;
-
-        % win_K - 难度平滑窗口
-        # 对难度分数做多少代的滑动平均，默认 3 代
-        # 目的是平滑单代噪声
-        win_K = 3;
-    end
 
     methods
         function main(Algorithm, Problem)
