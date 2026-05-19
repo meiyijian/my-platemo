@@ -89,7 +89,9 @@ end
 function plot_parallel(rec)
     Obj = rec.PopObj;
     M = size(Obj, 2);
-    Obj_n = (Obj - min(Obj, [], 1)) ./ max(range(Obj, 1), 1e-12);
+    Obj_min = min(Obj, [], 1);
+    Obj_rng = max(Obj, [], 1) - Obj_min;
+    Obj_n = (Obj - Obj_min) ./ max(Obj_rng, 1e-12);
     [g, names, C] = grouping(rec);
     hold on;
     handles = gobjects(4, 1);
