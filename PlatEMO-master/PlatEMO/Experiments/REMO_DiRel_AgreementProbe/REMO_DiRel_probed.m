@@ -30,8 +30,8 @@ classdef REMO_DiRel_probed < ALGORITHM
             % ============================================================
             % Algorithm.ParameterSet 按顺序返回超参数值
             % 如果用户没有传入自定义值，就用默认值
-            [k_easy_user, tau_conf, alpha, k, gmax, K_ens, win_K] = ...
-                Algorithm.ParameterSet(-1, 0.3, 0.6, 6, 1000, 3, 3);
+            [k_easy_user, tau_conf, alpha, k, gmax, K_ens, win_K, probe_out_path] = ...
+                Algorithm.ParameterSet(-1, 0.3, 0.6, 6, 1000, 3, 3, '');
 
             % pairMax: 关系对构造的硬上限
             % 原始 REMO 枚举所有组合 O(n²)，这里限制最多 6000 个
@@ -90,6 +90,12 @@ classdef REMO_DiRel_probed < ALGORITHM
             H.conf    = nan(Problem.M, win_K);   % 历史冲突度
             H.best    = nan(Problem.M, 1);        % 各目标历史最优值
             gen       = 0;                         % 当前代数
+
+            % ====== PROBE state ======
+            probe_checkpoints = [0.04, 0.20, 0.40, 0.60, 0.80];
+            probe_fired = false(1, numel(probe_checkpoints));
+            probe_records = {};   % cell array of snapshot structs
+            % =========================
 
             % ============================================================
             % 第五步：主循环
@@ -176,6 +182,25 @@ classdef REMO_DiRel_probed < ALGORITHM
                     Smodel.anchorMax      = anchorMax;       % anchor数量上限
                     Smodel.easyDifficulty = mean(d_score(S_easy));  % 易目标平均难度
 
+                    % ====== PROBE: snapshot at progress checkpoints ======
+                    if ~isempty(probe_out_path)
+                        progress = Problem.FE / Problem.maxFE;
+                        hit = find(progress >= probe_checkpoints & ~probe_fired);
+                        if ~isempty(hit)
+                            probe_fired(hit) = true;
+                            try
+                                rec = compute_agreement(Population, Catalog_F, Catalog_S, ...
+                                                        DualNet, S_easy, anchorMax, gen, Problem.FE);
+                                rec.checkpoint_idx = hit(end);
+                                rec.checkpoint_val = probe_checkpoints(hit(end));
+                                probe_records{end+1} = rec;
+                            catch ME
+                                warning('Probe failed at gen %d: %s', gen, ME.message);
+                            end
+                        end
+                    end
+                    % =====================================================
+
                     % --------------------------------------------------------
                     % Step 5: 仲裁选择（模块③）
                     % --------------------------------------------------------
@@ -202,6 +227,18 @@ classdef REMO_DiRel_probed < ALGORITHM
                 % RefSelect 重新选择下一代种群
                 Population = RefSelect(Archive, Problem.N);
             end
+
+            % ====== PROBE: persist all snapshots ======
+            if ~isempty(probe_out_path) && ~isempty(probe_records)
+                probe_data = probe_records;   %#ok<NASGU>
+                problem_name = class(Problem);
+                M_val = Problem.M;
+                D_val = Problem.D;
+                maxFE_val = Problem.maxFE;
+                save(probe_out_path, 'probe_data', 'problem_name', ...
+                     'M_val', 'D_val', 'maxFE_val', '-v7');
+            end
+            % ==========================================
         end
     end
 end
