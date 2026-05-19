@@ -74,7 +74,7 @@ function [Output,rate] = split_data(Pop,Ref,delt)
     % 对每个参考解，检查其"领地"内的解哪些是好的
     for i = 1 : size(Ref,1)
         sub_pop    = Pop(ref_index==i,:);           % 属于该参考解领地的所有解
-        sub_popind = popind(ref_index==i,:);         % 这些解的原始编号
+        sub_popind = popind(ref_index==i);           % 这些解的原始编号
         BOUND      = Ref(i,:);                      % 当前参考解的目标值
 
         % w = 从理想点到参考解的方向向量
