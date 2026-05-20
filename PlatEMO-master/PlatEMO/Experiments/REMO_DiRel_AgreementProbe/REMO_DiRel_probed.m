@@ -194,6 +194,17 @@ classdef REMO_DiRel_probed < ALGORITHM
                                 rec.checkpoint_idx = hit(end);
                                 rec.checkpoint_val = probe_checkpoints(hit(end));
                                 probe_records{end+1} = rec;
+                                % --- Incremental save: PlatEMO terminates the
+                                % main loop via exception, so any save placed
+                                % AFTER the while-loop is unreachable. Persist
+                                % after each snapshot.
+                                probe_data = probe_records;   %#ok<NASGU>
+                                problem_name = class(Problem);   %#ok<NASGU>
+                                M_val = Problem.M;   %#ok<NASGU>
+                                D_val = Problem.D;   %#ok<NASGU>
+                                maxFE_val = Problem.maxFE;   %#ok<NASGU>
+                                save(probe_out_path, 'probe_data', 'problem_name', ...
+                                     'M_val', 'D_val', 'maxFE_val', '-v7');
                             catch ME
                                 warning('Probe failed at gen %d: %s', gen, ME.message);
                             end
@@ -227,18 +238,6 @@ classdef REMO_DiRel_probed < ALGORITHM
                 % RefSelect 重新选择下一代种群
                 Population = RefSelect(Archive, Problem.N);
             end
-
-            % ====== PROBE: persist all snapshots ======
-            if ~isempty(probe_out_path) && ~isempty(probe_records)
-                probe_data = probe_records;   %#ok<NASGU>
-                problem_name = class(Problem);
-                M_val = Problem.M;
-                D_val = Problem.D;
-                maxFE_val = Problem.maxFE;
-                save(probe_out_path, 'probe_data', 'problem_name', ...
-                     'M_val', 'D_val', 'maxFE_val', '-v7');
-            end
-            % ==========================================
         end
     end
 end
