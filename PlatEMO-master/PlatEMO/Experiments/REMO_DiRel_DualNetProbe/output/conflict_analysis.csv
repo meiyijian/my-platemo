@@ -1,0 +1,17 @@
+problem,M,conflict_type,count,pct,mean_w_F,mean_mu_F,mean_mu_S,acc_F,acc_S,acc_winner,mean_true_quality,pct_dominated
+DTLZ2,3,agree,5029,44.7,0.4448,0.5819,0.5130,0.6361,0.6361,tie,0.3983,57.5
+DTLZ2,3,conflict,6221,55.3,0.4630,0.3497,-0.0414,0.5367,0.4633,F,0.4158,59.7
+DTLZ2,3,abstain,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ2,3,subwin,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ2,5,agree,5233,46.1,0.4414,0.3155,0.2784,0.6404,0.6404,tie,0.6377,20.4
+DTLZ2,5,conflict,6117,53.9,0.4657,0.0627,0.1274,0.5490,0.4510,F,0.6544,21.1
+DTLZ2,5,abstain,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ2,5,subwin,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ3,3,agree,4398,39.3,0.4299,1.0422,1.3099,0.6198,0.6198,tie,0.3952,80.4
+DTLZ3,3,conflict,6802,60.7,0.4434,0.0751,0.4096,0.4493,0.5507,S,0.4143,79.3
+DTLZ3,3,abstain,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ3,3,subwin,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ3,5,agree,3848,33.8,0.4432,0.5495,0.3841,0.5847,0.5847,tie,0.1752,65.4
+DTLZ3,5,conflict,7552,66.2,0.4782,0.5565,-0.2433,0.4416,0.5584,S,0.1218,68.7
+DTLZ3,5,abstain,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
+DTLZ3,5,subwin,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
