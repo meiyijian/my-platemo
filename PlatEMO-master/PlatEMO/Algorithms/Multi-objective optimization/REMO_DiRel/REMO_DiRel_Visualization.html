@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REMO-DiRel 算法详解 — 难度感知双尺度关系学习</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card2: #334155;
+    --accent: #38bdf8;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --accent4: #fb923c;
+    --accent5: #f472b6;
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --border: #475569;
+    --danger: #ef4444;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height:1.7; }
+  .container { max-width:1200px; margin:0 auto; padding:20px; }
+
+  /* Header */
+  .hero { text-align:center; padding:60px 20px 40px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.15), transparent 70%); pointer-events:none; }
+  .hero h1 { font-size:2.8em; font-weight:800; background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent5)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:10px; }
+  .hero .subtitle { font-size:1.2em; color:var(--text2); max-width:700px; margin:0 auto; }
+  .hero .badges { margin-top:20px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+  .badge { padding:5px 16px; border-radius:20px; font-size:0.85em; font-weight:600; }
+  .badge.year { background:rgba(56,189,248,0.15); color:var(--accent); border:1px solid rgba(56,189,248,0.3); }
+  .badge.type { background:rgba(129,140,248,0.15); color:var(--accent2); border:1px solid rgba(129,140,248,0.3); }
+  .badge.exp { background:rgba(251,146,60,0.15); color:var(--accent4); border:1px solid rgba(251,146,60,0.3); }
+
+  /* Navigation */
+  .nav-bar { position:sticky; top:0; z-index:100; background:rgba(15,23,42,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); padding:10px 0; margin-bottom:30px; }
+  .nav-inner { max-width:1200px; margin:0 auto; padding:0 20px; display:flex; gap:8px; overflow-x:auto; scrollbar-width:none; }
+  .nav-inner::-webkit-scrollbar { display:none; }
+  .nav-btn { padding:6px 14px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--text2); font-size:0.82em; cursor:pointer; white-space:nowrap; transition:all 0.2s; text-decoration:none; }
+  .nav-btn:hover, .nav-btn.active { background:var(--accent); color:var(--bg); border-color:var(--accent); font-weight:600; }
+
+  /* Section */
+  .section { margin-bottom:50px; scroll-margin-top:70px; }
+  .section-head { display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+  .section-num { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.3em; flex-shrink:0; }
+  .section-head h2 { font-size:1.6em; font-weight:700; }
+  .section-head .tag { font-size:0.75em; padding:3px 10px; border-radius:12px; font-weight:600; margin-left:8px; }
+
+  /* Card */
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; margin-bottom:20px; }
+  .card h3 { font-size:1.15em; font-weight:700; margin-bottom:12px; color:var(--accent); }
+  .card h4 { font-size:1em; font-weight:600; margin:16px 0 8px; color:var(--accent2); }
+  .card p, .card li { color:var(--text); font-size:0.95em; }
+  .card ul, .card ol { padding-left:20px; margin:8px 0; }
+  .card li { margin-bottom:4px; }
+
+  /* Param table */
+  .param-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9em; }
+  .param-table th { background:var(--card2); padding:10px 14px; text-align:left; font-weight:600; color:var(--accent); border-bottom:2px solid var(--border); }
+  .param-table td { padding:10px 14px; border-bottom:1px solid rgba(71,85,105,0.4); }
+  .param-table tr:hover td { background:rgba(56,189,248,0.05); }
+  .param-name { font-family:'Consolas','Courier New',monospace; color:var(--accent3); font-weight:600; }
+  .param-default { font-family:'Consolas','Courier New',monospace; color:var(--accent4); }
+
+  /* Formula */
+  .formula { background:var(--card2); border-left:3px solid var(--accent2); padding:14px 20px; border-radius:0 10px 10px 0; margin:12px 0; font-family:'Consolas','Courier New',monospace; font-size:0.95em; overflow-x:auto; }
+  .formula .label { color:var(--accent); font-weight:600; margin-right:8px; }
+
+  /* Flow diagram (SVG) */
+  .flow-container { background:var(--card2); border-radius:12px; padding:20px; margin:16px 0; overflow-x:auto; text-align:center; }
+  .flow-container svg { max-width:100%; height:auto; }
+
+  /* Interactive demo */
+  .demo-box { background:var(--card2); border:1px solid var(--border); border-radius:12px; padding:20px; margin:16px 0; }
+  .demo-controls { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:16px; align-items:center; }
+  .demo-controls label { font-size:0.85em; color:var(--text2); }
+  .demo-controls input[type=range] { width:120px; accent-color:var(--accent); }
+  .demo-controls button { padding:6px 16px; border-radius:8px; border:none; background:var(--accent); color:var(--bg); font-weight:600; cursor:pointer; font-size:0.85em; }
+  .demo-controls button:hover { opacity:0.85; }
+  .demo-output { font-family:'Consolas','Courier New',monospace; font-size:0.85em; color:var(--accent3); white-space:pre-wrap; min-height:60px; }
+
+  /* Canvas area */
+  canvas { border-radius:8px; display:block; margin:10px auto; background:#0d1117; }
+
+  /* Highlight box */
+  .highlight { padding:16px 20px; border-radius:10px; margin:12px 0; font-size:0.92em; }
+  .highlight.info { background:rgba(56,189,248,0.1); border-left:3px solid var(--accent); }
+  .highlight.warn { background:rgba(251,146,60,0.1); border-left:3px solid var(--accent4); }
+  .highlight.success { background:rgba(52,211,153,0.1); border-left:3px solid var(--accent3); }
+  .highlight.key { background:rgba(129,140,248,0.1); border-left:3px solid var(--accent2); }
+
+  /* Two column */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media(max-width:768px){ .two-col { grid-template-columns:1fr; } }
+
+  /* Collapsible */
+  .collapsible { cursor:pointer; user-select:none; }
+  .collapsible::before { content:'▸ '; transition:transform 0.2s; display:inline-block; }
+  .collapsible.open::before { content:'▾ '; }
+  .collapse-body { display:none; margin-top:8px; }
+  .collapse-body.show { display:block; }
+
+  /* Color dots */
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+
+  /* Step indicator */
+  .step-flow { display:flex; align-items:center; gap:0; flex-wrap:wrap; margin:16px 0; }
+  .step-item { padding:8px 16px; background:var(--card2); border:1px solid var(--border); font-size:0.82em; font-weight:600; color:var(--text2); position:relative; }
+  .step-item:first-child { border-radius:8px 0 0 8px; }
+  .step-item:last-child { border-radius:0 8px 8px 0; }
+  .step-item.active { background:var(--accent); color:var(--bg); border-color:var(--accent); }
+  .step-arrow { color:var(--border); padding:0 2px; font-size:1.2em; }
+
+  /* Animated arrow */
+  @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+  .pulse { animation: pulse 2s infinite; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width:6px; height:6px; }
+  ::-webkit-scrollbar-track { background:var(--bg); }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+
+  .code-inline { font-family:'Consolas','Courier New',monospace; background:var(--card2); padding:2px 6px; border-radius:4px; font-size:0.9em; color:var(--accent3); }
+
+  /* Architecture diagram */
+  .arch-svg text { font-family: 'Segoe UI', system-ui, sans-serif; }
+
+  .legend { display:flex; gap:16px; flex-wrap:wrap; margin:12px 0; font-size:0.85em; }
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .legend-color { width:14px; height:14px; border-radius:4px; }
+
+  footer { text-align:center; padding:40px 20px; color:var(--text2); font-size:0.85em; border-top:1px solid var(--border); margin-top:40px; }
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<div class="hero">
+  <h1>REMO-DiRel</h1>
+  <p class="subtitle">Difficulty-aware Dual-scale Relation Learning for Expensive Multi-objective Optimization</p>
+  <p class="subtitle" style="font-size:1em;margin-top:6px;color:var(--text2)">面向昂贵多目标优化的难度感知双尺度关系学习算法</p>
+  <div class="badges">
+    <span class="badge year">2026</span>
+    <span class="badge type">多目标 / 超多目标</span>
+    <span class="badge type">连续实数编码</span>
+    <span class="badge exp">昂贵优化</span>
+  </div>
+</div>
+
+<!-- ==================== NAV ==================== -->
+<div class="nav-bar">
+  <div class="nav-inner">
+    <a class="nav-btn" href="#sec-overview">总览</a>
+    <a class="nav-btn" href="#sec-init">初始化</a>
+    <a class="nav-btn" href="#sec-ref">参考解选择</a>
+    <a class="nav-btn" href="#sec-difficulty">模块① 难度排序</a>
+    <a class="nav-btn" href="#sec-pairs">关系对构造</a>
+    <a class="nav-btn" href="#sec-dualnet">模块② 双尺度网络</a>
+    <a class="nav-btn" href="#sec-arbitrator">模块③ 仲裁选择</a>
+    <a class="nav-btn" href="#sec-update">评估与更新</a>
+    <a class="nav-btn" href="#sec-params">参数速查</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="section" id="sec-overview">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;">0</div>
+    <h2>算法总览</h2>
+  </div>
+
+  <div class="card">
+    <h3>什么是 REMO-DiRel？</h3>
+    <p>REMO-DiRel 是一种面向<strong>昂贵多目标优化</strong>的代理模型辅助进化算法。它解决的核心问题是：</p>
+    <div class="highlight info">
+      <strong>背景：</strong>在工程优化中，评估一个候选解可能需要运行一次昂贵的仿真（如 CFD 流体力学模拟，每次几小时）。传统的进化算法需要成千上万次评估，根本不可行。REMO-DiRel 用<strong>机器学习代理模型</strong>替代大部分真实评估，只对最有希望的候选解做昂贵评估，从而大幅降低计算成本。
+    </div>
+    <p style="margin-top:12px">算法名称拆解：</p>
+    <ul>
+      <li><strong>REMO</strong> — Relation-based Evolutionary Multi-objective Optimization（基于关系的多目标进化优化）</li>
+      <li><strong>DiRel</strong> — Difficulty-aware dual-scale Relation learning（难度感知双尺度关系学习）</li>
+    </ul>
+  </div>
+
+  <!-- Architecture SVG -->
+  <div class="card">
+    <h3>算法整体架构</h3>
+    <div class="flow-container">
+      <svg viewBox="0 0 900 520" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background grid -->
+        <defs>
+          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="0.5"/>
+          </pattern>
+          <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#38bdf8"/></marker>
+          <marker id="arrow-g" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#34d399"/></marker>
+          <marker id="arrow-o" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#fb923c"/></marker>
+          <marker id="arrow-p" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="8" markerHeight="6" orient="auto"><path d="M0,0 L10,3 L0,6 Z" fill="#818cf8"/></marker>
+        </defs>
+        <rect width="900" height="520" fill="url(#grid)"/>
+
+        <!-- Title -->
+        <text x="450" y="30" text-anchor="middle" fill="#94a3b8" font-size="13">REMO-DiRel 主循环 (每一代)</text>
+
+        <!-- Population box -->
+        <rect x="30" y="55" width="160" height="50" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="110" y="77" text-anchor="middle" fill="#38bdf8" font-weight="700" font-size="13">种群 Population</text>
+        <text x="110" y="93" text-anchor="middle" fill="#94a3b8" font-size="11">N个解 × D维决策变量</text>
+
+        <!-- Arrow 1 -->
+        <line x1="190" y1="80" x2="230" y2="80" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- RefSelect -->
+        <rect x="235" y="55" width="130" height="50" rx="10" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+        <text x="300" y="77" text-anchor="middle" fill="#34d399" font-weight="700" font-size="13">参考解选择</text>
+        <text x="300" y="93" text-anchor="middle" fill="#94a3b8" font-size="11">RefSelect → k个参考解</text>
+
+        <!-- Arrow 2 -->
+        <line x1="365" y1="80" x2="400" y2="80" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Module 1: Difficulty -->
+        <rect x="405" y="45" width="200" height="70" rx="12" fill="rgba(251,146,60,0.1)" stroke="#fb923c" stroke-width="2"/>
+        <text x="505" y="68" text-anchor="middle" fill="#fb923c" font-weight="800" font-size="14">模块① 难度排序</text>
+        <text x="505" y="86" text-anchor="middle" fill="#94a3b8" font-size="11">DifficultyProfiler</text>
+        <text x="505" y="102" text-anchor="middle" fill="#fb923c" font-size="11">选出易目标子集 S_easy</text>
+
+        <!-- Arrow down from pop -->
+        <line x1="110" y1="105" x2="110" y2="165" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <text x="120" y="140" fill="#94a3b8" font-size="10">提取决策变量+目标值</text>
+
+        <!-- Relation pairs box -->
+        <rect x="30" y="170" width="250" height="80" rx="10" fill="#1e293b" stroke="#818cf8" stroke-width="1.5"/>
+        <text x="155" y="193" text-anchor="middle" fill="#818cf8" font-weight="700" font-size="13">双尺度关系对构造</text>
+        <text x="155" y="211" text-anchor="middle" fill="#94a3b8" font-size="11">全目标支线: Catalog_F → (XX_F, YY_F)</text>
+        <text x="155" y="227" text-anchor="middle" fill="#94a3b8" font-size="11">子目标支线: Catalog_S → (XX_S, YY_S)</text>
+        <text x="155" y="243" text-anchor="middle" fill="#818cf8" font-size="10">GetRelationPairsBudgeted</text>
+
+        <!-- Arrow from difficulty to pairs -->
+        <line x1="405" y1="95" x2="285" y2="170" stroke="#fb923c" stroke-width="1.5" marker-end="url(#arrow-o)" stroke-dasharray="5,3"/>
+        <text x="360" y="135" fill="#fb923c" font-size="10">S_easy索引</text>
+
+        <!-- Arrow from ref to pairs -->
+        <line x1="300" y1="105" x2="200" y2="170" stroke="#34d399" stroke-width="1.5" marker-end="url(#arrow-g)" stroke-dasharray="5,3"/>
+        <text x="260" y="140" fill="#34d399" font-size="10">参考解目标值</text>
+
+        <!-- Arrow from pairs to Module 2 -->
+        <line x1="280" y1="210" x2="360" y2="210" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arrow-p)"/>
+
+        <!-- Module 2: DualNet -->
+        <rect x="365" y="170" width="210" height="80" rx="12" fill="rgba(129,140,248,0.1)" stroke="#818cf8" stroke-width="2"/>
+        <text x="470" y="193" text-anchor="middle" fill="#818cf8" font-weight="800" font-size="14">模块② 双尺度网络训练</text>
+        <text x="470" y="211" text-anchor="middle" fill="#94a3b8" font-size="11">TrainDualScaleNet</text>
+        <text x="470" y="227" text-anchor="middle" fill="#94a3b8" font-size="11">net_F (全目标) + net_S (子目标)</text>
+        <text x="470" y="243" text-anchor="middle" fill="#818cf8" font-size="10">迁移初始化 + Bagging集成</text>
+
+        <!-- Arrow from Module 2 to Module 3 -->
+        <line x1="575" y1="210" x2="620" y2="210" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arrow-p)"/>
+
+        <!-- Module 3: Arbitrator -->
+        <rect x="625" y="160" width="240" height="100" rx="12" fill="rgba(244,114,182,0.1)" stroke="#f472b6" stroke-width="2"/>
+        <text x="745" y="183" text-anchor="middle" fill="#f472b6" font-weight="800" font-size="14">模块③ 仲裁选择</text>
+        <text x="745" y="201" text-anchor="middle" fill="#94a3b8" font-size="11">ArbitratedSelection</text>
+        <text x="745" y="217" text-anchor="middle" fill="#94a3b8" font-size="11">GA生成候选 → 逆方差仲裁评分</text>
+        <text x="745" y="233" text-anchor="middle" fill="#94a3b8" font-size="11">ArbitratorScore</text>
+        <text x="745" y="250" text-anchor="middle" fill="#f472b6" font-size="10">逐候选自适应权重融合</text>
+
+        <!-- GA arrow -->
+        <line x1="745" y1="160" x2="745" y2="130" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="5,3"/>
+        <rect x="680" y="100" width="130" height="28" rx="6" fill="#1e293b" stroke="#f472b6" stroke-width="1"/>
+        <text x="745" y="119" text-anchor="middle" fill="#f472b6" font-size="11">GA 遗传算子生成候选</text>
+
+        <!-- Arrow down from Module 3 -->
+        <line x1="745" y1="260" x2="745" y2="320" stroke="#f472b6" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Screening box -->
+        <rect x="640" y="325" width="210" height="45" rx="10" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="745" y="345" text-anchor="middle" fill="#38bdf8" font-weight="700" font-size="13">候选解清洗 sanitizeCandidates</text>
+        <text x="745" y="361" text-anchor="middle" fill="#94a3b8" font-size="11">去重 · 边界裁剪 · 去已评估</text>
+
+        <!-- Arrow to evaluation -->
+        <line x1="745" y1="370" x2="745" y2="410" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Expensive evaluation -->
+        <rect x="625" y="415" width="240" height="50" rx="12" fill="rgba(239,68,68,0.15)" stroke="#ef4444" stroke-width="2"/>
+        <text x="745" y="438" text-anchor="middle" fill="#ef4444" font-weight="800" font-size="14">★ 昂贵真实评估 ★</text>
+        <text x="745" y="456" text-anchor="middle" fill="#94a3b8" font-size="11">Problem.Evaluation — 瓶颈！每次几小时</text>
+
+        <!-- Arrow back to population -->
+        <line x1="625" y1="440" x2="190" y2="440" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="6,3"/>
+        <line x1="190" y1="440" x2="190" y2="80" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Archive -->
+        <rect x="30" y="410" width="160" height="50" rx="10" fill="#1e293b" stroke="#34d399" stroke-width="1.5"/>
+        <text x="110" y="432" text-anchor="middle" fill="#34d399" font-weight="700" font-size="13">Archive 存档</text>
+        <text x="110" y="448" text-anchor="middle" fill="#94a3b8" font-size="11">所有已评估解的历史</text>
+
+        <line x1="190" y1="440" x2="190" y2="440" stroke="none"/>
+        <text x="350" y="435" fill="#94a3b8" font-size="11" font-style="italic">解送入 Archive，下代种群从 Archive 选取</text>
+
+        <!-- RefSelect for next gen -->
+        <rect x="30" y="475" width="200" height="30" rx="6" fill="var(--card2)" stroke="var(--border)" stroke-width="1"/>
+        <text x="130" y="495" text-anchor="middle" fill="#34d399" font-size="11">RefSelect(Archive, N) → 下代种群</text>
+        <line x1="110" y1="460" x2="110" y2="475" stroke="#34d399" stroke-width="1" marker-end="url(#arrow-g)"/>
+        <line x1="230" y1="490" x2="260" y2="490" stroke="#34d399" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="265" y="494" fill="#34d399" font-size="10">↑ 回到主循环顶部</text>
+
+        <!-- Legend -->
+        <rect x="30" y="270" width="280" height="110" rx="8" fill="rgba(30,41,59,0.9)" stroke="var(--border)" stroke-width="1"/>
+        <text x="45" y="290" fill="#94a3b8" font-size="11" font-weight="600">图例</text>
+        <rect x="45" y="300" width="12" height="12" rx="3" fill="rgba(251,146,60,0.3)" stroke="#fb923c" stroke-width="1"/>
+        <text x="63" y="311" fill="#fb923c" font-size="11">模块① 难度排序</text>
+        <rect x="165" y="300" width="12" height="12" rx="3" fill="rgba(129,140,248,0.3)" stroke="#818cf8" stroke-width="1"/>
+        <text x="183" y="311" fill="#818cf8" font-size="11">模块② 双尺度网络</text>
+        <rect x="45" y="322" width="12" height="12" rx="3" fill="rgba(244,114,182,0.3)" stroke="#f472b6" stroke-width="1"/>
+        <text x="63" y="333" fill="#f472b6" font-size="11">模块③ 仲裁选择</text>
+        <rect x="165" y="322" width="12" height="12" rx="3" fill="rgba(239,68,68,0.3)" stroke="#ef4444" stroke-width="1"/>
+        <text x="183" y="333" fill="#ef4444" font-size="11">昂贵评估 (瓶颈)</text>
+        <rect x="45" y="344" width="12" height="12" rx="3" fill="rgba(56,189,248,0.3)" stroke="#38bdf8" stroke-width="1"/>
+        <text x="63" y="355" fill="#38bdf8" font-size="11">数据流 / 辅助步骤</text>
+        <rect x="165" y="344" width="12" height="12" rx="3" fill="rgba(52,211,153,0.3)" stroke="#34d399" stroke-width="1"/>
+        <text x="183" y="355" fill="#34d399" font-size="11">参考解 / Archive</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>核心创新点</h3>
+    <div class="two-col">
+      <div>
+        <h4>创新1：难度感知目标子集选择</h4>
+        <p>传统方法对所有目标一视同仁。REMO-DiRel 在线评估每个目标的"建模难度"，只选择<strong>最易建模的目标子集</strong>来训练子目标网络，避免难目标拖累整体建模质量。</p>
+      </div>
+      <div>
+        <h4>创新2：双尺度集成网络</h4>
+        <p>同时训练<strong>全目标网络</strong>（看全局）和<strong>子目标网络</strong>（看局部），并用迁移学习让子目标网络继承全目标网络的权重，实现"热启动"。</p>
+      </div>
+      <div>
+        <h4>创新3：逐候选逆方差仲裁</h4>
+        <p>对每个候选解独立计算两个模型的不确定性（方差），<strong>哪个模型更确定就更信任它</strong>。比全局固定权重更灵活、更准确。</p>
+      </div>
+      <div>
+        <h4>创新4：难度感知GA参数</h4>
+        <p>根据易目标子集的难度自适应调整遗传算子参数：难度低时偏向局部搜索（exploit），难度高时偏向全局探索（explore）。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== INIT ==================== -->
+<div class="section" id="sec-init">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#38bdf8,#34d399);color:#fff;">1</div>
+    <h2>初始化阶段</h2>
+    <span class="tag" style="background:rgba(56,189,248,0.15);color:var(--accent);">REMO_DiRel.m L29-88</span>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>超参数读取</h3>
+      <table class="param-table">
+        <tr><th>参数</th><th>默认值</th><th>含义</th></tr>
+        <tr><td class="param-name">k_easy</td><td class="param-default">-1 (自动)</td><td>易目标子集大小。-1 表示自动取 ⌈M/2⌉</td></tr>
+        <tr><td class="param-name">tau_conf</td><td class="param-default">0.3</td><td>不确定性阈值，用于仲裁时的弃权判断</td></tr>
+        <tr><td class="param-name">alpha</td><td class="param-default">0.6</td><td>建模难度在联合难度中的权重</td></tr>
+        <tr><td class="param-name">k</td><td class="param-default">6</td><td>参考解数量</td></tr>
+        <tr><td class="param-name">gmax</td><td class="param-default">1000</td><td>每代代理模型评估的候选解预算</td></tr>
+        <tr><td class="param-name">K_ens</td><td class="param-default">3</td><td>Bagging 集成网络数量</td></tr>
+        <tr><td class="param-name">win_K</td><td class="param-default">3</td><td>难度分数的滑动窗口大小</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>内部硬编码参数</h3>
+      <table class="param-table">
+        <tr><th>参数</th><th>值</th><th>含义</th></tr>
+        <tr><td class="param-name">pairMax</td><td class="param-default">6000</td><td>关系对构造的数量上限</td></tr>
+        <tr><td class="param-name">anchorMax</td><td class="param-default">30</td><td>每类 anchor 点的最大数量</td></tr>
+      </table>
+      <h4 style="margin-top:16px">易目标子集大小 k_easy 的确定</h4>
+      <div class="formula">
+        <span class="label">双目标 (M≤2):</span> k_easy = 1<br>
+        <span class="label">自动模式 (k_easy=-1):</span> k_easy = clamp(⌈M/2⌉, 2, M-1)<br>
+        <span class="label">手动指定:</span> k_easy = clamp(用户值, 2, M-1)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>种群初始化 — 拉丁超立方采样 (LHS)</h3>
+    <p>初始种群的大小 N 取决于决策变量维度 D：</p>
+    <div class="formula">
+      <span class="label">D ≤ 10:</span> N = 11D - 1 &nbsp;&nbsp; (例如 D=5 → N=54)<br>
+      <span class="label">D > 10:</span> N = 100 &nbsp;&nbsp; (固定值)
+    </div>
+    <p style="margin-top:12px">采样过程：</p>
+    <ol>
+      <li>用 <code class="code-inline">UniformPoint(N, D, 'Latin')</code> 在 [0,1]<sup>D</sup> 空间生成 N 个均匀分布的拉丁超立方采样点</li>
+      <li>线性映射到实际决策变量范围： <code class="code-inline">x = lower + (upper - lower) × x_lhs</code></li>
+      <li>调用 <code class="code-inline">Problem.Evaluation()</code> 对每个解做真实昂贵评估</li>
+    </ol>
+
+    <div class="highlight info" style="margin-top:12px">
+      <strong>为什么用拉丁超立方采样 (LHS)？</strong><br>
+      相比纯随机采样，LHS 保证样本在每个维度上都均匀分布，不会出现某个区域密集、另一个区域空白的情况。对于昂贵优化来说，初始样本的质量至关重要——因为后续很难再"补"初始样本。
+    </div>
+
+    <!-- LHS visualization -->
+    <div class="demo-box">
+      <div class="demo-controls">
+        <label>样本数 N:</label>
+        <input type="range" id="lhs-n" min="5" max="30" value="10">
+        <span id="lhs-n-val">10</span>
+        <button onclick="drawLHS()">重新采样</button>
+      </div>
+      <canvas id="lhs-canvas" width="500" height="300"></canvas>
+      <p style="font-size:0.82em;color:var(--text2);text-align:center;">左：纯随机采样 &nbsp;|&nbsp; 右：拉丁超立方采样 (LHS)。注意 LHS 在每个维度上的投影都是均匀的。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>历史记录结构 H 的初始化</h3>
+    <p>H 用于存储滑动窗口内的历史信息，支持难度分数的平滑计算：</p>
+    <table class="param-table">
+      <tr><th>字段</th><th>尺寸</th><th>含义</th></tr>
+      <tr><td class="param-name">H.d_score</td><td>M × win_K</td><td>历史联合难度分数</td></tr>
+      <tr><td class="param-name">H.model</td><td>M × win_K</td><td>历史建模难度</td></tr>
+      <tr><td class="param-name">H.improve</td><td>M × win_K</td><td>历史改进停滞分数</td></tr>
+      <tr><td class="param-name">H.conf</td><td>M × win_K</td><td>历史冲突度</td></tr>
+      <tr><td class="param-name">H.best</td><td>M × 1</td><td>各目标的历史最优值</td></tr>
+    </table>
+    <p style="margin-top:8px">初始时所有字段填 <code class="code-inline">NaN</code>，表示"无历史信息"。随着迭代推进，窗口逐渐填满。</p>
+  </div>
+</div>
+
+<!-- ==================== REF SELECT ==================== -->
+<div class="section" id="sec-ref">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#34d399,#38bdf8);color:#fff;">2</div>
+    <h2>参考解选择 (RefSelect)</h2>
+    <span class="tag" style="background:rgba(52,211,153,0.15);color:var(--accent3);">REMO_DiRel.m L103</span>
+  </div>
+
+  <div class="card">
+    <h3>作用与原理</h3>
+    <p>RefSelect 使用<strong>雷达网格策略</strong>从当前种群（或 Archive）中选择 k 个参考解。参考解的作用：</p>
+    <ul>
+      <li><strong>构造关系对时的 PBI 分类基准</strong>：每个参考解定义一个搜索方向，解按 PBI 距离分类</li>
+      <li><strong>GA 交叉操作的父代来源</strong>：与当前种群一起参与遗传操作</li>
+      <li><strong>下一代种群的选取</strong>：从 Archive 中选出 N 个代表性解</li>
+    </ul>
+    <div class="highlight info">
+      <strong>PBI (Penalty-based Boundary Intersection)</strong> 是一种将多目标问题转化为单标量的方法。对于参考解 r 和候选解 x：<br>
+      <code class="code-inline">PBI(x, r) = d₁ + θ × d₂</code><br>
+      其中 d₁ 是目标空间中 x 到 r 的投影距离（沿理想方向），d₂ 是垂直距离。PBI 值越小，说明 x 越接近参考解 r 所代表的搜索方向。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 1: DIFFICULTY ==================== -->
+<div class="section" id="sec-difficulty">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#fb923c,#f472b6);color:#fff;">①</div>
+    <h2>模块①：目标难度在线排序</h2>
+    <span class="tag" style="background:rgba(251,146,60,0.15);color:var(--accent4);">DifficultyProfiler.m</span>
+  </div>
+
+  <div class="card">
+    <h3>为什么需要难度排序？</h3>
+    <p>在超多目标优化（M≥3）中，不同目标的建模难度差异巨大：</p>
+    <div class="two-col" style="margin-top:12px">
+      <div class="highlight success">
+        <strong>易目标的特征：</strong>
+        <ul>
+          <li>值域跨度小（取值范围窄）</li>
+          <li>每代都在持续改进</li>
+          <li>与其他目标正相关（信息冗余）</li>
+        </ul>
+      </div>
+      <div class="highlight warn">
+        <strong>难目标的特征：</strong>
+        <ul>
+          <li>值域跨度大（取值范围宽）</li>
+          <li>多代无改进（陷入停滞）</li>
+          <li>与其他目标负相关（冲突大）</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:12px">传统方法用所有目标训练一个大网络，难目标的噪声会拖累易目标的建模精度。REMO-DiRel 的策略是：<strong>选出最易建模的目标子集 S_easy，单独训练一个子目标网络</strong>。</p>
+  </div>
+
+  <div class="card">
+    <h3>难度计算公式</h3>
+    <div class="formula">
+      <span class="label">联合难度:</span> d(j) = α × 建模难度(j) + (1-α) × 冲突难度(j)<br><br>
+      <span class="label">建模难度:</span> 0.5 × spanScore(j) + 0.5 × improveScore(j)<br>
+      <span class="label">冲突难度:</span> 1 - conflictScore(j)
+    </div>
+
+    <h4>分量 1：目标值跨度分 spanScore</h4>
+    <p>目标值的跨度越大 → 值域越分散 → 越难精确建模</p>
+    <div class="formula">
+      <span class="label">原始跨度:</span> span(j) = max(f_j) - min(f_j) &nbsp;&nbsp; (当前代种群)<br>
+      <span class="label">平滑:</span> spanScore(j) = MinMaxNorm(log(1 + span(j)))
+    </div>
+    <p>用 <code class="code-inline">log1p</code> 平滑是为了避免跨度特别大的目标主导归一化结果。</p>
+
+    <h4>分量 2：改进停滞分 improveScore</h4>
+    <p>如果某目标连续多代没有改进，说明优化陷入困境，该目标难以继续优化。</p>
+    <div class="formula">
+      <span class="label">相对改进率:</span> relImprove(j) = max((best_prev(j) - best_now(j)) / |best_prev(j)|, 0)<br>
+      <span class="label">停滞分:</span> improveScore(j) = 1 - MinMaxNorm(relImprove(j))
+    </div>
+    <p>改进越大 → relImprove 越大 → improveScore 越小 → 越"容易"。</p>
+
+    <h4>分量 3：Spearman 冲突度</h4>
+    <p>通过 <code class="code-inline">ConflictDegree()</code> 计算每个目标与其他目标的平均冲突程度。</p>
+    <div class="formula">
+      <span class="label">Spearman ρ:</span> 衡量两个目标之间的单调关系强度，范围 [-1, 1]<br>
+      <span class="label">冲突度:</span> conf(j) = mean(1 - |ρ(j, others)|)<br>
+      <span class="label">冲突难度:</span> conflictDifficulty(j) = 1 - MinMaxNorm(conf(j))
+    </div>
+
+    <div class="highlight key">
+      <strong>Spearman vs Pearson：</strong>Spearman 秩相关系数对非线性单调关系也有效。例如 f₁=x², f₂=-x，Pearson 相关可能不高，但 Spearman 能正确捕捉到它们的负单调关系。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>滑动窗口平滑</h3>
+    <p>单代的难度分数可能有噪声（例如某一代恰好采样不好）。REMO-DiRel 用滑动窗口（默认 3 代）对难度分数取平均：</p>
+    <div class="formula">
+      <span class="label">窗口更新:</span> H.d_score(:, col) = d_now &nbsp;&nbsp; 其中 col = (gen-1) mod win_K + 1<br>
+      <span class="label">平滑后:</span> d_score(j) = mean(H.d_score(j, :)) &nbsp;&nbsp; 忽略 NaN
+    </div>
+    <p>前 win_K 代内，未填满的位置是 NaN，<code class="code-inline">meanNoNan</code> 会自动忽略它们。</p>
+
+    <!-- Sliding window visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">滑动窗口可视化</h4>
+      <div class="demo-controls">
+        <label>当前代数 gen:</label>
+        <input type="range" id="sw-gen" min="1" max="10" value="1" oninput="drawSlidingWindow()">
+        <span id="sw-gen-val">1</span>
+        <label style="margin-left:16px">窗口大小 win_K:</label>
+        <input type="range" id="sw-wk" min="2" max="5" value="3" oninput="drawSlidingWindow()">
+        <span id="sw-wk-val">3</span>
+      </div>
+      <canvas id="sw-canvas" width="700" height="200"></canvas>
+      <p style="font-size:0.82em;color:var(--text2);text-align:center;">彩色方格表示已存储的难度分数，灰色表示 NaN。底部显示平滑后的均值。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>易目标子集选择 + 反向冗余检查</h3>
+    <ol>
+      <li>按 d_score 升序排列所有目标（小的在前 = 易的在前）</li>
+      <li>取前 k_easy 个作为候选子集 S_cand</li>
+      <li>调用 <code class="code-inline">RefineEasySubset()</code> 做反向冗余检查</li>
+    </ol>
+
+    <h4>RefineEasySubset 的冗余检查逻辑</h4>
+    <p>如果候选子集内任意两个目标的 |Spearman ρ| > 0.95（高度相关，信息冗余），则：</p>
+    <ul>
+      <li>保留难度较小的那个目标</li>
+      <li>剔除难度较大的那个</li>
+      <li>从备选池中补入下一个非冗余的目标</li>
+    </ul>
+    <p>迭代执行直到没有冗余对为止。最终保证 |S_easy| ∈ [2, M-1]。</p>
+
+    <!-- Redundancy check visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">冗余检查交互演示</h4>
+      <div class="demo-controls">
+        <button onclick="runRedundancyCheck()">运行冗余检查</button>
+        <button onclick="resetRedundancy()">重置</button>
+      </div>
+      <canvas id="redundancy-canvas" width="700" height="280"></canvas>
+      <div class="demo-output" id="redundancy-output"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RELATION PAIRS ==================== -->
+<div class="section" id="sec-pairs">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#818cf8,#38bdf8);color:#fff;">3</div>
+    <h2>双尺度关系对构造</h2>
+    <span class="tag" style="background:rgba(129,140,248,0.15);color:var(--accent2);">GetRelationPairsBudgeted.m</span>
+  </div>
+
+  <div class="card">
+    <h3>什么是"关系对"？</h3>
+    <p>关系对是代理模型的训练数据。每个关系对由两个解 (xᵢ, xⱼ) 和一个标签组成：</p>
+    <table class="param-table">
+      <tr><th>标签</th><th>含义</th><th>说明</th></tr>
+      <tr><td style="color:var(--accent3);font-weight:700">+1</td><td>xᵢ ≻ xⱼ</td><td>xᵢ 支配 xⱼ（所有目标上都不差，至少一个更好）</td></tr>
+      <tr><td style="color:var(--accent4);font-weight:700">0</td><td>xᵢ ~ xⱼ</td><td>互不支配（各有优劣）</td></tr>
+      <tr><td style="color:var(--danger);font-weight:700">-1</td><td>xⱼ ≻ xᵢ</td><td>xⱼ 支配 xᵢ</td></tr>
+    </table>
+    <p style="margin-top:12px">网络的输入是 [xᵢ 的决策变量, xⱼ 的决策变量] 的拼接（2D 维），输出是三个类别的概率。</p>
+
+    <div class="highlight info">
+      <strong>为什么用关系对而不是直接预测目标值？</strong><br>
+      直接预测 M 个目标值需要回归模型，维度高、精度低。关系对只需要做三分类（+1/0/-1），更容易学习。而且我们最终只需要知道"哪些候选解更好"，不需要知道具体的目标值。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>PBI 分类</h3>
+    <p>在构造关系对之前，先用 PBI 方法将种群中的解分为"正类"和"负类"：</p>
+    <ul>
+      <li>对每个参考解 r，计算所有解的 PBI 值</li>
+      <li>PBI 值最小的解被标记为 <code class="code-inline">Catalog = 1</code>（正类）</li>
+      <li>其余解标记为 <code class="code-inline">Catalog ≠ 1</code>（负类）</li>
+    </ul>
+    <p>这样，正类解是"靠近某个参考方向"的优质解，负类解是其他解。</p>
+  </div>
+
+  <div class="card">
+    <h3>平衡采样策略</h3>
+    <p>如果直接枚举所有组合（O(n²)），会产生大量类别不平衡的关系对。REMO-DiRel 采用有上限的平衡采样：</p>
+    <div class="formula">
+      <span class="label">每类上限:</span> perClass = ⌊pairMax / 3⌋ &nbsp;&nbsp; (默认 6000/3 = 2000)<br>
+      <span class="label">+1类:</span> 从正类 C1 和负类 C2 中各选一个 → [C1, C2]，标签 +1<br>
+      <span class="label">-1类:</span> 从 C2 和 C1 中各选一个 → [C2, C1]，标签 -1<br>
+      <span class="label">0类:</span> 从同类内部选两个 → [C1, C1] 或 [C2, C2]，标签 0
+    </div>
+
+    <!-- Pair construction visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">关系对构造过程可视化</h4>
+      <div class="demo-controls">
+        <label>种群大小 N:</label>
+        <input type="range" id="pair-n" min="10" max="50" value="20" oninput="drawPairConstruction()">
+        <span id="pair-n-val">20</span>
+        <label style="margin-left:16px">pairMax:</label>
+        <input type="range" id="pair-max" min="100" max="6000" value="6000" step="100" oninput="drawPairConstruction()">
+        <span id="pair-max-val">6000</span>
+      </div>
+      <canvas id="pair-canvas" width="700" height="320"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>双尺度支线</h3>
+    <div class="two-col">
+      <div>
+        <h4>全目标支线</h4>
+        <ul>
+          <li>使用原始 M 个目标的值</li>
+          <li>参考解来自 RefSelect 的输出</li>
+          <li>构造 Catalog_F → (XX_F, YY_F)</li>
+          <li>输入维度：2D（决策变量空间）</li>
+        </ul>
+      </div>
+      <div>
+        <h4>子目标支线</h4>
+        <ul>
+          <li>只使用 S_easy 对应的 k_easy 个目标</li>
+          <li>参考向量用 ILD 方法在子目标空间重新生成</li>
+          <li>参考向量缩放到子目标空间的实际范围</li>
+          <li>构造 Catalog_S → (XX_S, YY_S)</li>
+          <li>输入维度：同样是 2D（决策变量空间不变）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODULE 2: DUAL NET ==================== -->
+<div class="section" id="sec-dualnet">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#818cf8,#f472b6);color:#fff;">②</div>
+    <h2>模块②：双尺度集成网络训练</h2>
+    <span class="tag" style="background:rgba(129,140,248,0.15);color:var(--accent2);">TrainDualScaleNet.m</span>
+  </div>
+
+  <div class="card">
+    <h3>网络拓扑</h3>
+    <div class="flow-container">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Input layer -->
+        <text x="80" y="25" text-anchor="middle" fill="#38bdf8" font-weight="700" font-size="13">输入层</text>
+        <text x="80" y="42" text-anchor="middle" fill="#94a3b8" font-size="11">2D 维</text>
+        <rect x="40" y="55" width="80" height="180" rx="8" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="1.5"/>
+        <text x="80" y="90" text-anchor="middle" fill="#38bdf8" font-size="11">x₁决策变量</text>
+        <text x="80" y="115" text-anchor="middle" fill="#38bdf8" font-size="11">x₂决策变量</text>
+        <text x="80" y="145" text-anchor="middle" fill="#94a3b8" font-size="16">⋮</text>
+        <text x="80" y="175" text-anchor="middle" fill="#38bdf8" font-size="11">x_D决策变量</text>
+        <text x="80" y="200" text-anchor="middle" fill="#38bdf8" font-size="11">(×2 拼接)</text>
+
+        <!-- Arrows input->hidden -->
+        <line x1="120" y1="100" x2="230" y2="80" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="120" y1="150" x2="230" y2="120" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="120" y1="200" x2="230" y2="160" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="120" y1="100" x2="230" y2="160" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="120" y1="200" x2="230" y2="80" stroke="#475569" stroke-width="1" opacity="0.5"/>
+
+        <!-- Hidden layer -->
+        <text x="280" y="25" text-anchor="middle" fill="#818cf8" font-weight="700" font-size="13">隐藏层</text>
+        <text x="280" y="42" text-anchor="middle" fill="#94a3b8" font-size="11">最多24节点</text>
+        <rect x="240" y="55" width="80" height="180" rx="8" fill="rgba(129,140,248,0.1)" stroke="#818cf8" stroke-width="1.5"/>
+        <circle cx="280" cy="90" r="16" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="1"/>
+        <text x="280" y="95" text-anchor="middle" fill="#818cf8" font-size="11">h₁</text>
+        <circle cx="280" cy="130" r="16" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="1"/>
+        <text x="280" y="135" text-anchor="middle" fill="#818cf8" font-size="11">h₂</text>
+        <circle cx="280" cy="170" r="16" fill="rgba(129,140,248,0.2)" stroke="#818cf8" stroke-width="1"/>
+        <text x="280" y="175" text-anchor="middle" fill="#818cf8" font-size="11">h₃</text>
+        <text x="280" y="210" text-anchor="middle" fill="#94a3b8" font-size="14">⋮</text>
+
+        <!-- Arrows hidden->output -->
+        <line x1="320" y1="90" x2="430" y2="80" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="320" y1="130" x2="430" y2="130" stroke="#475569" stroke-width="1" opacity="0.5"/>
+        <line x1="320" y1="170" x2="430" y2="180" stroke="#475569" stroke-width="1" opacity="0.5"/>
+
+        <!-- Output layer -->
+        <text x="480" y="25" text-anchor="middle" fill="#34d399" font-weight="700" font-size="13">输出层 (Softmax)</text>
+        <text x="480" y="42" text-anchor="middle" fill="#94a3b8" font-size="11">3 类概率</text>
+        <rect x="440" y="55" width="80" height="180" rx="8" fill="rgba(52,211,153,0.1)" stroke="#34d399" stroke-width="1.5"/>
+        <circle cx="480" cy="80" r="16" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-width="1"/>
+        <text x="480" y="85" text-anchor="middle" fill="#34d399" font-size="11">P(+1)</text>
+        <circle cx="480" cy="130" r="16" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-width="1"/>
+        <text x="480" y="135" text-anchor="middle" fill="#34d399" font-size="11">P(0)</text>
+        <circle cx="480" cy="180" r="16" fill="rgba(52,211,153,0.2)" stroke="#34d399" stroke-width="1"/>
+        <text x="480" y="185" text-anchor="middle" fill="#34d399" font-size="11">P(-1)</text>
+
+        <!-- Labels -->
+        <text x="600" y="85" text-anchor="start" fill="#94a3b8" font-size="11">xᵢ ≻ xⱼ</text>
+        <text x="600" y="135" text-anchor="start" fill="#94a3b8" font-size="11">xᵢ ~ xⱼ</text>
+        <text x="600" y="185" text-anchor="start" fill="#94a3b8" font-size="11">xⱼ ≻ xᵢ</text>
+
+        <!-- IW, LW, b labels -->
+        <text x="175" y="265" text-anchor="middle" fill="#fb923c" font-size="10">IW{1,1}: 输入权重</text>
+        <text x="370" y="265" text-anchor="middle" fill="#fb923c" font-size="10">LW{2,1}: 层间权重</text>
+        <text x="280" y="250" text-anchor="middle" fill="#fb923c" font-size="10">b{1}: 偏置</text>
+        <text x="480" y="250" text-anchor="middle" fill="#fb923c" font-size="10">b{2}: 偏置</text>
+      </svg>
+    </div>
+
+    <div class="formula">
+      <span class="label">隐藏层节点数:</span> hidden = min(⌈1.25×D⌉, D, ⌈D/2⌉) ，上限 24，下限 4<br>
+      <span class="label">激活函数:</span> 隐藏层 = tansig (默认) &nbsp;|&nbsp; 输出层 = softmax (patternnet)<br>
+      <span class="label">训练算法:</span> trainscg (标量共轭梯度)
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>训练流程</h3>
+
+    <h4>Step 1: 数据预处理</h4>
+    <ol>
+      <li><strong>分层划分</strong>：75% 训练集 + 25% 测试集，按类别分层采样保证比例一致</li>
+      <li><strong>输入归一化</strong>：用 <code class="code-inline">mapminmax</code> 将输入归一化到 [-1, 1]</li>
+      <li><strong>标签 One-Hot 编码</strong>：+1→[1,0,0]，0→[0,1,0]，-1→[0,0,1]</li>
+    </ol>
+
+    <h4>Step 2: 训练全目标集成网络 net_F</h4>
+    <ul>
+      <li>训练 K_ens=3 个 patternnet，每个用随机 70% 的样本（Bagging）</li>
+      <li>从随机权重开始训练，最多 60 个 epoch</li>
+      <li>验证集连续 6 次失败则提前停止</li>
+    </ul>
+
+    <h4>Step 3: 训练子目标集成网络 net_S（迁移初始化）</h4>
+    <ul>
+      <li>同样训练 K_ens=3 个 patternnet</li>
+      <li><strong>关键区别</strong>：用 net_F 的权重做迁移初始化（TransferFineTune）</li>
+      <li>只需训练 30 个 epoch（因为有了好的起点）</li>
+    </ul>
+
+    <!-- Training visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">Bagging 集成训练过程</h4>
+      <canvas id="train-canvas" width="700" height="250"></canvas>
+      <p style="font-size:0.82em;color:var(--text2);text-align:center;">每个网络用随机 70% 的样本训练（彩色=选中，灰色=未选中）。预测时取 K 个网络的投票结果。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>迁移初始化 (TransferFineTune)</h3>
+    <p>将源网络 (net_F) 的权重复制到目标网络 (net_S)：</p>
+    <ul>
+      <li><strong>IW{1,1}</strong>（输入权重）：输入层 → 隐藏层的权重矩阵</li>
+      <li><strong>LW{2,1}</strong>（层间权重）：隐藏层 → 输出层的权重矩阵</li>
+      <li><strong>b{1}, b{2}</strong>（偏置）：各层的偏置向量</li>
+    </ul>
+    <p>只在两个网络的权重矩阵尺寸相同时才复制，否则跳过（安全兜底）。</p>
+
+    <div class="highlight success">
+      <strong>为什么迁移有效？</strong><br>
+      全目标和子目标的关系对共享相同的决策变量空间（输入维度都是 2D），只是分类标签不同。因此全目标网络学到的"决策空间结构"对子目标网络也有价值。迁移初始化相当于"热启动"，让子目标网络从一个好的起点出发，30 个 epoch 就能收敛。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>集成预测与不确定性估计</h3>
+    <div class="formula">
+      <span class="label">预测:</span> pred = mode(votes) &nbsp;&nbsp; (K 个网络投票取众数)<br>
+      <span class="label">均值:</span> μ = mean(scores) &nbsp;&nbsp; (K 个网络输出的平均)<br>
+      <span class="label">方差:</span> σ² = var(scores) &nbsp;&nbsp; (衡量预测的不确定性)
+    </div>
+    <p style="margin-top:8px">方差 σ² 是后续仲裁的核心：方差越大，说明模型对这个预测越不确定。</p>
+  </div>
+</div>
+
+<!-- ==================== MODULE 3: ARBITRATOR ==================== -->
+<div class="section" id="sec-arbitrator">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#f472b6,#fb923c);color:#fff;">③</div>
+    <h2>模块③：仲裁选择</h2>
+    <span class="tag" style="background:rgba(244,114,182,0.15);color:var(--accent5);">ArbitratedSelection.m + ArbitratorScore.m</span>
+  </div>
+
+  <div class="card">
+    <h3>整体流程</h3>
+    <div class="step-flow">
+      <div class="step-item active">GA 生成候选解</div>
+      <span class="step-arrow">→</span>
+      <div class="step-item">仲裁器评分</div>
+      <span class="step-arrow">→</span>
+      <div class="step-item">选择优秀解</div>
+      <span class="step-arrow">→</span>
+      <div class="step-item">GA 交叉变异</div>
+      <span class="step-arrow">→</span>
+      <div class="step-item active">循环 gmax 次</div>
+      <span class="step-arrow">→</span>
+      <div class="step-item">最终筛选 (score > 3.9)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>难度感知 GA 参数</h3>
+    <p>GA 的交叉和变异参数根据易目标子集的平均难度自适应调整：</p>
+    <div class="formula">
+      <span class="label">disC (SBX分布指数):</span> round(10 + 20×(1-diff)) &nbsp;&nbsp; 范围 [10, 30]<br>
+      <span class="label">disM (变异分布指数):</span> round(5 + 20×(1-diff)) &nbsp;&nbsp; 范围 [5, 25]<br>
+      <span class="label">proM (变异概率):</span> 1 + 0.5×diff &nbsp;&nbsp; 范围 [1, 1.5]
+    </div>
+    <p style="margin-top:8px">其中 <code class="code-inline">diff = mean(d_score(S_easy))</code> 是易目标子集的平均难度，范围 [0, 1]。</p>
+
+    <!-- GA parameter visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">GA 参数随难度变化</h4>
+      <div class="demo-controls">
+        <label>易目标平均难度 diff:</label>
+        <input type="range" id="ga-diff" min="0" max="100" value="50" oninput="drawGAParams()">
+        <span id="ga-diff-val">0.50</span>
+      </div>
+      <canvas id="ga-canvas" width="700" height="200"></canvas>
+      <p style="font-size:0.82em;color:var(--text2);text-align:center;">难度低 → disC/disM 大 → 子代靠近父代（局部搜索）；难度高 → proM 大 → 变异频繁（全局探索）</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>仲裁器评分 (ArbitratorScore) — 核心创新</h3>
+    <p>对每个候选解 x，仲裁器执行以下步骤：</p>
+
+    <h4>Step 1: 选择 Anchor 点</h4>
+    <p>从训练数据中选择 anchor 点作为"标杆"：</p>
+    <ul>
+      <li><strong>C1（正类 anchor）</strong>：标签为 +1 的训练样本（优质解），最多 anchorMax=30 个</li>
+      <li><strong>C2（负类 anchor）</strong>：标签为 -1 或 0 的训练样本（劣质解），最多 30 个</li>
+    </ul>
+
+    <h4>Step 2: 构造关系对并预测</h4>
+    <p>对每个候选解 x 和每类 anchor，构造关系对：</p>
+    <div class="formula">
+      [C1, x] — 正类 anchor 在前，候选解在后<br>
+      [x, C1] — 候选解在前，正类 anchor 在后<br>
+      [C2, x] — 负类 anchor 在前，候选解在后<br>
+      [x, C2] — 候选解在前，负类 anchor 在后
+    </div>
+    <p>用 K 个集成网络分别预测每对的三类概率，计算均值 μ 和方差 σ²。</p>
+
+    <h4>Step 3: 计算逆方差权重</h4>
+    <div class="formula">
+      <span class="label">核心公式:</span><br>
+      w_F(x) = (1/σ²_F) / (1/σ²_F + 1/σ²_S)<br>
+      w_S(x) = 1 - w_F(x)<br><br>
+      <span class="label">含义:</span> 方差越小 → 1/σ² 越大 → 权重越大 → 更信任该模型
+    </div>
+
+    <!-- Inverse variance visualization -->
+    <div class="demo-box">
+      <h4 style="color:var(--accent);margin-bottom:8px">逆方差权重交互演示</h4>
+      <div class="demo-controls">
+        <label>σ²_F (全目标方差):</label>
+        <input type="range" id="iv-varf" min="1" max="100" value="30" oninput="drawInvVariance()">
+        <span id="iv-varf-val">0.30</span>
+        <label style="margin-left:16px">σ²_S (子目标方差):</label>
+        <input type="range" id="iv-vars" min="1" max="100" value="70" oninput="drawInvVariance()">
+        <span id="iv-vars-val">0.70</span>
+      </div>
+      <canvas id="iv-canvas" width="700" height="200"></canvas>
+      <p style="font-size:0.82em;color:var(--text2);text-align:center;">绿色区域 = 全目标网络权重，紫色区域 = 子目标网络权重。方差小的模型获得更大权重。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>冲突分支处理</h3>
+    <p>当两个模型的预测方向相反时（sign(μ_F) × sign(μ_S) < 0），需要特殊处理：</p>
+
+    <table class="param-table">
+      <tr><th>场景</th><th>条件</th><th>处理</th></tr>
+      <tr>
+        <td style="color:var(--danger);font-weight:600">弃权</td>
+        <td>冲突 + 两模型都不确定 (n_F > τ, n_S > τ)</td>
+        <td>得分设为 0（不推荐此候选解）</td>
+      </tr>
+      <tr>
+        <td style="color:var(--accent3);font-weight:600">子目标主导</td>
+        <td>冲突 + μ_S > 0 + μ_F < 0 + 全目标不确定 + 子目标确定</td>
+        <td>加多样性奖励：base += 0.5 × novelty</td>
+      </tr>
+    </table>
+
+    <p style="margin-top:12px"><strong>多样性奖励 novelty</strong>：候选解到最近邻居的欧氏距离（归一化到 [0,1]）。距离越大说明该候选解越"新颖"，周围没有其他候选解，值得探索。</p>
+
+    <div class="highlight warn">
+      <strong>为什么需要冲突处理？</strong><br>
+      全目标和子目标看问题的角度不同，有时会给出相反的判断。例如：全目标认为"这个解不好"（因为某个难目标表现差），但子目标认为"这个解很好"（因为易目标都表现好）。此时需要判断哪个模型更可信，或者直接弃权避免误导。
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>最终筛选</h3>
+    <p>经过 gmax 轮迭代后，对最终候选解做最后一轮评分：</p>
+    <ul>
+      <li>如果得分 > 3.9 的解 ≥ 4 个：只保留这些高质量解</li>
+      <li>否则：取得分最高的 4 个解</li>
+    </ul>
+    <p>这确保每代至少有 1 个、最多若干个候选解送入昂贵评估。</p>
+  </div>
+</div>
+
+<!-- ==================== UPDATE ==================== -->
+<div class="section" id="sec-update">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#38bdf8,#818cf8);color:#fff;">4</div>
+    <h2>评估与更新</h2>
+    <span class="tag" style="background:rgba(56,189,248,0.15);color:var(--accent);">REMO_DiRel.m L186-200</span>
+  </div>
+
+  <div class="card">
+    <h3>候选解清洗 (sanitizeCandidates)</h3>
+    <p>在送入昂贵评估之前，对候选解做以下清洗：</p>
+    <ol>
+      <li><strong>边界裁剪</strong>：将决策变量限制在 [lower, upper] 范围内</li>
+      <li><strong>去重</strong>：去除完全相同的解（按行去重）</li>
+      <li><strong>去已评估</strong>：去除已经在 Archive 中的解（避免重复评估）</li>
+      <li><strong>数量限制</strong>：最多保留 <code class="code-inline">remain = maxFE - FE</code> 个解</li>
+    </ol>
+    <p>如果清洗后为空，随机生成 4 个拉丁超立方采样点作为兜底。</p>
+  </div>
+
+  <div class="card">
+    <h3>昂贵评估 + Archive 更新</h3>
+    <div class="formula">
+      Archive = [Archive, Problem.Evaluation(Next)]
+    </div>
+    <p>这是整个算法最昂贵的步骤！每调用一次 <code class="code-inline">Problem.Evaluation</code>，就可能需要运行一次仿真。REMO-DiRel 的所有设计（代理模型、仲裁器）都是为了<strong>尽量减少这一步的调用次数</strong>。</p>
+  </div>
+
+  <div class="card">
+    <h3>下一代种群选择</h3>
+    <div class="formula">
+      Population = RefSelect(Archive, N)
+    </div>
+    <p>从 Archive（所有已评估解的集合）中，用雷达网格策略选出 N 个代表性解作为下一代种群。这保证了种群的多样性和收敛性的平衡。</p>
+  </div>
+</div>
+
+<!-- ==================== PARAMS CHEAT SHEET ==================== -->
+<div class="section" id="sec-params">
+  <div class="section-head">
+    <div class="section-num" style="background:linear-gradient(135deg,#34d399,#fb923c);color:#fff;">★</div>
+    <h2>参数速查表</h2>
+  </div>
+
+  <div class="card">
+    <h3>用户可调超参数</h3>
+    <table class="param-table">
+      <tr><th>参数</th><th>默认</th><th>范围</th><th>影响</th><th>调参建议</th></tr>
+      <tr>
+        <td class="param-name">k_easy</td>
+        <td class="param-default">-1</td>
+        <td>[-1, M-1]</td>
+        <td>子目标网络使用的目标数</td>
+        <td>-1 自动即可。如果已知某些目标特别难，可手动指定</td>
+      </tr>
+      <tr>
+        <td class="param-name">tau_conf</td>
+        <td class="param-default">0.3</td>
+        <td>[0, 1]</td>
+        <td>弃权阈值。越大 → 越容易弃权</td>
+        <td>0.2~0.5 之间。问题噪声大时适当增大</td>
+      </tr>
+      <tr>
+        <td class="param-name">alpha</td>
+        <td class="param-default">0.6</td>
+        <td>[0, 1]</td>
+        <td>建模难度 vs 冲突难度的权重</td>
+        <td>0.5~0.7。如果目标间冲突大，可适当降低</td>
+      </tr>
+      <tr>
+        <td class="param-name">k</td>
+        <td class="param-default">6</td>
+        <td>[3, 20]</td>
+        <td>参考解数量</td>
+        <td>目标数多时适当增加。一般 4~10</td>
+      </tr>
+      <tr>
+        <td class="param-name">gmax</td>
+        <td class="param-default">1000</td>
+        <td>[100, 5000]</td>
+        <td>每代代理模型评估预算</td>
+        <td>越大 → 候选解越多 → 选择越精准，但计算越慢</td>
+      </tr>
+      <tr>
+        <td class="param-name">K_ens</td>
+        <td class="param-default">3</td>
+        <td>[1, 5]</td>
+        <td>集成网络数量</td>
+        <td>至少 3（否则无法计算方差）。增大提升稳定性但增加训练时间</td>
+      </tr>
+      <tr>
+        <td class="param-name">win_K</td>
+        <td class="param-default">3</td>
+        <td>[2, 5]</td>
+        <td>难度分数的滑动窗口</td>
+        <td>越大 → 越平滑但响应越慢。一般 3 即可</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>内部关键阈值</h3>
+    <table class="param-table">
+      <tr><th>阈值</th><th>值</th><th>所在位置</th><th>作用</th></tr>
+      <tr><td class="param-name">pairMax</td><td class="param-default">6000</td><td>REMO_DiRel.m</td><td>关系对构造上限</td></tr>
+      <tr><td class="param-name">anchorMax</td><td class="param-default">30</td><td>REMO_DiRel.m</td><td>每类 anchor 最大数量</td></tr>
+      <tr><td class="param-name">ρ 阈值</td><td class="param-default">0.95</td><td>RefineEasySubset.m</td><td>冗余检查的 Spearman 相关阈值</td></tr>
+      <tr><td class="param-name">score 阈值</td><td class="param-default">3.9</td><td>ArbitratedSelection.m</td><td>最终筛选的得分阈值</td></tr>
+      <tr><td class="param-name">bagging ratio</td><td class="param-default">70%</td><td>TrainDualScaleNet.m</td><td>每个网络的采样比例</td></tr>
+      <tr><td class="param-name">train/test split</td><td class="param-default">75%/25%</td><td>TrainDualScaleNet.m</td><td>训练集/测试集划分</td></tr>
+    </table>
+  </div>
+</div>
+
+</div><!-- container -->
+
+<footer>
+  <p>REMO-DiRel 算法可视化详解 | 基于 PlatEMO 框架源码分析</p>
+  <p style="margin-top:6px">Algorithm: Difficulty-aware dual-scale relation learning for expensive MOO (2026)</p>
+</footer>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script>
+// ===== LHS Visualization =====
+function drawLHS() {
+  const n = parseInt(document.getElementById('lhs-n').value);
+  document.getElementById('lhs-n-val').textContent = n;
+  const canvas = document.getElementById('lhs-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const halfW = W / 2 - 20;
+  const pad = 40;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Draw axes for both sides
+  for (let side = 0; side < 2; side++) {
+    const ox = side === 0 ? pad : W/2 + 10;
+    const oy = pad;
+    const w = halfW - pad;
+    const h = H - 2*pad;
+
+    // Background
+    ctx.fillStyle = '#161b22';
+    ctx.fillRect(ox, oy, w, h);
+    ctx.strokeStyle = '#30363d';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(ox, oy, w, h);
+
+    // Grid lines for LHS
+    if (side === 1) {
+      ctx.strokeStyle = 'rgba(56,189,248,0.15)';
+      ctx.lineWidth = 0.5;
+      for (let i = 1; i < n; i++) {
+        const y = oy + (i/n) * h;
+        ctx.beginPath(); ctx.moveTo(ox, y); ctx.lineTo(ox+w, y); ctx.stroke();
+        const x = ox + (i/n) * w;
+        ctx.beginPath(); ctx.moveTo(x, oy); ctx.lineTo(x, oy+h); ctx.stroke();
+      }
+    }
+
+    // Title
+    ctx.fillStyle = side === 0 ? '#94a3b8' : '#38bdf8';
+    ctx.font = '12px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(side === 0 ? '纯随机采样' : '拉丁超立方采样 (LHS)', ox + w/2, oy - 10);
+
+    // Generate points
+    const pts = [];
+    if (side === 0) {
+      for (let i = 0; i < n; i++) pts.push([Math.random(), Math.random()]);
+    } else {
+      // LHS: each dimension has exactly one sample in each interval
+      const permX = [], permY = [];
+      for (let i = 0; i < n; i++) { permX.push(i); permY.push(i); }
+      shuffle(permX); shuffle(permY);
+      for (let i = 0; i < n; i++) {
+        pts.push([(permX[i] + Math.random()) / n, (permY[i] + Math.random()) / n]);
+      }
+    }
+
+    // Draw points
+    pts.forEach((p, i) => {
+      const px = ox + p[0] * w;
+      const py = oy + p[1] * h;
+      ctx.beginPath();
+      ctx.arc(px, py, 5, 0, Math.PI*2);
+      ctx.fillStyle = side === 0 ? '#94a3b8' : '#38bdf8';
+      ctx.fill();
+      ctx.strokeStyle = side === 0 ? '#64748b' : '#0ea5e9';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    });
+
+    // Marginal distributions
+    ctx.fillStyle = 'rgba(56,189,248,0.1)';
+    if (side === 1) {
+      // Show marginal uniformity
+      const bins = n;
+      const binH = h / bins;
+      for (let b = 0; b < bins; b++) {
+        let count = 0;
+        pts.forEach(p => { if (p[1] >= b/bins && p[1] < (b+1)/bins) count++; });
+        ctx.fillStyle = 'rgba(56,189,248,0.15)';
+        ctx.fillRect(ox + w + 2, oy + b*binH, count * 8, binH - 1);
+      }
+    }
+  }
+
+  // Axis labels
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('x₁', pad + halfW/2 - 10, H - 8);
+  ctx.fillText('x₁', W/2 + 10 + halfW/2 - 10, H - 8);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// ===== Sliding Window Visualization =====
+function drawSlidingWindow() {
+  const gen = parseInt(document.getElementById('sw-gen').value);
+  const winK = parseInt(document.getElementById('sw-wk').value);
+  document.getElementById('sw-gen-val').textContent = gen;
+  document.getElementById('sw-wk-val').textContent = winK;
+
+  const canvas = document.getElementById('sw-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const M = 5; // 5 objectives for demo
+  const cellW = 60, cellH = 40;
+  const startX = 80, startY = 30;
+
+  // Header: generation indices
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Consolas';
+  ctx.textAlign = 'center';
+  for (let g = 1; g <= Math.max(gen, winK+2); g++) {
+    const x = startX + (g-1) * (cellW + 8) + cellW/2;
+    ctx.fillText(`gen ${g}`, x, startY - 5);
+  }
+
+  // For each objective
+  const colors = ['#38bdf8', '#818cf8', '#34d399', '#fb923c', '#f472b6'];
+  const sampleScores = [
+    [0.8, 0.6, 0.3, 0.7, 0.5],
+    [0.7, 0.5, 0.4, 0.6, 0.4],
+    [0.5, 0.4, 0.5, 0.5, 0.3],
+    [0.4, 0.3, 0.6, 0.4, 0.2],
+    [0.3, 0.2, 0.7, 0.3, 0.15],
+    [0.25, 0.18, 0.75, 0.25, 0.12],
+    [0.2, 0.15, 0.8, 0.2, 0.1],
+    [0.18, 0.12, 0.82, 0.18, 0.09],
+    [0.15, 0.1, 0.85, 0.15, 0.08],
+    [0.12, 0.08, 0.88, 0.12, 0.07],
+  ];
+
+  for (let m = 0; m < M; m++) {
+    const y = startY + 20 + m * (cellH + 8);
+
+    // Objective label
+    ctx.fillStyle = colors[m];
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.textAlign = 'right';
+    ctx.fillText(`f${m+1}`, startX - 10, y + cellH/2 + 4);
+
+    for (let g = 1; g <= Math.max(gen, winK+2); g++) {
+      const x = startX + (g-1) * (cellW + 8);
+      const col = ((g-1) % winK) + 1;
+
+      if (g <= gen) {
+        // Has data
+        const val = sampleScores[Math.min(g-1, sampleScores.length-1)][m];
+        const alpha = 0.3 + val * 0.7;
+        ctx.fillStyle = `rgba(${hexToRgb(colors[m])}, ${alpha})`;
+        ctx.fillRect(x, y, cellW, cellH);
+        ctx.strokeStyle = colors[m];
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, cellW, cellH);
+
+        // Value
+        ctx.fillStyle = '#fff';
+        ctx.font = '11px Consolas';
+        ctx.textAlign = 'center';
+        ctx.fillText(val.toFixed(2), x + cellW/2, y + cellH/2 + 4);
+
+        // Column index
+        ctx.fillStyle = '#64748b';
+        ctx.font = '9px Consolas';
+        ctx.fillText(`[${col}]`, x + cellW/2, y + cellH - 4);
+      } else {
+        // NaN
+        ctx.fillStyle = 'rgba(71,85,105,0.15)';
+        ctx.fillRect(x, y, cellW, cellH);
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(x, y, cellW, cellH);
+        ctx.fillStyle = '#475569';
+        ctx.font = '11px Consolas';
+        ctx.textAlign = 'center';
+        ctx.fillText('NaN', x + cellW/2, y + cellH/2 + 4);
+      }
+    }
+
+    // Smoothed value
+    if (gen >= 1) {
+      const smoothedX = startX + Math.max(gen, winK+2) * (cellW + 8) + 20;
+      let sum = 0, cnt = 0;
+      for (let g = Math.max(1, gen - winK + 1); g <= gen; g++) {
+        sum += sampleScores[Math.min(g-1, sampleScores.length-1)][m];
+        cnt++;
+      }
+      const avg = sum / cnt;
+      ctx.fillStyle = colors[m];
+      ctx.font = 'bold 12px Consolas';
+      ctx.textAlign = 'left';
+      ctx.fillText(`μ=${avg.toFixed(2)}`, smoothedX, y + cellH/2 + 4);
+    }
+  }
+}
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3), 16);
+  const g = parseInt(hex.slice(3,5), 16);
+  const b = parseInt(hex.slice(5,7), 16);
+  return `${r},${g},${b}`;
+}
+
+// ===== Redundancy Check Visualization =====
+let redundancyState = null;
+
+function resetRedundancy() {
+  redundancyState = null;
+  document.getElementById('redundancy-output').textContent = '';
+  drawRedundancy(null);
+}
+
+function runRedundancyCheck() {
+  const canvas = document.getElementById('redundancy-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  // Example: 8 objectives
+  const M = 8;
+  const d_score = [0.1, 0.2, 0.15, 0.85, 0.3, 0.9, 0.25, 0.4];
+  const labels = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8'];
+
+  // Correlation matrix (some pairs are highly correlated)
+  const rho = [
+    [1.0, 0.97, 0.3, 0.1, 0.2, 0.05, 0.4, 0.15],
+    [0.97, 1.0, 0.25, 0.08, 0.18, 0.03, 0.35, 0.12],
+    [0.3, 0.25, 1.0, 0.2, 0.96, 0.1, 0.3, 0.2],
+    [0.1, 0.08, 0.2, 1.0, 0.15, 0.4, 0.1, 0.3],
+    [0.2, 0.18, 0.96, 0.15, 1.0, 0.08, 0.25, 0.18],
+    [0.05, 0.03, 0.1, 0.4, 0.08, 1.0, 0.05, 0.35],
+    [0.4, 0.35, 0.3, 0.1, 0.25, 0.05, 1.0, 0.2],
+    [0.15, 0.12, 0.2, 0.3, 0.18, 0.35, 0.2, 1.0]
+  ];
+
+  // Step through redundancy check
+  const k_easy = 4;
+  const ord = d_score.map((v, i) => i).sort((a, b) => d_score[a] - d_score[b]);
+  let S_easy = ord.slice(0, k_easy);
+  const steps = [{ action: '初始候选子集', S_easy: [...S_easy], redundant: null }];
+
+  // Iterative check
+  let pool_idx = k_easy;
+  let iter = 0;
+  while (iter < 20) {
+    let replaced = false;
+    for (let i = 0; i < S_easy.length && !replaced; i++) {
+      for (let j = i+1; j < S_easy.length && !replaced; j++) {
+        if (Math.abs(rho[S_easy[i]][S_easy[j]]) > 0.95) {
+          const drop = d_score[S_easy[i]] <= d_score[S_easy[j]] ? S_easy[j] : S_easy[i];
+          const keep = d_score[S_easy[i]] <= d_score[S_easy[j]] ? S_easy[i] : S_easy[j];
+
+          // Find replacement
+          let new_target = null;
+          while (pool_idx < M) {
+            const cand = ord[pool_idx];
+            pool_idx++;
+            if (!S_easy.includes(cand)) {
+              new_target = cand;
+              break;
+            }
+          }
+
+          if (new_target !== null) {
+            S_easy[S_easy.indexOf(drop)] = new_target;
+            steps.push({ action: `${labels[keep]} 与 ${labels[drop]} 高度相关 (ρ=${rho[keep][drop].toFixed(2)})，剔除 ${labels[drop]}，补入 ${labels[new_target]}`, S_easy: [...S_easy], redundant: [keep, drop] });
+          } else {
+            S_easy.splice(S_easy.indexOf(drop), 1);
+            steps.push({ action: `${labels[keep]} 与 ${labels[drop]} 高度相关，剔除 ${labels[drop]}，备选池耗尽`, S_easy: [...S_easy], redundant: [keep, drop] });
+          }
+          replaced = true;
+        }
+      }
+    }
+    if (!replaced) break;
+    iter++;
+  }
+  steps.push({ action: '冗余检查完成！', S_easy: [...S_easy], redundant: null });
+
+  // Draw final state
+  drawRedundancySteps(ctx, W, H, M, d_score, labels, rho, steps, k_easy);
+}
+
+function drawRedundancy(step) {
+  const canvas = document.getElementById('redundancy-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '13px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('点击 "运行冗余检查" 查看演示', W/2, H/2);
+}
+
+function drawRedundancySteps(ctx, W, H, M, d_score, labels, rho, steps, k_easy) {
+  ctx.clearRect(0, 0, W, H);
+
+  const barW = 60, barMaxH = 160, startX = 60, startY = 200;
+  const colors = ['#38bdf8', '#818cf8', '#34d399', '#fb923c', '#f472b6', '#fbbf24', '#a78bfa', '#2dd4bf'];
+
+  // Draw difficulty bars
+  for (let i = 0; i < M; i++) {
+    const x = startX + i * (barW + 10);
+    const h = d_score[i] * barMaxH;
+    const isEasy = steps[steps.length-1].S_easy.includes(i);
+
+    ctx.fillStyle = isEasy ? colors[i] : 'rgba(71,85,105,0.3)';
+    ctx.fillRect(x, startY - h, barW, h);
+    ctx.strokeStyle = isEasy ? colors[i] : '#475569';
+    ctx.lineWidth = isEasy ? 2 : 1;
+    ctx.strokeRect(x, startY - h, barW, h);
+
+    // Label
+    ctx.fillStyle = isEasy ? colors[i] : '#64748b';
+    ctx.font = `bold ${isEasy ? 13 : 11}px Segoe UI`;
+    ctx.textAlign = 'center';
+    ctx.fillText(labels[i], x + barW/2, startY + 18);
+
+    // Score
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px Consolas';
+    ctx.fillText(d_score[i].toFixed(2), x + barW/2, startY - h - 5);
+  }
+
+  // Draw steps log
+  const logY = startY + 40;
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('检查过程:', 20, logY);
+
+  steps.forEach((step, idx) => {
+    const y = logY + 20 + idx * 20;
+    const isActive = idx === steps.length - 1;
+    ctx.fillStyle = isActive ? '#34d399' : (step.redundant ? '#fb923c' : '#94a3b8');
+    ctx.font = `${isActive ? 'bold ' : ''}11px Consolas`;
+    ctx.fillText(`${idx+1}. ${step.action}`, 30, y);
+    ctx.fillStyle = '#818cf8';
+    ctx.fillText(`S_easy=[${step.S_easy.map(i => labels[i]).join(', ')}]`, 500, y);
+  });
+}
+
+// ===== Pair Construction Visualization =====
+function drawPairConstruction() {
+  const N = parseInt(document.getElementById('pair-n').value);
+  const pairMax = parseInt(document.getElementById('pair-max').value);
+  document.getElementById('pair-n-val').textContent = N;
+  document.getElementById('pair-max-val').textContent = pairMax;
+
+  const canvas = document.getElementById('pair-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const perClass = Math.max(1, Math.floor(pairMax / 3));
+
+  // Show a 2D objective space with points classified
+  const pad = 50;
+  const plotW = 250, plotH = 200;
+  const ox = pad, oy = pad;
+
+  // Generate random points in objective space
+  const points = [];
+  for (let i = 0; i < N; i++) {
+    points.push([Math.random(), Math.random()]);
+  }
+
+  // Classify: points near (0,0) are "positive" (PBI close to reference)
+  const ref = [0, 0]; // ideal point
+  const dists = points.map((p, i) => ({ idx: i, d: Math.sqrt(p[0]**2 + p[1]**2) }));
+  dists.sort((a, b) => a.d - b.d);
+  const c1 = dists.slice(0, Math.ceil(N/3)).map(d => d.idx);
+  const c2 = dists.slice(Math.ceil(N/3)).map(d => d.idx);
+
+  // Draw objective space
+  ctx.fillStyle = '#161b22';
+  ctx.fillRect(ox, oy, plotW, plotH);
+  ctx.strokeStyle = '#30363d';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(ox, oy, plotW, plotH);
+
+  // Axes
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('f₁', ox + plotW/2, oy + plotH + 25);
+  ctx.save();
+  ctx.translate(ox - 25, oy + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('f₂', 0, 0);
+  ctx.restore();
+
+  // Reference point
+  ctx.beginPath();
+  ctx.arc(ox + ref[0]*plotW, oy + plotH - ref[1]*plotH, 6, 0, Math.PI*2);
+  ctx.fillStyle = '#fbbf24';
+  ctx.fill();
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = '10px Segoe UI';
+  ctx.fillText('参考解', ox + ref[0]*plotW + 10, oy + plotH - ref[1]*plotH - 5);
+
+  // Draw points
+  points.forEach((p, i) => {
+    const px = ox + p[0] * plotW;
+    const py = oy + plotH - p[1] * plotH;
+    ctx.beginPath();
+    ctx.arc(px, py, 5, 0, Math.PI*2);
+    ctx.fillStyle = c1.includes(i) ? '#34d399' : '#ef4444';
+    ctx.fill();
+    ctx.strokeStyle = c1.includes(i) ? '#059669' : '#dc2626';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  });
+
+  // Legend
+  ctx.fillStyle = '#34d399';
+  ctx.fillRect(ox + plotW + 20, oy + 10, 12, 12);
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText(`正类 C1 (${c1.length}个)`, ox + plotW + 38, oy + 21);
+
+  ctx.fillStyle = '#ef4444';
+  ctx.fillRect(ox + plotW + 20, oy + 30, 12, 12);
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillText(`负类 C2 (${c2.length}个)`, ox + plotW + 38, oy + 41);
+
+  // Draw relation pair matrix
+  const matX = 380, matY = 50;
+  const matSize = 200;
+  const cellSize = matSize / 3;
+
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('关系对构造', matX + matSize/2, matY - 10);
+
+  // Matrix
+  const matLabels = ['+1 (C1≻C2)', '0 (同类~)', '-1 (C2≻C1)'];
+  const matColors = ['rgba(52,211,153,0.3)', 'rgba(251,191,36,0.3)', 'rgba(239,68,68,0.3)'];
+  const matCounts = [
+    Math.min(perClass, c1.length * c2.length),
+    Math.min(perClass, c1.length*(c1.length-1)/2 + c2.length*(c2.length-1)/2),
+    Math.min(perClass, c2.length * c1.length)
+  ];
+
+  for (let r = 0; r < 3; r++) {
+    ctx.fillStyle = matColors[r];
+    ctx.fillRect(matX, matY + r * cellSize, matSize, cellSize);
+    ctx.strokeStyle = '#475569';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(matX, matY + r * cellSize, matSize, cellSize);
+
+    ctx.fillStyle = '#e2e8f0';
+    ctx.font = '12px Segoe UI';
+    ctx.textAlign = 'left';
+    ctx.fillText(matLabels[r], matX + 10, matY + r * cellSize + cellSize/2 + 4);
+
+    ctx.fillStyle = '#38bdf8';
+    ctx.font = 'bold 14px Consolas';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${matCounts[r]}`, matX + matSize - 10, matY + r * cellSize + cellSize/2 + 5);
+  }
+
+  // Total
+  const total = matCounts.reduce((a,b) => a+b, 0);
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = 'bold 13px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText(`总计: ${total} / ${pairMax} 对`, matX + matSize/2, matY + 3*cellSize + 25);
+
+  // Per class limit
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Consolas';
+  ctx.fillText(`每类上限: ${perClass}`, matX + matSize/2, matY + 3*cellSize + 45);
+}
+
+// ===== GA Params Visualization =====
+function drawGAParams() {
+  const diff = parseInt(document.getElementById('ga-diff').value) / 100;
+  document.getElementById('ga-diff-val').textContent = diff.toFixed(2);
+
+  const canvas = document.getElementById('ga-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = 60;
+  const plotW = W - 2*pad;
+  const plotH = H - 2*pad;
+
+  // Background
+  ctx.fillStyle = '#161b22';
+  ctx.fillRect(pad, pad, plotW, plotH);
+  ctx.strokeStyle = '#30363d';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(pad, pad, plotW, plotH);
+
+  // Axes
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('难度 diff →', pad + plotW/2, H - 10);
+  ctx.save();
+  ctx.translate(15, pad + plotH/2);
+  ctx.rotate(-Math.PI/2);
+  ctx.fillText('参数值', 0, 0);
+  ctx.restore();
+
+  // Grid lines
+  ctx.strokeStyle = 'rgba(71,85,105,0.3)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i <= 4; i++) {
+    const y = pad + (i/4) * plotH;
+    ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(pad+plotW, y); ctx.stroke();
+  }
+
+  // Draw curves
+  function drawCurve(fn, color, label) {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    for (let i = 0; i <= 100; i++) {
+      const d = i / 100;
+      const v = fn(d);
+      const x = pad + d * plotW;
+      const y = pad + plotH - (v / 35) * plotH; // scale to fit
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Label at end
+    const endV = fn(1);
+    ctx.fillStyle = color;
+    ctx.font = 'bold 11px Consolas';
+    ctx.textAlign = 'left';
+    ctx.fillText(`${label}`, pad + plotW + 5, pad + plotH - (endV/35)*plotH + 4);
+  }
+
+  const disC = d => Math.round(10 + 20*(1-d));
+  const disM = d => Math.round(5 + 20*(1-d));
+  const proM = d => (1 + 0.5*d) * 10; // scaled for display
+
+  drawCurve(disC, '#38bdf8', 'disC');
+  drawCurve(disM, '#818cf8', 'disM');
+  drawCurve(proM, '#fb923c', 'proM×10');
+
+  // Current value indicator
+  const cx = pad + diff * plotW;
+  ctx.strokeStyle = '#ef4444';
+  ctx.lineWidth = 1.5;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(cx, pad); ctx.lineTo(cx, pad+plotH); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Current values
+  ctx.fillStyle = '#ef4444';
+  ctx.font = 'bold 11px Consolas';
+  ctx.textAlign = 'left';
+  ctx.fillText(`diff=${diff.toFixed(2)}`, cx + 8, pad + 15);
+  ctx.fillStyle = '#38bdf8';
+  ctx.fillText(`disC=${disC(diff)}`, cx + 8, pad + 32);
+  ctx.fillStyle = '#818cf8';
+  ctx.fillText(`disM=${disM(diff)}`, cx + 8, pad + 49);
+  ctx.fillStyle = '#fb923c';
+  ctx.fillText(`proM=${(1+0.5*diff).toFixed(2)}`, cx + 8, pad + 66);
+
+  // Interpretation
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '11px Segoe UI';
+  ctx.textAlign = 'center';
+  if (diff < 0.3) {
+    ctx.fillText('难度低 → 大 disC/disM → 子代靠近父代 → 局部搜索 (exploit)', pad + plotW/2, pad - 15);
+  } else if (diff > 0.7) {
+    ctx.fillText('难度高 → 大 proM → 变异频繁 → 全局探索 (explore)', pad + plotW/2, pad - 15);
+  } else {
+    ctx.fillText('中等难度 → 平衡局部搜索与全局探索', pad + plotW/2, pad - 15);
+  }
+}
+
+// ===== Inverse Variance Visualization =====
+function drawInvVariance() {
+  const varF = parseInt(document.getElementById('iv-varf').value) / 100;
+  const varS = parseInt(document.getElementById('iv-vars').value) / 100;
+  document.getElementById('iv-varf-val').textContent = varF.toFixed(2);
+  document.getElementById('iv-vars-val').textContent = varS.toFixed(2);
+
+  const canvas = document.getElementById('iv-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const eps = 1e-6;
+  const invF = 1 / (varF + eps);
+  const invS = 1 / (varS + eps);
+  const wF = invF / (invF + invS);
+  const wS = 1 - wF;
+
+  // Bar chart
+  const barX = 80, barY = 40, barW = 200, barH = 120;
+
+  // Full bar background
+  ctx.fillStyle = '#161b22';
+  ctx.fillRect(barX, barY, barW, barH);
+  ctx.strokeStyle = '#30363d';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(barX, barY, barW, barH);
+
+  // wF portion
+  ctx.fillStyle = '#34d399';
+  ctx.fillRect(barX, barY, barW * wF, barH);
+
+  // wS portion
+  ctx.fillStyle = '#818cf8';
+  ctx.fillRect(barX + barW * wF, barY, barW * wS, barH);
+
+  // Labels
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = 'bold 14px Consolas';
+  ctx.textAlign = 'center';
+  if (wF > 0.15) {
+    ctx.fillText(`w_F=${wF.toFixed(3)}`, barX + barW*wF/2, barY + barH/2 + 5);
+  }
+  if (wS > 0.15) {
+    ctx.fillText(`w_S=${wS.toFixed(3)}`, barX + barW*wF + barW*wS/2, barY + barH/2 + 5);
+  }
+
+  // Side labels
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('逆方差权重分配', barX, barY - 10);
+
+  // Details
+  const detailX = 340;
+  ctx.fillStyle = '#38bdf8';
+  ctx.font = '13px Consolas';
+  ctx.fillText(`σ²_F = ${varF.toFixed(2)}`, detailX, barY + 20);
+  ctx.fillText(`σ²_S = ${varS.toFixed(2)}`, detailX, barY + 42);
+  ctx.fillText(`1/σ²_F = ${invF.toFixed(2)}`, detailX, barY + 64);
+  ctx.fillText(`1/σ²_S = ${invS.toFixed(2)}`, detailX, barY + 86);
+
+  // Gaussian distributions
+  const gX = 80, gY = 185;
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = '12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('预测分布示意:', gX, gY - 5);
+
+  function drawGauss(cx, cy, sigma, color, label) {
+    ctx.beginPath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    for (let i = -80; i <= 80; i++) {
+      const x = cx + i;
+      const y = cy - 30 * Math.exp(-(i*i)/(2*sigma*sigma*200));
+      if (i === -80) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Fill
+    ctx.globalAlpha = 0.15;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(cx - 80, cy);
+    for (let i = -80; i <= 80; i++) {
+      const x = cx + i;
+      const y = cy - 30 * Math.exp(-(i*i)/(2*sigma*sigma*200));
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(cx + 80, cy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = color;
+    ctx.font = '11px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, cx, cy + 15);
+  }
+
+  drawGauss(200, gY + 20, Math.sqrt(varF) * 3, '#34d399', 'net_F (全目标)');
+  drawGauss(400, gY + 20, Math.sqrt(varS) * 3, '#818cf8', 'net_S (子目标)');
+
+  // Arrow showing which is more trusted
+  const trustedX = wF > wS ? 200 : 400;
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'center';
+  ctx.fillText('← 更可信', trustedX, gY + 55);
+}
+
+// ===== Bagging Training Visualization =====
+function drawTrainingViz() {
+  const canvas = document.getElementById('train-canvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+
+  const N = 20; // samples
+  const K = 3;  // networks
+  const nBag = Math.ceil(0.7 * N);
+
+  // Sample pool
+  const poolX = 30, poolY = 20, cellW = 28, cellH = 22;
+  ctx.fillStyle = '#94a3b8';
+  ctx.font = 'bold 11px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('训练样本池:', poolX, poolY);
+
+  for (let i = 0; i < N; i++) {
+    ctx.fillStyle = 'rgba(56,189,248,0.3)';
+    ctx.fillRect(poolX + i * (cellW + 2), poolY + 10, cellW, cellH);
+    ctx.strokeStyle = '#38bdf8';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(poolX + i * (cellW + 2), poolY + 10, cellW, cellH);
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '9px Consolas';
+    ctx.textAlign = 'center';
+    ctx.fillText(i+1, poolX + i * (cellW + 2) + cellW/2, poolY + 10 + cellH/2 + 3);
+  }
+
+  // For each network
+  const netColors = ['#34d399', '#818cf8', '#fb923c'];
+  for (let k = 0; k < K; k++) {
+    const ny = poolY + 50 + k * 65;
+    const selected = [];
+    while (selected.length < nBag) {
+      const r = Math.floor(Math.random() * N);
+      if (!selected.includes(r)) selected.push(r);
+    }
+
+    // Network label
+    ctx.fillStyle = netColors[k];
+    ctx.font = 'bold 12px Segoe UI';
+    ctx.textAlign = 'left';
+    ctx.fillText(`网络 ${k+1}:`, poolX, ny);
+
+    // Show selected samples
+    for (let i = 0; i < N; i++) {
+      const isSelected = selected.includes(i);
+      ctx.fillStyle = isSelected ? netColors[k] : 'rgba(71,85,105,0.2)';
+      ctx.fillRect(poolX + i * (cellW + 2), ny + 12, cellW, cellH);
+      ctx.strokeStyle = isSelected ? netColors[k] : '#334155';
+      ctx.lineWidth = isSelected ? 1.5 : 0.5;
+      ctx.strokeRect(poolX + i * (cellW + 2), ny + 12, cellW, cellH);
+    }
+
+    // Arrow
+    ctx.fillStyle = netColors[k];
+    ctx.font = '11px Segoe UI';
+    ctx.textAlign = 'left';
+    ctx.fillText(`→ train() → patternnet`, poolX + N * (cellW + 2) + 10, ny + 25);
+
+    // Count
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '10px Consolas';
+    ctx.fillText(`选中 ${nBag}/${N} 样本`, poolX + N * (cellW + 2) + 10, ny + 40);
+  }
+
+  // Ensemble prediction
+  const ey = poolY + 50 + K * 65 + 10;
+  ctx.strokeStyle = '#fbbf24';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([4, 3]);
+  ctx.beginPath(); ctx.moveTo(poolX, ey); ctx.lineTo(poolX + N * (cellW + 2) + 200, ey); ctx.stroke();
+  ctx.setLineDash([]);
+
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 12px Segoe UI';
+  ctx.textAlign = 'left';
+  ctx.fillText('集成预测: pred = mode(投票)  |  μ = mean(输出)  |  σ² = var(输出)', poolX, ey + 20);
+}
+
+// ===== Navigation highlight =====
+const navBtns = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('.section');
+
+function updateNav() {
+  let current = '';
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if (top < 150) current = sec.id;
+  });
+  navBtns.forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', updateNav);
+
+// ===== Init =====
+window.addEventListener('load', () => {
+  drawLHS();
+  drawSlidingWindow();
+  drawRedundancy(null);
+  drawPairConstruction();
+  drawGAParams();
+  drawInvVariance();
+  drawTrainingViz();
+});
+</script>
+
+</body>
+</html>
