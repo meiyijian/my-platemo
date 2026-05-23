@@ -1,4 +1,4 @@
-function rec = compute_dualnet_metrics(Population, Candidates, Smodel, gen, FE)
+function rec = compute_dualnet_metrics(Problem, Population, Candidates, Smodel, gen, FE)
 % compute_dualnet_metrics - 记录双网络对候选解的详细预测数据和真实标签。
 %
 % 对每个候选解记录：
@@ -6,10 +6,12 @@ function rec = compute_dualnet_metrics(Population, Candidates, Smodel, gen, FE)
 %   - 逆方差融合权重(w_F)
 %   - 融合得分(base)
 %   - 冲突/弃权/子目标主导标记
-%   - 真实Pareto支配关系（候选 vs 种群）
+%   - 真实Pareto支配关系（候选 vs 种群）—— 用 Problem.CalObj 旁路评估，
+%     不增加 Problem.FE。同时保留决策空间最近邻估计 (NN) 作为对比基线。
 %   - PBI分类标签（全目标/子目标）
 %
 % 输入：
+%   Problem    - PlatEMO PROBLEM 对象（用于 CalObj 旁路评估）
 %   Population - 当前种群
 %   Candidates - nCand×D 候选解决策变量
 %   Smodel     - 代理模型结构体
@@ -79,44 +81,34 @@ function rec = compute_dualnet_metrics(Population, Candidates, Smodel, gen, FE)
     % ===================================================================
     % 第三步：计算真实Pareto支配关系
     % ===================================================================
-    % 对每个候选解，检查它与种群的支配关系
-    CandObj = evaluateCandidates(Candidates, Smodel, PopObj);
-
-    % 如果无法获取候选解目标值（需要真实评估），用代理估计
-    % 这里我们用种群内的关系对来估计：候选解的"真实"标签
-    % 通过在决策空间最近邻的目标值来近似
-    if isempty(CandObj)
-        CandObj = estimateCandidateObj(Candidates, PopDec, PopObj);
+    % 真实评估：直接调用 Problem.CalObj 计算候选解的真实目标值，
+    % 不增加 Problem.FE（旁路评估，仅用于 probe，不影响算法）。
+    % 同时保留决策空间最近邻估计 (NN) 作为对比基线，
+    % 可用于量化 NN 估计相对真值的偏差。
+    CandObj_nn = estimateCandidateObj(Candidates, PopDec, PopObj);
+    try
+        % Problem.CalDec 做边界裁剪+整数修复，与 Evaluation 保持一致
+        CandDec_repaired = Problem.CalDec(Candidates);
+        CandObj_real = Problem.CalObj(CandDec_repaired);
+        has_real = true;
+    catch ME
+        warning('CalObj bypass failed at gen %d: %s. Falling back to NN.', gen, ME.message);
+        CandObj_real = CandObj_nn;
+        has_real = false;
     end
 
-    % Pareto支配：候选 vs 种群中每个解
-    dominated_by_pop = false(nCand, 1);  % 候选被种群支配
-    dominates_pop    = false(nCand, 1);  % 候选支配种群解
-    nondominated     = true(nCand, 1);   % 候选与种群互不支配
+    % 主分析使用真实目标值
+    CandObj = CandObj_real;
 
-    for i = 1:nCand
-        ci = CandObj(i, :);
-        for j = 1:N
-            pj = PopObj(j, :);
-            if all(ci <= pj) && any(ci < pj)
-                % 候选支配种群解j
-                dominates_pop(i) = true;
-            elseif all(pj <= ci) && any(pj < ci)
-                % 种群解j支配候选
-                dominated_by_pop(i) = true;
-            end
-        end
-        if dominates_pop(i) && ~dominated_by_pop(i)
-            nondominated(i) = false;  % 候选是严格占优的
-        elseif ~dominates_pop(i) && dominated_by_pop(i)
-            nondominated(i) = false;  % 候选是被支配的
-        end
-        % 如果既支配又被支配（不可能），或都不支配（互不支配），标记为nondominated
-    end
+    % --- 基于真实目标值计算 Pareto 支配关系 ---
+    [dominated_by_pop, dominates_pop, true_quality] = ...
+        computePopDominance(CandObj_real, PopObj);
+    nondominated = ~(dominated_by_pop & ~dominates_pop) & ...
+                   ~(dominates_pop & ~dominated_by_pop);
 
-    % 真实质量标签：1=好（支配或互不支配），-1=差（被支配）
-    true_quality = ones(nCand, 1);
-    true_quality(dominated_by_pop & ~dominates_pop) = -1;
+    % --- 同时基于 NN 估计算一遍，用于诊断 NN 误差 ---
+    [dominated_by_pop_nn, dominates_pop_nn, true_quality_nn] = ...
+        computePopDominance(CandObj_nn, PopObj);
 
     % ===================================================================
     % 第四步：PBI分类标签（全目标和子目标）
@@ -179,9 +171,13 @@ function rec = compute_dualnet_metrics(Population, Candidates, Smodel, gen, FE)
     rec.dominated_by_pop = dominated_by_pop;
     rec.dominates_pop    = dominates_pop;
     rec.nondominated     = nondominated;
-    rec.true_quality     = true_quality;
+    rec.true_quality     = true_quality;            % 基于真值（主）
+    rec.true_quality_nn  = true_quality_nn;         % 基于 NN 估计（对比基线）
+    rec.has_real_obj     = has_real;
 
-    rec.CandObj          = CandObj;
+    rec.CandObj          = CandObj;                 % = CandObj_real（主）
+    rec.CandObj_real     = CandObj_real;
+    rec.CandObj_nn       = CandObj_nn;
     rec.Catalog_cand_F   = Catalog_cand_F;
     rec.Catalog_cand_S   = Catalog_cand_S;
 
@@ -196,11 +192,16 @@ function rec = compute_dualnet_metrics(Population, Candidates, Smodel, gen, FE)
     rec.stat_w_F_mean      = mean(w_F);
     rec.stat_w_F_std       = std(w_F);
 
-    % 准确率：mu_F符号 vs 真实质量
+    % 准确率：mu_F符号 vs 真实质量（基于真值）
     rec.stat_acc_F = mean(sign(mu_F) == true_quality);
     rec.stat_acc_S = mean(sign(mu_S) == true_quality);
+    % 同时记录 NN 基线下的准确率，便于评估 NN 估计偏差
+    rec.stat_acc_F_nn = mean(sign(mu_F) == true_quality_nn);
+    rec.stat_acc_S_nn = mean(sign(mu_S) == true_quality_nn);
+    % NN 与真值在标签层面的一致率（衡量 NN 假冒 ground truth 的质量）
+    rec.stat_label_agree_real_nn = mean(true_quality == true_quality_nn);
 
-    % 冲突时谁更准确
+    % 冲突时谁更准确（基于真值）
     if any(conflict)
         rec.stat_acc_F_conflict = mean(sign(mu_F(conflict)) == true_quality(conflict));
         rec.stat_acc_S_conflict = mean(sign(mu_S(conflict)) == true_quality(conflict));
@@ -225,15 +226,35 @@ end
 %  辅助函数
 %  ========================================================================
 
-function CandObj = evaluateCandidates(Candidates, Smodel, PopObj)
-% 尝试获取候选解的真实目标值
-% 在代理模型场景下，我们没有真实值，返回空
-    CandObj = [];
+function [dominated_by_pop, dominates_pop, true_quality] = computePopDominance(CandObj, PopObj)
+% 计算候选解与种群的 Pareto 支配关系。
+%   dominated_by_pop(i) = true  : 候选i 被种群中至少一个解严格支配
+%   dominates_pop(i)    = true  : 候选i 严格支配种群中至少一个解
+%   true_quality        ∈ {-1,1}: 被支配=-1，否则=1（支配或互不支配）
+    nCand = size(CandObj, 1);
+    N     = size(PopObj, 1);
+    dominated_by_pop = false(nCand, 1);
+    dominates_pop    = false(nCand, 1);
+
+    for i = 1:nCand
+        ci = CandObj(i, :);
+        for j = 1:N
+            pj = PopObj(j, :);
+            if all(ci <= pj) && any(ci < pj)
+                dominates_pop(i) = true;
+            elseif all(pj <= ci) && any(pj < ci)
+                dominated_by_pop(i) = true;
+            end
+        end
+    end
+
+    true_quality = ones(nCand, 1);
+    true_quality(dominated_by_pop & ~dominates_pop) = -1;
 end
 
 
 function CandObj = estimateCandidateObj(Candidates, PopDec, PopObj)
-% 用决策空间最近邻来估计候选解的目标值
+% 用决策空间最近邻来估计候选解的目标值（仅作为对比基线）
     nCand = size(Candidates, 1);
     M = size(PopObj, 2);
     CandObj = zeros(nCand, M);

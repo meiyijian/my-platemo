@@ -119,7 +119,7 @@ classdef REMO_DiRel_dualProbe < ALGORITHM
                         Upper = repmat(Problem.upper, size(testCand,1), 1);
                         testCand = min(max(testCand, Lower), Upper);
 
-                        rec = compute_dualnet_metrics(Population, testCand, Smodel, gen, Problem.FE);
+                        rec = compute_dualnet_metrics(Problem, Population, testCand, Smodel, gen, Problem.FE);
                         probe_records{end+1} = rec; %#ok<AGROW>
 
                         % 增量保存（PlatEMO通过异常退出，循环后save不可达）

@@ -69,6 +69,13 @@ function analyze_dualnet_results(varargin)
             for pi = 1:numel(data.probe_data)
                 pd = data.probe_data{pi};
                 nC = pd.nCand;
+                % 兼容旧数据：新字段缺失时 fallback
+                has_real_obj = isfield(pd, 'has_real_obj') && pd.has_real_obj;
+                if isfield(pd, 'true_quality_nn')
+                    tq_nn_vec = pd.true_quality_nn;
+                else
+                    tq_nn_vec = nan(nC, 1);
+                end
                 for ci = 1:nC
                     % 确定冲突类型
                     if pd.abstain(ci)
@@ -89,7 +96,8 @@ function analyze_dualnet_results(varargin)
                         pd.true_quality(ci), ...
                         pd.dominated_by_pop(ci), pd.dominates_pop(ci), ...
                         pd.Catalog_cand_F(ci), pd.Catalog_cand_S(ci), ...
-                        ctype};
+                        ctype, ...
+                        tq_nn_vec(ci), double(has_real_obj)};
                     all_cand_rows{end+1} = cand_row; %#ok<AGROW>
                 end
             end
@@ -118,7 +126,8 @@ function analyze_dualnet_results(varargin)
                     'true_quality', ...
                     'dominated_by_pop', 'dominates_pop', ...
                     'catalog_F', 'catalog_S', ...
-                    'conflict_type'};
+                    'conflict_type', ...
+                    'true_quality_nn', 'has_real_obj'};
     cand_csv = fullfile(out_dir, 'per_candidate_detail.csv');
     write_csv(cand_csv, cand_headers, all_cand_rows);
     fprintf('Wrote: %s\n', cand_csv);
@@ -201,7 +210,8 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
         'acc_S_mean', 'acc_S_std', ...
         'acc_F_conflict_mean', 'acc_S_conflict_mean', ...
         'p_err_F_mean', 'p_err_S_mean', ...
-        'sel_overlap_FS_mean', 'sel_only_F_mean', 'sel_only_S_mean' ...
+        'sel_overlap_FS_mean', 'sel_only_F_mean', 'sel_only_S_mean', ...
+        'acc_F_nn_mean', 'acc_S_nn_mean', 'label_agree_real_nn_mean', 'has_real_obj_pct' ...
     }, ','));
 
     % 按问题分组
@@ -224,6 +234,7 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
         p_true = []; p_conflict = []; p_abstain = []; p_subwin = [];
         p_cand_F = []; p_cand_S = [];
         p_tildeS_F = []; p_tildeS_S = [];
+        p_true_nn = []; p_has_real = [];
         runs = [];
         gen_list = [];
 
@@ -244,6 +255,18 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
             p_tildeS_S(end+1) = cr{11}; %#ok<AGROW>
             runs(end+1) = cr{3}; %#ok<AGROW>
             gen_list(end+1) = cr{4}; %#ok<AGROW>
+
+            % NN baseline 字段（旧数据缺失则为 NaN/0）
+            if ncol >= 23
+                p_true_nn(end+1) = cr{23}; %#ok<AGROW>
+            else
+                p_true_nn(end+1) = NaN; %#ok<AGROW>
+            end
+            if ncol >= 24
+                p_has_real(end+1) = cr{24}; %#ok<AGROW>
+            else
+                p_has_real(end+1) = 0; %#ok<AGROW>
+            end
 
             % 安全获取冲突类型（兼容21列和22列）
             ct = get_ctype_safe(cr, ncol);
@@ -285,7 +308,18 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
             end
         end
 
-        fprintf(fid, '%s,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', ...
+        % NN baseline 准确率（与 NN 假冒 ground truth 对比）
+        nn_valid = ~isnan(p_true_nn);
+        if any(nn_valid)
+            acc_F_nn = mean(sign(p_mu_F(nn_valid)) == p_true_nn(nn_valid));
+            acc_S_nn = mean(sign(p_mu_S(nn_valid)) == p_true_nn(nn_valid));
+            label_agree_real_nn = mean(p_true(nn_valid) == p_true_nn(nn_valid));
+        else
+            acc_F_nn = NaN; acc_S_nn = NaN; label_agree_real_nn = NaN;
+        end
+        has_real_pct = mean(p_has_real) * 100;
+
+        fprintf(fid, '%s,%d,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.2f\n', ...
             pname, Mval, n_runs, n_gens, numel(p_mu_F), ...
             mean(sign(p_mu_F) == sign(p_mu_S)), std(sign(p_mu_F) == sign(p_mu_S)), ...
             mean(p_conflict), std(double(p_conflict)), ...
@@ -295,7 +329,8 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
             acc_F, 0, acc_S, 0, ...
             acc_F_c, acc_S_c, ...
             mean(p_err_F_vals), mean(p_err_S_vals), ...
-            mean(sel_F & sel_S), mean(sel_F & ~sel_S), mean(sel_S & ~sel_F));
+            mean(sel_F & sel_S), mean(sel_F & ~sel_S), mean(sel_S & ~sel_F), ...
+            acc_F_nn, acc_S_nn, label_agree_real_nn, has_real_pct);
     end
     fclose(fid);
 end
