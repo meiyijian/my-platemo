@@ -257,13 +257,14 @@ function write_cross_problem_summary(fpath, cand_rows, gen_rows)
             gen_list(end+1) = cr{4}; %#ok<AGROW>
 
             % NN baseline 字段（旧数据缺失则为 NaN/0）
-            if ncol >= 23
-                p_true_nn(end+1) = cr{23}; %#ok<AGROW>
+            % 新格式 23 列：21=conflict_type, 22=true_quality_nn, 23=has_real_obj
+            if ncol >= 22
+                p_true_nn(end+1) = cr{22}; %#ok<AGROW>
             else
                 p_true_nn(end+1) = NaN; %#ok<AGROW>
             end
-            if ncol >= 24
-                p_has_real(end+1) = cr{24}; %#ok<AGROW>
+            if ncol >= 23
+                p_has_real(end+1) = cr{23}; %#ok<AGROW>
             else
                 p_has_real(end+1) = 0; %#ok<AGROW>
             end
@@ -687,14 +688,13 @@ end
 
 function ct = get_ctype_safe(cr, ncol)
 % get_ctype_safe - 安全获取冲突类型字符串。
-% 兼容 cand_row 有 21 列（旧数据）或 22 列（新数据）的情况。
-% 当只有21列时，通过 sign_F 和 sign_S 推断冲突类型。
-    if ncol >= 22
-        val = cr{22};
+% conflict_type 在 cand_row 中是第 21 个字段（无论是旧 21 列格式
+% 还是新 23 列格式，conflict_type 都在 21）。
+    if ncol >= 21
+        val = cr{21};
         if ischar(val) || isstring(val)
             ct = char(val);
         elseif islogical(val) || isnumeric(val)
-            % 旧CSV中被写成 0/1 数值
             if val == 0
                 ct = 'agree';
             else
@@ -704,7 +704,7 @@ function ct = get_ctype_safe(cr, ncol)
             ct = 'agree';
         end
     elseif ncol >= 15
-        % 用 sign_F(14) 和 sign_S(15) 推断
+        % 极老格式：用 sign_F(14) 和 sign_S(15) 推断
         sf = cr{14};
         ss = cr{15};
         if isnumeric(sf) && isnumeric(ss)
