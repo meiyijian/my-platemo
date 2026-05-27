@@ -110,6 +110,15 @@ function rec = compute_dualnet_metrics(Problem, Population, Candidates, Smodel, 
     [dominated_by_pop_nn, dominates_pop_nn, true_quality_nn] = ...
         computePopDominance(CandObj_nn, PopObj);
 
+    % --- 消融 A：子空间下的真实 Pareto 支配（同源评估 S 网络）---
+    % 把候选解和种群都投影到 S_easy 子目标空间，再做支配判定。
+    % 这样 S 网络的"考卷"就和它的"训练课程"一致了，消除评估口径不公平。
+    S_easy_vec_local = double(Smodel.S_easy(:)');
+    CandObjSub = CandObj_real(:, S_easy_vec_local);
+    PopObjSub  = PopObj(:, S_easy_vec_local);
+    [dominated_by_pop_sub, dominates_pop_sub, true_quality_S] = ...
+        computePopDominance(CandObjSub, PopObjSub);
+
     % ===================================================================
     % 第四步：PBI分类标签（全目标和子目标）
     % ===================================================================
@@ -172,6 +181,9 @@ function rec = compute_dualnet_metrics(Problem, Population, Candidates, Smodel, 
     rec.dominates_pop    = dominates_pop;
     rec.nondominated     = nondominated;
     rec.true_quality     = true_quality;            % 基于真值（主）
+    rec.true_quality_S   = true_quality_S;          % 基于子空间真值（消融A，同源评估S网络）
+    rec.dominated_by_pop_sub = dominated_by_pop_sub;
+    rec.dominates_pop_sub    = dominates_pop_sub;
     rec.true_quality_nn  = true_quality_nn;         % 基于 NN 估计（对比基线）
     rec.has_real_obj     = has_real;
 
@@ -198,6 +210,11 @@ function rec = compute_dualnet_metrics(Problem, Population, Candidates, Smodel, 
     % 同时记录 NN 基线下的准确率，便于评估 NN 估计偏差
     rec.stat_acc_F_nn = mean(sign(mu_F) == true_quality_nn);
     rec.stat_acc_S_nn = mean(sign(mu_S) == true_quality_nn);
+    % 消融A：在 S 网络原生子空间下的同源准确率
+    rec.stat_acc_F_sub = mean(sign(mu_F) == true_quality_S);
+    rec.stat_acc_S_sub = mean(sign(mu_S) == true_quality_S);
+    % 全空间标签 vs 子空间标签的一致率（衡量两个任务有多不一样）
+    rec.stat_label_agree_full_sub = mean(true_quality == true_quality_S);
     % NN 与真值在标签层面的一致率（衡量 NN 假冒 ground truth 的质量）
     rec.stat_label_agree_real_nn = mean(true_quality == true_quality_nn);
 

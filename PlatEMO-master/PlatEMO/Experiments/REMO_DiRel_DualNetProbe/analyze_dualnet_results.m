@@ -76,6 +76,17 @@ function analyze_dualnet_results(varargin)
                 else
                     tq_nn_vec = nan(nC, 1);
                 end
+                % 消融 A：子空间真值（同源评估 S 网络）。
+                % 新格式直接读字段；旧 .mat 用 CandObj_real + S_easy + PopObj 现算。
+                if isfield(pd, 'true_quality_S')
+                    tq_S_vec = pd.true_quality_S;
+                elseif isfield(pd, 'CandObj_real') && isfield(pd, 'S_easy') && isfield(pd, 'PopObj')
+                    Se = double(pd.S_easy(:)');
+                    tq_S_vec = local_subspace_true_quality( ...
+                        pd.CandObj_real(:, Se), pd.PopObj(:, Se));
+                else
+                    tq_S_vec = nan(nC, 1);
+                end
                 for ci = 1:nC
                     % 确定冲突类型
                     if pd.abstain(ci)
@@ -97,7 +108,8 @@ function analyze_dualnet_results(varargin)
                         pd.dominated_by_pop(ci), pd.dominates_pop(ci), ...
                         pd.Catalog_cand_F(ci), pd.Catalog_cand_S(ci), ...
                         ctype, ...
-                        tq_nn_vec(ci), double(has_real_obj)};
+                        tq_nn_vec(ci), double(has_real_obj), ...
+                        tq_S_vec(ci)};
                     all_cand_rows{end+1} = cand_row; %#ok<AGROW>
                 end
             end
@@ -127,7 +139,8 @@ function analyze_dualnet_results(varargin)
                     'dominated_by_pop', 'dominates_pop', ...
                     'catalog_F', 'catalog_S', ...
                     'conflict_type', ...
-                    'true_quality_nn', 'has_real_obj'};
+                    'true_quality_nn', 'has_real_obj', ...
+                    'true_quality_S'};
     cand_csv = fullfile(out_dir, 'per_candidate_detail.csv');
     write_csv(cand_csv, cand_headers, all_cand_rows);
     fprintf('Wrote: %s\n', cand_csv);
@@ -145,6 +158,14 @@ function analyze_dualnet_results(varargin)
     conflict_csv = fullfile(out_dir, 'conflict_analysis.csv');
     write_conflict_analysis(conflict_csv, all_cand_rows);
     fprintf('Wrote: %s\n', conflict_csv);
+
+    % ================================================================
+    % CSV 5: 子空间消融分析（消融 A）
+    % S 网络在其原生子目标空间下的同源评估，破除评估口径不一致问题。
+    % ================================================================
+    subspace_csv = fullfile(out_dir, 'subspace_ablation.csv');
+    write_subspace_ablation(subspace_csv, all_cand_rows);
+    fprintf('Wrote: %s\n', subspace_csv);
 
     % ================================================================
     % 图表
@@ -719,4 +740,147 @@ function ct = get_ctype_safe(cr, ncol)
     else
         ct = 'agree';
     end
+end
+
+
+%% ========================================================================
+%  消融 A：子空间真值评估
+%  ========================================================================
+
+function write_subspace_ablation(fpath, cand_rows)
+% write_subspace_ablation - 把 S 网络放回它训练的子空间评估，对照全空间评估。
+%
+% 输出列（每行对应一个 (problem, M) 组合）：
+%   acc_F_full / acc_S_full : 在全 M 目标 Pareto 真值下的准确率（旧口径）
+%   acc_F_sub  / acc_S_sub  : 在 S_easy 子空间 Pareto 真值下的准确率（同源）
+%   delta_S_sub_vs_full     : acc_S_sub - acc_S_full，S 网络受益多少
+%   delta_F_vs_S_full       : acc_F_full - acc_S_full，旧口径下 F 比 S 强多少
+%   delta_S_vs_F_sub        : acc_S_sub - acc_F_sub，公平比较时 S 是否反超
+%   label_agree_full_sub    : 全空间标签 vs 子空间标签一致率（两任务有多近）
+%   acc_S_sub_{agree,conflict,subwin} : 按冲突类型切片的子空间准确率
+
+    fid = fopen(fpath, 'w');
+    fprintf(fid, '%s\n', strjoin({...
+        'problem', 'M', 'n_candidates', 'n_valid', ...
+        'acc_F_full', 'acc_F_sub', ...
+        'acc_S_full', 'acc_S_sub', ...
+        'delta_S_sub_vs_full', ...
+        'delta_F_vs_S_full', 'delta_S_vs_F_sub', ...
+        'label_agree_full_sub', ...
+        'acc_S_sub_agree', 'acc_S_sub_conflict', 'acc_S_sub_subwin' ...
+    }, ','));
+
+    % 按 (problem, M) 分组
+    problems = {};
+    for i = 1:numel(cand_rows)
+        key = sprintf('%s_M%d', cand_rows{i}{1}, cand_rows{i}{2});
+        if ~ismember(key, problems)
+            problems{end+1} = key; %#ok<AGROW>
+        end
+    end
+
+    for pi = 1:numel(problems)
+        key = problems{pi};
+        tokens = regexp(key, '(\w+)_M(\d+)', 'tokens');
+        pname = tokens{1}{1};
+        Mval = str2double(tokens{1}{2});
+
+        mu_F = []; mu_S = []; tq_full = []; tq_sub = [];
+        has_real = []; ctype = {};
+
+        for ci = 1:numel(cand_rows)
+            cr = cand_rows{ci};
+            if ~strcmp(cr{1}, pname) || cr{2} ~= Mval
+                continue;
+            end
+            ncol = numel(cr);
+            if ncol < 24
+                continue;  % 旧格式无子空间真值
+            end
+            mu_F(end+1) = cr{6}; %#ok<AGROW>
+            mu_S(end+1) = cr{9}; %#ok<AGROW>
+            tq_full(end+1) = cr{16}; %#ok<AGROW>
+            tq_sub(end+1) = cr{24}; %#ok<AGROW>
+            if ncol >= 23
+                has_real(end+1) = cr{23}; %#ok<AGROW>
+            else
+                has_real(end+1) = 0; %#ok<AGROW>
+            end
+            ctype{end+1} = get_ctype_safe(cr, ncol); %#ok<AGROW>
+        end
+
+        if isempty(mu_F)
+            continue;
+        end
+
+        % 只保留有真值且子空间真值非 NaN 的样本
+        valid = (has_real > 0) & ~isnan(tq_sub);
+        if ~any(valid)
+            fprintf(fid, '%s,%d,%d,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN\n', ...
+                pname, Mval, numel(mu_F));
+            continue;
+        end
+
+        muF = mu_F(valid);
+        muS = mu_S(valid);
+        tF  = tq_full(valid);
+        tS  = tq_sub(valid);
+        ct_v = ctype(valid);
+
+        acc_F_full = mean(sign(muF) == tF);
+        acc_F_sub  = mean(sign(muF) == tS);
+        acc_S_full = mean(sign(muS) == tF);
+        acc_S_sub  = mean(sign(muS) == tS);
+
+        delta_S_sub_full = acc_S_sub - acc_S_full;
+        delta_F_S_full   = acc_F_full - acc_S_full;
+        delta_S_F_sub    = acc_S_sub - acc_F_sub;
+        label_agree      = mean(tF == tS);
+
+        % 按冲突类型切片
+        conf_mask = strcmp(ct_v, 'conflict');
+        subw_mask = strcmp(ct_v, 'subwin');
+        agr_mask  = strcmp(ct_v, 'agree');
+        if any(agr_mask)
+            acc_S_sub_agree = mean(sign(muS(agr_mask)) == tS(agr_mask));
+        else
+            acc_S_sub_agree = NaN;
+        end
+        if any(conf_mask)
+            acc_S_sub_conflict = mean(sign(muS(conf_mask)) == tS(conf_mask));
+        else
+            acc_S_sub_conflict = NaN;
+        end
+        if any(subw_mask)
+            acc_S_sub_subwin = mean(sign(muS(subw_mask)) == tS(subw_mask));
+        else
+            acc_S_sub_subwin = NaN;
+        end
+
+        fprintf(fid, '%s,%d,%d,%d,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f,%.4f\n', ...
+            pname, Mval, numel(mu_F), sum(valid), ...
+            acc_F_full, acc_F_sub, acc_S_full, acc_S_sub, ...
+            delta_S_sub_full, delta_F_S_full, delta_S_F_sub, label_agree, ...
+            acc_S_sub_agree, acc_S_sub_conflict, acc_S_sub_subwin);
+    end
+    fclose(fid);
+end
+
+
+function tq = local_subspace_true_quality(CandObj, PopObj)
+% local_subspace_true_quality - 在给定的（已投影到子空间的）目标值上计算
+% 候选解 vs 种群的 Pareto 支配真值。
+% 返回 nCand×1 列向量：-1=被种群支配；+1=支配或互不支配。
+    nCand = size(CandObj, 1);
+    dominated = false(nCand, 1);
+    dominates = false(nCand, 1);
+    for i = 1:nCand
+        diff = PopObj - CandObj(i, :);
+        % ci 支配 pj: all(ci<=pj) && any(ci<pj)  →  all(diff>=0) && any(diff>0)
+        dominates(i) = any(all(diff >= 0, 2) & any(diff > 0, 2));
+        % pj 支配 ci: all(pj<=ci) && any(pj<ci)  →  all(diff<=0) && any(diff<0)
+        dominated(i) = any(all(diff <= 0, 2) & any(diff < 0, 2));
+    end
+    tq = ones(nCand, 1);
+    tq(dominated & ~dominates) = -1;
 end
