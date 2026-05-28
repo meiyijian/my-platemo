@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMO算法详解 - 昂贵多目标优化的关系学习方法</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header .meta {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title .icon {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--success-color);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-left: 5px solid var(--warning-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 5px solid var(--success-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .danger-box {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-left: 5px solid var(--danger-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .formula-box {
+            background: #f1f5f9;
+            border: 2px dashed #94a3b8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+        }
+
+        .flow-chart {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .flow-step .step-num {
+            background: var(--primary-color);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .flow-step .step-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .flow-step .step-desc {
+            font-size: 0.85em;
+            color: #64748b;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .module-card .module-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .module-card .module-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+        }
+
+        .module-card .module-title {
+            font-size: 1.3em;
+            color: var(--text-color);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #86efac;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 2px solid #fca5a5;
+        }
+
+        .pros h4, .cons h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pros h4 {
+            color: #166534;
+        }
+
+        .cons h4 {
+            color: #991b1b;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .comparison-table tr:hover {
+            background: #e0f2fe;
+        }
+
+        .improvement-card {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+            border: 2px solid #d946ef;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .improvement-card h4 {
+            color: #a21caf;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #94a3b8;
+        }
+
+        .code-keyword {
+            color: #7dd3fc;
+        }
+
+        .code-string {
+            color: #86efac;
+        }
+
+        .diagram-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .neural-net-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .layer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .neuron {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-neuron {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .hidden-neuron {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .output-neuron {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .layer-label {
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .arrow-right {
+            font-size: 3em;
+            color: #94a3b8;
+        }
+
+        .example-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 2px solid #34d399;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .example-box h4 {
+            color: #065f46;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px;
+        }
+
+        .tag.green { background: var(--success-color); }
+        .tag.orange { background: var(--warning-color); }
+        .tag.red { background: var(--danger-color); }
+        .tag.purple { background: var(--secondary-color); }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .footer a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .neural-net-diagram {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .arrow-right {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>🧠 REMO算法详解</h1>
+            <p class="subtitle">
+                <strong>Relation learning and prediction for Expensive Multiobjective Optimization</strong>
+                <br>
+                一种基于关系学习的昂贵多目标优化方法
+            </p>
+            <div class="meta">
+                <span class="meta-item">📅 2022年发表</span>
+                <span class="meta-item">🎯 多/超多目标优化</span>
+                <span class="meta-item">📊 实数优化</span>
+                <span class="meta-item">⚡ 昂贵问题</span>
+            </div>
+        </div>
+
+        <!-- 第一部分：算法概述 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📖</span>
+                一、算法概述
+            </h2>
+
+            <h3>1.1 什么是REMO？</h3>
+            <p>
+                REMO（<strong>R</strong>elation learning for <strong>E</strong>xpensive <strong>M</strong>ultiobjective <strong>O</strong>ptimization）是一种专门解决<strong>昂贵多目标优化问题</strong>的智能算法。
+            </p>
+
+            <div class="highlight-box">
+                <h4>💡 什么是"昂贵"优化问题？</h4>
+                <p>想象你要设计一架飞机，每次评估设计方案需要运行一次完整的CFD仿真（流体力学计算），一次仿真可能需要几小时甚至几天。这就是"昂贵"问题——每次评估都要付出巨大代价。</p>
+                <p><strong>核心挑战</strong>：如何在有限的评估次数内，找到最好的设计方案？</p>
+            </div>
+
+            <h3>1.2 核心思想：关系学习</h3>
+            <p>传统方法直接预测"这个解好不好"，而REMO换个思路：</p>
+
+            <div class="success-box">
+                <h4>🎯 关系学习的妙处</h4>
+                <p>不预测绝对好坏，而是预测<strong>"两个解谁更好"</strong>（相对关系）。</p>
+                <p>就像考试不预测分数，而是预测"A同学比B同学考得好还是差"——这种比较更容易判断！</p>
+            </div>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ 优点</h4>
+                    <ul>
+                        <li>不需要知道真实的目标函数值</li>
+                        <li>只需要比较两个解的优劣关系</li>
+                        <li>关系标签更容易获取和学习</li>
+                        <li>对噪声和不确定性更鲁棒</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ 缺点</h4>
+                    <ul>
+                        <li>需要构造大量的关系对</li>
+                        <li>计算复杂度较高（O(n²)）</li>
+                        <li>对高维问题效果可能下降</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二部分：算法流程 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔄</span>
+                二、算法整体流程
+            </h2>
+
+            <div class="flow-chart">
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-num">1</div>
+                        <div class="step-title">初始化</div>
+                        <div class="step-desc">拉丁超立方采样<br>生成初始种群</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">2</div>
+                        <div class="step-title">选择参考解</div>
+                        <div class="step-desc">RSEA策略<br>选出k个代表性解</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">3</div>
+                        <div class="step-title">PBI分类</div>
+                        <div class="step-desc">基于参考解<br>将解分为"好/不好"</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">4</div>
+                        <div class="step-title">构造关系对</div>
+                        <div class="step-desc">两两配对<br>生成训练数据</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">5</div>
+                        <div class="step-title">训练神经网络</div>
+                        <div class="step-desc">学习解之间的<br>优劣关系</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">6</div>
+                        <div class="step-title">代理模型辅助选择</div>
+                        <div class="step-desc">GA生成候选解<br>模型筛选优秀解</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">7</div>
+                        <div class="step-title">真实评估</div>
+                        <div class="step-desc">昂贵函数评估<br>更新存档</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔑 关键理解</h4>
+                <p>REMO的核心循环是：用少量真实评估的解训练关系模型 → 用模型在大量候选解中筛选出最有潜力的几个 → 对这几个进行真实评估 → 重复。</p>
+                <p>这样可以用<strong>10次</strong>代理模型评估代替<strong>1次</strong>真实评估，大大节省了计算资源！</p>
+            </div>
+        </div>
+
+        <!-- 第三部分：各模块详解 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔧</span>
+                三、各模块详细解析
+            </h2>
+
+            <!-- 模块1：拉丁超立方采样初始化 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🎲</div>
+                    <div class="module-title">模块1：拉丁超立方采样初始化</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>用<strong>拉丁超立方采样</strong>（Latin Hypercube Sampling, LHS）生成初始种群，确保样本均匀覆盖整个决策空间。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>假设你要在一片正方形区域内撒100个点：</p>
+                    <ul>
+                        <li><strong>随机撒点</strong>：可能东一坨西一坨，分布不均匀</li>
+                        <li><strong>拉丁超立方</strong>：把区域分成100个小格子，每个格子里撒一个点，保证全覆盖</li>
+                    </ul>
+                </div>
+
+                <div class="diagram-container">
+                    <h4>拉丁超立方采样示意图</h4>
+                    <svg width="500" height="300" viewBox="0 0 500 300">
+                        <!-- 网格 -->
+                        <defs>
+                            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                                <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e2e8f0" stroke-width="1"/>
+                            </pattern>
+                        </defs>
+                        <rect width="400" height="250" x="50" y="25" fill="url(#grid)"/>
+
+                        <!-- 随机采样点（左） -->
+                        <text x="150" y="15" text-anchor="middle" font-weight="bold" fill="#dc2626">随机采样</text>
+                        <circle cx="80" cy="50" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="95" cy="65" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="110" cy="45" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="125" cy="80" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="90" cy="90" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="200" cy="180" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="210" cy="195" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="195" cy="200" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="180" cy="210" r="6" fill="#dc2626" opacity="0.8"/>
+                        <circle cx="220" cy="185" r="6" fill="#dc2626" opacity="0.8"/>
+
+                        <!-- 拉丁超立方采样点（右） -->
+                        <text x="350" y="15" text-anchor="middle" font-weight="bold" fill="#059669">拉丁超立方采样</text>
+                        <circle cx="280" cy="50" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="320" cy="90" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="360" cy="130" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="400" cy="170" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="440" cy="210" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="300" cy="250" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="340" cy="60" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="380" cy="100" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="420" cy="140" r="6" fill="#059669" opacity="0.8"/>
+                        <circle cx="460" cy="180" r="6" fill="#059669" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <h4>代码逻辑</h4>
+                <div class="code-block">
+                    <span class="code-comment">% 确定初始种群大小</span><br>
+                    <span class="code-keyword">if</span> Problem.D <= 10<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;N = 11*Problem.D - 1;  <span class="code-comment">% 低维：11D-1个</span><br>
+                    <span class="code-keyword">else</span><br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;N = 100;  <span class="code-comment">% 高维：固定100个</span><br>
+                    <span class="code-keyword">end</span><br>
+                    <br>
+                    <span class="code-comment">% 拉丁超立方采样</span><br>
+                    PopDec = UniformPoint(N, Problem.D, 'Latin');<br>
+                    <br>
+                    <span class="code-comment">% 映射到实际变量范围</span><br>
+                    Population = Problem.Evaluation(...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;repmat(Problem.upper-Problem.lower, N, 1) .* PopDec + ...<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;repmat(Problem.lower, N, 1));
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>保证初始种群均匀分布</li>
+                            <li>覆盖整个决策空间</li>
+                            <li>比纯随机采样更高效</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>种群大小固定，可能不适应不同问题</li>
+                            <li><strong>改进</strong>：可自适应调整种群大小</li>
+                            <li><strong>改进</strong>：可结合问题特性优化采样策略</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块2：参考解选择 (RefSelect) -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">⭐</div>
+                    <div class="module-title">模块2：参考解选择（RefSelect）</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>从当前种群中选出<strong>k个代表性解</strong>作为参考解，用于后续的关系对构造。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>参考解就像"代表"：</p>
+                    <ul>
+                        <li>假设班级有100个同学，要选6个代表</li>
+                        <li>代表要覆盖不同类型：学习最好的、体育最好的、文艺最好的...</li>
+                        <li>这样通过比较同学们和这6个代表的关系，就能大致了解每个同学的水平</li>
+                    </ul>
+                </div>
+
+                <h4>选择策略：RSEA（雷达网格策略）</h4>
+                <div class="flow-chart">
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-title">非支配排序</div>
+                            <div class="step-desc">按Pareto前沿<br>分层筛选</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-title">目标归一化</div>
+                            <div class="step-desc">将目标值映射到<br>[0,1]范围</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-title">雷达网格映射</div>
+                            <div class="step-desc">将M维目标<br>映射到2D雷达图</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-title">环境选择</div>
+                            <div class="step-desc">兼顾收敛性<br>和多样性</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🎯 雷达网格的核心思想</h4>
+                    <p>雷达网格把多维目标空间投影到2D平面上，就像把地球投影到地图上一样。然后在2D平面上划分网格，保证选出的参考解在各个网格中都有分布，这样就能覆盖整个Pareto前沿。</p>
+                </div>
+
+                <h4>关键公式</h4>
+                <div class="formula-box">
+                    <strong>适应度 = 0.1 × M × 收敛性 - 最小距离</strong>
+                    <br><br>
+                    选择适应度最小的解：既收敛好（值小），又远离已选解（距离大）
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>兼顾收敛性和多样性</li>
+                            <li>保证极端解被选中</li>
+                            <li>自适应调整网格精度</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>雷达网格投影可能损失信息</li>
+                            <li>高维问题网格划分困难</li>
+                            <li><strong>改进</strong>：可引入自适应网格策略</li>
+                            <li><strong>改进</strong>：可结合聚类方法</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块3：PBI分类 (GetOutput_PBI) -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📊</div>
+                    <div class="module-title">模块3：PBI分类（GetOutput_PBI）</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>基于<strong>PBI（Penalty-based Boundary Intersection）</strong>方法，将种群中的解分为"好"和"不好"两类。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>想象你站在原点（理想点），面前有很多条路（参考方向）：</p>
+                    <ul>
+                        <li>每条路上都有行人（解）</li>
+                        <li>PBI会判断每个行人是否在某条路的"合理范围"内</li>
+                        <li>在范围内的是"好解"，超出范围的是"不好解"</li>
+                    </ul>
+                </div>
+
+                <div class="diagram-container">
+                    <h4>PBI分类示意图</h4>
+                    <svg width="500" height="350" viewBox="0 0 500 350">
+                        <!-- 坐标轴 -->
+                        <line x1="50" y1="300" x2="450" y2="300" stroke="#1e293b" stroke-width="2"/>
+                        <line x1="50" y1="300" x2="50" y2="50" stroke="#1e293b" stroke-width="2"/>
+                        <text x="250" y="340" text-anchor="middle" font-weight="bold">目标1</text>
+                        <text x="20" y="175" text-anchor="middle" font-weight="bold" transform="rotate(-90, 20, 175)">目标2</text>
+
+                        <!-- 理想点 -->
+                        <circle cx="50" cy="300" r="8" fill="#2563eb"/>
+                        <text x="30" y="320" font-size="12" fill="#2563eb">理想点Z</text>
+
+                        <!-- 参考解 -->
+                        <circle cx="350" cy="100" r="10" fill="#dc2626"/>
+                        <text x="360" y="95" font-weight="bold" fill="#dc2626">参考解R</text>
+
+                        <!-- 参考方向 -->
+                        <line x1="50" y1="300" x2="350" y2="100" stroke="#dc2626" stroke-width="2" stroke-dasharray="10,5"/>
+
+                        <!-- PBI区域 -->
+                        <path d="M 50 300 L 200 200 Q 250 180 300 200 L 350 100 L 400 150 Q 350 200 300 250 Z" fill="#059669" fill-opacity="0.2"/>
+
+                        <!-- 好解（在区域内） -->
+                        <circle cx="200" cy="180" r="6" fill="#059669"/>
+                        <circle cx="250" cy="150" r="6" fill="#059669"/>
+                        <circle cx="300" cy="120" r="6" fill="#059669"/>
+                        <text x="310" y="135" fill="#059669" font-size="12">好解</text>
+
+                        <!-- 不好解（在区域外） -->
+                        <circle cx="280" cy="250" r="6" fill="#dc2626"/>
+                        <circle cx="180" cy="260" r="6" fill="#dc2626"/>
+                        <circle cx="380" cy="200" r="6" fill="#dc2626"/>
+                        <text x="390" y="215" fill="#dc2626" font-size="12">不好解</text>
+
+                        <!-- d1和d2标注 -->
+                        <line x1="250" y1="150" x2="200" y2="200" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="215" y="170" fill="#7c3aed" font-size="12">d₂(垂直距离)</text>
+                        <line x1="50" y1="300" x2="200" y2="200" stroke="#d97706" stroke-width="2"/>
+                        <text x="100" y="260" fill="#d97706" font-size="12">d₁(投影距离)</text>
+                    </svg>
+                </div>
+
+                <h4>PBI公式</h4>
+                <div class="formula-box">
+                    <strong>PBI值 = d₁ + δ × d₂</strong>
+                    <br><br>
+                    其中：<br>
+                    d₁ = 解在参考方向上的投影距离（沿参考方向）<br>
+                    d₂ = 解偏离参考方向的垂直距离（惩罚项）<br>
+                    δ = 惩罚参数（控制好解区域的宽度）
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🔑 自适应惩罚参数</h4>
+                    <p>REMO使用二分法自动调整δ值，使得"好解"的比例保持在30%~70%之间。这样可以避免：</p>
+                    <ul>
+                        <li>δ太大：几乎所有解都是"好解"，分类没有意义</li>
+                        <li>δ太小：几乎所有解都是"不好解"，训练数据不均衡</li>
+                    </ul>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>自适应调整分类阈值</li>
+                            <li>保证训练数据均衡</li>
+                            <li>基于分解思想，适合多目标</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>依赖参考解的质量</li>
+                            <li>PBI可能丢失边界解</li>
+                            <li><strong>改进</strong>：可结合其他分解方法（如Tchebycheff）</li>
+                            <li><strong>改进</strong>：可引入模糊分类</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块4：关系对构造 (GetRelationPairs) -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔗</div>
+                    <div class="module-title">模块4：关系对构造（GetRelationPairs）</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>将解两两配对，生成训练关系模型所需的<strong>关系对数据</strong>。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>关系对就像"比较题"：</p>
+                    <ul>
+                        <li>题目：[解A, 解B]</li>
+                        <li>答案：A比B好(+1) / 一样好(0) / A比B差(-1)</li>
+                        <li>通过大量这样的"比较题"，模型就能学会判断两个解谁更好</li>
+                    </ul>
+                </div>
+
+                <h4>四种关系对类型</h4>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>组合方式</th>
+                            <th>标签</th>
+                            <th>含义</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag green">C1-C2</span></td>
+                            <td>好解 vs 不好解</td>
+                            <td><strong>+1</strong></td>
+                            <td>好解优于不好解</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag red">C2-C1</span></td>
+                            <td>不好解 vs 好解</td>
+                            <td><strong>-1</strong></td>
+                            <td>不好解劣于好解</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">C1-C1</span></td>
+                            <td>好解 vs 好解</td>
+                            <td><strong>0</strong></td>
+                            <td>两者质量相当</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">C2-C2</span></td>
+                            <td>不好解 vs 不好解</td>
+                            <td><strong>0</strong></td>
+                            <td>两者质量相当</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="diagram-container">
+                    <h4>关系对构造示意图</h4>
+                    <svg width="600" height="250" viewBox="0 0 600 250">
+                        <!-- 好解集合 -->
+                        <rect x="50" y="50" width="200" height="150" rx="20" fill="#dcfce7" stroke="#059669" stroke-width="3"/>
+                        <text x="150" y="45" text-anchor="middle" font-weight="bold" fill="#059669">好解集合 C1</text>
+                        <circle cx="100" cy="100" r="15" fill="#059669" opacity="0.6"/>
+                        <circle cx="150" cy="120" r="15" fill="#059669" opacity="0.6"/>
+                        <circle cx="200" cy="90" r="15" fill="#059669" opacity="0.6"/>
+
+                        <!-- 不好解集合 -->
+                        <rect x="350" y="50" width="200" height="150" rx="20" fill="#fee2e2" stroke="#dc2626" stroke-width="3"/>
+                        <text x="450" y="45" text-anchor="middle" font-weight="bold" fill="#dc2626">不好解集合 C2</text>
+                        <circle cx="400" cy="100" r="15" fill="#dc2626" opacity="0.6"/>
+                        <circle cx="450" cy="130" r="15" fill="#dc2626" opacity="0.6"/>
+                        <circle cx="500" cy="110" r="15" fill="#dc2626" opacity="0.6"/>
+
+                        <!-- 关系对箭头 -->
+                        <line x1="250" y1="100" x2="350" y2="100" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="300" y="90" text-anchor="middle" font-weight="bold" fill="#1e293b">+1</text>
+
+                        <line x1="350" y1="150" x2="250" y2="150" stroke="#1e293b" stroke-width="2" marker-end="url(#arrow)"/>
+                        <text x="300" y="170" text-anchor="middle" font-weight="bold" fill="#1e293b">-1</text>
+
+                        <line x1="100" y1="180" x2="200" y2="180" stroke="#1e293b" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="150" y="210" text-anchor="middle" font-weight="bold" fill="#1e293b">0</text>
+
+                        <line x1="400" y1="180" x2="500" y2="180" stroke="#1e293b" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="450" y="210" text-anchor="middle" font-weight="bold" fill="#1e293b">0</text>
+
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e293b"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <h4>数据平衡策略</h4>
+                <div class="highlight-box">
+                    <p>为了防止模型偏向某一类，REMO会平衡各类关系对的数量：</p>
+                    <ul>
+                        <li>以"C1-C2"配对数为基准</li>
+                        <li>如果同类配对太多，随机采样</li>
+                        <li>如果同类配对太少，从另一类补充</li>
+                    </ul>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>构造简单，易于理解</li>
+                            <li>平衡采样避免类别偏斜</li>
+                            <li>关系标签比绝对值更容易学习</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>组合爆炸：O(n²)复杂度</li>
+                            <li>n=100时产生9900个关系对</li>
+                            <li><strong>改进</strong>：REMO_DiRel引入上限采样（pairMax=6000）</li>
+                            <li><strong>改进</strong>：可引入主动学习策略选择最有价值的关系对</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块5：神经网络训练 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🧠</div>
+                    <div class="module-title">模块5：神经网络训练</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>训练一个<strong>三层神经网络</strong>，学习从"关系对输入"到"关系标签"的映射。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>神经网络就像一个"比较专家"：</p>
+                    <ul>
+                        <li><strong>输入</strong>：两个解的决策变量拼接 [x₁, x₂]</li>
+                        <li><strong>输出</strong>：预测两者的关系（+1/0/-1）</li>
+                        <li><strong>训练</strong>：看大量例子，学会判断两个解谁更好</li>
+                    </ul>
+                </div>
+
+                <div class="diagram-container">
+                    <h4>神经网络结构图</h4>
+                    <div class="neural-net-diagram">
+                        <div class="layer">
+                            <div class="layer-label">输入层</div>
+                            <div class="neuron input-neuron">x₁</div>
+                            <div class="neuron input-neuron">x₂</div>
+                            <div class="neuron input-neuron">...</div>
+                            <div class="neuron input-neuron">x₂D</div>
+                            <div style="font-size:0.9em; color:#64748b; margin-top:10px;">2D维（两个解拼接）</div>
+                        </div>
+
+                        <div class="arrow-right">→</div>
+
+                        <div class="layer">
+                            <div class="layer-label">隐藏层1</div>
+                            <div class="neuron hidden-neuron">h₁</div>
+                            <div class="neuron hidden-neuron">h₂</div>
+                            <div class="neuron hidden-neuron">...</div>
+                            <div class="neuron hidden-neuron">hₙ</div>
+                            <div style="font-size:0.9em; color:#64748b; margin-top:10px;">ceil(1.5×2D)个</div>
+                        </div>
+
+                        <div class="arrow-right">→</div>
+
+                        <div class="layer">
+                            <div class="layer-label">隐藏层2</div>
+                            <div class="neuron hidden-neuron">h₁</div>
+                            <div class="neuron hidden-neuron">h₂</div>
+                            <div class="neuron hidden-neuron">...</div>
+                            <div style="font-size:0.9em; color:#64748b; margin-top:10px;">2D个</div>
+                        </div>
+
+                        <div class="arrow-right">→</div>
+
+                        <div class="layer">
+                            <div class="layer-label">隐藏层3</div>
+                            <div class="neuron hidden-neuron">h₁</div>
+                            <div class="neuron hidden-neuron">...</div>
+                            <div style="font-size:0.9em; color:#64748b; margin-top:10px;">ceil(D/2)个</div>
+                        </div>
+
+                        <div class="arrow-right">→</div>
+
+                        <div class="layer">
+                            <div class="layer-label">输出层</div>
+                            <div class="neuron output-neuron">+1</div>
+                            <div class="neuron output-neuron">0</div>
+                            <div class="neuron output-neuron">-1</div>
+                            <div style="font-size:0.9em; color:#64748b; margin-top:10px;">3类（独热编码）</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>训练流程</h4>
+                <div class="flow-chart">
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-title">数据划分</div>
+                            <div class="step-desc">75%训练<br>25%测试</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-title">归一化</div>
+                            <div class="step-desc">映射到[-1,1]<br>mapminmax</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-title">独热编码</div>
+                            <div class="step-desc">+1→[1,0,0]<br>0→[0,1,0]<br>-1→[0,0,1]</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-title">训练网络</div>
+                            <div class="step-desc">patternnet<br>反向传播</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">5</div>
+                            <div class="step-title">评估性能</div>
+                            <div class="step-desc">测试集错误率<br>p_err</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>三层网络足够学习复杂关系</li>
+                            <li>独热编码适合分类任务</li>
+                            <li>归一化加速训练收敛</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>单个网络不稳定（随机初始化）</li>
+                            <li>容易过拟合小样本</li>
+                            <li><strong>改进</strong>：REMO_DiRel引入集成学习（Bagging）</li>
+                            <li><strong>改进</strong>：可引入Dropout或正则化</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块6：代理模型辅助选择 (RSurrogateAssistedSelection) -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🎯</div>
+                    <div class="module-title">模块6：代理模型辅助选择（RSurrogateAssistedSelection）</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>用训练好的关系模型指导遗传算法，从大量候选解中<strong>筛选出最有潜力的解</strong>进行真实评估。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>想象你是一个HR，要从1000个简历中选10个人面试：</p>
+                    <ul>
+                        <li><strong>简历筛选</strong>（代理模型）：快速浏览简历，选出100个看起来不错的</li>
+                        <li><strong>面试</strong>（真实评估）：对这100个进行深入评估，最终选10个</li>
+                        <li>这样比直接面试1000个人高效多了！</li>
+                    </ul>
+                </div>
+
+                <h4>选择流程</h4>
+                <div class="flow-chart">
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-title">GA生成候选解</div>
+                            <div class="step-desc">交叉变异<br>生成大量候选</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">2</div>
+                            <div class="step-title">模型评分</div>
+                            <div class="step-desc">与好解/不好解<br>比较关系</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-title">筛选优秀解</div>
+                            <div class="step-desc">保留得分>3.9<br>的高质量解</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-title">迭代优化</div>
+                            <div class="step-desc">用选中的解<br>继续GA</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>评分机制详解</h4>
+                <div class="highlight-box">
+                    <p>对每个候选解Xi，计算它与已知好解(C1)和不好解(C2)的关系：</p>
+                    <ul>
+                        <li><strong>与好解的关系</strong>：如果Xi比大多数好解都好 → 高分</li>
+                        <li><strong>与不好解的关系</strong>：如果Xi比大多数不好解都好 → 高分</li>
+                        <li><strong>最终得分</strong> = 正类得分 - 负类得分</li>
+                    </ul>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>高效筛选，节省评估次数</li>
+                            <li>GA保证解的多样性</li>
+                            <li>模型指导搜索方向</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>阈值3.9是固定的经验值</li>
+                            <li>评分计算量较大</li>
+                            <li><strong>改进</strong>：可自适应调整阈值</li>
+                            <li><strong>改进</strong>：REMO_DiRel引入仲裁机制</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第四部分：参数设置 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">⚙️</span>
+                四、参数设置
+            </h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>默认值</th>
+                        <th>含义</th>
+                        <th>调整建议</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>k</strong></td>
+                        <td>6</td>
+                        <td>参考解的数量</td>
+                        <td>目标数M大时可增加到8-10</td>
+                    </tr>
+                    <tr>
+                        <td><strong>gmax</strong></td>
+                        <td>3000</td>
+                        <td>代理模型评估预算</td>
+                        <td>问题复杂时可增加</td>
+                    </tr>
+                    <tr>
+                        <td><strong>N</strong></td>
+                        <td>11D-1或100</td>
+                        <td>初始种群大小</td>
+                        <td>通常不需要调整</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 第五部分：优缺点总结 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                五、优缺点总结
+            </h2>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ REMO的优点</h4>
+                    <ul>
+                        <li><strong>关系学习</strong>：不需要预测绝对值，只需要比较关系</li>
+                        <li><strong>代理模型辅助</strong>：用模型筛选，节省真实评估次数</li>
+                        <li><strong>参考解策略</strong>：RSEA保证多样性和收敛性</li>
+                        <li><strong>自适应PBI</strong>：自动调整分类阈值</li>
+                        <li><strong>易于实现</strong>：基于MATLAB神经网络工具箱</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ REMO的缺点</h4>
+                    <ul>
+                        <li><strong>关系对爆炸</strong>：O(n²)复杂度，样本多时计算量大</li>
+                        <li><strong>单网络不稳定</strong>：随机初始化导致结果波动</li>
+                        <li><strong>固定阈值</strong>：评分阈值3.9是经验值</li>
+                        <li><strong>无难度感知</strong>：对所有目标一视同仁</li>
+                        <li><strong>高维挑战</strong>：决策变量维度高时效果下降</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第六部分：改进方向 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🚀</span>
+                六、改进方向（REMO_DiRel的创新）
+            </h2>
+
+            <div class="improvement-card">
+                <h4>💡 创新1：难度感知目标子集选择</h4>
+                <p><strong>问题</strong>：超多目标问题中，不同目标的建模难度差异很大，难目标会拖累易目标。</p>
+                <p><strong>解决方案</strong>：在线评估每个目标的难度，选出最易建模的目标子集进行训练。</p>
+                <p><strong>效果</strong>：子目标建模更准确，训练更快。</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 创新2：双尺度集成网络</h4>
+                <p><strong>问题</strong>：单个神经网络不稳定，容易过拟合。</p>
+                <p><strong>解决方案</strong>：</p>
+                <ul>
+                    <li>训练全目标网络（看全局）</li>
+                    <li>训练子目标网络（看细节）</li>
+                    <li>用Bagging集成多个网络，计算均值和方差</li>
+                </ul>
+                <p><strong>效果</strong>：预测更稳定，方差可用于判断置信度。</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 创新3：逐候选逆方差仲裁</h4>
+                <p><strong>问题</strong>：传统方法用固定权重融合两个模型，不够灵活。</p>
+                <p><strong>解决方案</strong>：对每个候选解，哪个模型更确定（方差小），就更信任它。</p>
+                <p><strong>效果</strong>：自适应融合，冲突时有明确的处理策略。</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 创新4：难度感知GA参数</h4>
+                <p><strong>问题</strong>：固定GA参数无法适应不同难度的搜索阶段。</p>
+                <p><strong>解决方案</strong>：易目标时更局部搜索（exploit），难目标时更全局搜索（explore）。</p>
+                <p><strong>效果</strong>：搜索策略自适应调整，效率更高。</p>
+            </div>
+        </div>
+
+        <!-- 第七部分：参考文献 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📚</span>
+                七、参考文献
+            </h2>
+
+            <div class="highlight-box">
+                <p><strong>原始论文</strong></p>
+                <p>H. Hao, A. Zhou, H. Qian, and H. Zhang. "Expensive multiobjective optimization by relation learning and prediction." <em>IEEE Transactions on Evolutionary Computation</em>, 2022, 26(5): 1157-1170.</p>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>📖 本文档基于REMO算法源码详细解析</p>
+            <p>算法实现：<a href="https://github.com/BIMK/PlatEMO" target="_blank">PlatEMO平台</a></p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">生成日期：2026年5月28日</p>
+        </div>
+    </div>
+</body>
+</html>

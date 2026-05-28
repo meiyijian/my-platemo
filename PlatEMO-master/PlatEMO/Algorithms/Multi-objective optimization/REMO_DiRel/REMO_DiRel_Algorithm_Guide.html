@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMO_DiRel算法详解 - 难度感知的双尺度关系学习方法</title>
+    <style>
+        :root {
+            --primary-color: #7c3aed;
+            --secondary-color: #2563eb;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --pink-color: #ec4899;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #06b6d4 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--pink-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header .meta {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9em;
+        }
+
+        .new-badge {
+            background: linear-gradient(135deg, var(--pink-color), var(--danger-color));
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title .icon {
+            font-size: 1.5em;
+        }
+
+        h3 {
+            font-size: 1.4em;
+            color: var(--secondary-color);
+            margin: 25px 0 15px;
+        }
+
+        h4 {
+            font-size: 1.2em;
+            color: var(--success-color);
+            margin: 20px 0 10px;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border-left: 5px solid var(--warning-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-left: 5px solid var(--success-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .danger-box {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border-left: 5px solid var(--danger-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .pink-box {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border-left: 5px solid var(--pink-color);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .formula-box {
+            background: #f1f5f9;
+            border: 2px dashed #94a3b8;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+        }
+
+        .flow-chart {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+
+        .flow-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            background: white;
+            border: 3px solid var(--primary-color);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 150px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(124, 58, 237, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+        }
+
+        .flow-step.new-feature {
+            border-color: var(--pink-color);
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+        }
+
+        .flow-step .step-num {
+            background: var(--primary-color);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+        }
+
+        .flow-step.new-feature .step-num {
+            background: var(--pink-color);
+        }
+
+        .flow-step .step-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .flow-step.new-feature .step-title {
+            color: var(--pink-color);
+        }
+
+        .flow-step .step-desc {
+            font-size: 0.85em;
+            color: #64748b;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary-color);
+            transform: translateX(10px);
+        }
+
+        .module-card.new-module {
+            border-color: var(--pink-color);
+            background: linear-gradient(135deg, #fdf2f8, #ffffff);
+        }
+
+        .module-card .module-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .module-card .module-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+        }
+
+        .module-card.new-module .module-icon {
+            background: linear-gradient(135deg, var(--pink-color), var(--danger-color));
+        }
+
+        .module-card .module-title {
+            font-size: 1.3em;
+            color: var(--text-color);
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #86efac;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            border: 2px solid #fca5a5;
+        }
+
+        .pros h4, .cons h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pros h4 {
+            color: #166534;
+        }
+
+        .cons h4 {
+            color: #991b1b;
+        }
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        .comparison-table tr:hover {
+            background: #ede9fe;
+        }
+
+        .improvement-card {
+            background: linear-gradient(135deg, #fdf4ff, #fae8ff);
+            border: 2px solid #d946ef;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .improvement-card h4 {
+            color: #a21caf;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+        }
+
+        .innovation-card {
+            background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+            border: 3px solid var(--pink-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .innovation-card h4 {
+            color: #9d174d;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+
+        .code-comment {
+            color: #94a3b8;
+        }
+
+        .code-keyword {
+            color: #7dd3fc;
+        }
+
+        .code-string {
+            color: #86efac;
+        }
+
+        .diagram-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .neural-net-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .layer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .neuron {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-neuron {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+        }
+
+        .hidden-neuron {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .output-neuron {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .dual-net {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .net-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .net-card.full-net {
+            border: 3px solid var(--secondary-color);
+        }
+
+        .net-card.sub-net {
+            border: 3px solid var(--pink-color);
+        }
+
+        .net-card h4 {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .net-card.full-net h4 {
+            color: var(--secondary-color);
+        }
+
+        .net-card.sub-net h4 {
+            color: var(--pink-color);
+        }
+
+        .weight-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .weight-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: white;
+        }
+
+        .weight-circle.full {
+            background: linear-gradient(135deg, var(--secondary-color), #1d4ed8);
+        }
+
+        .weight-circle.sub {
+            background: linear-gradient(135deg, var(--pink-color), #be185d);
+        }
+
+        .weight-plus {
+            font-size: 3em;
+            color: #94a3b8;
+        }
+
+        .weight-equals {
+            font-size: 3em;
+            color: #94a3b8;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin: 5px;
+        }
+
+        .tag.green { background: var(--success-color); }
+        .tag.orange { background: var(--warning-color); }
+        .tag.red { background: var(--danger-color); }
+        .tag.purple { background: var(--secondary-color); }
+        .tag.pink { background: var(--pink-color); }
+
+        .difficulty-meter {
+            background: #e2e8f0;
+            border-radius: 25px;
+            height: 30px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .difficulty-fill {
+            height: 100%;
+            border-radius: 25px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .difficulty-easy {
+            background: linear-gradient(90deg, #059669, #34d399);
+        }
+
+        .difficulty-medium {
+            background: linear-gradient(90deg, #d97706, #fbbf24);
+        }
+
+        .difficulty-hard {
+            background: linear-gradient(90deg, #dc2626, #f87171);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            font-size: 1.1em;
+        }
+
+        .footer a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+
+            .neural-net-diagram {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .dual-net {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>🧠 REMO_DiRel算法详解 <span class="new-badge">NEW</span></h1>
+            <p class="subtitle">
+                <strong>Difficulty-aware Dual-scale Relation Learning for Expensive Multiobjective Optimization</strong>
+                <br>
+                难度感知的双尺度关系学习方法 —— REMO的升级版
+            </p>
+            <div class="meta">
+                <span class="meta-item">📅 2026年发表</span>
+                <span class="meta-item">🎯 超多目标优化</span>
+                <span class="meta-item">📊 实数优化</span>
+                <span class="meta-item">⚡ 昂贵问题</span>
+                <span class="meta-item">🔬 难度感知</span>
+            </div>
+        </div>
+
+        <!-- 第一部分：算法概述 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📖</span>
+                一、算法概述
+            </h2>
+
+            <h3>1.1 什么是REMO_DiRel？</h3>
+            <p>
+                REMO_DiRel是REMO算法的<strong>全面升级版</strong>，专门针对<strong>超多目标优化问题</strong>（目标数M≥4）设计。它引入了三大核心创新：
+            </p>
+
+            <div class="innovation-card">
+                <h4>🎯 三大核心创新</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 15px;">
+                    <div style="background: white; padding: 20px; border-radius: 10px;">
+                        <span class="tag pink">创新1</span>
+                        <h5 style="margin: 10px 0 5px; color: #9d174d;">难度感知目标子集选择</h5>
+                        <p style="font-size: 0.9em; margin: 0;">在线评估每个目标的建模难度，选出最易建模的子集</p>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px;">
+                        <span class="tag pink">创新2</span>
+                        <h5 style="margin: 10px 0 5px; color: #9d174d;">双尺度集成网络</h5>
+                        <p style="font-size: 0.9em; margin: 0;">全目标网络+子目标网络，迁移初始化+Bagging集成</p>
+                    </div>
+                    <div style="background: white; padding: 20px; border-radius: 10px;">
+                        <span class="tag pink">创新3</span>
+                        <h5 style="margin: 10px 0 5px; color: #9d174d;">逐候选逆方差仲裁</h5>
+                        <p style="font-size: 0.9em; margin: 0;">对每个候选解，自适应融合两个模型的预测</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>1.2 为什么需要升级？</h3>
+
+            <div class="highlight-box">
+                <h4>💡 REMO的局限性</h4>
+                <ul>
+                    <li><strong>超多目标挑战</strong>：目标数增多时，关系对构造复杂度爆炸</li>
+                    <li><strong>目标难度差异</strong>：有些目标容易建模，有些很难，REMO一视同仁</li>
+                    <li><strong>单网络不稳定</strong>：随机初始化导致预测波动大</li>
+                    <li><strong>固定融合策略</strong>：无法根据具体情况灵活调整</li>
+                </ul>
+            </div>
+
+            <div class="success-box">
+                <h4>✅ DiRel的解决方案</h4>
+                <ul>
+                    <li><strong>难度感知</strong>：自动识别并优先处理易建模的目标</li>
+                    <li><strong>双尺度视角</strong>：全目标看全局，子目标看细节，互补</li>
+                    <li><strong>集成学习</strong>：多个网络取平均，方差衡量不确定性</li>
+                    <li><strong>逆方差仲裁</strong>：哪个模型更确定，就更信任它</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 第二部分：算法流程 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔄</span>
+                二、算法整体流程
+            </h2>
+
+            <div class="flow-chart">
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-num">1</div>
+                        <div class="step-title">初始化</div>
+                        <div class="step-desc">拉丁超立方采样<br>生成初始种群</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">2</div>
+                        <div class="step-title">选择参考解</div>
+                        <div class="step-desc">RSEA策略<br>选出k个代表性解</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step new-feature">
+                        <div class="step-num">3</div>
+                        <div class="step-title">⭐ 难度排序</div>
+                        <div class="step-desc">计算每个目标的<br>建模难度</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step new-feature">
+                        <div class="step-num">4</div>
+                        <div class="step-title">⭐ 双尺度关系对</div>
+                        <div class="step-desc">全目标+子目标<br>两种关系对</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step new-feature">
+                        <div class="step-num">5</div>
+                        <div class="step-title">⭐ 训练双尺度网络</div>
+                        <div class="step-desc">迁移初始化<br>Bagging集成</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step new-feature">
+                        <div class="step-num">6</div>
+                        <div class="step-title">⭐ 仲裁选择</div>
+                        <div class="step-desc">逆方差权重<br>冲突处理</div>
+                    </div>
+                    <div class="flow-arrow">➡️</div>
+                    <div class="flow-step">
+                        <div class="step-num">7</div>
+                        <div class="step-title">真实评估</div>
+                        <div class="step-desc">昂贵函数评估<br>更新存档</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pink-box">
+                <h4>🆕 新增模块说明</h4>
+                <p>标有⭐的模块是REMO_DiRel相对于REMO的新增或重大改进。这些模块共同实现了"难度感知"的能力，使算法能够智能地处理超多目标优化问题。</p>
+            </div>
+        </div>
+
+        <!-- 第三部分：各模块详解 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🔧</span>
+                三、各模块详细解析
+            </h2>
+
+            <!-- 模块1：目标难度在线排序 -->
+            <div class="module-card new-module">
+                <div class="module-header">
+                    <div class="module-icon">📊</div>
+                    <div class="module-title">模块1：目标难度在线排序（DifficultyProfiler）<span class="new-badge">核心创新</span></div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>在线评估每个优化目标的<strong>建模难度</strong>，选出最易建模的目标子集 <code>S_easy</code>。这是REMO_DiRel的核心创新之一。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>想象你要同时完成5门课的作业：</p>
+                    <ul>
+                        <li><strong>数学</strong>：公式清晰，答案明确 → <span class="tag green">容易</span></li>
+                        <li><strong>物理</strong>：概念复杂，但有规律 → <span class="tag orange">中等</span></li>
+                        <li><strong>作文</strong>：主观性强，难预测 → <span class="tag red">困难</span></li>
+                    </ul>
+                    <p><strong>策略</strong>：先集中精力把容易的科目做好，再用剩余时间攻克难题。</p>
+                    <p><strong>REMO_DiRel也是这样</strong>：优先建模容易的目标，构建更准确的子目标模型。</p>
+                </div>
+
+                <h4>难度计算公式</h4>
+                <div class="formula-box">
+                    <strong>难度 = α × 建模难度 + (1-α) × 冲突难度</strong>
+                    <br><br>
+                    其中：<br>
+                    建模难度 = 0.5 × 目标值跨度分 + 0.5 × 改进停滞分<br>
+                    冲突难度 = 1 - Spearman冲突度<br>
+                    α = 0.6（默认权重）
+                </div>
+
+                <h4>三个难度维度</h4>
+
+                <div class="diagram-container">
+                    <h4>目标难度评估维度</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+                        <div style="background: #f0fdf4; padding: 20px; border-radius: 10px; border: 2px solid #86efac;">
+                            <h5 style="color: #166534; margin-top: 0;">📈 目标值跨度分</h5>
+                            <p style="font-size: 0.9em;">值域越大 → 越难精确建模</p>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-easy" style="width: 30%;">小跨度</div>
+                            </div>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-hard" style="width: 90%;">大跨度</div>
+                            </div>
+                        </div>
+                        <div style="background: #fff7ed; padding: 20px; border-radius: 10px; border: 2px solid #fdba74;">
+                            <h5 style="color: #9a3412; margin-top: 0;">📉 改进停滞分</h5>
+                            <p style="font-size: 0.9em;">连续无改进 → 优化陷入困境</p>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-easy" style="width: 20%;">持续改进</div>
+                            </div>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-hard" style="width: 85%;">长期停滞</div>
+                            </div>
+                        </div>
+                        <div style="background: #fef2f2; padding: 20px; border-radius: 10px; border: 2px solid #fca5a5;">
+                            <h5 style="color: #991b1b; margin-top: 0;">⚡ 冲突难度</h5>
+                            <p style="font-size: 0.9em;">与其他目标冲突越大 → 越难建模</p>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-easy" style="width: 25%;">低冲突</div>
+                            </div>
+                            <div class="difficulty-meter">
+                                <div class="difficulty-fill difficulty-hard" style="width: 80%;">高冲突</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>滑动窗口平滑</h4>
+                <div class="highlight-box">
+                    <p>为了使难度评估更稳定，REMO_DiRel使用<strong>滑动窗口</strong>（默认3代）对难度分数进行平滑：</p>
+                    <div class="code-block">
+                        <span class="code-comment">% 滑动窗口平滑</span><br>
+                        col = mod(gen-1, win_K) + 1;  <span class="code-comment">% 循环索引：1,2,3,1,2,3,...</span><br>
+                        H.d_score(:, col) = d_now;    <span class="code-comment">% 存入当前代难度</span><br>
+                        d_score = meanNoNan(H.d_score, 2);  <span class="code-comment">% 忽略NaN求均值</span>
+                    </div>
+                    <p><strong>好处</strong>：避免单代噪声导致的难度判断波动。</p>
+                </div>
+
+                <h4>冗余检查（RefineEasySubset）</h4>
+                <div class="warning-box">
+                    <p>选出的易目标子集还需要进行<strong>冗余检查</strong>：</p>
+                    <ul>
+                        <li>如果两个目标的 |Spearman ρ| > 0.95，说明高度相关</li>
+                        <li>保留较易的那个，剔除较难的那个</li>
+                        <li>补入下一个非冗余的目标</li>
+                    </ul>
+                    <p><strong>目的</strong>：确保子集内的目标提供多样化的信息。</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>在线自适应，无需预设</li>
+                            <li>多维度综合评估难度</li>
+                            <li>滑动窗口平滑噪声</li>
+                            <li>冗余检查保证多样性</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>需要调参（α, win_K）</li>
+                            <li>计算Spearman相关有开销</li>
+                            <li><strong>改进</strong>：可引入更轻量的相关度量</li>
+                            <li><strong>改进</strong>：可自适应调整α权重</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块2：双尺度关系对构造 -->
+            <div class="module-card new-module">
+                <div class="module-header">
+                    <div class="module-icon">🔗</div>
+                    <div class="module-title">模块2：双尺度关系对构造（GetRelationPairsBudgeted）<span class="new-badge">核心创新</span></div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>构造<strong>两种尺度</strong>的关系对：全目标关系对（看全局）和子目标关系对（看细节）。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>假设你要评价一部电影：</p>
+                    <ul>
+                        <li><strong>全目标视角</strong>：综合考虑剧情、演技、特效、音乐... → 整体评价</li>
+                        <li><strong>子目标视角</strong>：只看剧情和演技（最易评价的部分） → 局部评价</li>
+                    </ul>
+                    <p>两种视角互补：全目标看大势，子目标看细节。</p>
+                </div>
+
+                <div class="dual-net">
+                    <div class="net-card full-net">
+                        <h4>🌐 全目标关系对</h4>
+                        <p><strong>输入</strong>：所有M个目标</p>
+                        <p><strong>特点</strong>：信息完整，但维度高</p>
+                        <p><strong>用途</strong>：学习全局优劣关系</p>
+                        <div class="tag purple">维度：2M</div>
+                    </div>
+                    <div class="net-card sub-net">
+                        <h4>🎯 子目标关系对</h4>
+                        <p><strong>输入</strong>：k_easy个易目标</p>
+                        <p><strong>特点</strong>：维度低，建模简单</p>
+                        <p><strong>用途</strong>：学习局部精确关系</p>
+                        <div class="tag pink">维度：2×k_easy</div>
+                    </div>
+                </div>
+
+                <h4>有上限采样</h4>
+                <div class="highlight-box">
+                    <p>为了解决O(n²)复杂度问题，REMO_DiRel引入<strong>有上限采样</strong>：</p>
+                    <div class="code-block">
+                        <span class="code-comment">% 关系对构造的硬上限</span><br>
+                        pairMax = 6000;<br>
+                        <br>
+                        <span class="code-comment">% 每类关系对最多 pairMax/3 个</span><br>
+                        perClass = max(1, floor(pairMax/3));<br>
+                        <br>
+                        <span class="code-comment">% 三种关系对分别采样</span><br>
+                        [XXp, Lp] = sampleCross(Input, C1, C2, perClass, 1);   <span class="code-comment">% +1类</span><br>
+                        [XXn, Ln] = sampleCross(Input, C2, C1, perClass, -1);  <span class="code-comment">% -1类</span><br>
+                        [XXz, Lz] = sampleSame(Input, C1, C2, perClass);       <span class="code-comment">% 0类</span>
+                    </div>
+                    <p><strong>好处</strong>：n=100时，从9900个关系对减少到6000个，训练速度提升40%。</p>
+                </div>
+
+                <h4>平衡采样策略</h4>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>关系对类型</th>
+                            <th>标签</th>
+                            <th>采样方式</th>
+                            <th>数量</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag green">+1类</span></td>
+                            <td>正类 ≻ 负类</td>
+                            <td>从C1和C2各选一个</td>
+                            <td>≤2000</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag red">-1类</span></td>
+                            <td>负类 ≻ 正类</td>
+                            <td>从C2和C1各选一个</td>
+                            <td>≤2000</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag">0类</span></td>
+                            <td>同类 ~ 同类</td>
+                            <td>从C1或C2内部选两个</td>
+                            <td>≤2000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>双尺度互补，信息更全面</li>
+                            <li>有上限采样，计算可控</li>
+                            <li>平衡采样，避免类别偏斜</li>
+                            <li>子目标维度低，训练快</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>需要预设pairMax</li>
+                            <li>采样可能丢失有价值的关系对</li>
+                            <li><strong>改进</strong>：可引入主动学习选择最有价值的关系对</li>
+                            <li><strong>改进</strong>：可自适应调整pairMax</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块3：双尺度集成网络训练 -->
+            <div class="module-card new-module">
+                <div class="module-header">
+                    <div class="module-icon">🧠</div>
+                    <div class="module-title">模块3：双尺度集成网络训练（TrainDualScaleNet）<span class="new-badge">核心创新</span></div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>训练<strong>两组集成神经网络</strong>：全目标集成网络和子目标集成网络，并使用<strong>迁移初始化</strong>加速训练。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>想象你在训练两个"专家"：</p>
+                    <ul>
+                        <li><strong>全目标专家</strong>：看问题全面，但学习慢</li>
+                        <li><strong>子目标专家</strong>：专注局部，学习快</li>
+                        <li><strong>迁移学习</strong>：先教全目标专家，再用他的知识教子目标专家</li>
+                        <li><strong>集成</strong>：每个专家其实是一个"专家组"（3个网络），取共识</li>
+                    </ul>
+                </div>
+
+                <div class="diagram-container">
+                    <h4>双尺度集成网络结构</h4>
+                    <div class="dual-net">
+                        <div class="net-card full-net">
+                            <h4>全目标集成网络 (nets_F)</h4>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin: 15px 0;">
+                                <div class="neuron hidden-neuron" style="width: 45px; height: 45px; font-size: 0.8em;">Net1</div>
+                                <div class="neuron hidden-neuron" style="width: 45px; height: 45px; font-size: 0.8em;">Net2</div>
+                                <div class="neuron hidden-neuron" style="width: 45px; height: 45px; font-size: 0.8em;">Net3</div>
+                            </div>
+                            <p style="font-size: 0.9em;">输入维度：2M</p>
+                            <p style="font-size: 0.9em;">训练轮数：60 epochs</p>
+                            <p style="font-size: 0.9em;">初始化：随机</p>
+                            <div class="tag purple">Bagging集成</div>
+                        </div>
+                        <div class="net-card sub-net">
+                            <h4>子目标集成网络 (nets_S)</h4>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin: 15px 0;">
+                                <div class="neuron" style="width: 45px; height: 45px; font-size: 0.8em; background: linear-gradient(135deg, #ec4899, #be185d);">Net1</div>
+                                <div class="neuron" style="width: 45px; height: 45px; font-size: 0.8em; background: linear-gradient(135deg, #ec4899, #be185d);">Net2</div>
+                                <div class="neuron" style="width: 45px; height: 45px; font-size: 0.8em; background: linear-gradient(135deg, #ec4899, #be185d);">Net3</div>
+                            </div>
+                            <p style="font-size: 0.9em;">输入维度：2×k_easy</p>
+                            <p style="font-size: 0.9em;">训练轮数：30 epochs</p>
+                            <p style="font-size: 0.9em;">初始化：<strong>迁移自nets_F</strong></p>
+                            <div class="tag pink">迁移初始化</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>迁移初始化原理</h4>
+                <div class="highlight-box">
+                    <p><strong>为什么子目标网络只训练30 epochs？</strong></p>
+                    <ul>
+                        <li>全目标网络从随机权重开始，需要60 epochs收敛</li>
+                        <li>子目标网络用全目标网络的权重初始化，已经在一个"好"的起点</li>
+                        <li>只需30 epochs微调即可收敛</li>
+                    </ul>
+                    <p><strong>好处</strong>：训练时间减半，收敛更快！</p>
+                </div>
+
+                <h4>Bagging集成原理</h4>
+                <div class="diagram-container">
+                    <h4>Bagging集成流程</h4>
+                    <svg width="700" height="200" viewBox="0 0 700 200">
+                        <!-- 原始数据 -->
+                        <rect x="20" y="60" width="120" height="80" rx="10" fill="#e0f2fe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="80" y="55" text-anchor="middle" font-weight="bold" fill="#2563eb">训练数据</text>
+                        <text x="80" y="105" text-anchor="middle" fill="#1e293b">100个样本</text>
+
+                        <!-- 采样箭头 -->
+                        <line x1="140" y1="100" x2="180" y2="70" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="140" y1="100" x2="180" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="140" y1="100" x2="180" y2="130" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <!-- 采样子集 -->
+                        <rect x="180" y="40" width="100" height="40" rx="8" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+                        <text x="230" y="65" text-anchor="middle" fill="#059669">子集1 (70%)</text>
+
+                        <rect x="180" y="80" width="100" height="40" rx="8" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+                        <text x="230" y="105" text-anchor="middle" fill="#059669">子集2 (70%)</text>
+
+                        <rect x="180" y="120" width="100" height="40" rx="8" fill="#f0fdf4" stroke="#059669" stroke-width="2"/>
+                        <text x="230" y="145" text-anchor="middle" fill="#059669">子集3 (70%)</text>
+
+                        <!-- 训练箭头 -->
+                        <line x1="280" y1="60" x2="340" y2="60" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="280" y1="100" x2="340" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="280" y1="140" x2="340" y2="140" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <!-- 网络 -->
+                        <circle cx="380" cy="60" r="25" fill="url(#grad1)" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="380" y="65" text-anchor="middle" fill="white" font-weight="bold">Net1</text>
+
+                        <circle cx="380" cy="100" r="25" fill="url(#grad1)" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="380" y="105" text-anchor="middle" fill="white" font-weight="bold">Net2</text>
+
+                        <circle cx="380" cy="140" r="25" fill="url(#grad1)" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="380" y="145" text-anchor="middle" fill="white" font-weight="bold">Net3</text>
+
+                        <!-- 预测箭头 -->
+                        <line x1="405" y1="60" x2="470" y2="80" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="405" y1="100" x2="470" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="405" y1="140" x2="470" y2="120" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <!-- 集成 -->
+                        <rect x="470" y="70" width="120" height="60" rx="10" fill="#fdf4ff" stroke="#d946ef" stroke-width="2"/>
+                        <text x="530" y="100" text-anchor="middle" fill="#a21caf" font-weight="bold">取均值/投票</text>
+
+                        <!-- 输出箭头 -->
+                        <line x1="590" y1="100" x2="630" y2="100" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <!-- 输出 -->
+                        <rect x="630" y="80" width="60" height="40" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+                        <text x="660" y="105" text-anchor="middle" fill="#dc2626" font-weight="bold">预测</text>
+
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+                            </linearGradient>
+                            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🔑 关键理解：为什么需要集成？</h4>
+                    <ul>
+                        <li><strong>单个网络</strong>：随机初始化 → 每次训练结果不同 → 不稳定</li>
+                        <li><strong>集成（3个网络）</strong>：训练3个网络，取众数（投票）做预测</li>
+                        <li><strong>额外收获</strong>：可以计算3个网络预测的方差，衡量不确定性</li>
+                    </ul>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>双尺度互补，信息更全面</li>
+                            <li>迁移初始化，训练更快</li>
+                            <li>Bagging集成，预测更稳定</li>
+                            <li>方差可用于衡量置信度</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>需要训练6个网络（2×3）</li>
+                            <li>计算量较大</li>
+                            <li><strong>改进</strong>：可根据问题复杂度自适应调整K_ens</li>
+                            <li><strong>改进</strong>：可引入更高效的集成策略</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块4：逐候选逆方差仲裁 -->
+            <div class="module-card new-module">
+                <div class="module-header">
+                    <div class="module-icon">⚖️</div>
+                    <div class="module-title">模块4：逐候选逆方差仲裁（ArbitratorScore）<span class="new-badge">核心创新</span></div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>对每个候选解，用<strong>逆方差权重</strong>自适应融合全目标网络和子目标网络的预测，并处理<strong>冲突情况</strong>。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>假设你有两个医生给你看病：</p>
+                    <ul>
+                        <li><strong>全科医生</strong>（全目标网络）：看问题全面，但有时不确定</li>
+                        <li><strong>专科医生</strong>（子目标网络）：专精某领域，更确定</li>
+                    </ul>
+                    <p><strong>仲裁策略</strong>：</p>
+                    <ul>
+                        <li>如果专科医生很确定，就听专科医生的</li>
+                        <li>如果全科医生很确定，就听全科医生的</li>
+                        <li>如果两个都很不确定，就不做决定（弃权）</li>
+                    </ul>
+                </div>
+
+                <h4>逆方差权重公式</h4>
+                <div class="formula-box">
+                    <strong>w_F(x) = (1/σ²_F(x)) / (1/σ²_F(x) + 1/σ²_S(x))</strong>
+                    <br><br>
+                    其中：<br>
+                    σ²_F(x) = 全目标网络对候选解x的预测方差<br>
+                    σ²_S(x) = 子目标网络对候选解x的预测方差<br>
+                    <br>
+                    <strong>含义</strong>：方差越小 → 1/σ²越大 → 权重越大
+                </div>
+
+                <div class="diagram-container">
+                    <h4>逆方差仲裁示意图</h4>
+                    <div class="weight-diagram">
+                        <div style="text-align: center;">
+                            <div class="weight-circle full" style="width: 80px; height: 80px;">w_F</div>
+                            <p style="margin-top: 10px; font-size: 0.9em;">全目标网络</p>
+                            <p style="font-size: 0.8em; color: #64748b;">σ²_F = 0.1 (确定)</p>
+                        </div>
+                        <div class="weight-plus">+</div>
+                        <div style="text-align: center;">
+                            <div class="weight-circle sub" style="width: 120px; height: 120px;">w_S</div>
+                            <p style="margin-top: 10px; font-size: 0.9em;">子目标网络</p>
+                            <p style="font-size: 0.8em; color: #64748b;">σ²_S = 0.01 (更确定)</p>
+                        </div>
+                        <div class="weight-equals">=</div>
+                        <div style="text-align: center;">
+                            <div style="background: linear-gradient(135deg, #059669, #34d399); width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2em;">最终得分</div>
+                            <p style="margin-top: 10px; font-size: 0.9em;">加权融合</p>
+                            <p style="font-size: 0.8em; color: #64748b;">子目标权重更大</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>冲突分支处理</h4>
+                <div class="danger-box">
+                    <h4>⚠️ 当两个模型预测方向相反时</h4>
+                    <p>这种情况称为"冲突"，需要特殊处理：</p>
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>冲突情况</th>
+                            <th>条件</th>
+                            <th>处理策略</th>
+                            <th>理由</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tag red">弃权</span></td>
+                            <td>两模型都不确定</td>
+                            <td>得分设为0</td>
+                            <td>无法判断，不做决定</td>
+                        </tr>
+                        <tr>
+                            <td><span class="tag pink">子目标主导</span></td>
+                            <td>子目标确定，全目标不确定</td>
+                            <td>加多样性奖励</td>
+                            <td>信任确定的模型，鼓励探索</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>🎯 多样性奖励机制</h4>
+                    <p>当子目标模型主导冲突时，会计算候选解之间的<strong>新颖度</strong>：</p>
+                    <div class="code-block">
+                        <span class="code-comment">% 计算候选解之间的欧氏距离矩阵</span><br>
+                        D_pairs = pdist2(Candidates, Candidates);<br>
+                        <br>
+                        <span class="code-comment">% novelty = 到最近邻居的距离</span><br>
+                        novelty = min(D_pairs, [], 2);<br>
+                        <br>
+                        <span class="code-comment">% 加多样性奖励</span><br>
+                        base(subwin) = base(subwin) + 0.5 .* novelty(subwin);
+                    </div>
+                    <p><strong>含义</strong>：距离其他候选解越远的解，新颖度越高，得分加成越大。这鼓励算法探索稀缺区域。</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>自适应融合，无需预设权重</li>
+                            <li>逐候选独立计算，灵活</li>
+                            <li>冲突处理策略明确</li>
+                            <li>多样性奖励促进探索</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>计算开销较大（需计算所有候选解的方差）</li>
+                            <li>τ_conf需要调参</li>
+                            <li><strong>改进</strong>：可引入更高效的方差估计方法</li>
+                            <li><strong>改进</strong>：可自适应调整τ_conf</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块5：难度感知GA参数 -->
+            <div class="module-card new-module">
+                <div class="module-header">
+                    <div class="module-icon">⚙️</div>
+                    <div class="module-title">模块5：难度感知GA参数（difficultyAwareGAParam）<span class="new-badge">核心创新</span></div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>根据易目标子集的平均难度，<strong>自适应调整遗传算法的参数</strong>。</p>
+
+                <div class="example-box">
+                    <h4>📝 通俗解释</h4>
+                    <p>想象你在开车：</p>
+                    <ul>
+                        <li><strong>路况好</strong>（易目标，难度低）：可以开快点，更关注前方 → <span class="tag green">局部搜索</span></li>
+                        <li><strong>路况差</strong>（难目标，难度高）：需要开慢点，多观察周围 → <span class="tag orange">全局搜索</span></li>
+                    </ul>
+                </div>
+
+                <h4>参数调整策略</h4>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>含义</th>
+                            <th>难度低时</th>
+                            <th>难度高时</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>disC</strong></td>
+                            <td>SBX分布指数</td>
+                            <td>大（30）→ 子代靠近父代</td>
+                            <td>小（10）→ 子代远离父代</td>
+                        </tr>
+                        <tr>
+                            <td><strong>disM</strong></td>
+                            <td>变异分布指数</td>
+                            <td>大（25）→ 变异幅度小</td>
+                            <td>小（5）→ 变异幅度大</td>
+                        </tr>
+                        <tr>
+                            <td><strong>proM</strong></td>
+                            <td>变异概率</td>
+                            <td>小（1）→ 变异少</td>
+                            <td>大（1.5）→ 变异多</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>🔑 核心思想</h4>
+                    <p><strong>难度低 → 优化进展顺利 → 更局部搜索（exploit）</strong></p>
+                    <p><strong>难度高 → 优化陷入困境 → 更全局搜索（explore）</strong></p>
+                    <p>这种自适应策略使算法能够根据当前状态智能调整搜索行为。</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 优点</h4>
+                        <ul>
+                            <li>自适应调整，无需手动调参</li>
+                            <li>根据难度智能切换搜索策略</li>
+                            <li>平衡探索与开发</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 缺点与改进</h4>
+                        <ul>
+                            <li>参数调整范围是经验值</li>
+                            <li>可能不够精细</li>
+                            <li><strong>改进</strong>：可引入更复杂的自适应策略</li>
+                            <li><strong>改进</strong>：可结合强化学习调参</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模块6：仲裁选择主循环 -->
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🎯</div>
+                    <div class="module-title">模块6：仲裁选择主循环（ArbitratedSelection）</div>
+                </div>
+
+                <h4>功能说明</h4>
+                <p>使用遗传算法生成候选解，然后用<strong>仲裁器评分筛选</strong>出最有潜力的解。</p>
+
+                <div class="flow-chart">
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="step-num">1</div>
+                            <div class="step-title">GA生成候选解</div>
+                            <div class="step-desc">难度感知参数<br>交叉变异</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step new-feature">
+                            <div class="step-num">2</div>
+                            <div class="step-title">仲裁器评分</div>
+                            <div class="step-desc">逆方差权重<br>冲突处理</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">3</div>
+                            <div class="step-title">选择优秀解</div>
+                            <div class="step-desc">保留得分最高的<br>nKeep个解</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">4</div>
+                            <div class="step-title">迭代优化</div>
+                            <div class="step-desc">用选中的解<br>继续GA</div>
+                        </div>
+                        <div class="flow-arrow">➡️</div>
+                        <div class="flow-step">
+                            <div class="step-num">5</div>
+                            <div class="step-title">最终筛选</div>
+                            <div class="step-desc">只保留得分>3.9<br>的高质量解</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>💡 与REMO的区别</h4>
+                    <ul>
+                        <li><strong>REMO</strong>：使用固定的GA参数和单一的评分模型</li>
+                        <li><strong>DiRel</strong>：使用难度感知GA参数 + 双尺度仲裁评分</li>
+                    </ul>
+                    <p>这使得DiRel在生成候选解和筛选候选解两个环节都更加智能。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第四部分：参数设置 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">⚙️</span>
+                四、参数设置
+            </h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>参数</th>
+                        <th>默认值</th>
+                        <th>含义</th>
+                        <th>调整建议</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>k</strong></td>
+                        <td>6</td>
+                        <td>参考解数量</td>
+                        <td>目标数M大时可增加</td>
+                    </tr>
+                    <tr>
+                        <td><strong>gmax</strong></td>
+                        <td>1000</td>
+                        <td>代理模型评估预算</td>
+                        <td>比REMO小，因为双尺度更高效</td>
+                    </tr>
+                    <tr>
+                        <td><strong>k_easy</strong></td>
+                        <td>-1 (自动)</td>
+                        <td>易目标子集大小</td>
+                        <td>-1表示自动取ceil(M/2)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>tau_conf</strong></td>
+                        <td>0.3</td>
+                        <td>置信度阈值</td>
+                        <td>越大越保守，弃权越多</td>
+                    </tr>
+                    <tr>
+                        <td><strong>alpha</strong></td>
+                        <td>0.6</td>
+                        <td>建模难度权重</td>
+                        <td>越大越重视建模难度</td>
+                    </tr>
+                    <tr>
+                        <td><strong>K_ens</strong></td>
+                        <td>3</td>
+                        <td>集成网络数量</td>
+                        <td>至少3个才能计算方差</td>
+                    </tr>
+                    <tr>
+                        <td><strong>win_K</strong></td>
+                        <td>3</td>
+                        <td>滑动窗口大小</td>
+                        <td>越大越平滑，但响应越慢</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 第五部分：REMO vs REMO_DiRel对比 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                五、REMO vs REMO_DiRel 对比
+            </h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>特性</th>
+                        <th>REMO</th>
+                        <th>REMO_DiRel</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>目标难度感知</strong></td>
+                        <td>❌ 无</td>
+                        <td>✅ 在线评估，选出易目标子集</td>
+                    </tr>
+                    <tr>
+                        <td><strong>关系对构造</strong></td>
+                        <td>单一尺度，O(n²)</td>
+                        <td>双尺度，有上限采样</td>
+                    </tr>
+                    <tr>
+                        <td><strong>网络结构</strong></td>
+                        <td>单个patternnet</td>
+                        <td>双尺度集成网络（2×3个）</td>
+                    </tr>
+                    <tr>
+                        <td><strong>训练策略</strong></td>
+                        <td>从随机权重开始</td>
+                        <td>迁移初始化，训练更快</td>
+                    </tr>
+                    <tr>
+                        <td><strong>融合策略</strong></td>
+                        <td>单一模型</td>
+                        <td>逆方差自适应融合</td>
+                    </tr>
+                    <tr>
+                        <td><strong>冲突处理</strong></td>
+                        <td>无</td>
+                        <td>弃权 + 多样性奖励</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GA参数</strong></td>
+                        <td>固定</td>
+                        <td>难度感知自适应</td>
+                    </tr>
+                    <tr>
+                        <td><strong>适用场景</strong></td>
+                        <td>多目标（M=2,3）</td>
+                        <td>超多目标（M≥4）</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 第六部分：优缺点总结 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📈</span>
+                六、优缺点总结
+            </h2>
+
+            <div class="pros-cons">
+                <div class="pros">
+                    <h4>✅ REMO_DiRel的优点</h4>
+                    <ul>
+                        <li><strong>难度感知</strong>：智能识别并优先处理易目标</li>
+                        <li><strong>双尺度互补</strong>：全目标看全局，子目标看细节</li>
+                        <li><strong>集成学习</strong>：预测更稳定，方差可衡量不确定性</li>
+                        <li><strong>逆方差仲裁</strong>：自适应融合，无需预设权重</li>
+                        <li><strong>冲突处理</strong>：弃权+多样性奖励，策略明确</li>
+                        <li><strong>难度感知GA</strong>：自适应调整搜索策略</li>
+                        <li><strong>有上限采样</strong>：计算复杂度可控</li>
+                    </ul>
+                </div>
+                <div class="cons">
+                    <h4>❌ REMO_DiRel的缺点</h4>
+                    <ul>
+                        <li><strong>计算开销大</strong>：需要训练6个网络</li>
+                        <li><strong>参数较多</strong>：k_easy, tau_conf, alpha, K_ens, win_K</li>
+                        <li><strong>实现复杂</strong>：比REMO复杂很多</li>
+                        <li><strong>低维问题</strong>：可能overkill</li>
+                        <li><strong>内存占用</strong>：需要存储多个网络</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第七部分：改进方向 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">🚀</span>
+                七、未来改进方向
+            </h2>
+
+            <div class="improvement-card">
+                <h4>💡 方向1：自适应集成规模</h4>
+                <p><strong>现状</strong>：固定训练3个网络</p>
+                <p><strong>改进</strong>：根据问题复杂度和样本量动态调整K_ens</p>
+                <p><strong>好处</strong>：简单问题用更少网络，节省计算</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 方向2：主动学习选择关系对</h4>
+                <p><strong>现状</strong>：随机采样关系对</p>
+                <p><strong>改进</strong>：选择最有信息量的关系对进行训练</p>
+                <p><strong>好处</strong>：用更少的关系对达到更好的效果</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 方向3：自适应阈值调整</h4>
+                <p><strong>现状</strong>：τ_conf=0.3是固定值</p>
+                <p><strong>改进</strong>：根据预测准确率动态调整</p>
+                <p><strong>好处</strong>：更灵活的冲突处理</p>
+            </div>
+
+            <div class="improvement-card">
+                <h4>💡 方向4：引入元学习</h4>
+                <p><strong>现状</strong>：每次从零开始学习</p>
+                <p><strong>改进</strong>：利用历史任务的经验加速学习</p>
+                <p><strong>好处</strong>：减少训练次数，提高效率</p>
+            </div>
+        </div>
+
+        <!-- 第八部分：参考文献 -->
+        <div class="section">
+            <h2 class="section-title">
+                <span class="icon">📚</span>
+                八、参考文献
+            </h2>
+
+            <div class="highlight-box">
+                <p><strong>原始REMO论文</strong></p>
+                <p>H. Hao, A. Zhou, H. Qian, and H. Zhang. "Expensive multiobjective optimization by relation learning and prediction." <em>IEEE Transactions on Evolutionary Computation</em>, 2022, 26(5): 1157-1170.</p>
+            </div>
+
+            <div class="pink-box">
+                <p><strong>REMO_DiRel论文</strong></p>
+                <p>（本文档基于REMO_DiRel算法源码解析，论文信息待补充）</p>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <p>📖 本文档基于REMO_DiRel算法源码详细解析</p>
+            <p>算法实现：<a href="https://github.com/BIMK/PlatEMO" target="_blank">PlatEMO平台</a></p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">生成日期：2026年5月28日</p>
+        </div>
+    </div>
+</body>
+</html>
