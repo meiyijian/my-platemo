@@ -1,0 +1,2 @@
+date,week,workload,algorithm,problem,M,D,maxFE,seed,IGD,HV,runtime_minutes,status,artifact_path,notes
+2026-06-15,1,baseline,REMO,DTLZ2,5,14,300,1,,,,planned,,first small sanity run
