@@ -47,7 +47,11 @@ function varargout = reduceObjectives(PopObj, K, Strategy, Seed, varargin)
         K = 1;
     end
 
-    % Normalization baseline (used for the lifetime of the algorithm)
+    % 归一化基线：仅基于当前传入的 PopObj（初始化时为初始 LHS 样本）计算。
+    % 该基线在整个优化过程中不再更新，后续所有 applyReduction 调用均以此
+    % 基线的 Fmin/Fmax 做 min-max 归一化并裁剪到 [0,1]。
+    % 限制：若后期 Archive 中出现了远超初始范围的目标值，这些点的归一化
+    % 值会被裁剪到 0 或 1，丢失区分度。建议每 N 轮用 Archive 重新计算基线。
     Fmin = min(PopObj, [], 1);
     Fmax = max(PopObj, [], 1);
     span = Fmax - Fmin;
@@ -117,6 +121,8 @@ function GroupMap = correlationGrouping(PopObj, K)
 %   keeps strongly correlated objectives in the same group.
 
     [N, M] = size(PopObj);
+    % 样本过少或目标数 ≤ K 时，Pearson 相关系数不可靠，自动降级为
+    % 均衡轮询分组（round-robin），避免基于噪声相关性做聚类。
     if N < 3 || M <= K
         % Fallback to a balanced round-robin grouping
         GroupMap = zeros(1, M);
@@ -159,29 +165,31 @@ function GroupMap = correlationGrouping(PopObj, K)
             break;
         end
         i = bestMerge(1); j = bestMerge(2);
+        % 保存合并前的簇大小 —— 平均连接更新公式要求用原始大小做加权
+        szI_old = length(clusters{i});
+        szJ_old = length(clusters{j});
         clusters{i} = [clusters{i}, clusters{j}];
         clusters{j} = [];
         active(j)   = false;
-        % Update distance row/col i to be the average distance
+        % 用平均连接（average-linkage）更新簇 i 到各活跃簇的距离
         for kk = find(active)
             if kk == i
                 continue;
             end
-            ni = length(clusters{i});
-            nj = length(clusters{kk});
+            nk = length(clusters{kk});
             if isempty(clusters{kk})
                 clusterD(i, kk) = inf;
                 clusterD(kk, i) = inf;
                 continue;
             end
-            d_ij = clusterD(i, kk);
-            d_jj = clusterD(j, kk);
+            d_ij = clusterD(i, kk);    % 合并前 d(i, kk)
+            d_jj = clusterD(j, kk);    % 合并前 d(j, kk)
             if isinf(d_ij) || isinf(d_jj)
                 clusterD(i, kk) = inf;
                 clusterD(kk, i) = inf;
             else
-                % Average-linkage update: weighted by cluster sizes
-                clusterD(i, kk) = (ni * d_ij + nj * d_jj) / (ni + nj);
+                % 平均连接: d(i∪j, k) = (|i|·d(i,k) + |j|·d(j,k)) / (|i| + |j|)
+                clusterD(i, kk) = (szI_old * d_ij + szJ_old * d_jj) / (szI_old + szJ_old);
                 clusterD(kk, i) = clusterD(i, kk);
             end
         end

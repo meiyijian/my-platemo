@@ -41,6 +41,10 @@ function [Selected, Info] = infillSelect(CandDec, Mu, Sigma, Zref, ArchDec, ...
     end
 
     % --- 1) Deduplicate against the Archive ---------------------------------
+    % 计算每个候选到最近 Archive 点的欧氏距离，剔除过于靠近已评估点的候选。
+    % 阈值 = 1e-6 × 决策空间对角线长度。
+    % 注意：此阈值仅能过滤几乎完全相同的点。对于昂贵优化，放宽到 1e-3
+    % 或使用自适应阈值可更有效地避免在近重复点上浪费评估预算。
     if ~isempty(ArchDec)
         D2   = pdist2(CandDec, ArchDec);
         minD = min(D2, [], 2);
@@ -76,6 +80,10 @@ function [Selected, Info] = infillSelect(CandDec, Mu, Sigma, Zref, ArchDec, ...
     end
 
     % --- 2) Compute per-candidate acquisition score -------------------------
+    % 归一化 Mu 和 Sigma 到 [0,1]：使不同量纲的降维目标可比，且多样性
+    % 惩罚 ±1.0 的量级在各策略间大致可比。
+    % 归一化基线取自当前候选池的 min/max（非全局），因此不同迭代轮的
+    % 归一化尺度可能不同，但采集函数本身是标量比较，跨轮可比性不重要。
     % Normalize the predicted mean to [0, 1] along each reduced objective
     muMin = min(Mu, [], 1);
     muMax = max(Mu, [], 1);
@@ -126,25 +134,49 @@ function [Selected, Info] = infillSelect(CandDec, Mu, Sigma, Zref, ArchDec, ...
     end
 
     % --- 3) Build the scalar acquisition score per strategy ----------------
+    % 设计约定：
+    %   策略分为"越小越好 (lowerBetter=true)"和"越大越好 (false)"两类。
+    %   最终贪心选择分支根据 lowerBetter 决定用 min(score) 还是 max(score)。
+    %
+    %   各指标含义（均已归一化到 [0,1]）：
+    %     convScore : 越小 → 收敛越好        （minimization 方向）
+    %     uncScore  : 越大 → 不确定性越高    （exploration 方向）
+    %     ehviN     : 越大 → 预期 HV 改善越多（convergence 方向）
+    %
+    %   balanced: 前期 (Phase < 0.3) 偏探索，后期偏收敛。
+    %     将 wC*ehviN + wU*uncScore 打包为"越大越好"的标量，
+    %     两项符号一致，不会出现 punishment vs reward 的歧义。
+    %   exploitation: 直接最小化 convScore。
+    %   exploration: 直接最大化 uncScore。
     switch lower(Strategy)
         case 'exploitation'
             score = convScore;
             lowerBetter = true;
         case 'exploration'
-            score = -uncScore;   % larger uncertainty is better
+            % 直接最大化不确定度 (uncScore ∈ [0,1])
+            score = uncScore;
             lowerBetter = false;
         otherwise   % 'balanced' or unknown
-            % Phase < 0.3 -> lean toward exploration; otherwise convergence
+            % Phase < 0.3 → 偏探索（高不确定度权重）；否则偏收敛（高 EHVI 权重）
             if Phase < 0.3
                 wU = 0.7; wC = 0.3;
             else
                 wU = 0.3; wC = 0.7;
             end
-            score = wU * uncScore - wC * ehviN;
-            lowerBetter = true;
+            % 两项都是"越大越好"的指标 → 加权和越大越好
+            score = wC * ehviN + wU * uncScore;
+            lowerBetter = false;
     end
 
     % --- 4) Greedy batch selection with diversity penalty ------------------
+    % 贪心逐点选取：每轮选当前 score 最优的候选，然后对其邻域 (距离 < minDistThr)
+    % 施加 ±1.0 的惩罚，迫使后续选择避开已选点附近区域。
+    %
+    % 注意：多样性惩罚固定为 ±1.0，但各策略 score 的数值范围不同：
+    %   exploitation: score ∈ [0,K]   (K=2 时 [0,2])    — 惩罚可接受
+    %   exploration:  score ∈ [0,1]                      — 惩罚过大，第二轮几乎无法再选任何点
+    %   balanced:     score ∈ [0,1]                      — 同上
+    % 建议：将惩罚量设为与各策略 score 范围成比例的值，而非固定 1.0。
     if size(ArchDec, 1) == 0
         ArchDec = zeros(0, size(CandDec, 2));
     end

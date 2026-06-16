@@ -40,6 +40,8 @@ function varargout = buildSurrogate(Dec, Z, SurrogateType, D, K, varargin)
     %     buildSurrogate(Models, X, SurrogateType, TrainDec)
     % where TrainDec arrives as the 4th positional argument (D in train
     % mode reuses the same slot).
+    % 注意：这种通过参数类型自动区分训练/预测模式的"重载"设计容易引入
+    % 参数语义混淆（Z → X, D → TrainDec）。修改代码时务必确认调用方传参顺序。
     if iscell(Dec) && ~isempty(Dec) && isstruct(Dec{1})
         Models        = Dec;
         X             = Z;
@@ -67,6 +69,9 @@ function varargout = buildSurrogate(Dec, Z, SurrogateType, D, K, varargin)
 
     switch lower(SurrogateType)
         case 'kriging'
+            % DACE Kriging 训练：每个降维目标独立训练一个 GP 模型
+            % theta0=0.5, lob=1e-5, hib=20 沿用 K-RVEA 的经验设定
+            % regpoly1 = 一阶多项式趋势，corrgauss = 高斯相关函数
             theta0 = 0.5 * ones(1, D);
             lob    = 1e-5 * ones(1, D);
             hib    = 20   * ones(1, D);
@@ -110,12 +115,23 @@ function [Mu, Sigma] = predictInternal(Models, X, SurrogateType, TrainDec)
                 if isempty(dmodel)
                     continue;
                 end
-                [y, ~, mse] = predFcn(X, dmodel);
+                % DACE predictor 输出约定（与 mx 有关）：
+                %   mx > 1（多点预测）: [y, mse] — 第2输出即 MSE
+                %   mx == 1（单点预测）: [y, grad, mse] — 第3输出才是 MSE
+                % 预测池通常多于 1 个候选，此处按多点路径取 2 个输出；
+                % 若输入为单点则补取第 3 输出以避免拿到梯度值。
+                if size(X, 1) == 1
+                    [y, ~, mse] = predFcn(X, dmodel);
+                else
+                    [y, mse] = predFcn(X, dmodel);
+                end
+                % 处理标量输出（某些旧版 dacefit 对不同形状的返回值不统一）
                 if isscalar(y)
                     Mu(1, k) = y;
                 else
                     Mu(:, k) = y(:);
                 end
+                % MSE 裁剪到 ≥0 后开方 → 标准差（Sigma），即后续采集函数使用的"不确定性"
                 if isscalar(mse)
                     Sigma(1, k) = sqrt(max(mse, 0));
                 else
@@ -131,7 +147,9 @@ function [Mu, Sigma] = predictInternal(Models, X, SurrogateType, TrainDec)
                 end
                 Mu(:, k) = rbfInterpLocal(X, para);
             end
-            % Uncertainty proxy: min distance to training samples
+            % RBF 不确定度代理: 到最近训练点的欧氏距离
+            % 限制: K 个降维目标的 Sigma 完全相同（无法体现各目标方向的差异），
+            % 这是 RBF 的固有局限，详见 README 第 12 节"已知限制"。
             if ~isempty(TrainDec)
                 D2 = pdist2(X, TrainDec);
                 D2(D2 == 0) = inf;
@@ -160,12 +178,18 @@ function para = rbfCreateLocal(ax, ay, kernel)
 % Local re-implementation of the gaussian RBF interpolation that lives
 % in ADSAPSO/RBF/RBFCreate.m. We replicate the math here so DR_SAEA
 % does not depend on the existence of that sibling file.
+    % 注意：warning('off') 会关闭所有警告（包括矩阵奇异、除零等重要信号）。
+    % 若 RBF 训练出现问题，诊断信息将被完全压制。
+    % 建议改为针对性关闭：warning('off', 'MATLAB:nearlySingularMatrix')
     warning('off')
     [N, D] = size(ax);
     xmin = min(ax, [], 1);
     xmax = max(ax, [], 1);
     ymin = min(ay, [], 1);
     ymax = max(ay, [], 1);
+    % Min-max 归一化到 [-1, 1]；若某决策维在所有训练样本中取值相同
+    % (xmax==xmin)，则分母为零 → Inf。LHS 初始采样下罕见，但收敛后期
+    % 可能出现，此时该维零点会被后续矩阵求解除法放大为 NaN。
     axn = 2 ./ (repmat(xmax - xmin, N, 1)) .* (ax - repmat(xmin, N, 1)) - 1;
     ayn = 2 ./ (repmat(ymax - ymin, N, 1)) .* (ay - repmat(ymin, N, 1)) - 1;
     r = dist(axn, axn');
