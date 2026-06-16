@@ -4,5 +4,8 @@
 # 忽略的文件夹
 Data/
 
+# 实验结果数据（过大，不同步）
+PlatEMO-master/PlatEMO/Experiments/
+
 # Claude Code 本地配置（仅本地，不入库）
 **/.claude/settings.local.json
