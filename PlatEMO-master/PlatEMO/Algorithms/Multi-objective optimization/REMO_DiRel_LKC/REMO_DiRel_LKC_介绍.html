@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REMO_DiRel_LKC 算法详细介绍</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --bg-card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #7c3aed 100%);
+            color: white;
+            padding: 80px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            position: relative;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        /* Navigation */
+        .toc {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px 32px;
+            margin: -30px auto 40px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            max-width: 1200px;
+        }
+
+        .toc h3 {
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            color: var(--primary);
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+        }
+
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .toc a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .toc a .num {
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .toc a:hover .num { color: white; }
+
+        /* Sections */
+        .section {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .section h2 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section h2 .icon {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .section h3 {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin: 24px 0 12px;
+        }
+
+        .section p {
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+        }
+
+        .card h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        /* Diagram Container */
+        .diagram-container {
+            background: #f1f5f9;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 24px 0;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .diagram-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 12px;
+            font-style: italic;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        th:first-child { border-radius: 8px 0 0 0; }
+        th:last-child { border-radius: 0 8px 0 0; }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover td { background: #f8fafc; }
+
+        /* Code */
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: var(--secondary);
+            font-family: 'Fira Code', 'Consolas', monospace;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Tags */
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 2px;
+        }
+
+        .tag-blue { background: #dbeafe; color: #1d4ed8; }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-orange { background: #ffedd5; color: #9a3412; }
+        .tag-red { background: #fee2e2; color: #991b1b; }
+        .tag-purple { background: #ede9fe; color: #5b21b6; }
+
+        /* Pros/Cons */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .pros, .cons {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .cons {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+
+        .pros h4 { color: #166534; }
+        .cons h4 { color: #991b1b; }
+
+        .pros ul, .cons ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .pros li::before { content: '✓ '; color: #16a34a; font-weight: bold; }
+        .cons li::before { content: '✗ '; color: #dc2626; font-weight: bold; }
+
+        .pros li, .cons li {
+            padding: 4px 0;
+            font-size: 0.9rem;
+        }
+
+        /* Flow Steps */
+        .flow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 20px 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            position: relative;
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--primary-light);
+        }
+
+        .flow-step:last-child::before { display: none; }
+
+        .flow-step .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .flow-step .step-content {
+            flex: 1;
+            padding-bottom: 24px;
+        }
+
+        .flow-step .step-title {
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .flow-step .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Parameter Table */
+        .param-table td:nth-child(2) {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Formula */
+        .formula {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff, #f0f9ff);
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin: 20px 0;
+        }
+
+        .highlight-box.warning {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-color: #fde68a;
+        }
+
+        .highlight-box.success {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-color: #bbf7d0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .section { padding: 24px; }
+            .pros-cons { grid-template-columns: 1fr; }
+            .card-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Anchor offset */
+        [id] { scroll-margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<!-- Hero Section -->
+<header class="hero">
+    <div class="container">
+        <div class="badge">Expensive Multi/Many-Objective Optimization</div>
+        <h1>REMO_DiRel_LKC</h1>
+        <p class="subtitle">
+            结构感知的双关系网络昂贵多目标优化算法 —— 基于 LMVT 局部斜率特征的目标分组与聚合
+        </p>
+    </div>
+</header>
+
+<!-- Table of Contents -->
+<nav class="toc container">
+    <h3>目录</h3>
+    <div class="toc-grid">
+        <a href="#overview"><span class="num">01</span> 算法概述</a>
+        <a href="#architecture"><span class="num">02</span> 整体架构</a>
+        <a href="#pipeline"><span class="num">03</span> 主流程</a>
+        <a href="#lkc-core"><span class="num">04</span> LKC 结构分组</a>
+        <a href="#easy-select"><span class="num">05</span> 易目标选择</a>
+        <a href="#relation-pairs"><span class="num">06</span> 关系对标签</a>
+        <a href="#dual-net"><span class="num">07</span> 双网络训练</a>
+        <a href="#arbitration"><span class="num">08</span> 仲裁评分</a>
+        <a href="#ga-selection"><span class="num">09</span> 候选生成</a>
+        <a href="#params"><span class="num">10</span> 参数汇总</a>
+        <a href="#pros-cons"><span class="num">11</span> 优缺点分析</a>
+        <a href="#scenarios"><span class="num">12</span> 适用场景</a>
+    </div>
+</nav>
+
+<main class="container">
+
+<!-- Section 1: Overview -->
+<section id="overview" class="section">
+    <h2><span class="icon">01</span> 算法概述与研究背景</h2>
+
+    <h3>问题背景</h3>
+    <p>在昂贵多目标优化中，每个候选解的真实评估代价极高（例如一次 CFD 仿真需要数小时），因此算法必须在极有限的真实评估预算内找到高质量的 Pareto 前沿近似。随着目标数 M 增加（M ≥ 5），传统进化算法面临两大挑战：</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h4>目标维度诅咒</h4>
+            <p>Pareto 支配关系在高维空间中退化，几乎所有解都互不支配，选择压力消失。</p>
+        </div>
+        <div class="card">
+            <h4>代理建模困难</h4>
+            <p>高维目标空间使得关系学习变得极其困难，单个代理模型难以覆盖所有目标维度。</p>
+        </div>
+    </div>
+
+    <h3>核心思想</h3>
+    <div class="highlight-box success">
+        <p><strong>一句话总结：</strong> REMO_DiRel_LKC = REMO_DiRel 主循环 + LKC 结构感知目标分组 + 组级易目标选择 + Pareto-first 关系标签 + 全目标优先仲裁</p>
+    </div>
+
+    <p>REMO_DiRel_LKC 的核心改进是：将"易目标子集"从原始目标列升级为<strong>结构感知的聚合目标组</strong>，使子网络学习更可靠、更低维的目标结构。</p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h4>原始 REMO_DiRel</h4>
+            <p>按单目标难度排序，选出容易的原始目标列训练子网络。简单但可能选到冗余目标。</p>
+        </div>
+        <div class="card">
+            <h4>LKC 变体改进</h4>
+            <p>先用 LMVT 斜率特征识别目标间结构相似性，把正相关目标聚合成组，再在组层面选择易建模的聚合目标。</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Architecture -->
+<section id="architecture" class="section">
+    <h2><span class="icon">02</span> 整体架构</h2>
+
+    <p>REMO_DiRel_LKC 由 12 个功能模块组成，分为 4 个层次：</p>
+
+    <!-- Architecture Diagram -->
+    <div class="diagram-container">
+        <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background -->
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.1" />
+                    <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0.1" />
+                </linearGradient>
+                <filter id="shadow">
+                    <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+                </filter>
+            </defs>
+
+            <!-- Layer Labels -->
+            <text x="20" y="50" fill="#64748b" font-size="13" font-weight="600">输入层</text>
+            <text x="20" y="170" fill="#64748b" font-size="13" font-weight="600">结构分析层</text>
+            <text x="20" y="310" fill="#64748b" font-size="13" font-weight="600">学习层</text>
+            <text x="20" y="440" fill="#64748b" font-size="13" font-weight="600">决策层</text>
+
+            <!-- Dashed lines for layers -->
+            <line x1="15" y1="65" x2="880" y2="65" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="15" y1="185" x2="880" y2="185" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5"/>
+            <line x1="15" y1="325" x2="880" y2="325" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,5"/>
+
+            <!-- Input Layer -->
+            <rect x="120" y="80" width="160" height="55" rx="8" fill="#2563eb" filter="url(#shadow)"/>
+            <text x="200" y="105" fill="white" font-size="12" font-weight="600" text-anchor="middle">Population.decs</text>
+            <text x="200" y="122" fill="#bfdbfe" font-size="10" text-anchor="middle">决策变量 (N×D)</text>
+
+            <rect x="320" y="80" width="160" height="55" rx="8" fill="#2563eb" filter="url(#shadow)"/>
+            <text x="400" y="105" fill="white" font-size="12" font-weight="600" text-anchor="middle">Population.objs</text>
+            <text x="400" y="122" fill="#bfdbfe" font-size="10" text-anchor="middle">目标值 (N×M)</text>
+
+            <rect x="520" y="80" width="160" height="55" rx="8" fill="#7c3aed" filter="url(#shadow)"/>
+            <text x="600" y="105" fill="white" font-size="12" font-weight="600" text-anchor="middle">RefSelect</text>
+            <text x="600" y="122" fill="#ddd6fe" font-size="10" text-anchor="middle">参考解选择 (k=6)</text>
+
+            <!-- Structure Analysis Layer -->
+            <rect x="100" y="200" width="220" height="70" rx="8" fill="#0891b2" filter="url(#shadow)"/>
+            <text x="210" y="225" fill="white" font-size="13" font-weight="700" text-anchor="middle">BuildObjectiveStructure_LKC</text>
+            <text x="210" y="245" fill="#a5f3fc" font-size="10" text-anchor="middle">Gamma矩阵 → 相似度 → K-means → 修复</text>
+            <text x="210" y="260" fill="#a5f3fc" font-size="10" text-anchor="middle">→ Groups + AggregatedObj</text>
+
+            <rect x="360" y="200" width="180" height="70" rx="8" fill="#0891b2" filter="url(#shadow)"/>
+            <text x="450" y="225" fill="white" font-size="13" font-weight="700" text-anchor="middle">DifficultyProfiler</text>
+            <text x="450" y="245" fill="#a5f3fc" font-size="10" text-anchor="middle">建模难度 + 冲突难度</text>
+            <text x="450" y="260" fill="#a5f3fc" font-size="10" text-anchor="middle">→ d_score</text>
+
+            <rect x="580" y="200" width="200" height="70" rx="8" fill="#0891b2" filter="url(#shadow)"/>
+            <text x="680" y="225" fill="white" font-size="13" font-weight="700" text-anchor="middle">BuildStructureAwareEasySet</text>
+            <text x="680" y="245" fill="#a5f3fc" font-size="10" text-anchor="middle">组级难度 + 可靠性过滤</text>
+            <text x="680" y="260" fill="#a5f3fc" font-size="10" text-anchor="middle">→ EasyAggObj</text>
+
+            <!-- Learning Layer -->
+            <rect x="100" y="340" width="200" height="70" rx="8" fill="#7c3aed" filter="url(#shadow)"/>
+            <text x="200" y="365" fill="white" font-size="13" font-weight="700" text-anchor="middle">GetRelationPairsBudgeted</text>
+            <text x="200" y="385" fill="#ddd6fe" font-size="10" text-anchor="middle">全目标 Pareto-first 标签</text>
+            <text x="200" y="400" fill="#ddd6fe" font-size="10" text-anchor="middle">→ (XX_F, YY_F)</text>
+
+            <rect x="340" y="340" width="200" height="70" rx="8" fill="#7c3aed" filter="url(#shadow)"/>
+            <text x="440" y="365" fill="white" font-size="13" font-weight="700" text-anchor="middle">GetRelationPairsBudgeted</text>
+            <text x="440" y="385" fill="#ddd6fe" font-size="10" text-anchor="middle">易聚合 Pareto-first 标签</text>
+            <text x="440" y="400" fill="#ddd6fe" font-size="10" text-anchor="middle">→ (XX_S, YY_S)</text>
+
+            <rect x="580" y="340" width="200" height="70" rx="8" fill="#9333ea" filter="url(#shadow)"/>
+            <text x="680" y="360" fill="white" font-size="13" font-weight="700" text-anchor="middle">TrainDualScaleNet</text>
+            <text x="680" y="380" fill="#e9d5ff" font-size="10" text-anchor="middle">nets_F (60ep) + nets_S (30ep)</text>
+            <text x="680" y="395" fill="#e9d5ff" font-size="10" text-anchor="middle">集成 K_ens=3, Bagging 70%</text>
+
+            <!-- Decision Layer -->
+            <rect x="250" y="450" width="250" height="55" rx="8" fill="#dc2626" filter="url(#shadow)"/>
+            <text x="375" y="475" fill="white" font-size="14" font-weight="700" text-anchor="middle">ArbitratedSelection_LKC</text>
+            <text x="375" y="493" fill="#fecaca" font-size="10" text-anchor="middle">全目标优先仲裁 → 候选解筛选</text>
+
+            <rect x="540" y="450" width="180" height="55" rx="8" fill="#16a34a" filter="url(#shadow)"/>
+            <text x="630" y="475" fill="white" font-size="13" font-weight="700" text-anchor="middle">真实评估</text>
+            <text x="630" y="493" fill="#bbf7d0" font-size="10" text-anchor="middle">更新 Archive & Population</text>
+
+            <!-- Arrows -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+                </marker>
+            </defs>
+
+            <!-- Input to Structure -->
+            <path d="M200,135 L200,195" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M400,135 L440,195" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M400,135 L210,195" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- Structure to Learning -->
+            <path d="M210,270 L200,335" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M680,270 L440,335" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M680,270 L680,335" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- Learning to Decision -->
+            <path d="M680,410 L500,445" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M200,410 L350,445" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+            <path d="M440,410 L400,445" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- Decision to Eval -->
+            <path d="M500,477 L535,477" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+            <!-- Legend -->
+            <rect x="700" y="80" width="160" height="90" rx="6" fill="white" stroke="#e2e8f0"/>
+            <text x="720" y="100" fill="#2563eb" font-size="10" font-weight="600">■ 输入数据</text>
+            <text x="720" y="118" fill="#0891b2" font-size="10" font-weight="600">■ 结构分析模块</text>
+            <text x="720" y="136" fill="#7c3aed" font-size="10" font-weight="600">■ 学习模块</text>
+            <text x="720" y="154" fill="#dc2626" font-size="10" font-weight="600">■ 决策模块</text>
+        </svg>
+        <p class="diagram-caption">图 1：REMO_DiRel_LKC 整体架构图 —— 四层模块化设计</p>
+    </div>
+
+    <h3>模块清单</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>模块</th>
+                <th>文件</th>
+                <th>行数</th>
+                <th>层次</th>
+                <th>职责</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="tag tag-blue">主控</span></td>
+                <td>REMO_DiRel_LKC.m</td>
+                <td>191</td>
+                <td>主流程</td>
+                <td>算法入口，流程编排，辅助函数</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-green">LKC核心</span></td>
+                <td>BuildObjectiveStructure_LKC.m</td>
+                <td>645</td>
+                <td>结构分析</td>
+                <td>LMVT斜率特征 → K-means聚类 → 目标聚合</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-green">LKC核心</span></td>
+                <td>BuildStructureAwareEasySet.m</td>
+                <td>148</td>
+                <td>结构分析</td>
+                <td>组级难度计算 + 可靠性过滤 + 易组选择</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-purple">学习</span></td>
+                <td>GetRelationPairsBudgeted_LKC.m</td>
+                <td>275</td>
+                <td>学习</td>
+                <td>Pareto-first 关系对标签生成</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-purple">学习</span></td>
+                <td>TrainDualScaleNet.m</td>
+                <td>392</td>
+                <td>学习</td>
+                <td>双尺度集成网络训练</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-orange">决策</span></td>
+                <td>ArbitratorScore_LKC.m</td>
+                <td>229</td>
+                <td>决策</td>
+                <td>全目标优先仲裁评分</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-orange">决策</span></td>
+                <td>ArbitratedSelection_LKC.m</td>
+                <td>57</td>
+                <td>决策</td>
+                <td>GA 候选生成与迭代筛选</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-blue">辅助</span></td>
+                <td>DifficultyProfiler.m</td>
+                <td>167</td>
+                <td>辅助</td>
+                <td>目标难度估计</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-blue">辅助</span></td>
+                <td>ConflictDegree.m</td>
+                <td>76</td>
+                <td>辅助</td>
+                <td>Spearman 冲突度计算</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-blue">辅助</span></td>
+                <td>RefineEasySubset.m</td>
+                <td>118</td>
+                <td>辅助</td>
+                <td>冗余目标修正</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-blue">辅助</span></td>
+                <td>TransferFineTune.m</td>
+                <td>95</td>
+                <td>辅助</td>
+                <td>权重迁移初始化</td>
+            </tr>
+            <tr>
+                <td><span class="tag tag-blue">辅助</span></td>
+                <td>AggregateObjectives_LKC.m</td>
+                <td>87</td>
+                <td>辅助</td>
+                <td>独立聚合工具接口</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Section 3: Pipeline -->
+<section id="pipeline" class="section">
+    <h2><span class="icon">03</span> 主流程详解</h2>
+
+    <p>每一代优化执行以下 11 个步骤：</p>
+
+    <div class="flow-steps">
+        <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <div class="step-title">参考解选择</div>
+                <div class="step-desc">调用 <code>RefSelect(Population, k)</code> 从 archive 中选择 k=6 个参考解，作为后续关系对构造的锚点。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <div class="step-title">提取当前数据</div>
+                <div class="step-desc">获取 <code>Input = Population.decs</code>（决策变量）和 <code>PopObj = Population.objs</code>（目标值）。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <div class="step-title">LKC 结构分组 <span class="tag tag-green">核心</span></div>
+                <div class="step-desc">调用 <code>BuildObjectiveStructure_LKC</code>：基于 LMVT 局部斜率估计构建 Gamma 矩阵，计算 Pearson 相似度，K-means 聚类，组修复，生成聚合目标 <code>AggregatedObj</code>。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+                <div class="step-title">结构感知易目标选择 <span class="tag tag-green">核心</span></div>
+                <div class="step-desc">调用 <code>BuildStructureAwareEasySet</code>：将原始目标难度提升到组级，选择可靠且容易建模的目标组，输出 <code>EasyAggObj</code>。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+                <div class="step-title">全目标关系对构造</div>
+                <div class="step-desc">调用 <code>GetRelationPairsBudgeted_LKC(Input, PopObj, ...)</code>，在完整 M 维目标空间中生成 Pareto-first 标签的关系对 <code>(XX_F, YY_F)</code>。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">6</div>
+            <div class="step-content">
+                <div class="step-title">易聚合关系对构造</div>
+                <div class="step-desc">调用 <code>GetRelationPairsBudgeted_LKC(Input, EasyAggObj, ...)</code>，在低维聚合目标空间中生成关系对 <code>(XX_S, YY_S)</code>。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">7</div>
+            <div class="step-content">
+                <div class="step-title">双网络训练</div>
+                <div class="step-desc">调用 <code>TrainDualScaleNet</code>：训练全目标网络 <code>nets_F</code>（60 epochs）和易聚合子网络 <code>nets_S</code>（30 epochs，迁移初始化）。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">8</div>
+            <div class="step-content">
+                <div class="step-title">构造评分模型</div>
+                <div class="step-desc">组装 <code>Smodel</code> 结构体，包含双网络、结构状态、仲裁阈值和惩罚系数。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">9</div>
+            <div class="step-content">
+                <div class="step-title">仲裁选择 <span class="tag tag-red">关键</span></div>
+                <div class="step-desc">调用 <code>ArbitratedSelection_LKC</code>：GA 迭代生成候选解，用全目标优先仲裁评分筛选，输出高质量候选。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">10</div>
+            <div class="step-content">
+                <div class="step-title">诊断输出</div>
+                <div class="step-desc">保存 <code>lkcDiag{gen,1}</code>，记录分组结果、可靠性、组难度和仲裁触发比例。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">11</div>
+            <div class="step-content">
+                <div class="step-title">真实评估 + 更新</div>
+                <div class="step-desc">对候选解进行昂贵的真实函数评估，更新 archive 和 population。</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: LKC Core -->
+<section id="lkc-core" class="section">
+    <h2><span class="icon">04</span> LKC 结构感知目标分组（核心创新）</h2>
+
+    <p>这是 LKC 变体最核心的创新模块。它从已评估样本中估计目标间的局部结构相似性，将正相关目标聚合成组。</p>
+
+    <h3>设计动机</h3>
+    <div class="highlight-box">
+        <p>在多/超多目标优化中，目标之间并非独立存在，而是存在<strong>正相关、负相关、冗余、冲突</strong>等结构关系。原始 DiRel 只按单目标难度选择子集，忽略这些结构关系。LKC 的动机是把"目标选择"升级为"结构选择"。</p>
+    </div>
+
+    <h3>算法流程图</h3>
+
+    <!-- LKC Flow Diagram -->
+    <div class="diagram-container">
+        <svg viewBox="0 0 850 600" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrow2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+                </marker>
+            </defs>
+
+            <!-- Step 1: Normalization -->
+            <rect x="250" y="20" width="350" height="50" rx="8" fill="#2563eb" filter="url(#shadow)"/>
+            <text x="425" y="42" fill="white" font-size="13" font-weight="600" text-anchor="middle">步骤 1：安全 min-max 归一化</text>
+            <text x="425" y="58" fill="#bfdbfe" font-size="10" text-anchor="middle">处理 NaN/Inf → 替换为列中位数</text>
+
+            <!-- Arrow -->
+            <line x1="425" y1="70" x2="425" y2="95" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- Step 2: Gamma -->
+            <rect x="180" y="100" width="490" height="80" rx="8" fill="#0891b2" filter="url(#shadow)"/>
+            <text x="425" y="122" fill="white" font-size="13" font-weight="700" text-anchor="middle">步骤 2：构建 LMVT 斜率特征矩阵 Gamma</text>
+            <text x="425" y="140" fill="#a5f3fc" font-size="10" text-anchor="middle">对角方向划分 nCells=5 个 cell</text>
+            <text x="425" y="155" fill="#a5f3fc" font-size="10" text-anchor="middle">每个 cell × 每个决策维度 → 选两个样本 → 计算局部斜率</text>
+            <text x="425" y="170" fill="#cffafe" font-size="10" text-anchor="middle">输出: Gamma (M × nCells×D)</text>
+
+            <!-- Gamma Matrix Illustration -->
+            <rect x="200" y="195" width="450" height="100" rx="6" fill="#f0f9ff" stroke="#0891b2"/>
+            <text x="425" y="215" fill="#0891b2" font-size="11" font-weight="600" text-anchor="middle">Gamma 矩阵示意</text>
+
+            <!-- Matrix grid -->
+            <rect x="250" y="225" width="350" height="55" rx="4" fill="white" stroke="#0891b2"/>
+
+            <!-- Row labels -->
+            <text x="235" y="242" fill="#0891b2" font-size="10" text-anchor="end">f₁</text>
+            <text x="235" y="258" fill="#0891b2" font-size="10" text-anchor="end">f₂</text>
+            <text x="235" y="274" fill="#0891b2" font-size="10" text-anchor="end">f₃</text>
+
+            <!-- Cells -->
+            <rect x="255" y="230" width="50" height="15" rx="2" fill="#dbeafe"/>
+            <text x="280" y="241" fill="#1d4ed8" font-size="8" text-anchor="middle">γ₁,₁ ... γ₁,₁₅</text>
+
+            <rect x="255" y="248" width="50" height="15" rx="2" fill="#d1fae5"/>
+            <text x="280" y="259" fill="#065f46" font-size="8" text-anchor="middle">γ₂,₁ ... γ₂,₁₅</text>
+
+            <rect x="255" y="266" width="50" height="15" rx="2" fill="#fce7f3"/>
+            <text x="280" y="277" fill="#9d174d" font-size="8" text-anchor="middle">γ₃,₁ ... γ₃,₁₅</text>
+
+            <!-- Column labels -->
+            <text x="280" y="293" fill="#64748b" font-size="8" text-anchor="middle">cell₁×D</text>
+            <text x="425" y="293" fill="#64748b" font-size="8" text-anchor="middle">...</text>
+            <text x="570" y="293" fill="#64748b" font-size="8" text-anchor="middle">cell₅×D</text>
+
+            <!-- Arrow -->
+            <line x1="425" y1="295" x2="425" y2="315" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- Step 3: Similarity -->
+            <rect x="220" y="320" width="410" height="50" rx="8" fill="#0891b2" filter="url(#shadow)"/>
+            <text x="425" y="342" fill="white" font-size="13" font-weight="600" text-anchor="middle">步骤 3：计算 Pearson 相似度 Sim (M×M)</text>
+            <text x="425" y="358" fill="#a5f3fc" font-size="10" text-anchor="middle">Sim(i,j) = corr(Gamma(i,:), Gamma(j,:))</text>
+
+            <!-- Arrow -->
+            <line x1="425" y1="370" x2="425" y2="390" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- Step 4: K-means -->
+            <rect x="200" y="395" width="450" height="55" rx="8" fill="#7c3aed" filter="url(#shadow)"/>
+            <text x="425" y="417" fill="white" font-size="13" font-weight="600" text-anchor="middle">步骤 4：相关距离 K-means 聚类</text>
+            <text x="425" y="437" fill="#ddd6fe" font-size="10" text-anchor="middle">k = 2..M-1 → 轮廓系数选最优 k → 聚类目标</text>
+
+            <!-- Arrow -->
+            <line x1="425" y1="450" x2="425" y2="470" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- Step 5: Repair -->
+            <rect x="180" y="475" width="490" height="55" rx="8" fill="#dc2626" filter="url(#shadow)"/>
+            <text x="425" y="497" fill="white" font-size="13" font-weight="600" text-anchor="middle">步骤 5：组修复 repairGroupsBySimilarity</text>
+            <text x="425" y="517" fill="#fecaca" font-size="10" text-anchor="middle">负相关拆分 → 可靠性检查 (minRel=0.65) → 不可靠组拆为 singleton</text>
+
+            <!-- Arrow -->
+            <line x1="425" y1="530" x2="425" y2="550" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+            <!-- Step 6: Aggregate -->
+            <rect x="200" y="555" width="450" height="40" rx="8" fill="#16a34a" filter="url(#shadow)"/>
+            <text x="425" y="578" fill="white" font-size="13" font-weight="600" text-anchor="middle">步骤 6：目标聚合 → AggregatedObj (N×G)</text>
+
+            <!-- Side notes -->
+            <rect x="680" y="395" width="160" height="80" rx="6" fill="#fef3c7" stroke="#f59e0b"/>
+            <text x="760" y="415" fill="#92400e" font-size="10" font-weight="600" text-anchor="middle">组修复逻辑</text>
+            <text x="760" y="432" fill="#92400e" font-size="9" text-anchor="middle">if 组内有负相关:</text>
+            <text x="760" y="445" fill="#92400e" font-size="9" text-anchor="middle">  按正相关连通分量拆分</text>
+            <text x="760" y="458" fill="#92400e" font-size="9" text-anchor="middle">if avg_sim < minRel:</text>
+            <text x="760" y="471" fill="#92400e" font-size="9" text-anchor="middle">  拆为单目标组</text>
+            <line x1="670" y1="502" x2="680" y2="502" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,3"/>
+
+            <!-- Aggregate formula -->
+            <rect x="680" y="555" width="160" height="40" rx="6" fill="#f0fdf4" stroke="#16a34a"/>
+            <text x="760" y="572" fill="#166534" font-size="9" text-anchor="middle">w = exp(-dist)</text>
+            <text x="760" y="585" fill="#166534" font-size="9" text-anchor="middle">Agg = PopObj × w</text>
+            <line x1="650" y1="575" x2="680" y2="575" stroke="#16a34a" stroke-width="1" stroke-dasharray="4,3"/>
+        </svg>
+        <p class="diagram-caption">图 2：LKC 结构感知目标分组算法流程</p>
+    </div>
+
+    <h3>核心公式</h3>
+
+    <div class="formula">
+        <strong>LMVT 局部斜率估计：</strong><br>
+        γ(m, cell, d) = (F(b,m) - F(a,m)) / (X(b,d) - X(a,d))<br><br>
+        <strong>结构相似度：</strong><br>
+        Sim(i,j) = Pearson(Γᵢ, Γⱼ)<br><br>
+        <strong>组内聚合权重：</strong><br>
+        w(i) = exp(-‖Γ(i) - centroid‖₂) / Σ exp(-‖Γ(i) - centroid‖₂)<br>
+        AggObj(:,g) = PopObj(:,C) × w
+    </div>
+
+    <h3>为什么用 LMVT 斜率特征？</h3>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Left: Linear objectives -->
+            <rect x="30" y="20" width="350" height="240" rx="8" fill="white" stroke="#e2e8f0"/>
+            <text x="205" y="45" fill="#1e293b" font-size="13" font-weight="600" text-anchor="middle">正相关目标 (f₁, f₂)</text>
+
+            <!-- Axes -->
+            <line x1="70" y1="230" x2="340" y2="230" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="70" y1="230" x2="70" y2="60" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="205" y="252" fill="#64748b" font-size="10" text-anchor="middle">决策变量 x</text>
+            <text x="55" y="145" fill="#64748b" font-size="10" text-anchor="middle" transform="rotate(-90,55,145)">目标值 f</text>
+
+            <!-- f1 line -->
+            <polyline points="80,210 150,170 220,130 290,90" stroke="#2563eb" stroke-width="2.5" fill="none"/>
+            <circle cx="80" cy="210" r="4" fill="#2563eb"/>
+            <circle cx="150" cy="170" r="4" fill="#2563eb"/>
+            <circle cx="220" cy="130" r="4" fill="#2563eb"/>
+            <circle cx="290" cy="90" r="4" fill="#2563eb"/>
+            <text x="310" y="88" fill="#2563eb" font-size="11" font-weight="600">f₁</text>
+
+            <!-- f2 line (similar slope) -->
+            <polyline points="80,200 150,165 220,125 290,85" stroke="#10b981" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+            <circle cx="80" cy="200" r="4" fill="#10b981"/>
+            <circle cx="150" cy="165" r="4" fill="#10b981"/>
+            <circle cx="220" cy="125" r="4" fill="#10b981"/>
+            <circle cx="290" cy="85" r="4" fill="#10b981"/>
+            <text x="310" y="83" fill="#10b981" font-size="11" font-weight="600">f₂</text>
+
+            <!-- Slope arrows -->
+            <line x1="80" y1="210" x2="150" y2="170" stroke="#2563eb" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="120" y="182" fill="#2563eb" font-size="9">斜率相似</text>
+
+            <!-- Right: Conflicting objectives -->
+            <rect x="420" y="20" width="350" height="240" rx="8" fill="white" stroke="#e2e8f0"/>
+            <text x="595" y="45" fill="#1e293b" font-size="13" font-weight="600" text-anchor="middle">负相关目标 (f₁, f₃)</text>
+
+            <!-- Axes -->
+            <line x1="460" y1="230" x2="730" y2="230" stroke="#94a3b8" stroke-width="1.5"/>
+            <line x1="460" y1="230" x2="460" y2="60" stroke="#94a3b8" stroke-width="1.5"/>
+            <text x="595" y="252" fill="#64748b" font-size="10" text-anchor="middle">决策变量 x</text>
+            <text x="445" y="145" fill="#64748b" font-size="10" text-anchor="middle" transform="rotate(-90,445,145)">目标值 f</text>
+
+            <!-- f1 line -->
+            <polyline points="470,210 540,170 610,130 680,90" stroke="#2563eb" stroke-width="2.5" fill="none"/>
+            <circle cx="470" cy="210" r="4" fill="#2563eb"/>
+            <circle cx="540" cy="170" r="4" fill="#2563eb"/>
+            <circle cx="610" cy="130" r="4" fill="#2563eb"/>
+            <circle cx="680" cy="90" r="4" fill="#2563eb"/>
+            <text x="700" y="88" fill="#2563eb" font-size="11" font-weight="600">f₁</text>
+
+            <!-- f3 line (opposite slope) -->
+            <polyline points="470,90 540,130 610,170 680,210" stroke="#ef4444" stroke-width="2.5" fill="none" stroke-dasharray="6,3"/>
+            <circle cx="470" cy="90" r="4" fill="#ef4444"/>
+            <circle cx="540" cy="130" r="4" fill="#ef4444"/>
+            <circle cx="610" cy="170" r="4" fill="#ef4444"/>
+            <circle cx="680" cy="210" r="4" fill="#ef4444"/>
+            <text x="700" y="215" fill="#ef4444" font-size="11" font-weight="600">f₃</text>
+
+            <!-- Slope arrows -->
+            <line x1="470" y1="210" x2="540" y2="170" stroke="#2563eb" stroke-width="1" stroke-dasharray="3,3"/>
+            <line x1="470" y1="90" x2="540" y2="130" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+            <text x="520" y="150" fill="#ef4444" font-size="9">斜率相反</text>
+        </svg>
+        <p class="diagram-caption">图 3：LMVT 斜率特征的直觉 —— 正相关目标斜率相似，负相关目标斜率相反</p>
+    </div>
+
+    <div class="highlight-box">
+        <p><strong>关键洞察：</strong>如果两个目标在相同的决策维度和局部区域有相似的斜率变化模式，说明它们对决策变量的响应结构相似——即使它们的绝对值不同。Pearson 相关衡量的是趋势一致性，所以能正确区分正相关和负相关。</p>
+    </div>
+
+    <h3>优点与缺点</h3>
+    <div class="pros-cons">
+        <div class="pros">
+            <h4>优点</h4>
+            <ul>
+                <li>降低子网络目标维度，缓解维度诅咒</li>
+                <li>显式处理目标冗余，避免重复信息</li>
+                <li>避免负相关目标被错误合并</li>
+                <li>零额外评估开销（只用已评估样本）</li>
+                <li>鲁棒 fallback（特征不足时退化为 singleton）</li>
+            </ul>
+        </div>
+        <div class="cons">
+            <h4>缺点</h4>
+            <ul>
+                <li>每代增加结构估计和聚类的计算开销</li>
+                <li>早期样本少时斜率估计不稳定</li>
+                <li>对 nCells 和 minRel 参数敏感</li>
+                <li>聚合会损失组内个别目标的信息</li>
+                <li>如果目标关系阶段性变化，估计可能滞后</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Section 5: Easy Selection -->
+<section id="easy-select" class="section">
+    <h2><span class="icon">05</span> 结构感知易目标选择</h2>
+
+    <h3>设计动机</h3>
+    <p>原始 DiRel 的 <code>DifficultyProfiler</code> 判断的是"单个目标是否容易建模"，但子网络真正需要的是"一个低维子空间是否值得学习"。LKC 的组级选择把<strong>难度</strong>和<strong>可靠性</strong>两个标准结合起来。</p>
+
+    <h3>选择流程</h3>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrow3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+                </marker>
+            </defs>
+
+            <!-- Step 1 -->
+            <rect x="30" y="30" width="180" height="60" rx="8" fill="#2563eb"/>
+            <text x="120" y="55" fill="white" font-size="11" font-weight="600" text-anchor="middle">DifficultyProfiler</text>
+            <text x="120" y="72" fill="#bfdbfe" font-size="9" text-anchor="middle">→ d_score (每个目标)</text>
+
+            <!-- Arrow -->
+            <line x1="210" y1="60" x2="240" y2="60" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+            <!-- Step 2 -->
+            <rect x="245" y="20" width="200" height="80" rx="8" fill="#0891b2"/>
+            <text x="345" y="45" fill="white" font-size="11" font-weight="600" text-anchor="middle">组级难度计算</text>
+            <text x="345" y="62" fill="#a5f3fc" font-size="9" text-anchor="middle">groupDiff = mean + 0.5×std</text>
+            <text x="345" y="78" fill="#a5f3fc" font-size="9" text-anchor="middle">of d_score(组内目标)</text>
+            <text x="345" y="92" fill="#cffafe" font-size="8" text-anchor="middle">惩罚组内难度不均衡</text>
+
+            <!-- Arrow -->
+            <line x1="445" y1="60" x2="475" y2="60" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+            <!-- Step 3 -->
+            <rect x="480" y="20" width="160" height="80" rx="8" fill="#7c3aed"/>
+            <text x="560" y="45" fill="white" font-size="11" font-weight="600" text-anchor="middle">可靠性过滤</text>
+            <text x="560" y="62" fill="#ddd6fe" font-size="9" text-anchor="middle">reliability ≥ 0.65</text>
+            <text x="560" y="78" fill="#ddd6fe" font-size="9" text-anchor="middle">groupDiff < ∞</text>
+            <text x="560" y="92" fill="#ede9fe" font-size="8" text-anchor="middle">排除不可靠组</text>
+
+            <!-- Arrow down -->
+            <line x1="560" y1="100" x2="560" y2="130" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+            <!-- Step 4 -->
+            <rect x="430" y="135" width="260" height="60" rx="8" fill="#dc2626"/>
+            <text x="560" y="158" fill="white" font-size="11" font-weight="600" text-anchor="middle">组级评分排序</text>
+            <text x="560" y="178" fill="#fecaca" font-size="9" text-anchor="middle">score = diff / reliability - λ × reliability</text>
+
+            <!-- Arrow down -->
+            <line x1="560" y1="195" x2="560" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow3)"/>
+
+            <!-- Step 5 -->
+            <rect x="430" y="225" width="260" height="55" rx="8" fill="#16a34a"/>
+            <text x="560" y="248" fill="white" font-size="11" font-weight="600" text-anchor="middle">选择易组 → EasyAggObj</text>
+            <text x="560" y="265" fill="#bbf7d0" font-size="9" text-anchor="middle">直到覆盖 ≥ k_easy 个原始目标</text>
+
+            <!-- Fallback -->
+            <rect x="30" y="150" width="180" height="50" rx="8" fill="#f59e0b"/>
+            <text x="120" y="172" fill="white" font-size="11" font-weight="600" text-anchor="middle">Fallback</text>
+            <text x="120" y="188" fill="#fef3c7" font-size="9" text-anchor="middle">原始易目标逻辑</text>
+            <line x1="210" y1="175" x2="425" y2="175" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow3)"/>
+        </svg>
+        <p class="diagram-caption">图 4：结构感知易目标选择流程</p>
+    </div>
+
+    <h3>关键公式</h3>
+    <div class="formula">
+        <strong>组级难度：</strong> groupDiff(g) = mean(d_score(C)) + 0.5 × std(d_score(C))<br>
+        <strong>组级评分：</strong> score(g) = groupDiff(g) / reliability(g) - λ × reliability(g)<br>
+        <strong>选择策略：</strong> 按 score 升序选组，直到覆盖 ≥ k_easy 个原始目标
+    </div>
+</section>
+
+<!-- Section 6: Relation Pairs -->
+<section id="relation-pairs" class="section">
+    <h2><span class="icon">06</span> Pareto-first 关系对标签</h2>
+
+    <h3>设计动机</h3>
+    <p>原始 DiRel 使用 PBI 类别关系生成标签，更接近"参考向量分类"。LKC 改为直接在目标空间中进行 Pareto 支配判断，使标签语义更准确。</p>
+
+    <h3>标签逻辑</h3>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 750 320" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrow4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#64748b"/>
+                </marker>
+            </defs>
+
+            <!-- Start -->
+            <rect x="280" y="10" width="190" height="40" rx="20" fill="#2563eb"/>
+            <text x="375" y="35" fill="white" font-size="12" font-weight="600" text-anchor="middle">解对 (i, j) 的目标值</text>
+
+            <!-- Arrow down -->
+            <line x1="375" y1="50" x2="375" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+            <!-- Decision 1 -->
+            <rect x="250" y="80" width="250" height="40" rx="8" fill="#0891b2"/>
+            <text x="375" y="105" fill="white" font-size="11" font-weight="600" text-anchor="middle">i Pareto 支配 j ?</text>
+
+            <!-- Yes -->
+            <line x1="500" y1="100" x2="570" y2="100" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <text x="530" y="93" fill="#16a34a" font-size="10" font-weight="600">是</text>
+            <rect x="575" y="82" width="80" height="36" rx="6" fill="#16a34a"/>
+            <text x="615" y="105" fill="white" font-size="13" font-weight="700" text-anchor="middle">+1</text>
+
+            <!-- No -->
+            <line x1="375" y1="120" x2="375" y2="145" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <text x="385" y="138" fill="#dc2626" font-size="10" font-weight="600">否</text>
+
+            <!-- Decision 2 -->
+            <rect x="250" y="150" width="250" height="40" rx="8" fill="#0891b2"/>
+            <text x="375" y="175" fill="white" font-size="11" font-weight="600" text-anchor="middle">j Pareto 支配 i ?</text>
+
+            <!-- Yes -->
+            <line x1="500" y1="170" x2="570" y2="170" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <text x="530" y="163" fill="#16a34a" font-size="10" font-weight="600">是</text>
+            <rect x="575" y="152" width="80" height="36" rx="6" fill="#dc2626"/>
+            <text x="615" y="175" fill="white" font-size="13" font-weight="700" text-anchor="middle">-1</text>
+
+            <!-- No -->
+            <line x1="375" y1="190" x2="375" y2="215" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <text x="385" y="208" fill="#dc2626" font-size="10" font-weight="600">否</text>
+
+            <!-- Decision 3 -->
+            <rect x="200" y="220" width="350" height="40" rx="8" fill="#7c3aed"/>
+            <text x="375" y="245" fill="white" font-size="11" font-weight="600" text-anchor="middle">互不支配 → 比较归一化均值差</text>
+
+            <!-- Three outcomes -->
+            <line x1="280" y1="260" x2="150" y2="285" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <line x1="375" y1="260" x2="375" y2="285" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
+            <line x1="470" y1="260" x2="600" y2="285" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow4)"/>
+
+            <rect x="100" y="288" width="100" height="28" rx="6" fill="#16a34a"/>
+            <text x="150" y="307" fill="white" font-size="11" font-weight="600" text-anchor="middle">&lt; -gap → +1</text>
+
+            <rect x="325" y="288" width="100" height="28" rx="6" fill="#f59e0b"/>
+            <text x="375" y="307" fill="white" font-size="11" font-weight="600" text-anchor="middle">≈ 0 → 0</text>
+
+            <rect x="550" y="288" width="100" height="28" rx="6" fill="#dc2626"/>
+            <text x="600" y="307" fill="white" font-size="11" font-weight="600" text-anchor="middle">&gt; gap → -1</text>
+        </svg>
+        <p class="diagram-caption">图 5：Pareto-first 关系对标签生成逻辑</p>
+    </div>
+
+    <div class="highlight-box warning">
+        <p><strong>注意：</strong>互不支配样本用目标均值差做弱偏好标签，本质上引入了加权和式标量化偏好。<code>scalarGap</code> 过小会把大量互不支配关系强行分成 +1/-1，过大则会产生太多 0。</p>
+    </div>
+</section>
+
+<!-- Section 7: Dual Network -->
+<section id="dual-net" class="section">
+    <h2><span class="icon">07</span> 双尺度集成网络训练</h2>
+
+    <h3>设计动机</h3>
+    <p>双网络设计的核心思想是<strong>"多视角学习"</strong>：全目标网络看到完整 M 维目标空间提供全局判断，子网络看到低维易聚合目标空间提供局部补充。集成（Bagging）降低单个网络的方差。</p>
+
+    <h3>网络结构对比</h3>
+
+    <!-- Dual Network Diagram -->
+    <div class="diagram-container">
+        <svg viewBox="0 0 800 350" xmlns="http://www.w3.org/2000/svg">
+            <!-- Full Network -->
+            <rect x="30" y="20" width="350" height="310" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+            <text x="205" y="50" fill="#1d4ed8" font-size="14" font-weight="700" text-anchor="middle">全目标网络 (nets_F)</text>
+
+            <!-- Input layer -->
+            <rect x="80" y="70" width="80" height="30" rx="4" fill="#2563eb"/>
+            <text x="120" y="90" fill="white" font-size="10" font-weight="600" text-anchor="middle">输入 2D</text>
+
+            <!-- Hidden -->
+            <rect x="70" y="120" width="100" height="40" rx="4" fill="#3b82f6"/>
+            <text x="120" y="137" fill="white" font-size="10" font-weight="600" text-anchor="middle">隐藏层</text>
+            <text x="120" y="152" fill="#bfdbfe" font-size="8" text-anchor="middle">max 24 nodes</text>
+
+            <!-- Output -->
+            <rect x="60" y="180" width="120" height="30" rx="4" fill="#1d4ed8"/>
+            <text x="120" y="200" fill="white" font-size="10" font-weight="600" text-anchor="middle">softmax (3类)</text>
+
+            <!-- Arrows -->
+            <line x1="120" y1="100" x2="120" y2="118" stroke="#93c5fd" stroke-width="2"/>
+            <line x1="120" y1="160" x2="120" y2="178" stroke="#93c5fd" stroke-width="2"/>
+
+            <!-- Labels -->
+            <text x="250" y="90" fill="#1e293b" font-size="10">训练数据: 全目标关系对</text>
+            <text x="250" y="108" fill="#64748b" font-size="9">Pareto-first 标签</text>
+            <text x="250" y="140" fill="#1e293b" font-size="10">训练轮数: 60 epochs</text>
+            <text x="250" y="170" fill="#1e293b" font-size="10">初始化: 随机</text>
+            <text x="250" y="200" fill="#1e293b" font-size="10">输出: P(+1), P(0), P(-1)</text>
+
+            <!-- Sub Network -->
+            <rect x="420" y="20" width="350" height="310" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+            <text x="595" y="50" fill="#166534" font-size="14" font-weight="700" text-anchor="middle">子网络 (nets_S)</text>
+
+            <!-- Input layer -->
+            <rect x="470" y="70" width="80" height="30" rx="4" fill="#16a34a"/>
+            <text x="510" y="90" fill="white" font-size="10" font-weight="600" text-anchor="middle">输入 2D</text>
+
+            <!-- Hidden -->
+            <rect x="460" y="120" width="100" height="40" rx="4" fill="#22c55e"/>
+            <text x="510" y="137" fill="white" font-size="10" font-weight="600" text-anchor="middle">隐藏层</text>
+            <text x="510" y="152" fill="#bbf7d0" font-size="8" text-anchor="middle">max 24 nodes</text>
+
+            <!-- Output -->
+            <rect x="450" y="180" width="120" height="30" rx="4" fill="#15803d"/>
+            <text x="510" y="200" fill="white" font-size="10" font-weight="600" text-anchor="middle">softmax (3类)</text>
+
+            <!-- Arrows -->
+            <line x1="510" y1="100" x2="510" y2="118" stroke="#86efac" stroke-width="2"/>
+            <line x1="510" y1="160" x2="510" y2="178" stroke="#86efac" stroke-width="2"/>
+
+            <!-- Labels -->
+            <text x="640" y="90" fill="#1e293b" font-size="10">训练数据: 易聚合关系对</text>
+            <text x="640" y="108" fill="#64748b" font-size="9">Pareto-first 标签</text>
+            <text x="640" y="140" fill="#1e293b" font-size="10">训练轮数: 30 epochs</text>
+            <text x="640" y="170" fill="#1e293b" font-size="10">初始化: 从 nets_F 迁移</text>
+            <text x="640" y="200" fill="#1e293b" font-size="10">输出: P(+1), P(0), P(-1)</text>
+
+            <!-- Transfer arrow -->
+            <line x1="180" y1="140" x2="458" y2="140" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arrow4)"/>
+            <text x="320" y="133" fill="#92400e" font-size="10" font-weight="600" text-anchor="middle">权重迁移</text>
+
+            <!-- Ensemble note -->
+            <rect x="200" y="240" width="400" height="70" rx="8" fill="white" stroke="#e2e8f0"/>
+            <text x="400" y="262" fill="#7c3aed" font-size="12" font-weight="600" text-anchor="middle">集成策略 (K_ens = 3)</text>
+            <text x="400" y="280" fill="#64748b" font-size="10" text-anchor="middle">每个网络训练在 70% bagging 子集上</text>
+            <text x="400" y="296" fill="#64748b" font-size="10" text-anchor="middle">集成预测 = 多数投票 | 集成方差 = 不确定性度量</text>
+        </svg>
+        <p class="diagram-caption">图 6：双尺度集成网络结构 —— 全目标网络与子网络的对比</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>项目</th>
+                <th>全目标网络 (nets_F)</th>
+                <th>子网络 (nets_S)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>训练数据</td>
+                <td>全目标空间关系对</td>
+                <td>易聚合空间关系对</td>
+            </tr>
+            <tr>
+                <td>训练轮数</td>
+                <td>60 epochs</td>
+                <td>30 epochs</td>
+            </tr>
+            <tr>
+                <td>初始化</td>
+                <td>随机初始化</td>
+                <td>从 nets_F 迁移初始化</td>
+            </tr>
+            <tr>
+                <td>集成大小</td>
+                <td colspan="2" style="text-align:center">K_ens = 3 个网络</td>
+            </tr>
+            <tr>
+                <td>采样策略</td>
+                <td colspan="2" style="text-align:center">70% Bagging，按类别分层</td>
+            </tr>
+            <tr>
+                <td>网络结构</td>
+                <td colspan="2" style="text-align:center">Input(2D) → Hidden(max 24) → Softmax(3)</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Section 8: Arbitration -->
+<section id="arbitration" class="section">
+    <h2><span class="icon">08</span> 全目标优先仲裁评分</h2>
+
+    <h3>设计动机</h3>
+    <p>这是 LKC 与原始 DiRel 的<strong>关键区别</strong>之一。原始 DiRel 使用逆方差融合，将两个网络近似对等对待。但 LKC 的子网络学习的是"易聚合目标空间"的语义，比全目标网络更窄。如果继续对等融合，子空间很确定但全目标上实际不好的情况可能导致错误推荐。</p>
+
+    <h3>仲裁策略对比</h3>
+
+    <div class="diagram-container">
+        <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+            <!-- Left: Original -->
+            <rect x="20" y="20" width="360" height="240" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+            <text x="200" y="50" fill="#991b1b" font-size="13" font-weight="700" text-anchor="middle">原始 DiRel：逆方差融合</text>
+
+            <text x="200" y="80" fill="#1e293b" font-size="10" text-anchor="middle">w_F = (1/σ²_F) / (1/σ²_F + 1/σ²_S)</text>
+            <text x="200" y="100" fill="#1e293b" font-size="10" text-anchor="middle">score = w_F × score_F + (1-w_F) × score_S</text>
+
+            <rect x="60" y="120" width="280" height="50" rx="6" fill="white" stroke="#fecaca"/>
+            <text x="200" y="142" fill="#dc2626" font-size="10" font-weight="600" text-anchor="middle">全目标网络 ⟺ 子网络</text>
+            <text x="200" y="158" fill="#dc2626" font-size="9" text-anchor="middle">近似对等的两个证据源</text>
+
+            <text x="200" y="200" fill="#991b1b" font-size="9" text-anchor="middle">风险: 子空间确定但全目标不好</text>
+            <text x="200" y="215" fill="#991b1b" font-size="9" text-anchor="middle">→ 可能误导全局选择</text>
+
+            <!-- Right: LKC -->
+            <rect x="420" y="20" width="360" height="240" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+            <text x="600" y="50" fill="#166534" font-size="13" font-weight="700" text-anchor="middle">LKC：全目标优先</text>
+
+            <text x="600" y="80" fill="#1e293b" font-size="10" text-anchor="middle">score = baseFull + sub × trigger</text>
+            <text x="600" y="100" fill="#1e293b" font-size="10" text-anchor="middle">trigger = fullUncertain & highConf</text>
+
+            <rect x="460" y="120" width="280" height="50" rx="6" fill="white" stroke="#bbf7d0"/>
+            <text x="600" y="142" fill="#16a34a" font-size="10" font-weight="600" text-anchor="middle">全目标网络 ≫ 子网络</text>
+            <text x="600" y="158" fill="#16a34a" font-size="9" text-anchor="middle">主判断 + tie-break 补充</text>
+
+            <text x="600" y="200" fill="#166534" font-size="9" text-anchor="middle">安全: 子网络只在全目标不确定时</text>
+            <text x="600" y="215" fill="#166534" font-size="9" text-anchor="middle">提供正向补充，冲突时惩罚</text>
+        </svg>
+        <p class="diagram-caption">图 7：仲裁策略对比 —— 从逆方差融合到全目标优先</p>
+    </div>
+
+    <h3>评分公式详解</h3>
+    <div class="formula">
+        <strong>score = baseFull</strong><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;+ tieWeight × triggerSub × max(0, tanh(μ_S))&nbsp;&nbsp;// 子网络 tie-break<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;- betaUncertainty × norm(σ_F)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 不确定性惩罚<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;- lambdaDisagreement × disagreement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 冲突惩罚<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;+ gammaNovelty × novelty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 新颖性奖励<br><br>
+        <strong>其中：</strong><br>
+        baseFull = 2 + 2 × tanh(μ_F)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 全目标基础分<br>
+        highF = |μ_F| ≥ 0.15 &amp; σ²_F ≤ τ²&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 全目标高置信<br>
+        highS = |μ_S| ≥ 0.15 &amp; σ²_S ≤ τ²&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 子网络高置信<br>
+        fullUncertain = ¬highF<br>
+        triggerSub = fullUncertain &amp; highS<br>
+        disagreement = highS &amp; sign(μ_F) ≠ sign(μ_S)
+    </div>
+
+    <h3>内部参数</h3>
+    <table class="param-table">
+        <thead>
+            <tr>
+                <th>参数</th>
+                <th>默认值</th>
+                <th>含义</th>
+                <th>影响</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>margin_F, margin_S</td>
+                <td>0.15</td>
+                <td>高置信均值边界</td>
+                <td>越大越保守，更少被判为高置信</td>
+            </tr>
+            <tr>
+                <td>tieWeight</td>
+                <td>0.5</td>
+                <td>子网络 tie-break 权重</td>
+                <td>越大子网络影响力越强</td>
+            </tr>
+            <tr>
+                <td>betaUncertainty</td>
+                <td>0.25</td>
+                <td>不确定性惩罚</td>
+                <td>越大越惩罚不确定的候选</td>
+            </tr>
+            <tr>
+                <td>lambdaDisagreement</td>
+                <td>0.75</td>
+                <td>冲突惩罚</td>
+                <td>越大越惩罚全/子网络冲突</td>
+            </tr>
+            <tr>
+                <td>gammaNovelty</td>
+                <td>0.25</td>
+                <td>新颖性奖励</td>
+                <td>越大越鼓励探索新区域</td>
+            </tr>
+            <tr>
+                <td>scoreThreshold</td>
+                <td>3.4</td>
+                <td>候选筛选阈值</td>
+                <td>越大筛选越严格</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- Section 9: GA Selection -->
+<section id="ga-selection" class="section">
+    <h2><span class="icon">09</span> GA 候选生成与选择</h2>
+
+    <h3>设计动机</h3>
+    <p>昂贵优化中每次真实评估都很珍贵。不能一次性生成大量候选直接评估，而需要用代理模型迭代筛选，确保只对最有潜力的候选进行昂贵评估。</p>
+
+    <h3>难度自适应 GA 参数</h3>
+    <div class="formula">
+        disC = 10 + 20 × (1 - diff)&nbsp;&nbsp;&nbsp;&nbsp;// 交叉分布指数<br>
+        disM = 5 + 20 × (1 - diff)&nbsp;&nbsp;&nbsp;&nbsp;// 变异分布指数<br>
+        proM = 1 + 0.5 × diff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// 变异率<br><br>
+        <strong>直觉：</strong>问题越难 → 更多变异（探索）；问题越简单 → 更多交叉（开发）
+    </div>
+
+    <h3>迭代筛选流程</h3>
+    <div class="flow-steps">
+        <div class="flow-step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <div class="step-title">初始候选生成</div>
+                <div class="step-desc">用 <code>OperatorGA</code> 从当前种群生成初始候选解。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <div class="step-title">代理评分</div>
+                <div class="step-desc">用 <code>ArbitratorScore_LKC</code> 对所有候选评分。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <div class="step-title">选择 Top 候选</div>
+                <div class="step-desc">选出分数最高的候选作为"父代"。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">4</div>
+            <div class="step-content">
+                <div class="step-title">生成新 Offspring</div>
+                <div class="step-desc">从 Top 候选生成新的子代候选。</div>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="step-num">5</div>
+            <div class="step-content">
+                <div class="step-title">迭代直到预算耗尽</div>
+                <div class="step-desc">重复 2-4，直到达到 gmax 次评估。最终保留 score > 3.4 的候选（至少 top 4）。</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 10: Parameters -->
+<section id="params" class="section">
+    <h2><span class="icon">10</span> 参数汇总</h2>
+
+    <h3>公开参数（可通过 ParameterSet 配置）</h3>
+    <table class="param-table">
+        <thead>
+            <tr>
+                <th>参数</th>
+                <th>默认值</th>
+                <th>作用</th>
+                <th>调大影响</th>
+                <th>调小影响</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>k_easy_user</td>
+                <td>-1</td>
+                <td>易目标数量</td>
+                <td>子网络维度更高</td>
+                <td>子网络维度更低</td>
+            </tr>
+            <tr>
+                <td>tau_conf</td>
+                <td>0.3</td>
+                <td>不确定性阈值</td>
+                <td>更多候选被判不确定</td>
+                <td>更少不确定</td>
+            </tr>
+            <tr>
+                <td>alpha</td>
+                <td>0.6</td>
+                <td>难度权重</td>
+                <td>更重视建模难度</td>
+                <td>更重视冲突难度</td>
+            </tr>
+            <tr>
+                <td>k</td>
+                <td>6</td>
+                <td>参考解数</td>
+                <td>选择更分散</td>
+                <td>选择更集中</td>
+            </tr>
+            <tr>
+                <td>gmax</td>
+                <td>1000</td>
+                <td>GA 迭代数</td>
+                <td>候选质量更高但更慢</td>
+                <td>更快但质量可能下降</td>
+            </tr>
+            <tr>
+                <td>K_ens</td>
+                <td>3</td>
+                <td>集成网络数</td>
+                <td>预测更稳定但更慢</td>
+                <td>更快但方差更大</td>
+            </tr>
+            <tr>
+                <td>win_K</td>
+                <td>3</td>
+                <td>平滑窗口</td>
+                <td>更平滑但响应更慢</td>
+                <td>更敏感但噪声更大</td>
+            </tr>
+            <tr>
+                <td>nCells</td>
+                <td>5</td>
+                <td>LMVT cell 数</td>
+                <td>结构特征更细</td>
+                <td>更粗但更稳定</td>
+            </tr>
+            <tr>
+                <td>minRel</td>
+                <td>0.65</td>
+                <td>最低可靠性</td>
+                <td>分组更保守</td>
+                <td>分组更激进</td>
+            </tr>
+            <tr>
+                <td>scalarGap</td>
+                <td>0.05</td>
+                <td>偏好标签阈值</td>
+                <td>更多 0 标签</td>
+                <td>更多 +1/-1 标签</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>调参建议</h3>
+    <div class="highlight-box">
+        <ol style="padding-left: 20px; font-size: 0.95rem;">
+            <li><strong>先用默认值跑基线</strong>，观察诊断输出</li>
+            <li><strong>如果分组全是 singleton</strong>：降低 <code>minRel</code> 或增加 <code>nCells</code></li>
+            <li><strong>如果子网络几乎不参与</strong>（subTriggeredRatio ≈ 0）：降低 <code>tau_conf</code></li>
+            <li><strong>如果冲突比例高</strong>（disagreementRatio > 0.3）：检查分组质量</li>
+            <li><strong>如果候选解太少</strong>：降低 scoreThreshold</li>
+        </ol>
+    </div>
+</section>
+
+<!-- Section 11: Pros/Cons -->
+<section id="pros-cons" class="section">
+    <h2><span class="icon">11</span> 优缺点综合分析</h2>
+
+    <div class="pros-cons">
+        <div class="pros">
+            <h4>主要优点</h4>
+            <ul>
+                <li><strong>子网络语义更稳</strong> — 结构组内目标正相关，聚合后一致性更强</li>
+                <li><strong>适合超多目标冗余场景</strong> — 相似目标被合并，降低关系学习压力</li>
+                <li><strong>避免负相关误合并</strong> — 明确使用正相似性，负相关目标被拆开</li>
+                <li><strong>仲裁更安全</strong> — 全目标优先，降低局部视角误导全局选择的风险</li>
+                <li><strong>诊断能力强</strong> — lkcDiag 提供丰富的算法行为信息</li>
+                <li><strong>零额外评估开销</strong> — 结构分析只使用已评估样本</li>
+            </ul>
+        </div>
+        <div class="cons">
+            <h4>主要缺点</h4>
+            <ul>
+                <li><strong>计算更复杂</strong> — 每代增加结构估计、聚类、修复和聚合</li>
+                <li><strong>参数更多</strong> — 新增 3 个公开参数 + 9 个内部仲裁系数</li>
+                <li><strong>早期不稳定</strong> — 初期样本少时结构估计可能不可靠</li>
+                <li><strong>聚合损失信息</strong> — 组内个别目标的极端行为可能被掩盖</li>
+                <li><strong>子网络影响偏弱</strong> — 全目标优先仲裁可能让 LKC 优势不明显</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Section 12: Scenarios -->
+<section id="scenarios" class="section">
+    <h2><span class="icon">12</span> 适用场景</h2>
+
+    <div class="card-grid">
+        <div class="card" style="border-left: 4px solid #16a34a;">
+            <h4>更适合 REMO_DiRel_LKC</h4>
+            <p>
+                <span class="tag tag-green">M ≥ 10</span>
+                <span class="tag tag-green">目标冗余明显</span>
+                <span class="tag tag-green">需要诊断信息</span><br><br>
+                • 目标数较多（10、15、20 目标）<br>
+                • 多个目标存在明显冗余或相似变化趋势<br>
+                • 原始 DiRel 的 S_easy 经常选到高度相似目标<br>
+                • 需要保守使用子空间模型<br>
+                • 需要更多诊断信息分析算法行为
+            </p>
+        </div>
+        <div class="card" style="border-left: 4px solid #2563eb;">
+            <h4>更适合原始 REMO_DiRel</h4>
+            <p>
+                <span class="tag tag-blue">M ≤ 5</span>
+                <span class="tag tag-blue">时间预算紧</span>
+                <span class="tag tag-blue">目标关系弱</span><br><br>
+                • 目标数较少，结构分组收益不明显<br>
+                • 目标之间关系很弱或高度动态<br>
+                • 运行时间预算很紧<br>
+                • 希望子网络和全目标网络以更对等方式融合
+            </p>
+        </div>
+    </div>
+
+    <h3>推荐的消融实验</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>变体</th>
+                <th>验证目标</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>不做结构分组（全部 singleton）</td>
+                <td>验证 LKC 分组本身是否有效</td>
+            </tr>
+            <tr>
+                <td>做分组但不用聚合</td>
+                <td>验证聚合目标是否有效</td>
+            </tr>
+            <tr>
+                <td>使用旧版逆方差仲裁</td>
+                <td>验证全目标优先仲裁是否必要</td>
+            </tr>
+            <tr>
+                <td>关闭组修复 repairGroupsBySimilarity</td>
+                <td>验证正相关和可靠性约束是否必要</td>
+            </tr>
+            <tr>
+                <td>scalarGap = 0 或很大</td>
+                <td>验证弱偏好标签对训练的影响</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>REMO_DiRel_LKC 算法介绍文档 | 基于 PlatEMO 框架 | LKC 结构分组参考 Liu et al. (2026)</p>
+        <p style="margin-top: 8px;">生成日期：2026-05-31</p>
+    </div>
+</footer>
+
+</body>
+</html>
