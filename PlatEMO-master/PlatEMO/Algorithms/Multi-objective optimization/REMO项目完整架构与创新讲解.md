@@ -182,13 +182,13 @@ scores(i) = C_SCORE(1) - C_SCORE(2);  % 净支持度
 
 跑过实验你会发现，REMO 在 M=2,3 优秀，但 M=5,10,15 急剧退化。原因（在 `REMO_new2_TrueSR_Algorithm/many_objective_REMO_research_plan.md` 第 56–134 行有详细论证）：
 
-| 痛点 | 代码位置 | 表现 |
-|------|---------|------|
-| ① 标签硬（hard label） | `GetOutput_PBI.m` 二分 1/0 | 边界附近的解被错误标注 |
-| ② k=6 参考解太少 | `REMO.m:24` | 5–20 维 Pareto 前沿覆盖不足 |
-| ③ RefSelect 雷达图压维 | `RefSelect.m:99–113` | M→2 映射丢失高维方向信息 |
-| ④ 无不确定性 | `model_select` 只输出 score | 候选选择只会 exploit，不会 explore |
-| ⑤ PF 形状假设固定 | PBI 默认线性参考向量 | 凹/凸/退化 PF 失效 |
+| 痛点                    | 代码位置                      | 表现                               |
+| ----------------------- | ----------------------------- | ---------------------------------- |
+| ① 标签硬（hard label） | `GetOutput_PBI.m` 二分 1/0  | 边界附近的解被错误标注             |
+| ② k=6 参考解太少       | `REMO.m:24`                 | 5–20 维 Pareto 前沿覆盖不足       |
+| ③ RefSelect 雷达图压维 | `RefSelect.m:99–113`       | M→2 映射丢失高维方向信息          |
+| ④ 无不确定性           | `model_select` 只输出 score | 候选选择只会 exploit，不会 explore |
+| ⑤ PF 形状假设固定      | PBI 默认线性参考向量          | 凹/凸/退化 PF 失效                 |
 
 下面三个创新就是**逐个打掉这些痛点**。
 
@@ -258,6 +258,7 @@ Ps    = 1 ./ (1 + exp(-alpha .* delta));        % Sigmoid → 软概率
 ```
 
 把 REMO 的"分类训练"换成 "RankNet 风格的成对回归训练"：
+
 - `delta > 0`：P ≈ 1 (i 确实更好)
 - `delta ≈ 0`：P ≈ 0.5 (差不多，不要瞎给硬标签)
 - `delta < 0`：P ≈ 0 (j 更好)
@@ -290,6 +291,7 @@ scores = mean(pairScore, 2);
 ```
 
 **为什么这是大创新**：
+
 - 锚点**覆盖整个分数谱**（从最好到最差），避免 REMO 原版只跟 C1/C2 两端比较的偏置；
 - 正反向对称化解决了神经网络对输入顺序敏感的问题（这是 REMO 原版没处理的 bug）。
 
@@ -309,7 +311,7 @@ function diagnostics = RuntimeDiagnostics(Population,Nref)
     cosine = 1 - pdist2(Direction,V,'cosine');
     [~,assigned] = max(cosine,[],2);
     diagnostics.coverage = numel(unique(assigned)) / size(V,1);
-    
+  
     % 退化度：SVD 主成分能量集中度
     s = svd(Centered,'econ');
     rank90 = find(cumsum(s.^2)./sum(s.^2) >= 0.90, 1, 'first');
@@ -355,6 +357,7 @@ else             → Minkowski
 ```
 
 效果反馈（`UpdateInformation.m`）：用 **NDSort + NDSort_SDR 双层验证**评分（`IndicatorFeedbackScore` 528–553 行）：
+
 - score = 0：被原始 NDSort 支配
 - score = 1：进 NDSort 第一层但不在 SDR 严格层
 - score = 2：双层都进 → 真正脱颖而出
@@ -406,10 +409,12 @@ APD 来自 RVEA 经典文献，同时考虑收敛性（normP）和多样性（an
 ## 7.2 两条路线
 
 **路线 A**（`REMO_new2_RegionalSR_A.m`）：**单全局模型 + 参考向量上下文**
+
 - 输入特征加入参考向量信息：`[x_i, x_j, w_r]`
 - 一个网络学所有区域，样本利用率高
 
 **路线 B**（`REMO_new2_RegionalSR_B.m`）：**每区域一个模型**
+
 - `TrainRegionalSoftModels_B.m`：每个区域单独训一个 soft ranking 网络
 - 严格 decomposition，但模型多、训练开销大
 
@@ -439,21 +444,22 @@ APD 来自 RVEA 经典文献，同时考虑收敛性（normP）和多样性（an
 
 ## 8.2 为什么有效（机制分析）
 
-| 创新 | 解决的痛点 | 为什么有效 |
-|------|----------|-----------|
-| 混合 PBI 分数 (`new2`) | 标签信息丢失 | 连续分数比 0/1 标签包含 N 倍信息量；双信号置信度估计 |
-| 软概率 (`TrueSR`) | 标签噪声 | Sigmoid 平滑使边界样本权重自动降低；MSE 损失梯度更平稳 |
-| 锚点 Borda (`TrueSR`) | 神经网络方向偏置 | 正反向对称化 + 全谱锚点消除 REMO 原版 C1/C2 两端偏置 |
-| 运行时诊断 (`AdaMaO`) | 模型用法僵化 | 用 SVD/coverage 实时探测种群状态，让算法学会"什么时候用什么策略" |
-| 不确定性 acquisition (`AdaMaO`) | 过早收敛 | `lambda_t * uncertainty` 实现 UCB，理论上有 regret bound |
-| Lp 形状自适应 (`AdaMaO`) | PF 形状假设错误 | Shape_Estimate 用 17 个候选 Lp 找标准差最小的，自动匹配凹/凸/线性 PF |
-| 区域化软排序 (`RegionalSR`) | 全局比较无意义 | 把高维问题降到 R 个低维子问题，每个子问题样本数仍足够 |
+| 创新                              | 解决的痛点       | 为什么有效                                                           |
+| --------------------------------- | ---------------- | -------------------------------------------------------------------- |
+| 混合 PBI 分数 (`new2`)          | 标签信息丢失     | 连续分数比 0/1 标签包含 N 倍信息量；双信号置信度估计                 |
+| 软概率 (`TrueSR`)               | 标签噪声         | Sigmoid 平滑使边界样本权重自动降低；MSE 损失梯度更平稳               |
+| 锚点 Borda (`TrueSR`)           | 神经网络方向偏置 | 正反向对称化 + 全谱锚点消除 REMO 原版 C1/C2 两端偏置                 |
+| 运行时诊断 (`AdaMaO`)           | 模型用法僵化     | 用 SVD/coverage 实时探测种群状态，让算法学会"什么时候用什么策略"     |
+| 不确定性 acquisition (`AdaMaO`) | 过早收敛         | `lambda_t * uncertainty` 实现 UCB，理论上有 regret bound           |
+| Lp 形状自适应 (`AdaMaO`)        | PF 形状假设错误  | Shape_Estimate 用 17 个候选 Lp 找标准差最小的，自动匹配凹/凸/线性 PF |
+| 区域化软排序 (`RegionalSR`)     | 全局比较无意义   | 把高维问题降到 R 个低维子问题，每个子问题样本数仍足够                |
 
 ## 8.3 数据支撑（看你 Excel 文件名）
 
 项目根目录有：
+
 - `REMO_new2_AdaMaO二十目标数据.xlsx`
-- `REMO_new2_AdaMaO十五目标数据.xlsx`  
+- `REMO_new2_AdaMaO十五目标数据.xlsx`
 - `REMO_new2_AdaMaO十目标数据.xlsx`
 - `REMO_new2_AdaMaO五目标数据.xlsx`
 
@@ -475,36 +481,42 @@ Many-Objective Expensive Optimization by Adaptive Soft Relation Learning and Pre
 ## 9.2 论文章节架构
 
 ### **I. Introduction**
+
 - 1.1 EMaOP 的工程价值（昂贵仿真、5-20 目标的真实场景）
 - 1.2 已有 SAEA 在 M≥5 的局限（Pareto pressure loss, surrogate divergence）
 - 1.3 关系学习（REMO）的优势与不足
 - 1.4 本文贡献（三大创新，下面详述）
 
 ### **II. Related Work**
+
 - 2.1 Surrogate-based MOEAs：K-RVEA, CSEA, HSMEA
 - 2.2 Relation Learning：REMO, Dominance Prediction
 - 2.3 Learning-to-Rank：RankNet 在排序的成熟性
 - 2.4 Many-objective Indicators：PIEA, R2, IGD+
 
-### **III. Preliminaries** 
+### **III. Preliminaries**
+
 - 3.1 EMaOP 数学定义
 - 3.2 REMO baseline 简要回顾（含 PBI 分类、关系对、神经网络）
 
 ### **IV. Proposed MaSR-REMO Algorithm（论文主体，三大贡献）**
 
 **Section A. Hybrid PBI Scoring with Confidence** （= REMO_new2）
+
 - 公式：`score_hybrid = α·score_v + (1-α)·label_dyn`，`α = 1-ratio`
 - 自适应参考向量（K-means on Pareto front）
 - 置信度估计 `confidence = 1 - |score_v - label_dyn|`
 - **Theorem 1**: score_hybrid 在 PBI 度量下的单调性（一致性证明）
 
 **Section B. Soft Pairwise Ranking with Anchor-Borda Scoring**（= TrueSR）
+
 - 公式：`P_ij = σ(α·(s_i - s_j))`
 - 网络结构：`logsig` 输出 + `MSE` 损失（与 RankNet 形式一致）
 - 锚点 Borda 评分：`pairScore = 0.5·(P_fwd + 1 - P_rev)`
 - **Proposition 1**: Anchor-Borda 评分的对称性（消除方向偏置）
 
 **Section C. Runtime-Diagnosed Adaptive Selection** （= AdaMaO）
+
 - 运行时诊断：coverage (覆盖率) + degeneracy (退化度)
 - 三模式关系训练：conservative / curriculum / weighted
 - 三模式候选选择：conservative / explore / indicator
@@ -512,6 +524,7 @@ Many-Objective Expensive Optimization by Adaptive Soft Relation Learning and Pre
 - 指标轮盘（SDE/Iε+/MD）+ NDSort_SDR 双层反馈
 
 ### **V. Experimental Study**
+
 - 5.1 实验设置（Benchmark：DTLZ1-7, WFG1-9, MaF1-15；M=5,8,10,15,20；maxFE=300）
 - 5.2 对比算法（必选）：REMO, K-RVEA, CSEA, HSMEA, MOEA/D-EGO, ParEGO
 - 5.3 性能比较（IGD, IGD+, HV, R2，加 Wilcoxon 检验）
@@ -532,9 +545,7 @@ Many-Objective Expensive Optimization by Adaptive Soft Relation Learning and Pre
 照搬 `many_objective_REMO_research_plan.md` 第 619–635 行的措辞，可调整为：
 
 1. **Reference-vector-guided soft relation learning**：把 REMO 的全局二分类扩展为参考向量区域内的成对软排序概率，让代理学到"在哪个方向上谁更好"。
-
 2. **Uncertainty-aware adaptive model management**：用置信度加权 + 不确定性 acquisition + 三模式自适应切换，把 K-RVEA 风格的不确定性管理引入关系学习框架。
-
 3. **Diversity-preserving regional preselection**：候选解按参考向量分配评价预算，结合 NDSort_SDR 严格非支配验证，保证 Pareto 前沿覆盖。
 
 ---
