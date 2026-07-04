@@ -1,6 +1,8 @@
 classdef REMO_new2_k15 < ALGORITHM
 % <2022> <multi/many> <real> <expensive>
-% Expensive multiobjective optimization by relation learning and prediction
+% Expensive multiobjective optimization by relation learning and predicti
+% k    ---    6 --- Number of reference solutions
+% gmax --- 3000 --- Number of solutions evaluated by surrogate model
 % (Modified with Hybrid PBI Classification)
     methods
         function main(Algorithm,Problem)
