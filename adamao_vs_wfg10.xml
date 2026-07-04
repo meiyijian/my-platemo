@@ -1,0 +1,571 @@
+<hr/>
+<h1>十、REMO_new2_AdaMaO vs REMO_new2_WFG10 逐项对比</h1>
+
+<callout emoji="🔬" background-color="light-blue" border-color="blue">
+  <p><b>阅读指南：</b>本章从源码层面逐模块对比 AdaMaO 与 WFG10，标注每一个改进点的<b>源码位置</b>、<b>改进动机</b>和<b>改进来源</b>。颜色标记：<span text-color="green">🟢 AdaMaO 新增</span> | <span text-color="blue">🔵 直接继承</span> | <span text-color="orange">🟡 WFG10 有但 AdaMaO 改造</span></p>
+</callout>
+
+<h2>10.1 算法整体架构对比</h2>
+
+<table>
+  <colgroup><col width="150"/><col width="280"/><col width="280"/></colgroup>
+  <thead><tr><th background-color="light-gray">对比维度</th><th background-color="light-gray">REMO_new2_WFG10</th><th background-color="light-gray">REMO_new2_AdaMaO</th></tr></thead>
+  <tbody>
+    <tr><td>文件数量</td><td>11 个 .m 文件</td><td>18 个 .m 文件（+7 个）</td></tr>
+    <tr><td>核心参数</td><td>7 个</td><td>10 个（+tau_err, use_indicator, debug）</td></tr>
+    <tr><td>关系对模式</td><td>仅 1 种：weighted</td><td>3 种：conservative / curriculum / weighted</td></tr>
+    <tr><td>候选选择模式</td><td>仅 1 种：explore</td><td>3 种：conservative / explore / indicator</td></tr>
+    <tr><td>运行时诊断</td><td>❌ 无</td><td>✅ 有（coverage + degeneracy）</td></tr>
+    <tr><td>PIEA 指标</td><td>❌ 无</td><td>✅ 有（可选开关）</td></tr>
+    <tr><td>自适应切换</td><td>❌ 固定策略</td><td>✅ 诊断驱动决策树</td></tr>
+  </tbody>
+</table>
+
+<callout emoji="💡" background-color="light-green" border-color="green">
+  <p><b>一句话总结：</b>AdaMaO 在 WFG10 的基础上，把"固定策略"改成了"诊断驱动的自适应策略"，并引入了 PIEA 的指标评估作为第三种选择模式。WFG10 一直用同一种策略（weighted + explore），而 AdaMaO 会根据种群状态自动切换。</p>
+</callout>
+
+<h2>10.2 改进一：从「单模式关系对」到「三模式动态切换」</h2>
+
+<h3>WFG10 的做法（固定 weighted 模式）</h3>
+
+<callout emoji="📋" background-color="light-gray" border-color="gray">
+  <p><b>源码位置：</b>REMO_new2_WFG10.m，第 62-97 行</p>
+</callout>
+
+<pre lang="matlab" caption="WFG10：固定使用置信度加权关系对"><code>% WFG10 总是用 weighted 模式，不做任何判断
+[XXs, YYs, WWs] = GetRelationPairs_confidence(Input, Catalog, confidence);
+
+% 后续总是以加权方式训练
+[TrainIn, TrainOut, TrainW, TestIn, TestOut, ~] = ...
+    DataProcess_confidence(XXs, YYs, WWs);
+...
+EW = TrainW(:)';
+EW = EW ./ mean(EW);
+EW = max(EW, w_min);
+net = train(net, TrainIn_nor', TrainOut_onehot', [], [], EW);
+</code></pre>
+
+<p><b>问题：</b>当模型误差较大时，置信度本身不可靠。用不可靠的置信度去加权训练，反而可能放大噪声。这就像"用一个不准的尺子去量别人"——越量越歪。</p>
+
+<h3>AdaMaO 的改进（三模式自适应）</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO.m，第 100-137 行</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：根据诊断结果选择关系对模式"><code>% ---- 改进1：根据 prev_p_err 和 diagnostics 动态选择 ----
+relation_mode = 'conservative';               % 默认保守模式
+if prev_p_err &gt; tau_err                        % 模型误差大 → 课程学习
+    relation_mode = 'curriculum';             % 只保留高置信度样本训练
+elseif prev_p_err &lt;= tau_err ...              % 模型精度好 &amp;&amp; 置信度高 &amp;&amp; 覆盖率低
+       &amp;&amp; mean_conf &gt;= 0.55 ...            % → 加权模式
+       &amp;&amp; diagnostics.coverage &lt; 0.60
+    relation_mode = 'weighted';               % 让高置信度样本影响更大
+end
+
+% ---- 根据模式选择不同的关系对生成函数 ----
+switch relation_mode
+    case 'weighted'
+        [XXs,YYs,WWs] = GetRelationPairs_confidence(Input,Catalog,confidence);
+    case 'curriculum'
+        [XXs,YYs] = GetRelationPairs_curriculum(Input,Catalog,confidence,0.80);
+        WWs = [];
+    otherwise
+        [XXs,YYs] = GetRelationPairs(Input,Catalog);  % 原始方法，无权重
+        WWs = [];
+end
+</code></pre>
+
+<h3>为什么这样改？</h3>
+
+<table>
+  <colgroup><col width="120"/><col width="200"/><col width="250"/></colgroup>
+  <thead><tr><th background-color="light-gray">条件</th><th background-color="light-gray">诊断含义</th><th background-color="light-gray">选用模式及原因</th></tr></thead>
+  <tbody>
+    <tr><td>prev_p_err &gt; 0.35</td><td>模型误差大，预测不准</td><td><b>curriculum</b>：误差大时置信度不可靠，加权反而放大噪声。不如直接用高置信样本训练</td></tr>
+    <tr><td>p_err ≤ 0.35 &amp;&amp; conf ≥ 0.55 &amp;&amp; cov &lt; 0.60</td><td>模型准但覆盖不足</td><td><b>weighted</b>：模型可信，且需要探索新区域，让确定的关系主导训练</td></tr>
+    <tr><td>其他</td><td>正常状态</td><td><b>conservative</b>：稳定性优先，用原始无偏方法</td></tr>
+  </tbody>
+</table>
+
+<p><b>改进来源：</b></p>
+<ul>
+  <li>课程学习思想来自深度学习（Bengio et al., 2009, Curriculum Learning）</li>
+  <li>诊断驱动的决策树是 AdaMaO 原创</li>
+</ul>
+
+<hr/>
+
+<h2>10.3 改进二：新增 GetRelationPairs_curriculum 课程学习函数</h2>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO.m，第 360-404 行（全新函数，WFG10 中不存在）</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：课程学习模式的关系对生成"><code>function [XXs, YYs] = GetRelationPairs_curriculum(Input, Catalog, confidence, q_keep)
+% 分离好类和坏类
+good_idx = find(Catalog == 1);
+rest_idx = find(Catalog ~= 1);
+
+% 核心步骤：每类只保留置信度最高的 q_keep（默认80%）比例
+good_idx = KeepMostConfident(good_idx, confidence, q_keep);
+rest_idx = KeepMostConfident(rest_idx, confidence, q_keep);
+
+% 合并保留的索引
+keep_idx = [good_idx; rest_idx];
+
+% 重建缩减后的 Catalog
+Catalog2 = false(numel(keep_idx), 1);
+Catalog2(1:numel(good_idx)) = true;
+
+% 用保留的样本调用原始 GetRelationPairs
+[XXs, YYs] = GetRelationPairs(Input(keep_idx, :), Catalog2);
+end
+</code></pre>
+
+<p><b>设计动机：</b>模型误差大 → 说明当前神经网络训练不稳定 → 有些训练样本可能是噪声（HPC 分类错误）。课程学习只保留"最有把握"的 80% 样本，这些样本的两端解都高置信度，标签更可靠。训练出来的模型虽然"视野窄了"，但"看对了"。</p>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>Curriculum Learning 经典论文 [Bengio et al., 2009]。核心观点：训练从"简单"样本开始→逐步引入"困难"样本→训练更稳定、最终性能更好。AdaMaO 将这一思想映射为：高置信度样本="简单"，低置信度样本="困难"。</p>
+</callout>
+
+<hr/>
+
+<h2>10.4 改进三：新增运行时诊断 RuntimeDiagnostics</h2>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO.m，第 276-338 行（全新函数，WFG10 中不存在）</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：运行时诊断（全新，WFG10 无）"><code>function diagnostics = RuntimeDiagnostics(Population, Nref)
+    PopObj = Population.objs;
+    PopObj = NormalizeObjectives(PopObj);
+    [N, M] = size(PopObj);
+
+    % === 覆盖率 coverage：种群覆盖了多少参考方向 ===
+    V = UniformPoint(Nref, M, 'ILD');
+    V = V ./ max(vecnorm(V, 2, 2), eps);
+    Direction = PopObj ./ max(vecnorm(PopObj, 2, 2), eps);
+    cosine = 1 - pdist2(Direction, V, 'cosine');
+    [~, assigned] = max(cosine, [], 2);
+    diagnostics.coverage = numel(unique(assigned)) / size(V, 1);
+
+    % === 退化度 degeneracy：SVD 分析种群是否集中在低维子空间 ===
+    Centered = PopObj - mean(PopObj, 1);
+    s = svd(Centered, 'econ');
+    energy = s.^2;
+    total = sum(energy);
+    rank90 = find(cumsum(energy) ./ total >= 0.90, 1, 'first');
+    diagnostics.degeneracy = max(0, min(1, 1 - rank90 / M));
+end
+</code></pre>
+
+<p><b>设计动机：</b></p>
+
+<table>
+  <colgroup><col width="120"/><col width="200"/><col width="250"/></colgroup>
+  <thead><tr><th background-color="light-gray">指标</th><th background-color="light-gray">物理含义</th><th background-color="light-gray">对应策略</th></tr></thead>
+  <tbody>
+    <tr><td>coverage 低 (&lt; 0.60)</td><td>种群只聚集在少数参考方向附近，很多区域空白</td><td>需要<b>鼓励探索</b>：用 weighted 关系对 + explore 候选选择</td></tr>
+    <tr><td>degeneracy 高 (≥ 0.45)</td><td>种群集中在低维子空间（SVD 前几维占 90% 以上能量）</td><td>需要用<b>指标选择</b>增强多样性（trigger indicator 模式）</td></tr>
+  </tbody>
+</table>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>为 AdaMaO 原创设计。SVD 退化度分析的理论基础来自 PCA / 主成分分析中的方差解释率概念；覆盖率概念与 MOEA/D 参考向量分布类似。</p>
+</callout>
+
+<hr/>
+
+<h2>10.5 改进四：WFG10 的 explore 模式 → AdaMaO 的三种候选选择模式</h2>
+
+<h3>WFG10 的 RSurrogateAssistedSelection（固定策略）</h3>
+
+<callout emoji="📋" background-color="light-gray" border-color="gray">
+  <p><b>源码位置：</b>REMO_new2_WFG10/RSurrogateAssistedSelection.m</p>
+</callout>
+
+<p>WFG10 的选择模块只有一个行为模式：</p>
+
+<pre lang="matlab" caption="WFG10：只有一种选择策略（explore）"><code>% GA 内循环：反复生成+打分+筛选
+Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+while i &lt; wmax
+    [sorted_index,~] = model_select(Smodel, Next);
+    Input = Next(sorted_index(1:keepNum),:);
+    Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+end
+
+% 最终筛选：总是 score + uncertainty + diversity（固定探索模式）
+[~, scores, uncertainty] = model_select(Smodel, Next);
+lambda_t = Smodel.lambda0 * (1 - Smodel.ratio) * max(0, 1 - p_err/0.45);
+score_aug = score_n + lambda_t .* unc_n;       % 得分 + 不确定性
+cand_idx = find(score_aug >= quantile(score_aug, q_keep));
+selected = diversity_select(Next, cand_idx, score_aug, n_eval);  % 多样性
+</code></pre>
+
+<h3>AdaMaO 的 AdaMaOSelection（三模式切换）</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO/AdaMaOSelection.m（全新文件替代 RSurrogateAssistedSelection.m）</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：根据 Smodel.mode 分发到三种选择策略"><code>switch mode
+    case 'indicator'   % 🟢 全新模式
+        Next = select_indicator(Smodel, Candidates, n_min, n_max);
+    case 'explore'     % 🟡 从 WFG10 继承（代码略优化）
+        Next = select_explore(Smodel, Candidates, q_keep, n_min, n_max);
+    otherwise          % 🟢 全新模式
+        Next = select_conservative(Smodel, Candidates, n_min);
+end
+</code></pre>
+
+<p><b>三种模式的对比：</b></p>
+
+<table>
+  <colgroup><col width="100"/><col width="200"/><col width="200"/><col width="100"/></colgroup>
+  <thead><tr><th background-color="light-gray">模式</th><th background-color="light-gray">核心逻辑</th><th background-color="light-gray">不同于 WFG10 的地方</th><th background-color="light-gray">来源</th></tr></thead>
+  <tbody>
+    <tr><td><b>conservative</b></td><td>纯关系得分排序，选 top n_min 个</td><td><span text-color="green">全新：WFG10 没有这个纯得分模式</span></td><td>原创</td></tr>
+    <tr><td><b>explore</b></td><td>得分 + 不确定性 + 多样性</td><td><span text-color="orange">从 WFG10 继承，细节优化</span></td><td>WFG10</td></tr>
+    <tr><td><b>indicator</b></td><td>得分粗筛→SVR 指标重排序→分位数选</td><td><span text-color="green">全新：WFG10 无 PIEA 指标体系</span></td><td>PIEA 启发</td></tr>
+  </tbody>
+</table>
+
+<hr/>
+
+<h2>10.6 改进五：explore 模式中 model_select 的保守/加权双轨</h2>
+
+<p>这是 AdaMaO 对 WFG10 的 <b>explore 模式的一个细微但重要的改进</b>。</p>
+
+<h3>WFG10 的 model_select（总是加权平均）</h3>
+
+<callout emoji="📋" background-color="light-gray" border-color="gray">
+  <p><b>源码位置：</b>REMO_new2_WFG10/RSurrogateAssistedSelection.m，第 162-167 行</p>
+</callout>
+
+<pre lang="matlab" caption="WFG10：总是用 pair_conf 加权平均网络输出"><code>% WFG10 的 model_select 内部：总是加权平均
+pre_C1Xi = weighted_mean(pre_out(idx_C1Xi, :), pair_conf(idx_C1Xi));
+pre_XiC1 = weighted_mean(pre_out(idx_XiC1, :), pair_conf(idx_XiC1));
+pre_C2Xi = weighted_mean(pre_out(idx_C2Xi, :), pair_conf(idx_C2Xi));
+pre_XiC2 = weighted_mean(pre_out(idx_XiC2, :), pair_conf(idx_XiC2));
+</code></pre>
+
+<h3>AdaMaO 的 model_select（根据模式选择平均方式）</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO/AdaMaOSelection.m，第 338-350 行</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：根据模式选择加权平均或简单平均"><code>if strcmp(mode, 'explore')
+    % 探索模式：加权平均（高置信度预测占更大权重）
+    pre_C1Xi = weighted_mean(pre_out(idx_C1Xi, :), pair_conf(idx_C1Xi));
+    pre_XiC1 = weighted_mean(pre_out(idx_XiC1, :), pair_conf(idx_XiC1));
+    pre_C2Xi = weighted_mean(pre_out(idx_C2Xi, :), pair_conf(idx_C2Xi));
+    pre_XiC2 = weighted_mean(pre_out(idx_XiC2, :), pair_conf(idx_XiC2));
+else
+    % 保守/指标模式：简单平均（避免不可靠的置信度污染）
+    pre_C1Xi = mean(pre_out(idx_C1Xi, :), 1);
+    pre_XiC1 = mean(pre_out(idx_XiC1, :), 1);
+    pre_C2Xi = mean(pre_out(idx_C2Xi, :), 1);
+    pre_XiC2 = mean(pre_out(idx_XiC2, :), 1);
+end
+</code></pre>
+
+<p><b>改进动机：</b>WFG10 始终使用加权平均，这在模型精确时是合理的。但当模型不够精确时（conservative 模式），置信度值本身可能不可靠。AdaMaO 在 conservative/indicator 模式下用简单平均，避免被不可靠的置信度误导。</p>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>AdaMaO 原创。这是诊断驱动理念在 model_select 级的延伸——"什么时候用加权，什么时候不用"的决策不再硬编码，而是跟随外部模式切换。</p>
+</callout>
+
+<hr/>
+
+<h2>10.7 改进六：新增 PIEA 指标体系（indicator 模式）</h2>
+
+<p>这是 AdaMaO 相对于 WFG10 <b>最大体量的新增功能</b>。</p>
+
+<h3>WFG10 中完全不存在</h3>
+
+<p>WFG10 没有任何指标选择、轮盘反馈、PF 形状估计等 PIEA 相关功能。</p>
+
+<h3>AdaMaO 新增的 7 个 PIEA 相关文件/函数</h3>
+
+<table>
+  <colgroup><col width="170"/><col width="200"/><col width="200"/></colgroup>
+  <thead><tr><th background-color="light-gray">新增组件</th><th background-color="light-gray">在 AdaMaO 主循环中的位置</th><th background-color="light-gray">触发条件</th></tr></thead>
+  <tbody>
+    <tr><td>Shape_Estimate.m</td><td>IndicatorSelector 内部间接调用</td><td>use_indicator=1 时启用</td></tr>
+    <tr><td>IndicatorSelector.m</td><td>第 166 行（指标轮盘选择）</td><td>use_indicator=1 时启用</td></tr>
+    <tr><td>calFitness_SDE.m</td><td>IndicatorSelector 内部调用</td><td>轮盘选中 SDE 时</td></tr>
+    <tr><td>calFitness_epsilon.m</td><td>IndicatorSelector 内部调用</td><td>轮盘选中 I_epsilon+ 时</td></tr>
+    <tr><td>calFitness_MD.m</td><td>IndicatorSelector 内部调用</td><td>轮盘选中 Minkowski 时</td></tr>
+    <tr><td>NDSort_SDR.m</td><td>IndicatorFeedbackScore 第 543 行</td><td>计算反馈分数时</td></tr>
+    <tr><td>UpdateInformation.m</td><td>第 253 行（更新指标概率）</td><td>每代评估候选解后</td></tr>
+  </tbody>
+</table>
+
+<h3>指标模式的选择流程（主循环第 166-182 行）</h3>
+
+<pre lang="matlab" caption="AdaMaO：指标轮盘训练 SVR 的完整流程"><code>% Step 1: 用轮盘赌选一个指标（SDE/I_epsilon+/Minkowski）
+[Fitness, indicator_flag, Lp] = IndicatorSelector(Population, indicator, Lp);
+
+% Step 2: 用 SVR（支持向量回归）训练一个快速预测该指标的模型
+IndicatorModel = fitrsvm(Population.decs, Fitness, ...
+    'KernelFunction', 'rbf', 'KernelScale', 'auto', 'Standardize', true);
+
+% Step 3: 如果指标模型构建成功 + 模型精度好 + 退化度高
+% → Smodel.mode = 'indicator'（第 199 行）
+</code></pre>
+
+<h3>indicator 模式的两阶段筛选（AdaMaOSelection.m 第 189-250 行）</h3>
+
+<pre lang="matlab" caption="AdaMaO：indicator 模式的两阶段筛选"><code>function Next = select_indicator(Smodel, Candidates, n_min, n_max)
+    % 第一阶段：关系得分粗筛（保留前 30%，至少 20 个）
+    [~, scores_rel] = model_select(Smodel, Candidates);
+    n_keep = max(20, ceil(size(Candidates, 1) * 0.30));
+    [~, idx_rel] = sort(scores_rel, 'descend');
+    coarse_idx = idx_rel(1:n_keep);
+
+    % 第二阶段：用 SVR 指标模型重排序
+    pred = predict(Smodel.IndicatorModel, Candidates(coarse_idx, :));
+    scores_ind = pred;  % 用 SVR 预测的指标值替代关系得分
+
+    % 分位数筛选 + 排序选出 top 候选
+    threshold = quantile(scores_ind, 0.70);
+    ...
+end
+</code></pre>
+
+<p><b>设计动机：</b>当退化度 ≥ 0.45 时，种群在目标空间过度聚集，单一的关系得分不足以区分候选。此时需要 PIEA 的多指标评估来打破僵局：SDE 关注分布均匀性、I_epsilon+ 关注收敛质量、Minkowski 处理特殊 PF 形状。</p>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>PIEA [Li et al., 2024] 的多指标自适应选择机制。AdaMaO 将其集成到自己的三模式框架中，作为 indicator 模式的实现。注意：指标轮盘的核心逻辑（轮盘赌选+反馈更新+双层排序评分）均照搬 PIEA。</p>
+</callout>
+
+<hr/>
+
+<h2>10.8 改进七：TrainRelationModel — 训练逻辑从内联到函数化</h2>
+
+<h3>WFG10 的内联训练代码</h3>
+
+<callout emoji="📋" background-color="light-gray" border-color="gray">
+  <p><b>源码位置：</b>REMO_new2_WFG10.m，第 70-109 行（约 40 行内联代码）</p>
+</callout>
+
+<pre lang="matlab" caption="WFG10：训练逻辑直接写在主函数体内"><code>% 直接在 main 函数里：
+[TrainIn, TrainOut, TrainW, TestIn, TestOut, ~] = DataProcess_confidence(XXs, YYs, WWs);
+xDim = size(TrainIn, 2);
+[TrainIn_nor, TrainIn_struct] = mapminmax(TrainIn');
+TrainIn_nor = TrainIn_nor';
+TrainOut_onehot = onehotconv(TrainOut, 1);
+net = patternnet([ceil(xDim*1.5), xDim, ceil(xDim/2)]);
+net.trainParam.showWindow = 0;
+EW = TrainW(:)';
+EW = EW ./ mean(EW);
+EW = max(EW, w_min);
+net = train(net, TrainIn_nor', TrainOut_onehot', [], [], EW);
+% 测试集评估...
+p_err = sum(TestPre ~= TestOut) / size(TestPre, 1);
+</code></pre>
+
+<h3>AdaMaO 的函数化封装</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO.m，第 430-500 行（TrainRelationModel 函数）</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：训练逻辑封装为独立函数"><code>function [net, TrainIn_struct, p_err] = TrainRelationModel(XXs, YYs, WWs, w_min, use_weights)
+    % 根据是否有权重选择不同的数据处理方式
+    if use_weights
+        [TrainIn, TrainOut, TrainW, TestIn, TestOut, ~] = ...
+            DataProcess_confidence(XXs, YYs, WWs);
+    else
+        [TrainIn, TrainOut, TestIn, TestOut] = DataProcess(XXs, YYs);
+        TrainW = [];
+    end
+
+    % ... 后续训练逻辑与 WFG10 相同，但增加了防御代码 ...
+    if isnan(p_err) || isinf(p_err)
+        p_err = 1;
+    end
+end
+</code></pre>
+
+<p><b>改进动机：</b></p>
+<ol>
+<li seq="auto"><b>代码复用：</b>当 support_weights=false（conservative/curriculum 模式）时不需要训练权重，函数自动选择 DataProcess 而非 DataProcess_confidence</li>
+<li seq="auto"><b>防御性编程：</b>增加了 NaN/Inf 校验，防止训练异常导致 p_err 污染后续决策树</li>
+<li seq="auto"><b>清晰度：</b>主循环代码从 270 行压缩到约 200 行，训练逻辑与决策逻辑职责分离</li>
+</ol>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>代码重构惯例。无算法级创新，但显著提升可维护性。</p>
+</callout>
+
+<hr/>
+
+<h2>10.9 改进八：GA 内循环去重 + 候选数动态调整</h2>
+
+<h3>WFG10 的问题</h3>
+
+<callout emoji="📋" background-color="light-gray" border-color="gray">
+  <p><b>源码位置：</b>REMO_new2_WFG10/RSurrogateAssistedSelection.m，第 36-48 行</p>
+</callout>
+
+<pre lang="matlab" caption="WFG10：GA 内循环不累积候选"><code>Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+while i &lt; wmax
+    [sorted_index,~] = model_select(Smodel, Next);
+    Input = Next(sorted_index(1:keepNum), :);
+    Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+    i = i + size(Next, 1);
+end
+% 仅用最后一轮 Next 做最终筛选
+</code></pre>
+
+<p><b>问题：</b>WFG10 只取最后一轮 GA 的候选做筛选，历史轮次有潜力的候选被丢弃。</p>
+
+<h3>AdaMaO 的改进 — 累积+去重</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO/AdaMaOSelection.m，第 55-80 行</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：GA 内循环累积候选+去重"><code>Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+all_candidates = Next;                % 🟢 新增：累积所有候选
+i = size(Next, 1);
+
+while i &lt; wmax &amp;&amp; ~isempty(Next)
+    [sorted_index,~] = model_select(Smodel, Next);
+    keepNum = min(length(Ref), size(Next, 1));
+    Input = Next(sorted_index(1:keepNum), :);
+    Next = OperatorGA(Problem, [Input; Ref.decs], {1,15,1,5});
+    all_candidates = [all_candidates; Next];   % 🟢 累积
+    i = i + size(Next, 1);
+end
+
+all_candidates = unique(all_candidates, 'rows', 'stable');  % 🟢 去重
+</code></pre>
+
+<p><b>改进效果：</b>积累所有轮的候选（通常是几千个），然后从中选出最好的 4-6 个。相比 WFG10 只从最后一轮选，候选池更大、多样性更好。</p>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>AdaMaO 原创优化。工程经验表明这能提升最终候选解的多样性。</p>
+</callout>
+
+<hr/>
+
+<h2>10.10 改进九：新增 IndicatorFeedbackScore + 指标反馈闭环</h2>
+
+<h3>WFG10 的状态</h3>
+
+<p>WFG10 没有指标系统，因此也没有反馈机制。</p>
+
+<h3>AdaMaO 的实现</h3>
+
+<callout emoji="📋" background-color="light-green" border-color="green">
+  <p><b>源码位置：</b>REMO_new2_AdaMaO.m，第 503-553 行 和 第 246-253 行</p>
+</callout>
+
+<pre lang="matlab" caption="AdaMaO：双层排序的反馈评分"><code>function score = IndicatorFeedbackScore(Archive, NewSols, ArchiveSizeBefore)
+    % 第一层：标准 NDSort
+    [FrontNo_all,~] = NDSort(Archive.objs, 1);
+    new_idx = ArchiveSizeBefore + (1:length(NewSols));
+
+    if ~any(FrontNo_all(new_idx) == 1)
+        score = 0;  % 被支配，不好
+        return;
+    end
+
+    score = 1;  % 通过第一层（NDSort F1），一般
+
+    % 第二层：强支配关系 NDSort_SDR（更严格）
+    F1_subset = Archive(FrontNo_all == 1);
+    [FrontNo_SDR,~] = NDSort_SDR(F1_subset, 1);
+
+    if any(FrontNo_SDR(new_in_F1_subset_idx) == 1)
+        score = 2;  % 通过双层，很好！
+    end
+end
+
+% 主循环中：
+indicator = UpdateInformation(indicator_flag, score, indicator);
+</code></pre>
+
+<p><b>反馈闭环的完整过程：</b></p>
+
+<ol>
+<li seq="auto">IndicatorSelector 轮盘赌选出一个指标 → 训练 SVR</li>
+<li seq="auto">候选解被真实评估后 → IndicatorFeedbackScore 打 0/1/2 分</li>
+<li seq="auto">UpdateInformation 更新该指标的 Win_record 和 Choose_record</li>
+<li seq="auto">下一代的轮盘赌概率 Pw 自动调整，表现好的指标被选中的概率上升</li>
+</ol>
+
+<callout emoji="🔗" background-color="light-yellow" border-color="yellow">
+  <p><b>改进来源：</b>PIEA [Li et al., 2024] 的指标自适应评估机制。核心逻辑照搬。</p>
+</callout>
+
+<hr/>
+
+<h2>10.11 改进十：参数新增（tau_err, use_indicator, debug）</h2>
+
+<table>
+  <colgroup><col width="150"/><col width="150"/><col width="250"/></colgroup>
+  <thead><tr><th background-color="light-gray">参数</th><th background-color="light-gray">WFG10</th><th background-color="light-gray">AdaMaO</th></tr></thead>
+  <tbody>
+    <tr><td>tau_err</td><td>❌ 不存在</td><td>✅ 0.35 — 模型误差阈值，决定是否用 curriculum</td></tr>
+    <tr><td>use_indicator</td><td>❌ 不存在</td><td>✅ 1 — 是否启用 PIEA 指标系统</td></tr>
+    <tr><td>debug</td><td>❌ 不存在</td><td>✅ 0 — 调试打印开关</td></tr>
+  </tbody>
+</table>
+
+<hr/>
+
+<h1>十一、完整改进清单与对应源码位置</h1>
+
+<table>
+  <colgroup><col width="80"/><col width="160"/><col width="120"/><col width="180"/></colgroup>
+  <thead><tr><th background-color="light-gray">编号</th><th background-color="light-gray">改进内容</th><th background-color="light-gray">WFG10 vs AdaMaO</th><th background-color="light-gray">AdaMaO 源码位置</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>三种关系对模式动态切换</td><td>固定 weighted → 三模式</td><td>主文件 100-137 行</td></tr>
+    <tr><td>2</td><td>GetRelationPairs_curriculum</td><td>不存在 → 新增</td><td>主文件 360-404 行</td></tr>
+    <tr><td>3</td><td>RuntimeDiagnostics</td><td>不存在 → 新增</td><td>主文件 276-338 行</td></tr>
+    <tr><td>4</td><td>RSurrogateAssistedSelection → AdaMaOSelection（三模式）</td><td>1 种 → 3 种</td><td>AdaMaOSelection.m 全部</td></tr>
+    <tr><td>5</td><td>model_select 简单/加权双轨</td><td>总是加权 → 按模式选择</td><td>AdaMaOSelection.m 338-350 行</td></tr>
+    <tr><td>6</td><td>PIEA 指标体系（7个新增文件）</td><td>不存在 → 新增</td><td>IndicatorSelector, Shape_Estimate 等 7 个</td></tr>
+    <tr><td>7</td><td>TrainRelationModel 函数化</td><td>内联代码 → 独立函数</td><td>主文件 430-500 行</td></tr>
+    <tr><td>8</td><td>GA 内循环累积候选+去重</td><td>仅最后一轮 → 多轮累积</td><td>AdaMaOSelection.m 56, 70, 80 行</td></tr>
+    <tr><td>9</td><td>IndicatorFeedbackScore + 反馈闭环</td><td>不存在 → 新增</td><td>主文件 503-553, 251-253 行</td></tr>
+    <tr><td>10</td><td>新增 tau_err, use_indicator, debug 参数</td><td>8 个参数 → 11 个</td><td>主文件 31-32 行</td></tr>
+  </tbody>
+</table>
+
+<hr/>
+
+<h1>十二、WFG10 → AdaMaO 演化总结</h1>
+
+<callout emoji="🎯" background-color="light-green" border-color="green">
+  <p><b>AdaMaO 不是对 WFG10 的"替代"，而是一次系统性的架构升级：</b></p>
+</callout>
+
+<table>
+  <colgroup><col width="180"/><col width="200"/><col width="200"/></colgroup>
+  <thead><tr><th background-color="light-gray">层面</th><th background-color="light-gray">WFG10</th><th background-color="light-gray">AdaMaO</th></tr></thead>
+  <tbody>
+    <tr><td><b>策略决策</b></td><td>硬编码：总是同一策略</td><td>自适应：诊断→决策→切换</td></tr>
+    <tr><td><b>关系对生成</b></td><td>仅 weighted（1 种）</td><td>conservative + curriculum + weighted（3 种）</td></tr>
+    <tr><td><b>候选选择</b></td><td>仅 explore（1 种）</td><td>conservative + explore + indicator（3 种）</td></tr>
+    <tr><td><b>指标体系</b></td><td>无</td><td>PIEA 的 SDE + I_epsilon+ + Minkowski</td></tr>
+    <tr><td><b>GA 候选</b></td><td>只用最后一轮</td><td>多轮累积 + 去重</td></tr>
+    <tr><td><b>训练框架</b></td><td>内联代码</td><td>TrainRelationModel 函数</td></tr>
+    <tr><td><b>运行时诊断</b></td><td>无</td><td>coverage + degeneracy</td></tr>
+  </tbody>
+</table>
+
+<p><b>学术价值评估：</b></p>
+
+<ol>
+<li seq="auto"><b>AdaMaO 的创新本质</b>不是简单地"给 WFG10 加上 PIEA"，而是建立了一套完整的"运行时诊断驱动的自适应决策框架"</li>
+<li seq="auto"><b>WFG10 是 AdaMaO 的基础底板</b>：WFG10 的 explore 模式（不确定性+多样性）是 AdaMaO 三种模式之一，并且当诊断条件不满足时 AdaMaO 会自动退化到 WFG10 行为</li>
+<li seq="auto"><b>PIEA 是 AdaMaO 的外部插件</b>：indicator 模式和指标反馈闭环来自 PIEA，但通过 use_indicator 开关可以独立禁用</li>
+<li seq="auto"><b>论文定位：</b>可以将 WFG10 作为 AdaMaO 的消融对照（ablation baseline），分别对比 "关闭自适应"（等价 WFG10）、"关闭 PIEA"（仅自适应）、"全开"（AdaMaO 完整版）的性能</li>
+</ol>
