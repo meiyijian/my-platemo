@@ -1,4 +1,4 @@
-classdef REMO_k15 < ALGORITHM
+classdef REMO_k < ALGORITHM
 % <2022> <multi/many> <real> <expensive>
 % Expensive multiobjective optimization by relation learning and prediction
 % k    ---    6 --- Number of reference solutions
