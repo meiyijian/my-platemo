@@ -29,29 +29,76 @@ REMO_new2_AdaMaO 通过**运行时诊断**自动判断当前状态，选择最�
 
 ## 二、文件组成与依赖关系
 
+> 图例：`★` = 写在主文件 `REMO_new2_AdaMaO.m` 内的 local 函数；`★A` = 写在 `AdaMaOSelection.m` 内的 local 函数；
+> `[P]` = PlatEMO 公共函数；`[M]` = MATLAB 内置函数；`【来自 …】` = 历史来源。
+> 注意：`REMO_new2_AdaMaO_Lite / NoIndicator / FullPIEA / FixedIndicatorAlways / PIEAOnlySelection` 是**并列的入口变体文件**（继承/裁剪本算法），并非本文件的依赖，不列入下方依赖树。
+
 ```
-REMO_new2_AdaMaO.m  (主入口)
-├── HybridPBI_Classification.m        混合分类，输出好/坏标签、置信度、参考解
-│   ├── UniformPoint                   （PlatEMO 公共函数）
-│   ├── NDSort                         （PlatEMO 公共函数）
-│   ├── kmeans                         （MATLAB 内置）
-│   ├── RefSelect.m                    动态参考解选择（RSEA 策略）
-│   └── GetOutput_PBI.m                PBI 阈值划分动态标签
-├── GetRelationPairs_confidence.m     【来自 WFG10】带置信度权重的关系对生成
-├── GetRelationPairs.m                【来自 REMO_new2】原始关系对生成
-├── DataProcess_confidence.m          【来自 WFG10】带权重的数据集划分
-├── DataProcess.m                     【来自 REMO_new2】原始数据集划分
-├── onehotconv.m                      one-hot 编码/解码
-├── patternnet / train                （MATLAB 神经网络工具箱）
-├── AdaMaOSelection.m                 【新增】自适应候选解选择（三种模式）
-├── IndicatorSelector.m               【新增】PIEA 风格的指标轮盘选择
-├── UpdateInformation.m               【新增】指标轮盘的反馈更新
-├── Shape_Estimate.m                  【新增】PF 形状参数 Lp 估计
-├── calFitness_SDE.m                  【新增】SDE 移位密度估计
-├── calFitness_epsilon.m              【新增】I_epsilon+ 不可加性指标
-├── calFitness_MD.m                   【新增】Minkowski 距离指标
-├── NDSort_SDR.m                      【新增】强支配关系非支配排序
-└── Delequalsamples.m                 删除等价样本（备用）
+REMO_new2_AdaMaO.m  (主入口 classdef)
+│
+├── [P] UniformPoint                拉丁超立方 / 参考向量采样
+├── [P] NDSort                      标准非支配排序
+├── [P] OperatorGA                  内层 GA 候选生成（AdaMaOSelection 调用）
+│
+├── HybridPBI_Classification.m  ★HPC 混合分类：好/坏标签 + 置信度 + 参考解 Ref
+│   ├── [P] UniformPoint
+│   ├── [P] NDSort
+│   ├── [M] kmeans                  （高维时 AdaptiveReferenceVectors 调用）
+│   ├── AdaptiveReferenceVectors (★ HPC内local)  自适应参考向量（K-means 聚类非支配解）
+│   │   ├── [P] NDSort / [P] UniformPoint
+│   │   └── [M] kmeans
+│   ├── RefSelect.m  (RSEA 雷达网格参考解选择)
+│   │   ├── [P] NDSort
+│   │   ├── LastSelection (★ RefSelect内local)   雷达网格环境选择
+│   │   │   └── RadarGrid (★ RefSelect内local)    M维→2维雷达网格映射
+│   │   └── [M] pdist2
+│   └── GetOutput_PBI.m  (PBI 阈值动态标签，二分搜索 delt)
+│       └── split_data (★ GetOutput_PBI内local)   PBI 划分
+│           └── [M] pdist2
+│
+├── RuntimeDiagnostics (★ 主文件内local)  【新增】覆盖率 coverage + 退化度 degeneracy
+│   ├── [P] UniformPoint
+│   ├── NormalizeObjectives (★ 主文件内local)   目标值归一化到 [0,1]
+│   └── [M] pdist2 / vecnorm / svd
+│
+├── [关系对训练模式 三选一]
+│   ├── GetRelationPairs.m                  (保守：原始关系对生成【来自 REMO_new2】，无权重)
+│   ├── GetRelationPairs_curriculum (★ 主文件内local)  【新增】课程学习：仅保留置信度前 80%
+│   │   ├── GetRelationPairs.m
+│   │   └── KeepMostConfident (★ 主文件内local)   保留置信度最高的样本
+│   └── GetRelationPairs_confidence.m       (加权：权重=两端置信度几何平均【来自 WFG10】)
+│
+├── TrainRelationModel (★ 主文件内local)  【新增】训练关系预测神经网络
+│   ├── DataProcess.m                      (无权重数据集划分【来自 REMO_new2】)
+│   ├── DataProcess_confidence.m           (带权重数据集划分【来自 WFG10】)
+│   ├── onehotconv.m                       one-hot 编码 / 解码
+│   └── [M] mapminmax / patternnet / train
+│
+├── [可选 use_indicator=1] 指标轮盘子系统（PIEA 风格）
+│   ├── IndicatorSelector.m               轮盘选择一种指标 + 估计 Lp
+│   │   ├── Shape_Estimate.m              (PF 形状 Lp 估计，调用 [P] NDSort)
+│   │   ├── calFitness_SDE.m              (SDE，调用 [M] pdist2 / tansig)
+│   │   ├── calFitness_epsilon.m          (I_epsilon+)
+│   │   └── calFitness_MD.m               (Minkowski，调用 [M] pdist2)
+│   ├── [M] fitrsvm                       训练 SVR 指标模型 IndicatorModel
+│   ├── UpdateInformation.m               指标轮盘概率反馈更新
+│   └── IndicatorFeedbackScore (★ 主文件内local)  【新增】新解反馈评分 0/1/2
+│       ├── [P] NDSort
+│       └── NDSort_SDR.m                  (强支配关系排序)
+│
+├── AdaMaOSelection.m  (自适应候选解选择【新增】)
+│   ├── [P] OperatorGA
+│   ├── model_select (★A 内local)         候选打分（4类样本对 + 不确定性）
+│   ├── select_conservative (★A 内local)  保守模式
+│   ├── select_explore (★A 内local)       探索模式（得分+不确定性+多样性）
+│   ├── select_indicator (★A 内local)     指标模式（SVR 重排序）
+│   ├── diversity_select (★A 内local)     贪心多样性选择
+│   ├── weighted_mean (★A 内local)        置信度加权平均
+│   ├── norm01 (★A 内local)               归一化到 [0,1]
+│   └── [M] mapminmax / predict（SVR）
+│
+├── RefSelect.m  (末尾环境选择，定义同上)
+└── Delequalsamples.m  (删除等价样本，备用)
 ```
 
 ---
