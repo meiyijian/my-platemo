@@ -21,6 +21,10 @@ classdef HES_EA < ALGORITHM
 
     methods
         function main(Algorithm,Problem)
+            %% Add the path of the GP model (DACE toolbox) subfolder so that
+            %% dsmerge/dacefit/predictor can be found
+            addpath(fullfile(fileparts(mfilename('fullpath')),'GP model'));
+
             %% Parameter setting
             [wmax,WN,KMeans] = Algorithm.ParameterSet(20,190,4);   
             Model_c = cell(1,KMeans+1);
@@ -31,7 +35,8 @@ classdef HES_EA < ALGORITHM
             %% Generate initial population based on Latin hypercube sampling
             InitN          = 11*Problem.D-1;
             P          = UniformPoint(InitN,Problem.D,'Latin');
-            Population = SOLUTION(repmat(Problem.upper-Problem.lower,InitN,1).*P+repmat(Problem.lower,InitN,1));
+            PopDec    = repmat(Problem.upper-Problem.lower,InitN,1).*P+repmat(Problem.lower,InitN,1);
+            Population = Problem.Evaluation(PopDec);
          
             %% Generate the weight vectors for convergence indicator
             [W,~] = UniformPoint(WN,Problem.M);
@@ -109,7 +114,7 @@ classdef HES_EA < ALGORITHM
                 w = 0;
                 while w < wmax
                     drawnow();
-                    OffDec = OperatorGA(ArcDec);
+                    OffDec = OperatorGA(Problem, ArcDec);
                     w = w + 1;
                     [n,~] = size(OffDec);
                     OffClus = predict(model_rg,OffDec);  % prediction of cluster 
@@ -186,7 +191,7 @@ classdef HES_EA < ALGORITHM
               end
           
               if ~isempty(NewArc)
-                  PopNew = SOLUTION(NewArc);
+                  PopNew = Problem.Evaluation(NewArc);
                   Population = [Population,PopNew];        
               end
               
