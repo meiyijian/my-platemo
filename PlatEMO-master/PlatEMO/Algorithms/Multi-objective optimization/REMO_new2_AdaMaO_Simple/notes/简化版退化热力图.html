@@ -1,0 +1,117 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{font-family:-apple-system,Segoe UI,'Microsoft YaHei',sans-serif;background:#fff;color:#222;margin:24px}
+h2{margin:0 0 4px} .sub{color:#666;font-size:13px;margin-bottom:16px}
+table{border-collapse:collapse;width:560px;font-size:13px}
+th{background:#f3f3f3;border-bottom:2px solid #ccc;padding:6px 8px;text-align:center}
+td{border-bottom:1px solid #eee}
+.legend{margin-top:14px;font-size:12px;color:#555}
+.box{display:inline-block;width:14px;height:14px;vertical-align:middle;margin:0 4px 0 12px;border:1px solid #ccc}
+</style></head><body>
+<h2>简化版(Simple) vs 完整版(Full) 逐问题 IGD 退化热力图</h2>
+<div class="sub">单元格=S/F 比值（绿色≤1 表示 Simple 不差于 Full；红色越大越退化）。右侧小字 = Simple值 / Full值。</div>
+<table>
+<tr><th>Problem</th><th>M=10 (S/F)</th><th>M=10 (S/F值)</th><th>M=20 (S/F)</th><th>M=20 (S/F值)</th></tr>
+<tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ7</td>
+<td style="background:rgb(255,60,80);padding:4px 8px;text-align:center">1.668</td>
+<td style="padding:4px 8px;text-align:center;color:#555">14.2 / 8.54</td>
+<td style="background:rgb(224,85,80);padding:4px 8px;text-align:center">1.310</td>
+<td style="padding:4px 8px;text-align:center;color:#555">24.7 / 18.8</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ5</td>
+<td style="background:rgb(249,65,80);padding:4px 8px;text-align:center">1.382</td>
+<td style="padding:4px 8px;text-align:center;color:#555">0.838 / 0.606</td>
+<td style="background:rgb(128,167,80);padding:4px 8px;text-align:center">1.026</td>
+<td style="padding:4px 8px;text-align:center;color:#555">0.205 / 0.2</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ4</td>
+<td style="background:rgb(190,114,80);padding:4px 8px;text-align:center">1.209</td>
+<td style="padding:4px 8px;text-align:center;color:#555">1.35 / 1.12</td>
+<td style="background:rgb(173,129,80);padding:4px 8px;text-align:center">1.158</td>
+<td style="padding:4px 8px;text-align:center;color:#555">0.847 / 0.731</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ2</td>
+<td style="background:rgb(174,128,80);padding:4px 8px;text-align:center">1.160</td>
+<td style="padding:4px 8px;text-align:center;color:#555">1.32 / 1.14</td>
+<td style="background:rgb(246,198,118);padding:4px 8px;text-align:center">0.993</td>
+<td style="padding:4px 8px;text-align:center;color:#555">0.78 / 0.786</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ1</td>
+<td style="background:rgb(163,138,80);padding:4px 8px;text-align:center">1.129</td>
+<td style="padding:4px 8px;text-align:center;color:#555">248 / 220</td>
+<td style="background:rgb(112,180,88);padding:4px 8px;text-align:center">0.880</td>
+<td style="padding:4px 8px;text-align:center;color:#555">62.3 / 70.8</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ3</td>
+<td style="background:rgb(148,150,80);padding:4px 8px;text-align:center">1.084</td>
+<td style="padding:4px 8px;text-align:center;color:#555">994 / 916</td>
+<td style="background:rgb(142,155,80);padding:4px 8px;text-align:center">1.068</td>
+<td style="padding:4px 8px;text-align:center;color:#555">251 / 235</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG6</td>
+<td style="background:rgb(142,155,80);padding:4px 8px;text-align:center">1.066</td>
+<td style="padding:4px 8px;text-align:center;color:#555">3.99 / 3.74</td>
+<td style="background:rgb(214,194,110);padding:4px 8px;text-align:center">0.966</td>
+<td style="padding:4px 8px;text-align:center;color:#555">17.7 / 18.3</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG4</td>
+<td style="background:rgb(141,156,80);padding:4px 8px;text-align:center">1.065</td>
+<td style="padding:4px 8px;text-align:center;color:#555">6.21 / 5.83</td>
+<td style="background:rgb(223,195,112);padding:4px 8px;text-align:center">0.973</td>
+<td style="padding:4px 8px;text-align:center;color:#555">22.5 / 23.1</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">DTLZ6</td>
+<td style="background:rgb(129,166,80);padding:4px 8px;text-align:center">1.028</td>
+<td style="padding:4px 8px;text-align:center;color:#555">13.8 / 13.4</td>
+<td style="background:rgb(124,171,80);padding:4px 8px;text-align:center">1.014</td>
+<td style="padding:4px 8px;text-align:center;color:#555">7.26 / 7.16</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG1</td>
+<td style="background:rgb(124,170,80);padding:4px 8px;text-align:center">1.014</td>
+<td style="padding:4px 8px;text-align:center;color:#555">2.97 / 2.93</td>
+<td style="background:rgb(123,172,80);padding:4px 8px;text-align:center">1.010</td>
+<td style="padding:4px 8px;text-align:center;color:#555">4.21 / 4.17</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG3</td>
+<td style="background:rgb(123,171,80);padding:4px 8px;text-align:center">1.011</td>
+<td style="padding:4px 8px;text-align:center;color:#555">1.46 / 1.44</td>
+<td style="background:rgb(122,172,80);padding:4px 8px;text-align:center">1.009</td>
+<td style="padding:4px 8px;text-align:center;color:#555">2.29 / 2.27</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG9</td>
+<td style="background:rgb(123,172,80);padding:4px 8px;text-align:center">1.009</td>
+<td style="padding:4px 8px;text-align:center;color:#555">6.35 / 6.29</td>
+<td style="background:rgb(253,199,119);padding:4px 8px;text-align:center">0.998</td>
+<td style="padding:4px 8px;text-align:center;color:#555">19.9 / 19.9</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG8</td>
+<td style="background:rgb(121,173,80);padding:4px 8px;text-align:center">1.004</td>
+<td style="padding:4px 8px;text-align:center;color:#555">5.21 / 5.19</td>
+<td style="background:rgb(131,165,80);padding:4px 8px;text-align:center">1.034</td>
+<td style="padding:4px 8px;text-align:center;color:#555">19.7 / 19.1</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG5</td>
+<td style="background:rgb(241,198,117);padding:4px 8px;text-align:center">0.989</td>
+<td style="padding:4px 8px;text-align:center;color:#555">5.32 / 5.38</td>
+<td style="background:rgb(132,164,80);padding:4px 8px;text-align:center">1.036</td>
+<td style="padding:4px 8px;text-align:center;color:#555">20.4 / 19.7</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG7</td>
+<td style="background:rgb(235,197,115);padding:4px 8px;text-align:center">0.984</td>
+<td style="padding:4px 8px;text-align:center;color:#555">4.57 / 4.65</td>
+<td style="background:rgb(225,195,113);padding:4px 8px;text-align:center">0.975</td>
+<td style="padding:4px 8px;text-align:center;color:#555">19.2 / 19.7</td>
+</tr><tr>
+<td style="text-align:left;padding:4px 8px;font-weight:600">WFG2</td>
+<td style="background:rgb(228,196,114);padding:4px 8px;text-align:center">0.978</td>
+<td style="padding:4px 8px;text-align:center;color:#555">2.11 / 2.16</td>
+<td style="background:rgb(149,150,80);padding:4px 8px;text-align:center">1.086</td>
+<td style="padding:4px 8px;text-align:center;color:#555">5.48 / 5.05</td>
+</tr>
+</table>
+<div class="legend">
+<span class="box" style="background:rgb(76,200,120)"></span>≤1.0 不退化
+<span class="box" style="background:rgb(120,175,80)"></span>~1.0
+<span class="box" style="background:rgb(255,60,80)"></span>≥1.4 明显退化
+<br>几何均值：M=10 = <b>1.100（显著变差 p≈0.021）</b>，M=20 = <b>1.030（持平 p≈0.455）</b>。最差单题 DTLZ7（断开PF）：M=10 1.67×、M=20 1.31×，但仍远好于 PIEAOnly/FixedInd（20–37）。
+</div></body></html>
