@@ -50,12 +50,34 @@ description: >
 - 昂贵算法通常带 `<expensive>` 标记，依赖 Statistics and Machine Learning Toolbox
   的 `fitcknn`、`kmeans`、`pdist2`、`predict`、`acos`——若报这些未定义，是缺工具箱而非代码错。
 
+### 5. 余弦/角度聚类在“解落在理想点”时崩溃（M 越小越易触发）
+- **现象**：`HES_EA/main` 抛 `数组索引必须为正整数或逻辑值`；目标数少（如 5 目标）崩，多（如 10 目标）正常。
+- **根因**：聚类用 `acos(1-pdist2(ClObj,ClW,'cosine'))` 选最近簇心。当某解在选中的若干目标上
+  恰好等于理想点时，`NormObj` 该行为 0 向量，余弦距离=NaN，`min` 永远选不到它 → 该解簇标签
+  保持初值 `inf` 未分配 → `fitcknn` 把 inf 当类别训练 → `predict` 返回 `Inf` → `Model_c{Inf}`
+  cell 索引报错。目标数少 ⇒ 单解同时在多个目标达理想的概率更高 ⇒ 更易复现。
+- **修复**：把“未分配且为零向量行”的 NaN 角度置为 `pi`（最远），使其仍被分配到合法簇；
+  已分配行（设为 Inf）仍 NaN 被 min 跳过。簇标签初值用 `0`，循环后全部赋为 1..KMeans。
+  ```matlab
+  ang = acos(min(1,max(-1,1-pdist2(ClObj,ClW(i,:),'cosine'))));
+  ang(isnan(ang) & ~isinf(ClObj(:,1))) = pi;
+  [~,loc] = min(ang);
+  ```
+- 该修复对“无零向量行”的情形（如十目标）是纯 no-op，不改结果。
+
+### 6. infill 的 kmeans 空簇崩溃
+- **现象**：`kmeans(ArcDec,5)` 在 ArcDec 集中时空簇 → 默认 `EmptyAction='error'` 直接报错，
+  或 `find(clus==i)` 为空 → `randperm(0,1)` 报错。
+- **修复**：`kmeans(ArcDec,5,'EmptyAction','singleton')`，并对空簇/空前沿 `continue`。
+  对无空簇情形是 no-op。
+
 ## 标准修复流程
 1. 读 `Algorithms/<类别>/<算法名>/<算法名>.m` 的 `main`，定位所有 `SOLUTION(...)` 调用点（常在第 1 次循环构造初始种群、以及注入新解两处）。
 2. 把单参 `SOLUTION(X)` 改为 `Problem.Evaluation(X)`。
 3. 全文搜 `OperatorGA(`，确认第一个参数是 `Problem`。
 4. 若算法目录含子目录且主文件直接调用其中的函数，在 `main` 开头 `addpath` 该子目录。
-5. 用廉价测试问题（如 `DTLZ2`，`M=3,D=10`）小预算先跑通验证；再上昂贵问题。
+5. 若算法跑通后“目标数少才崩、目标数多正常”，重点查余弦/角度聚类（见第 5 条）。
+6. 用廉价测试问题（如 `DTLZ2`，`M=3,D=10` 与 `M=5` 都跑一遍）小预算验证；再上昂贵问题。
 
 ## 验证限制
 本机若无 MATLAB 运行环境，只能做代码审查级验证：核对被调用函数签名与
