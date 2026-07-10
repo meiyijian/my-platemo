@@ -1,0 +1,2 @@
+run_global,problem,M,D,N,maxFE,final_FE,total_gen,skip_gen,eval_gen,rel_conservative_cnt,rel_curriculum_cnt,rel_weighted_cnt,rel_conservative_ratio,rel_curriculum_ratio,rel_weighted_ratio,cand_conservative_cnt,cand_explore_cnt,cand_indicator_cnt,cand_conservative_ratio,cand_explore_ratio,cand_indicator_ratio
+1,DTLZ2,3,12,100,150,150,9,0,9,7,1,1,0.777777777777778,0.111111111111111,0.111111111111111,0,9,0,0,1,0
