@@ -58,14 +58,26 @@ classdef HES_EA < ALGORITHM
                 NormObj = (Population.objs - Zmin);
 
                 %% clustering
-                Cluster = inf(N,1);
+                Cluster = zeros(N,1);
                 % randomly select two objectives
                 ObjK = randperm(Problem.M,2);
                 ClObj = NormObj(:,ObjK);
                 temp = N;
                 while temp > 0
                     for i = 1 : KMeans
-                        [~,loc] = min(acos(1-pdist2(ClObj,ClW(i,:),'cosine')));
+                        % Angle (via cosine) between each solution and cluster
+                        % center i in the 2-D projected objective space. Clamp
+                        % to [-1,1] to avoid complex values from round-off.
+                        ang = acos(min(1,max(-1,1-pdist2(ClObj,ClW(i,:),'cosine'))));
+                        % Solutions at the ideal point (zero in the 2 selected
+                        % objectives) yield NaN cosine angle and would never be
+                        % picked by min, leaving their Cluster unassigned (0)
+                        % and corrupting the KNN model. Treat them as maximally
+                        % distant (pi) so they are still assigned to a valid
+                        % cluster. Already-assigned rows are set to Inf below,
+                        % so their angle stays NaN and is skipped by min.
+                        ang(isnan(ang) & ~isinf(ClObj(:,1))) = pi;
+                        [~,loc] = min(ang);
                         Cluster(loc) = i;
                         ClObj(loc,:) = inf;
                         temp = temp - 1;
@@ -124,7 +136,15 @@ classdef HES_EA < ALGORITHM
                     OffMSE = zeros(n,2);
 
                     for i = 1 : n
-                        loc = OffClus(i);
+                        loc = double(OffClus(i));
+                        % Defensive: guarantee a valid local-cluster index for
+                        % Model_c{loc}/Model_d{loc}. If the KNN ever returns an
+                        % out-of-range/non-integer label, fall back to the
+                        % global model (KMeans+1) instead of crashing with
+                        % "Array indices must be positive integers...".
+                        if ~(loc>=1 && loc<=KMeans && loc==floor(loc))
+                            loc = KMeans+1;
+                        end
                         %% prediction of Id and Ic
                         [Yc_local,~,mse_local] = predictor(OffDec(i,:),Model_c{loc});
                         [Yc_global,~,mse_global] = predictor(OffDec(i,:),Model_c{KMeans+1});
@@ -178,12 +198,16 @@ classdef HES_EA < ALGORITHM
               if n <= 5
                   NewArc = ArcDec;
               else
-                  NewArc = [];                  
-                  clus = kmeans(ArcDec,5);
+                  NewArc = [];
+                  % 'EmptyAction','singleton' prevents kmeans from erroring
+                  % when ArcDec is concentrated and a cluster becomes empty.
+                  clus = kmeans(ArcDec,5,'EmptyAction','singleton');
                   for i = 1 : 5
                       Ci = find(clus==i);
+                      if isempty(Ci), continue; end
                       [fr,~] = NDSort(-ArcMSE(Ci,:),inf);
-                      [~,uncertain] = find(fr==1);
+                      uncertain = find(fr==1);
+                      if isempty(uncertain), continue; end
                       % choose uncertain solution
                       choose = Ci(uncertain(randperm(numel(uncertain),1)));
                       NewArc = [NewArc;ArcDec(choose,:)];

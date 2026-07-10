@@ -1,4 +1,5 @@
 function varargout = platemo(varargin)
+%% 
 %platemo - The main function of PlatEMO.
 %
 %   platemo() displays the GUI of PlatEMO.
