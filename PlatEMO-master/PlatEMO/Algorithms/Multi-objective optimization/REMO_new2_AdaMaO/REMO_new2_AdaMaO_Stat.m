@@ -62,6 +62,15 @@ classdef REMO_new2_AdaMaO_Stat < ALGORITHM
             % 每代模式轨迹（用于事后追溯，可选）
             stat.rel_trace  = {};  % 每代的 relation_mode
             stat.cand_trace = {};  % 每代的 candidate_mode（跳过轮记为 'skipped'）
+            %%% [STAT-DIAG] 逐代诊断量轨迹 ============================
+            % 每行一代，6列：[gen, p_err, prev_p_err, coverage, degeneracy, mean_conf]
+            %   p_err       : 当代模型测试误差（跳过轮记 NaN）
+            %   prev_p_err  : 决定 relation_mode 用的上一代误差
+            %   coverage    : 参考向量覆盖率
+            %   degeneracy  : 种群退化度
+            %   mean_conf   : 平均置信度
+            stat.diag_trace = [];
+            %%% [STAT-DIAG] 结束 =====================================
             % 运行元信息
             stat.problem = class(Problem);
             stat.M       = Problem.M;
@@ -125,6 +134,9 @@ classdef REMO_new2_AdaMaO_Stat < ALGORITHM
                     %%% [STAT] 跳过轮计数 + 记录轨迹 --------------------
                     stat.skip_gen = stat.skip_gen + 1;
                     stat.cand_trace{end+1} = 'skipped';
+                    %%% [STAT-DIAG] 跳过轮诊断量（p_err 未计算，记 NaN）
+                    stat.diag_trace(end+1,:) = [gen, NaN, prev_p_err, ...
+                        diagnostics.coverage, diagnostics.degeneracy, mean_conf];
                     % 跳过轮也要保存统计（保证最后一次保存是完整的）
                     save_mode_stat(stat);
                     %----------------------------------------------------
@@ -220,6 +232,11 @@ classdef REMO_new2_AdaMaO_Stat < ALGORITHM
                         p_err,prev_p_err,diagnostics.coverage,diagnostics.degeneracy, ...
                         mean_conf,length(NewSols));
                 end
+
+                %%% [STAT-DIAG] 逐代诊断量记录（须在 prev_p_err 更新前）
+                %   此处 prev_p_err = 决定 relation_mode 的值；p_err = 决定 candidate_mode 的值
+                stat.diag_trace(end+1,:) = [gen, p_err, prev_p_err, ...
+                    diagnostics.coverage, diagnostics.degeneracy, mean_conf];
 
                 %% ---- 更新状态 ----
                 prev_p_err = p_err;
