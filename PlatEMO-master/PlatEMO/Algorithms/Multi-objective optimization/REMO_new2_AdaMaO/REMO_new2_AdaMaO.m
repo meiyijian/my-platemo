@@ -1,7 +1,17 @@
 classdef REMO_new2_AdaMaO < ALGORITHM
 % <2026> <multi/many> <real> <expensive>
 % AdaMaO: 自适应多目标优化算法（Adaptive Many-objective Algorithm）
-%
+% k: 参考解数量基数（HPC 内部 RefSelect 选解数）
+% gmax: 代理辅助 GA 内循环的累计样本上限
+% q_keep: 候选解筛选的分位数阈值（保留得分前 q_keep 比例的候选）
+% lambda0: 不确定性权重的基础系数
+% w_min: 样本权重的下限（防止权重过小导致训练不稳定）
+% n_min: 每轮真实评估的最少候选解数量
+% n_max: 每轮真实评估的最多候选解数量
+% tau_err: 模型误差阈值（用于决定关系对模式）
+% use_indicator: 是否启用指标轮盘选择（1=启用，0=禁用）
+% debug: 是否打印调试信息（1=打印，0=不打印）
+
 % 本算法是 REMO_new2_WFG10 的自适应版本，核心改进：
 % 1. 根据运行时诊断结果，动态切换关系对训练模式
 % 2. 根据模型精度和种群状态，动态切换候选解选择模式
