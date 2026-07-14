@@ -1,18 +1,18 @@
 function [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
-% DataProcess - 数据集划分（原始版本，无权重）
+% DataProcess - 关系对数据集划分（原始版本，无权重）
 %
-% 按类别 (0, +1, -1) 分层抽样, 训练集 3/4, 测试集 1/4
+% 按关系标签 (0, +1, -1) 分层抽样, 训练集 3/4, 测试集 1/4
+% 注意：这是按关系对随机划分，不是按基础解划分；同一端点和反向关系可能跨越训练/测试集。
 %
 % 分层抽样的目的：
-%   保证训练集和测试集中各类别的比例与原始数据一致
-%   避免某些类别在训练集或测试中缺失
+%   保持三类关系标签比例大致一致，避免某类关系完全缺失
 %
 % 输入:
 %   Input  - n_pair x 2D 关系对样本
 %   Output - n_pair x 1 关系标签 {-1, 0, +1}
 % 输出:
-%   TrainIn, TrainOut  - 训练集（75%）
-%   TestIn, TestOut    - 测试集（25%）
+%   TrainIn, TrainOut  - 关系对训练集（75%）
+%   TestIn, TestOut    - 关系对留出集（25%）
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for

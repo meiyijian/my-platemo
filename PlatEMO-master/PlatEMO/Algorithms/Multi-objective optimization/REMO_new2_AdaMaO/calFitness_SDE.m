@@ -1,7 +1,7 @@
 function Fitness = calFitness_SDE(PopObj, Lp)
 % calFitness_SDE - 移位密度估计 + Minkowski(Lp) 退化
 %
-% SDE（Shift-based Density Estimation）是 PIEA 提出的一种密度估计方法
+% SDE（Shift-based Density Estimation）是 PIEA 所采用的一种移位密度估计方法
 % 核心思想：不仅考虑解之间的距离，还考虑解之间的"方向"
 %
 % 传统密度估计的问题：
@@ -14,12 +14,12 @@ function Fitness = calFitness_SDE(PopObj, Lp)
 %   这样只有当 j 在所有目标上都优于 i 时，距离才为 0
 %
 % 退化机制：
-%   当 SDE 失去区分度（解相互聚集，值 < 1e-4）时，
-%   自动退化为 Minkowski(Lp) 距离至理想点
+%   当前实现对 SDE 得分小于 1e-4 的个体，使用 Minkowski(Lp) 理想点距离替换其得分；
+%   这不等同于对整个指标自动切换。
 %
 % 输入：
 %   PopObj : N×M 目标值
-%   Lp     : Shape_Estimate 估计的 PF 形状参数
+%   Lp     : Shape_Estimate 从当前非支配近似集拟合的 Lp 参数
 %
 % 输出：
 %   Fitness : N×1，越大越好

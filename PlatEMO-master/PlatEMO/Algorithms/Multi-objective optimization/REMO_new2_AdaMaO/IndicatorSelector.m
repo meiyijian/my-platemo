@@ -1,27 +1,27 @@
 function [Fitness, flag, Lp] = IndicatorSelector(Population, indicator, Lp_prev)
 % IndicatorSelector - PIEA 风格的指标轮盘选择 + Lp 形状自适应
 %
-% 本函数实现了 PIEA（2024）的指标选择思想：
-%   使用三种性能指标来评估种群，根据历史表现动态调整选择概率
+% 本函数实现 PIEA 风格的指标抽样：
+%   使用三种标量指标评估当前种群，并按轮盘概率抽取一个指标。
+%   当前主程序的反馈可能来自未实际使用该指标的候选模式，因此概率不能直接解释为指标因果贡献。
 %
 % 三种指标：
 %   1. SDE（移位密度估计）：
-%      - 适合分布均匀的前沿
-%      - 当解相互聚集时自动退化为 Minkowski 距离
+%      - 使用移位距离同时体现收敛和密度信息
+%      - 当前实现仅对 SDE 得分接近 0 的个体改用 Minkowski 距离
 %
 %   2. I_epsilon+（加性 epsilon 指标）：
 %      - 衡量"解 i 转换到解 j 至少需要在某一目标上恶化多少"
-%      - 对超多目标场景下"互不支配但仍有强弱"的解有较好区分度
+%      - 为互不支配解提供基于加性 epsilon 关系的标量区分
 %
 %   3. Minkowski（Minkowski 距离至理想点）：
-%      - 当 PF 形状被 Lp 准确估计时，能将 PF 上的解映射到等高线上
-%      - Lp=1：曼哈顿距离（适合 linear PF）
-%      - Lp=2：欧氏距离（适合凸 PF）
-%      - Lp<1：偏向凹 PF
+%      - 使用当前非支配近似集估计的 Lp 计算到理想点的距离
+%      - Lp=1：线性广义等值面
+%      - 按多目标优化常用 PF 命名，Lp>1 通常对应球面式 concave 形状，Lp<1 通常对应 convex 形状
 %
 % 轮盘选择机制：
-%   每个指标被选中的概率 Pw 基于历史表现（Win_record / Choose_record）
-%   表现好的指标会被更频繁地选择
+%   每个指标被选中的概率 Pw 基于窗口内批次反馈（Win_record / Choose_record）
+%   该反馈是整批新解结果，且不保证本代最终使用了该指标重排。
 %
 % 输入：
 %   Population : 当前种群（含真实评估值）
@@ -31,22 +31,22 @@ function [Fitness, flag, Lp] = IndicatorSelector(Population, indicator, Lp_prev)
 % 输出：
 %   Fitness : N×1 当代的性能指标值（越大越好）
 %   flag    : 1=SDE / 2=I_eps+ / 3=MD（用于 UpdateInformation 反馈）
-%   Lp      : 当代估计的 PF 形状参数
+%   Lp      : 当代非支配近似集的 Lp 拟合参数
 %
 % 设计要点：
-%   - Lp 每代重新估计（PIEA 思想：PF 形状随进化变化）
+%   - Lp 每代从当前非支配近似集重新估计，并不等同于已知真实 PF 形状
 %   - 三指标按 Pw 概率轮盘选择
-%   - SDE 退化时也会用 Lp，因此 Lp 估计影响所有指标
+%   - Lp 影响 Minkowski 指标及 SDE 中接近零得分个体的替代值，不影响 epsilon 指标
 
     PopObj = Population.objs;
     N      = length(Population);
 
-    %% ============ 估计 PF 形状 ============
-    % Shape_Estimate 从非支配解中估计 Lp（Minkowski 距离的指数）
-    % Lp 决定了 PF 的形状：
-    %   p < 1：凹 PF（concave）
-    %   p = 1：线性 PF（linear）
-    %   p > 1：凸 PF（convex）
+    %% ============ 拟合当前非支配近似集的 Lp 参数 ============
+    % Shape_Estimate 从当前非支配解中拟合 Lp（Minkowski 距离指数）
+    % 按多目标优化常用 PF 命名：
+    %   p < 1：凸 PF（convex）
+%   p = 1：线性 PF（linear）
+    %   p > 1：凹 PF（concave，如球面式 PF）
     try
         Lp = Shape_Estimate(Population, N);
     catch

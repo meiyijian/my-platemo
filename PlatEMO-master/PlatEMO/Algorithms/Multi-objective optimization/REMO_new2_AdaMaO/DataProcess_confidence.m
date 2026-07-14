@@ -1,16 +1,17 @@
 function [TrainIn,TrainOut,TrainW,TestIn,TestOut,TestW] = DataProcess_confidence(Input,Output,Weight)
-% DataProcess_confidence - 在原 DataProcess 基础上, 同步划分关系对的样本权重
+% DataProcess_confidence - 在原 DataProcess 基础上同步划分关系对权重
 %
-% 按类别 (0, +1, -1) 分层抽样, 训练集 3/4, 测试集 1/4
+% 按关系标签 (0, +1, -1) 分层抽样, 训练集 3/4, 测试集 1/4
 % 权重同步按相同索引划分
+% 注意：这是按关系对随机划分，不是按基础解划分；同一端点和反向关系可能跨越训练/测试集。
 %
 % 输入:
 %   Input  - n_pair x 2D 关系对样本
 %   Output - n_pair x 1 关系标签 {-1, 0, +1}
 %   Weight - n_pair x 1 样本权重
 % 输出:
-%   TrainIn, TrainOut, TrainW  - 训练集（75%）
-%   TestIn, TestOut, TestW     - 测试集（25%）
+%   TrainIn, TrainOut, TrainW  - 关系对训练集（75%）
+%   TestIn, TestOut, TestW     - 关系对留出集（25%）
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for

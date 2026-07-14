@@ -1,24 +1,24 @@
 function p = Shape_Estimate(Population, N)
-% Shape_Estimate - 估计 Pareto 前沿的形状参数 Lp
+% Shape_Estimate - 从当前非支配近似集拟合形状参数 Lp
 %
-% 本函数来自 PIEA（2024），用于自动估计 PF 的形状
-% 形状参数 Lp 决定了 Minkowski 距离的形状：
-%   p < 1：concave PF（凹）
+% 本函数来自 PIEA（2024），用于拟合当前非支配近似集的广义 Lp 等值面
+% 按多目标优化常用 PF 命名：
+%   p < 1：convex PF（凸）
 %   p = 1：linear PF（线性）
-%   p > 1：convex PF（凸）
+%   p > 1：concave PF（凹，如球面式 PF）
 %
 % 估计原理：
-%   - 使用非支配解（NDSort 第一层）作为 PF 的近似
+%   - 使用当前非支配解（NDSort 第一层）作为未知 PF 的有限近似
 %   - 从 17 个候选 Lp ∈ [0.27, 6.5] 中选标准差最小的
 %   - 标准差衡量"PF 上的解到原点的 Lp 范数"是否一致
-%   - 如果 Lp 选择正确，PF 上的解到原点的距离应该接近常数
+%   - 如果某个 Lp 与当前近似集匹配，其归一化 Lp 范数的离散程度较小
 %
 % 输入：
 %   Population : 种群（含真实评估解）
 %   N          : NDSort 的层数限制
 %
 % 输出：
-%   p : Lp 范数指数（决定 Minkowski 距离形状）
+%   p : 当前非支配近似集的 Lp 拟合指数
 %
 % 来源：
 %   Y. Li, W. Li, S. Li, Y. Zhao. PIEA. Information Sciences, 2024.

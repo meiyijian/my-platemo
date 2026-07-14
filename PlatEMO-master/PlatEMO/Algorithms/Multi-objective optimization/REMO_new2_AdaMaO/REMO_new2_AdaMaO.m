@@ -2,13 +2,13 @@ classdef REMO_new2_AdaMaO < ALGORITHM
 % <2026> <multi/many> <real> <expensive>
 % AdaMaO: 自适应多目标优化算法（Adaptive Many-objective Algorithm）
 %
-% 本算法是 REMO_new2_WFG10 的自适应版本，核心改进：
-% 1. 根据运行时诊断结果，动态切换关系对训练模式
-% 2. 根据模型精度和种群状态，动态切换候选解选择模式
-% 3. 引入 PIEA 的指标轮盘选择机制，增强多样性
+% 本算法是 REMO_new2_WFG10 的状态路由实验版本，主要改动：
+% 1. 按上一代关系对留出误差、PBI 表征一致性和方向占用率判定关系对训练模式
+% 2. 按当代关系对留出误差、方向占用率和目标矩阵线性维数判定候选选择模式
+% 3. 引入 PIEA 风格的指标轮盘和指标值代理模型作为候选重排分支
 %
-% 算法保留了 WFG10 版本的置信度加权和不确定性感知工具，
-% 但只在运行时诊断表明它们有用时才启用这些功能。
+% 算法保留了 WFG10 版本的 PBI 表征一致性加权和 softmax 预测模糊度工具，
+% 并通过固定阈值决定是否启用相应分支；这些诊断量是否能代表真实搜索风险需另行验证。
 %
 % 适用场景：
 %   - 决策变量维度 D：任意
@@ -20,8 +20,8 @@ classdef REMO_new2_AdaMaO < ALGORITHM
             %% ============ 参数设置 ============
             % k: 参考解数量基数（HPC 内部 RefSelect 选解数）
             % gmax: 代理辅助 GA 内循环的累计样本上限
-            % q_keep: 候选解筛选的分位数阈值（保留得分前 q_keep 比例的候选）
-            % lambda0: 不确定性权重的基础系数
+            % q_keep: 候选解筛选的分位点（0.80 通常保留高于 80% 分位点、即最高约 20% 的候选）
+            % lambda0: softmax 预测模糊度奖励的基础系数
             % w_min: 样本权重的下限（防止权重过小导致训练不稳定）
             % n_min: 每轮真实评估的最少候选解数量
             % n_max: 每轮真实评估的最多候选解数量
@@ -39,7 +39,7 @@ classdef REMO_new2_AdaMaO < ALGORITHM
             else
                 N = 100;
             end
-            % 拉丁超立方采样生成初始解（保证空间均匀覆盖）
+            % 拉丁超立方采样生成初始解（改善各决策维度的边际分层覆盖，不保证联合空间完全均匀）
             PopDec     = UniformPoint(N,Problem.D,'Latin');
             % 将 [0,1] 映射到实际决策空间，然后真实评估
             Population = Problem.Evaluation( ...
@@ -81,36 +81,36 @@ classdef REMO_new2_AdaMaO < ALGORITHM
 
                 %% ---- 自适应参考解数量 ----
                 % 取 k 和 1.5*M 中的较大者，但不超过种群规模
-                % 高维目标需要更多参考解来覆盖 Pareto 前沿
+                % 随目标数增加代表解数量；这是经验规模规则，不等同于保证 Pareto 前沿覆盖
                 k_eff = min(Problem.N,max(k,ceil(1.5*Problem.M)));
 
                 %% ---- 混合 PBI 分类 ----
-                % 对种群中的解进行好坏分类，同时输出置信度和参考解
+                % 对种群构造融合排名：前 1/4 标为正组，其余 3/4 标为非正组；同时输出 PBI 表征一致性和代表解
                 % 'Nref': 参考向量数量, 'k': 参考解数量, 'theta': PBI 惩罚系数
                 [~,~,Catalog,confidence,Ref] = HybridPBI_Classification( ...
                     Population,ratio,'Nref',N,'k',k_eff,'theta',5);
 
                 %% ---- 运行时诊断 ----
-                % 计算种群的覆盖率和退化度，用于决定后续策略
-                % coverage: 参考向量的覆盖率（越高表示种群分布越广）
-                % degeneracy: 种群退化度（越高表示种群越集中在某些区域）
+                % 计算均匀方向占用率和目标矩阵线性维数集中度，用于固定阈值路由
+                % coverage: 均匀参考方向的占用比例；其可达上界受种群规模和实际方向数限制
+                % degeneracy: 目标矩阵的线性维数集中度，不直接等同于拥挤或区域覆盖不足
                 diagnostics = RuntimeDiagnostics(Population,N);
                 mean_conf   = mean(confidence(:));
 
                 %% ---- 动态选择关系对训练模式 ----
-                % 根据模型精度和种群状态，选择不同的关系对生成策略
+                % 根据关系对留出误差、PBI 表征一致性和方向占用比例，选择不同的关系对生成策略
                 %
-                % 'conservative'（保守模式）：使用原始 GetRelationPairs，无权重
+                % 'conservative'（等权模式）：使用原始 GetRelationPairs，无权重
                 %   - 适用条件：默认模式
-                %   - 特点：简单稳定，适合早期探索
+                %   - 特点：所有粗组别关系对等权；并不减少对关系模型的依赖
                 %
-                % 'curriculum'（课程学习模式）：只保留高置信度样本
+                % 'curriculum'（高一致性过滤模式，名称为兼容保留）：每组固定保留一致性较高的样本
                 %   - 适用条件：上一代模型误差大（prev_p_err > tau_err）
-                %   - 特点：过滤掉低置信度样本，减少噪声干扰
+                %   - 特点：固定过滤每组一致性最低的 20%，没有逐步从易到难的课程日程
                 %
-                % 'weighted'（加权模式）：使用置信度加权的关系对
-                %   - 适用条件：模型精度好 且 置信度高 且 覆盖率低
-                %   - 特点：让高置信度样本对模型影响更大
+                % 'weighted'（一致性加权模式）：使用 PBI 双表征一致性加权关系对
+                %   - 适用条件：上一代关系对留出误差不高、平均一致性较高且方向占用率低于固定阈值
+                %   - 特点：让两端一致性分数较高的关系对权重更大；一致性不等于标签正确概率
                 relation_mode = 'conservative';
                 if prev_p_err > tau_err
                     relation_mode = 'curriculum';
@@ -127,7 +127,7 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                         % 加权模式：返回关系对 XXs, YYs 和权重 WWs
                         [XXs,YYs,WWs] = GetRelationPairs_confidence(Input,Catalog,confidence);
                     case 'curriculum'
-                        % 课程学习模式：只保留高置信度样本（前 80%）
+                        % 高一致性过滤模式：每组只保留一致性分数最高的 80%
                         [XXs,YYs] = GetRelationPairs_curriculum(Input,Catalog,confidence,0.80);
                         WWs = [];
                     otherwise
@@ -144,16 +144,16 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                 end
 
                 %% ---- 训练关系预测模型 ----
-                % 根据是否有权重，选择不同的数据处理和训练方式
+                % 根据是否有权重，选择不同的数据处理和训练方式；p_err 是关系对随机留出误差
                 [net,TrainIn_struct,p_err] = TrainRelationModel( ...
                     XXs,YYs,WWs,w_min,strcmp(relation_mode,'weighted'));
 
                 %% ---- 指标轮盘选择（可选） ----
                 % 如果启用指标选择，使用 PIEA 的三种指标之一来评估种群
                 % 这三种指标各有特点：
-                %   SDE: 移位密度估计，适合分布均匀的前沿
-                %   I_epsilon+: 加性 epsilon 指标，适合收敛性评估
-                %   Minkowski: Minkowski 距离，适合特定形状的前沿
+                %   SDE: 基于移位距离的密度/质量分数
+                %   I_epsilon+: 基于加性 epsilon 关系的总体分数
+                %   Minkowski: 当前非支配近似集形状参数下的理想点距离分数
                 indicator_flag = 1;
                 IndicatorModel = [];
                 Fitness = [];
@@ -162,7 +162,7 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                         % IndicatorSelector 返回：
                         %   Fitness: 当代的性能指标值
                         %   indicator_flag: 选中的指标编号（1/2/3）
-                        %   Lp: 估计的 PF 形状参数
+                        %   Lp: 当前非支配近似集的 Lp 拟合参数
                         [Fitness,indicator_flag,Lp] = IndicatorSelector(Population,indicator,Lp);
                     catch
                         Fitness = [];
@@ -182,19 +182,19 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                 end
 
                 %% ---- 动态选择候选解选择模式 ----
-                % 根据模型精度、种群状态和指标模型可用性，选择不同的候选解选择策略
+                % 根据关系对留出误差和两个启发式诊断量选择候选策略；模式名不代表已验证的风险状态
                 %
-                % 'conservative'（保守模式）：仅使用关系得分，选择 n_min 个候选
+                % 'conservative'（纯关系小批量模式）：仅使用关系得分，选择 n_min 个候选
                 %   - 适用条件：默认模式
-                %   - 特点：简单稳定，适合模型精度不高时
+                %   - 特点：仍完全依赖关系模型，只是不加入预测模糊度和批次距离项
                 %
-                % 'explore'（探索模式）：关系得分 + 不确定性 + 决策空间多样性
-                %   - 适用条件：模型精度好 且 覆盖率低
-                %   - 特点：鼓励探索不确定性高的区域，同时保持多样性
+                % 'explore'（预测模糊度探索模式）：关系得分 + softmax 预测模糊度 + 决策空间分散性
+                %   - 触发条件：关系对留出误差不高且方向占用率低于固定阈值
+                %   - 特点：奖励输出概率较不尖锐的候选；该量不是认知不确定性，也不能保证识别分布外区域
                 %
-                % 'indicator'（指标模式）：关系得分粗筛 + SVR 指标重排序
-                %   - 适用条件：有指标模型 且 模型精度好 且 种群退化度高
-                %   - 特点：使用 PIEA 的指标思想，优先选择指标值好的候选
+                % 'indicator'（指标模式）：关系得分粗筛 + 可用时由 SVR 指标值重排序
+                %   - 触发条件：启用指标分支、关系对留出误差不高且线性维数集中度达到阈值
+                %   - 注意：触发条件未检查 IndicatorModel 是否非空，模型不可用时会回退到关系得分
                 candidate_mode = 'conservative';
                 if use_indicator && p_err <= tau_err && diagnostics.degeneracy >= 0.45
                     candidate_mode = 'indicator';
@@ -209,8 +209,8 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                 Smodel.Y              = Catalog;         % 好/坏标签
                 Smodel.mp_struct      = TrainIn_struct;  % 归一化参数（预测时复用）
                 Smodel.net            = net;             % 训练好的神经网络
-                Smodel.p_err          = p_err;           % 测试集分类错误率
-                Smodel.lambda0        = lambda0;         % 不确定性权重基础系数
+                Smodel.p_err          = p_err;           % 随机留出关系对的分类错误率，不是未见基础解上的严格泛化误差
+                Smodel.lambda0        = lambda0;         % softmax 预测模糊度奖励基础系数
                 Smodel.ratio          = ratio;           % 当前进化比例
                 Smodel.IndicatorModel = IndicatorModel;  % SVR 指标模型（可能为空）
                 Smodel.mode           = candidate_mode;  % 候选解选择模式
@@ -243,7 +243,8 @@ classdef REMO_new2_AdaMaO < ALGORITHM
                 end
 
                 %% ---- 指标反馈（可选） ----
-                % 如果启用了指标选择，计算新解的反馈分数，更新指标轮盘
+                % 如果启用了指标选择，按整批新解结果更新本代抽中指标的轮盘记录
+                % 注意：即使最终候选模式未使用指标 SVR，该指标仍会被更新，因此反馈不能直接归因于指标本身
                 % 反馈分数：
                 %   0 = 新解被原始 NDSort 支配
                 %   1 = 新解在 NDSort 第一层但被 NDSort_SDR 第一层排除
@@ -278,15 +279,15 @@ function diagnostics = RuntimeDiagnostics(Population,Nref)
 %
 % 输入：
 %   Population : 当前种群
-%   Nref       : 参考向量数量（用于计算覆盖率）
+%   Nref       : 请求的参考方向数量（ILD 实际产生的方向数可能大于该值）
 %
 % 输出：
-%   diagnostics.coverage   : 参考向量覆盖率（0~1，越高表示种群分布越广）
-%   diagnostics.degeneracy : 种群退化度（0~1，越高表示种群越集中在某些区域）
+%   diagnostics.coverage   : 均匀参考方向占用率（0~1；上界受解数/实际方向数限制）
+%   diagnostics.degeneracy : 目标矩阵线性维数集中度（0~1；不直接衡量拥挤或区域覆盖）
 %
 % 设计动机：
-%   - coverage 低表示种群没有覆盖所有参考方向，需要鼓励探索
-%   - degeneracy 高表示种群在某些区域过度集中，需要使用指标选择来增强多样性
+%   - coverage 低仅表示较少均匀方向被分配到解，是否需要探索取决于方向数校准
+%   - degeneracy 高表示 90% 线性能量由较少奇异方向解释，不等同于种群在少数 PF 区域拥挤
 
     PopObj = Population.objs;
     % 归一化目标值到 [0,1]
@@ -311,14 +312,14 @@ function diagnostics = RuntimeDiagnostics(Population,Nref)
     rowNorm(zeroRows) = vecnorm(Direction(zeroRows,:),2,2);
     Direction = Direction ./ max(rowNorm,eps);
 
-    % 计算覆盖率：有多少参考向量被种群中的解"覆盖"
-    % 覆盖标准：解的方向与参考向量的余弦相似度最大
+    % 计算方向占用率：统计有多少参考向量至少被一个解分配
+    % 分配标准：解的归一化目标方向与参考向量的余弦相似度最大
     cosine = 1 - pdist2(Direction,V,'cosine');
     [~,assigned] = max(cosine,[],2);
     diagnostics.coverage = numel(unique(assigned)) / size(V,1);
 
-    % 计算退化度：使用 SVD 分析种群的分布
-    % 如果种群集中在某些维度，SVD 的前几个奇异值会占主导
+    % 计算线性维数集中度：使用 SVD 分析归一化目标矩阵
+    % 如果主要线性变化由少数奇异方向解释，前几个奇异值会占主导
     Centered = PopObj - mean(PopObj,1);
     if size(Centered,1) < 2 || all(abs(Centered(:)) < 1e-12)
         diagnostics.degeneracy = 0;
@@ -333,8 +334,8 @@ function diagnostics = RuntimeDiagnostics(Population,Nref)
         % 找到解释 90% 能量所需的秩
         rank90 = find(cumsum(energy)./total >= 0.90,1,'first');
     end
-    % 退化度 = 1 - (所需秩 / 目标维度)
-    % 退化度越高，表示种群越集中在低维子空间
+    % 线性维数集中度 = 1 - (所需秩 / 目标维度)
+    % 数值越高，表示当前目标矩阵的 90% 线性能量集中在更少奇异方向
     diagnostics.degeneracy = max(0,min(1,1 - rank90/max(M,1)));
 end
 
@@ -356,18 +357,18 @@ function PopObj = NormalizeObjectives(PopObj)
     PopObj(isnan(PopObj) | isinf(PopObj)) = 0;
 end
 
-%% ============ 辅助函数：课程学习模式的关系对生成 ============
+%% ============ 辅助函数：高一致性过滤模式的关系对生成 ============
 function [XXs,YYs] = GetRelationPairs_curriculum(Input,Catalog,confidence,q_keep)
-% GetRelationPairs_curriculum - 课程学习模式的关系对生成
+% GetRelationPairs_curriculum - 固定比例高一致性过滤（函数名为兼容保留）
 %
-% 课程学习（Curriculum Learning）思想：
-%   先用"简单"（高置信度）的样本训练，再逐步引入"难"（低置信度）的样本
-%   本函数只保留置信度最高的 q_keep 比例的样本，过滤掉低置信度样本
+% 函数名沿用 curriculum，但当前实现仅执行一次固定比例的高一致性样本过滤：
+%   每个粗质量组只保留 PBI 双表征一致性最高的 q_keep 比例
+%   本函数没有随训练逐步引入低一致性样本的课程日程
 %
 % 输入：
 %   Input      : N x D 决策变量矩阵
-%   Catalog    : N x 1 logical，好类(true) / 坏类(false)
-%   confidence : N x 1 置信度
+%   Catalog    : N x 1 logical，正组(true) / 非正组(false)
+%   confidence : N x 1 PBI 双表征一致性分数（变量名为兼容保留）
 %   q_keep     : 保留比例（默认 0.80，即保留前 80%）
 %
 % 输出：
@@ -377,11 +378,11 @@ function [XXs,YYs] = GetRelationPairs_curriculum(Input,Catalog,confidence,q_keep
     Catalog = Catalog(:);
     confidence = confidence(:);
 
-    % 分离好类和坏类
+    % 分离正组和非正组
     good_idx = find(Catalog == 1);
     rest_idx = find(Catalog ~= 1);
 
-    % 对每类只保留置信度最高的 q_keep 比例
+    % 对每组只保留一致性分数最高的 q_keep 比例
     good_idx = KeepMostConfident(good_idx,confidence,q_keep);
     rest_idx = KeepMostConfident(rest_idx,confidence,q_keep);
 
@@ -405,11 +406,11 @@ end
 
 %% ============ 辅助函数：保留最置信的样本 ============
 function idx = KeepMostConfident(idx,confidence,q_keep)
-% KeepMostConfident - 从索引集合中保留置信度最高的 q_keep 比例
+% KeepMostConfident - 从索引集合中保留一致性分数最高的 q_keep 比例
 %
 % 输入：
 %   idx        : 原始索引向量
-%   confidence : 置信度向量
+%   confidence : PBI 双表征一致性向量
 %   q_keep     : 保留比例
 %
 % 输出：
@@ -419,9 +420,9 @@ function idx = KeepMostConfident(idx,confidence,q_keep)
     if isempty(idx)
         return;
     end
-    % 按置信度降序排序
+    % 按 PBI 双表征一致性分数降序排序
     [~,order] = sort(confidence(idx),'descend');
-    % 保留前 q_keep 比例（至少保留 1 个）
+    % 保留一致性分数最高的 q_keep 比例（至少保留 1 个）
     n_keep = max(1,ceil(q_keep*numel(idx)));
     idx = idx(order(1:n_keep));
 end
@@ -440,7 +441,7 @@ function [net,TrainIn_struct,p_err] = TrainRelationModel(XXs,YYs,WWs,w_min,use_w
 % 输出：
 %   net            : 训练好的神经网络
 %   TrainIn_struct : 归一化参数（预测时复用）
-%   p_err          : 测试集分类错误率
+%   p_err          : 随机留出关系对的分类错误率；基础解和反向关系可能跨训练/测试集合出现
 
     % 根据是否有权重，选择不同的数据处理方式
     if use_weights
@@ -517,8 +518,8 @@ function score = IndicatorFeedbackScore(Archive,NewSols,ArchiveSizeBefore)
 %           2 = 新解同时在 NDSort 和 NDSort_SDR 第一层（很好）
 %
 % 设计动机：
-%   NDSort_SDR 使用强支配关系（Strengthened Dominance Relation），
-%   比标准 NDSort 更严格。能同时通过两个排序的解是真正"脱颖而出"的解。
+%   NDSort_SDR 使用目标和与夹角构造另一套排序关系，不是标准 Pareto 支配的严格子集。
+%   这里的分数表示新解是否进入标准第一前沿，以及是否也进入该角度修正关系的第一层。
 
     score = 0;
     if isempty(NewSols)
@@ -539,7 +540,7 @@ function score = IndicatorFeedbackScore(Archive,NewSols,ArchiveSizeBefore)
         score = 1;
         % 提取 NDSort 第一层的子集
         F1_subset = Archive(FrontNo_all == 1);
-        % 对子集使用 NDSort_SDR（强支配关系排序）
+        % 对子集使用 NDSort_SDR（目标和与夹角驱动的替代关系排序）
         [FrontNo_SDR,~] = NDSort_SDR(F1_subset,1);
         % 检查新解是否也在 SDR 第一层
         new_in_F1_subset_idx = ismember(F1_subset.decs,NewSols.decs,'rows');

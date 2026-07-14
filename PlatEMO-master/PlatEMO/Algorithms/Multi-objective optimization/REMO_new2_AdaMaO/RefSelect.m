@@ -1,7 +1,7 @@
 function Ref = RefSelect(Population,k)
 % RefSelect - 参考解选择（RSEA 策略：Radar grid based Selection Evolutionary Algorithm）
 %
-% 从种群中选出 k 个有代表性的解，用于：
+% 从种群中选出 k 个代表解，用于：
 % 1. HPC 内部的 PBI 标签计算（k=6）
 % 2. 主流程末尾的环境选择（k=Problem.N）
 %
@@ -9,9 +9,9 @@ function Ref = RefSelect(Population,k)
 %   使用雷达网格将高维目标空间映射到 2D，然后在网格中选择代表性解
 %
 % 选择标准：
-%   1. 优先保留极端解（保证 Pareto 前沿的边界被覆盖）
-%   2. 从最稀疏的网格中选解（保证分布均匀）
-%   3. 在网格内，选择收敛性好且与已选解距离远的解
+%   1. 自动保留最后一层之前的较优前沿，并额外标记一个靠近全目标均衡方向的代表解
+%   2. 优先从当前二维雷达投影中占用较少的网格选择
+%   3. 在候选网格中，综合归一化目标和与二维投影距离选择
 %
 % 输入:
 %   Population - 种群对象
@@ -33,7 +33,7 @@ function Ref = RefSelect(Population,k)
     PopObj = Population.objs;  % N x M 目标值矩阵
 
     %% ============ 非支配排序 ============
-    % 取前若干前沿，直到累计解数 >= k
+    % 取前若干前沿，直到累计已排序解数达到 k
     [FrontNO,MaxFNO] = NDSort(PopObj,k);
     Next = find(FrontNO<=MaxFNO);  % 保留的解索引
 
@@ -56,13 +56,13 @@ function Choose = LastSelection(PopObj,Choose,div,k)
 %
 % 输入:
 %   PopObj  - 归一化后的目标值
-%   Choose  - 逻辑向量，已确定保留的解（极端解+前前沿）
+%   Choose  - 逻辑向量，已自动保留的较优前沿解
 %   div     - 网格分辨率
 %   k       - 需要选出的总数
 
-    %% ---- 识别极端解 ----
-    % 极端解：在 PBI 投影到 (1,1,...,1) 方向上最近的解
-    % 这些解保证 Pareto 前沿的边界被覆盖
+    %% ---- 识别全目标均衡方向代表解 ----
+    % 选择到 (1,1,...,1) 对角方向垂直距离最小的一个解。
+    % 该解通常靠近全目标均衡方向，不是按各目标分别选择的 PF 边界极端点。
     [~,Extreme] = min(sqrt(sum(PopObj.^2,2)).* ...
         sqrt(1-(1-pdist2(PopObj,ones(1,size(PopObj,2)),'cosine')).^2),[],1);
     Choose = Choose | ismember(1:size(PopObj,1),Extreme);
@@ -75,7 +75,7 @@ function Choose = LastSelection(PopObj,Choose,div,k)
     %% ---- 计算雷达网格 ----
     % 将 M 维目标空间映射到 2 维雷达坐标
     [Site,RLoc] = RadarGrid(PopObj,div);
-    % 计算网格中心之间的距离
+    % 计算各解二维雷达投影坐标之间的距离；RLoc 不是网格中心坐标
     RDis        = pdist2(RLoc,RLoc);
     RDis(logical(eye(length(RDis)))) = inf;  % 对角线设为无穷
 
@@ -92,8 +92,8 @@ function Choose = LastSelection(PopObj,Choose,div,k)
         bestG    = CrowdG(remainG) == min(CrowdG(remainG));  % 最稀疏的网格
         current  = remainS(ismember(Site(remainS),remainG(bestG)));
 
-        % 适应度 = 0.1*M*收敛性 - 与已选解的最小网格距离
-        % 含义：优先选收敛性好且与已选解距离远的解
+        % 适应度 = 0.1*M*归一化目标和 - 与已选解的最小二维投影距离
+        % 含义：在当前候选集合中兼顾较小目标和与较远二维投影距离
         fitness  = 0.1.*size(PopObj,2).*Con(current) - min(RDis(current,Choose),[],2);
         [~,best] = min(fitness);
 
@@ -112,7 +112,7 @@ function [Site,RLoc] = RadarGrid(P,div)
 %   div - 网格分辨率
 % 输出:
 %   Site - N x 1 每个解所属的网格编号
-%   RLoc - 网格中心的 2D 坐标
+%   RLoc - 每个解的 2D 雷达投影坐标
 
     [N,M] = size(P);
 

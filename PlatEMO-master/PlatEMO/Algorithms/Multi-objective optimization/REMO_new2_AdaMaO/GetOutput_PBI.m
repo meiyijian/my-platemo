@@ -1,7 +1,7 @@
 function [Output,r] = GetOutput_PBI(varargin)
 % GetOutput_PBI - PBI 阈值划分（动态标签生成）
 %
-% 基于参考解的 PBI 距离，将种群划分为好/坏两类
+% 基于当前代表解锚点的 PBI 阈值，将种群产生二值区域标签
 %
 % PBI 公式：
 %   g = ||P-Zmin|| * cosθ + δ * ||P-Zmin|| * sinθ
@@ -10,15 +10,15 @@ function [Output,r] = GetOutput_PBI(varargin)
 %   P: 解的目标值
 %   Zmin: 理想点
 %   θ: 解与参考方向的夹角
-%   δ: 惩罚系数（越大惩罚越重）
+%   δ: 有符号的垂直距离系数；δ>0 时惩罚偏离，δ<0 时会奖励较大的垂直距离
 %
 % 划分标准：
-%   若 g / ||Ref-Zmin|| > 1，则标记为坏（false）
-%   否则标记为好（true）
+%   若 g / ||Ref-Zmin|| > 1，则标签为 false
+%   否则标签为 true；这是相对锚点阈值标签，不等同于真实 Pareto 好/坏标签
 %
 % 自适应 δ：
 %   当用户未提供 δ 时，二分搜索 δ ∈ [-20, 20]，
-%   使得"好"的比例 r 落入 [0.3, 0.7]，避免类别极度不均衡
+%   使得 true 标签比例 r 落入 [0.3, 0.7]，主要用于控制二值标签比例
 %
 % 输入:
 %   Pop - N x M 目标值矩阵
@@ -26,8 +26,8 @@ function [Output,r] = GetOutput_PBI(varargin)
 %   可选: delt - PBI 阈值（若不提供则自适应搜索）
 %
 % 输出:
-%   Output - N x 1 logical，好=true，坏=false
-%   r      - 好解比例（自适应模式下用于调试）
+%   Output - N x 1 logical，true/false 为相对锚点阈值标签
+%   r      - true 标签比例（自适应模式下用于调试）
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
@@ -56,7 +56,7 @@ function [Output,r] = GetOutput_PBI(varargin)
         delt_u = 20;
         r = 0;
 
-        % 二分搜索，使好解比例 r 落入 [0.3, 0.7]
+        % 二分搜索，使 true 标签比例 r 落入 [0.3, 0.7]
         while r>0.7 || r<0.3
             delt_c = (delt_l + delt_u)/2;  % 中点
             if abs(delt_l-delt_u)<1e-1
@@ -64,9 +64,9 @@ function [Output,r] = GetOutput_PBI(varargin)
             end
             [l,r] = split_data(Pop,Ref,delt_c);
             if r > 0.7
-               delt_l = delt_c;  % 好解太多，增大 delt（更严格）
+               delt_l = delt_c;  % true 标签太多，增大 delt
             elseif r < 0.3
-               delt_u = delt_c;  % 好解太少，减小 delt（更宽松）
+               delt_u = delt_c;  % true 标签太少，减小 delt；delt 可能进入负值
             end
         end
     else
@@ -77,7 +77,7 @@ end
 
 %% ============ 内部函数：基于 PBI 的划分 ============
 function [Output,rate] = split_data(Pop,Ref,delt)
-% split_data - 对每个参考点，用 PBI 公式判断解是否"好"
+% split_data - 对每个代表解锚点，用 PBI 阈值产生二值标签
 %
 % 输入：
 %   Pop  : N x M 种群目标值
@@ -86,13 +86,14 @@ function [Output,rate] = split_data(Pop,Ref,delt)
 %
 % 输出：
 %   Output : N x 1 logical，好=true，坏=false
-%   rate   : 好解比例
+%   rate   : true 标签比例
 
     N      = size(Pop,1);
     popind = 1 : N;
-    Output = true(N,1);  % 默认全部为好
+    Output = true(N,1);  % 默认全部为 true 标签
 
-    % 找到每个解最近的参考解（余弦相似度最大）
+    % 使用原始 Pop 与 Ref 的余弦相似度分配锚点区域
+    % 注意：这里未减理想点 Z，后续区域方向 W 则使用 Ref-Z。
     [~,ref_index] = max(1-pdist2(Pop,Ref,'cosine'),[],2);
 
     % 理想点
@@ -126,10 +127,10 @@ function [Output,rate] = split_data(Pop,Ref,delt)
         k = normR;
         g = g./k;
 
-        % 若 g > 1，说明解偏离参考方向太远，标记为坏
+        % 若 g > 1，则标签设为 false；当 delt<0 时该条件不能解释为单纯“偏离过大”
         Output(sub_popind(g>1)) = false;
     end
 
-    % 好解比例
+    % true 标签比例
 	rate = sum(Output == 1)/length(Output);
 end

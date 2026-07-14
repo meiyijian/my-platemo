@@ -1,5 +1,5 @@
 function Fitness = calFitness_epsilon(PopObj, kappa)
-% calFitness_epsilon - I_epsilon+ 不可加性指标
+% calFitness_epsilon - 加性 I_epsilon+ 指标
 %
 % I_epsilon+ 是 IBEA（Indicator-Based Evolutionary Algorithm）提出的指标
 % 衡量"解 i 转换到解 j 至少需要在某一目标上恶化多少"
