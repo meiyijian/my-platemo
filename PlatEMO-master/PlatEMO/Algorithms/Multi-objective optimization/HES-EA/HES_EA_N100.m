@@ -1,4 +1,4 @@
-classdef HES_EA < ALGORITHM
+classdef HES_EA_N100 < ALGORITHM
 % <multi> <real> <expensive>
 % Qi-Te Yang, Jian-Yu Li, Zhi-Hui Zhan, Yunliang Jiang, Yaochu Jin, and Jun Zhang, "A Hierarchical
 % and Ensemble Surrogate-Assisted Evolutionary Algorithm with Model Reduction for Expensive

@@ -1,4 +1,4 @@
-classdef PCSAEA < ALGORITHM
+classdef PCSAEA_N100 < ALGORITHM
 % <2023> <multi/many> <real> <expensive>
 % Pairwise comparison based surrogate-assisted evolutionary algorithm
 % delta ---  0.8 --- Threshold of reliability measurement
