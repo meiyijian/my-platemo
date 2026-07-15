@@ -24,7 +24,8 @@ classdef PCSAEA < ALGORITHM
             [delta,gmax] = Algorithm.ParameterSet(0.8,3000);
 
             %% Initalize the population by Latin hypercube sampling
-            N          = max(11*Problem.D-1,Problem.N);
+            %% N          = max(11*Problem.D-1,Problem.N);
+	    N =100;
             PopDec     = UniformPoint(N,Problem.D,'Latin');
             Population = Problem.Evaluation(repmat(Problem.upper-Problem.lower,N,1).*PopDec+repmat(Problem.lower,N,1));
             Arc        = Population;
@@ -36,7 +37,7 @@ classdef PCSAEA < ALGORITHM
                 [Input,Output,Pa,Pmid] = CalFitnessPC(Population.objs,Population.decs,(Problem.FE/Problem.maxFE));   
                 % Data process
                 [TrainIn,~,TestIn,TestOut] = DataProcess(Input,Output);
-                % Construct and update the FNN£¬global classify surrogate model
+                % Construct and update the FNN  global classify surrogate model
                 net = RBFNNPC(0.1925);             
                 net.train(TrainIn,Problem.D);              
 

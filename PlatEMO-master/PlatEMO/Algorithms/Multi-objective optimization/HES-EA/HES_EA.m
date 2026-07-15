@@ -33,7 +33,8 @@ classdef HES_EA < ALGORITHM
             THETA_d = 5.*ones(KMeans+1,Problem.D);  
 
             %% Generate initial population based on Latin hypercube sampling
-            InitN          = 11*Problem.D-1;
+            %% InitN          = 11*Problem.D-1;
+	    InitN  =100;
             P          = UniformPoint(InitN,Problem.D,'Latin');
             PopDec    = repmat(Problem.upper-Problem.lower,InitN,1).*P+repmat(Problem.lower,InitN,1);
             Population = Problem.Evaluation(PopDec);
