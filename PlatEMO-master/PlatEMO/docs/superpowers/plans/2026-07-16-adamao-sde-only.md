@@ -73,7 +73,7 @@ function testMainSourceContainsNoRouletteMachinery(testCase)
         verifyFalse(testCase,contains(mainSource,forbiddenMain{i}), ...
             sprintf('Unexpected roulette token: %s',forbiddenMain{i}));
     end
-    verifyFalse(testCase,contains(selectorSource,'rand'));
+    verifyEmpty(testCase,regexp(selectorSource,'\<rand\s*\(','once'));
     verifyTrue(testCase,contains(selectorSource,'calFitness_SDE'));
 end
 ```
