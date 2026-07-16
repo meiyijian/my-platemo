@@ -1,4 +1,4 @@
-classdef HES_EA < ALGORITHM
+classdef HES_EA_N100 < ALGORITHM
 % <multi> <real> <expensive>
 % Qi-Te Yang, Jian-Yu Li, Zhi-Hui Zhan, Yunliang Jiang, Yaochu Jin, and Jun Zhang, "A Hierarchical
 % and Ensemble Surrogate-Assisted Evolutionary Algorithm with Model Reduction for Expensive
@@ -33,8 +33,9 @@ classdef HES_EA < ALGORITHM
             THETA_d = 5.*ones(KMeans+1,Problem.D);  
 
             %% Generate initial population based on Latin hypercube sampling
-            InitN          = 11*Problem.D-1;
-	        
+            %% InitN          = 11*Problem.D-1;
+	        InitN=100;
+
             P          = UniformPoint(InitN,Problem.D,'Latin');
             PopDec    = repmat(Problem.upper-Problem.lower,InitN,1).*P+repmat(Problem.lower,InitN,1);
             Population = Problem.Evaluation(PopDec);

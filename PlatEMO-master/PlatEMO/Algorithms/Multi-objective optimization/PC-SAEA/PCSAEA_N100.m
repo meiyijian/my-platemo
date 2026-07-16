@@ -1,4 +1,4 @@
-classdef PCSAEA < ALGORITHM
+classdef PCSAEA_N100 < ALGORITHM
 % <2023> <multi/many> <real> <expensive>
 % Pairwise comparison based surrogate-assisted evolutionary algorithm
 % delta ---  0.8 --- Threshold of reliability measurement
@@ -24,8 +24,8 @@ classdef PCSAEA < ALGORITHM
             [delta,gmax] = Algorithm.ParameterSet(0.8,3000);
 
             %% Initalize the population by Latin hypercube sampling
-            N          = max(11*Problem.D-1,Problem.N);
-	        
+            %% N          = max(11*Problem.D-1,Problem.N);
+	        N =100;
             PopDec     = UniformPoint(N,Problem.D,'Latin');
             Population = Problem.Evaluation(repmat(Problem.upper-Problem.lower,N,1).*PopDec+repmat(Problem.lower,N,1));
             Arc        = Population;
