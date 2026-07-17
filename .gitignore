@@ -12,3 +12,6 @@ PlatEMO-master/PlatEMO/Experiments/
 
 # Codex isolated worktrees
 .worktrees/
+
+# Codex local files and temporary directories
+**/.codex*
