@@ -31,7 +31,10 @@ function Next = SurrogateAssistedSelectionPC(Problem,net,error1,error2,Input,wma
         end
         if (sum(GoodLabel >= 0.95) == 0) || (sum(GoodLabel >= 0.95) > floor(lnum/2))
             [~,index] = sort(GoodLabel(:,end),'descend');
-            Next = GoodNext(index(1:floor(lnum/2)),1:D);
+            % Bug fix: avoid indexing beyond the number of generated candidates.
+            % Default gmax and all algorithmic parameters remain unchanged.
+            nPick = min(floor(lnum/2),numel(index));
+            Next  = GoodNext(index(1:nPick),1:D);
         else
             Next = GoodNext(GoodLabel >= 0.95,:);
         end
@@ -49,7 +52,10 @@ function Next = SurrogateAssistedSelectionPC(Problem,net,error1,error2,Input,wma
         end
         if (sum(GoodLabel <= -0.95) == 0) || (sum(GoodLabel <= -0.95) > floor(lnum/2))
             [~,index] = sort(GoodLabel(:,end));
-            Next = GoodNext(index(1:floor(lnum/2)),1:D);
+            % Bug fix: avoid indexing beyond the number of generated candidates.
+            % Default gmax and all algorithmic parameters remain unchanged.
+            nPick = min(floor(lnum/2),numel(index));
+            Next  = GoodNext(index(1:nPick),1:D);
         else
             Next = GoodNext(GoodLabel <= -0.95,:);
         end
