@@ -1,7 +1,7 @@
 # AdaMaO 连续双 PBI 机制与分阶段验证设计
 
 日期：2026-07-24
-状态：已完成书面设计自检，待用户审阅
+状态：用户已批准，进入实施计划阶段
 目标目录：`PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_AdaMaO_SDEOnly`
 
 ## 1. 研究目标
