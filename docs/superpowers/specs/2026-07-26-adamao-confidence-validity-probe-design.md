@@ -1,8 +1,8 @@
 # AdaMaO Confidence 判别能力探针实验设计
 
-日期：2026-07-26  
-状态：用户已批准方案 A，允许直接在主分支实现  
-Git 根目录：`D:\PlatEMO-master`  
+日期：2026-07-26
+状态：用户已批准方案 A，允许直接在主分支实现
+Git 根目录：`D:\PlatEMO-master`
 PlatEMO 根目录：`D:\PlatEMO-master\PlatEMO-master\PlatEMO`
 
 ## 1. 研究问题
@@ -220,4 +220,3 @@ WFG3 的实际 D=31，其余请求 D=30。只有 M=10 screening 达到主门槛�
 - 新增 MATLAB 文件 `checkcode` 无问题；
 - 结果 validator 能拒绝缺字段、不完整或元数据不匹配的 MAT；
 - analyzer 能从合成数据和 smoke 结果生成全部七张 CSV。
-

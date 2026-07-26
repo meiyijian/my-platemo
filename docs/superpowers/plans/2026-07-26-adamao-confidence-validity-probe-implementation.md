@@ -158,4 +158,3 @@ Expected: FAIL with undefined `SDEConfidenceProbeSchema` or another missing prob
 - [ ] Inspect `git diff --check`, `git status`, and the complete diff.
 - [ ] Request an independent spec-compliance review, then a code-quality/statistical-validity review; fix every critical or important issue and re-run verification.
 - [ ] Commit the design, implementation, tests, and force-tracked experiment harness on the user-approved master branch without pushing.
-
