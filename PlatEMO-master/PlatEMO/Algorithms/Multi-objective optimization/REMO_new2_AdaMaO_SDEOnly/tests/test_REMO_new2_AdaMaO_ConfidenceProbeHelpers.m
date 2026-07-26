@@ -134,6 +134,51 @@ function testTrueRelationIsFeasibilityFirstStrictPareto(testCase)
         [1 1],[1+5e-13 1],[],[],1e-12),0);
 end
 
+function testAllPairTypesUseExactEqualSpacingWithoutRng(testCase)
+    probe = SDEConfidenceProbeSchema();
+    nGood = 26;
+    nRest = 26;
+    n = nGood + nRest;
+    evalIDs = (5001:5000+n)';
+    objectives = [(1:n)',(n:-1:1)'];
+    catalog = [true(nGood,1);false(nRest,1)];
+    primeValues = primes(300);
+    confidence = primeValues(1:n)'./primeValues(n);
+
+    rng(271828,'twister');
+    before = rng;
+    [~,pairRows] = BuildSDEConfidencePairAudit( ...
+        7,700,evalIDs,objectives,zeros(n,0),catalog,confidence, ...
+        (n:-1:1)');
+    after = rng;
+
+    verifyEqual(testCase,after,before);
+    pairTypeColumn = column(probe,'pbiPairRows','PairType');
+    outputColumns = [ ...
+        column(probe,'pbiPairRows','LeftEvalID'), ...
+        column(probe,'pbiPairRows','RightEvalID'), ...
+        column(probe,'pbiPairRows','PairConfidence')];
+    pairTypes = [probe.codes.pairType.goodGood, ...
+        probe.codes.pairType.restRest, ...
+        probe.codes.pairType.goodRest];
+    expectedFullCounts = [nchoosek(nGood,2),nchoosek(nRest,2), ...
+        nGood*nRest];
+
+    for i = 1:numel(pairTypes)
+        expected = independentlySamplePairs( ...
+            evalIDs,catalog,confidence,pairTypes(i), ...
+            probe.maxPairsPerType);
+        actual = pairRows(pairRows(:,pairTypeColumn) == pairTypes(i), ...
+            outputColumns);
+
+        verifyGreaterThan(testCase,expectedFullCounts(i), ...
+            probe.maxPairsPerType);
+        verifySize(testCase,actual,[probe.maxPairsPerType,3]);
+        verifyEqual(testCase,actual(:,1:2),expected(:,1:2));
+        verifyEqual(testCase,actual(:,3),expected(:,3),'AbsTol',0);
+    end
+end
+
 function testCandidatePairPredictionIsCandidateFirstAndDeterministic(testCase)
     probe = SDEConfidenceProbeSchema();
     model = deterministicModel();
@@ -186,7 +231,17 @@ function testCandidateCompletionTruthDominanceAndMarginalIGD(testCase)
     pareto = column(probe,'networkPairRows','ParetoRelation');
     sde    = column(probe,'networkPairRows','SDERelation');
     verifyEqual(testCase,completedRows(:,pareto),[0;0;-1;-1]);
-    verifyTrue(testCase,all(ismember(completedRows(:,sde),[-1 0 1])));
+    combinedFitness = calFitness_SDE([anchorObj;candidateObj],1);
+    candidateID = completedRows(:,column(probe,'networkPairRows', ...
+        'CandidateEvalID'));
+    anchorID = completedRows(:,column(probe,'networkPairRows', ...
+        'AnchorEvalID'));
+    [~,candidateIndex] = ismember(candidateID,[301;302]);
+    [~,anchorIndex] = ismember(anchorID,[201;202]);
+    expectedSDE = strictScoreDirection( ...
+        combinedFitness(2+candidateIndex), ...
+        combinedFitness(anchorIndex),1e-12);
+    verifyEqual(testCase,completedRows(:,sde),expectedSDE);
 
     dominates = column(probe,'candidateRows','DominatesAny');
     dominated = column(probe,'candidateRows','DominatedByAny');
@@ -211,6 +266,38 @@ function testCandidateCompletionTruthDominanceAndMarginalIGD(testCase)
         'AbsTol',1e-14);
 end
 
+function testMarginalIGDRemovesOnlyDominatedCurrentNDPoints(testCase)
+    probe = SDEConfidenceProbeSchema();
+    candidateID = 501;
+    anchorIDs = (401:404)';
+    candidateObj = [1 2];
+    anchorObj = [0 4;1 3;3 1;4 0];
+    optimum = [1 2;1 3;1.5 1.5;3 1;0 4;4 0];
+    networkRows = PredictSDEConfidenceCandidatePairs( ...
+        2,20,candidateID,0.6,anchorIDs,[0.1;0.3;0.7;0.9], ...
+        logical([1;1;0;0]),deterministicModel());
+
+    [~,candidateRows] = CompleteSDEConfidenceCandidateAudit( ...
+        networkRows,candidateID,candidateObj,zeros(1,0), ...
+        anchorIDs,anchorObj,zeros(4,0),optimum,1);
+
+    removed = all(candidateObj <= anchorObj,2) & ...
+        any(candidateObj < anchorObj,2);
+    verifyEqual(testCase,removed,logical([0;1;0;0]));
+    baselineIGD = mean(min(pdist2(optimum,anchorObj),[],2));
+    updatedObj = [anchorObj(~removed,:);candidateObj];
+    expectedMarginal = baselineIGD - ...
+        mean(min(pdist2(optimum,updatedObj),[],2));
+    wrongNoRemoval = baselineIGD - mean(min( ...
+        pdist2(optimum,[anchorObj;candidateObj]),[],2));
+    verifyGreaterThan(testCase, ...
+        abs(expectedMarginal-wrongNoRemoval),1e-12);
+
+    marginalColumn = column(probe,'candidateRows','MarginalIGD');
+    verifyEqual(testCase,candidateRows(:,marginalColumn), ...
+        expectedMarginal,'AbsTol',1e-14);
+end
+
 function testHorizonUpdatesUseGenerationEvalIDAndPreserveCensoring(testCase)
     probe = SDEConfidenceProbeSchema();
     [probe.solutionRows,probe.pbiPairRows] = ...
@@ -226,48 +313,138 @@ function testHorizonUpdatesUseGenerationEvalIDAndPreserveCensoring(testCase)
         probe.networkPairRows,[301;302],[0.5 0.5;3 3],zeros(2,0), ...
         [201;202],[0 2;2 0],zeros(2,0),[0.5 0.5],1);
 
+    solutionH1 = column(probe,'solutionRows','SurviveH1');
+    solutionH3 = column(probe,'solutionRows','SurviveH3');
+    solutionFinal = column(probe,'solutionRows','FinalND');
+    pbiLeftH1 = column(probe,'pbiPairRows','LeftSurviveH1');
+    pbiRightH1 = column(probe,'pbiPairRows','RightSurviveH1');
+    pbiLeftH3 = column(probe,'pbiPairRows','LeftSurviveH3');
+    pbiRightH3 = column(probe,'pbiPairRows','RightSurviveH3');
+    pbiLeftFinal = column(probe,'pbiPairRows','LeftFinalND');
+    pbiRightFinal = column(probe,'pbiPairRows','RightFinalND');
+    networkH1 = column(probe,'networkPairRows','CandidateSurviveH1');
+    networkH3 = column(probe,'networkPairRows','CandidateSurviveH3');
+    networkFinal = column(probe,'networkPairRows','CandidateFinalND');
+    candidateH1 = column(probe,'candidateRows','SurviveH1');
+    candidateH3 = column(probe,'candidateRows','SurviveH3');
+    candidateArchiveND = column(probe,'candidateRows','ArchiveNDNext');
+    candidateFinal = column(probe,'candidateRows','FinalND');
+
+    verifyTrue(testCase,all(isnan(probe.solutionRows(:, ...
+        [solutionH1,solutionH3,solutionFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.pbiPairRows(:, ...
+        [pbiLeftH1,pbiRightH1,pbiLeftH3,pbiRightH3, ...
+        pbiLeftFinal,pbiRightFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.networkPairRows(:, ...
+        [networkH1,networkH3,networkFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.candidateRows(:, ...
+        [candidateH1,candidateH3,candidateFinal])),'all'));
+    verifyEqual(testCase,probe.candidateRows(:,candidateArchiveND),[1;0]);
+
     probe = UpdateSDEConfidenceProbe( ...
         probe,1,[12;14;301],[11;12;13;14;301],false);
 
-    solutionH1 = column(probe,'solutionRows','SurviveH1');
-    candidateH1 = column(probe,'candidateRows','SurviveH1');
-    candidateH3 = column(probe,'candidateRows','SurviveH3');
     verifyEqual(testCase,probe.solutionRows(:,solutionH1),[0;1;0;1]);
+    pbiLeftID = column(probe,'pbiPairRows','LeftEvalID');
+    pbiRightID = column(probe,'pbiPairRows','RightEvalID');
+    verifyEqual(testCase,probe.pbiPairRows(:,pbiLeftH1),double( ...
+        ismember(probe.pbiPairRows(:,pbiLeftID),[12;14;301])));
+    verifyEqual(testCase,probe.pbiPairRows(:,pbiRightH1),double( ...
+        ismember(probe.pbiPairRows(:,pbiRightID),[12;14;301])));
+    networkCandidateID = column(probe,'networkPairRows', ...
+        'CandidateEvalID');
+    verifyEqual(testCase,probe.networkPairRows(:,networkH1),double( ...
+        ismember(probe.networkPairRows(:,networkCandidateID), ...
+        [12;14;301])));
     verifyEqual(testCase,probe.candidateRows(:,candidateH1),[1;0]);
-    verifyTrue(testCase,all(isnan( ...
-        probe.candidateRows(:,candidateH3))));
+    verifyEqual(testCase,probe.candidateRows(:,candidateArchiveND),[1;0]);
+    verifyTrue(testCase,all(isnan(probe.solutionRows(:, ...
+        [solutionH3,solutionFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.pbiPairRows(:, ...
+        [pbiLeftH3,pbiRightH3,pbiLeftFinal,pbiRightFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.networkPairRows(:, ...
+        [networkH3,networkFinal])),'all'));
+    verifyTrue(testCase,all(isnan(probe.candidateRows(:, ...
+        [candidateH3,candidateFinal])),'all'));
 
     probe = UpdateSDEConfidenceProbe( ...
         probe,2,[14;301],[12;14;301],false);
-    verifyTrue(testCase,all(isnan( ...
-        probe.candidateRows(:,candidateH3))));
+    verifyTrue(testCase,all(isnan(probe.solutionRows(:,solutionH3)),'all'));
+    verifyTrue(testCase,all(isnan(probe.pbiPairRows(:, ...
+        [pbiLeftH3,pbiRightH3])),'all'));
+    verifyTrue(testCase,all(isnan(probe.networkPairRows(:,networkH3)),'all'));
+    verifyTrue(testCase,all(isnan(probe.candidateRows(:,candidateH3)),'all'));
+
+    lateSolution = probe.solutionRows(1,:);
+    lateSolution(column(probe,'solutionRows','Generation')) = 3;
+    lateSolution(column(probe,'solutionRows','EvalID')) = 888;
+    lateSolution([solutionH1,solutionH3,solutionFinal]) = NaN;
+    probe.solutionRows = [probe.solutionRows;lateSolution];
+
+    latePBI = probe.pbiPairRows(1,:);
+    latePBI(column(probe,'pbiPairRows','Generation')) = 3;
+    latePBI(pbiLeftID) = 888;
+    latePBI(pbiRightID) = 999;
+    latePBI([pbiLeftH1,pbiRightH1,pbiLeftH3,pbiRightH3, ...
+        pbiLeftFinal,pbiRightFinal]) = NaN;
+    probe.pbiPairRows = [probe.pbiPairRows;latePBI];
+
+    lateNetwork = probe.networkPairRows(1,:);
+    lateNetwork(column(probe,'networkPairRows','Generation')) = 3;
+    lateNetwork(networkCandidateID) = 999;
+    lateNetwork(column(probe,'networkPairRows','AnchorEvalID')) = 888;
+    lateNetwork([networkH1,networkH3,networkFinal]) = NaN;
+    probe.networkPairRows = [probe.networkPairRows;lateNetwork];
 
     lateRow = probe.candidateRows(1,:);
     lateRow(column(probe,'candidateRows','Generation')) = 3;
     lateRow(column(probe,'candidateRows','EvalID')) = 999;
-    lateRow(column(probe,'candidateRows','SurviveH1')) = NaN;
-    lateRow(column(probe,'candidateRows','SurviveH3')) = NaN;
-    lateRow(column(probe,'candidateRows','ArchiveNDNext')) = NaN;
-    lateRow(column(probe,'candidateRows','FinalND')) = NaN;
+    lateRow([candidateH1,candidateH3,candidateArchiveND, ...
+        candidateFinal]) = NaN;
     probe.candidateRows = [probe.candidateRows;lateRow];
 
     probe = UpdateSDEConfidenceProbe( ...
-        probe,3,[12;301;999],[12;301;999],true);
+        probe,3,[12;14;301;888;999],[12;301;999],true);
 
-    finalND = column(probe,'candidateRows','FinalND');
+    solutionID = column(probe,'solutionRows','EvalID');
+    verifyEqual(testCase,probe.solutionRows(1:4,solutionH3), ...
+        double(ismember(probe.solutionRows(1:4,solutionID), ...
+        [12;14;301;888;999])));
+    verifyEqual(testCase,probe.solutionRows(:,solutionFinal), ...
+        double(ismember(probe.solutionRows(:,solutionID),[12;301;999])));
+    verifyEqual(testCase,probe.solutionRows(end,solutionH1),1);
+    verifyTrue(testCase,isnan(probe.solutionRows(end,solutionH3)));
+
+    verifyEqual(testCase,probe.pbiPairRows(1:end-1,pbiLeftH3), ...
+        double(ismember(probe.pbiPairRows(1:end-1,pbiLeftID), ...
+        [12;14;301;888;999])));
+    verifyEqual(testCase,probe.pbiPairRows(1:end-1,pbiRightH3), ...
+        double(ismember(probe.pbiPairRows(1:end-1,pbiRightID), ...
+        [12;14;301;888;999])));
+    verifyEqual(testCase,probe.pbiPairRows(:,pbiLeftFinal), ...
+        double(ismember(probe.pbiPairRows(:,pbiLeftID),[12;301;999])));
+    verifyEqual(testCase,probe.pbiPairRows(:,pbiRightFinal), ...
+        double(ismember(probe.pbiPairRows(:,pbiRightID),[12;301;999])));
+    verifyEqual(testCase,probe.pbiPairRows(end, ...
+        [pbiLeftH1,pbiRightH1]),[1 1]);
+    verifyTrue(testCase,all(isnan(probe.pbiPairRows(end, ...
+        [pbiLeftH3,pbiRightH3]))));
+
+    verifyEqual(testCase,probe.networkPairRows(1:end-1,networkH3), ...
+        double(ismember(probe.networkPairRows(1:end-1, ...
+        networkCandidateID),[12;14;301;888;999])));
+    verifyEqual(testCase,probe.networkPairRows(:,networkFinal), ...
+        double(ismember(probe.networkPairRows(:,networkCandidateID), ...
+        [12;301;999])));
+    verifyEqual(testCase,probe.networkPairRows(end,networkH1),1);
+    verifyTrue(testCase,isnan(probe.networkPairRows(end,networkH3)));
+
     verifyEqual(testCase,probe.candidateRows(1:2,candidateH3),[1;0]);
     verifyTrue(testCase,isnan(probe.candidateRows(3,candidateH3)));
     verifyEqual(testCase,probe.candidateRows(3,candidateH1),1);
-    verifyEqual(testCase,probe.candidateRows(:,finalND),[1;0;1]);
-
-    leftH3 = column(probe,'pbiPairRows','LeftSurviveH3');
-    rightH3 = column(probe,'pbiPairRows','RightSurviveH3');
-    leftID = column(probe,'pbiPairRows','LeftEvalID');
-    rightID = column(probe,'pbiPairRows','RightEvalID');
-    verifyEqual(testCase,probe.pbiPairRows(:,leftH3), ...
-        double(ismember(probe.pbiPairRows(:,leftID),[12;301;999])));
-    verifyEqual(testCase,probe.pbiPairRows(:,rightH3), ...
-        double(ismember(probe.pbiPairRows(:,rightID),[12;301;999])));
+    verifyEqual(testCase,probe.candidateRows(:,candidateArchiveND), ...
+        [1;0;1]);
+    verifyEqual(testCase,probe.candidateRows(:,candidateFinal),[1;0;1]);
 end
 
 function model = deterministicModel()
@@ -282,6 +459,43 @@ function output = deterministicNetwork(input)
         0.45 + 0.15*difference; ...
         0.20*ones(1,size(input,2)); ...
         0.35 - 0.15*difference];
+end
+
+function sampled = independentlySamplePairs( ...
+    evalIDs,catalog,confidence,targetType,maxRows)
+    n = numel(evalIDs);
+    allPairs = zeros(nchoosek(n,2),4);
+    row = 0;
+    for i = 1:n-1
+        for j = i+1:n
+            row = row + 1;
+            left = i;
+            right = j;
+            if ~catalog(left) && catalog(right)
+                left = j;
+                right = i;
+            end
+            if catalog(left) && catalog(right)
+                pairType = 1;
+            elseif ~catalog(left) && ~catalog(right)
+                pairType = 2;
+            else
+                pairType = 3;
+            end
+            allPairs(row,:) = [pairType,evalIDs(left),evalIDs(right), ...
+                sqrt(confidence(left)*confidence(right))];
+        end
+    end
+    subset = allPairs(allPairs(:,1) == targetType,:);
+    subset = sortrows(subset,[4 2 3]);
+    keep = round(linspace(1,size(subset,1),maxRows))';
+    sampled = subset(keep,2:4);
+end
+
+function relation = strictScoreDirection(left,right,tolerance)
+    relation = zeros(size(left));
+    relation(left > right+tolerance) = 1;
+    relation(right > left+tolerance) = -1;
 end
 
 function index = column(probe,rowName,columnName)
