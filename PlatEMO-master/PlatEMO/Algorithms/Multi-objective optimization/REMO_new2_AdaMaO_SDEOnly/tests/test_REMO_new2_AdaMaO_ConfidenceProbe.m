@@ -93,6 +93,10 @@ end
 function testProbeMatchesUniformMixTrajectoryExactly(testCase)
     stateBefore = rng;
     testCase.addTeardown(@() rng(stateBefore));
+    [warmAlgorithm,warmProblem] = makeWarmupRun();
+    rng(19001,'twister');
+    warmAlgorithm.Solve(warmProblem);
+
     [probeAlgorithm,probeProblem] = makeMultiGenerationRun( ...
         'REMO_new2_AdaMaO_SDEOnly_ConfidenceProbe');
     [baseAlgorithm,baseProblem] = makeMultiGenerationRun( ...
@@ -183,6 +187,14 @@ function [Algorithm,Problem] = makeMultiGenerationRun(name)
     Algorithm = feval(name,'parameter',parameters,'save',0, ...
         'outputFcn',@silentOutput,'run',1);
     Problem = DTLZ2('N',20,'M',3,'D',3,'maxFE',35);
+end
+
+function [Algorithm,Problem] = makeWarmupRun()
+    parameters = {[],1,[],[],[],1,1,[],[],[]};
+    Algorithm = REMO_new2_AdaMaO_SDEOnly_UniformMix( ...
+        'parameter',parameters,'save',0, ...
+        'outputFcn',@silentOutput,'run',1);
+    Problem = DTLZ2('N',20,'M',3,'D',3,'maxFE',33);
 end
 
 function Population = finalResultPopulation(Algorithm)
