@@ -93,9 +93,9 @@ end
 function testProbeMatchesUniformMixTrajectoryExactly(testCase)
     stateBefore = rng;
     testCase.addTeardown(@() rng(stateBefore));
-    [probeAlgorithm,probeProblem] = makeSmokeRun( ...
+    [probeAlgorithm,probeProblem] = makeMultiGenerationRun( ...
         'REMO_new2_AdaMaO_SDEOnly_ConfidenceProbe');
-    [baseAlgorithm,baseProblem] = makeSmokeRun( ...
+    [baseAlgorithm,baseProblem] = makeMultiGenerationRun( ...
         'REMO_new2_AdaMaO_SDEOnly_UniformMix');
 
     rng(9001,'twister');
@@ -111,8 +111,43 @@ function testProbeMatchesUniformMixTrajectoryExactly(testCase)
     baseTrajectory = sortrows([baseArchive.decs,baseArchive.objs]);
     verifyEqual(testCase,probeTrajectory,baseTrajectory,'AbsTol',0);
     verifyEqual(testCase,probeProblem.FE,baseProblem.FE);
-    verifyEqual(testCase,probeProblem.FE,36);
+    verifyEqual(testCase,probeProblem.FE,35);
     verifyEqual(testCase,probeRNG,baseRNG);
+
+    probe = probeAlgorithm.metric.confidenceProbe;
+    schema = SDEConfidenceProbeSchema();
+    tableNames = fieldnames(schema.columns);
+    for i = 1:numel(tableNames)
+        name = tableNames{i};
+        generation = probe.(name)(:,column(schema,name,'Generation'));
+        verifyGreaterThanOrEqual(testCase,max(generation),3);
+    end
+
+    h3Columns = { ...
+        'solutionRows',{'SurviveH3'}; ...
+        'pbiPairRows',{'LeftSurviveH3','RightSurviveH3'}; ...
+        'networkPairRows',{'CandidateSurviveH3'}; ...
+        'candidateRows',{'SurviveH3'}};
+    for i = 1:size(h3Columns,1)
+        name = h3Columns{i,1};
+        rows = probe.(name);
+        generation = rows(:,column(schema,name,'Generation'));
+        verifyObservedBinaryColumns( ...
+            testCase,rows,generation == 1,schema,name,h3Columns{i,2});
+    end
+
+    finalColumns = { ...
+        'solutionRows',{'FinalND'}; ...
+        'pbiPairRows',{'LeftFinalND','RightFinalND'}; ...
+        'networkPairRows',{'CandidateFinalND'}; ...
+        'candidateRows',{'FinalND'}};
+    for i = 1:size(finalColumns,1)
+        name = finalColumns{i,1};
+        rows = probe.(name);
+        verifyObservedBinaryColumns( ...
+            testCase,rows,true(size(rows,1),1), ...
+            schema,name,finalColumns{i,2});
+    end
 end
 
 function testProbeSourceKeepsSingleOperationalCalls(testCase)
@@ -143,9 +178,26 @@ function [Algorithm,Problem] = makeSmokeRun(name)
     Problem = DTLZ2('N',20,'M',3,'D',3,'maxFE',36);
 end
 
+function [Algorithm,Problem] = makeMultiGenerationRun(name)
+    parameters = {[],1,[],[],[],1,1,[],[],[]};
+    Algorithm = feval(name,'parameter',parameters,'save',0, ...
+        'outputFcn',@silentOutput,'run',1);
+    Problem = DTLZ2('N',20,'M',3,'D',3,'maxFE',35);
+end
+
 function Population = finalResultPopulation(Algorithm)
     last = find(~cellfun(@isempty,Algorithm.result(:,2)),1,'last');
     Population = Algorithm.result{last,2};
+end
+
+function verifyObservedBinaryColumns( ...
+    testCase,rows,rowMask,schema,tableName,columnNames)
+    verifyTrue(testCase,any(rowMask));
+    for i = 1:numel(columnNames)
+        values = rows(rowMask,column(schema,tableName,columnNames{i}));
+        verifyFalse(testCase,any(isnan(values)));
+        verifyTrue(testCase,all(ismember(values,[0 1])));
+    end
 end
 
 function index = column(schema,tableName,columnName)
