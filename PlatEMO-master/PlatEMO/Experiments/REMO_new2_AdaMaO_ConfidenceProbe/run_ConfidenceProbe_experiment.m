@@ -97,7 +97,7 @@ function manifest = run_ConfidenceProbe_experiment(profile,outputDir)
             IGD = Problem.CalMetric('IGD',finalPopulation);
             IGDp = Problem.CalMetric('IGDp',finalPopulation);
             metadata = makeMetadata( ...
-                protocol,job,Problem,Algorithm,runtime);
+                protocol,job,Problem,Algorithm,confidenceProbe,runtime);
 
             save(temporaryFile,'metadata','confidenceProbe', ...
                 'finalPopulation','IGD','IGDp','runtime','-v7.3');
@@ -158,7 +158,8 @@ function manifest = emptyManifest(rowCount)
     manifest.Runtime(:) = nan;
 end
 
-function metadata = makeMetadata(protocol,job,Problem,Algorithm,runtime)
+function metadata = makeMetadata( ...
+    protocol,job,Problem,Algorithm,confidenceProbe,runtime)
     metadata = struct();
     metadata.schemaVersion = protocol.schemaVersion;
     metadata.profile = protocol.profile;
@@ -168,6 +169,7 @@ function metadata = makeMetadata(protocol,job,Problem,Algorithm,runtime)
     metadata.requestedD = job.RequestedD;
     metadata.actualD = Problem.D;
     metadata.N = Problem.N;
+    metadata.initialFE = observedInitialFE(confidenceProbe);
     metadata.maxFE = job.MaxFE;
     metadata.completedFE = Problem.FE;
     metadata.gmax = job.Gmax;
@@ -183,6 +185,21 @@ function metadata = makeMetadata(protocol,job,Problem,Algorithm,runtime)
     metadata.completedAt = datestr(now,30);
     metadata.matlabVersion = version;
     metadata.computer = computer;
+end
+
+function initialFE = observedInitialFE(probe)
+    names = fieldnames(probe.columns);
+    values = zeros(0,1);
+    for i = 1:numel(names)
+        name = names{i};
+        feColumn = find(strcmp(probe.columns.(name),'FE'),1);
+        values = [values;probe.(name)(:,feColumn)]; %#ok<AGROW>
+    end
+    if isempty(values)
+        error('AdaMaO:MissingConfidenceProbeInitialFE', ...
+            'The confidence probe contains no FE observations.');
+    end
+    initialFE = min(values);
 end
 
 function silentOutput(varargin)

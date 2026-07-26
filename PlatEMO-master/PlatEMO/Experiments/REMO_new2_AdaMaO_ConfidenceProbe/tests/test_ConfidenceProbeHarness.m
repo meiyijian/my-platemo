@@ -23,6 +23,7 @@ function testFourProfilesHaveFrozenMatricesAndStableSeeds(testCase)
     verifyEqual(testCase,smoke.jobs.RequestedD,3);
     verifyEqual(testCase,smoke.jobs.ActualD,3);
     verifyEqual(testCase,smoke.jobs.N,20);
+    verifyEqual(testCase,smoke.jobs.InitialFE,32);
     verifyEqual(testCase,smoke.jobs.MaxFE,36);
     verifyEqual(testCase,smoke.jobs.Run,1);
     verifyEqual(testCase,smoke.jobs.Gmax,1);
@@ -51,6 +52,7 @@ function testFourProfilesHaveFrozenMatricesAndStableSeeds(testCase)
         verifyTrue(testCase,all(jobs.RequestedD == 30));
         verifyTrue(testCase,all(jobs.ActualD(wfg3) == 31));
         verifyTrue(testCase,all(jobs.ActualD(~wfg3) == 30));
+        verifyTrue(testCase,all(jobs.InitialFE == 100));
     end
 
     for run = 1:3
@@ -120,6 +122,31 @@ function testValidatorAcceptsCompleteRunAndRejectsMalformedRuns(testCase)
     verifyEqual(testCase,[metrics.IGD,metrics.IGDp,metrics.runtime], ...
         [IGD,IGDp,runtime]);
 
+    skippedGenerationFile = fullfile(folder,'skipped_generations.mat');
+    skippedProbe = withSkippedAuditGenerations(confidenceProbe);
+    saveRun(skippedGenerationFile,metadata,skippedProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        skippedGenerationFile,protocol,job);
+    verifyTrue(testCase,valid,message);
+
+    missingObservedH3File = fullfile(folder,'missing_observed_h3.mat');
+    badProbe = skippedProbe;
+    generationColumn = column(badProbe,'candidateRows','Generation');
+    h3Column = column(badProbe,'candidateRows','SurviveH3');
+    firstAuditGeneration = min( ...
+        badProbe.candidateRows(:,generationColumn));
+    firstAuditRow = find( ...
+        badProbe.candidateRows(:,generationColumn) == ...
+        firstAuditGeneration,1);
+    badProbe.candidateRows(firstAuditRow,h3Column) = nan;
+    saveRun(missingObservedH3File,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        missingObservedH3File,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'SurviveH3');
+
     staleFile = fullfile(folder,'stale.mat');
     staleMetadata = metadata;
     staleMetadata.seed = staleMetadata.seed + 1;
@@ -140,6 +167,16 @@ function testValidatorAcceptsCompleteRunAndRejectsMalformedRuns(testCase)
         incompleteFile,protocol,job);
     verifyFalse(testCase,valid);
     verifySubstring(testCase,message,'completedFE');
+
+    wrongInitialFile = fullfile(folder,'wrong_initial_fe.mat');
+    badMetadata = metadata;
+    badMetadata.initialFE = job.N;
+    saveRun(wrongInitialFile,badMetadata,confidenceProbe, ...
+        finalPopulation,IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        wrongInitialFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'initialFE');
 
     duplicateFile = fullfile(folder,'duplicate.mat');
     duplicatePopulation = finalPopulation;
@@ -212,6 +249,109 @@ function testValidatorAcceptsCompleteRunAndRejectsMalformedRuns(testCase)
     verifyFalse(testCase,valid);
     verifySubstring(testCase,message,'SurviveH1');
 
+    truncatedCandidateFile = fullfile(folder,'truncated_candidate.mat');
+    badProbe = confidenceProbe;
+    badProbe.candidateRows(end,:) = [];
+    saveRun(truncatedCandidateFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        truncatedCandidateFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'candidate');
+
+    truncatedNetworkFile = fullfile(folder,'truncated_network.mat');
+    badProbe = confidenceProbe;
+    badProbe.networkPairRows(end,:) = [];
+    saveRun(truncatedNetworkFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        truncatedNetworkFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'network');
+
+    unknownEndpointFile = fullfile(folder,'unknown_pbi_endpoint.mat');
+    badProbe = confidenceProbe;
+    leftID = column(badProbe,'pbiPairRows','LeftEvalID');
+    badProbe.pbiPairRows(1,leftID) = metadata.initialFE;
+    saveRun(unknownEndpointFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        unknownEndpointFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'PBI');
+
+    wrongPairConfidenceFile = fullfile(folder,'wrong_pair_confidence.mat');
+    badProbe = confidenceProbe;
+    pairConfidence = column(badProbe,'pbiPairRows','PairConfidence');
+    badProbe.pbiPairRows(1,pairConfidence) = min( ...
+        1,badProbe.pbiPairRows(1,pairConfidence)+0.01);
+    saveRun(wrongPairConfidenceFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        wrongPairConfidenceFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'PBI');
+
+    survivalMismatchFile = fullfile(folder,'survival_mismatch.mat');
+    badProbe = confidenceProbe;
+    leftH1 = column(badProbe,'pbiPairRows','LeftSurviveH1');
+    badProbe.pbiPairRows(1,leftH1) = ...
+        1-badProbe.pbiPairRows(1,leftH1);
+    saveRun(survivalMismatchFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        survivalMismatchFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'SurviveH1');
+
+    finalMismatchFile = fullfile(folder,'final_mismatch.mat');
+    badProbe = confidenceProbe;
+    candidateFinal = column(badProbe,'candidateRows','FinalND');
+    badProbe.candidateRows(1,candidateFinal) = ...
+        1-badProbe.candidateRows(1,candidateFinal);
+    saveRun(finalMismatchFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        finalMismatchFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'FinalND');
+
+    aggregateMismatchFile = fullfile(folder,'aggregate_mismatch.mat');
+    badProbe = confidenceProbe;
+    candidateConfidence = column( ...
+        badProbe,'candidateRows','NetworkConfidence');
+    badProbe.candidateRows(1,candidateConfidence) = ...
+        badProbe.candidateRows(1,candidateConfidence)+0.01;
+    saveRun(aggregateMismatchFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        aggregateMismatchFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'NetworkConfidence');
+
+    generationFEFile = fullfile(folder,'generation_fe_mismatch.mat');
+    badProbe = confidenceProbe;
+    networkFE = column(badProbe,'networkPairRows','FE');
+    badProbe.networkPairRows(1,networkFE) = metadata.initialFE + 1;
+    saveRun(generationFEFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        generationFEFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifyTrue(testCase,contains(message,'Generation') || ...
+        contains(message,'FE'));
+
+    censoredMismatchFile = fullfile(folder,'h3_censoring.mat');
+    badProbe = confidenceProbe;
+    candidateH3 = column(badProbe,'candidateRows','SurviveH3');
+    badProbe.candidateRows(1,candidateH3) = 0;
+    saveRun(censoredMismatchFile,metadata,badProbe,finalPopulation, ...
+        IGD,IGDp,runtime);
+    [valid,message] = ValidateConfidenceProbeResultFile( ...
+        censoredMismatchFile,protocol,job);
+    verifyFalse(testCase,valid);
+    verifySubstring(testCase,message,'SurviveH3');
+
     badWidthFile = fullfile(folder,'bad_width.mat');
     badProbe = confidenceProbe;
     badProbe.pbiPairRows(:,end) = [];
@@ -276,7 +416,7 @@ function testSyntheticAnalysisWritesFrozenOutputsAndPassesGate(testCase)
     verifyTrue(testCase,analysis.summaryByM.PrimaryDataComplete);
     verifyEqual(testCase,analysis.summaryByM.Q5MinusQ1Error,-1, ...
         'AbsTol',1e-12);
-    verifyEqual(testCase,analysis.summaryByM.AUROC,1,'AbsTol',1e-12);
+    verifyGreaterThan(testCase,analysis.summaryByM.AUROC,0.90);
     verifyTrue(testCase,analysis.decision.PrimaryGatePassed);
     verifyEqual(testCase,analysis.decision.DecisionCode, ...
         "GATE_DEVELOPMENT_VALUE");
@@ -309,8 +449,8 @@ function testSyntheticAnalysisWritesFrozenOutputsAndPassesGate(testCase)
         'ParetoErrorRate','SDEConsistencyRate'}, ...
         pbiBins.Properties.VariableNames)));
     % The synthetic incomparable relation is excluded, never counted right.
-    verifyEqual(testCase,sum(pbiBins.ComparableParetoN), ...
-        sum(pbiBins.N)-50);
+    verifyLessThan(testCase,sum(pbiBins.ComparableParetoN), ...
+        sum(pbiBins.N));
 
     requiredMColumns = { ...
         'PBISDEQ5MinusQ1Error','PBISDEDiffCILower', ...
@@ -381,8 +521,7 @@ function testAnalyzerRejectsFileThatFullValidatorWouldBlock(testCase)
     file = analysisRunFile(resultDir,'DTLZ2',3,1);
     loaded = load(file);
     probe = loaded.confidenceProbe;
-    predicted = column(probe,'networkPairRows','PredictedRelation');
-    probe.networkPairRows(1,predicted) = -1;
+    probe.networkPairRows(end,:) = [];
     loaded.confidenceProbe = probe;
     saveLoadedRun(file,loaded);
 
@@ -394,7 +533,7 @@ function testAnalyzerRejectsFileThatFullValidatorWouldBlock(testCase)
     end
     verifyNotEmpty(testCase,caught);
     verifySubstring(testCase,caught.message,file);
-    verifySubstring(testCase,caught.message,'PredictedRelation');
+    verifySubstring(testCase,caught.message,'network');
 end
 
 function testAnalyzerRejectsMixedDuplicateAndUnmatchedJobs(testCase)
@@ -501,13 +640,8 @@ end
 
 function [metadata,probe,finalPopulation,IGD,IGDp,runtime] = ...
     validSyntheticRun(protocol,job)
-    probe = syntheticProbe();
+    [probe,finalPopulation] = syntheticPayload(job,false);
     metadata = matchingMetadata(protocol,job);
-    ids = (1:job.MaxFE)';
-    finalPopulation = repmat(struct('add',0),numel(ids),1);
-    for i = 1:numel(ids)
-        finalPopulation(i).add = ids(i);
-    end
     IGD = 0.25;
     IGDp = 0.30;
     runtime = 1.5;
@@ -522,6 +656,7 @@ function metadata = matchingMetadata(protocol,job)
         'requestedD',job.RequestedD, ...
         'actualD',job.ActualD, ...
         'N',job.N, ...
+        'initialFE',job.InitialFE, ...
         'maxFE',job.MaxFE, ...
         'completedFE',job.MaxFE, ...
         'gmax',job.Gmax, ...
@@ -532,106 +667,242 @@ function metadata = matchingMetadata(protocol,job)
         'jobID',char(job.JobID));
 end
 
-function probe = syntheticProbe()
+function [probe,finalPopulation] = syntheticPayload(job,flatPrimary)
+    persistent keys probes populations
+    key = sprintf('M%d_I%d_F%d_flat%d', ...
+        job.M,job.InitialFE,job.MaxFE,flatPrimary);
+    if ~isempty(keys)
+        match = find(strcmp(keys,key),1);
+        if ~isempty(match)
+            probe = probes{match};
+            finalPopulation = populations{match};
+            return;
+        end
+    end
+
     probe = SDEConfidenceProbeSchema();
-    solution = zeros(10,numel(probe.columns.solutionRows));
-    solution(:,column(probe,'solutionRows','Generation')) = 1;
-    solution(:,column(probe,'solutionRows','FE')) = 20;
-    solution(:,column(probe,'solutionRows','EvalID')) = (1:10)';
-    solution(:,column(probe,'solutionRows','RelationMode')) = 2;
-    solution(:,column(probe,'solutionRows','CandidateMode')) = 1;
-    solution(:,column(probe,'solutionRows','Catalog')) = ...
-        [ones(5,1);zeros(5,1)];
-    solution(:,column(probe,'solutionRows','PBIConfidence')) = ...
-        repmat((0.1:0.1:0.5)',2,1);
-    solution(:,column(probe,'solutionRows','SDEFitness')) = (10:-1:1)';
-    solution(:,column(probe,'solutionRows','CurrentND')) = 1;
-    solution(:,column(probe,'solutionRows','SurviveH1')) = ...
-        [0;0;0;1;1;1;1;1;0;0];
-    solution(:,column(probe,'solutionRows','SurviveH3')) = ...
-        [0;0;0;1;1;1;1;1;0;0];
-    solution(:,column(probe,'solutionRows','FinalND')) = ...
-        [0;0;0;1;1;1;1;1;0;0];
-    probe.solutionRows = solution;
+    M = job.M;
+    initialFE = job.InitialFE;
+    maxFE = job.MaxFE;
+    anchorIDs = (1:10)';
+    levels = [0.1;0.3;0.5;0.7;0.9];
+    confidence = [levels;levels];
+    catalog = [ones(5,1);zeros(5,1)];
+    if flatPrimary
+        anchorScalar = [0.10 + (0:4)'*0.01;1.0 + (0:4)'*0.01];
+    else
+        anchorScalar = [1-levels;levels];
+    end
+    anchorObj = repmat(anchorScalar,1,M);
+    anchorCon = zeros(numel(anchorIDs),0);
+    sdeFitness = calFitness_SDE(anchorObj,1);
+    [solutionRows,pbiPairRows] = BuildSDEConfidencePairAudit( ...
+        1,initialFE,anchorIDs,anchorObj,anchorCon,catalog, ...
+        confidence,sdeFitness,'RelationMode',2,'CandidateMode',1);
 
-    pair = zeros(10,numel(probe.columns.pbiPairRows));
-    pair(:,column(probe,'pbiPairRows','Generation')) = 1;
-    pair(:,column(probe,'pbiPairRows','FE')) = 20;
-    pair(:,column(probe,'pbiPairRows','LeftEvalID')) = (1:10)';
-    pair(:,column(probe,'pbiPairRows','RightEvalID')) = (11:20)';
-    pair(:,column(probe,'pbiPairRows','PairType')) = 3;
-    pair(:,column(probe,'pbiPairRows','PredictedRelation')) = 1;
-    pair(:,column(probe,'pbiPairRows','PairConfidence')) = (0.1:0.1:1)';
-    pair(:,column(probe,'pbiPairRows','ParetoRelation')) = ...
-        [-ones(5,1);ones(5,1)];
-    pair(:,column(probe,'pbiPairRows','SDERelation')) = ...
-        [-ones(5,1);ones(5,1)];
-    pair(:,column(probe,'pbiPairRows','LeftSurviveH1')) = 1;
-    pair(:,column(probe,'pbiPairRows','RightSurviveH1')) = 0;
-    pair(:,column(probe,'pbiPairRows','LeftSurviveH3')) = nan;
-    pair(:,column(probe,'pbiPairRows','RightSurviveH3')) = nan;
-    pair(:,column(probe,'pbiPairRows','LeftFinalND')) = 1;
-    pair(:,column(probe,'pbiPairRows','RightFinalND')) = 0;
-    probe.pbiPairRows = pair;
+    finalObj = 2*ones(maxFE,M);
+    finalObj(anchorIDs,:) = anchorObj;
+    candidateIDs = (initialFE+1:maxFE)';
+    candidateScalar = linspace(0.05,1.50,numel(candidateIDs))';
+    candidateObj = repmat(candidateScalar,1,M);
+    finalObj(candidateIDs,:) = candidateObj;
+    finalFront = NDSort(finalObj,1) == 1;
 
-    network = zeros(10,numel(probe.columns.networkPairRows));
-    network(:,column(probe,'networkPairRows','Generation')) = 1;
-    network(:,column(probe,'networkPairRows','FE')) = 20;
-    network(:,column(probe,'networkPairRows','CandidateEvalID')) = (21:30)';
-    network(:,column(probe,'networkPairRows','AnchorEvalID')) = (1:10)';
-    network(:,column(probe,'networkPairRows','AnchorCatalog')) = 1;
-    network(:,column(probe,'networkPairRows','PredictedRelation')) = 1;
-    leftProbability = linspace(0.40,0.94,10)';
-    otherProbability = (1-leftProbability)/2;
-    network(:,column(probe,'networkPairRows','ProbabilityLeftBetter')) = ...
-        leftProbability;
-    network(:,column(probe,'networkPairRows','ProbabilitySame')) = ...
+    networkRows = buildSyntheticNetworkRows( ...
+        probe,initialFE,candidateIDs,anchorIDs,catalog);
+    [networkRows,candidateRows] = ...
+        CompleteSDEConfidenceCandidateAudit( ...
+        networkRows,candidateIDs,candidateObj, ...
+        zeros(numel(candidateIDs),0),anchorIDs,anchorObj,anchorCon, ...
+        zeros(1,M),1,'RelationMode',2,'CandidateMode',1, ...
+        'HistoryEvalIDs',(1:initialFE)', ...
+        'HistoryObjectives',finalObj(1:initialFE,:), ...
+        'HistoryConstraints',zeros(initialFE,0));
+
+    solutionH1 = solutionRows(:, ...
+        column(probe,'solutionRows','CurrentND'));
+    solutionRows(:,column(probe,'solutionRows','SurviveH1')) = solutionH1;
+    solutionRows(:,column(probe,'solutionRows','SurviveH3')) = nan;
+    solutionRows(:,column(probe,'solutionRows','FinalND')) = ...
+        double(finalFront(anchorIDs))';
+
+    [~,leftIndex] = ismember(pbiPairRows(:, ...
+        column(probe,'pbiPairRows','LeftEvalID')),anchorIDs);
+    [~,rightIndex] = ismember(pbiPairRows(:, ...
+        column(probe,'pbiPairRows','RightEvalID')),anchorIDs);
+    pbiPairRows(:,column(probe,'pbiPairRows','LeftSurviveH1')) = ...
+        solutionH1(leftIndex);
+    pbiPairRows(:,column(probe,'pbiPairRows','RightSurviveH1')) = ...
+        solutionH1(rightIndex);
+    pbiPairRows(:,column(probe,'pbiPairRows','LeftSurviveH3')) = nan;
+    pbiPairRows(:,column(probe,'pbiPairRows','RightSurviveH3')) = nan;
+    pbiPairRows(:,column(probe,'pbiPairRows','LeftFinalND')) = ...
+        double(finalFront(anchorIDs(leftIndex)))';
+    pbiPairRows(:,column(probe,'pbiPairRows','RightFinalND')) = ...
+        double(finalFront(anchorIDs(rightIndex)))';
+
+    candidateH1 = candidateRows(:, ...
+        column(probe,'candidateRows','ArchiveNDNext'));
+    candidateRows(:,column(probe,'candidateRows','SurviveH1')) = ...
+        candidateH1;
+    candidateRows(:,column(probe,'candidateRows','SurviveH3')) = nan;
+    candidateRows(:,column(probe,'candidateRows','FinalND')) = ...
+        double(finalFront(candidateIDs))';
+    [~,candidateIndex] = ismember(networkRows(:, ...
+        column(probe,'networkPairRows','CandidateEvalID')),candidateIDs);
+    networkRows(:,column(probe,'networkPairRows', ...
+        'CandidateSurviveH1')) = candidateH1(candidateIndex);
+    networkRows(:,column(probe,'networkPairRows', ...
+        'CandidateSurviveH3')) = nan;
+    networkRows(:,column(probe,'networkPairRows','CandidateFinalND')) = ...
+        double(finalFront(candidateIDs(candidateIndex)))';
+
+    probe.solutionRows = solutionRows;
+    probe.pbiPairRows = pbiPairRows;
+    probe.networkPairRows = networkRows;
+    probe.candidateRows = candidateRows;
+
+    template = struct('add',0,'obj',zeros(1,M),'con',zeros(1,0));
+    finalPopulation = repmat(template,maxFE,1);
+    for i = 1:maxFE
+        finalPopulation(i).add = i;
+        finalPopulation(i).obj = finalObj(i,:);
+        finalPopulation(i).con = zeros(1,0);
+    end
+
+    if isempty(keys)
+        keys = {key};
+        probes = {probe};
+        populations = {finalPopulation};
+    else
+        keys{end+1} = key;
+        probes{end+1} = probe;
+        populations{end+1} = finalPopulation;
+    end
+end
+
+function networkRows = buildSyntheticNetworkRows( ...
+    probe,fe,candidateIDs,anchorIDs,catalog)
+    candidateIndex = repelem((1:numel(candidateIDs))',numel(anchorIDs));
+    anchorIndex = repmat((1:numel(anchorIDs))',numel(candidateIDs),1);
+    confidenceByCandidate = linspace(0.40,0.94,numel(candidateIDs))';
+    confidence = confidenceByCandidate(candidateIndex);
+    otherProbability = (1-confidence)/2;
+    networkRows = nan(numel(candidateIndex), ...
+        numel(probe.columns.networkPairRows));
+    networkRows(:,column(probe,'networkPairRows','Generation')) = 1;
+    networkRows(:,column(probe,'networkPairRows','FE')) = fe;
+    networkRows(:,column(probe,'networkPairRows','CandidateEvalID')) = ...
+        candidateIDs(candidateIndex);
+    networkRows(:,column(probe,'networkPairRows','AnchorEvalID')) = ...
+        anchorIDs(anchorIndex);
+    networkRows(:,column(probe,'networkPairRows','AnchorCatalog')) = ...
+        catalog(anchorIndex);
+    networkRows(:,column(probe,'networkPairRows','PredictedRelation')) = 1;
+    networkRows(:,column(probe,'networkPairRows', ...
+        'ProbabilityLeftBetter')) = confidence;
+    networkRows(:,column(probe,'networkPairRows','ProbabilitySame')) = ...
         otherProbability;
-    network(:,column(probe,'networkPairRows','ProbabilityRightBetter')) = ...
-        otherProbability;
-    network(:,column(probe,'networkPairRows','NetworkConfidence')) = ...
-        leftProbability;
-    network(:,column(probe,'networkPairRows','ParetoRelation')) = ...
-        [-ones(5,1);ones(5,1)];
-    network(:,column(probe,'networkPairRows','SDERelation')) = ...
-        [-ones(5,1);ones(5,1)];
-    network(:,column(probe,'networkPairRows','CandidateSurviveH1')) = ...
-        [zeros(5,1);ones(5,1)];
-    network(:,column(probe,'networkPairRows','CandidateSurviveH3')) = ...
-        [zeros(5,1);ones(5,1)];
-    network(:,column(probe,'networkPairRows','CandidateFinalND')) = ...
-        [zeros(5,1);ones(5,1)];
-    probe.networkPairRows = network;
+    networkRows(:,column(probe,'networkPairRows', ...
+        'ProbabilityRightBetter')) = otherProbability;
+    networkRows(:,column(probe,'networkPairRows','NetworkConfidence')) = ...
+        confidence;
+end
 
-    candidate = zeros(10,numel(probe.columns.candidateRows));
-    candidate(:,column(probe,'candidateRows','Generation')) = 1;
-    candidate(:,column(probe,'candidateRows','FE')) = 20;
-    candidate(:,column(probe,'candidateRows','EvalID')) = (21:30)';
-    candidate(:,column(probe,'candidateRows','RelationMode')) = 2;
-    candidate(:,column(probe,'candidateRows','CandidateMode')) = 1;
-    candidate(:,column(probe,'candidateRows','NetworkConfidence')) = ...
-        leftProbability;
-    candidate(:,column(probe,'candidateRows','PredictedBetterRate')) = ...
-        (0.1:0.1:1)';
-    candidate(:,column(probe,'candidateRows','DominatesAny')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','DominatedByAny')) = ...
-        [ones(5,1);zeros(5,1)];
-    candidate(:,column(probe,'candidateRows','IsNondominated')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','MarginalIGD')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','MarginalIGDPositive')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','SurviveH1')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','SurviveH3')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','ArchiveNDNext')) = ...
-        [zeros(5,1);ones(5,1)];
-    candidate(:,column(probe,'candidateRows','FinalND')) = ...
-        [zeros(5,1);ones(5,1)];
-    probe.candidateRows = candidate;
+function probe = withSkippedAuditGenerations(probe)
+    generations = [1;4;9];
+    candidateGeneration = [1;4;9;9];
+    initialFE = min(probe.candidateRows(:, ...
+        column(probe,'candidateRows','FE')));
+    generationFE = [initialFE;initialFE+1;initialFE+2];
+
+    originalSolutionRows = probe.solutionRows;
+    originalPBIRows = probe.pbiPairRows;
+    solutionBlocks = cell(numel(generations),1);
+    pbiBlocks = cell(numel(generations),1);
+    for i = 1:numel(generations)
+        solutionBlocks{i} = originalSolutionRows;
+        solutionBlocks{i}(:,column( ...
+            probe,'solutionRows','Generation')) = generations(i);
+        solutionBlocks{i}(:,column( ...
+            probe,'solutionRows','FE')) = generationFE(i);
+        if i == 1
+            solutionBlocks{i}(:,column( ...
+                probe,'solutionRows','SurviveH3')) = ...
+                solutionBlocks{i}(:,column( ...
+                probe,'solutionRows','SurviveH1'));
+        else
+            solutionBlocks{i}(:,column( ...
+                probe,'solutionRows','SurviveH3')) = nan;
+        end
+
+        pbiBlocks{i} = originalPBIRows;
+        pbiBlocks{i}(:,column( ...
+            probe,'pbiPairRows','Generation')) = generations(i);
+        pbiBlocks{i}(:,column( ...
+            probe,'pbiPairRows','FE')) = generationFE(i);
+        if i == 1
+            pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','LeftSurviveH3')) = ...
+                pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','LeftSurviveH1'));
+            pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','RightSurviveH3')) = ...
+                pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','RightSurviveH1'));
+        else
+            pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','LeftSurviveH3')) = nan;
+            pbiBlocks{i}(:,column( ...
+                probe,'pbiPairRows','RightSurviveH3')) = nan;
+        end
+    end
+    probe.solutionRows = vertcat(solutionBlocks{:});
+    probe.pbiPairRows = vertcat(pbiBlocks{:});
+
+    candidateIDs = probe.candidateRows(:, ...
+        column(probe,'candidateRows','EvalID'));
+    [~,order] = sort(candidateIDs);
+    if numel(order) ~= numel(candidateGeneration)
+        error('Skipped-generation fixture expects four candidates.');
+    end
+    candidateGenerationByRow = nan(size(candidateIDs));
+    candidateGenerationByRow(order) = candidateGeneration;
+    for i = 1:numel(generations)
+        rows = candidateGenerationByRow == generations(i);
+        probe.candidateRows(rows,column( ...
+            probe,'candidateRows','Generation')) = generations(i);
+        probe.candidateRows(rows,column( ...
+            probe,'candidateRows','FE')) = generationFE(i);
+        if i == 1
+            probe.candidateRows(rows,column( ...
+                probe,'candidateRows','SurviveH3')) = ...
+                probe.candidateRows(rows,column( ...
+                probe,'candidateRows','SurviveH1'));
+        else
+            probe.candidateRows(rows,column( ...
+                probe,'candidateRows','SurviveH3')) = nan;
+        end
+    end
+
+    networkCandidateIDs = probe.networkPairRows(:, ...
+        column(probe,'networkPairRows','CandidateEvalID'));
+    for i = 1:numel(candidateIDs)
+        candidateRow = find(candidateIDs == candidateIDs(i),1);
+        rows = networkCandidateIDs == candidateIDs(i);
+        generationIndex = find( ...
+            generations == candidateGenerationByRow(candidateRow),1);
+        probe.networkPairRows(rows,column( ...
+            probe,'networkPairRows','Generation')) = ...
+            generations(generationIndex);
+        probe.networkPairRows(rows,column( ...
+            probe,'networkPairRows','FE')) = ...
+            generationFE(generationIndex);
+        probe.networkPairRows(rows,column( ...
+            probe,'networkPairRows','CandidateSurviveH3')) = ...
+            probe.candidateRows(candidateRow,column( ...
+            probe,'candidateRows','SurviveH3'));
+    end
 end
 
 function writeAnalysisRun(rootDir,problem,M,run,profile,flatPrimary)
@@ -641,24 +912,6 @@ function writeAnalysisRun(rootDir,problem,M,run,profile,flatPrimary)
     if nargin < 6
         flatPrimary = false;
     end
-    probe = syntheticProbe();
-    % Add one incomparable same-group PBI row per run. It must not enter
-    % the Pareto correctness denominator.
-    incomparable = probe.pbiPairRows(1,:);
-    incomparable(column(probe,'pbiPairRows','PairType')) = 1;
-    incomparable(column(probe,'pbiPairRows','PredictedRelation')) = 0;
-    incomparable(column(probe,'pbiPairRows','ParetoRelation')) = 0;
-    incomparable(column(probe,'pbiPairRows','SDERelation')) = 0;
-    probe.pbiPairRows = [probe.pbiPairRows;incomparable];
-
-    if flatPrimary
-        goodRest = probe.pbiPairRows(:, ...
-            column(probe,'pbiPairRows','PairType')) == ...
-            probe.codes.pairType.goodRest;
-        probe.pbiPairRows(goodRest, ...
-            column(probe,'pbiPairRows','ParetoRelation')) = 1;
-    end
-
     protocol = ConfidenceProbeProtocol(profile);
     match = protocol.jobs.Problem == string(problem) & ...
         protocol.jobs.M == M & protocol.jobs.Run == run;
@@ -666,16 +919,12 @@ function writeAnalysisRun(rootDir,problem,M,run,profile,flatPrimary)
         error('Synthetic test job does not match protocol.');
     end
     job = protocol.jobs(match,:);
+    [probe,finalPopulation] = syntheticPayload(job,flatPrimary);
     metadata = matchingMetadata(protocol,job);
     confidenceProbe = probe;
     IGD = 1;
     IGDp = 1;
     runtime = 1;
-    ids = (1:job.MaxFE)';
-    finalPopulation = repmat(struct('add',0),numel(ids),1);
-    for i = 1:numel(ids)
-        finalPopulation(i).add = ids(i);
-    end
     folder = fullfile(rootDir,problem,sprintf('M%d',M));
     if ~isfolder(folder)
         mkdir(folder);

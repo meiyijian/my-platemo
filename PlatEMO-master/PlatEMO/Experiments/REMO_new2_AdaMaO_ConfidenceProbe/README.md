@@ -17,15 +17,18 @@ PBI 主判据。Pareto 不可比关系（真值为 0）不进入正确率或错�
 
 ## 实验矩阵
 
-| Profile | 问题 | M | D | N | FE | Runs |
-|---|---|---:|---:|---:|---:|---:|
-| `smoke` | DTLZ2 | 3 | 3 | 20 | 36 | 1 |
-| `pilot` | DTLZ2, DTLZ7, WFG3 | 10 | 30 | 100 | 500 | 3 |
-| `screening` | DTLZ2, DTLZ4, DTLZ7, WFG3, WFG7 | 10 | 30 | 100 | 500 | 10 |
-| `confirmation` | 同 screening | 20 | 30 | 100 | 500 | 10 |
+| Profile | 问题 | M | D | N | Initial FE | FE | Runs |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `smoke` | DTLZ2 | 3 | 3 | 20 | 32 | 36 | 1 |
+| `pilot` | DTLZ2, DTLZ7, WFG3 | 10 | 30 | 100 | 100 | 500 | 3 |
+| `screening` | DTLZ2, DTLZ4, DTLZ7, WFG3, WFG7 | 10 | 30 | 100 | 100 | 500 | 10 |
+| `confirmation` | 同 screening | 20 | 30 | 100 | 100 | 500 | 10 |
 
 WFG3 的请求维度是 30，按问题约束实际使用 `D=31`。种子由
 `Problem/M/Run` 唯一确定；pilot 与 screening 的重合任务使用同一个种子。
+`smoke` 的 PlatEMO `N=20`，但原 UniformMix 初始化规则在 `D=3` 时真实
+评估 `11D-1=32` 个初始解；因此协议与 metadata 中的 `initialFE` 是 32，
+不能由 `Problem.N` 误写成 20。
 
 ## 运行命令
 
@@ -117,6 +120,10 @@ M=10 与 M=20 始终分开。
 分析前会按 `metadata.profile` 重建冻结的 protocol，并对每个 MAT 调用与
 续跑相同的完整 validator。混合 profile、重复 job、找不到唯一 job、未完成
 FE、EvalID 不连续、非法概率或终局字段都会带文件名终止，不能进入主门槛。
+validator 还会逐代核对四张表的 Generation/FE 覆盖、候选评价 ID、完整的
+candidate×anchor 网络矩形、网络聚合 confidence、可由真实目标重建的 PBI
+关系对、跨表 H1/H3/FinalND，以及最终档案的真实非支配前沿；最后两代 H3
+按排序后的审计代序号保留为右删失 NaN（即使 Generation 编号跳跃）。
 `summary_by_problem` 和 `summary_by_M` 会同时报告：
 
 - PBI-Pareto 主判据的联合有效 run 数、Q5-Q1、AUROC 与区间；

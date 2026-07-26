@@ -36,8 +36,13 @@ function [valid,message,metrics] = ValidateConfidenceProbeResultFile( ...
     if ~ok
         return;
     end
-    [ok,message] = validateFinalPopulation( ...
+    [ok,message,archive] = validateFinalPopulation( ...
         loaded.finalPopulation,loaded.metadata.maxFE);
+    if ~ok
+        return;
+    end
+    [ok,message] = validateCrossTableConsistency( ...
+        loaded.confidenceProbe,loaded.metadata,archive);
     if ~ok
         return;
     end
@@ -72,6 +77,7 @@ function [valid,message] = validateMetadata(metadata,protocol,job)
         'requestedD',job.RequestedD, ...
         'actualD',job.ActualD, ...
         'N',job.N, ...
+        'initialFE',job.InitialFE, ...
         'maxFE',job.MaxFE, ...
         'completedFE',job.MaxFE, ...
         'gmax',job.Gmax, ...
@@ -320,9 +326,11 @@ function [valid,message] = validateDiscreteProbeColumns(probe,schema,maxFE)
     valid = true;
 end
 
-function [valid,message] = validateFinalPopulation(population,maxFE)
+function [valid,message,archive] = validateFinalPopulation(population,maxFE)
     valid = false;
     message = '';
+    archive = struct('ids',zeros(0,1),'objs',zeros(0,0), ...
+        'cons',zeros(0,0));
     if isempty(population)
         message = 'finalPopulation is empty';
         return;
@@ -330,10 +338,30 @@ function [valid,message] = validateFinalPopulation(population,maxFE)
     try
         if isa(population,'SOLUTION')
             evalIDs = population.adds;
+            objectives = population.objs;
+            constraints = population.cons;
         elseif isstruct(population) && isfield(population,'add')
             evalIDs = [population.add];
+            if ~isfield(population,'obj') || ~isfield(population,'con')
+                message = ...
+                    'finalPopulation must expose obj/con for audit';
+                return;
+            end
+            objectives = vertcat(population.obj);
+            if all(arrayfun(@(solution)isempty(solution.con),population))
+                constraints = zeros(numel(population),0);
+            else
+                constraints = vertcat(population.con);
+            end
         elseif isstruct(population) && isfield(population,'adds')
             evalIDs = [population.adds];
+            if ~isfield(population,'objs') || ~isfield(population,'cons')
+                message = ...
+                    'finalPopulation must expose objs/cons for audit';
+                return;
+            end
+            objectives = vertcat(population.objs);
+            constraints = vertcat(population.cons);
         else
             message = 'finalPopulation does not expose EvalID additions';
             return;
@@ -357,7 +385,445 @@ function [valid,message] = validateFinalPopulation(population,maxFE)
         message = 'final Archive EvalID values are not continuous 1:maxFE';
         return;
     end
+    if ~(isnumeric(objectives) && isreal(objectives) && ...
+            size(objectives,1) == maxFE && ...
+            size(objectives,2) >= 1 && all(isfinite(objectives),'all'))
+        message = 'final Archive objectives are incomplete or invalid';
+        return;
+    end
+    if ~(isnumeric(constraints) && isreal(constraints) && ...
+            size(constraints,1) == maxFE && ...
+            all(isfinite(constraints),'all'))
+        message = 'final Archive constraints are incomplete or invalid';
+        return;
+    end
+    [evalIDs,order] = sort(evalIDs);
+    archive.ids = evalIDs;
+    archive.objs = objectives(order,:);
+    archive.cons = constraints(order,:);
     valid = true;
+end
+
+function [valid,message] = validateCrossTableConsistency( ...
+    probe,metadata,archive)
+    valid = false;
+    schema = SDEConfidenceProbeSchema();
+    [ok,message,generationMap] = validateGenerationCoverage( ...
+        probe,schema,metadata.initialFE);
+    if ~ok
+        return;
+    end
+    [ok,message] = validateEvaluationCoverage( ...
+        probe,schema,metadata,generationMap);
+    if ~ok
+        return;
+    end
+    [ok,message] = validateGenerationRelations( ...
+        probe,schema,archive,generationMap);
+    if ~ok
+        return;
+    end
+    [ok,message] = validateFinalAndFutureOutcomes( ...
+        probe,schema,archive,generationMap);
+    if ~ok
+        return;
+    end
+    valid = true;
+end
+
+function [valid,message,generationMap] = validateGenerationCoverage( ...
+    probe,schema,initialFE)
+    valid = false;
+    message = '';
+    generationMap = zeros(0,2);
+    tableNames = fieldnames(schema.columns);
+    for i = 1:numel(tableNames)
+        tableName = tableNames{i};
+        rows = probe.(tableName);
+        generation = rows(:,column(schema,tableName,'Generation'));
+        fe = rows(:,column(schema,tableName,'FE'));
+        generations = unique(generation);
+        currentMap = zeros(numel(generations),2);
+        for j = 1:numel(generations)
+            values = unique(fe(generation == generations(j)));
+            if numel(values) ~= 1
+                message = sprintf( ...
+                    '%s Generation %d maps to multiple FE values', ...
+                    tableName,generations(j));
+                return;
+            end
+            currentMap(j,:) = [generations(j),values];
+        end
+        currentMap = sortrows(currentMap,1);
+        if any(diff(currentMap(:,2)) < 0)
+            message = sprintf('%s FE decreases across Generation values', ...
+                tableName);
+            return;
+        end
+        if isempty(generationMap)
+            generationMap = currentMap;
+        elseif ~isequal(generationMap,currentMap)
+            message = sprintf( ...
+                '%s Generation/FE coverage differs across probe tables', ...
+                tableName);
+            return;
+        end
+    end
+    if isempty(generationMap) || generationMap(1,2) ~= initialFE
+        message = sprintf( ...
+            'probe first FE does not match metadata.initialFE=%d', ...
+            initialFE);
+        return;
+    end
+    valid = true;
+end
+
+function [valid,message] = validateEvaluationCoverage( ...
+    probe,schema,metadata,generationMap)
+    valid = false;
+    message = '';
+    candidateIDs = probe.candidateRows(:, ...
+        column(schema,'candidateRows','EvalID'));
+    expectedCandidates = (metadata.initialFE+1:metadata.maxFE)';
+    if numel(unique(candidateIDs)) ~= numel(candidateIDs) || ...
+            ~isequal(sort(candidateIDs),expectedCandidates)
+        message = [ ...
+            'candidateRows EvalID coverage must equal ', ...
+            'initialFE+1:maxFE exactly'];
+        return;
+    end
+    for i = 1:size(generationMap,1)
+        generation = generationMap(i,1);
+        fe = generationMap(i,2);
+        solutionRows = rowsForGeneration( ...
+            probe,schema,'solutionRows',generation);
+        candidateRows = rowsForGeneration( ...
+            probe,schema,'candidateRows',generation);
+        networkRows = rowsForGeneration( ...
+            probe,schema,'networkPairRows',generation);
+        solutionIDs = solutionRows(:, ...
+            column(schema,'solutionRows','EvalID'));
+        generationCandidateIDs = candidateRows(:, ...
+            column(schema,'candidateRows','EvalID'));
+        if numel(unique(solutionIDs)) ~= numel(solutionIDs)
+            message = sprintf( ...
+                'solutionRows Generation %d contains duplicate EvalID', ...
+                generation);
+            return;
+        end
+        expectedIDs = fe + (1:size(candidateRows,1))';
+        if ~isequal(sort(generationCandidateIDs),expectedIDs)
+            message = sprintf( ...
+                'candidateRows Generation %d EvalID values do not ', ...
+                'equal FE+(1:n)',generation);
+            return;
+        end
+        networkCandidateIDs = unique(networkRows(:, ...
+            column(schema,'networkPairRows','CandidateEvalID')));
+        if ~isequal(sort(networkCandidateIDs), ...
+                sort(generationCandidateIDs))
+            message = sprintf( ...
+                'network candidate coverage differs in Generation %d', ...
+                generation);
+            return;
+        end
+        [ok,message] = validateNetworkRectangle( ...
+            schema,solutionRows,candidateRows,networkRows,generation);
+        if ~ok
+            return;
+        end
+    end
+    valid = true;
+end
+
+function [valid,message] = validateNetworkRectangle( ...
+    schema,solutionRows,candidateRows,networkRows,generation)
+    valid = false;
+    message = '';
+    solutionIDs = solutionRows(:,column(schema,'solutionRows','EvalID'));
+    candidateIDs = candidateRows(:,column(schema,'candidateRows','EvalID'));
+    candidateColumn = column( ...
+        schema,'networkPairRows','CandidateEvalID');
+    anchorColumn = column(schema,'networkPairRows','AnchorEvalID');
+    actualPairs = networkRows(:,[candidateColumn,anchorColumn]);
+    expectedPairs = [ ...
+        repelem(candidateIDs(:),numel(solutionIDs),1), ...
+        repmat(solutionIDs,numel(candidateIDs),1)];
+    if size(unique(actualPairs,'rows'),1) ~= size(actualPairs,1) || ...
+            ~isequal(sortrows(actualPairs),sortrows(expectedPairs))
+        message = sprintf( ...
+            ['networkPairRows Generation %d is not the complete ', ...
+            'candidate-by-solution rectangle'],generation);
+        return;
+    end
+    [anchorFound,anchorIndex] = ismember( ...
+        networkRows(:,anchorColumn),solutionIDs);
+    solutionCatalog = solutionRows(:, ...
+        column(schema,'solutionRows','Catalog'));
+    anchorCatalog = networkRows(:, ...
+        column(schema,'networkPairRows','AnchorCatalog'));
+    if ~all(anchorFound) || ...
+            any(anchorCatalog ~= solutionCatalog(anchorIndex))
+        message = sprintf( ...
+            'network AnchorCatalog differs from solutionRows in Generation %d', ...
+            generation);
+        return;
+    end
+    candidateConfidence = candidateRows(:, ...
+        column(schema,'candidateRows','NetworkConfidence'));
+    predictedBetterRate = candidateRows(:, ...
+        column(schema,'candidateRows','PredictedBetterRate'));
+    networkConfidence = networkRows(:, ...
+        column(schema,'networkPairRows','NetworkConfidence'));
+    predictedRelation = networkRows(:, ...
+        column(schema,'networkPairRows','PredictedRelation'));
+    for i = 1:numel(candidateIDs)
+        mask = networkRows(:,candidateColumn) == candidateIDs(i);
+        if abs(candidateConfidence(i)-mean(networkConfidence(mask))) > ...
+                1e-10
+            message = sprintf( ...
+                ['candidateRows NetworkConfidence disagrees with ', ...
+                'network rows for EvalID %d'],candidateIDs(i));
+            return;
+        end
+        if abs(predictedBetterRate(i)- ...
+                mean(predictedRelation(mask) == 1)) > 1e-10
+            message = sprintf( ...
+                ['candidateRows PredictedBetterRate disagrees with ', ...
+                'network rows for EvalID %d'],candidateIDs(i));
+            return;
+        end
+    end
+    valid = true;
+end
+
+function [valid,message] = validateGenerationRelations( ...
+    probe,schema,archive,generationMap)
+    valid = false;
+    message = '';
+    for i = 1:size(generationMap,1)
+        generation = generationMap(i,1);
+        fe = generationMap(i,2);
+        solutionRows = rowsForGeneration( ...
+            probe,schema,'solutionRows',generation);
+        pbiRows = rowsForGeneration( ...
+            probe,schema,'pbiPairRows',generation);
+        solutionIDs = solutionRows(:, ...
+            column(schema,'solutionRows','EvalID'));
+        [found,archiveIndex] = ismember(solutionIDs,archive.ids);
+        if ~all(found)
+            message = sprintf( ...
+                'solutionRows Generation %d references unknown EvalID', ...
+                generation);
+            return;
+        end
+        relationMode = unique(solutionRows(:, ...
+            column(schema,'solutionRows','RelationMode')));
+        candidateMode = unique(solutionRows(:, ...
+            column(schema,'solutionRows','CandidateMode')));
+        if numel(relationMode) ~= 1 || numel(candidateMode) ~= 1
+            message = sprintf( ...
+                'solutionRows Generation %d has inconsistent mode codes', ...
+                generation);
+            return;
+        end
+        [rebuiltSolutions,rebuiltPairs] = ...
+            BuildSDEConfidencePairAudit( ...
+            generation,fe,solutionIDs,archive.objs(archiveIndex,:), ...
+            archive.cons(archiveIndex,:),solutionRows(:, ...
+            column(schema,'solutionRows','Catalog')),solutionRows(:, ...
+            column(schema,'solutionRows','PBIConfidence')), ...
+            solutionRows(:,column(schema,'solutionRows','SDEFitness')), ...
+            'RelationMode',relationMode, ...
+            'CandidateMode',candidateMode);
+        actualCurrentND = solutionRows(:, ...
+            column(schema,'solutionRows','CurrentND'));
+        rebuiltCurrentND = rebuiltSolutions(:, ...
+            column(schema,'solutionRows','CurrentND'));
+        if ~numericEqual(actualCurrentND,rebuiltCurrentND,0)
+            message = sprintf( ...
+                'solutionRows CurrentND cannot be rebuilt in Generation %d', ...
+                generation);
+            return;
+        end
+        coreEnd = column(schema,'pbiPairRows','SDERelation');
+        if ~numericEqual(pbiRows(:,1:coreEnd), ...
+                rebuiltPairs(:,1:coreEnd),1e-12)
+            message = sprintf( ...
+                ['PBI core rows cannot be rebuilt in Generation %d ', ...
+                '(endpoint/type/direction/confidence/truth mismatch)'], ...
+                generation);
+            return;
+        end
+    end
+    valid = true;
+end
+
+function [valid,message] = validateFinalAndFutureOutcomes( ...
+    probe,schema,archive,generationMap)
+    valid = false;
+    if isempty(archive.cons)
+        finalFront = NDSort(archive.objs,1) == 1;
+    else
+        finalFront = NDSort(archive.objs,archive.cons,1) == 1;
+    end
+    finalFront = finalFront(:);
+    for i = 1:size(generationMap,1)
+        generation = generationMap(i,1);
+        solutionRows = rowsForGeneration( ...
+            probe,schema,'solutionRows',generation);
+        pbiRows = rowsForGeneration( ...
+            probe,schema,'pbiPairRows',generation);
+        candidateRows = rowsForGeneration( ...
+            probe,schema,'candidateRows',generation);
+        networkRows = rowsForGeneration( ...
+            probe,schema,'networkPairRows',generation);
+        [ok,message] = validatePBIFutureColumns( ...
+            schema,solutionRows,pbiRows,generation);
+        if ~ok
+            return;
+        end
+        [ok,message] = validateNetworkFutureColumns( ...
+            schema,candidateRows,networkRows,generation);
+        if ~ok
+            return;
+        end
+        checks = { ...
+            solutionRows,'solutionRows','EvalID','FinalND'; ...
+            pbiRows,'pbiPairRows','LeftEvalID','LeftFinalND'; ...
+            pbiRows,'pbiPairRows','RightEvalID','RightFinalND'; ...
+            candidateRows,'candidateRows','EvalID','FinalND'; ...
+            networkRows,'networkPairRows','CandidateEvalID', ...
+                'CandidateFinalND'};
+        for j = 1:size(checks,1)
+            rows = checks{j,1};
+            tableName = checks{j,2};
+            ids = rows(:,column(schema,tableName,checks{j,3}));
+            values = rows(:,column(schema,tableName,checks{j,4}));
+            [found,index] = ismember(ids,archive.ids);
+            if ~all(found) || any(values ~= finalFront(index))
+                message = sprintf( ...
+                    '%s.%s does not match final Archive NDSort', ...
+                    tableName,checks{j,4});
+                return;
+            end
+        end
+    end
+    [valid,message] = validateH3Censoring( ...
+        probe,schema,generationMap(:,1));
+end
+
+function [valid,message] = validatePBIFutureColumns( ...
+    schema,solutionRows,pbiRows,generation)
+    valid = false;
+    message = '';
+    solutionIDs = solutionRows(:,column(schema,'solutionRows','EvalID'));
+    endpoints = { ...
+        'LeftEvalID','LeftSurviveH1','LeftSurviveH3','LeftFinalND'; ...
+        'RightEvalID','RightSurviveH1','RightSurviveH3','RightFinalND'};
+    sourceColumns = {'SurviveH1','SurviveH3','FinalND'};
+    for side = 1:size(endpoints,1)
+        ids = pbiRows(:,column( ...
+            schema,'pbiPairRows',endpoints{side,1}));
+        [found,index] = ismember(ids,solutionIDs);
+        if ~all(found)
+            message = sprintf( ...
+                'PBI Generation %d references an unknown solution endpoint', ...
+                generation);
+            return;
+        end
+        for j = 1:numel(sourceColumns)
+            actual = pbiRows(:,column( ...
+                schema,'pbiPairRows',endpoints{side,j+1}));
+            expected = solutionRows(index,column( ...
+                schema,'solutionRows',sourceColumns{j}));
+            if ~numericEqual(actual,expected,0)
+                message = sprintf( ...
+                    'PBI %s does not match solution %s in Generation %d', ...
+                    endpoints{side,j+1},sourceColumns{j},generation);
+                return;
+            end
+        end
+    end
+    valid = true;
+end
+
+function [valid,message] = validateNetworkFutureColumns( ...
+    schema,candidateRows,networkRows,generation)
+    valid = false;
+    message = '';
+    candidateIDs = candidateRows(:,column(schema,'candidateRows','EvalID'));
+    networkIDs = networkRows(:,column( ...
+        schema,'networkPairRows','CandidateEvalID'));
+    [found,index] = ismember(networkIDs,candidateIDs);
+    if ~all(found)
+        message = sprintf( ...
+            'network Generation %d references an unknown candidate', ...
+            generation);
+        return;
+    end
+    columns = { ...
+        'CandidateSurviveH1','SurviveH1'; ...
+        'CandidateSurviveH3','SurviveH3'; ...
+        'CandidateFinalND','FinalND'};
+    for i = 1:size(columns,1)
+        actual = networkRows(:,column( ...
+            schema,'networkPairRows',columns{i,1}));
+        expected = candidateRows(index,column( ...
+            schema,'candidateRows',columns{i,2}));
+        if ~numericEqual(actual,expected,0)
+            message = sprintf( ...
+                'network %s does not match candidate %s in Generation %d', ...
+                columns{i,1},columns{i,2},generation);
+            return;
+        end
+    end
+    valid = true;
+end
+
+function [valid,message] = validateH3Censoring( ...
+    probe,schema,generations)
+    valid = false;
+    message = '';
+    auditGenerations = unique(generations(:),'sorted');
+    observedGenerations = auditGenerations( ...
+        1:max(numel(auditGenerations)-2,0));
+    columns = { ...
+        'solutionRows',{'SurviveH3'}; ...
+        'pbiPairRows',{'LeftSurviveH3','RightSurviveH3'}; ...
+        'networkPairRows',{'CandidateSurviveH3'}; ...
+        'candidateRows',{'SurviveH3'}};
+    for i = 1:size(columns,1)
+        tableName = columns{i,1};
+        rows = probe.(tableName);
+        rowGeneration = rows(:,column(schema,tableName,'Generation'));
+        observed = ismember(rowGeneration,observedGenerations);
+        for j = 1:numel(columns{i,2})
+            columnName = columns{i,2}{j};
+            values = rows(:,column(schema,tableName,columnName));
+            if any(isnan(values(observed))) || ...
+                    any(~isnan(values(~observed)))
+                message = sprintf( ...
+                    ['%s.%s violates H3 observation/right-censoring ', ...
+                    'by audit-generation order'],tableName,columnName);
+                return;
+            end
+        end
+    end
+    valid = true;
+end
+
+function rows = rowsForGeneration(probe,schema,tableName,generation)
+    allRows = probe.(tableName);
+    rows = allRows(allRows(:,column( ...
+        schema,tableName,'Generation')) == generation,:);
+end
+
+function equal = numericEqual(actual,expected,tolerance)
+    equal = isequal(size(actual),size(expected)) && ...
+        all((isnan(actual) & isnan(expected)) | ...
+        (~isnan(actual) & ~isnan(expected) & ...
+        abs(actual-expected) <= tolerance),'all');
 end
 
 function equal = sameScalar(actual,expected)
