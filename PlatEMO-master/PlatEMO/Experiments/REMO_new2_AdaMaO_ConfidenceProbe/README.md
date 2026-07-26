@@ -122,8 +122,10 @@ M=10 与 M=20 始终分开。
 FE、EvalID 不连续、非法概率或终局字段都会带文件名终止，不能进入主门槛。
 validator 还会逐代核对四张表的 Generation/FE 覆盖、候选评价 ID、完整的
 candidate×anchor 网络矩形、网络聚合 confidence、可由真实目标重建的 PBI
-关系对、跨表 H1/H3/FinalND，以及最终档案的真实非支配前沿；最后两代 H3
-按排序后的审计代序号保留为右删失 NaN（即使 Generation 编号跳跃）。
+关系对、跨表 H1/H3/FinalND，以及最终档案的真实非支配前沿。H3 严格复现
+运行时更新语义：仅当同一结果中存在 `Generation+2` 的审计代时，该代 H3
+必须为 0/1；否则必须保留为右删失 NaN。因此 Generation 编号跳跃时，不能
+用“最后两次审计代”代替这个判定。
 `summary_by_problem` 和 `summary_by_M` 会同时报告：
 
 - PBI-Pareto 主判据的联合有效 run 数、Q5-Q1、AUROC 与区间；
