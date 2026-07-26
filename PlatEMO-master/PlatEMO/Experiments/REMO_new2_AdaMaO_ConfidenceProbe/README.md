@@ -114,9 +114,25 @@ generation/类型层进行稳定五等频划分；先得到 run 级统计，再�
 跨问题结果对问题等权，并采用“问题 -> 问题内 run”的分层 Bootstrap；
 M=10 与 M=20 始终分开。
 
+分析前会按 `metadata.profile` 重建冻结的 protocol，并对每个 MAT 调用与
+续跑相同的完整 validator。混合 profile、重复 job、找不到唯一 job、未完成
+FE、EvalID 不连续、非法概率或终局字段都会带文件名终止，不能进入主门槛。
+`summary_by_problem` 和 `summary_by_M` 会同时报告：
+
+- PBI-Pareto 主判据的联合有效 run 数、Q5-Q1、AUROC 与区间；
+- PBI-SDE 和 network Pareto/SDE 的方向错误差、AUROC 与区间；
+- candidate 的真实 IGD 改进、H1/H3、下一档案前沿和最终前沿；
+- Catalog-good/rest 解各自的 H1/H3/最终前沿差值与区间。
+
+后三类始终是辅助诊断，不参与 PBI-Pareto 的冻结主门槛。如果任一预期 run
+缺失，或者同一 run 的 Q1、Q5、差值、AUROC 不能同时计算，
+`PrimaryDataComplete=false`。因此 screening 必须具有完整的
+`5 problems × 10 runs = 50` 个联合有效 run，才允许进入主门槛判断。
+
 判断代码含义：
 
 - `INSUFFICIENT_PROBLEMS`：不足 5 个问题，不下结论；
+- `INSUFFICIENT_DATA`：预期 run 缺失或主判据联合有效数据不完整；
 - `NO_DISCRIMINATIVE_EVIDENCE`：冻结的主门槛未通过；
 - `WEAK_DISCRIMINATIVE_INFORMATION`：主门槛通过，但绝对错误率下降不足 5 个百分点；
 - `GATE_DEVELOPMENT_VALUE`：主门槛通过，且绝对错误率下降至少 5 个百分点。
