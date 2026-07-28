@@ -148,3 +148,53 @@ candidate×anchor 网络矩形、网络聚合 confidence、可由真实目标重
 
 完成 screening 后，把上述七张 CSV（优先全部发送）交给 Codex，即可继续做
 方向一致性、置信区间、异常问题和是否值得开发门控的分析。
+
+## 方案 B：SDE 主判据复跑（v2 冻结协议）
+
+方案 A 的 M=10/M=20 结果均为 `INSUFFICIENT_DATA`：严格 Pareto 可比的
+PairType=3 关系对在高维下几乎不存在（WFG3/WFG7 全部 run 为 0 对）。
+v2 协议把主判据真值换成按构造可测的 SDE 一致性，并使用全新种子，
+使其成为真正的验证性实验而不是对已看过数据的事后分析。
+
+冻结内容：
+
+1. **主真值 = SDE 一致性**（`SDERelation`）。仍只用 PairType=3 关系对，
+   分箱、门槛结构（Q5−Q1 差值 CI 上界 <0、AUROC CI 下界 >0.5、
+   ≥4/5 问题方向为负、≥5pp 判 `GATE_DEVELOPMENT_VALUE`）与方案 A
+   完全一致，只有真值列不同。
+2. **辅助真值**：严格 Pareto（与方案 A 衔接）和 ε-支配。ε-支配在每个
+   run 的全部已评估目标上做 min-max 归一化后取加性
+   ε ∈ {0.05, 0.10}；互相 ε-支配或互不 ε-支配都记 0 并排除出分母。
+   ε 真值由 `finalPopulation` 重建的 EvalID 有序目标矩阵计算。
+3. **全新种子**：`_sde` profile 的种子在原公式上加 50
+   （run 1–10 映射到种子尾数 51–60），与方案 A 的任何 run 都不重合。
+4. 问题矩阵、FE 预算、run 数与方案 A 的同名档位完全相同：
+   `smoke_sde`、`screening_sde`（M=10）、`confirmation_sde`（M=20）。
+   仍要求 `screening_sde` 主门槛通过后再跑 `confirmation_sde`。
+
+运行命令（先 smoke 验链路，再正式 screening）：
+
+```powershell
+& 'D:\software\mathlab\bin\matlab.exe' -batch "cd('D:/PlatEMO-master/PlatEMO-master/PlatEMO'); addpath(genpath(pwd)); run_ConfidenceProbe_experiment('smoke_sde','D:/AdaMaO_ConfidenceProbe_Results');"
+& 'D:\software\mathlab\bin\matlab.exe' -batch "cd('D:/PlatEMO-master/PlatEMO-master/PlatEMO'); addpath(genpath(pwd)); run_ConfidenceProbe_experiment('screening_sde','D:/AdaMaO_ConfidenceProbe_Results');"
+& 'D:\software\mathlab\bin\matlab.exe' -batch "cd('D:/PlatEMO-master/PlatEMO-master/PlatEMO'); addpath(genpath(pwd)); analyze_ConfidenceProbe_SDE('D:/AdaMaO_ConfidenceProbe_Results/screening_sde');"
+```
+
+中断续跑与方案 A 相同：重复执行同一条 run 命令即可（SKIP/BLOCK 语义
+不变）。runner 与 validator 复用方案 A 的实现，未做任何修改。
+
+`analyze_ConfidenceProbe_SDE` 只接受 `_sde` profile，生成且只生成：
+
+- `ConfidenceSDE_PBI_pair_bins.csv`（含 SDE/Pareto/ε 两档的分箱错误率）
+- `ConfidenceSDE_PBI_solution_bins.csv`
+- `ConfidenceSDE_network_pair_bins.csv`
+- `ConfidenceSDE_candidate_bins.csv`
+- `ConfidenceSDE_summary_by_problem.csv`
+- `ConfidenceSDE_summary_by_M.csv`
+- `ConfidenceSDE_decision.csv`
+
+以及 `ConfidenceSDE_analysis.mat`。summary 中主判据列
+（Q1/Q5/Q5MinusQ1/AUROC/ComparablePairN）均基于 SDE 真值；
+`PBIPareto*`、`Eps005*`、`Eps010*` 为辅助诊断列，不参与主门槛。
+方案 A 的 `analyze_ConfidenceProbe` 与旧 CSV 命名保持原样，两套结果
+不会互相覆盖。

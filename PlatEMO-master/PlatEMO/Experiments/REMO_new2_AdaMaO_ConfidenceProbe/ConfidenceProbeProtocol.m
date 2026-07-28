@@ -12,6 +12,7 @@ function protocol = ConfidenceProbeProtocol(profile)
     end
     profile = lower(char(profile));
 
+    seedOffset = 0;
     switch profile
         case 'smoke'
             problems = {'DTLZ2'};
@@ -21,6 +22,15 @@ function protocol = ConfidenceProbeProtocol(profile)
             maxFE = 36;
             runs = 1;
             gmax = 1;
+        case 'smoke_sde'
+            problems = {'DTLZ2'};
+            objectives = 3;
+            requestedD = 3;
+            populationSize = 20;
+            maxFE = 36;
+            runs = 1;
+            gmax = 1;
+            seedOffset = 50;
         case 'pilot'
             problems = {'DTLZ2','DTLZ7','WFG3'};
             objectives = 10;
@@ -37,6 +47,15 @@ function protocol = ConfidenceProbeProtocol(profile)
             maxFE = 500;
             runs = 10;
             gmax = 3000;
+        case 'screening_sde'
+            problems = {'DTLZ2','DTLZ4','DTLZ7','WFG3','WFG7'};
+            objectives = 10;
+            requestedD = 30;
+            populationSize = 100;
+            maxFE = 500;
+            runs = 10;
+            gmax = 3000;
+            seedOffset = 50;
         case 'confirmation'
             problems = {'DTLZ2','DTLZ4','DTLZ7','WFG3','WFG7'};
             objectives = 20;
@@ -45,6 +64,15 @@ function protocol = ConfidenceProbeProtocol(profile)
             maxFE = 500;
             runs = 10;
             gmax = 3000;
+        case 'confirmation_sde'
+            problems = {'DTLZ2','DTLZ4','DTLZ7','WFG3','WFG7'};
+            objectives = 20;
+            requestedD = 30;
+            populationSize = 100;
+            maxFE = 500;
+            runs = 10;
+            gmax = 3000;
+            seedOffset = 50;
         otherwise
             error('AdaMaO:UnknownConfidenceProbeProfile', ...
                 'Unknown confidence-probe profile: %s.',profile);
@@ -60,6 +88,7 @@ function protocol = ConfidenceProbeProtocol(profile)
     protocol.maxFE = maxFE;
     protocol.runs = runs;
     protocol.gmax = gmax;
+    protocol.seedOffset = seedOffset;
     protocol.algorithmLabel = 'ConfidenceProbe';
     protocol.algorithmClass = ...
         'REMO_new2_AdaMaO_SDEOnly_ConfidenceProbe';
@@ -70,6 +99,13 @@ function protocol = ConfidenceProbeProtocol(profile)
         'minimumProblems',5, ...
         'minimumNegativeProblems',4, ...
         'gateErrorReduction',0.05);
+    if endsWith(profile,'_sde')
+        % Frozen v2 truth settings: SDE consistency is the primary
+        % truth; epsilon-Pareto on per-run min-max normalized
+        % objectives is auxiliary at exactly these two levels.
+        protocol.analysis.primaryTruth = 'SDE';
+        protocol.analysis.epsilonLevels = [0.05,0.10];
+    end
     protocol.jobs = expandJobs(protocol);
 end
 
@@ -100,7 +136,8 @@ function jobs = expandJobs(protocol)
             jobs.MaxFE(row) = protocol.maxFE;
             jobs.Gmax(row) = protocol.gmax;
             jobs.Run(row) = run;
-            jobs.Seed(row) = stableSeed(problem,protocol.objectives,run);
+            jobs.Seed(row) = stableSeed(problem,protocol.objectives, ...
+                run) + protocol.seedOffset;
             jobs.Algorithm(row) = string(protocol.algorithmLabel);
             jobs.AlgorithmClass(row) = string(protocol.algorithmClass);
             jobs.JobID(row) = string(sprintf('%s_M%d_run%03d', ...
