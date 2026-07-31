@@ -130,7 +130,7 @@ Replace the original protected candidate-policy method with:
 
 ```matlab
 methods (Access = protected)
-    function mode = relationPairMode(~,varargin) %#ok<INUSD,STOUT>
+    function mode = relationPairMode(~,varargin) %#ok<STOUT>
         error('AdaMaO:MissingRelationPairMode', ...
             'A fixed relation-pair mode is required.');
     end
@@ -171,7 +171,7 @@ classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Weighted < ...
 % UniformMix with agreement-weighted relation-network training
 
     methods (Access = protected)
-        function mode = relationPairMode(~,varargin) %#ok<INUSD>
+        function mode = relationPairMode(~,varargin)
             mode = 'weighted';
         end
     end
@@ -187,7 +187,7 @@ classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Curriculum < ...
 % UniformMix with confidence-filtered relation-network training
 
     methods (Access = protected)
-        function mode = relationPairMode(~,varargin) %#ok<INUSD>
+        function mode = relationPairMode(~,varargin)
             mode = 'curriculum';
         end
     end
@@ -203,7 +203,7 @@ classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Original < ...
 % UniformMix with original unweighted relation-network training
 
     methods (Access = protected)
-        function mode = relationPairMode(~,varargin) %#ok<INUSD>
+        function mode = relationPairMode(~,varargin)
             mode = 'conservative';
         end
     end
@@ -226,7 +226,7 @@ Expected: `2 Passed, 0 Failed, 0 Incomplete`.
 - [ ] **Step 1: Run the existing frozen-hash test only**
 
 ```powershell
-matlab -batch "f=fullfile('D:\PlatEMO-master\PlatEMO-master\PlatEMO','Algorithms','Multi-objective optimization','REMO_new2_AdaMaO_SDEOnly','tests','test_REMO_new2_AdaMaO_DualPBIContVersions.m'); s=testsuite(f,'Name','testHardBaselineBlobsRemainFrozen'); r=run(s); disp(r); assert(all([r.Passed]));"
+matlab -batch "f=fullfile('D:\PlatEMO-master\PlatEMO-master\PlatEMO','Algorithms','Multi-objective optimization','REMO_new2_AdaMaO_SDEOnly','tests','test_REMO_new2_AdaMaO_DualPBIContVersions.m'); n='test_REMO_new2_AdaMaO_DualPBIContVersions/testHardBaselineBlobsRemainFrozen'; s=testsuite(f,'Name',n); assert(numel(s)==1); r=run(s); disp(r); assert(r.Passed && ~r.Failed && ~r.Incomplete);"
 ```
 
 Expected: `1 Passed, 0 Failed, 0 Incomplete`. This selection must not execute
