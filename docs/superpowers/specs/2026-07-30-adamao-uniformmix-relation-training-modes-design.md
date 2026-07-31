@@ -28,21 +28,24 @@ new generation-dependent schedule.
 
 ## Architecture
 
-`REMO_new2_AdaMaO_SDEOnly_ModeBase` remains the shared runtime. Its current
-inline adaptive relation-mode decision will be moved behind a protected
-`relationPairMode` method. The default implementation will contain exactly the
-existing decision logic, so current entries, including
-`REMO_new2_AdaMaO_SDEOnly_UniformMix`, keep their existing behavior.
+The frozen `REMO_new2_AdaMaO_SDEOnly_UniformMix` entry and
+`REMO_new2_AdaMaO_SDEOnly_ModeBase` runtime will remain byte-for-byte
+unchanged. A new
+`REMO_new2_AdaMaO_SDEOnly_UniformMix_RelationModeBase` will copy that runtime
+once, fix the candidate policy to `uniform_mix`, and replace only the inline
+adaptive relation-mode decision with a protected `relationPairMode` hook.
 
-Three thin subclasses of `REMO_new2_AdaMaO_SDEOnly_UniformMix` will override
-only `relationPairMode`:
+Three thin subclasses of the new fixed-policy runtime will override only
+`relationPairMode`:
 
 - `REMO_new2_AdaMaO_SDEOnly_UniformMix_Weighted`
 - `REMO_new2_AdaMaO_SDEOnly_UniformMix_Curriculum`
 - `REMO_new2_AdaMaO_SDEOnly_UniformMix_Original`
 
-Each override returns one fixed mode string. Inheriting from `UniformMix`
-preserves `candidatePolicy = 'uniform_mix'` without duplicating the main loop.
+Each override returns one fixed mode string. The main loop is duplicated only
+once in the shared experimental runtime, rather than once per variant. This
+keeps the existing baseline protected by its regression hash while giving all
+three new entries the same implementation.
 
 ## Runtime Flow
 
@@ -67,19 +70,23 @@ The change must not alter:
 - the `UniformMix` candidate probability and random-stream draw position;
 - indicator-model training, candidate generation, selection, evaluation, or
   archive update;
-- the default adaptive relation routing used by existing algorithms.
+- the default adaptive relation routing used by existing algorithms;
+- the contents and Git blob hashes of
+  `REMO_new2_AdaMaO_SDEOnly_UniformMix.m` and
+  `REMO_new2_AdaMaO_SDEOnly_ModeBase.m`.
 
 ## Verification
 
 A focused MATLAB unit test will first require the three new entry classes and
 their fixed modes. It will also verify:
 
-- all three entries inherit from `REMO_new2_AdaMaO_SDEOnly_UniformMix`;
-- the shared base exposes the mode hook;
-- the default hook retains the existing adaptive thresholds and outcomes;
-- only the three intended fixed mode strings are returned by the new entries.
+- all three entries inherit from the new shared fixed-policy runtime;
+- the shared experimental runtime fixes candidate policy to `uniform_mix` and
+  delegates only relation-mode choice to the mode hook;
+- only the three intended fixed mode strings are returned by the new entries;
+- the existing frozen-baseline hash test still passes.
 
-After implementation, verification will consist of the focused test, the
-existing SDE-only test directory, MATLAB `checkcode` on changed and added
-files, and a Git diff review. These are code-validity checks only; no
+After implementation, verification will consist of focused non-optimization
+tests, the existing frozen-baseline hash test, MATLAB `checkcode` on changed
+and added files, and a Git diff review. These are code-validity checks only; no
 optimization run or performance claim is included.
