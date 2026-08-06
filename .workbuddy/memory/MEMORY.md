@@ -21,3 +21,10 @@
 ## 常用脚本/工具
 - Python venv：`C:/Users/lsx/.workbuddy/binaries/python/envs/default`（装了 openpyxl），解析 xlsx 用。
 - MATLAB：`/d/software/mathlab/bin/matlab`，pcode 可纯语法校验 .m（checkcode 在此沙箱因 Java 编辑器服务故障不可用）。
+- checkcode 实际可用（`-batch` 下正常），之前"不可用"的说法已过时。
+
+## CascadeAudit Stage 0（2026-08-06 完成）
+- 只读反事实审计：`REMO_new2_AdaMaO_SDEOnly_CascadeAudit` + `private/AdaMaOSelectionCascadeAudit`（配对 UniformMix_Original，零 RNG/FE 扰动）。
+- Experiments harness：`Experiments/REMO_new2_AdaMaO_CascadeAudit/`（被 gitignore 忽略，提交需强制跟踪 source/tests/README）。
+- 决策逻辑：H1 fail→STOP_CASCADE_BLIND_SPOT_STORY；H2 fail→STOP_INDICATOR_RESCUE_STORY；H4 fail→CONTINUE_UNGATED_ONLY；全过→CONTINUE_GATED_RESCUE_PROTOTYPE；<5 run 或灵敏度 FAIL→INSUFFICIENT_DATA。
+- smoke 只验证 instrumentation，不构成 H1/H2/H4 证据；pilot（6 问题×M10×2 run×maxFE300）是下一方向性筛查，尚未启动（需用户确认）。
