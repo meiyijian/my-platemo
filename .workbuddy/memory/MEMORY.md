@@ -27,4 +27,10 @@
 - 只读反事实审计：`REMO_new2_AdaMaO_SDEOnly_CascadeAudit` + `private/AdaMaOSelectionCascadeAudit`（配对 UniformMix_Original，零 RNG/FE 扰动）。
 - Experiments harness：`Experiments/REMO_new2_AdaMaO_CascadeAudit/`（被 gitignore 忽略，提交需强制跟踪 source/tests/README）。
 - 决策逻辑：H1 fail→STOP_CASCADE_BLIND_SPOT_STORY；H2 fail→STOP_INDICATOR_RESCUE_STORY；H4 fail→CONTINUE_UNGATED_ONLY；全过→CONTINUE_GATED_RESCUE_PROTOTYPE；<5 run 或灵敏度 FAIL→INSUFFICIENT_DATA。
-- smoke 只验证 instrumentation，不构成 H1/H2/H4 证据；pilot（6 问题×M10×2 run×maxFE300）是下一方向性筛查，尚未启动（需用户确认）。
+- smoke 只验证 instrumentation，不构成 H1/H2/H4 证据。
+
+## Pilot 结果（2026-08-06 晚）：STOP_INDICATOR_RESCUE_STORY
+- H1 PASS：粗筛覆盖缺口真实（normalized greedy-batch regret 5/6 问题>0，Recall@K 0.25–0.81）；H2 FAIL（DTLZ 家族 Real−DiversityMatched 为负）；H4 FAIL（门控不降负替换率）。
+- 最大正分歧候选平均替换净增益为负（救援有害），但 OracleRescue 上限高 → 信号抓不住，机制主张停止。
+- pilot 需完整参考集（referenceRequest=10000）才过灵敏度；256 参考在晚代 top-K 判定不稳。
+- 完整结论：`REMO_new2_AdaMaO_SDEOnly/notes/2026-08-06-cascade-pilot-conclusion.md`。
