@@ -14,7 +14,7 @@
 - **代理陷阱**：git 全局配置了代理 `http://127.0.0.1:7897`（Clash 端口），但该代理常未运行，会导致 `git pull/push/fetch` 报 TLS 错误
   - 临时绕过：`git -c http.proxy= -c https.proxy= pull origin master`
   - 彻底解决：`git config --global --unset http.proxy && git config --global --unset https.proxy`
-- 直连 GitHub 可用（ping 通，TLS 握手在禁用代理后成功）
+- 2026-08-11 实测：直连 GitHub 与走代理（7897）均在 TLS 握手阶段失败（error:0A000126 / schannel failed to receive handshake），疑似 Clash 节点失效或被墙；git 同步需在能正常联网的终端进行（当前沙箱环境无法连通）
 - `git pull` 即使 fetch 成功也可能返回非零退出码，需检查 `git status`，必要时手动 `git merge --ff-only origin/master`
 
 ## 目录结构要点
