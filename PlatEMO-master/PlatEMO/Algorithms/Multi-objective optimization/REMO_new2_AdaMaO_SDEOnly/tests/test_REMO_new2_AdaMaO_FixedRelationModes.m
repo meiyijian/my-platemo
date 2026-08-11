@@ -12,13 +12,12 @@ function setupOnce(testCase)
     testCase.TestData.AlgorithmDir = algorithmDir;
 end
 
-function testThreeFixedModeEntriesAreDiscoverableAndMapped(testCase)
+function testLegacyFixedModeEntriesAreDiscoverableAndMapped(testCase)
     baseName = ...
         'REMO_new2_AdaMaO_SDEOnly_UniformMix_RelationModeBase';
     entries = { ...
         'REMO_new2_AdaMaO_SDEOnly_UniformMix_Weighted','weighted'; ...
-        'REMO_new2_AdaMaO_SDEOnly_UniformMix_Curriculum','curriculum'; ...
-        'REMO_new2_AdaMaO_SDEOnly_UniformMix_Original','conservative'};
+        'REMO_new2_AdaMaO_SDEOnly_UniformMix_Curriculum','curriculum'};
 
     for i = 1:size(entries,1)
         name = entries{i,1};
@@ -32,6 +31,20 @@ function testThreeFixedModeEntriesAreDiscoverableAndMapped(testCase)
         verifyTrue(testCase,contains(source, ...
             sprintf("mode = '%s';",entries{i,2})));
     end
+end
+
+function testOriginalEntryIsStandaloneAndDiscoverable(testCase)
+    originalName = 'REMO_new2_AdaMaO_SDEOnly_UniformMix_Original';
+    standaloneDir = fullfile(fileparts(testCase.TestData.AlgorithmDir), ...
+        originalName);
+    originalFile = fullfile(standaloneDir,[originalName,'.m']);
+
+    verifyTrue(testCase,isfile(originalFile));
+    verifyEqual(testCase,which(originalName),originalFile);
+    originalSource = fileread(originalFile);
+    verifyTrue(testCase,contains(originalSource,'< ALGORITHM'));
+    verifyFalse(testCase,contains(originalSource, ...
+        'UniformMix_RelationModeBase'));
 end
 
 function testSharedRuntimeFixesUniformMixAndDelegatesRelationMode(testCase)
