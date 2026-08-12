@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.9" pages="1">
+  <diagram id="mixed-pbi-page" name="混合PBI科研架构图">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" background="#FAFBFD" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="混合 PBI：两路评分融合与关系分组" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=30;fontStyle=1;fontColor=#16324F;align=left;" vertex="1" parent="1">
+          <mxGeometry x="56" y="26" width="1488" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="当前种群 → 连续 PBI 评分 + 二值 PBI 标签 → 按进度融合 → 前 25% 作为正组 → 训练关系网络" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#526174;align=left;" vertex="1" parent="1">
+          <mxGeometry x="58" y="76" width="1484" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="input_container" value="&lt;b&gt;当前搜索状态&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#687387;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=20;fontColor=#334155;align=center;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="54" y="142" width="206" height="646" as="geometry" />
+        </mxCell>
+        <mxCell id="population_box" value="&lt;b&gt;Population&lt;/b&gt;&lt;br&gt;真实评价的当前种群" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=16;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="76" y="220" width="146" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="popobj_box" value="&lt;b&gt;PopObj&lt;/b&gt; ∈ ℝ&lt;sup&gt;N×M&lt;/sup&gt;&lt;br&gt;目标矩阵" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="76" y="356" width="146" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="ratio_box" value="&lt;b&gt;ratio&lt;/b&gt; = FE / maxFE&lt;br&gt;进化进度 ∈ [0,1]" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="76" y="486" width="146" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="params_box" value="&lt;b&gt;关键参数&lt;/b&gt;&lt;br&gt;θ = 5；rGood = 0.25&lt;br&gt;k&lt;sub&gt;eff&lt;/sub&gt; = min(N&lt;sub&gt;pop&lt;/sub&gt;,&lt;br&gt;max(6, ⌈1.5M⌉))" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#1F2937;align=center;verticalAlign=middle;spacing=8;" vertex="1" parent="1">
+          <mxGeometry x="76" y="618" width="146" height="122" as="geometry" />
+        </mxCell>
+
+        <mxCell id="direction_container" value="&lt;b&gt;通道 A｜连续 PBI 评分&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2F6BFF;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=20;fontColor=#2458CE;align=left;verticalAlign=top;spacingTop=14;spacingLeft=20;" vertex="1" parent="1">
+          <mxGeometry x="280" y="128" width="720" height="314" as="geometry" />
+        </mxCell>
+        <mxCell id="direction_decision" value="M ≤ 3&lt;br&gt;或 N &lt; 50？" style="rhombus;whiteSpace=wrap;html=1;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontStyle=1;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="306" y="224" width="112" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="uniform_vectors" value="&lt;b&gt;均匀方向&lt;/b&gt;&lt;br&gt;UniformPoint&lt;br&gt;归一化为单位方向" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="456" y="176" width="164" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="adaptive_vectors" value="&lt;b&gt;自适应方向&lt;/b&gt;&lt;br&gt;第一前沿 → 归一化&lt;br&gt;K-means 中心" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="456" y="318" width="164" height="98" as="geometry" />
+        </mxCell>
+      <mxCell id="vector_field" value="&lt;b&gt;方向场 V&lt;/b&gt;&lt;br&gt;N_ref 个方向" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="656" y="236" width="112" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="cosine_assoc" value="&lt;b&gt;方向关联&lt;/b&gt;&lt;br&gt;cosine(PopObj, V)&lt;br&gt;确定 ref_idx" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="798" y="184" width="178" height="84" as="geometry" />
+        </mxCell>
+        <mxCell id="continuous_pbi" value="&lt;b&gt;连续方向场得分&lt;/b&gt;&lt;br&gt;对 PopObj−Zmin 投影：d₁ / d₂&lt;br&gt;PBI&lt;sub&gt;v&lt;/sub&gt; = d₁ + θd₂&lt;br&gt;&lt;b&gt;score&lt;sub&gt;v&lt;/sub&gt; = 1/(1+PBI&lt;sub&gt;v&lt;/sub&gt;)&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="798" y="304" width="178" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="direction_fallback_note" value="上述异常统一回退 UniformPoint" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#526174;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="620" y="382" width="174" height="38" as="geometry" />
+        </mxCell>
+
+        <mxCell id="anchor_container" value="&lt;b&gt;通道 B｜二值 PBI 标签&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E8873A;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=20;fontColor=#B65C1F;align=left;verticalAlign=top;spacingTop=14;spacingLeft=20;" vertex="1" parent="1">
+          <mxGeometry x="280" y="468" width="720" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="refselect_box" value="&lt;b&gt;RefSelect&lt;/b&gt;&lt;br&gt;NDSort + 雷达网格&lt;br&gt;选 k&lt;sub&gt;eff&lt;/sub&gt; 个真实代表解" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3C12;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="310" y="574" width="154" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="anchor_assoc" value="&lt;b&gt;锚点子区域&lt;/b&gt;&lt;br&gt;cosine(PopObj, RefObj)&lt;br&gt;分配代表解方向" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3C12;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="492" y="574" width="154" height="92" as="geometry" />
+        </mxCell>
+        <mxCell id="delta_search" value="&lt;b&gt;自适应 δ&lt;/b&gt;&lt;br&gt;二分搜索 [-20,20]&lt;br&gt;目标 true 比例&lt;br&gt;0.3–0.7" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3C12;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="674" y="562" width="150" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="binary_pbi" value="&lt;b&gt;锚点阈值标签&lt;/b&gt;&lt;br&gt;g = d₁ + δd₂&lt;br&gt;ĝ = g / ‖Ref−Zmin‖&lt;br&gt;&lt;b&gt;ĝ ≤ 1 → label&lt;sub&gt;dyn&lt;/sub&gt; = 1&lt;/b&gt;&lt;br&gt;否则为 0" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#7C3C12;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="840" y="562" width="140" height="118" as="geometry" />
+        </mxCell>
+        <mxCell id="anchor_semantic_note" value="相对当前锚点的区域标签，并非真实 Pareto 好/坏" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#8A4B24;fontStyle=2;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="614" y="710" width="334" height="36" as="geometry" />
+        </mxCell>
+
+        <mxCell id="fusion_container" value="&lt;b&gt;融合、排序与分组&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7756C5;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=20;fontColor=#5B3FA3;align=center;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="148" width="256" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="alpha_box" value="&lt;b&gt;进度权重&lt;/b&gt;&lt;br&gt;α = 1 − ratio&lt;br&gt;早期：连续场 ↑　后期：锚点标签 ↑" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#493184;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1044" y="224" width="208" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="hybrid_score" value="&lt;b&gt;混合得分&lt;/b&gt;&lt;br&gt;score&lt;sub&gt;hybrid&lt;/sub&gt; = α·score&lt;sub&gt;v&lt;/sub&gt;&lt;br&gt;+ (1−α)·label&lt;sub&gt;dyn&lt;/sub&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#493184;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1044" y="366" width="208" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="rank_box" value="&lt;b&gt;降序排序&lt;/b&gt;&lt;br&gt;rank(score&lt;sub&gt;hybrid&lt;/sub&gt;)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#493184;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1044" y="514" width="208" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="catalog_box" value="&lt;b&gt;Catalog：正 / 非正分组&lt;/b&gt;&lt;br&gt;前 25% → 正组 1&lt;br&gt;其余 → 非正组 0" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#493184;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1044" y="636" width="208" height="96" as="geometry" />
+        </mxCell>
+        <mxCell id="hardening_note" value="&lt;b&gt;排序后只保留 0 / 1 组别&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;fontFamily=Microsoft YaHei;fontSize=13;fontStyle=1;fontColor=#B34545;align=center;verticalAlign=middle;" vertex="1" parent="1">
+          <mxGeometry x="1034" y="748" width="228" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="relation_container" value="&lt;b&gt;下游：原始无权重关系学习&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2A8F7A;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=18;fontColor=#236F60;align=center;verticalAlign=top;spacingTop=14;" vertex="1" parent="1">
+          <mxGeometry x="1300" y="210" width="244" height="548" as="geometry" />
+        </mxCell>
+        <mxCell id="relation_pairs" value="&lt;b&gt;GetRelationPairs&lt;/b&gt;&lt;br&gt;同组：0&lt;br&gt;正→非正：+1　反向：−1" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#18594D;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1322" y="310" width="200" height="98" as="geometry" />
+        </mxCell>
+        <mxCell id="data_process" value="&lt;b&gt;DataProcess&lt;/b&gt;&lt;br&gt;按标签分层&lt;br&gt;75% 训练 / 25% 留出" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#18594D;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1322" y="458" width="200" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="patternnet_box" value="&lt;b&gt;普通 patternnet&lt;/b&gt;&lt;br&gt;三分类 softmax&lt;br&gt;无样本权重；输出 p_err" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#18594D;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1322" y="596" width="200" height="84" as="geometry" />
+        </mxCell>
+
+    <mxCell id="edge_pop_to_decision" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="population_box" target="direction_decision">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_decision_uniform" value="是" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="direction_decision" target="uniform_vectors">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_decision_adaptive" value="否" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="direction_decision" target="adaptive_vectors">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_uniform_to_v" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="uniform_vectors" target="vector_field">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_adaptive_to_v" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="adaptive_vectors" target="vector_field">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_v_to_assoc" value="方向集合" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="vector_field" target="cosine_assoc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_assoc_to_pbi" value="ref_idx" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="cosine_assoc" target="continuous_pbi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_popobj_to_assoc" value="PopObj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#687387;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#526174;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="popobj_box" target="cosine_assoc">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="392" />
+              <mxPoint x="260" y="114" />
+              <mxPoint x="780" y="114" />
+              <mxPoint x="780" y="226" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_popobj_to_adaptive" value="第一前沿" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#687387;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#526174;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="popobj_box" target="adaptive_vectors">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="392" />
+              <mxPoint x="260" y="367" />
+              <mxPoint x="440" y="367" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_fallback_uniform" value="失败回退" style="edgeStyle=orthogonalEdgeStyle;rounded=0;dashed=1;dashPattern=6 4;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#8793A3;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#687387;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="adaptive_vectors" target="uniform_vectors">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="634" y="367" />
+              <mxPoint x="634" y="215" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="edge_population_ref" value="Population" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="population_box" target="refselect_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="263" />
+              <mxPoint x="260" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_ref_to_anchor" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="refselect_box" target="anchor_assoc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_anchor_to_delta" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="anchor_assoc" target="delta_search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_delta_to_binary" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="delta_search" target="binary_pbi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_popobj_to_anchor" value="PopObj" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#687387;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#526174;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="popobj_box" target="anchor_assoc">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="260" y="392" />
+              <mxPoint x="260" y="524" />
+              <mxPoint x="570" y="524" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+    <mxCell id="edge_ratio_alpha" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="ratio_box" target="alpha_box">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="268" y="522" />
+              <mxPoint x="268" y="450" />
+              <mxPoint x="1008" y="450" />
+              <mxPoint x="1008" y="269" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_scorev_hybrid" value="score_v" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="continuous_pbi" target="hybrid_score">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1006" y="359" />
+              <mxPoint x="1006" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_label_hybrid" value="label_dyn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="binary_pbi" target="hybrid_score">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1006" y="621" />
+              <mxPoint x="1006" y="492" />
+              <mxPoint x="1148" y="492" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_alpha_hybrid" value="α" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="alpha_box" target="hybrid_score">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_hybrid_rank" value="排序" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="hybrid_score" target="rank_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_rank_catalog" value="Top-rGood" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="rank_box" target="catalog_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_catalog_pairs" value="Catalog" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#236F60;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="catalog_box" target="relation_pairs">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1288" y="684" />
+              <mxPoint x="1288" y="359" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_pairs_split" value="{0,+1,−1}" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#236F60;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="relation_pairs" target="data_process">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_split_net" value="Train / Test" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#236F60;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="data_process" target="patternnet_box">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

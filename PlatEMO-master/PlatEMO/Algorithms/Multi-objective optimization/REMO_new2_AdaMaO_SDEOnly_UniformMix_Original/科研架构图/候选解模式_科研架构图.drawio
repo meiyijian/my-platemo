@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Codex" version="26.0.9" pages="1">
+  <diagram id="candidate-mode-page" name="候选解模式科研架构图">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" background="#FAFBFD" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="title" value="候选解模式：共享代理候选池与 UniformMix 双路径选择" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=30;fontStyle=1;fontColor=#16324F;align=left;" vertex="1" parent="1">
+          <mxGeometry x="56" y="24" width="1488" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="关系网络生成共享候选池 → 独立随机流只仲裁最终选择模式 → Explore / Indicator → FE 裁剪与真实评价" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#526174;align=left;" vertex="1" parent="1">
+          <mxGeometry x="58" y="76" width="1484" height="28" as="geometry" />
+        </mxCell>
+
+        <mxCell id="relation_container" value="&lt;b&gt;1A｜原始关系代理&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2F6BFF;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=19;fontColor=#2458CE;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="54" y="130" width="370" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="indicator_model_container" value="&lt;b&gt;1B｜SDE 指标代理&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E8873A;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=19;fontColor=#B65C1F;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="54" y="456" width="370" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="ga_container" value="&lt;b&gt;2｜共享代理辅助 GA 候选池&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2F6BFF;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=19;fontColor=#2458CE;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="456" y="130" width="348" height="656" as="geometry" />
+        </mxCell>
+        <mxCell id="gate_container" value="&lt;b&gt;3｜UniformMix 选择&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#7756C5;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=18;fontColor=#5B3FA3;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="826" y="130" width="208" height="656" as="geometry" />
+        </mxCell>
+        <mxCell id="explore_container" value="&lt;b&gt;Explore｜关系模糊度 + 多样性&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#2A8F7A;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=18;fontColor=#236F60;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="1056" y="130" width="314" height="380" as="geometry" />
+        </mxCell>
+        <mxCell id="indicator_container" value="&lt;b&gt;Indicator｜关系粗筛 + SDE-SVR&lt;/b&gt;" style="rounded=1;dashed=1;dashPattern=8 6;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#E8873A;strokeWidth=2;arcSize=12;fontFamily=Microsoft YaHei;fontSize=18;fontColor=#B65C1F;align=center;verticalAlign=top;spacingTop=12;" vertex="1" parent="1">
+          <mxGeometry x="1056" y="530" width="314" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="eval_container" value="&lt;b&gt;4｜评价与保护&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=18;fontColor=#5B3FA3;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1396" y="138" width="150" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="feedback_container" value="&lt;b&gt;安全边界与档案反馈&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#425166;align=left;" vertex="1" parent="1">
+          <mxGeometry x="54" y="798" width="260" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="relation_inputs" value="&lt;b&gt;Catalog + decs&lt;/b&gt;&lt;br&gt;硬关系标签 {0,+1,−1}" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="76" y="190" width="132" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="relation_process" value="&lt;b&gt;GetRelationPairs&lt;/b&gt;&lt;br&gt;DataProcess：按标签分层&lt;br&gt;75% 训练 / 25% 留出" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="226" y="182" width="176" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="patternnet" value="&lt;b&gt;普通三分类 patternnet&lt;/b&gt;&lt;br&gt;mapminmax；隐藏层 [⌈3D⌉,2D,D]&lt;br&gt;无样本权重；输出关系得分" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="102" y="306" width="274" height="88" as="geometry" />
+        </mxCell>
+        <mxCell id="perr_note" value="p_err：关系对留出误差；仅调节 Explore 的 λ_t" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;fontStyle=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="72" y="400" width="334" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="indicator_inputs" value="&lt;b&gt;当前 Population&lt;/b&gt;&lt;br&gt;objs + decs" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="76" y="520" width="132" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="sde_block" value="&lt;b&gt;Shape_Estimate → Lp&lt;/b&gt;&lt;br&gt;calFitness_SDE&lt;br&gt;极小 SDE → Minkowski(Lp)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="226" y="506" width="176" height="106" as="geometry" />
+        </mxCell>
+        <mxCell id="svr_model" value="&lt;b&gt;RBF-SVR 指标代理&lt;/b&gt;&lt;br&gt;&lt;b&gt;IndicatorModel&lt;/b&gt;&lt;br&gt;fitrsvm(decs,Fitness,'rbf')" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="102" y="650" width="274" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="sde_boundary" value="边界：当前版本是 SDE-only + 局部 Minkowski 回退，不是三指标轮盘" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;fontStyle=2;align=center;" vertex="1" parent="1">
+          <mxGeometry x="68" y="738" width="342" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ga_seed" value="&lt;b&gt;初始候选&lt;/b&gt;&lt;br&gt;OperatorGA([Population.decs; Ref.decs])" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="482" y="190" width="296" height="76" as="geometry" />
+        </mxCell>
+        <mxCell id="ga_relation_select" value="&lt;b&gt;关系代理排序 model_select&lt;/b&gt;&lt;br&gt;保留 |Ref| 个候选&lt;br&gt;关系网络贯穿候选池生成" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="482" y="304" width="296" height="94" as="geometry" />
+        </mxCell>
+        <mxCell id="ga_operator" value="&lt;b&gt;OperatorGA&lt;/b&gt;&lt;br&gt;由保留集生成新候选" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="482" y="438" width="296" height="74" as="geometry" />
+        </mxCell>
+        <mxCell id="ga_accumulate" value="&lt;b&gt;累计候选并稳定去重&lt;/b&gt;&lt;br&gt;循环至 gmax（默认 3000）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="482" y="552" width="296" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="candidate_pool" value="&lt;b&gt;共享候选池 all_candidates&lt;/b&gt;&lt;br&gt;两种模式从同一候选集合选择" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2.5;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="482" y="688" width="296" height="72" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mode_stream" value="&lt;b&gt;独立 RandStream&lt;/b&gt;&lt;br&gt;每代预先抽取 u∈[0,1)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="842" y="190" width="176" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="mode_gate" value="&lt;b&gt;IndicatorModel 有效&lt;/b&gt;&lt;br&gt;且&lt;br&gt;&lt;b&gt;u &amp;lt; pMix (=0.50) ?&lt;/b&gt;" style="rhombus;whiteSpace=wrap;html=1;perimeter=rhombusPerimeter;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2.5;fontFamily=Microsoft YaHei;fontSize=15;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="838" y="352" width="184" height="144" as="geometry" />
+        </mxCell>
+        <mxCell id="mode_result_note" value="&lt;b&gt;条件满足：Indicator&lt;/b&gt;&lt;br&gt;否则：Explore" style="text;html=1;strokeColor=none;fillColor=none;whiteSpace=wrap;overflow=hidden;verticalAlign=middle;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#5B3FA3;align=center;" vertex="1" parent="1">
+          <mxGeometry x="840" y="570" width="180" height="56" as="geometry" />
+        </mxCell>
+
+        <mxCell id="explore_compare" value="&lt;b&gt;四类关系比较&lt;/b&gt;&lt;br&gt;[C1,Xi] / [Xi,C1] / [C2,Xi] / [Xi,C2]" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#155E52;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="182" width="274" height="56" as="geometry" />
+        </mxCell>
+        <mxCell id="explore_evidence" value="&lt;b&gt;关系净证据 score_rel&lt;/b&gt;&lt;br&gt;max softmax 类概率作组内权重&lt;br&gt;uncertainty = 1−mean(max softmax)&lt;br&gt;（预测模糊度，非认知不确定性）" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#155E52;align=center;verticalAlign=middle;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="256" width="274" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="explore_lambda" value="&lt;b&gt;score_aug = norm(score_rel) + λ_t·norm(uncertainty)&lt;/b&gt;&lt;br&gt;λ_t = λ0(1−ratio)·max(0,1−p_err/0.45)" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#155E52;align=center;verticalAlign=middle;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="356" width="274" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="explore_select" value="&lt;b&gt;qKeep=0.80 分位筛选；不足 nMin 则补足&lt;/b&gt;&lt;br&gt;贪心批选：0.75·质量 + 0.25·决策距离 → 4…6 个" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E7F6F2;strokeColor=#2A8F7A;strokeWidth=2.5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#155E52;align=center;verticalAlign=middle;spacing=5;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="438" width="274" height="62" as="geometry" />
+        </mxCell>
+
+        <mxCell id="indicator_coarse" value="&lt;b&gt;关系得分粗筛&lt;/b&gt;&lt;br&gt;前 30%，且至少保留 20 个" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="572" width="274" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="indicator_rerank" value="&lt;b&gt;RBF-SVR 预测 SDE 指标值&lt;/b&gt;&lt;br&gt;仅在粗筛集合内重排序" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=7;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="650" width="274" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="indicator_select" value="&lt;b&gt;≥ 70% 分位点&lt;/b&gt;&lt;br&gt;SVR 无效时沿用关系分数&lt;br&gt;输出 nMin…nMax（4…6）个" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#FFF0E3;strokeColor=#E8873A;strokeWidth=2.5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#7C3D13;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="728" width="274" height="58" as="geometry" />
+        </mxCell>
+
+        <mxCell id="mode_merge" value="&lt;b&gt;唯一激活分支&lt;/b&gt;&lt;br&gt;候选合流" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1396" y="220" width="146" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="fe_clip" value="&lt;b&gt;剩余 FE 裁剪&lt;/b&gt;&lt;br&gt;budget_left" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1396" y="362" width="146" height="62" as="geometry" />
+        </mxCell>
+        <mxCell id="true_eval" value="&lt;b&gt;真实评价&lt;/b&gt;&lt;br&gt;Problem.Evaluation&lt;br&gt;追加 Archive" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2.5;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1396" y="492" width="146" height="82" as="geometry" />
+        </mxCell>
+        <mxCell id="empty_next_fallback" value="&lt;b&gt;Next 为空保护&lt;/b&gt;&lt;br&gt;有预算 → OperatorGA&lt;br&gt;至多取 nMin 个" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#425166;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1394" y="684" width="148" height="82" as="geometry" />
+        </mxCell>
+
+        <mxCell id="empty_pairs_safe" value="&lt;b&gt;关系对为空&lt;/b&gt;&lt;br&gt;本代不训练 / 不选择 → 直接 RefSelect" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#425166;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="74" y="828" width="278" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="evidence_boundary" value="&lt;b&gt;证据边界&lt;/b&gt;：p_err ≠ 重排质量；score_rel ≠ Pareto 胜率&lt;br&gt;uncertainty / 决策距离是启发式" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F1F3F6;strokeColor=#687387;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#425166;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="374" y="828" width="398" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="next_population" value="&lt;b&gt;下一代 Population&lt;/b&gt;&lt;br&gt;进入下一轮代理构建" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="800" y="828" width="202" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="refselect_feedback" value="&lt;b&gt;RefSelect(Archive, Problem.N)&lt;/b&gt;&lt;br&gt;环境选择" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#E8F2FF;strokeColor=#2F6BFF;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#173B7A;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="828" width="226" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="archive_feedback" value="&lt;b&gt;Archive&lt;/b&gt;&lt;br&gt;累积真实评价解" style="rounded=1;whiteSpace=wrap;html=1;arcSize=14;fillColor=#F0EAFE;strokeColor=#7756C5;strokeWidth=2;fontFamily=Microsoft YaHei;fontSize=14;fontColor=#4C2F91;align=center;verticalAlign=middle;spacing=6;" vertex="1" parent="1">
+          <mxGeometry x="1320" y="828" width="190" height="52" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge_relation_input_process" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;" edge="1" parent="1" source="relation_inputs" target="relation_process">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_relation_process_net" value="Train / Test" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="relation_process" target="patternnet">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_indicator_input_sde" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;" edge="1" parent="1" source="indicator_inputs" target="sde_block">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_sde_svr" value="Fitness" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="sde_block" target="svr_model">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge_net_ga" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="patternnet" target="ga_relation_select">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_seed_select" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;" edge="1" parent="1" source="ga_seed" target="ga_relation_select">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_select_operator" value="保留 |Ref|" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="ga_relation_select" target="ga_operator">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_operator_accumulate" value="新候选" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="ga_operator" target="ga_accumulate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_ga_loop" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="ga_accumulate" target="ga_relation_select">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="790" y="591" />
+              <mxPoint x="790" y="351" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_accumulate_pool" value="gmax / 稳定去重" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="ga_accumulate" target="candidate_pool">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge_pool_gate" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;exitX=1;exitY=0.5;exitPerimeter=1;entryX=0;entryY=0.75;entryPerimeter=1;" edge="1" parent="1" source="candidate_pool" target="mode_gate">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="812" y="724" />
+              <mxPoint x="812" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_stream_gate" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;exitX=0.5;exitY=1;exitPerimeter=1;entryX=0.5;entryY=0;entryPerimeter=1;" edge="1" parent="1" source="mode_stream" target="mode_gate">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge_gate_explore" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#2A8F7A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#236F60;labelBackgroundColor=#FAFBFD;exitX=1;exitY=0.35;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="mode_gate" target="explore_compare">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1044" y="402" />
+              <mxPoint x="1044" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_gate_indicator" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;exitX=1;exitY=0.65;exitPerimeter=1;entryX=0;entryY=0.5;entryPerimeter=1;" edge="1" parent="1" source="mode_gate" target="indicator_coarse">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1044" y="446" />
+              <mxPoint x="1044" y="602" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="edge_explore_1_2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;" edge="1" parent="1" source="explore_compare" target="explore_evidence">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_explore_2_3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;" edge="1" parent="1" source="explore_evidence" target="explore_lambda">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_explore_3_4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2A8F7A;" edge="1" parent="1" source="explore_lambda" target="explore_select">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <mxCell id="edge_indicator_1_2" value="粗筛集" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="indicator_coarse" target="indicator_rerank">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_indicator_2_3" value="SDE 预测分" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="indicator_rerank" target="indicator_select">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_indicator_fallback" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=1.8;strokeColor=#687387;dashed=1;dashPattern=6 4;fontFamily=Microsoft YaHei;fontSize=12;fontColor=#526174;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="indicator_coarse" target="indicator_select">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1358" y="602" />
+              <mxPoint x="1358" y="757" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="edge_explore_merge" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#2A8F7A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#236F60;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="explore_select" target="mode_merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1382" y="469" />
+              <mxPoint x="1382" y="254" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_indicator_merge" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#E8873A;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#B65C1F;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="indicator_select" target="mode_merge">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1388" y="757" />
+              <mxPoint x="1388" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_merge_clip" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="mode_merge" target="fe_clip">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_clip_eval" value="≤ budget_left" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="fe_clip" target="true_eval">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_empty_next_clip" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=1.8;strokeColor=#687387;dashed=1;dashPattern=6 4;fontFamily=Microsoft YaHei;fontSize=12;fontColor=#526174;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="empty_next_fallback" target="fe_clip">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1554" y="725" />
+              <mxPoint x="1554" y="393" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="edge_eval_archive" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2.5;strokeColor=#7756C5;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#5B3FA3;labelBackgroundColor=#FAFBFD;" edge="1" parent="1" source="true_eval" target="archive_feedback">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1380" y="533" />
+              <mxPoint x="1380" y="806" />
+              <mxPoint x="1415" y="806" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge_archive_refselect" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;" edge="1" parent="1" source="archive_feedback" target="refselect_feedback">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edge_refselect_population" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#2F6BFF;fontFamily=Microsoft YaHei;fontSize=13;fontColor=#2458CE;labelBackgroundColor=#F8FAFC;" edge="1" parent="1" source="refselect_feedback" target="next_population">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
