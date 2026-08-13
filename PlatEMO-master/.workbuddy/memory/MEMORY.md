@@ -22,3 +22,13 @@
 - 算法代码：`PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_AdaMaO_SDEOnly/`
 - 设计文档：`PlatEMO/docs/superpowers/specs/`、`PlatEMO/docs/superpowers/plans/`
 - 汇报文档：`REMO_DiRel_汇报文档.md`（项目根目录）
+
+## Stage1 标签机制审计实验状态（2026-08-12 更新）
+
+- 实验根目录：`PlatEMO/Experiments/REMO_new2_AdaMaO_UniformMix_LabelValidation/`
+- 进度检查：`check_Stage1Progress('screening')`；聚合/分析：`run_LabelMechanismSnapshotAudit` / `analyze_LabelMechanismSnapshotAudit`
+- **screening（100 作业）已完成并分析：Decision = PASS_TO_STAGE2**（100 valid、等价性 PASS、自适应覆盖≥50%）
+  - 方向来源：KMEANS 自适应主导（≥90%，多数 100%）；仅 DTLZ4 M20（OBJECTIVE_RANGE_LT_1E12）与 DTLZ7 M10 Hybrid（FRONT1_LT_THRESHOLD）有少量回退
+  - 候选模式：fallback=0，indicator/explore 约对半；每代 ~5.97 评估
+  - 结果与汇总报告：`results/stage1/screening/analysis/`（含 Stage1_screening_summary.md）
+- 遗留提醒：分析器曾修 bug（方向来源汇总列宽不匹配，已修复）；用户可归档实验到桌面「AdaMao实验表」文件夹；Stage1 通过后可启动 Stage2
