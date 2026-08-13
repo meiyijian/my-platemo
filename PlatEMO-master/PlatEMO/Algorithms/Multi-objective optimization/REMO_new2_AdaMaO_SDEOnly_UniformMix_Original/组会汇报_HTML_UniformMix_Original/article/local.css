@@ -1,0 +1,211 @@
+@media print {
+  .ra-cover {
+    break-after: page !important;
+    page-break-after: always !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+.algorithm-flow-mobile {
+  display: none;
+}
+
+.hybridpbi-figure-mobile {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .algorithm-flow-desktop {
+    display: none;
+  }
+
+  .algorithm-flow-mobile {
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .hybridpbi-figure-desktop {
+    display: none;
+  }
+
+  .hybridpbi-figure-mobile {
+    display: grid;
+    gap: 0.72rem;
+    margin: 1.5rem 0;
+    padding: 0.95rem 0;
+    border-top: 1px solid var(--ra-color-border-strong);
+    border-bottom: 1px solid var(--ra-color-border-strong);
+  }
+
+  .hybridpbi-figure-mobile figcaption {
+    color: var(--ra-color-heading);
+    font-family: var(--ra-font-label);
+    font-size: 0.9rem;
+    font-weight: var(--ra-weight-medium);
+  }
+
+  .hybrid-mobile-source,
+  .hybrid-mobile-merge,
+  .hybrid-mobile-output,
+  .hybrid-mobile-branch {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.75rem;
+    border: 1px solid var(--ra-color-border);
+    background: var(--ra-color-bg);
+  }
+
+  .hybrid-mobile-source,
+  .hybrid-mobile-merge,
+  .hybrid-mobile-output {
+    position: relative;
+    text-align: center;
+  }
+
+  .hybrid-mobile-source::after,
+  .hybrid-mobile-branches::after,
+  .hybrid-mobile-merge::after {
+    content: "↓";
+    position: absolute;
+    left: 50%;
+    bottom: -0.82rem;
+    z-index: 1;
+    color: var(--ra-color-accent);
+    font-family: var(--ra-font-label);
+    font-size: 0.78rem;
+  }
+
+  .hybrid-mobile-branches {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .hybrid-mobile-branch {
+    border-top: 0.2rem solid var(--ra-color-accent);
+  }
+
+  .hybrid-mobile-source span,
+  .hybrid-mobile-output span,
+  .hybrid-mobile-branch span,
+  .hybrid-mobile-merge span,
+  .hybrid-mobile-merge small,
+  .hybridpbi-figure-mobile p {
+    color: var(--ra-color-muted);
+    font-size: 0.76rem;
+  }
+
+  .hybrid-mobile-branch code {
+    color: var(--ra-color-muted);
+    font-size: 0.68rem;
+  }
+
+  .hybrid-mobile-merge {
+    border-color: var(--ra-color-accent);
+  }
+
+  .hybrid-mobile-output {
+    box-shadow: inset 0.2rem 0 0 var(--ra-color-risk);
+  }
+
+  .hybridpbi-figure-mobile p {
+    margin: 0;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--ra-color-border);
+    color: var(--ra-color-risk);
+    text-align: center;
+  }
+
+  .mobile-flow-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr) auto;
+    gap: 0.65rem;
+    align-items: center;
+    padding: 0.72rem 0.78rem;
+    border: 1px solid var(--ra-color-border);
+    background: var(--ra-color-bg);
+  }
+
+  .mobile-flow-step:not(:last-of-type)::after {
+    content: "↓";
+    position: absolute;
+    left: 1.12rem;
+    bottom: -0.8rem;
+    z-index: 1;
+    color: var(--ra-color-accent);
+    font-family: var(--ra-font-label);
+    font-size: 0.8rem;
+  }
+
+  .mobile-flow-step.is-accent {
+    border-color: var(--ra-color-accent);
+    box-shadow: inset 0.18rem 0 0 var(--ra-color-accent);
+  }
+
+  .mobile-flow-index,
+  .mobile-route-label {
+    color: var(--ra-color-accent);
+    font-family: var(--ra-font-label);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .mobile-flow-step strong,
+  .mobile-route-card strong,
+  .mobile-route-source strong,
+  .mobile-route-target strong {
+    color: var(--ra-color-heading);
+    font-weight: var(--ra-weight-medium);
+  }
+
+  .mobile-flow-step code {
+    color: var(--ra-color-muted);
+    font-size: 0.72rem;
+  }
+
+  .mobile-flow-note {
+    margin: 0.2rem 0 0;
+    padding-top: 0.7rem;
+    border-top: 1px dashed var(--ra-color-border-strong);
+    color: var(--ra-color-muted);
+    font-size: 0.82rem;
+  }
+
+  .candidate-mode-mobile {
+    gap: 0.85rem;
+  }
+
+  .mobile-route-source,
+  .mobile-route-target,
+  .mobile-route-card {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.85rem;
+    border: 1px solid var(--ra-color-border);
+  }
+
+  .mobile-route-source,
+  .mobile-route-target {
+    text-align: center;
+    background: color-mix(in srgb, var(--ra-color-accent) 7%, var(--ra-color-bg));
+  }
+
+  .mobile-route-card {
+    border-left: 0.22rem solid var(--ra-color-accent);
+  }
+
+  .mobile-route-card span:not(.mobile-route-label),
+  .mobile-route-source span,
+  .mobile-route-target span {
+    color: var(--ra-color-muted);
+    font-size: 0.82rem;
+  }
+
+  .mobile-route-target span {
+    color: var(--ra-color-risk);
+  }
+}
