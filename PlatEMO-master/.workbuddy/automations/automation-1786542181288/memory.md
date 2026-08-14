@@ -77,3 +77,19 @@
 - check_Stage3Progress.m 仍不存在（第 14 次确认），未启动 MATLAB；工作区 manifest（101 行=1 表头+100 记录）status 列 100 行全部 = skipped（50 pairedKey × Hybrid/AnchorNative）→ **100/100 valid，0 failed，0 pending**，与上次完全一致
 - 桌面归档 9 个分析文件齐全；DecisionCode=INSUFFICIENT_REFERENCE_STABILITY（DTLZ7_M10 参考集敏感性不达标）
 - 分析器不重跑（完成时已运行、结果已归档、数据源不变）；结论不变：实验完成且已归档，本 automation 无继续检查价值（第 14 次建议停用/删除）。
+
+### 2026-08-13 11:27（例行巡检，状态无变化，第 15 次）
+- check_Stage3Progress.m 仍不存在（第 15 次确认），未启动 MATLAB；工作区 manifest（101 行=1 表头+100 记录，awk 统计 status 列）100 行全部 = skipped → **100/100 valid，0 failed，0 pending**，与上次完全一致
+- 桌面归档（`C:\Users\lsx\Desktop\AdaMao实验表\Stage3_IndependentUtilityValidation\screening\analysis\`）9 个分析文件齐全（08-12 22:42）
+- 分析器不重跑（完成时已运行、结果已归档、数据源不变）；结论不变：实验完成且已归档，本 automation 无继续检查价值（第 15 次建议停用/删除）。
+
+### 2026-08-13 12:22（例行巡检，状态无变化，第 16 次）
+- check_Stage3Progress.m 仍不存在（第 16 次确认），未启动 MATLAB；工作区 manifest（101 行=1 表头+100 记录，awk 统计 status 列）100 行全部 = skipped → **100/100 valid，0 failed，0 pending**，与上次完全一致
+- 桌面归档 9 个分析文件齐全；复核 Stage3_decision.csv：DecisionCode=INSUFFICIENT_REFERENCE_STABILITY（DTLZ7_M10），WarningFlags 空
+- 复核配对统计（与历次完全一致）：L3|max12 DTLZ -0.0082(p=0.053 边缘)/WFG -0.0516(p<0.001)；L3|L4/L5 ≈0；L2|L7/L8 为负；L2|L1 两族方向相反
+- 分析器不重跑（完成时已运行、结果已归档、数据源不变）；结论不变：实验完成且已归档，本 automation 无继续检查价值（第 16 次建议停用/删除）。
+
+### 2026-08-13 13:19（例行巡检，状态无变化，第 17 次）
+- check_Stage3Progress.m 仍不存在（第 17 次确认），未启动 MATLAB；工作区 manifest（101 行=1 表头+100 记录，awk 统计 status 列）100 行全部 = skipped → **100/100 valid，0 failed，0 pending**，与上次完全一致
+- 桌面归档（`C:\Users\lsx\Desktop\AdaMao实验表\Stage3_IndependentUtilityValidation\screening\analysis\`）9 个分析文件齐全（08-12 22:42）；复核 Stage3_decision.csv：DecisionCode=INSUFFICIENT_REFERENCE_STABILITY（reference sensitivity failed after R16384 escalation: DTLZ7_M10），WarningFlags 空
+- 分析器不重跑（完成时已运行、结果已归档、数据源不变）；结论不变：实验完成且已归档，本 automation 无继续检查价值（第 17 次建议停用/删除）。
