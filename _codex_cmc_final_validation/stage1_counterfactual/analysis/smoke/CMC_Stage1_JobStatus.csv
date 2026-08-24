@@ -1,0 +1,3 @@
+Problem,Family,M,Run,Arm,Observed,Valid,ResultFile,Detail
+DTLZ2,DTLZ,3,1,AUDIT_CURRENT,1,1,D:\PlatEMO-master\_codex_cmc_final_validation\stage1_counterfactual\raw\smoke\AUDIT_CURRENT\DTLZ2\M3\run_001.mat,PASS
+WFG3,WFG,3,1,AUDIT_CURRENT,1,1,D:\PlatEMO-master\_codex_cmc_final_validation\stage1_counterfactual\raw\smoke\AUDIT_CURRENT\WFG3\M3\run_001.mat,PASS

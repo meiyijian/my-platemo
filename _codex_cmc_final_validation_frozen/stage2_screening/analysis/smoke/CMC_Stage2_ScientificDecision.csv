@@ -1,0 +1,2 @@
+SchemaVersion,Profile,Stage,DecisionCode,CanProceed,NextStage,ProtocolHash,RequiredJobs,ValidJobs,MissingJobs,InvalidJobs,ReferenceStatus,StatisticalUnit,PrimaryMetric,QualifiedFactors,DroppedFactors,WarningFlags,Reason,GeneratedAt
+2,smoke,stage2,SMOKE_PASS,1,stage3,7adcffab2ed3f58deb629b9ea0e0c0069d755593d5d52142d19173d6b6b815e2,6,6,0,0,NOT_APPLICABLE,RUN_NESTED_IN_PROBLEM_M,FINAL_IGDP,,P,SMOKE_NOT_SCIENTIFIC,筛选结果只决定是否值得正式验证，不构成正式性能结论。 DecisionCode=SMOKE_PASS,2026-08-24 17:46:41

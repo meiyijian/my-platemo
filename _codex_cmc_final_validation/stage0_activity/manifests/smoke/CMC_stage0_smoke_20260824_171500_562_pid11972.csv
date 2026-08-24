@@ -1,0 +1,3 @@
+Stage,Profile,ProtocolHash,UpstreamDecisionHash,JobID,PairedKey,Arm,Status,ResultFile,Message,IGD,IGDp,Runtime
+stage0,smoke,80b01f31a9f49dc1c9882c78a43a7d53db5b77cda6c8b4f65aa40d44a1872341,,DTLZ2_M3_AUDIT_CURRENT_run001,DTLZ2_M3_run001_seed101020301,AUDIT_CURRENT,completed,D:\PlatEMO-master\_codex_cmc_final_validation\stage0_activity\raw\smoke\AUDIT_CURRENT\DTLZ2\M3\run_001.mat,,0.248374163193337,0.235265195399978,3.2159816
+stage0,smoke,80b01f31a9f49dc1c9882c78a43a7d53db5b77cda6c8b4f65aa40d44a1872341,,WFG3_M3_AUDIT_CURRENT_run001,WFG3_M3_run001_seed102030301,AUDIT_CURRENT,completed,D:\PlatEMO-master\_codex_cmc_final_validation\stage0_activity\raw\smoke\AUDIT_CURRENT\WFG3\M3\run_001.mat,,0.606116426814657,0.585517840584699,2.2508867

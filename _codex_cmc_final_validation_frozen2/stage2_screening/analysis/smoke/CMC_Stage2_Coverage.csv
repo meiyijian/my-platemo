@@ -1,0 +1,7 @@
+Stage,Profile,Problem,Family,M,Arm,ExpectedRuns,ObservedRuns,ValidRuns,MissingRuns,InvalidRuns,Complete
+stage2,smoke,DTLZ2,DTLZ,3,A00_FULL,1,1,1,0,0,1
+stage2,smoke,DTLZ2,DTLZ,3,A01_NO_P,1,1,1,0,0,1
+stage2,smoke,DTLZ2,DTLZ,3,CURRENT_HCV,1,1,1,0,0,1
+stage2,smoke,WFG3,WFG,3,A00_FULL,1,1,1,0,0,1
+stage2,smoke,WFG3,WFG,3,A01_NO_P,1,1,1,0,0,1
+stage2,smoke,WFG3,WFG,3,CURRENT_HCV,1,1,1,0,0,1

@@ -1,0 +1,7 @@
+Problem,Family,M,Run,Arm,Observed,Valid,ResultFile,Detail
+DTLZ2,DTLZ,3,1,A00_FULL,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\A00_FULL\DTLZ2\M3\run_001.mat,PASS
+DTLZ2,DTLZ,3,1,A01_NO_P,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\A01_NO_P\DTLZ2\M3\run_001.mat,PASS
+DTLZ2,DTLZ,3,1,CURRENT_HCV,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\CURRENT_HCV\DTLZ2\M3\run_001.mat,PASS
+WFG3,WFG,3,1,A00_FULL,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\A00_FULL\WFG3\M3\run_001.mat,PASS
+WFG3,WFG,3,1,A01_NO_P,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\A01_NO_P\WFG3\M3\run_001.mat,PASS
+WFG3,WFG,3,1,CURRENT_HCV,1,1,D:\PlatEMO-master\_codex_cmc_final_validation_final\stage3_formal\raw\smoke\CURRENT_HCV\WFG3\M3\run_001.mat,PASS

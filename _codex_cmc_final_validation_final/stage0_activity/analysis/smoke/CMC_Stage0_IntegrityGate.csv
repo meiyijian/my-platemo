@@ -1,0 +1,2 @@
+ProtocolHash,Status,RequiredJobs,ValidJobs,MissingJobs,InvalidJobs,SourceTwinStatus,AuditComplete,Reason,GeneratedAt
+96e9d3c878d2b577ace7ce652fba5ab7142df596b6ede78b88a29c01bd1b215d,PASS,2,2,0,0,PASS,1,ALL_REQUIRED_DATA_VALID,2026-08-24 17:34:28

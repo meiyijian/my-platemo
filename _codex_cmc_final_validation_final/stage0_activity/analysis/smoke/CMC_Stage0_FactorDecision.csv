@@ -1,0 +1,11 @@
+Factor,FactorStatus,CarryToNextStage,Reason
+P,DORMANT,0,
+Q,LOW_DECISION_SEPARATION,0,trigger=1; change=0.25; overlap@K=0.92857
+K,CONSTANT_K6_NOT_ADAPTIVE,0,trigger=1; change=0; overlap@K=1
+C,ACTIVE,1,trigger=1; change=1; overlap@K=0.61905
+D,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1
+E_GEN,DORMANT,0,
+E_FINAL,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1
+F,ACTIVE,1,trigger=1; change=1; overlap@K=0.12273
+G,ACTIVE,1,trigger=1; change=1; overlap@K=0.090909
+P_ERR_GATE,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1

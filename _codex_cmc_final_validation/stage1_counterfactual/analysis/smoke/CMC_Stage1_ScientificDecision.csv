@@ -1,0 +1,2 @@
+SchemaVersion,Profile,Stage,DecisionCode,CanProceed,NextStage,ProtocolHash,RequiredJobs,ValidJobs,MissingJobs,InvalidJobs,ReferenceStatus,StatisticalUnit,PrimaryMetric,QualifiedFactors,DroppedFactors,WarningFlags,Reason,GeneratedAt
+2,smoke,stage1,SMOKE_PASS,1,stage2,4dd51b863ba8869e97f6c628f5b9f3221208d2fc83c53e8e449f505625db6889,2,2,0,0,PASS,RUN_NESTED_IN_PROBLEM_M,BATCH_IGDP_GAIN,G,"C,D,D_SIGNAL,E_FINAL,E_GEN,F,F_SIGNAL,P,P_ERR_GATE,Q",SMOKE_NOT_SCIENTIFIC,同状态直接效应以run为统计单位；不代表端点性能因果优势。,2026-08-24 17:15:14

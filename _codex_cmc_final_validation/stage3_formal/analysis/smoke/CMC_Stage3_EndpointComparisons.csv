@@ -1,0 +1,5 @@
+ContrastID,Factor,Problem,Family,M,ArmA,ArmB,ExpectedPairs,ValidPairs,Complete,MeanLogRatioIGDp,GeoMeanRatioIGDp,CILower,CIUpper,MedianPairedDelta,HodgesLehmann,RawP,HolmP,RankBiserial,PairedWinProbability,PassMCID,PassNonInferiority,SevereRegression,Decision
+A01_NO_P_DTLZ2_M3,P,DTLZ2,DTLZ,3,A00_FULL,A01_NO_P,1,1,1,0,1,1,1,0,0,NaN,NaN,0,0.5,0,1,0,NO_PASS
+A01_NO_P_WFG3_M3,P,WFG3,WFG,3,A00_FULL,A01_NO_P,1,1,1,0,1,1,1,0,0,NaN,NaN,0,0.5,0,1,0,NO_PASS
+CURRENT_HCV_DTLZ2_M3,ANCHOR,DTLZ2,DTLZ,3,A00_FULL,CURRENT_HCV,1,1,1,0,1,1,1,0,0,NaN,NaN,0,0.5,0,1,0,NO_PASS
+CURRENT_HCV_WFG3_M3,ANCHOR,WFG3,WFG,3,A00_FULL,CURRENT_HCV,1,1,1,0,1,1,1,0,0,NaN,NaN,0,0.5,0,1,0,NO_PASS

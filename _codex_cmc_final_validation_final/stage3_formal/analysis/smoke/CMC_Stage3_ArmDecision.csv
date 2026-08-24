@@ -1,0 +1,4 @@
+Arm,Factor,GeoMeanRatioIGDp,CI95Lower,CI95Upper,MaxMCI95Upper,MaxFamilyMGeoMeanRatio,DTLZGeoMeanRatio,WFGGeoMeanRatio,SevereRegressionCount,MaxFamilyMSevereRegressionCount,DirectionFraction,ArmRawP,ArmHolmP,PracticalQualified,Qualified,CarryToNextStage,Cells,ProtocolHash,Reason,IsFull
+A00_FULL,FULL,1,1,1,1,1,1,1,0,0,1,0,0,1,1,0,2,e5092572ea278083be403768d2d9242a5dc0f16d14bb37868428c7a0b0bacaf1,candidate arm,1
+A01_NO_P,P,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,2,e5092572ea278083be403768d2d9242a5dc0f16d14bb37868428c7a0b0bacaf1,,0
+CURRENT_HCV,ANCHOR,1,1,1,1,1,1,1,0,0,0,1,1,0,0,0,2,e5092572ea278083be403768d2d9242a5dc0f16d14bb37868428c7a0b0bacaf1,,0

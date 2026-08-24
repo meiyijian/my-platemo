@@ -1,0 +1,3 @@
+Stage,Profile,Problem,Family,M,Arm,ExpectedRuns,ObservedRuns,ValidRuns,MissingRuns,InvalidRuns,Complete
+stage0,smoke,DTLZ2,DTLZ,3,AUDIT_CURRENT,1,1,1,0,0,1
+stage0,smoke,WFG3,WFG,3,AUDIT_CURRENT,1,1,1,0,0,1

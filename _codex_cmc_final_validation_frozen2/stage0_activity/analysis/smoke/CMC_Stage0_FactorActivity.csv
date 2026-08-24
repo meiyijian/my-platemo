@@ -1,0 +1,11 @@
+Factor,EligibleRuns,EligibleEvents,TriggeredEvents,ChangedEvents,MedianRunTriggerRate,MedianRunChangeRate,MedianRunOverlapAtK,DTLZEligibleRuns,WFGEligibleRuns,FactorStatus,CarryToStage1,Reason,ProtocolHash
+P,0,0,0,0,NaN,NaN,NaN,0,0,DORMANT,0,,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+Q,2,3,3,1,1,0.25,0.928571428571429,1,1,LOW_DECISION_SEPARATION,0,trigger=1; change=0.25; overlap@K=0.92857,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+K,2,6,6,0,1,0,1,1,1,CONSTANT_K6_NOT_ADAPTIVE,0,trigger=1; change=0; overlap@K=1,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+C,2,3,3,3,1,1,0.619047619047619,1,1,ACTIVE,1,trigger=1; change=1; overlap@K=0.61905,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+D,2,3,3,0,1,0,1,1,1,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+E_GEN,0,0,0,0,NaN,NaN,NaN,0,0,DORMANT,0,,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+E_FINAL,2,3,3,0,1,0,1,1,1,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+F,2,3,3,3,1,1,0.122727272727273,1,1,ACTIVE,1,trigger=1; change=1; overlap@K=0.12273,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+G,2,6,6,6,1,1,0.0909090909090909,1,1,ACTIVE,1,trigger=1; change=1; overlap@K=0.090909,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95
+P_ERR_GATE,2,3,3,0,1,0,1,1,1,LOW_DECISION_SEPARATION,0,trigger=1; change=0; overlap@K=1,9c7e76fcee8ec8fadae6cdd9232a0f1bf5cf7e0754d69e1161bee49ad5b4ee95

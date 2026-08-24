@@ -1,0 +1,2 @@
+SchemaVersion,Profile,Stage,DecisionCode,CanProceed,NextStage,ProtocolHash,RequiredJobs,ValidJobs,MissingJobs,InvalidJobs,ReferenceStatus,StatisticalUnit,PrimaryMetric,QualifiedFactors,DroppedFactors,WarningFlags,Reason,GeneratedAt
+2,smoke,stage3,SMOKE_PASS,0,,e5092572ea278083be403768d2d9242a5dc0f16d14bb37868428c7a0b0bacaf1,6,6,0,0,NOT_APPLICABLE,RUN_NESTED_IN_PROBLEM_M,FINAL_IGDP,,P,SMOKE_NOT_SCIENTIFIC,正式结论仍是当前HCV宿主中的条件贡献，不代表跨宿主普遍主效应。 DecisionCode=SMOKE_PASS,2026-08-24 17:35:00

@@ -1,0 +1,79 @@
+grid: 60 jobs (2 problems x 2 M x 5 cfgs x 3 runs)
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 6 workers.
+parpool workers: 6
+  [  5/ 60] DTLZ2  M=10 nH0   r=2  IGD=1.1714  734s
+  [  6/ 60] DTLZ2  M=10 nH0   r=3  IGD=0.9413  748s
+  [  1/ 60] DTLZ2  M=10 Base  r=1  IGD=0.8804  750s
+  [  2/ 60] DTLZ2  M=10 Base  r=2  IGD=1.1176  755s
+  [  4/ 60] DTLZ2  M=10 nH0   r=1  IGD=0.9039  762s
+  [  3/ 60] DTLZ2  M=10 Base  r=3  IGD=0.7634  787s
+  [ 31/ 60] WFG3   M=10 Base  r=1  IGD=1.7726  656s
+  [ 26/ 60] DTLZ2  M=20 nH3   r=2  IGD=1.0174  656s
+  [ 21/ 60] DTLZ2  M=20 nH0   r=3  IGD=1.1080  638s
+  [ 11/ 60] DTLZ2  M=10 nH3   r=2  IGD=1.1637  680s
+  [ 16/ 60] DTLZ2  M=20 Base  r=1  IGD=1.0744  670s
+  [ 36/ 60] WFG3   M=10 nH0   r=3  IGD=1.5340  675s
+  [ 30/ 60] DTLZ2  M=20 nH2w  r=3  IGD=1.0680  644s
+  [ 25/ 60] DTLZ2  M=20 nH3   r=1  IGD=1.0626  643s
+  [ 20/ 60] DTLZ2  M=20 nH0   r=2  IGD=1.0419  645s
+  [ 15/ 60] DTLZ2  M=10 nH2w  r=3  IGD=1.0018  694s
+  [ 10/ 60] DTLZ2  M=10 nH3   r=1  IGD=1.0267  676s
+  [ 35/ 60] WFG3   M=10 nH0   r=2  IGD=1.4637  699s
+  [ 29/ 60] DTLZ2  M=20 nH2w  r=2  IGD=1.0671  648s
+  [ 24/ 60] DTLZ2  M=20 nH2   r=3  IGD=1.0370  654s
+  [ 19/ 60] DTLZ2  M=20 nH0   r=1  IGD=1.1131  663s
+  [ 14/ 60] DTLZ2  M=10 nH2w  r=2  IGD=1.0222  668s
+  [ 34/ 60] WFG3   M=10 nH0   r=1  IGD=1.4795  687s
+  [  9/ 60] DTLZ2  M=10 nH2   r=3  IGD=0.9171  699s
+  [ 28/ 60] DTLZ2  M=20 nH2w  r=1  IGD=1.0174  649s
+  [ 27/ 60] DTLZ2  M=20 nH3   r=3  IGD=1.1478  657s
+  [ 23/ 60] DTLZ2  M=20 nH2   r=2  IGD=1.0800  659s
+  [ 18/ 60] DTLZ2  M=20 Base  r=3  IGD=1.0576  690s
+  [ 22/ 60] DTLZ2  M=20 nH2   r=1  IGD=1.0877  642s
+  [ 17/ 60] DTLZ2  M=20 Base  r=2  IGD=1.0135  659s
+  [ 33/ 60] WFG3   M=10 Base  r=3  IGD=1.6457  690s
+  [ 32/ 60] WFG3   M=10 Base  r=2  IGD=1.5074  664s
+  [ 13/ 60] DTLZ2  M=10 nH2w  r=1  IGD=1.1990  683s
+  [  8/ 60] DTLZ2  M=10 nH2   r=2  IGD=1.1280  713s
+  [ 12/ 60] DTLZ2  M=10 nH3   r=3  IGD=0.9171  710s
+  [  7/ 60] DTLZ2  M=10 nH2   r=1  IGD=1.0166  693s
+  [ 46/ 60] WFG3   M=20 Base  r=1  IGD=2.6881  628s
+  [ 48/ 60] WFG3   M=20 Base  r=3  IGD=2.5866  613s
+  [ 45/ 60] WFG3   M=10 nH2w  r=3  IGD=1.4356  676s
+  [ 38/ 60] WFG3   M=10 nH2   r=2  IGD=1.4774  699s
+  [ 47/ 60] WFG3   M=20 Base  r=2  IGD=2.5368  630s
+  [ 37/ 60] WFG3   M=10 nH2   r=1  IGD=1.5321  674s
+  [ 40/ 60] WFG3   M=10 nH3   r=1  IGD=1.4711  682s
+  [ 39/ 60] WFG3   M=10 nH2   r=3  IGD=1.4735  682s
+  [ 44/ 60] WFG3   M=10 nH2w  r=2  IGD=1.4027  705s
+  [ 42/ 60] WFG3   M=10 nH3   r=3  IGD=1.5295  695s
+  [ 43/ 60] WFG3   M=10 nH2w  r=1  IGD=1.5502  688s
+  [ 41/ 60] WFG3   M=10 nH3   r=2  IGD=1.5621  706s
+  [ 50/ 60] WFG3   M=20 nH0   r=2  IGD=2.2450  653s
+  [ 51/ 60] WFG3   M=20 nH0   r=3  IGD=1.9112  654s
+  [ 49/ 60] WFG3   M=20 nH0   r=1  IGD=1.8950  668s
+  [ 52/ 60] WFG3   M=20 nH2   r=1  IGD=2.3107  656s
+  [ 53/ 60] WFG3   M=20 nH2   r=2  IGD=2.1088  637s
+  [ 54/ 60] WFG3   M=20 nH2   r=3  IGD=2.0011  658s
+  [ 55/ 60] WFG3   M=20 nH3   r=1  IGD=2.4674  642s
+  [ 56/ 60] WFG3   M=20 nH3   r=2  IGD=1.7721  645s
+  [ 57/ 60] WFG3   M=20 nH3   r=3  IGD=2.0104  640s
+  [ 58/ 60] WFG3   M=20 nH2w  r=1  IGD=2.3650  608s
+  [ 59/ 60] WFG3   M=20 nH2w  r=2  IGD=2.0225  606s
+  [ 60/ 60] WFG3   M=20 nH2w  r=3  IGD=1.9215  583s
+
+=== median IGD (lower better), 5 cfgs ===
+ prob   M   Base      nH0       nH2       nH3       nH2w      | vs Base
+DTLZ2   10  0.8804    0.9413    1.0166    1.0267    1.0222    | none
+ (HV)       0.0341    0.0305    0.0072    0.0038    0.0035    |
+DTLZ2   20  1.0576    1.1080    1.0800    1.0626    1.0671    | none
+ (HV)       0.4041    0.2313    0.1925    0.2263    0.2280    |
+WFG3    10  1.6457    1.4795    1.4774    1.5295    1.4356    | nH0(-10.1%) nH2(-10.2%) nH3(-7.1%) nH2w(-12.8%)
+ (HV)       0.0000    0.0000    0.0000    0.0000    0.0000    |
+WFG3    20  2.5866    1.9112    2.1088    2.0104    2.0225    | nH0(-26.1%) nH2(-18.5%) nH3(-22.3%) nH2w(-21.8%)
+ (HV)       0.0000    0.0000    0.0000    0.0000    0.0000    |
+
+runtime: median 668s, max 787s per run | errors: 0
+Parallel pool using the 'Processes' profile is shutting down.
+[SCREEN_DONE]

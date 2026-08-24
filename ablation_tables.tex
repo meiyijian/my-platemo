@@ -1,0 +1,163 @@
+%%%% ==================================================================
+%%%% Ablation study of the two proposed modules (HPC and UMC).
+%%%% IGD, mean (standard deviation) over 30 independent runs.
+%%%% Requires: \usepackage{booktabs,multirow,threeparttable}
+%%%%
+%%%% ACTION ITEMS BEFORE SUBMISSION:
+%%%%  (a) A6 (HPC only, k=6, i.e. w/o UMC at the paper setting) and A6/A7 at
+%%%%      M=10 were not run.  Table I marks them "--".  Run them for a
+%%%%      complete 2x2xk design.
+%%%%  (b) WFG4 at M=20 is EXCLUDED: the exported row is an M=10 instance
+%%%%      (sheet lists M=10, IGD ~8 vs ~20-26 for the other M=20 WFGs).
+%%%%      Re-run and re-insert; then M=20 becomes 16 problems.
+%%%%  (c) Verify run count (30 assumed) and level (0.05, Wilcoxon rank-sum).
+%%%% ==================================================================
+
+\begin{table}[!t]
+\centering
+\caption{Configurations Used in the Ablation Study. HPC Denotes the
+Hybrid PBI Classification Module and UMC the UniformMix Candidate
+Selection Module. $k$ Is the Number of Reference Solutions.}
+\label{tab:abl_config}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{clccc}
+\toprule
+Config. & Implementation & HPC & UMC & $k$ \\
+\midrule
+A1 & REMO \cite{hao2022remo}            & $\times$    & $\times$    & $6$        \\
+A2 & REMO, enlarged $k$                  & $\times$    & $\times$    & $1.5M$     \\
+A3 & w/o UMC                             & $\checkmark$& $\times$    & $6$        \\
+A4 & w/o UMC (paper $k$)                 & $\checkmark$& $\times$    & $1.5M$     \\
+A5 & w/o HPC                             & $\times$    & $\checkmark$& $6$        \\
+A6 & w/o HPC (paper $k$)$^{\dagger}$    & $\times$    & $\checkmark$& $1.5M$     \\
+A7 & Proposed, reduced $k$               & $\checkmark$& $\checkmark$& $6$        \\
+A8 & \textbf{Proposed}                   & $\checkmark$& $\checkmark$& $1.5M$     \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize $^{\dagger}$ Not yet available; see Section~\ref{sec:ablation}.
+\end{flushleft}
+\end{table}
+
+\begin{table*}[!t]
+\centering
+\caption{IGD Results of the Ablation Configurations on 16 10-Objective
+Benchmark Problems With 300 Real Function Evaluations. Each Entry Is the Mean
+(Standard Deviation) Over 30 Independent Runs; the Best Mean per Row Is in Bold.
+$+$, $-$ and $\approx$ Indicate That the Corresponding Configuration Is
+Significantly Better Than, Significantly Worse Than, or Statistically
+Comparable to the Proposed Algorithm (A8) by the Wilcoxon Rank-Sum Test at
+a $0.05$ Significance Level.}
+\label{tab:abl_igd_m10}
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{lcccccc}
+\toprule
+Problem & A1 & A2 & A3 & A4 & A5 & A8 (Proposed) \\
+\midrule
+DTLZ1 & 2.0748e+2 (4.35e+1)$^{\approx}$ & 2.5572e+2 (3.72e+1)$^{-}$ & \textbf{1.9210e+2} (4.29e+1)$^{+}$ & 2.2265e+2 (2.72e+1)$^{\approx}$ & 2.1327e+2 (4.33e+1)$^{\approx}$ & 2.2944e+2 (3.62e+1) \\
+DTLZ2 & 1.0902e+0 (9.26e-2)$^{\approx}$ & 1.1321e+0 (8.14e-2)$^{\approx}$ & 1.1179e+0 (8.60e-2)$^{\approx}$ & 1.1325e+0 (1.03e-1)$^{\approx}$ & \textbf{1.0434e+0} (1.08e-1)$^{\approx}$ & 1.0946e+0 (8.88e-2) \\
+DTLZ3 & 8.0813e+2 (1.50e+2)$^{+}$ & 9.8158e+2 (1.46e+2)$^{\approx}$ & \textbf{7.4833e+2} (1.57e+2)$^{+}$ & 9.4062e+2 (1.36e+2)$^{\approx}$ & 8.3489e+2 (1.38e+2)$^{+}$ & 9.3919e+2 (1.40e+2) \\
+DTLZ4 & \textbf{1.1487e+0} (1.05e-1)$^{\approx}$ & 1.2536e+0 (1.07e-1)$^{\approx}$ & 1.1609e+0 (1.08e-1)$^{\approx}$ & 1.1720e+0 (8.09e-2)$^{\approx}$ & 1.1829e+0 (1.08e-1)$^{\approx}$ & 1.1814e+0 (1.12e-1) \\
+DTLZ5 & 6.2052e-1 (1.47e-1)$^{\approx}$ & 6.5860e-1 (1.07e-1)$^{\approx}$ & \textbf{5.2409e-1} (1.16e-1)$^{+}$ & 6.0132e-1 (1.35e-1)$^{\approx}$ & 5.8917e-1 (1.12e-1)$^{\approx}$ & 6.6049e-1 (1.47e-1) \\
+DTLZ6 & 1.6378e+1 (7.30e-1)$^{-}$ & 1.6101e+1 (6.03e-1)$^{-}$ & 1.5155e+1 (6.93e-1)$^{\approx}$ & 1.5000e+1 (5.75e-1)$^{\approx}$ & 1.6196e+1 (5.75e-1)$^{-}$ & \textbf{1.4463e+1} (1.10e+0) \\
+DTLZ7 & 2.1252e+1 (2.44e+0)$^{-}$ & 2.1381e+1 (2.48e+0)$^{-}$ & 1.7953e+1 (3.03e+0)$^{-}$ & 1.7305e+1 (1.70e+0)$^{-}$ & 1.4917e+1 (1.86e+0)$^{-}$ & \textbf{1.2122e+1} (2.80e+0) \\
+WFG1 & 3.2354e+0 (8.74e-2)$^{\approx}$ & 3.2346e+0 (5.80e-2)$^{-}$ & 3.1879e+0 (5.68e-2)$^{\approx}$ & 3.2000e+0 (3.80e-2)$^{\approx}$ & \textbf{3.1734e+0} (6.75e-2)$^{\approx}$ & 3.1933e+0 (2.79e-2) \\
+WFG2 & 3.5108e+0 (1.08e+0)$^{-}$ & 2.7019e+0 (8.69e-1)$^{-}$ & 2.7960e+0 (8.43e-1)$^{-}$ & 2.1621e+0 (6.46e-1)$^{\approx}$ & 3.0646e+0 (1.04e+0)$^{-}$ & \textbf{2.1211e+0} (6.82e-1) \\
+WFG3 & \textbf{1.5188e+0} (1.01e-1)$^{+}$ & 1.5502e+0 (8.35e-2)$^{+}$ & 1.5760e+0 (8.86e-2)$^{+}$ & 1.6399e+0 (5.18e-2)$^{+}$ & 1.6296e+0 (6.34e-2)$^{+}$ & 1.7006e+0 (5.87e-2) \\
+WFG4 & 8.1770e+0 (9.93e-1)$^{-}$ & 7.2123e+0 (7.13e-1)$^{-}$ & 8.6573e+0 (1.21e+0)$^{-}$ & 7.1851e+0 (9.13e-1)$^{\approx}$ & 7.5869e+0 (9.62e-1)$^{-}$ & \textbf{6.6311e+0} (6.38e-1) \\
+WFG5 & 6.9444e+0 (5.14e-1)$^{-}$ & 5.9358e+0 (4.19e-1)$^{\approx}$ & 6.6419e+0 (6.91e-1)$^{-}$ & \textbf{5.8962e+0} (3.37e-1)$^{\approx}$ & 6.4368e+0 (5.01e-1)$^{-}$ & 5.9732e+0 (4.00e-1) \\
+WFG6 & 6.4255e+0 (4.79e-1)$^{-}$ & 5.4737e+0 (2.95e-1)$^{-}$ & 6.4196e+0 (5.05e-1)$^{-}$ & 5.3355e+0 (3.10e-1)$^{\approx}$ & 5.7033e+0 (2.69e-1)$^{-}$ & \textbf{5.2773e+0} (2.01e-1) \\
+WFG7 & 6.2812e+0 (7.42e-1)$^{-}$ & 5.7119e+0 (4.43e-1)$^{-}$ & 6.6489e+0 (6.28e-1)$^{-}$ & 5.4193e+0 (2.07e-1)$^{-}$ & 5.7946e+0 (3.58e-1)$^{-}$ & \textbf{5.2969e+0} (2.57e-1) \\
+WFG8 & 7.0559e+0 (5.06e-1)$^{-}$ & 6.0420e+0 (3.51e-1)$^{-}$ & 6.7588e+0 (4.65e-1)$^{-}$ & \textbf{5.6556e+0} (1.43e-1)$^{\approx}$ & 6.3053e+0 (3.64e-1)$^{-}$ & 5.6930e+0 (2.66e-1) \\
+WFG9 & 7.6476e+0 (7.61e-1)$^{-}$ & 6.9496e+0 (4.45e-1)$^{-}$ & 7.6437e+0 (6.71e-1)$^{-}$ & 6.7894e+0 (6.20e-1)$^{-}$ & 7.1350e+0 (5.95e-1)$^{-}$ & \textbf{6.3788e+0} (6.11e-1) \\
+\midrule
+$+/-/\approx$ (A8 vs.) & 9/2/5 & 10/1/5 & 8/4/4 & 3/1/12 & 9/2/5 & --- \\
+Mean rank & 4.31 & 4.06 & 3.56 & 2.94 & 3.44 & 2.69 \\
+Best on & 2 & 0 & 3 & 2 & 2 & 7 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[!t]
+\centering
+\caption{IGD Results of the Ablation Configurations on 15 20-Objective
+Benchmark Problems With 300 Real Function Evaluations. Each Entry Is the Mean
+(Standard Deviation) Over 30 Independent Runs; the Best Mean per Row Is in Bold.
+$+$, $-$ and $\approx$ Indicate That the Corresponding Configuration Is
+Significantly Better Than, Significantly Worse Than, or Statistically
+Comparable to the Proposed Algorithm (A8) by the Wilcoxon Rank-Sum Test at
+a $0.05$ Significance Level.}
+\label{tab:abl_igd_m20}
+\renewcommand{\arraystretch}{1.1}
+\setlength{\tabcolsep}{3pt}
+\footnotesize
+\begin{tabular}{lccccccc}
+\toprule
+Problem & A1 & A2 & A3 & A4 & A5 & A7 & A8 (Proposed) \\
+\midrule
+DTLZ1 & 6.7408e+1 (1.93e+1)$^{+}$ & 1.0194e+2 (2.14e+1)$^{-}$ & \textbf{5.7687e+1} (1.80e+1)$^{+}$ & 8.1313e+1 (2.10e+1)$^{\approx}$ & 6.0747e+1 (1.62e+1)$^{+}$ & 6.0261e+1 (1.43e+1) & 7.9755e+1 (1.09e+1) \\
+DTLZ2 & 1.1173e+0 (5.45e-2)$^{\approx}$ & 1.1484e+0 (4.27e-2)$^{\approx}$ & 1.1203e+0 (5.61e-2)$^{\approx}$ & 1.1979e+0 (3.90e-2)$^{-}$ & \textbf{1.0857e+0} (7.42e-2)$^{+}$ & 1.1146e+0 (5.41e-2) & 1.1350e+0 (4.89e-2) \\
+DTLZ3 & 2.6646e+2 (7.13e+1)$^{\approx}$ & 3.7834e+2 (8.48e+1)$^{-}$ & 2.2547e+2 (5.49e+1)$^{+}$ & 3.2741e+2 (5.90e+1)$^{\approx}$ & 2.5467e+2 (7.79e+1)$^{\approx}$ & \textbf{2.2408e+2} (5.74e+1) & 2.8568e+2 (6.84e+1) \\
+DTLZ4 & 1.0368e+0 (4.26e-2)$^{\approx}$ & 1.0608e+0 (3.77e-2)$^{\approx}$ & 1.0592e+0 (4.75e-2)$^{\approx}$ & \textbf{1.0199e+0} (4.38e-2)$^{+}$ & 1.0634e+0 (5.86e-2)$^{\approx}$ & 1.0323e+0 (4.38e-2) & 1.0578e+0 (5.34e-2) \\
+DTLZ5 & 2.7068e-1 (5.25e-2)$^{\approx}$ & 3.3109e-1 (4.78e-2)$^{\approx}$ & \textbf{2.0792e-1} (5.04e-2)$^{+}$ & 2.6667e-1 (4.58e-2)$^{\approx}$ & 2.8410e-1 (4.78e-2)$^{\approx}$ & 2.6743e-1 (6.17e-2) & 3.0345e-1 (6.65e-2) \\
+DTLZ6 & 7.3417e+0 (6.33e-1)$^{\approx}$ & 7.5855e+0 (4.73e-1)$^{-}$ & 6.3369e+0 (8.09e-1)$^{\approx}$ & 6.5356e+0 (7.58e-1)$^{\approx}$ & 7.4829e+0 (6.41e-1)$^{-}$ & \textbf{6.2525e+0} (7.76e-1) & 6.6546e+0 (9.39e-1) \\
+DTLZ7 & 3.8239e+1 (7.37e+0)$^{-}$ & 4.2108e+1 (7.08e+0)$^{-}$ & 2.9216e+1 (4.21e+0)$^{-}$ & 2.5637e+1 (5.00e+0)$^{-}$ & 2.2735e+1 (3.18e+0)$^{-}$ & 1.9138e+1 (2.22e+0) & \textbf{1.8154e+1} (2.61e+0) \\
+WFG1 & 5.6202e+0 (8.82e-2)$^{\approx}$ & 5.6481e+0 (4.89e-2)$^{-}$ & 5.5981e+0 (1.05e-1)$^{\approx}$ & 5.6149e+0 (7.80e-2)$^{\approx}$ & \textbf{5.5705e+0} (8.88e-2)$^{\approx}$ & 5.6225e+0 (7.64e-2) & 5.6075e+0 (7.93e-2) \\
+WFG2 & 7.9480e+0 (1.54e+0)$^{-}$ & 7.0318e+0 (1.58e+0)$^{-}$ & 7.2512e+0 (1.65e+0)$^{-}$ & \textbf{5.1016e+0} (6.88e-1)$^{\approx}$ & 6.8209e+0 (2.06e+0)$^{-}$ & 6.2055e+0 (1.82e+0) & 5.4393e+0 (1.31e+0) \\
+WFG3 & \textbf{2.2519e+0} (2.32e-1)$^{+}$ & 2.3254e+0 (1.85e-1)$^{+}$ & 2.5155e+0 (1.99e-1)$^{+}$ & 2.6644e+0 (1.17e-1)$^{\approx}$ & 2.4822e+0 (1.70e-1)$^{+}$ & 2.6963e+0 (1.66e-1) & 2.7306e+0 (1.52e-1) \\
+WFG5 & 2.5608e+1 (1.19e+0)$^{-}$ & 2.3181e+1 (1.06e+0)$^{\approx}$ & 2.5693e+1 (9.94e-1)$^{-}$ & 2.3849e+1 (1.38e+0)$^{\approx}$ & 2.4357e+1 (9.19e-1)$^{-}$ & 2.4249e+1 (1.10e+0) & \textbf{2.2849e+1} (1.62e+0) \\
+WFG6 & 2.4041e+1 (1.66e+0)$^{-}$ & 2.1493e+1 (7.92e-1)$^{-}$ & 2.3492e+1 (1.36e+0)$^{-}$ & 1.9109e+1 (1.02e+0)$^{\approx}$ & 2.0834e+1 (9.11e-1)$^{-}$ & 2.0157e+1 (1.29e+0) & \textbf{1.9097e+1} (6.18e-1) \\
+WFG7 & 2.4322e+1 (1.10e+0)$^{-}$ & 2.2442e+1 (1.43e+0)$^{-}$ & 2.3916e+1 (2.00e+0)$^{-}$ & \textbf{2.0450e+1} (8.73e-1)$^{\approx}$ & 2.2471e+1 (2.16e+0)$^{-}$ & 2.1397e+1 (1.11e+0) & 2.0592e+1 (7.61e-1) \\
+WFG8 & 2.4953e+1 (1.02e+0)$^{-}$ & 2.2718e+1 (1.02e+0)$^{-}$ & 2.4403e+1 (1.29e+0)$^{-}$ & 2.1098e+1 (5.56e-1)$^{\approx}$ & 2.2424e+1 (1.08e+0)$^{-}$ & 2.1697e+1 (1.02e+0) & \textbf{2.0738e+1} (8.26e-1) \\
+WFG9 & 2.6155e+1 (1.38e+0)$^{-}$ & 2.4590e+1 (1.41e+0)$^{-}$ & 2.5690e+1 (1.26e+0)$^{-}$ & 2.4763e+1 (1.35e+0)$^{-}$ & 2.4951e+1 (1.72e+0)$^{-}$ & 2.4136e+1 (1.71e+0) & \textbf{2.3053e+1} (1.30e+0) \\
+\midrule
+$+/-/\approx$ (A8 vs.) & 7/2/6 & 10/1/4 & 7/4/4 & 3/1/11 & 8/3/4 & -- & --- \\
+Mean rank & 5.07 & 5.33 & 4.20 & 3.40 & 3.93 & 2.87 & 3.20 \\
+Best on & 1 & 0 & 2 & 3 & 2 & 2 & 5 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table}[!t]
+\centering
+\caption{Effect of Each Module Isolated at a Fixed Setting of the Other
+Two Factors. ``Sig.'' Reports $+/-/\approx$ Counts of the Enhanced
+Configuration Against the Reduced One (Wilcoxon Rank-Sum, $0.05$); ``GM''
+Is the Geometric Mean of the per-Problem IGD Ratio (Reduced/Enhanced),
+so GM${}>1$ Means the Module Helps.}
+\label{tab:abl_effect}
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{3.5pt}
+\footnotesize
+\begin{tabular}{llcccccc}
+\toprule
+\multirow{2}{*}{Factor} & \multirow{2}{*}{Contrast} & \multirow{2}{*}{Context}
+  & \multicolumn{2}{c}{$M=10$} & \multicolumn{2}{c}{$M=20$} \\
+\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+ & & & Sig. & GM & Sig. & GM \\
+\midrule
+HPC & A1 $\rightarrow$ A3 & $k=6$, w/o UMC & (11/5)$^{\ast}$ & 1.046 & (11/4)$^{\ast}$ & 1.072 \\
+ & A2 $\rightarrow$ A4 & $k=1.5M$, w/o UMC & 8/1/7 & 1.063 & 10/2/3 & 1.118 \\
+ & A5 $\rightarrow$ A7 & $k=6$, with UMC & -- & -- & 3/1/11 & 1.048 \\
+\addlinespace[2pt]
+UMC & A1 $\rightarrow$ A5 & $k=6$, w/o HPC & (12/4)$^{\ast}$ & 1.064 & 6/1/8 & 1.076 \\
+ & A3 $\rightarrow$ A7 & $k=6$, with HPC & -- & -- & (11/4)$^{\ast}$ & 1.052 \\
+ & A4 $\rightarrow$ A8 & $k=1.5M$, with HPC & 3/1/12 & 1.028 & 3/1/11 & 1.028 \\
+\addlinespace[2pt]
+$k$ & A1 $\rightarrow$ A2 & baseline & 7/3/6 & 1.029 & 5/4/6 & 0.960 \\
+ & A3 $\rightarrow$ A4 & HPC only & 7/3/6 & 1.046 & 8/5/2 & 1.001 \\
+ & A7 $\rightarrow$ A8 & full method & -- & -- & (8/7)$^{\ast}$ & 0.978 \\
+\addlinespace[2pt]
+Both & A2 $\rightarrow$ A8 & same $k$ & 10/1/5 & 1.092 & 10/1/4 & 1.149 \\
+ & A1 $\rightarrow$ A8 & vs. published REMO & 9/2/5 & 1.124 & 7/2/6 & 1.103 \\
+\bottomrule
+\end{tabular}
+\begin{flushleft}
+\footnotesize $^{\ast}$ No rank-sum test was exported for this pair; the
+entry gives the win/loss count of mean IGD instead. ``--'' marks a
+configuration that has not been run.
+\end{flushleft}
+\end{table}

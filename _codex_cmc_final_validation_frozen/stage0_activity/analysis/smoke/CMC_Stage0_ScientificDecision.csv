@@ -1,0 +1,2 @@
+SchemaVersion,Profile,Stage,DecisionCode,CanProceed,NextStage,ProtocolHash,RequiredJobs,ValidJobs,MissingJobs,InvalidJobs,ReferenceStatus,StatisticalUnit,PrimaryMetric,QualifiedFactors,DroppedFactors,WarningFlags,Reason,GeneratedAt
+2,smoke,stage0,SMOKE_PASS,1,stage1,54c3f1912cee3f6eb8e54567a8b0259179ae9b09400b01e996224b38668b2dd4,2,2,0,0,NOT_APPLICABLE,RUN,BEHAVIORAL_ACTIVITY,"C,F,G","D,E_FINAL,E_GEN,K,P,P_ERR_GATE,Q",SMOKE_NOT_SCIENTIFIC,行为活性门通过；这不证明最终IGD+收益。,2026-08-24 17:46:23
