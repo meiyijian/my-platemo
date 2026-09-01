@@ -873,11 +873,14 @@ with $q_{\mathrm{keep}}=0.80$, which retains roughly the best $20\%$ of the pool
 if fewer than $n_{\min}$ candidates qualify, the set is completed with the
 highest-scoring candidates. The batch is then assembled greedily. The first
 member maximises $a^{\mathrm{E}}$, and each subsequent member maximises
+%% Two-column width: the \qquad-separated pair of the single-column draft is
+%% set as two aligned lines. Symbols and wording are unchanged.
 \begin{equation}
+\begin{split}
 A(\vx\mid\mathcal{S})
-=0.75\,\widehat a^{\mathrm{E}}(\vx)+0.25\,\widehat d(\vx,\mathcal{S}),
-\qquad
-d(\vx,\mathcal{S})=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2 ,
+&=0.75\,\widehat a^{\mathrm{E}}(\vx)+0.25\,\widehat d(\vx,\mathcal{S}),\\
+d(\vx,\mathcal{S})&=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2 ,
+\end{split}
 \label{eq:greedy}
 \end{equation}
 where $\widehat a^{\mathrm{E}}$ and $\widehat d$ are normalised over the
@@ -945,11 +948,13 @@ are not finite, the mode falls back to the relation score.
 Let $m_t\in\{\mathrm{E},\mathrm{I}\}$ be the mode used at outer iteration $t$. A
 random stream seeded from the run index, and independent of the global stream
 that drives variation and subsampling, produces $\xi_t\sim U[0,1)$, and
+%% Two-column width: the condition text is broken over two lines. The words
+%% and their order are unchanged.
 \begin{equation}
 m_t=
 \begin{cases}
-\mathrm{I}, & \text{if the indicator model is available and }
-              \xi_t<p_{\mathrm{mix}},\\[2pt]
+\mathrm{I}, & \text{if the indicator model is available}\\
+            & \text{and }\xi_t<p_{\mathrm{mix}},\\[2pt]
 \mathrm{E}, & \text{otherwise},
 \end{cases}
 \label{eq:mode}
@@ -1086,31 +1091,6 @@ evaluations remains $B$ regardless of the mode sequence. The wall-clock share of
 the two modules is reported in Section~\ref{sec:exp:sensitivity}.
 
 Table~\ref{tab:params} lists the parameters introduced above.
-
-\begin{table*}[t]
-\centering
-\caption{Parameters of HPDC-MaOEA and their settings.}
-\label{tab:params}
-\small
-\begin{tabular}{llc}
-\toprule
-Symbol & Meaning & Setting \\
-\midrule
-$\theta$ & penalty of the continuous PBI value & $5$ \\
-$N_v$ & number of directions & $N_{\mathrm{init}}$ \\
-$r_g$ & positive-group ratio & $0.25$ \\
-$\delta$ & class-balance parameter of the binary branch &
-  bisected in $[-20,20]$ \\
-$\keff$ & effective anchor capacity & $\min(N_p,\max(6,\lceil1.5M\rceil))$ \\
-$\alpha$ & weight of the continuous branch & $1-FE/B$ \\
-$g_{\max}$ & candidate-generation limit & $3000$ \\
-$q_{\mathrm{keep}}$ & quantile of the exploratory prefilter & $0.80$ \\
-$\lambda_0$ & initial exploration strength & $0.35$ \\
-$p_{\mathrm{mix}}$ & probability of the indicator-guided mode & $0.50$ \\
-$n_{\min},n_{\max}$ & bounds of the evaluation batch & $4,6$ \\
-\bottomrule
-\end{tabular}
-\end{table*}
 
 \section{Experimental Studies}
 \label{sec:exp}
