@@ -22,6 +22,21 @@
 - 算法代码：`PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_AdaMaO_SDEOnly/`
 - 设计文档：`PlatEMO/docs/superpowers/specs/`、`PlatEMO/docs/superpowers/plans/`
 - 汇报文档：`REMO_DiRel_汇报文档.md`（项目根目录）
+- `Algorithms/NeuroEA/`：2026-08-29 从官方 v4.16 同步进来的新分类（9 文件，与本地 `Algorithms/Blocks` 重名，已隔离到 private）
+
+## PlatEMO 版本与上游同步（2026-08-29）
+
+- 本地为 PlatEMO **v4.12**（GUI.m 中写死），官方 BIMK/PlatEMO 已到 **v4.16**；框架文件差异多为版权年份，**不要整体升级 GUI/框架**
+- 已同步官方新增 35 个多目标算法 + NeuroEA + 单目标 MiSACO/SSIO-RL；多目标目录 358 → 393
+- `ESBCEO` = 官方 `ESB-CEO`（官方改名），本地保留原名，勿重复引入
+
+### 铁律：往 Algorithms/ 加新算法前必须做重名隔离
+
+- `platemo.m` 用 `addpath(genpath(cd))`，MATLAB 按**文件名**解析、且不看调用者目录 → 字典序靠前的目录会遮蔽后面所有同名 .m
+- 新增目录中凡与既有目录重名的 .m，一律移入该目录自己的 `private/`（genpath 跳过 private，private 对父目录优先级最高）
+- 惨痛案例：`MaOEA-HAP/Shape_Estimate.m` 是 4 参数版，会抢占 PIEA / REMO_new2_AdaMaO 等的两参数版调用，直接报错
+- 验收标准：隔离后「新增目录在全局路径上的重名 .m 文件数 = 0」，且主类文件（classdef < ALGORITHM）必须留在顶层以便 GUI 发现
+- 完整流程与踩坑记录见 `.workbuddy/memory/2026-08-29.md`
 
 ## Stage1 标签机制审计实验状态（2026-08-12 更新）
 

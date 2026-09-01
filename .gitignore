@@ -15,3 +15,23 @@ PlatEMO-master/PlatEMO/Experiments/
 
 # Codex local files and temporary directories
 **/.codex*
+
+# LaTeX 编译产物（仅论文写作目录，避免影响仓库内已跟踪的 *_debug.log）
+论文写作/*.aux
+论文写作/*.log
+论文写作/*.out
+论文写作/*.toc
+论文写作/*.bbl
+论文写作/*.blg
+论文写作/*.synctex.gz
+论文写作/*.fls
+论文写作/*.fdb_latexmk
+论文写作/*.spl
+# 逐页预览图（由 PDF 生成，各 2.6 MB）
+论文写作/pv/
+_pv/
+# 正文 PDF 可由 .tex 重新编译，不入库
+论文写作/*.pdf
+
+# PlatEMO GUI 状态缓存：每次打开界面选算法/问题都会变，不含有效工作
+PlatEMO-master/PlatEMO/GUI/GUI.mat

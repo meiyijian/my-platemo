@@ -1,0 +1,1213 @@
+% !TeX program = pdflatex
+% ==========================================================================
+%  HPDC-MaOEA -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
+%
+%  Section 3 (method) is drafted from the two Markdown method drafts
+%  ("Hybrid PBI" and "candidate-selection module") and verified line by line
+%  against the MATLAB source of
+%      REMO_new2_AdaMaO_SDEOnly_UniformMix_Original
+%  Sections 1, 2, 4 and 5 are placeholders.
+%
+%  Layout notes:
+%    * elsarticle option "5p" is Elsevier's final two-column journal layout
+%      (textwidth 522pt, columnsep 18pt => 252pt columns) and it loads
+%      fleqn.clo, so displayed equations are flush left.
+%    * Wide displays are broken with split/multline and wide floats use the
+%      starred environments (table*, algorithm*) to span both columns.
+%      The wording and the mathematics are unchanged from the single-column
+%      draft; only line breaking and float placement were adapted.
+%    * For the double-spaced single-column referee version, swap the class
+%      options for [preprint,review,12pt].
+% ==========================================================================
+\documentclass[final,5p,times,twocolumn]{elsarticle}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% graphicx is already loaded by elsarticle.cls
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+
+% Narrow columns: allow slightly looser lines before an overfull box.
+\tolerance=1200
+\emergencystretch=1em
+
+% Pseudo-code is set one size down so that the wider \State lines fit a column.
+\usepackage{etoolbox}
+\AtBeginEnvironment{algorithmic}{\footnotesize}
+\algrenewcommand{\algorithmicrequire}{\textbf{Input:}}
+\algrenewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\newcommand{\vf}{\mathbf{f}}
+\newcommand{\vx}{\mathbf{x}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\vw}{\mathbf{w}}
+\newcommand{\vr}{\mathbf{r}}
+\newcommand{\vz}{\mathbf{z}}
+\newcommand{\keff}{k_{\mathrm{eff}}}
+\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+
+%% Uncomment and fill in for a preprint that names its target journal.
+%% \journal{Information Sciences}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Hybrid PBI Quality Stratification and Dual-Mode Candidate Selection
+for Expensive Many-Objective Optimization}
+
+%% Author block. Replace the placeholders and add \corref/\ead as needed:
+%% \author[inst1]{Given Name Surname\corref{cor1}}
+%% \ead{name@example.edu}
+%% \cortext[cor1]{Corresponding author.}
+\author{\TODO{author list}}
+
+\affiliation{organization={Department, University},
+            addressline={Street},
+            city={City},
+            postcode={000000},
+            state={Province},
+            country={Country}}
+
+\begin{abstract}
+\TODO{abstract. Reserved memory sentence: across 250 independent runs and 40
+predefined Problem--$M$--Stage cells, the two PBI views show low set overlap and
+provide bidirectional unique future true positives in 33 cells, and $81.5\%$ of
+the union true positives are identified by only one view.}
+\end{abstract}
+
+\begin{keyword}
+expensive many-objective optimization \sep surrogate-assisted evolutionary
+algorithm \sep relation learning \sep penalty-based boundary intersection \sep
+candidate selection
+\end{keyword}
+
+\end{frontmatter}
+
+\section{Introduction}
+\label{sec:intro}
+
+\TODO{Introduction. Four paragraphs are already drafted in the
+problem-mechanism-evidence note (hybrid PBI), Section 5: (i) task and
+importance of relation learning under a severely limited evaluation budget;
+(ii) the granularity-compression gap of binary PBI partitioning; (iii) the
+one-to-one correspondence between the gap and the proposed mechanism;
+(iv) strongest evidence and the three contributions.}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Surrogate-Assisted Expensive Multi-/Many-Objective Optimization}
+\label{sec:related:saea}
+\TODO{Kriging/RBF-based SAEAs, their scalability limit in $M$, and why
+regression on every objective becomes unattractive when $M$ grows.}
+
+\subsection{Relation Learning for Expensive Optimization}
+\label{sec:related:relation}
+\TODO{REMO and the pairwise-comparison SAEA line; what supervision signal each
+of them uses; position the present work as a labelling-interface contribution
+rather than a new scalarizing function.}
+
+\subsection{Quality Assessment and Candidate Selection}
+\label{sec:related:selection}
+\TODO{Indicator-based assessment (SDE, $L_p$ shape estimation, PIEA), radial
+representative selection (RSEA), and infill/candidate selection rules. End with
+the gap that motivates Section~\ref{sec:method}.}
+
+\section{The Proposed HPDC-MaOEA}
+\label{sec:method}
+
+Relation-based surrogate-assisted evolutionary algorithms replace multi-output
+regression by a classifier that predicts the relative quality of a pair of
+solutions. Two interfaces then decide what such an algorithm can actually
+learn and exploit: the rule that converts the current population into
+supervision labels, and the rule that converts the surrogate scores of a large
+candidate pool into a small batch of expensive evaluations. HPDC-MaOEA
+(hybrid-PBI dual-mode-candidate many-objective evolutionary algorithm)
+addresses both interfaces. Section~\ref{sec:method:framework} states the
+overall framework, Section~\ref{sec:method:hpc} develops the hybrid PBI quality
+stratification that produces the supervision labels,
+Section~\ref{sec:method:relation} describes the relation model built on those
+labels, Section~\ref{sec:method:candidate} develops the dual-mode candidate
+selection, and Section~\ref{sec:method:complexity} analyses the computational
+complexity.
+
+\subsection{Overall Framework}
+\label{sec:method:framework}
+
+We consider the expensive many-objective problem
+\begin{equation}
+\min_{\vx\in\Omega}\;
+\vf(\vx)=\bigl[f_1(\vx),\ldots,f_M(\vx)\bigr],
+\qquad
+\Omega\subseteq\mathbb{R}^{D},
+\label{eq:problem}
+\end{equation}
+where every evaluation of $\vf$ is expensive, so the total number of real
+function evaluations is limited to a budget $B$. Let $FE$ denote the number of
+evaluations consumed so far and
+\begin{equation}
+\rho=\min\!\left(1,\frac{FE}{B}\right)
+\label{eq:rho}
+\end{equation}
+the evaluation progress.
+
+HPDC-MaOEA starts from a Latin hypercube design of
+$N_{\mathrm{init}}$ solutions, evaluates them, and stores them in an archive
+$\mathcal{A}_{\mathrm{rc}}$. Each outer iteration then executes five steps.
+
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+\item \textbf{Quality stratification.} The current population $\mathcal{P}$ is
+      converted into a binary group label $c_i\in\{0,1\}$ by hybrid PBI
+      stratification (Section~\ref{sec:method:hpc}), which also returns the
+      anchor set $\mathcal{R}$ used later as an additional mating pool.
+\item \textbf{Relation model.} Ordered pairs are generated from $c_i$ and a
+      three-class relation network is trained, together with a held-out
+      pairwise error rate $p_{\mathrm{err}}$
+      (Section~\ref{sec:method:relation}).
+\item \textbf{Indicator model.} An SDE fitness value is computed for every
+      evaluated solution and an RBF-SVR model is fitted from decision vectors
+      to those values (Section~\ref{sec:method:candidate:ind}).
+\item \textbf{Candidate selection.} A surrogate-assisted inner search
+      accumulates a candidate pool, one of two selection modes is drawn, and a
+      batch of $n_t\in[n_{\min},n_{\max}]$ candidates is returned
+      (Section~\ref{sec:method:candidate}).
+\item \textbf{Evaluation and environmental selection.} The batch is evaluated,
+      appended to $\mathcal{A}_{\mathrm{rc}}$, and the next population is
+      obtained by radar-grid environmental selection over the whole archive.
+\end{enumerate}
+
+Algorithm~\ref{alg:framework} summarises the procedure. The design keeps the
+two interfaces separate: hybrid PBI stratification decides \emph{what the
+classifier is asked to learn}, whereas dual-mode candidate selection decides
+\emph{how its scores are spent}. All expensive evaluations are consumed in
+step~5, so both modules operate entirely on already evaluated data and
+surrogate predictions.
+
+\begin{algorithm}[t]
+\caption{HPDC-MaOEA}
+\label{alg:framework}
+\begin{algorithmic}[1]
+\Require problem, budget $B$, population size $N_p$, candidate-generation limit
+         $g_{\max}$, group ratio $r_g$, quantile $q_{\mathrm{keep}}$,
+         exploration strength $\lambda_0$, mixing probability
+         $p_{\mathrm{mix}}$, batch bounds $n_{\min},n_{\max}$
+\Ensure archive $\mathcal{A}_{\mathrm{rc}}$
+\State Sample $N_{\mathrm{init}}$ solutions by Latin hypercube design and
+       evaluate them
+\State $\mathcal{P}\gets$ initial population;
+       $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
+\State Initialise the mode stream from the run index and set $L_p\gets1$
+\While{$FE<B$}
+  \State $\rho\gets FE/B$;
+         $\keff\gets\min\bigl(N_p,\max(6,\lceil1.5M\rceil)\bigr)$
+  \State $(\bm{c},\mathcal{R})\gets$
+         \Call{HybridPBIStratification}{$\mathcal{P},\rho,\keff$}
+         \Comment{Section~\ref{sec:method:hpc}}
+  \State $(\mathcal{X},\bm{y})\gets$ \Call{RelationPairs}{$\mathcal{P},\bm{c}$}
+  \If{$\mathcal{X}=\emptyset$}
+    \State $\mathcal{P}\gets$
+           \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N_p$};
+           \textbf{continue}
+  \EndIf
+  \State $(\mathrm{net},p_{\mathrm{err}})\gets$
+         \Call{TrainRelationNet}{$\mathcal{X},\bm{y}$}
+         \Comment{Section~\ref{sec:method:relation}}
+  \State $(\bm{\phi},L_p)\gets$ \Call{SDEFitness}{$\mathcal{P},L_p$};
+         $\widehat\phi\gets$ \Call{FitSVR}{$\mathcal{P},\bm{\phi}$}
+  \State Draw $\xi\sim U[0,1)$ from the mode stream and resolve the mode
+         $m_t$ by \eqref{eq:mode}
+  \State $\mathcal{S}\gets$
+         \Call{DualModeSelection}{$\mathcal{P},\mathcal{R},\mathrm{net},
+         p_{\mathrm{err}},\widehat\phi,m_t,g_{\max}$}
+         \Comment{Section~\ref{sec:method:candidate}}
+  \If{$\mathcal{S}=\emptyset$}
+    \State $\mathcal{S}\gets$ at most $n_{\min}$ offspring generated from
+           $\mathcal{P}\cup\mathcal{R}$
+  \EndIf
+  \State Truncate $\mathcal{S}$ by the remaining budget, evaluate it, and
+         append it to $\mathcal{A}_{\mathrm{rc}}$
+  \State $\mathcal{P}\gets$ \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N_p$}
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Hybrid PBI-Based Quality Stratification}
+\label{sec:method:hpc}
+
+Relation learning needs a coarse but reliable notion of ``better'' before any
+pair can be labelled. A binary PBI partition, as used for relation learning in
+REMO~\cite{ref:remo}, provides exactly that: an adaptive boundary divides the
+current population into two relatively balanced subpopulations and yields a
+clear class structure. The same boundary, however, compresses every PBI
+difference inside a subpopulation into a single group-level meaning, so two
+solutions of clearly different PBI quality on the same side of the boundary
+become indistinguishable in the labels. Hybrid PBI stratification separates the
+two roles that the single boundary was carrying. A continuous
+direction-based preference preserves the within-group order, an anchor-based
+binary preference supplies the between-group boundary, and a stage-aware
+combination of the two produces the final positive group used for supervision.
+
+Formally, let the current population be
+\begin{equation}
+\mathcal{P}=\{\vx_i,\vf_i\}_{i=1}^{N_t},
+\qquad
+\vf_i\in\mathbb{R}^{M},
+\label{eq:pop}
+\end{equation}
+where $N_t=|\mathcal{P}|$. The module receives the objective matrix, the
+progress $\rho$ of \eqref{eq:rho}, and the anchor capacity $\keff$, and returns
+a fused sorting score $h_i$, a binary group label $c_i$, and the anchor set
+$\mathcal{R}$. Throughout this section $\vz^{*}$ denotes the component-wise
+population minimum
+\begin{equation}
+\vz^{*}=\min_{i=1,\ldots,N_t}\vf_i .
+\label{eq:ideal}
+\end{equation}
+Both branches are computed from the same population and both use PBI geometry;
+``hybrid'' therefore refers to the resolution of the two preferences (continuous
+versus binary), not to statistical or geometric independence between them. Beyond
+resolution the two branches differ in two further implementation respects: the
+source of the directions (the continuous branch uses the rays of the nondominated
+front itself, \eqref{eq:direction-collapsed}, whereas the binary branch uses the
+anchors selected by RSEA, \eqref{eq:anchor-dir}) and the origin of normalisation
+(the former is normalised about the origin, the latter about $\vz^{*}$). We do not
+claim that these two differences contribute additional informational
+complementarity.
+
+\subsubsection{Continuous Direction-Based PBI Preference}
+\label{sec:method:hpc:cont}
+
+The continuous branch scores each solution along a direction set
+$\mathcal{V}=\{\vv_j\}_{j=1}^{N_v}$, whose size is fixed to the size
+$N_{\mathrm{init}}$ of the initial design and therefore equals the population
+size in our settings.
+
+\paragraph{Direction set.}
+When the number of objectives is small ($M\leq3$) or the population is small
+($N_t<50$), $\mathcal{V}$ is a set of uniform reference vectors normalised to
+unit length. Otherwise the directions are derived from the population itself.
+Let
+\begin{equation}
+\mathcal{P}^{\mathrm{ND}}
+=\bigl\{\vf^{(1)},\ldots,\vf^{(n_{\mathrm{ND}})}\bigr\}
+\label{eq:ndset}
+\end{equation}
+be the first nondominated front of $\mathcal{P}$, and let $\vz_{\mathrm{ND}}$
+and $\vz_{\mathrm{ND}}^{\max}$ be its component-wise minimum and maximum, with
+range $\bm{\varrho}=\vz_{\mathrm{ND}}^{\max}-\vz_{\mathrm{ND}}$. The front is
+first mapped to the unit box,
+\begin{equation}
+\bar{\vf}^{(j)}
+=\bigl(\vf^{(j)}-\vz_{\mathrm{ND}}\bigr)\oslash\bm{\varrho},
+\label{eq:ndnorm}
+\end{equation}
+where $\oslash$ denotes component-wise division. A $K$-means clustering with
+$K_v=\min(N_v,n_{\mathrm{ND}})$ clusters is applied to
+$\{\bar{\vf}^{(j)}\}$, and every centroid $\bm{\mu}_k$ is mapped back to the
+original objective scale and normalised,
+\begin{equation}
+\vv_k=\frac{\bm{\mu}_k\odot\bm{\varrho}+\vz_{\mathrm{ND}}}
+{\bigl\|\bm{\mu}_k\odot\bm{\varrho}+\vz_{\mathrm{ND}}\bigr\|_2},
+\qquad k=1,\ldots,K_v,
+\label{eq:direction}
+\end{equation}
+with $\odot$ the component-wise product. If $K_v<N_v$, the centroids are
+cyclically replicated until $N_v$ directions are available.
+
+\paragraph{The clustering is an identity map under our settings.}
+As stated at the beginning of this subsection, $N_v$ is fixed to the size
+$N_{\mathrm{init}}$ of the initial design, whereas $\mathcal{P}^{\mathrm{ND}}$ is
+a subset of the current population of size $N_p$, so $n_{\mathrm{ND}}\leq N_p$
+always holds. Whenever $N_{\mathrm{init}}\geq N_p$ --- which is the case for all
+experiments in this paper, where $D=30$ gives $N_{\mathrm{init}}=N_p=100$ ---
+it follows that
+\begin{equation}
+K_v=\min(N_v,n_{\mathrm{ND}})=n_{\mathrm{ND}},
+\label{eq:kvdegen}
+\end{equation}
+that is, the number of clusters equals the number of samples. The one-point-per-cluster
+partition then attains a within-cluster sum of squares of zero, which is the global
+optimum, so every centroid coincides with a nondominated solution. Because the affine
+normalisation of \eqref{eq:ndnorm} and the back-mapping inside \eqref{eq:direction} are
+mutual inverses, \eqref{eq:direction} reduces to
+\begin{equation}
+\mathcal{V}=\Bigl\{\vf^{(j)}\big/\bigl\|\vf^{(j)}\bigr\|_2
+\;\Bigm|\;j=1,\ldots,n_{\mathrm{ND}}\Bigr\},
+\label{eq:direction-collapsed}
+\end{equation}
+the set of \emph{radial unit directions of the current nondominated front itself}:
+each direction passes through one observed nondominated solution, the number of
+distinct directions equals $n_{\mathrm{ND}}$, and any shortfall with respect to
+$N_v$ is filled by cyclic replication. The branch therefore does not summarise
+regions of the front by a few centroids; it assigns \emph{one direction per
+nondominated solution}. We verified \eqref{eq:kvdegen}--\eqref{eq:direction-collapsed}
+term by term on synthetic fronts with $M=5,10,20$ and $N_p=100$: the maximum
+deviation between the centroid set and the nondominated point set is $0$, and the
+maximum deviation between $\mathcal{V}$ from \eqref{eq:direction} and
+\eqref{eq:direction-collapsed} is $2\times10^{-16}$.
+
+The $K$-means call is retained in the implementation so that consumption of the
+global random stream matches the completed experiments; as far as the resulting
+directions are concerned it can be replaced verbatim by
+\eqref{eq:direction-collapsed}. The construction has no shape parameter and
+presumes nothing about the convexity or the intrinsic dimension of the front.
+
+Uniform reference vectors are used instead whenever the front is too small to
+support clustering, $n_{\mathrm{ND}}<\max(10,N_v/2)$, or whenever some
+objective is degenerate over the front,
+$\min_m\varrho_m<10^{-12}$; the same fallback is taken if nondominated sorting
+or clustering fails. The first condition activates the population-derived field
+only when the sample covers the front, and the second avoids a division by
+zero in \eqref{eq:ndnorm}. Consequently the \emph{number} of directions follows
+the size of the current nondominated set and their \emph{positions} follow the
+best solutions obtained so far, so that $\mathcal{V}$ tracks the region the
+population currently covers.
+
+\paragraph{Continuous score.}
+Each objective vector is associated with the direction of largest cosine
+similarity,
+\begin{equation}
+a(i)=\arg\max_{j}
+\frac{\vf_i^{\mathsf T}\vv_j}{\|\vf_i\|_2\,\|\vv_j\|_2},
+\label{eq:assoc-v}
+\end{equation}
+and the parallel and perpendicular distances with respect to that direction are
+\begin{align}
+d_{1,i}&=\frac{(\vf_i-\vz^{*})^{\mathsf T}\vv_{a(i)}}{\|\vv_{a(i)}\|_2},
+\label{eq:d1}\\[2pt]
+d_{2,i}&=\left\|(\vf_i-\vz^{*})
+-d_{1,i}\frac{\vv_{a(i)}}{\|\vv_{a(i)}\|_2}\right\|_2 .
+\label{eq:d2}
+\end{align}
+The continuous PBI value follows the conventional penalty-based boundary
+intersection form~\cite{ref:moead}, and its monotone score is obtained by a
+decreasing transform,
+\begin{equation}
+g_i^{\mathrm{con}}=d_{1,i}+\theta\,d_{2,i},
+\qquad
+s_i=\frac{1}{1+g_i^{\mathrm{con}}},
+\label{eq:score-cont}
+\end{equation}
+with penalty parameter $\theta=5$. A larger $s_i$ indicates a smaller PBI value
+along the associated direction, and unlike a hard class label $s_i$ retains a
+fine-grained ordering of the current population.
+
+Equations \eqref{eq:assoc-v}--\eqref{eq:d2} also fix the coordinate convention
+of the implementation: the association is computed from the original objective
+vectors, whereas the two distances are computed after translation by the ideal
+point $\vz^{*}$. All experiments in this paper use this single convention.
+
+\paragraph{Closed form of the continuous score under the collapsed direction set.}
+Combining \eqref{eq:direction-collapsed} with \eqref{eq:assoc-v} has one
+consequence that must be made explicit. Since $\mathcal{V}$ consists of the rays
+of the nondominated solutions themselves, any nondominated $\vf_i$ attains the
+maximum value $1$ of \eqref{eq:assoc-v} at the direction generated by itself, and
+is therefore associated with $\vv_{a(i)}=\vf_i/\|\vf_i\|_2$ (if collinear
+solutions exist, the associated direction is collinear with $\vf_i$ and the
+conclusion is unchanged). Writing $\psi_i$ for the angle between $\vf_i$ and
+$\vz^{*}$, \eqref{eq:d1}--\eqref{eq:score-cont} give
+\begin{align}
+d_{1,i}&=\|\vf_i\|_2-\|\vz^{*}\|_2\cos\psi_i,
+\qquad
+d_{2,i}=\|\vz^{*}\|_2\sin\psi_i,
+\label{eq:d-collapsed}\\[2pt]
+s_i&=\Bigl(1+\|\vf_i\|_2-\|\vz^{*}\|_2\cos\psi_i
++\theta\,\|\vz^{*}\|_2\sin\psi_i\Bigr)^{-1}.
+\label{eq:score-collapsed}
+\end{align}
+The only solution-dependent leading term in \eqref{eq:score-collapsed} is
+$\|\vf_i\|_2$; the remaining two terms enter only through the angle of $\vf_i$
+relative to the fixed vector $\vz^{*}$. On nondominated solutions the continuous
+branch therefore measures \emph{mainly convergence along the ray rather than the
+position of a solution on the front}: it supplies none of the diversity pressure
+that decomposition-based algorithms obtain from directions competing against one
+another, because no two solutions ever contend for the same direction. For
+dominated solutions the associated direction is the nearest nondominated ray and
+\eqref{eq:d-collapsed}--\eqref{eq:score-collapsed} no longer hold exactly. Since
+the large majority of the population is nondominated once $M\geq10$,
+\eqref{eq:score-collapsed} covers most individuals of a given generation.
+Section~\ref{sec:exp:hpc} reports the measured rank correlation between $s_i$ and
+$-\|\vf_i-\vz^{*}\|_2$ to quantify the extent of this collapse.
+
+\TODO{Export the \texttt{DirectionSource}, \texttt{ClusterCount},
+$n_{\mathrm{ND}}$ and $\mathrm{corr}(s_i,-\|\vf_i-\vz^{*}\|_2)$ audit fields once
+under the formal protocol ($M\in\{3,5,10,20\}$, $D=30$, $N_p=100$, $B=500$) and
+replace the synthetic-front verification numbers of this subsection by real run
+logs.}
+
+\subsubsection{Anchor-Based Coarse Preference}
+\label{sec:method:hpc:anchor}
+
+The continuous score orders the population along the population-derived
+directions but does not provide a class boundary. The second branch supplies
+that boundary from a small set of anchors
+\begin{equation}
+\mathcal{R}=\{\vr_j\}_{j=1}^{\keff}\subset\mathcal{P},
+\label{eq:anchors}
+\end{equation}
+selected by the radial-projection-based representative selection of
+RSEA~\cite{ref:rsea}, which is also the selection rule used by
+REMO~\cite{ref:remo}. The anchors are evaluated solutions of the current
+population and are used as dynamic reference representatives; they are not
+treated as samples of the true Pareto front.
+
+\paragraph{Anchor capacity and grid resolution.}
+The effective number of anchors grows with the number of objectives,
+\begin{equation}
+\keff=\min\Bigl(N_p,\;\max\bigl(6,\lceil1.5M\rceil\bigr)\Bigr),
+\label{eq:keff}
+\end{equation}
+so that $M=3,5,10,20$ give $\keff=6,8,15,30$ when $N_p$ is not active as an
+upper bound, with six anchors as a lower bound for few objectives. In the
+present implementation $\keff$ has a second effect. Representative selection
+maps the $M$-dimensional normalised objective vectors onto two-dimensional
+radar coordinates and partitions that plane into an
+$n_{\mathrm{div}}\times n_{\mathrm{div}}$ grid with
+\begin{equation}
+n_{\mathrm{div}}=\bigl\lceil\sqrt{\keff}\,\bigr\rceil ,
+\label{eq:ndiv}
+\end{equation}
+then distributes the representatives over the occupied cells, preferring sparse
+cells and, inside a cell, trading a small normalised objective sum against a
+large radar-projection distance to the already selected solutions. Hence
+$\keff$ is simultaneously the capacity of the anchor set and the resolution of
+the grid over which anchors are spread: $\keff=6$ yields a $3\times3$ grid and
+$\keff=30$ a $6\times6$ grid. This coupling is the direct reason for scaling
+\eqref{eq:keff} with $M$; a fixed anchor budget would also fix the grid
+resolution, and the anchors could not cover additional radial regions as $M$
+grows.
+
+\paragraph{Binary preference.}
+Every solution is associated with the anchor of largest cosine similarity in the
+original objective space, giving the index $b(i)$ and the unit direction
+\begin{equation}
+\vw_{b(i)}=\frac{\vr_{b(i)}-\vz^{*}}{\|\vr_{b(i)}-\vz^{*}\|_2}.
+\label{eq:anchor-dir}
+\end{equation}
+The corresponding distances are
+\begin{align}
+\hat d_{1,i}&=(\vf_i-\vz^{*})^{\mathsf T}\vw_{b(i)},
+\label{eq:d1hat}\\[2pt]
+\hat d_{2,i}&=\bigl\|(\vf_i-\vz^{*})-\hat d_{1,i}\vw_{b(i)}\bigr\|_2 ,
+\label{eq:d2hat}
+\end{align}
+and, for a balancing parameter $\delta$, the anchor-normalised PBI value and the
+binary preference are
+\begin{align}
+g_i^{\mathrm{bin}}(\delta)
+&=\frac{\hat d_{1,i}+\delta\,\hat d_{2,i}}{\|\vr_{b(i)}-\vz^{*}\|_2},
+\label{eq:gbin}\\[2pt]
+\ell_i(\delta)
+&=\mathbb{I}\bigl[g_i^{\mathrm{bin}}(\delta)\leq1\bigr].
+\label{eq:label-bin}
+\end{align}
+Normalising by $\|\vr_{b(i)}-\vz^{*}\|_2$ makes the threshold in
+\eqref{eq:label-bin} the anchor itself, so $\ell_i$ records on which side of the
+surface passing through the associated anchor a solution lies.
+
+The parameter $\delta$ is a signed class-balance variable rather than a new
+scalarizing parameter. REMO adjusts its partition parameter towards an
+approximately balanced split; the implementation used here searches
+$\delta\in[-20,20]$ by bisection and stops as soon as the positive rate
+\begin{equation}
+r(\delta)=\frac{1}{N_t}\sum_{i=1}^{N_t}\ell_i(\delta)
+\label{eq:posrate}
+\end{equation}
+enters the tolerant interval $[0.3,0.7]$, or when the bracket width falls below
+$10^{-1}$. The bounded search therefore seeks a tolerant class ratio and
+terminates in a bounded number of steps; because both the interval and the
+tolerance are finite, it does not guarantee a ratio inside $[0.3,0.7]$ for every
+population state. A negative $\delta$ is admissible and rewards, rather than
+penalises, a large perpendicular distance, which is what allows the same rule to
+raise the positive rate when the associated anchors are close to the population.
+
+\subsubsection{Stage-Aware Hybrid Stratification}
+\label{sec:method:hpc:hybrid}
+
+The two preferences are combined with a weight that follows the consumption of
+the expensive budget. With $\rho$ from \eqref{eq:rho}, the continuous branch
+receives the weight
+\begin{equation}
+\alpha=1-\rho,
+\label{eq:alpha}
+\end{equation}
+and the fused sorting score is
+\begin{equation}
+h_i=\alpha\,s_i+(1-\alpha)\,\ell_i .
+\label{eq:fuse}
+\end{equation}
+Solutions are sorted in descending order of $h_i$ and the positive group is the
+top fraction $r_g$,
+\begin{equation}
+c_i=
+\begin{cases}
+1, & \operatorname{rank}_{\downarrow}(h_i)\leq\lceil r_gN_t\rceil,\\[2pt]
+0, & \text{otherwise},
+\end{cases}
+\label{eq:group}
+\end{equation}
+with $r_g=0.25$. All solutions with $c_i=0$, both mid-ranked and low-ranked
+ones, form a single non-positive group.
+
+Equation \eqref{eq:fuse} is an annealing schedule over the sorting key rather
+than a plain weighted average of two comparable quantities. Since
+$s_i\in(0,1]$ is continuous while $\ell_i\in\{0,1\}$, the two branches act on
+different resolvable scales. For large $\alpha$ the differences in $h_i$ are
+governed by $s_i$, and the continuous score is the sorting key. Once $\alpha$
+is small enough that the gap $1-\alpha$ contributed by the binary preference
+exceeds the largest attainable difference in the continuous score, the ordering
+changes qualitatively: the binary class becomes the key and $s_i$ degenerates
+into a tie-breaker inside each class. Proposition~\ref{prop:twolevel} states a
+sufficient condition for that transition, which depends only on the ranges of
+$\alpha$ and $s_i$ and requires no assumption on the geometry of the front. The
+role of \eqref{eq:alpha} is therefore to move the \emph{granularity} of the
+supervision signal monotonically from fine to coarse: the early budget keeps
+within-group resolvability, and the late budget enforces a stable class
+structure. Section~\ref{sec:exp:hpc} tests this schedule against static and
+reversed alternatives.
+
+\begin{proposition}[Two-level ordering induced by the binary preference]
+\label{prop:twolevel}
+Assume the directions are nonnegative, $\vv_j\succeq\bm{0}$, and the ideal point
+is the component-wise population minimum \eqref{eq:ideal}, so that
+$\vf_i-\vz^{*}\succeq\bm{0}$. Then $d_{1,i}\geq0$ and $d_{2,i}\geq0$, hence
+$g_i^{\mathrm{con}}\geq0$ and $s_i\in(0,1]$ by \eqref{eq:score-cont}. Under
+this premise, for any pair $i,j$ with $\ell_i=1$ and $\ell_j=0$,
+\begin{equation*}
+\alpha\leq\tfrac{1}{2}
+\quad\Longrightarrow\quad
+h_i>h_j .
+\end{equation*}
+\end{proposition}
+
+\begin{proof}
+By \eqref{eq:fuse}, $h_i=(1-\alpha)+\alpha s_i>1-\alpha$ because $s_i>0$, while
+$h_j=\alpha s_j\leq\alpha$ because $s_j\leq1$. For $\alpha\leq1/2$ we have
+$1-\alpha\geq\alpha$, and therefore $h_i>h_j$.
+\end{proof}
+
+Proposition~\ref{prop:twolevel} shows that as soon as the binary branch holds at
+least half of the weight, \eqref{eq:fuse} induces an explicit two-level order:
+every binary-positive solution precedes every binary-negative one, and the
+continuous score orders solutions within each class. The condition can be
+relaxed. Let
+\begin{equation}
+\Delta_{01}=\max_{j:\ell_j=0}s_j-\min_{i:\ell_i=1}s_i
+\label{eq:delta01}
+\end{equation}
+be the cross-class span of the continuous score. Strict cross-class dominance is
+retained whenever
+\begin{equation}
+\alpha<\frac{1}{1+\Delta_{01}} .
+\label{eq:relaxed}
+\end{equation}
+Because $s_i\in(0,1]$ implies $\Delta_{01}\leq1$ and hence
+$1/(1+\Delta_{01})\geq1/2$, the bound $\alpha\leq1/2$ is only the worst case:
+whenever the continuous scores of one generation span a narrow range, the binary
+class becomes the sorting key earlier than $\rho=1/2$, so the schedule in
+\eqref{eq:alpha} extends the binary-dominated regime beyond half of the budget
+in practice.
+
+\begin{remark}[Realised weight range]
+\label{rem:alphafirst}
+Since the initial design is already evaluated when the module is first invoked,
+the first realised weight is not $\alpha=1$ but
+\begin{equation}
+\alpha_{\mathrm{first}}=1-\frac{N_{\mathrm{init}}}{B} .
+\label{eq:alphafirst}
+\end{equation}
+Under the protocol of this paper ($N_{\mathrm{init}}=100$, $B=500$),
+$\alpha_{\mathrm{first}}=0.8$, so the sufficient condition $\alpha\leq1/2$ is met
+from $FE=250$ onwards. Both the nominal schedule and the weight range actually
+visited by the algorithm are reported in Section~\ref{sec:exp:hpc}.
+
+The relaxed condition \eqref{eq:relaxed} makes the actual transition earlier.
+Since $\Delta_{01}$ cannot exceed the full span of $s_i$, which is $0.035$--$0.172$
+(for $M=20$ down to $M=5$) on the synthetic fronts we verified, substituting into
+\eqref{eq:relaxed} places the moment at which the binary branch becomes the
+sorting key at $\rho\approx0.03$--$0.15$, that is, shortly after the initial design
+has been evaluated. \emph{The schedule of \eqref{eq:alpha} is therefore not two
+signals acting jointly over a long horizon, but a continuous branch that serves as
+the sorting key only during a small initial fraction of the budget, after which the
+binary class takes over and the continuous score degenerates to a within-class
+tie-breaker.} This quantitative statement must be read together with the
+qualitative description in Section~\ref{sec:method:hpc:hybrid};
+Section~\ref{sec:exp:hpc} reports the distribution of $\Delta_{01}$ and the measured
+transition point on real runs.
+\end{remark}
+
+Algorithm~\ref{alg:hpc} summarises the stratification module.
+
+\begin{algorithm}[t]
+\caption{Hybrid PBI quality stratification}
+\label{alg:hpc}
+\begin{algorithmic}[1]
+\Require population $\mathcal{P}$, progress $\rho$, anchor capacity $\keff$,
+         penalty $\theta$, group ratio $r_g$
+\Ensure group labels $\bm{c}$, fused scores $\bm{h}$, anchors $\mathcal{R}$
+\State Build $\mathcal{V}$: uniform vectors if $M\leq3$, $N_t<50$ or the
+       fallback conditions of Section~\ref{sec:method:hpc:cont} hold; otherwise
+       the radial unit directions of the nondominated front,
+       \eqref{eq:direction-collapsed}, cyclically replicated to $N_v$ entries
+\State $\vz^{*}\gets$ component-wise minimum of the objectives
+\State Associate every solution by \eqref{eq:assoc-v} and compute $s_i$ by
+       \eqref{eq:d1}--\eqref{eq:score-cont}
+\State $\mathcal{R}\gets$ radial-grid selection of $\keff$ anchors from
+       $\mathcal{P}$
+\State Bisect $\delta\in[-20,20]$ until $r(\delta)\in[0.3,0.7]$ or the bracket
+       is smaller than $10^{-1}$; set $\ell_i$ by \eqref{eq:label-bin}
+\State $\alpha\gets1-\rho$;
+       $h_i\gets\alpha s_i+(1-\alpha)\ell_i$
+\State Mark the $\lceil r_gN_t\rceil$ solutions of largest $h_i$ as the positive
+       group and all others as the non-positive group
+\State \Return $\bm{c},\bm{h},\mathcal{R}$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Relation Model Construction}
+\label{sec:method:relation}
+
+The group labels of \eqref{eq:group} define the supervision target of the
+relation model. Following the relation-modelling protocol of
+REMO~\cite{ref:remo}, let
+\begin{equation}
+\mathcal{C}_1=\{\vx_i\mid c_i=1\},
+\qquad
+\mathcal{C}_2=\{\vx_i\mid c_i\neq1\}
+\label{eq:groups}
+\end{equation}
+be the positive and non-positive groups. Every ordered pair of distinct
+solutions is turned into one training sample whose input is the concatenation
+$[\vx_i,\vx_j]\in\mathbb{R}^{2D}$ and whose label
+\begin{equation}
+y_{ij}=
+\begin{cases}
++1, & \vx_i\in\mathcal{C}_1,\ \vx_j\in\mathcal{C}_2,\\
+-1, & \vx_i\in\mathcal{C}_2,\ \vx_j\in\mathcal{C}_1,\\
+0,  & \text{$\vx_i$ and $\vx_j$ in the same group},
+\end{cases}
+\label{eq:pairlabel}
+\end{equation}
+records the ordered group relation rather than a Pareto comparison. Self-pairs
+are removed. Since $r_g=0.25$ makes the non-positive group three times larger
+than the positive one, the two same-group families are subsampled towards the
+cross-group ones: with $n_{\times}=\lceil|\mathcal{C}_1\times\mathcal{C}_2|/2
+\rceil$ as the target, positive--positive and non-positive--non-positive pairs
+are each randomly reduced to $n_{\times}$ samples when both exceed it, and when
+one family falls short the other absorbs the deficit so that the total number of
+same-group samples remains $2n_{\times}$. The resulting label distribution is
+balanced by construction rather than by a reweighting of the loss.
+
+The pair set is split by stratified sampling, $75\%$ for training and $25\%$ as a
+held-out set $\mathcal{T}$, so that all three labels of \eqref{eq:pairlabel} are
+represented in both parts. Note that the split is performed over pairs and not
+over base solutions, so a solution may appear on both sides of the split. Inputs
+are min--max normalised, and a feed-forward pattern network whose three hidden
+layers have $3D$, $2D$ and $D$ units, i.e.\ $1.5$, $1$ and $0.5$ times the input
+dimension $2D$, maps the normalised pair to a softmax output
+\begin{equation}
+\bm{\pi}(\vx_a,\vx_b)
+=\bigl[\pi_{+1},\pi_0,\pi_{-1}\bigr],
+\qquad
+\pi_{+1}+\pi_0+\pi_{-1}=1 ,
+\label{eq:netout}
+\end{equation}
+whose components are the predicted probabilities that the first solution belongs
+to the higher group, that both belong to the same group, and that the second
+belongs to the higher group. The held-out misclassification rate
+\begin{equation}
+p_{\mathrm{err}}
+=\frac{1}{|\mathcal{T}|}
+\sum_{(a,b)\in\mathcal{T}}
+\mathbb{I}\bigl[\hat y_{ab}\neq y_{ab}\bigr]
+\label{eq:perr}
+\end{equation}
+is retained and reused in Section~\ref{sec:method:candidate:exp} to modulate the
+exploration term; it is set to one whenever the held-out set is empty or the
+estimate is not finite. If the pair set is empty in some iteration, the model is
+not trained, the iteration performs environmental selection only, and no
+expensive evaluation is spent.
+
+\subsection{Dual-Mode Candidate Selection}
+\label{sec:method:candidate}
+
+The relation network ranks a large number of unevaluated solutions, but the
+distribution of its output score changes with the problem, the search stage and
+the current training set. Applying a fixed absolute cutoff transfers that scale
+variation directly to the number of expensive evaluations spent per iteration.
+Two facts make the effect concrete for the score used here. First, the score is
+analytically bounded, so a conventional cutoff of $3.9$ sits at $97.5\%$ of its
+theoretical maximum (Section~\ref{sec:method:candidate:score}). Second, in a
+400-run controlled audit over four variants, five problems and 20 independent
+runs, the diagnostic arm that recorded but did not apply that cutoff showed a
+$5.1$-fold cross-problem variation in the passing proportion; had the cutoff
+driven the batch size, the same 200 additional evaluations would have produced
+between $14.8$ and $46.2$ surrogate-assisted iterations, a $3.1$-fold
+difference. HPDC-MaOEA therefore separates ranking from expenditure: quantile
+rules convert scores of any scale into within-pool ranks, and an explicit
+interval $[n_{\min},n_{\max}]$ bounds the batch
+(Section~\ref{sec:method:candidate:mix}).
+
+\subsubsection{Pairwise Relation Score and Candidate Pool}
+\label{sec:method:candidate:score}
+
+\paragraph{Score.}
+For an unevaluated candidate $\vx$, four families of ordered comparisons against
+the two groups of \eqref{eq:groups} are constructed,
+\begin{equation}
+(\mathcal{C}_1,\vx),\quad
+(\vx,\mathcal{C}_1),\quad
+(\mathcal{C}_2,\vx),\quad
+(\vx,\mathcal{C}_2),
+\label{eq:fourfamilies}
+\end{equation}
+which amounts to $2(|\mathcal{C}_1|+|\mathcal{C}_2|)=2N_t$ network inputs per
+candidate. Let $\mathbf{a}(\vx)$, $\mathbf{b}(\vx)$, $\mathbf{c}(\vx)$ and
+$\mathbf{d}(\vx)$ be the family-wise mean probability vectors of
+\eqref{eq:netout}. Aggregating the evidence that $\vx$ is not inferior to the
+positive group and is superior to the non-positive group, and subtracting the
+opposite evidence, gives the pairwise relation score
+\begin{equation}
+r(\vx)=2\bigl[
+c_{-1}(\vx)+d_{+1}(\vx)-a_{+1}(\vx)-b_{-1}(\vx)
+\bigr].
+\label{eq:relscore}
+\end{equation}
+Because each probability vector of \eqref{eq:netout} sums to one, every bracket
+term lies in $[0,1]$ and
+\begin{equation}
+-4\leq r(\vx)\leq 4 ,
+\label{eq:relbound}
+\end{equation}
+which is the bound quoted above. The score is a heuristic net evidence relative
+to the two coarse quality groups, not a Pareto win rate.
+
+\paragraph{Candidate pool.}
+Candidates are produced by a relation-guided inner evolutionary search. Genetic
+variation is first applied to the union of the current population and the
+anchors, yielding $\mathcal{Q}^{(0)}$. At inner iteration $\ell$ the network
+scores $\mathcal{Q}^{(\ell)}$ by \eqref{eq:relscore}, the best
+\begin{equation}
+n_{\mathrm{parent}}=\min\bigl(|\mathcal{R}|,|\mathcal{Q}^{(\ell)}|\bigr)
+\label{eq:nparent}
+\end{equation}
+candidates are kept, and variation on those parents together with the anchors
+produces $\mathcal{Q}^{(\ell+1)}$. The loop stops when the cumulative number of
+generated candidates reaches the limit $g_{\max}$, and all candidates generated
+along the way are accumulated and deduplicated,
+\begin{equation}
+\mathcal{A}=\operatorname{unique}
+\Bigl(\textstyle\bigcup_{\ell=0}^{L}\mathcal{Q}^{(\ell)}\Bigr).
+\label{eq:pool}
+\end{equation}
+Both selection modes rank the pool $\mathcal{A}$ produced by \eqref{eq:pool} with
+their own criterion. The pool is not, however, mode-independent: the mode is drawn
+before the inner search starts, and the parent retention of \eqref{eq:nparent} uses
+the family aggregation of the active mode --- sharpness-weighted in the exploratory
+mode, plain in the indicator mode (Section~\ref{sec:method:candidate:exp}). The
+inner trajectory therefore differs between modes, and so does the realised
+$\mathcal{A}$. What the two modes share is the pool \emph{construction rule}
+\eqref{eq:pool} and the batch bound, not one identical realised candidate set.
+Section~\ref{sec:exp:candidate} isolates the ranking criterion from this
+confound by re-running both criteria on a shared frozen pool.
+
+\subsubsection{Relation-Guided Exploratory Mode}
+\label{sec:method:candidate:exp}
+
+The exploratory mode combines the relation score with the ambiguity of the
+classifier output and with distance in decision space.
+
+Let $\mathcal{O}(\vx)$ collect all ordered comparisons of \eqref{eq:fourfamilies}
+for candidate $\vx$. The mean classification ambiguity is
+\begin{equation}
+u(\vx)=1-\frac{1}{|\mathcal{O}(\vx)|}
+\sum_{(\vx_a,\vx_b)\in\mathcal{O}(\vx)}
+\max_{y\in\{-1,0,+1\}}\pi_y(\vx_a,\vx_b),
+\label{eq:ambiguity}
+\end{equation}
+so a large $u(\vx)$ means the network produces flatter class distributions around
+that candidate. Equation~\eqref{eq:ambiguity} describes how concentrated the
+softmax output is; it is not a calibrated variance or an epistemic uncertainty.
+In this mode the same sharpness $\max_y\pi_y$ is also used as the weight of the
+family-wise averages entering \eqref{eq:relscore}, so that sharper pairs
+contribute more to the aggregated score. The weighting changes only the
+aggregation inside a family and leaves the semantics of the three relation
+classes unchanged.
+
+With $\widetilde r$ and $\widetilde u$ denoting min--max normalisation over the
+pool, the exploratory score is
+\begin{equation}
+a^{\mathrm{E}}(\vx)=\widetilde r(\vx)+\lambda_t\,\widetilde u(\vx),
+\label{eq:expscore}
+\end{equation}
+where
+\begin{equation}
+\lambda_t=\lambda_0\left(1-\frac{FE}{B}\right)
+\max\!\left(0,\,1-\frac{p_{\mathrm{err}}}{0.45}\right)
+\label{eq:lambda}
+\end{equation}
+and $\lambda_0=0.35$. The two factors of \eqref{eq:lambda} tie the strength of
+ambiguity sampling to the two quantities that make it meaningful: the remaining
+budget, and the held-out error \eqref{eq:perr} of the model whose ambiguity is
+being sampled. The term vanishes once $p_{\mathrm{err}}\geq0.45$, so a poorly
+performing classifier cannot steer the batch through its own flat outputs.
+
+Candidates above the $q_{\mathrm{keep}}$ quantile of the exploratory score form
+the preliminary set
+\begin{equation}
+\mathcal{H}^{\mathrm{E}}=\Bigl\{\vx\in\mathcal{A}\;\Bigm|\;
+a^{\mathrm{E}}(\vx)\geq
+Q_{q_{\mathrm{keep}}}\bigl(a^{\mathrm{E}}(\mathcal{A})\bigr)\Bigr\},
+\label{eq:prefilter-exp}
+\end{equation}
+with $q_{\mathrm{keep}}=0.80$, which retains roughly the best $20\%$ of the pool;
+if fewer than $n_{\min}$ candidates qualify, the set is completed with the
+highest-scoring candidates. The batch is then assembled greedily. The first
+member maximises $a^{\mathrm{E}}$, and each subsequent member maximises
+\begin{equation}
+A(\vx\mid\mathcal{S})
+=0.75\,\widehat a^{\mathrm{E}}(\vx)+0.25\,\widehat d(\vx,\mathcal{S}),
+\qquad
+d(\vx,\mathcal{S})=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2 ,
+\label{eq:greedy}
+\end{equation}
+where $\widehat a^{\mathrm{E}}$ and $\widehat d$ are normalised over the
+remaining candidates at each step. The $0.75$--$0.25$ split keeps relation
+quality as the primary criterion while preventing one batch from collapsing into
+a single region of decision space. The rule promotes spread in decision space and
+does not by itself guarantee spread in objective space.
+
+\subsubsection{Indicator-Guided Mode}
+\label{sec:method:candidate:ind}
+
+The indicator-guided mode reranks candidates by a second criterion whose training
+target does not come from the relation network. Its fitness is the shift-based
+density estimation (SDE) fitness~\cite{ref:sde}, computed with the generalised
+$L_p$ front-shape parameter of PIEA~\cite{ref:piea}.
+
+\paragraph{Front-shape estimation.}
+The first nondominated front of the evaluated population is normalised to the
+unit box, and for each of $17$ candidate exponents
+$p\in[0.27,6.5]$ the generalised norms
+$G_p(\bar{\vf}_i)=(\sum_m\bar f_{i,m}^{\,p})^{1/p}$ are computed, trimmed by a
+boxplot rule with factor $1.5$, and scaled by their maximum. The exponent
+attaining the smallest standard deviation is retained as $L_p$, since a matching
+exponent makes the front an approximate level surface of that norm. If the front
+holds fewer than $20$ solutions, $L_p=1$ is used.
+
+\paragraph{SDE fitness.}
+For normalised objective vectors the shifted nearest-neighbour distance is
+\begin{equation}
+\delta_i=\min_{j\neq i}
+\bigl\|\bar{\vf}_i-\max(\bar{\vf}_i,\bar{\vf}_j)\bigr\|_2 ,
+\label{eq:sde}
+\end{equation}
+where the maximum is component-wise, so the distance vanishes only when $\vx_j$
+is at least as good as $\vx_i$ in every objective. The values are rescaled to
+$[0,3]$; solutions whose rescaled value falls below $10^{-4}$, i.e.\ those the
+density estimate cannot discriminate, take instead the negatively rescaled
+Minkowski-$L_p$ distance to the current ideal point, so that convergence
+information replaces the degenerate density value. A $\tanh$ transform maps the
+result to $[-1,1]$, giving the fitness $\phi_i$ of every evaluated solution.
+
+\paragraph{Reranking.}
+Since $\phi_i$ is defined only for evaluated solutions, it is extended to the
+pool by an RBF-SVR model fitted on the evaluated decision vectors,
+\begin{equation}
+\widehat\phi(\vx)=\operatorname{SVR}
+\bigl(\vx;\mathcal{P},\bm{\phi}\bigr),
+\label{eq:svr}
+\end{equation}
+with automatic kernel scale and standardised inputs. Selection then proceeds in
+two stages: the relation score first retains the top $30\%$ of the pool, and at
+least $20$ candidates, after which \eqref{eq:svr} reranks the retained set and
+candidates not below the $70\%$ quantile of $\widehat\phi$ form
+$\mathcal{H}^{\mathrm{I}}$, again completed with the best candidates if fewer
+than $n_{\min}$ qualify. The batch is the highest-ranked $n_t$ candidates of that
+set under $\widehat\phi$. The ordering of the two stages assigns each model the
+task it is trained for: the relation model excludes evidently low-priority
+regions, and the SDE surrogate expresses front-shape and local-density
+preferences inside the reduced set. If the SVR is unavailable or its predictions
+are not finite, the mode falls back to the relation score.
+
+\subsubsection{Mixed-Mode Allocation}
+\label{sec:method:candidate:mix}
+
+Let $m_t\in\{\mathrm{E},\mathrm{I}\}$ be the mode used at outer iteration $t$. A
+random stream seeded from the run index, and independent of the global stream
+that drives variation and subsampling, produces $\xi_t\sim U[0,1)$, and
+\begin{equation}
+m_t=
+\begin{cases}
+\mathrm{I}, & \text{if the indicator model is available and }
+              \xi_t<p_{\mathrm{mix}},\\[2pt]
+\mathrm{E}, & \text{otherwise},
+\end{cases}
+\label{eq:mode}
+\end{equation}
+with $p_{\mathrm{mix}}=0.5$. The two ranking criteria thus receive equal prior
+exposure without introducing a further calibration model, and the dedicated
+stream makes the mode sequence of a run reproducible independently of how many
+random numbers the rest of the iteration consumes. The modes are not fused
+numerically: each iteration uses exactly one ranking criterion, under the same
+pool-construction rule \eqref{eq:pool} and the same batch bound. If no indicator
+model could be fitted, the exploratory mode is used.
+
+Whichever mode is drawn, the number of expensive evaluations is
+\begin{equation}
+n_t=\min\Bigl[n_{\max},\,
+\max\bigl(n_{\min},|\mathcal{H}^{m_t}|\bigr)\Bigr],
+\label{eq:batch}
+\end{equation}
+truncated further by the remaining budget $B-FE$, with $n_{\min}=4$ and
+$n_{\max}=6$. Together with the quantile rules
+\eqref{eq:prefilter-exp} and the $70\%$ rule of
+Section~\ref{sec:method:candidate:ind}, \eqref{eq:batch} completes the separation
+announced at the beginning of this section: surrogate scores decide the priority
+of candidates inside a batch, and no longer decide how much of the expensive
+budget one outer iteration consumes. If the selected set is empty, one round of
+genetic variation on the population and the anchors supplies at most $n_{\min}$
+candidates, so the search loop never stalls.
+
+Algorithm~\ref{alg:candidate} summarises the module.
+
+\begin{algorithm}[t]
+\caption{Dual-mode candidate selection}
+\label{alg:candidate}
+\begin{algorithmic}[1]
+\Require population $\mathcal{P}$, anchors $\mathcal{R}$, relation network,
+         held-out error $p_{\mathrm{err}}$, progress $FE/B$, limit $g_{\max}$,
+         mode draw $\xi$, parameters
+         $q_{\mathrm{keep}},\lambda_0,p_{\mathrm{mix}},n_{\min},n_{\max}$
+\Ensure candidate batch $\mathcal{S}$
+\State $\mathcal{Q}^{(0)}\gets$ variation on $\mathcal{P}\cup\mathcal{R}$;
+       $\mathcal{A}\gets\mathcal{Q}^{(0)}$; $\ell\gets0$
+\While{the number of generated candidates is below $g_{\max}$ and
+       $\mathcal{Q}^{(\ell)}\neq\emptyset$}
+  \State Score $\mathcal{Q}^{(\ell)}$ by \eqref{eq:relscore} and keep the best
+         $n_{\mathrm{parent}}$ of \eqref{eq:nparent} as parents
+  \State $\mathcal{Q}^{(\ell+1)}\gets$ variation on the parents and
+         $\mathcal{R}$;
+         $\mathcal{A}\gets\operatorname{unique}
+         (\mathcal{A}\cup\mathcal{Q}^{(\ell+1)})$; $\ell\gets\ell+1$
+\EndWhile
+\State Resolve the mode $m_t$ by \eqref{eq:mode}
+\If{$m_t=\mathrm{I}$}
+  \State Retain the top $30\%$ of $\mathcal{A}$ by \eqref{eq:relscore}
+         (at least $20$ candidates)
+  \State Rerank them by \eqref{eq:svr} and keep those above its $70\%$ quantile
+         as $\mathcal{H}^{\mathrm{I}}$
+  \State $\mathcal{S}\gets$ the $n_t$ best candidates of
+         $\mathcal{H}^{\mathrm{I}}$ under $\widehat\phi$
+\Else
+  \State Compute $a^{\mathrm{E}}$ by \eqref{eq:ambiguity}--\eqref{eq:lambda} and
+         form $\mathcal{H}^{\mathrm{E}}$ by \eqref{eq:prefilter-exp}
+  \State $\mathcal{S}\gets$ greedy batch of $n_t$ candidates by
+         \eqref{eq:greedy}
+\EndIf
+\State Bound $n_t$ by \eqref{eq:batch} and by the remaining budget
+\State \Return $\mathcal{S}$
+\end{algorithmic}
+\end{algorithm}
+
+%% The parameter table spans both columns, so it is declared here in order to
+%% be placed at the top of a page close to its citation at the end of this
+%% subsection. Only the float position in the source moved; the table itself
+%% is unchanged.
+\begin{table*}[t]
+\centering
+\caption{Parameters of HPDC-MaOEA and their settings.}
+\label{tab:params}
+\small
+\begin{tabular}{llc}
+\toprule
+Symbol & Meaning & Setting \\
+\midrule
+$\theta$ & penalty of the continuous PBI value & $5$ \\
+$N_v$ & number of directions & $N_{\mathrm{init}}$ \\
+$r_g$ & positive-group ratio & $0.25$ \\
+$\delta$ & class-balance parameter of the binary branch &
+  bisected in $[-20,20]$ \\
+$\keff$ & effective anchor capacity & $\min(N_p,\max(6,\lceil1.5M\rceil))$ \\
+$\alpha$ & weight of the continuous branch & $1-FE/B$ \\
+$g_{\max}$ & candidate-generation limit & $3000$ \\
+$q_{\mathrm{keep}}$ & quantile of the exploratory prefilter & $0.80$ \\
+$\lambda_0$ & initial exploration strength & $0.35$ \\
+$p_{\mathrm{mix}}$ & probability of the indicator-guided mode & $0.50$ \\
+$n_{\min},n_{\max}$ & bounds of the evaluation batch & $4,6$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Computational Complexity}
+\label{sec:method:complexity}
+
+Let $N_t$ be the population size, $N_v=O(N_t)$ the number of directions, $N_c$
+the size of the deduplicated candidate pool, $D$ the number of decision
+variables and $M$ the number of objectives.
+
+In the stratification module, direction association and the continuous PBI
+computation of \eqref{eq:assoc-v}--\eqref{eq:score-cont} cost $O(N_tN_vM)$. By
+\eqref{eq:direction-collapsed} the direction field requires only one normalisation
+of the $n_{\mathrm{ND}}$ nondominated vectors, that is $O(n_{\mathrm{ND}}M)$; the
+present implementation still calls $K$-means ($R=5$ replicates, iteration limit
+$I=100$) at a cost of $O(R\,I\,n_{\mathrm{ND}}K_vM)$, which equals
+$O(R\,I\,N_t^2M)$ once $K_v=n_{\mathrm{ND}}=O(N_t)$. This term is of the same order
+as the dominating term of the module but carries a large constant factor; it is a
+removable implementation overhead rather than an intrinsic cost of the method, and
+Section~\ref{sec:exp:sensitivity} reports its share of the total runtime
+separately. The
+bounded bisection of the binary branch costs
+$O(B_\delta N_t\keff M)$, where $B_\delta$ is fixed by the interval $[-20,20]$
+and the tolerance $10^{-1}$, and anchor selection additionally performs
+nondominated sorting and radar-projection distance computations. With
+$N_v=O(N_t)$, $\keff=O(N_t)$ and fixed clustering limits, the module is dominated
+by $O(N_t^2M)$; generating the relation pairs adds $O(N_t^2D)$.
+
+In the candidate module, scoring one candidate requires $2N_t$ network inputs of
+dimension $2D$, so the whole pool costs $O(N_cN_tD)$ in data construction and
+storage, which dominates the module. The SDE fitness of \eqref{eq:sde} costs
+$O(N_t^2M)$, the indicator mode adds one SVR fit on the $N_t$ evaluated solutions
+plus predictions on the prefiltered candidates, and the greedy construction of
+\eqref{eq:greedy} costs $O(n_{\max}N_cD)$. Overall the per-iteration cost is
+therefore $O(N_cN_tD+N_t^2M)$.
+
+Neither module consumes expensive objective evaluations: the total number of real
+evaluations remains $B$ regardless of the mode sequence. The wall-clock share of
+the two modules is reported in Section~\ref{sec:exp:sensitivity}.
+
+Table~\ref{tab:params} lists the parameters introduced above.
+
+\begin{table*}[t]
+\centering
+\caption{Parameters of HPDC-MaOEA and their settings.}
+\label{tab:params}
+\small
+\begin{tabular}{llc}
+\toprule
+Symbol & Meaning & Setting \\
+\midrule
+$\theta$ & penalty of the continuous PBI value & $5$ \\
+$N_v$ & number of directions & $N_{\mathrm{init}}$ \\
+$r_g$ & positive-group ratio & $0.25$ \\
+$\delta$ & class-balance parameter of the binary branch &
+  bisected in $[-20,20]$ \\
+$\keff$ & effective anchor capacity & $\min(N_p,\max(6,\lceil1.5M\rceil))$ \\
+$\alpha$ & weight of the continuous branch & $1-FE/B$ \\
+$g_{\max}$ & candidate-generation limit & $3000$ \\
+$q_{\mathrm{keep}}$ & quantile of the exploratory prefilter & $0.80$ \\
+$\lambda_0$ & initial exploration strength & $0.35$ \\
+$p_{\mathrm{mix}}$ & probability of the indicator-guided mode & $0.50$ \\
+$n_{\min},n_{\max}$ & bounds of the evaluation batch & $4,6$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\section{Experimental Studies}
+\label{sec:exp}
+
+\subsection{Experimental Settings}
+\label{sec:exp:settings}
+\TODO{Benchmarks, $M\in\{3,5,10,20\}$, $D$, $N_p$, budget $B$, number of
+independent runs, indicators (IGD/IGD$^+$/HV), statistical tests with Holm
+correction, and platform. Each experiment carries exactly one argumentative
+responsibility, per the plan in the problem-mechanism-evidence note (hybrid
+PBI), Section 7.}
+
+\subsection{Comparison with State-of-the-Art Algorithms}
+\label{sec:exp:comparison}
+\TODO{Algorithm-level performance against REMO, PIEA, PC-SAEA, R2AEA, RSEA and
+further strong baselines under a common budget. This subsection establishes the
+final performance difference only; the mechanism is isolated in
+Sections~\ref{sec:exp:hpc} and~\ref{sec:exp:candidate}.}
+
+\subsection{Ablation Study}
+\label{sec:exp:ablation}
+\TODO{Variants sharing the same host algorithm and the same $\keff$: continuous
+branch only, binary branch only, and the full hybrid stratification; relation
+top-$6$ selection versus dual-mode selection. Note the interaction between
+$\keff$ and the label construction, and separate the anchor count from the radial
+grid resolution of \eqref{eq:ndiv}.}
+
+\subsection{Analysis of Hybrid PBI-Based Quality Stratification}
+\label{sec:exp:hpc}
+\TODO{Three mechanism questions, each with its own metric. (i) Non-redundancy of
+the two views: mean Jaccard $0.2326$ over 250 runs; bidirectional unique future
+true positives supported in 33 of 40 Problem--$M$--Stage cells after Holm
+correction; $81.5\%$ of the union true positives unique to one view.
+(ii) Source utilisation of the fused group: $32.2\%$ of the positive group from
+the V-only region and $19.6\%$ from the A-only region, with $36.0\%$ and
+$17.9\%$ of the future true positives. (iii) Budget-aware schedule versus static
+and reversed schedules on a shared frozen candidate pool, plus the realised
+$\alpha$ range of Remark~\ref{rem:alphafirst}.}
+
+\subsection{Analysis of Dual-Mode Candidate Selection}
+\label{sec:exp:candidate}
+\TODO{Cutoff audit (400 runs: $5.1$-fold variation of the passing proportion,
+$3.1$-fold variation of the iteration count) and the candidate-level probe over
+four 20-objective problems with ten runs each: late-stage survival rate from
+$0.706$ to $0.770$ (paired Wilcoxon, $p=0.0085$) and late-stage gain ratio
+relative to a within-pool greedy reference from $0.0861$ to $0.1048$
+($p=0.0250$). Report batch spread of each mode separately.}
+
+\subsection{Parameter Sensitivity}
+\label{sec:exp:sensitivity}
+\TODO{Sensitivity to $r_g$, $q_{\mathrm{keep}}$, $\lambda_0$, $p_{\mathrm{mix}}$
+and $[n_{\min},n_{\max}]$, and the wall-clock share of the two modules promised
+in Section~\ref{sec:method:complexity}.}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\TODO{Conclusion. Reserved memory sentence: hybrid PBI stratification restores
+the within-group ordering that binary partitioning compresses while retaining a
+clear anchor-based boundary, and dual-mode candidate selection converts surrogate
+scores into a bounded, scale-insensitive evaluation batch.}
+
+\begin{thebibliography}{9}
+
+\bibitem{ref:moead}
+Q.~Zhang and H.~Li,
+``MOEA/D: A multiobjective evolutionary algorithm based on decomposition,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~11, no.~6, pp.~712--731, 2007.
+
+\bibitem{ref:remo}
+\TODO{REMO -- relation-model-based expensive multi-objective optimization.}
+
+\bibitem{ref:rsea}
+\TODO{RSEA -- radar-grid based selection evolutionary algorithm.}
+
+\bibitem{ref:piea}
+Y.~Li, W.~Li, S.~Li, and Y.~Zhao,
+``PIEA,'' \emph{Information Sciences}, 2024.
+\TODO{complete volume and pages.}
+
+\bibitem{ref:sde}
+M.~Li, S.~Yang, and X.~Liu,
+``Shift-based density estimation for Pareto-based algorithms in
+many-objective optimization,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~18, no.~3, pp.~348--365, 2014.
+
+\bibitem{ref:pcsaea}
+\TODO{PC-SAEA -- pairwise-comparison-based surrogate-assisted EA,
+Swarm Evol. Comput., 2023, doi:10.1016/j.swevo.2023.101323.}
+
+\bibitem{ref:r2aea}
+\TODO{R2AEA -- two-stage relation-based expensive optimization.}
+
+\bibitem{ref:platemo}
+Y.~Tian, R.~Cheng, X.~Zhang, and Y.~Jin,
+``PlatEMO: A MATLAB platform for evolutionary multi-objective optimization,''
+\emph{IEEE Comput. Intell. Mag.}, vol.~12, no.~4, pp.~73--87, 2017.
+
+\end{thebibliography}
+
+\end{document}
