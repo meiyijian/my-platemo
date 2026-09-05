@@ -3,7 +3,7 @@
 %  HPDC-MaOEA -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
 %
 %  The manuscript is organised around two contributions: hybrid PBI quality
-%  stratification and dual-mode candidate selection. Established components are
+%  grouping and dual-mode candidate selection. Established components are
 %  cited where they enter the framework.
 %
 %  Layout notes:
@@ -58,7 +58,7 @@
 
 \begin{frontmatter}
 
-\title{Hybrid PBI Quality Stratification and Dual-Mode Candidate Selection
+\title{Hybrid PBI Quality Grouping and Dual-Mode Candidate Selection
 for Expensive Many-Objective Optimization}
 
 %% Author block. Replace the placeholders and add \corref/\ead as needed:
@@ -95,7 +95,7 @@ candidate selection
 
 \TODO{Use a four-move opening: expensive many-objective relation learning;
 granularity loss in binary supervision; the proposed dual-granularity PBI
-stratification and bounded dual-mode allocation; the strongest mechanism and
+grouping and bounded dual-mode allocation; the strongest mechanism and
 algorithm-level evidence. End by stating the two contributions and their
 distinct responsibilities.}
 
@@ -131,7 +131,7 @@ population into supervision labels, and the rule that turns the surrogate
 scores of a large candidate pool into a small batch of expensive evaluations.
 HPDC-MaOEA (hybrid-PBI dual-mode-candidate many-objective evolutionary
 algorithm) contributes one mechanism at each interface. \emph{Hybrid PBI
-quality stratification} (Section~\ref{sec:method:hpc}) combines a continuous
+quality grouping} (Section~\ref{sec:method:hpc}) combines a continuous
 directional preference with a representative-solution-guided coarse preference
 so that the positive group used for relation-pair construction is formed from a
 finer quality signal than a binary partition provides. \emph{Dual-mode
@@ -161,8 +161,8 @@ progress, which both proposed mechanisms use as their only schedule variable.
 HPDC-MaOEA evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
 stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and then repeats five
 steps until the budget is exhausted. (i)~The current population $\mathcal{P}$
-of size $N$ is stratified into a positive group and a non-positive group by
-hybrid PBI stratification, which also returns the set $\mathcal{R}$ of
+of size $N$ is divided into a positive group and a non-positive group by
+hybrid PBI grouping, which also returns the set $\mathcal{R}$ of
 representative solutions reused later as an additional mating pool.
 (ii)~Ordered pairs are generated from the two groups and a three-class relation
 network is trained, together with a held-out pairwise error rate $e_r$.
@@ -178,7 +178,7 @@ archive.
 Algorithm~\ref{alg:framework} states the procedure. All expensive evaluations
 are consumed in step~(v), so both proposed mechanisms operate on already
 evaluated data and surrogate predictions only, and neither changes the total
-number of real evaluations. The two interfaces stay separate: stratification
+number of real evaluations. The two interfaces stay separate: grouping
 decides \emph{what the classifier is asked to learn}, candidate selection
 decides \emph{how its scores are spent}.
 
@@ -204,7 +204,7 @@ Algorithm~\ref{alg:framework} with the two contributed blocks highlighted.}
 \While{$FE<FE_{\max}$}
   \State $t\gets FE/FE_{\max}$
   \State $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$
-         \Call{Stratify}{$\mathcal{P},t$}
+         \Call{HybridGroup}{$\mathcal{P},t$}
          \Comment{Section~\ref{sec:method:hpc}}
   \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
@@ -232,7 +232,7 @@ Algorithm~\ref{alg:framework} with the two contributed blocks highlighted.}
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Hybrid PBI Quality Stratification}
+\subsection{Hybrid PBI Quality Grouping}
 \label{sec:method:hpc}
 
 Relation learning needs a coarse but reliable notion of ``better'' before any
@@ -242,7 +242,7 @@ balanced subpopulations and yields a clear class structure. The same boundary,
 however, compresses every quality difference inside a subpopulation into one
 group-level value, so two solutions of clearly different PBI quality on the same
 side of the boundary become indistinguishable in the labels. Hybrid PBI
-stratification separates the two roles that the single boundary was carrying: a
+grouping separates the two roles that the single boundary was carrying: a
 continuous directional preference keeps the within-group order, a
 representative-solution-guided partition supplies the between-group boundary,
 and a stage-dependent combination of the two determines the positive group used
@@ -344,7 +344,7 @@ representative a solution lies. Following REMO, the class-balance variable
 $\delta$ is adjusted by bounded bisection so that the boundary maintains useful
 occupancy on both sides across changing population states.
 
-\subsubsection{Hybrid Quality Score and Grouping}
+\subsubsection{Hybrid Quality Score and Group Formation}
 \label{sec:method:hpc:hybrid}
 
 The two preferences are combined by a weight that follows the consumption of the
@@ -404,7 +404,7 @@ while $H_j=\alpha_tS_j\leq\alpha_t$ because $S_j\leq1$; for
 $\alpha_t\leq1/2$ we have $1-\alpha_t\geq\alpha_t$, hence $H_i>H_j$.
 \end{proof}
 
-Part~(i) is the design motive of hybrid PBI stratification: inside one coarse
+Part~(i) is the design motive of hybrid PBI grouping: inside one coarse
 label the continuous preference still discriminates, so it decides which
 members of the binary-positive region enter $\mathcal{C}_1$ when that region is
 larger than $\lceil r_gN\rceil$, and which members of the binary-negative
@@ -667,7 +667,7 @@ Let $N$ be the population size, $N_v=O(N)$ the number of directions, $N_c$ the
 size of the deduplicated candidate pool, $D$ the number of decision variables
 and $M$ the number of objectives.
 
-In the stratification module, association and the continuous PBI computation
+In the grouping module, association and the continuous PBI computation
 \eqref{eq:pbi}--\eqref{eq:score-cont} cost $O(NN_vM)$, the direction set
 \eqref{eq:direction} costs one normalisation of the nondominated vectors, the
 bounded bisection of \eqref{eq:label-bin} costs $O(B_\delta NkM)$ with
@@ -708,13 +708,13 @@ Sections~\ref{sec:exp:hpc} and~\ref{sec:exp:candidate}.}
 \subsection{Ablation Study}
 \label{sec:exp:ablation}
 \TODO{Variants sharing the same host algorithm and the same $k$: continuous
-preference only, coarse preference only, and the full hybrid stratification;
+preference only, coarse preference only, and the full hybrid grouping;
 relation top-$6$ selection versus dual-mode selection. Note the interaction
 between $k$ and the label construction, and separate the number of
 representatives from the resolution $\lceil\sqrt{k}\,\rceil$ of the radial grid
 (Section~\ref{sec:method:hpc:coarse}).}
 
-\subsection{Analysis of Hybrid PBI-Based Quality Stratification}
+\subsection{Analysis of Hybrid PBI Quality Grouping}
 \label{sec:exp:hpc}
 \TODO{Organise this subsection around three affirmative mechanism claims.
 (i) Complementarity: mean Jaccard $0.2326$ over 250 runs; bidirectional unique
@@ -744,7 +744,7 @@ contributed modules.}
 
 \section{Conclusion}
 \label{sec:conclusion}
-\TODO{Reinforce the two memory points: hybrid PBI stratification restores the
+\TODO{Reinforce the two memory points: hybrid PBI grouping restores the
 within-group ordering compressed by a binary partition while retaining a clear
 representative-based boundary; dual-mode candidate selection converts surrogate
 scores into bounded, scale-insensitive evaluation batches. Close with the

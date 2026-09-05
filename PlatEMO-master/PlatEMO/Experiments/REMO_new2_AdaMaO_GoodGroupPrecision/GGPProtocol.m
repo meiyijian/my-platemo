@@ -1,20 +1,35 @@
-function config = GGPProtocol(profile)
+function config = GGPProtocol(profile, problemSet)
 %GGPPROTOCOL Define the frozen Good-group Precision experiment protocol.
-%   CONFIG = GGPPROTOCOL(PROFILE) returns the problem matrix, algorithm
-%   parameters, and independent-run jobs for PROFILE. Supported profiles
-%   are "smoke", "pilot", and "formal". The formal profile contains
-%   5 problems x 2 objective counts x 25 fixed seeds = 250 jobs.
+%   CONFIG = GGPPROTOCOL(PROFILE, PROBLEMSET) returns the problem matrix,
+%   algorithm parameters, and independent-run jobs for PROFILE. Supported
+%   profiles are "smoke", "pilot", and "formal". PROBLEMSET is "all" by
+%   default; "original" retains the frozen five-problem protocol used by
+%   the isolated DualPBI complementarity supplement. The all-problem formal
+%   profile contains 10 problems x 2 objective counts x 25 fixed seeds =
+%   500 jobs. Extension problems are appended so that original problem
+%   indices and fixed seeds remain unchanged.
 
     if nargin < 1 || isempty(profile)
         profile = "formal";
     end
+    if nargin < 2 || isempty(problemSet)
+        problemSet = "all";
+    end
     profile = validatestring(string(profile), ["smoke", "pilot", "formal"]);
+    problemSet = validatestring(string(problemSet), ["all", "original"]);
 
-    problems = struct( ...
-        "Name", {"DTLZ2", "DTLZ4", "DTLZ7", "WFG3", "WFG7"}, ...
-        "Family", {"DTLZ", "DTLZ", "DTLZ", "WFG", "WFG"}, ...
-        "RequestedD", {30, 30, 30, 30, 30}, ...
-        "ExpectedActualD", {30, 30, 30, 31, 30});
+    allProblems = struct( ...
+        "Name", {"DTLZ2", "DTLZ4", "DTLZ7", "WFG3", "WFG7", ...
+        "DTLZ3", "DTLZ5", "DTLZ6", "WFG1", "WFG8"}, ...
+        "Family", {"DTLZ", "DTLZ", "DTLZ", "WFG", "WFG", ...
+        "DTLZ", "DTLZ", "DTLZ", "WFG", "WFG"}, ...
+        "RequestedD", {30, 30, 30, 30, 30, 30, 30, 30, 30, 30}, ...
+        "ExpectedActualD", {30, 30, 30, 31, 30, 30, 30, 30, 30, 30});
+    if problemSet == "original"
+        problems = allProblems(1:5);
+    else
+        problems = allProblems;
+    end
 
     parameters = struct( ...
         "gmax", 3000, ...

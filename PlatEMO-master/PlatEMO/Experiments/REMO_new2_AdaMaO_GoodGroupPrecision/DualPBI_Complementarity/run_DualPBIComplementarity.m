@@ -43,7 +43,7 @@ function outputs = run_DualPBIComplementarity(profile, options)
     ensureResultDirectories(resultRoot);
     [logPath, logCleanup] = startLog(resultRoot, profile); %#ok<ASGLU>
 
-    config = GGPProtocol(profile);
+    config = GGPProtocol(profile, "original");
     jobs = filterJobs(config.Jobs, options);
     if isempty(jobs)
         error("DPC:NoJobsSelected", ...

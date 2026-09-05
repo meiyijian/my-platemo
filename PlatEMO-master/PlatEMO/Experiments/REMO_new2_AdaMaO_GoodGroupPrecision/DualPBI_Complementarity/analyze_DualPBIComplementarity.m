@@ -47,7 +47,7 @@ function outputs = analyze_DualPBIComplementarity(profile, options)
     uniqueTests = DPCBuildUniqueContributionTests(perRunStage);
     decisions = buildDecisions(fusionTests, uniqueTests);
 
-    config = GGPProtocol(profile);
+    config = GGPProtocol(profile, "original");
     coverage = buildCoverage(config.Jobs, replay);
     protocolJobTable = struct2table(config.Jobs);
     protocolConfigurations = unique( ...

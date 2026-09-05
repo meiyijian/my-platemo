@@ -18,18 +18,20 @@
 
 | 项目 | 正式值 |
 |---|---|
-| 问题 | DTLZ2、DTLZ4、DTLZ7、WFG3、WFG7 |
+| 问题 | 原批次：DTLZ2、DTLZ4、DTLZ7、WFG3、WFG7；新增：DTLZ3、DTLZ5、DTLZ6、WFG1、WFG8 |
 | 目标数 | M=10、20 |
 | 请求决策维数 | D=30 |
 | WFG3 实际维数 | D=31，由问题 `Setting` 自动调整并校验 |
 | 种群规模 | N=100 |
 | 评价预算 | maxFE=500 |
 | 独立运行 | 每个问题-M 组合 25 次 |
-| 总 job 数 | 5×2×25=250 |
+| 总 job 数 | 10×2×25=500；其中新增批次 5×2×25=250 |
 | 固定种子 | `problemIndex*10000 + M*100 + run` |
 | 算法参数 | `gmax=3000, pMix=0.5, rGood=0.25, qKeep=0.8, lambda0=0.35, nMin=4, nMax=6` |
 
-正式配置由 `GGPProtocol('formal')` 唯一定义。每个 run 单独保存，能够断点续跑；已有合法文件会跳过，已有损坏文件会阻止覆盖。
+正式配置由 `GGPProtocol('formal')` 唯一定义。新增问题追加在原 5 个问题之后，因此原问题的 `problemIndex`、固定种子和结果路径保持不变。每个 run 单独保存，能够断点续跑；已有合法文件会跳过，已有损坏文件会阻止覆盖。
+
+隔离的 `DualPBI_Complementarity` 补充实验继续显式调用原 5 问题协议，不会因本次扩展而被动改变已有 250 条重放及其结论口径。
 
 ## 指标定义
 
@@ -123,15 +125,24 @@ analyze_GoodGroupPrecision('smoke');
 
 ```matlab
 run_GoodGroupPrecision('formal', ...
-    'Problems', {'DTLZ2'}, 'Ms', 10, 'Runs', 1);
+    'Problems', {'DTLZ3'}, 'Ms', 10, 'Runs', 1);
 ```
 
 确认单 job 完成后，可以分批继续：
 
 ```matlab
 run_GoodGroupPrecision('formal', ...
-    'Problems', {'DTLZ2'}, 'Ms', 10, 'Runs', 1:5);
+    'Problems', {'DTLZ3'}, 'Ms', 10, 'Runs', 1:5);
 ```
+
+只运行本次新增的 250 个 job：
+
+```matlab
+newProblems = {'DTLZ3', 'DTLZ5', 'DTLZ6', 'WFG1', 'WFG8'};
+run_GoodGroupPrecision('formal', 'Problems', newProblems);
+```
+
+该命令仍写入原来的 `results/raw/formal/<Problem>/M<M>/run_<NNN>.mat`，不会建立另一套结果格式或覆盖原 250 个合法结果。
 
 完整运行：
 
@@ -141,7 +152,7 @@ run_GoodGroupPrecision('formal');
 
 不同 MATLAB 进程可以运行互不重叠的 `Runs` 子集。原始结果按 run 独立写入，不共享追加式 CSV；各进程的 manifest 文件名也带时间和进程号。
 
-全部或部分 job 完成后分析：
+全部或部分 job 完成后分析。分析器会合并原批次与新增批次，并保持原有 CSV 文件名和字段：
 
 ```matlab
 outputs = analyze_GoodGroupPrecision('formal');

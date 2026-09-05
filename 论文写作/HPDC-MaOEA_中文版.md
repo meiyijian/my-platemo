@@ -1,6 +1,6 @@
-# 面向昂贵超多目标优化的混合 PBI 质量分层与双模式候选解选择
+# 面向昂贵超多目标优化的混合 PBI 质量分组与双模式候选解选择
 
-**Hybrid PBI Quality Stratification and Dual-Mode Candidate Selection for Expensive Many-Objective Optimization**
+**Hybrid PBI Quality Grouping and Dual-Mode Candidate Selection for Expensive Many-Objective Optimization**
 
 作者：待补充　　日期：2026-09-01
 
@@ -24,7 +24,7 @@
 
 ## 1 引言
 
-**[TODO：引言。采用四步开场：昂贵超多目标优化中的关系学习；二元监督下的粒度损失；所提出的双粒度 PBI 分层与有界的双模式分配；最强的机制级与算法级证据。结尾陈述两项贡献及其各自承担的职责。]**
+**[TODO：引言。采用四步开场：昂贵超多目标优化中的关系学习；二元监督下的粒度损失；所提出的双粒度 PBI 分组与有界的双模式分配；最强的机制级与算法级证据。结尾陈述两项贡献及其各自承担的职责。]**
 
 ---
 
@@ -46,7 +46,7 @@
 
 ## 3 所提出的 HPDC-MaOEA
 
-基于关系的代理辅助进化算法用一个分类器取代多输出回归，该分类器预测一对解之间的相对质量<sup>[2]</sup>。此时有两个接口决定了这类算法能够学到什么、以及它的预测要花多少代价：一是把已评价种群转换为监督标签的规则，二是把大规模候选池的代理分数转换为一小批昂贵评价的规则。HPDC-MaOEA（hybrid-PBI dual-mode-candidate many-objective evolutionary algorithm，混合 PBI–双模式候选解超多目标进化算法）在每个接口上各贡献一个机制。**混合 PBI 质量分层**（第 3.2 节）把连续的方向偏好与代表解引导的粗粒度偏好结合起来，使用于构造关系解对的正组建立在比二元划分更细的质量信号之上。**双模式候选解选择**（第 3.4 节）为算法提供两种可替换的准则，用于在关系模型生成的候选池内分配昂贵评价。成熟的关系学习、指标评估与环境选择模块提供了一个共同的宿主，而两项所贡献的接口在其中决定代理预测的监督方式与开销方式。
+基于关系的代理辅助进化算法用一个分类器取代多输出回归，该分类器预测一对解之间的相对质量<sup>[2]</sup>。此时有两个接口决定了这类算法能够学到什么、以及它的预测要花多少代价：一是把已评价种群转换为监督标签的规则，二是把大规模候选池的代理分数转换为一小批昂贵评价的规则。HPDC-MaOEA（hybrid-PBI dual-mode-candidate many-objective evolutionary algorithm，混合 PBI–双模式候选解超多目标进化算法）在每个接口上各贡献一个机制。**混合 PBI 质量分组**（第 3.2 节）把连续的方向偏好与代表解引导的粗粒度偏好结合起来，使用于构造关系解对的正组建立在比二元划分更细的质量信号之上。**双模式候选解选择**（第 3.4 节）为算法提供两种可替换的准则，用于在关系模型生成的候选池内分配昂贵评价。成熟的关系学习、指标评估与环境选择模块提供了一个共同的宿主，而两项所贡献的接口在其中决定代理预测的监督方式与开销方式。
 
 ### 3.1 总体框架
 
@@ -62,9 +62,9 @@ $$
 
 其中 $\mathbf{f}$ 的每一次评价都是昂贵的，因此真实函数评价的总次数被限制在预算 $FE_{\max}$ 之内。记 $FE$ 为迄今已消耗的评价次数，$t=FE/FE_{\max}\in[0,1]$ 为评价进度；它是两个所提机制唯一使用的调度变量。
 
-HPDC-MaOEA 先对一个包含 $N_{\mathrm{init}}$ 个解的拉丁超立方设计求值，存入存档 $\mathcal{A}_{\mathrm{rc}}$，此后重复以下五个步骤直至预算耗尽。(i) 规模为 $N$ 的当前种群 $\mathcal{P}$ 被混合 PBI 分层划分为正组与非正组，该步骤同时返回代表解集 $\mathcal{R}$，后者随后被复用为一个附加的交配池。(ii) 由两组生成有序解对，训练一个三分类关系网络，并同时得到留出集上的成对错误率 $e_r$。(iii) 为每个已评价解计算指标值，并拟合一个从决策向量到这些值的 RBF-SVR 模型。(iv) 由关系模型引导的内层搜索累积候选池，抽取两种选择准则之一，返回至多 $n_{\max}$ 个候选解构成的一批。(v) 对该批求值、追加到 $\mathcal{A}_{\mathrm{rc}}$，并由 RSEA<sup>[3]</sup> 的径向网格环境选择在整个存档上得到下一代种群。
+HPDC-MaOEA 先对一个包含 $N_{\mathrm{init}}$ 个解的拉丁超立方设计求值，存入存档 $\mathcal{A}_{\mathrm{rc}}$，此后重复以下五个步骤直至预算耗尽。(i) 规模为 $N$ 的当前种群 $\mathcal{P}$ 被混合 PBI 分组划分为正组与非正组，该步骤同时返回代表解集 $\mathcal{R}$，后者随后被复用为一个附加的交配池。(ii) 由两组生成有序解对，训练一个三分类关系网络，并同时得到留出集上的成对错误率 $e_r$。(iii) 为每个已评价解计算指标值，并拟合一个从决策向量到这些值的 RBF-SVR 模型。(iv) 由关系模型引导的内层搜索累积候选池，抽取两种选择准则之一，返回至多 $n_{\max}$ 个候选解构成的一批。(v) 对该批求值、追加到 $\mathcal{A}_{\mathrm{rc}}$，并由 RSEA<sup>[3]</sup> 的径向网格环境选择在整个存档上得到下一代种群。
 
-算法 1 陈述了该流程。所有昂贵评价都消耗在步骤 (v)，因此两个所提机制完全运行在已评价数据与代理预测之上，都不改变真实评价的总次数。两个接口保持分离：分层决定**要求分类器学习什么**，候选解选择决定**它的分数如何被花掉**。
+算法 1 陈述了该流程。所有昂贵评价都消耗在步骤 (v)，因此两个所提机制完全运行在已评价数据与代理预测之上，都不改变真实评价的总次数。两个接口保持分离：分组决定**要求分类器学习什么**，候选解选择决定**它的分数如何被花掉**。
 
 **[TODO：把总体框架图导出为 `fig_framework.pdf` 并取消英文正文中 `figure*` 块的注释；该图应展示算法 1 的外层循环，并高亮两个所贡献的模块。]**
 
@@ -77,7 +77,7 @@ HPDC-MaOEA 先对一个包含 $N_{\mathrm{init}}$ 个解的拉丁超立方设计
 > 2. $\mathcal{P}\gets$ 初始种群；$\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
 > 3. **while** $FE<FE_{\max}$ **do**
 > 4. 　$t\gets FE/FE_{\max}$
-> 5. 　$(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$ **Stratify**$(\mathcal{P},t)$　▷ 第 3.2 节
+> 5. 　$(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$ **HybridGroup**$(\mathcal{P},t)$　▷ 第 3.2 节
 > 6. 　由 $\mathcal{C}_1,\mathcal{C}_2$ 按式 (9) 构造有序关系解对
 > 7. 　**if** 无法构成任何解对 **then**
 > 8. 　　$\mathcal{P}\gets$ **EnvSelect**$(\mathcal{A}_{\mathrm{rc}},N)$；**continue**
@@ -93,9 +93,9 @@ HPDC-MaOEA 先对一个包含 $N_{\mathrm{init}}$ 个解的拉丁超立方设计
 > 18. 　$\mathcal{P}\gets$ **EnvSelect**$(\mathcal{A}_{\mathrm{rc}},N)$
 > 19. **end while**
 
-### 3.2 基于混合 PBI 的质量分层
+### 3.2 混合 PBI 质量分组
 
-关系学习在标注任何解对之前，都需要一个粗粒度但可靠的"更好"的概念。REMO<sup>[2]</sup> 的二元 PBI 划分正好提供了这一点：一个自适应边界把种群划分为两个相对平衡的子种群，并给出清晰的类结构。然而，同一个边界会把子种群内部的所有质量差异压缩成单一的组级取值，于是边界同侧、PBI 质量明显不同的两个解在标签上变得无法区分。混合 PBI 分层把这个单一边界原本同时承担的两种角色分离开来：一个连续的方向偏好保持组内次序，一个代表解引导的划分提供组间边界，两者随阶段变化的组合决定最终用于监督的正组。两种偏好由同一个种群算出，且都使用 PBI 几何。它们在细、粗两种粒度上协同工作，共同为关系学习构成一个**双粒度的监督信号**。
+关系学习在标注任何解对之前，都需要一个粗粒度但可靠的"更好"的概念。REMO<sup>[2]</sup> 的二元 PBI 划分正好提供了这一点：一个自适应边界把种群划分为两个相对平衡的子种群，并给出清晰的类结构。然而，同一个边界会把子种群内部的所有质量差异压缩成单一的组级取值，于是边界同侧、PBI 质量明显不同的两个解在标签上变得无法区分。混合 PBI 分组把这个单一边界原本同时承担的两种角色分离开来：一个连续的方向偏好保持组内次序，一个代表解引导的划分提供组间边界，两者随阶段变化的组合决定最终用于监督的正组。两种偏好由同一个种群算出，且都使用 PBI 几何。它们在细、粗两种粒度上协同工作，共同为关系学习构成一个**双粒度的监督信号**。
 
 本节中 $\mathcal{P}=\{(\mathbf{x}_i,\mathbf{f}_i)\}_{i=1}^{N}$ 表示当前种群，$\mathbf{z}^{*}=\min_i\mathbf{f}_i$ 表示按分量取的种群最小值，用作理想点。
 
@@ -163,7 +163,7 @@ $$
 
 用 $\|\mathbf{r}_{b(i)}-\mathbf{z}^{*}\|_2$ 归一化使所关联的代表解本身成为阈值，因此 $L_i$ 记录的是"解位于通过该代表解的曲面的哪一侧"。沿用 REMO 的做法，类平衡变量 $\delta$ 由有界二分调节，使该边界在种群状态不断变化的过程中始终在两侧保持有效的占用。
 
-#### 3.2.3 混合质量分数与分组
+#### 3.2.3 混合质量分数与组构造
 
 两种偏好以一个跟随昂贵预算消耗的权重进行组合。以 $t=FE/FE_{\max}$ 与 $\alpha_t=1-t$，解 $i$ 的混合质量分数为
 
@@ -207,7 +207,7 @@ $$
 
 ---
 
-第 (i) 条正是混合 PBI 分层的设计动机：**在同一个粗粒度标签内部，连续偏好仍然可分辨**，因此当二元正例区域大于 $\lceil r_gN\rceil$ 时，由它决定该区域中哪些成员进入 $\mathcal{C}_1$；当该区域小于 $\lceil r_gN\rceil$ 时，由它决定二元负例区域中哪些成员被提升。第 (ii) 条表明，一旦粗粒度偏好占据至少一半权重，次序即为两级：每个二元正例解都排在每个二元负例解之前。因此 $\alpha_t$ 的作用是让监督信号的**粒度**单调地从细走向粗。第 4.4 节将把该调度与静态调度、反向调度作对比检验。
+第 (i) 条正是混合 PBI 分组的设计动机：**在同一个粗粒度标签内部，连续偏好仍然可分辨**，因此当二元正例区域大于 $\lceil r_gN\rceil$ 时，由它决定该区域中哪些成员进入 $\mathcal{C}_1$；当该区域小于 $\lceil r_gN\rceil$ 时，由它决定二元负例区域中哪些成员被提升。第 (ii) 条表明，一旦粗粒度偏好占据至少一半权重，次序即为两级：每个二元正例解都排在每个二元负例解之前。因此 $\alpha_t$ 的作用是让监督信号的**粒度**单调地从细走向粗。第 4.4 节将把该调度与静态调度、反向调度作对比检验。
 
 ### 3.3 混合分组上的关系学习
 
@@ -357,7 +357,7 @@ $$
 
 设 $N$ 为种群规模，$N_v=O(N)$ 为方向数量，$N_c$ 为去重后候选池的规模，$D$ 为决策变量数，$M$ 为目标数。
 
-在分层模块中，方向关联与式 (3)–(4) 的连续 PBI 计算耗费 $O(NN_vM)$，式 (2) 的方向集只需对非支配向量做一次单位化，式 (6) 的有界二分耗费 $O(B_\delta NkM)$（其中 $B_\delta$ 由区间与容差固定），代表解选择还额外执行非支配排序与径向投影距离计算。在 $N_v=O(N)$、$k=O(N)$ 下，该模块由 $O(N^2M)$ 主导；生成关系解对再增加 $O(N^2D)$。
+在分组模块中，方向关联与式 (3)–(4) 的连续 PBI 计算耗费 $O(NN_vM)$，式 (2) 的方向集只需对非支配向量做一次单位化，式 (6) 的有界二分耗费 $O(B_\delta NkM)$（其中 $B_\delta$ 由区间与容差固定），代表解选择还额外执行非支配排序与径向投影距离计算。在 $N_v=O(N)$、$k=O(N)$ 下，该模块由 $O(N^2M)$ 主导；生成关系解对再增加 $O(N^2D)$。
 
 在候选解模块中，为一个候选解打分需要 $2N$ 个维度为 $2D$ 的网络输入，因此整个池在数据构造与预测上耗费 $O(N_cND)$，这一项主导该模块。指标适应度耗费 $O(N^2M)$；指标导向模式额外增加一次在 $N$ 个已评价解上的 SVR 拟合，以及在筛选后子集上的预测；式 (14) 的贪心构造耗费 $O(n_{\max}N_cD)$。因此每次迭代的开销为 $O(N_cND+N^2M)$。两个模块都不消耗昂贵评价，故无论模式序列如何，真实评价的总次数始终为 $FE_{\max}$；两个模块的实际运行时间占比将在第 4.6 节报告。
 
@@ -375,9 +375,9 @@ $$
 
 ### 4.3 消融实验
 
-**[TODO：共享同一宿主算法与同一 $k$ 的各变体：仅连续偏好、仅粗粒度偏好、完整混合分层；关系 top-$6$ 选择对比双模式选择。注意 $k$ 与标签构造之间的交互作用，并把**代表解个数 $k$** 与径向网格的**分辨率 $\lceil\sqrt{k}\,\rceil$** 区分开来（见第 3.2.2 节）。]**
+**[TODO：共享同一宿主算法与同一 $k$ 的各变体：仅连续偏好、仅粗粒度偏好、完整混合分组；关系 top-$6$ 选择对比双模式选择。注意 $k$ 与标签构造之间的交互作用，并把**代表解个数 $k$** 与径向网格的**分辨率 $\lceil\sqrt{k}\,\rceil$** 区分开来（见第 3.2.2 节）。]**
 
-### 4.4 基于混合 PBI 的质量分层分析
+### 4.4 混合 PBI 质量分组分析
 
 **[TODO：围绕三个肯定式的机制论断组织本小节。(i) 互补性：250 次运行上平均 Jaccard 为 $0.2326$；经 Holm 校正后，40 个「问题–$M$–阶段」单元格中有 33 个支持双向独有的未来真正例；并集真正例中 $81.5\%$ 由单一视图独特贡献。(ii) 联合利用：正组中 $32.2\%$ 来自连续偏好区域、$19.6\%$ 来自粗粒度偏好区域，对应的未来真正例占比分别为 $36.0\%$ 与 $17.9\%$。(iii) 调度：在共享的冻结候选池上，把预算相关的"由细到粗"调度与静态调度、反向调度作对比。]**
 
@@ -393,7 +393,7 @@ $$
 
 ## 5 结论
 
-**[TODO：结论。强化两个记忆点：混合 PBI 分层在保留清晰的、基于代表解的边界的同时，恢复了被二元划分所压缩的组内次序；双模式候选解选择把代理分数转换为有界的、对尺度不敏感的评价批次。以最强的算法级结果收束。]**
+**[TODO：结论。强化两个记忆点：混合 PBI 分组在保留清晰的、基于代表解的边界的同时，恢复了被二元划分所压缩的组内次序；双模式候选解选择把代理分数转换为有界的、对尺度不敏感的评价批次。以最强的算法级结果收束。]**
 
 ---
 
@@ -414,97 +414,97 @@ $$
 
 正文已不再设置集中的参数表；下表只汇总方法节出现的符号，便于查阅，各控制量的取值随第 4.1 节的实验协议与复现材料给出。
 
-| 符号 | 含义 | 出现位置 |
-| :--- | :--- | :--- |
-| $M,D,\Omega$ | 目标数、决策变量数、决策空间 | 式 (1) |
-| $FE_{\max},FE,t$ | 评价预算、已消耗评价次数、评价进度 | 第 3.1 节 |
-| $N,N_{\mathrm{init}}$ | 种群规模、初始设计规模 | 第 3.1 节 |
-| $\mathcal{A}_{\mathrm{rc}}$ | 存档 | 算法 1 |
-| $\mathbf{z}^{*}$ | 理想点（按分量取的种群最小值） | 第 3.2 节 |
-| $\mathcal{V},N_v,n_{\mathrm{ND}}$ | 方向集、方向数量、非支配解个数 | 式 (2) |
-| $\theta$ | 连续 PBI 的惩罚参数 | 式 (3) |
-| $S_i$ | 连续质量分数 | 式 (4) |
-| $\psi_i$ | $\mathbf{f}_i$ 与 $\mathbf{z}^{*}$ 的夹角 | 式 (5) |
-| $\mathcal{R},k$ | 代表解集及其规模 | 第 3.2.2 节 |
-| $\delta,L_i$ | 类平衡变量、二元粗粒度标签 | 式 (6) |
-| $\alpha_t,H_i$ | 连续偏好的权重、混合质量分数 | 式 (7) |
-| $r_g,\mathcal{C}_1,\mathcal{C}_2$ | 正组比例、正组、非正组 | 式 (8) |
-| $y_{ij}$ | 关系解对标签 | 式 (9) |
-| $\boldsymbol{\pi},e_r$ | 三类预测概率、留出成对误差 | 第 3.3 节 |
-| $R(\mathbf{x})$ | 关系得分 | 式 (10) |
-| $g_{\max},\mathcal{A},N_c$ | 候选解生成上限、候选池及其去重后规模 | 第 3.4 节 |
-| $U,A_{\mathrm{exp}},\lambda_t,\lambda_0,e_{\max}$ | 预测模糊度、探索导向获取分数及其权重与阈值 | 式 (11)–(12) |
-| $q_{\mathrm{keep}},\mathcal{H}^{\mathrm{exp}}$ | 探索导向预筛选分位数、保留集 | 式 (13) |
-| $A_{\mathrm{batch}},w,d$ | 批次获取分数、质量项权重、决策空间距离 | 式 (14) |
-| $\widehat I,\mathcal{M}_I$ | 指标代理及其模型 | 式 (15) |
-| $q_{\mathrm{rel}},q_{\mathrm{ind}},\mathcal{H}^{\mathrm{ind}}$ | 关系筛选比例、指标分位数、保留集 | 第 3.4.2 节 |
-| $m,p_{\mathrm{mix}}$ | 当前迭代的模式、指标导向模式的概率 | 式 (16) |
-| $n_b,n_{\min},n_{\max}$ | 批量、保留集的补齐下界、批量上限 | 式 (17) |
+| 符号                                                             | 含义                                          | 出现位置      |
+| :--------------------------------------------------------------- | :-------------------------------------------- | :------------ |
+| $M,D,\Omega$                                                   | 目标数、决策变量数、决策空间                  | 式 (1)        |
+| $FE_{\max},FE,t$                                               | 评价预算、已消耗评价次数、评价进度            | 第 3.1 节     |
+| $N,N_{\mathrm{init}}$                                          | 种群规模、初始设计规模                        | 第 3.1 节     |
+| $\mathcal{A}_{\mathrm{rc}}$                                    | 存档                                          | 算法 1        |
+| $\mathbf{z}^{*}$                                               | 理想点（按分量取的种群最小值）                | 第 3.2 节     |
+| $\mathcal{V},N_v,n_{\mathrm{ND}}$                              | 方向集、方向数量、非支配解个数                | 式 (2)        |
+| $\theta$                                                       | 连续 PBI 的惩罚参数                           | 式 (3)        |
+| $S_i$                                                          | 连续质量分数                                  | 式 (4)        |
+| $\psi_i$                                                       | $\mathbf{f}_i$ 与 $\mathbf{z}^{*}$ 的夹角 | 式 (5)        |
+| $\mathcal{R},k$                                                | 代表解集及其规模                              | 第 3.2.2 节   |
+| $\delta,L_i$                                                   | 类平衡变量、二元粗粒度标签                    | 式 (6)        |
+| $\alpha_t,H_i$                                                 | 连续偏好的权重、混合质量分数                  | 式 (7)        |
+| $r_g,\mathcal{C}_1,\mathcal{C}_2$                              | 正组比例、正组、非正组                        | 式 (8)        |
+| $y_{ij}$                                                       | 关系解对标签                                  | 式 (9)        |
+| $\boldsymbol{\pi},e_r$                                         | 三类预测概率、留出成对误差                    | 第 3.3 节     |
+| $R(\mathbf{x})$                                                | 关系得分                                      | 式 (10)       |
+| $g_{\max},\mathcal{A},N_c$                                     | 候选解生成上限、候选池及其去重后规模          | 第 3.4 节     |
+| $U,A_{\mathrm{exp}},\lambda_t,\lambda_0,e_{\max}$              | 预测模糊度、探索导向获取分数及其权重与阈值    | 式 (11)–(12) |
+| $q_{\mathrm{keep}},\mathcal{H}^{\mathrm{exp}}$                 | 探索导向预筛选分位数、保留集                  | 式 (13)       |
+| $A_{\mathrm{batch}},w,d$                                       | 批次获取分数、质量项权重、决策空间距离        | 式 (14)       |
+| $\widehat I,\mathcal{M}_I$                                     | 指标代理及其模型                              | 式 (15)       |
+| $q_{\mathrm{rel}},q_{\mathrm{ind}},\mathcal{H}^{\mathrm{ind}}$ | 关系筛选比例、指标分位数、保留集              | 第 3.4.2 节   |
+| $m,p_{\mathrm{mix}}$                                           | 当前迭代的模式、指标导向模式的概率            | 式 (16)       |
+| $n_b,n_{\min},n_{\max}$                                        | 批量、保留集的补齐下界、批量上限              | 式 (17)       |
 
 > **注**：$n_{\min}$ 与 $n_{\max}$ 的语义不对称。式 (17) 只以 $n_{\max}$ 为上限；$n_{\min}$ 作用在上一步，即当分位数规则筛出的候选解不足时，保留集 $\mathcal{H}^{m}$ 被补齐到的最小规模（见第 3.4.1、3.4.2、3.4.3 节）。
 
 ## 附录 B：术语中英对照
 
-| 中文 | 英文 |
-| :--- | :--- |
-| 混合 PBI 质量分层 | hybrid PBI quality stratification |
-| 双模式候选解选择 | dual-mode candidate selection |
-| 昂贵超多目标优化 | expensive many-objective optimization |
-| 关系学习 / 关系模型 | relation learning / relation model |
-| 代理辅助进化算法 | surrogate-assisted evolutionary algorithm (SAEA) |
-| 双粒度监督 | dual-granularity supervision |
-| 粒度压缩缺口 | granularity-compression gap |
-| 连续的方向偏好 | continuous directional preference |
-| 粗粒度偏好 | coarse preference |
-| 代表解 | representative solution |
-| 混合质量分数 / 质量分组 | hybrid quality score / quality grouping |
-| 正组 / 非正组 | positive group / non-positive group |
-| 类平衡变量 | class-balance variable |
-| 退火排序键 | annealed sorting key |
-| 监督接口 | supervision interface |
-| 收敛敏感的细粒度排序 | convergence-sensitive fine-grained ordering |
-| 留出集 / 留出误差 | held-out set / held-out error |
-| 分层抽样 | stratified sampling |
-| 组相对聚合偏好 | aggregate group-relative preference |
-| 移位密度估计 | shift-based density estimation (SDE) |
-| 前沿形状估计 | front-shape estimation |
-| 预测模糊度 | prediction ambiguity |
-| softmax 集中程度 | softmax concentration |
-| 可靠性感知的获取 | reliability-aware acquisition |
+| 中文                        | 英文                                                |
+| :-------------------------- | :-------------------------------------------------- |
+| 混合 PBI 质量分组           | hybrid PBI quality grouping                         |
+| 双模式候选解选择            | dual-mode candidate selection                       |
+| 昂贵超多目标优化            | expensive many-objective optimization               |
+| 关系学习 / 关系模型         | relation learning / relation model                  |
+| 代理辅助进化算法            | surrogate-assisted evolutionary algorithm (SAEA)    |
+| 双粒度监督                  | dual-granularity supervision                        |
+| 粒度压缩缺口                | granularity-compression gap                         |
+| 连续的方向偏好              | continuous directional preference                   |
+| 粗粒度偏好                  | coarse preference                                   |
+| 代表解                      | representative solution                             |
+| 混合质量分数 / 质量分组     | hybrid quality score / quality grouping             |
+| 正组 / 非正组               | positive group / non-positive group                 |
+| 类平衡变量                  | class-balance variable                              |
+| 退火排序键                  | annealed sorting key                                |
+| 监督接口                    | supervision interface                               |
+| 收敛敏感的细粒度排序        | convergence-sensitive fine-grained ordering         |
+| 留出集 / 留出误差           | held-out set / held-out error                       |
+| 分层抽样                    | stratified sampling                                 |
+| 组相对聚合偏好              | aggregate group-relative preference                 |
+| 移位密度估计                | shift-based density estimation (SDE)                |
+| 前沿形状估计                | front-shape estimation                              |
+| 预测模糊度                  | prediction ambiguity                                |
+| softmax 集中程度            | softmax concentration                               |
+| 可靠性感知的获取            | reliability-aware acquisition                       |
 | 探索导向模式 / 指标导向模式 | exploration-oriented mode / indicator-oriented mode |
-| 概率式模式切换 | probabilistic mode switching |
-| 候选池 | candidate pool |
-| 准则特定的候选池 | criterion-specific pool |
-| 共享冻结池 | shared frozen pool |
-| 排名—预算接口 | rank-and-budget interface |
-| 预筛选 | prefilter |
-| 代表解选择 | representative selection |
-| 径向投影 / 径向网格 | radial projection / radial grid |
-| 环境选择 | environmental selection |
-| 拉丁超立方设计 | Latin hypercube design |
-| 非支配前沿 | nondominated front |
-| 真正例 | true positive |
-| 互补性 / 联合利用 / 调度 | complementarity / joint utilisation / scheduling |
-| 对核心控制量的稳健性 | robustness to core controls |
+| 概率式模式切换              | probabilistic mode switching                        |
+| 候选池                      | candidate pool                                      |
+| 准则特定的候选池            | criterion-specific pool                             |
+| 共享冻结池                  | shared frozen pool                                  |
+| 排名—预算接口              | rank-and-budget interface                           |
+| 预筛选                      | prefilter                                           |
+| 代表解选择                  | representative selection                            |
+| 径向投影 / 径向网格         | radial projection / radial grid                     |
+| 环境选择                    | environmental selection                             |
+| 拉丁超立方设计              | Latin hypercube design                              |
+| 非支配前沿                  | nondominated front                                  |
+| 真正例                      | true positive                                       |
+| 互补性 / 联合利用 / 调度    | complementarity / joint utilisation / scheduling    |
+| 对核心控制量的稳健性        | robustness to core controls                         |
 
 **已废弃的译法与表述**（当前版本正文不再使用，如在旧稿或实验脚本中遇到请按右列替换或删除）：
 
-| 旧译法 / 旧表述 | 现行处理 |
-| :--- | :--- |
-| 锚点 / anchor | 代表解 / representative solution |
-| 有效锚点容量 $k_{\mathrm{eff}}$ | 代表解个数 $k$ |
-| 阶段感知的混合分层 | 混合质量分数与分组 |
-| 关系引导的探索模式 | 探索导向模式 |
-| 指标引导模式 | 指标导向模式 |
-| 混合模式分配 | 概率式模式切换 |
-| 进度 $\rho$ / 预算 $B$ | 进度 $t=FE/FE_{\max}$ |
-| 成对错误率 $p_{\mathrm{err}}$ | 留出成对误差 $e_r$ |
-| 连续分数 $s_i$ / 融合分数 $h_i$ | $S_i$ / $H_i$ |
-| 组标签 $c_i$ | 分组 $\mathcal{C}_1,\mathcal{C}_2$ |
-| 参数敏感性（实验小节名） | 对核心控制量的稳健性 |
-| 表 1（参数默认值总表） | 已删除；正文只保留理解机制所需的符号（见附录 A） |
-| 聚类 / 簇心 / 聚类退化核验 | 已删除；方向集直接由式 (2) 定义 |
-| 随机流兼容、可移除的实现开销 | 已删除；复杂度只覆盖论文所定义的机制 |
-| 决胜项（$S_i$ 的后期角色） | 在各类内部细化次序 |
-| 启发式净证据（$R$ 的定性） | 组相对聚合偏好 |
-
+| 旧译法 / 旧表述                    | 现行处理                                         |
+| :--------------------------------- | :----------------------------------------------- |
+| 锚点 / anchor                      | 代表解 / representative solution                 |
+| 有效锚点容量$k_{\mathrm{eff}}$   | 代表解个数$k$                                  |
+| 阶段感知的混合分层                 | 混合质量分数与组构造                             |
+| 质量分层 / stratification          | 质量分组 / grouping                              |
+| 关系引导的探索模式                 | 探索导向模式                                     |
+| 指标引导模式                       | 指标导向模式                                     |
+| 混合模式分配                       | 概率式模式切换                                   |
+| 进度$\rho$ / 预算 $B$          | 进度$t=FE/FE_{\max}$                           |
+| 成对错误率$p_{\mathrm{err}}$     | 留出成对误差$e_r$                              |
+| 连续分数$s_i$ / 融合分数 $h_i$ | $S_i$ / $H_i$                                |
+| 组标签$c_i$                      | 分组$\mathcal{C}_1,\mathcal{C}_2$              |
+| 参数敏感性（实验小节名）           | 对核心控制量的稳健性                             |
+| 表 1（参数默认值总表）             | 已删除；正文只保留理解机制所需的符号（见附录 A） |
+| 聚类 / 簇心 / 聚类退化核验         | 已删除；方向集直接由式 (2) 定义                  |
+| 随机流兼容、可移除的实现开销       | 已删除；复杂度只覆盖论文所定义的机制             |
+| 决胜项（$S_i$ 的后期角色）       | 在各类内部细化次序                               |
+| 启发式净证据（$R$ 的定性）       | 组相对聚合偏好                                   |

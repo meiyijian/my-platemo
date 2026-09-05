@@ -6,7 +6,7 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = HybridPBI_Classificatio
 %
 % 分类原理：
 %   使用两种信号对种群打分：
-%   1. score_v: 当前非支配分布聚类方向上的连续 PBI 得分
+%   1. score_v: 当前非支配解自身方向上的连续 PBI 得分
 %   2. label_dyn: 当前代表解锚点产生的二值 PBI 标签
 % 两种信号都来自当前 Population，不是相互独立的全局先验与局部信息。
 %
@@ -51,7 +51,7 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = HybridPBI_Classificatio
         V = UniformPoint(Nref, M, 'ILD');  % 均匀分布的参考向量
         V = V ./ vecnorm(V, 2, 2);         % 归一化为单位向量
     else
-        % 高维目标：用当前非支配解的 K-means 中心生成数据依赖方向
+        % 高维目标：直接用当前非支配解自身方向作为数据依赖方向
         V = AdaptiveReferenceVectors(PopObj, Nref);
     end
 
@@ -147,18 +147,25 @@ end
 function V = AdaptiveReferenceVectors(PopObj, Nref)
 % AdaptiveReferenceVectors - 根据当前种群的非支配解生成数据依赖方向
 %
-% 思路：用当前非支配近似集的 K-means 中心概括已观测分布方向。
+% 思路：直接把当前非支配近似集的每个解单位化，作为已观测分布方向。
 % 这些方向会继承当前种群的覆盖偏差，不能解释为独立的全局参考方向。
 %
 % 设计动机：
 %   高维多目标问题中，数据依赖方向可能更贴近当前已观测非支配分布；
 %   是否比均匀方向更有利需要通过独立消融验证。
 %
+% 为什么不再做 K-means：
+%   本算法中 Nref 恒等于种群规模 N，而进入本函数时 nPareto <= N，
+%   因此原实现的簇数 min(Nref,nPareto) 恒等于 nPareto，即"每点自成一簇"，
+%   聚类中心集合恒等于非支配解集合本身（仅次序不同）。既然聚类恒为恒等映射，
+%   就不存在"把多个解归纳为一个方向"的语义，直接取解方向即可，
+%   同时省掉 Replicates=5 的重复聚类开销。
+%
 % 输入:
 %   PopObj - N x M 目标值矩阵
-%   Nref   - 所需参考向量数量
+%   Nref   - 参考向量数量上限；仅用于回退判定与均匀向量生成
 % 输出:
-%   V      - Nref x M 单位参考向量
+%   V      - nPareto x M 单位参考向量（回退时为 Nref x M）
 
     M = size(PopObj, 2);
 
@@ -182,43 +189,22 @@ function V = AdaptiveReferenceVectors(PopObj, Nref)
         return;
     end
 
-    % 对非支配解的目标值归一化到 [0,1]
+    % 退化前沿判定：若某目标在非支配集上无变化，说明该集合落在更低维子空间，
+    % 此时其方向不足以支撑逐目标的方向场，回退均匀向量。
+    % （此判定原为 K-means 归一化的除零保护，现独立保留为退化门控，
+    %   以维持与既有实验一致的回退条件）
     Zmin = min(ParetoObj, [], 1);
     Zmax = max(ParetoObj, [], 1);
     range = Zmax - Zmin;
     if any(range < 1e-12)
-        % 若某目标无变化，则使用均匀向量（避免除零）
-        V = UniformPoint(Nref, M, 'ILD');
-        V = V ./ vecnorm(V, 2, 2);
-        return;
-    end
-    ParetoObj_norm = (ParetoObj - Zmin) ./ range;
-
-    % K-means 聚类，簇数取 min(Nref, nPareto)
-    nClusters = min(Nref, nPareto);
-    try
-        [~, C] = kmeans(ParetoObj_norm, nClusters, ...
-                       'MaxIter', 100, 'Replicates', 5, ...
-                       'EmptyAction', 'singleton');
-        if size(C,1) < 1
-            error('聚类返回空中心');
-        end
-    catch
-        % 聚类失败，回退均匀向量
         V = UniformPoint(Nref, M, 'ILD');
         V = V ./ vecnorm(V, 2, 2);
         return;
     end
 
-    % 若聚类中心数不足 Nref，则通过重复扩充
-    if size(C,1) < Nref
-        repTimes = ceil(Nref / size(C,1));
-        C = repmat(C, repTimes, 1);
-        C = C(1:Nref, :);
-    end
-
-    % 将聚类中心映射回原始目标坐标
-    V = C .* range + Zmin;
+    % 直接以每个非支配解自身方向作为参考方向
+    % 不做重复扩充：下游只用 max(cosine,[],2) 取最近方向，
+    % 重复行不会改变所取到的方向值，故补齐到 Nref 行是冗余操作。
     % 按当前实现相对坐标原点归一化为单位向量；这不等同于对 (V-Zmin) 方向单位化
-    V = V ./ vecnorm(V, 2, 2);
+    V = ParetoObj ./ vecnorm(ParetoObj, 2, 2);
 end

@@ -1,9 +1,10 @@
 function manifest = run_GoodGroupPrecision(profile, varargin)
 %RUN_GOODGROUPPRECISION Run the resumable Good-group Precision experiment.
 %   MANIFEST = RUN_GOODGROUPPRECISION(PROFILE) runs the "smoke", "pilot",
-%   or "formal" protocol. Formal results use five problems, M=10/20,
+%   or "formal" protocol. Formal results use ten problems, M=10/20,
 %   requested D=30, maxFE=500, and 25 explicitly enumerated independent
-%   seeds per problem-objective configuration.
+%   seeds per problem-objective configuration. The original five problems
+%   retain their problem indices and seeds; extension problems are appended.
 %
 %   Name-value filters support safe subset execution:
 %     Problems  - problem names, for example ["DTLZ2", "WFG3"]
