@@ -1,0 +1,310 @@
+\section{Experimental Studies}
+\label{sec:exp}
+
+The experiments evaluated overall optimisation performance, the contribution
+of the two modules, and the group and batch properties associated with their
+design. The main comparisons used 10 and 20 objectives. Additional objective
+counts and separate mechanism studies provided complementary evidence.
+
+\subsection{Experimental Settings}
+\label{sec:exp:settings}
+
+\paragraph{Benchmarks and evaluation budgets.}
+The main test suite comprised DTLZ1--DTLZ7 and WFG1--WFG9. Both the 10- and
+20-objective comparisons used a population setting of $N=100$ and a budget of
+$FE_{\max}=300$ real evaluations. The recorded decision dimension was $D=30$,
+except for WFG3, which used $D=31$. Additional results covered $M=3,5,8$ on the
+same 16 problems and $M=12$ on WFG1--WFG9. Table~\ref{tab:exp:settings}
+distinguishes these settings from the mechanism experiments. In particular,
+the grouping studies used 500 evaluations, whereas the candidate-value probe
+used 300. Their results were analysed within their respective protocols.
+
+@SETTINGS@
+
+\paragraph{Algorithms and indicators.}
+HPDC-MaOEA was compared with REMO, PIEA, MCEAD, R2AEA, KRVEA and CSEA at both
+$M=10$ and $M=20$, with PCSAEA additionally available at $M=10$ and HES-EA at
+$M=20$. REMO, PIEA, MCEAD and KRVEA formed the common subset across the
+additional objective counts. All available baselines were retained in each
+main comparison. The implementation recorded as
+\texttt{REMO\_new2\_AdaMaO\_SDEOnly\_UniformMix\_Original} is denoted
+HPDC-MaOEA in the performance tables.
+The primary indicator was inverted generational distance (IGD), for which
+smaller values indicate better approximation quality. Entries report the
+recorded mean and standard deviation; the lowest mean in each row is bold.
+The separate routing study also supplied IGD$^+$ results at $M=20$.
+
+\paragraph{Statistical reporting.}
+The main comparison exports identify their pairwise annotations as Wilcoxon
+rank-sum results. We preserve their direction: $+$ denotes a comparator
+reported as better than HPDC-MaOEA, $-$ a comparator reported as worse, and
+$=$ no detected difference. Summary counts are expressed from HPDC-MaOEA's
+perspective as wins/ties/losses (W/T/L), so an exported $-$ contributes a win.
+Counts were reconstructed from the individual cells. These annotations are
+reported as supplied; no new significance test was inferred from means and
+standard deviations. In the mechanism studies, repeated checkpoints were
+first aggregated within each run. The grouping complementarity tests used
+25 runs per problem--objective--stage cell and Holm adjustment over 40 cells.
+The candidate probe is reported through run-level descriptive statistics.
+
+\TODO{Complete the independent-run counts, original test settings and
+multiple-comparison policy for the spreadsheet experiments; recover the
+missing $N$ and FE settings for $M=3,5$, and the execution platform and IGD
+reference-set specifications. Verify the identical PCSAEA/KRVEA entries for
+DTLZ1 at $M=10$ before finalising the corresponding comparisons.}
+
+\subsection{Comparison with State-of-the-Art Algorithms}
+\label{sec:exp:comparison}
+
+HPDC-MaOEA obtained more reported wins than losses across the available
+comparators in both main settings. The aggregate W/T/L counts were
+73/18/21 at $M=10$ and 70/21/21 at $M=20$, each over 112 problem--comparator
+pairs (Tables~\ref{tab:exp:main10} and~\ref{tab:exp:main20}). Against REMO,
+the counts were 9/5/2 and 8/6/2, respectively; against CSEA, they were
+12/3/1 and 11/4/1. The comparison with PIEA was more problem dependent,
+with 6/3/7 at $M=10$ and 9/2/5 at $M=20$.
+
+The strongest common improvements over REMO occurred on DTLZ7 and several
+WFG problems. On DTLZ7, mean IGD decreased from 21.252 to 12.122 at $M=10$
+and from 38.239 to 18.154 at $M=20$, reductions of 43.0\% and 52.5\%.
+HPDC-MaOEA also attained the lowest mean among the available algorithms on
+WFG7 in both settings, and on WFG1 and WFG2 at $M=10$. These results show
+competitive performance across several many-objective instances under a
+300-evaluation budget.
+
+The problemwise results also distinguish this advantage from uniform
+dominance. All seven comparators had lower reported IGD on WFG3 in both
+main settings. R2AEA achieved lower mean IGD on DTLZ7 at both objective
+counts, while PIEA and MCEAD were stronger on DTLZ5 and DTLZ6. Across the
+four common baselines, the median relative IGD reduction was 10.49\% at
+$M=10$ and 9.73\% at $M=20$; the corresponding arithmetic means were
+3.37\% and $-0.17\%$. Relative reduction was calculated per
+problem--comparator pair as $(\mathrm{IGD}_{b}-\mathrm{IGD}_{H})/
+\mathrm{IGD}_{b}$, using the exported means. The difference between the
+median and mean reflects the uneven magnitude of the problemwise effects.
+
+@MAIN10@
+
+@MAIN20@
+
+\paragraph{Additional objective counts.}
+Table~\ref{tab:exp:objectives} summarises the common-baseline comparisons.
+On the full 16-problem suite, the reported win fraction increased from
+34.4\% at $M=3$ to 62.5\% at $M=20$. This is a descriptive comparison
+across the recorded settings: the decision dimension also changes between
+the lower- and higher-objective experiments. The $M=12$ result covered
+only nine WFG problems and is therefore shown separately. It yielded
+27/3/6 against the common baselines and 43/3/8 against all six available
+baselines.
+
+@OBJECTIVES@
+
+\subsection{Ablation Study}
+\label{sec:exp:ablation}
+
+The module ablation compared REMO, REMO with hybrid PBI grouping (HPC),
+REMO with the candidate module, and the full method. Because the number
+of representatives also affects the host algorithm, the available
+configurations included REMO and REMO+HPC at both $k=6$ and the paper
+setting $k=15$ for $M=10$ or $k=30$ for $M=20$. The candidate-only
+configuration used $k=6$. Tables~\ref{tab:exp:abl10}
+and~\ref{tab:exp:abl20} give all six identified configurations. The
+20-objective table contains 15 valid problems; its WFG4 row is left blank
+because the source ablation export labels that instance $M=10$.
+
+At a matched representative count, adding candidate selection to
+REMO+HPC produced reported W/T/L counts of 3/12/1 at $M=10$ and 3/11/1
+at $M=20$. On DTLZ7, mean IGD decreased from 17.305 to 12.122 and from
+25.637 to 18.154, respectively. WFG9 improved at both objective counts;
+the remaining reported wins were WFG7 at $M=10$ and WFG6 at $M=20$.
+Thus, the matched comparison identifies gains on specific problems while
+most differences were not detected by the exported pairwise tests.
+
+The full method attained the lowest mean IGD in 7 of the 16
+10-objective instances and 5 of the 15 valid 20-objective instances among
+the six configurations. Its comparison with enlarged-$k$ REMO yielded
+10/5/1 and 10/4/1. These latter contrasts measure the combined change
+from both modules at a fixed representative count. In contrast, the
+candidate-only $k=6$ configuration differs from the full method in both
+grouping and $k$, and does not isolate grouping removal at the paper
+setting.
+
+@ABL10@
+
+@ABL20@
+
+\TODO{Insert the candidate-only configuration at $k=15,30$ and complete
+the matched component-removal comparisons. Leave unverified reduced-$k$
+full-method entries blank until their implementation identity is resolved.
+The joint interaction of the two modules remains to be tested.}
+
+\subsection{Analysis of Hybrid PBI-Based Quality Grouping}
+\label{sec:exp:hpc}
+
+\paragraph{Positive-group composition.}
+Hybrid PBI grouping selected a positive group distinct from either
+single-view ranking. This was examined using the archived snapshot study
+on DTLZ2, DTLZ4, DTLZ7, WFG3 and WFG7 at $M=10,20$, with five runs for
+each of two search behaviours: Hybrid and the native representative-based
+binary grouping. The study comprised 100 trajectories and 6,700
+checkpoints. The same snapshots were used for offline comparisons of
+positive-group definitions, each retaining the top 25\% except for the
+native binary group.
+
+Along the 50 Hybrid trajectories, mean Jaccard overlap was 0.5470 between
+the Hybrid group and the direction-score group, and 0.3996 between the
+Hybrid group and the representative-margin group. Along the 50
+native-group trajectories, the corresponding values were 0.5699 and
+0.4244. These run-averaged overlaps establish a change in group
+composition under both recorded search behaviours. Here, the continuous
+representative margin is an equal-quota comparator. The production
+Hybrid score combines the direction score with the binary label, as
+specified in Section~\ref{sec:method}; it does not combine two continuous
+scores.
+
+\paragraph{Association with subsequent retention.}
+The completed good-group precision study evaluated the same five
+problems at $M=10,20$ with 25 runs per configuration, giving 250
+trajectories at $FE_{\max}=500$. At each checkpoint, the Hybrid,
+direction-score and representative-margin rankings selected the top
+25\% of the current population. Precision was the fraction of selected
+solutions that remained in the final population of the recorded Hybrid
+trajectory. Checkpoint precision was averaged within each run and one
+of four $FE/FE_{\max}$ stages, followed by equal averaging across runs
+and configurations.
+
+@PRECISION@
+
+Hybrid achieved mean Precision@25\% of 0.28698, compared with 0.27748
+for the direction score and 0.27617 for the representative margin
+(Table~\ref{tab:exp:precision}). Its advantage was not uniform across
+stages: the representative margin had the highest mean in the second
+stage, while the direction score and Hybrid were nearly equal in the
+last stage. The native binary group selected 49.05\% of the population
+on average and had precision 0.31905; its different selection fraction
+requires it to be reported separately from the top-25\% comparisons.
+
+The two single-view groups also contained distinct future-retained
+solutions. Across 40 problem--objective--stage cells, 33 passed the
+Holm-adjusted test requiring both views to contribute unique
+future-retained solutions in a majority of runs. The stricter test
+requiring Hybrid precision to exceed both single-view precisions passed
+in one cell. Thus, the evidence supports nonredundant information in the
+two views and a modest aggregate retention advantage for Hybrid along
+the recorded trajectories. The endpoint measured here is future
+population membership, rather than final algorithm-level IGD.
+
+\paragraph{Effect of the mixing schedule.}
+The offline snapshot comparison additionally evaluated a fixed
+equal-weight mixture and a reversed schedule. Along the Hybrid
+trajectories, their mean positive-group overlaps with the original
+schedule were 0.99987 and 0.98806, respectively. In these snapshots,
+group membership was therefore largely preserved by the alternative
+schedules. These observations complement the ordering rationale in the
+method section; they do not establish an endpoint advantage for the
+time-varying schedule.
+
+\TODO{Add matched closed-loop comparisons of the grouping schedules and
+independent utility results after the reference-stability check is resolved.}
+
+\subsection{Analysis of Dual-Mode Candidate Selection}
+\label{sec:exp:candidate}
+
+\paragraph{Batch expenditure and selection criteria.}
+The candidate-value probe compared five policies on DTLZ2, DTLZ7, WFG3
+and WFG7 with $M=20$, $N=100$ and $FE_{\max}=300$. Each policy had ten
+runs per problem, paired by the problem and run seed. V0 applied the
+REMO selection rule within the probe host. V1 selected the six highest
+relation scores from the accumulated pool. V2 used exploration-only
+selection, V3 indicator-only selection, and V4 the full dual-mode
+strategy. V0 is a transplanted selection rule, not the original REMO
+algorithm. V1--V4 used the same accumulated-pool construction and a
+six-candidate batch bound; their search trajectories generated their
+own pools.
+
+All 200 runs completed at 300 evaluations. V1--V4 selected exactly six
+candidates in every non-truncated iteration, with the final batch
+reduced to two by the remaining budget. Their mean batch size was
+5.882. Under V0, the batch size ranged from 1 to 38 and averaged 10.386.
+This comparison directly demonstrates the expenditure control supplied
+by the explicit batch bound.
+
+\paragraph{Batch properties and candidate utility.}
+Batch spread was measured by the probe's decision-space dispersion
+statistic. Retention was the fraction of evaluated candidates accepted
+by the host's population-selection operation. The within-pool gain
+ratio compared the selected batch's reduction in mean reference-to-set
+distance with that of a greedy reference batch. This diagnostic used
+300 objective-space reference points and a 400-candidate subset that
+included all selected candidates. Its objective evaluations were used
+only for offline assessment and were not returned to the search.
+Retention and gain ratios below use iterations with
+$FE/FE_{\max}\geq0.5$; batch spread and size use the full trajectory.
+
+@CANDIDATE@
+
+The two modes produced different batch properties. Exploration-only
+selection had the largest mean spread (2.031), whereas indicator-only
+selection had the smallest (1.031). V4 attained late-stage retention
+of 0.770 and a gain ratio of 0.105, compared with 0.706 and 0.086 for
+relation top-six selection. V4's mean spread was 1.479, between the two
+single-mode values. These measurements describe the selected batches
+and are interpreted jointly with the problemwise endpoint IGD in
+Table~\ref{tab:exp:candidate}.
+
+V4 had lower mean final IGD than V1 on DTLZ2, WFG3 and WFG7, but higher
+mean IGD on DTLZ7 (19.675 versus 17.364). Indicator-only selection
+illustrates why retention alone is insufficient: its late-stage
+retention was 0.761, but its mean IGD on DTLZ7 was 32.509. The two
+criteria therefore differ in both batch composition and final quality,
+and the benefit of their combination depends on the problem.
+
+\paragraph{Within-host routing comparison.}
+A separate routing experiment compared exploration-only,
+indicator-only, linearly scheduled switching and equal-probability
+switching on all 16 problems at $M=10,20$. These results used the
+\texttt{UniformMix} implementation of the routing-study host; they are
+reported separately from the \texttt{UniformMix\_Original} main results.
+Table~\ref{tab:exp:routing} retains the IGD and available IGD$^+$
+comparisons within that host.
+
+Equal-probability switching obtained reported IGD W/T/L counts of
+5/9/2 against either single mode at $M=10$. At $M=20$, the counts were
+4/11/1 against exploration-only and 5/11/0 against indicator-only.
+The DTLZ7 mean IGD was 18.615 under equal-probability switching and
+33.514 under indicator-only selection. Against linear switching, the
+counts were 0/16/0 at $M=10$ and 1/15/0 at $M=20$. Thus, these results
+support using both criteria within this host, while showing little
+separation between the two switching schedules.
+
+@ROUTING@
+
+\TODO{Complete the relation-top-six and single-mode ablations for the
+final main-comparison implementation, together with the missing
+10-objective candidate-value probe.}
+
+\subsection{Robustness to Core Controls}
+\label{sec:exp:sensitivity}
+
+\paragraph{Stability of positive-group membership.}
+The offline grouping study tested removal of 5\% and 10\% of the
+population before reconstructing the group. Mean retained-set Jaccard
+overlap for Hybrid was 0.97074 and 0.95471 along the Hybrid trajectories,
+respectively. The native-group trajectories yielded 0.97081 and
+0.95470. Group membership was therefore stable under these local
+population perturbations. This test concerns label stability at fixed
+algorithm controls.
+
+\paragraph{Additional evaluation budget.}
+The available 500-evaluation comparison covered the 16 10-objective
+problems with the \texttt{UniformMix} host. Its reported W/T/L counts
+were 10/4/2 against REMO, 7/4/5 against PIEA, 11/1/4 against MCEAD,
+7/4/5 against R2AEA, 8/4/4 against HES-EA and 15/1/0 against PCSAEA.
+This provides additional within-budget performance evidence. A
+matched budget comparison for the final implementation remains open.
+
+\TODO{Add final-implementation sensitivity results for the core
+grouping and candidate-allocation controls, matched FE-budget comparisons,
+and the wall-clock shares of the two modules.}
+
+\clearpage

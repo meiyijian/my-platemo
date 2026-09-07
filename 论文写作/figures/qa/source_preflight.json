@@ -1,0 +1,153 @@
+{
+  "source": "论文写作\\figures\\build_figures.py",
+  "backend": "python",
+  "summary": {
+    "ready": true,
+    "strict": false,
+    "counts": {
+      "PASS": 16,
+      "WARN": 4,
+      "FAIL": 0
+    }
+  },
+  "findings": [
+    {
+      "check_id": "SOURCE-SYNTAX",
+      "level": "PASS",
+      "message": "Python source parses successfully",
+      "evidence": []
+    },
+    {
+      "check_id": "FONT-FAMILY",
+      "level": "PASS",
+      "message": "A publication-safe sans-serif family is configured",
+      "evidence": [
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    {
+      "check_id": "FONT-SIZE",
+      "level": "PASS",
+      "message": "All detected text sizes are at least 5 pt (minimum 6.9 pt)",
+      "evidence": []
+    },
+    {
+      "check_id": "FONT-GLYPH-FLOOR",
+      "level": "WARN",
+      "message": "Mathtext may shrink script glyphs below 5 pt (about 4.83 pt from a 6.9 pt parent); use a Unicode glyph or audit PDF Tf operators",
+      "evidence": [
+        "$\\mathcal{C}_1$"
+      ]
+    },
+    {
+      "check_id": "LEGEND-LABEL-CASE",
+      "level": "PASS",
+      "message": "No auditable literal legend labels detected",
+      "evidence": []
+    },
+    {
+      "check_id": "COLOR-MAP",
+      "level": "PASS",
+      "message": "No rainbow/jet/hsv color mapping detected",
+      "evidence": []
+    },
+    {
+      "check_id": "EDITABLE-TEXT",
+      "level": "PASS",
+      "message": "SVG and PDF editable-text settings are configured",
+      "evidence": []
+    },
+    {
+      "check_id": "EXPORT-VECTOR",
+      "level": "PASS",
+      "message": "Both SVG and PDF exports are present",
+      "evidence": []
+    },
+    {
+      "check_id": "EXPORT-RASTER",
+      "level": "WARN",
+      "message": "PNG preview is present but no TIFF submission raster was found",
+      "evidence": []
+    },
+    {
+      "check_id": "RASTER-DPI",
+      "level": "PASS",
+      "message": "A raster export of at least 600 dpi is configured",
+      "evidence": [
+        "600"
+      ]
+    },
+    {
+      "check_id": "FINAL-WIDTH",
+      "level": "WARN",
+      "message": "Detected width 4572.0 mm is not near the common 89/183 mm defaults; verify the target journal",
+      "evidence": []
+    },
+    {
+      "check_id": "DATA-SAMPLING",
+      "level": "PASS",
+      "message": "No high-confidence row-sampling operation detected",
+      "evidence": []
+    },
+    {
+      "check_id": "DATA-EXCLUSION",
+      "level": "PASS",
+      "message": "No high-confidence missing-data exclusion detected",
+      "evidence": []
+    },
+    {
+      "check_id": "DEMO-DATA",
+      "level": "WARN",
+      "message": "Simulated data appears in the plotting source without an explicit demo boundary",
+      "evidence": [
+        "np.random.default_rng(",
+        "rng.uniform("
+      ]
+    },
+    {
+      "check_id": "LOG-GUARD",
+      "level": "PASS",
+      "message": "A logarithmic transform/axis and a positivity or pseudocount guard were both detected",
+      "evidence": [
+        "strictly positive"
+      ]
+    },
+    {
+      "check_id": "INTERP-MONOTONIC",
+      "level": "PASS",
+      "message": "No NumPy interpolation requiring an increasing x-grid detected",
+      "evidence": []
+    },
+    {
+      "check_id": "UNCERTAINTY-ENCODING",
+      "level": "PASS",
+      "message": "A stochastic aggregate and uncertainty encoding are both present; still verify every comparable panel",
+      "evidence": [
+        "yerr=",
+        ".errorbar("
+      ]
+    },
+    {
+      "check_id": "ROTATION-ANCHOR",
+      "level": "PASS",
+      "message": "Every detected rotated text call uses anchor-based placement",
+      "evidence": [
+        "line 323: rotation=...",
+        "line 433: rotation=..."
+      ]
+    },
+    {
+      "check_id": "ANNOTATION-WORKAROUND",
+      "level": "PASS",
+      "message": "No high-risk hard-coded label height or opaque white text mask detected",
+      "evidence": []
+    },
+    {
+      "check_id": "BACKEND-EXCLUSIVE",
+      "level": "PASS",
+      "message": "No obvious cross-backend plotting reference found for python",
+      "evidence": []
+    }
+  ]
+}

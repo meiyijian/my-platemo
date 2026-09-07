@@ -1,0 +1,231 @@
+BATCH population_final
+                      MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+Batch View                                                                    
+new   anchor_margin       0.280474  0.544375    0.299418  0.982539    0.245635
+      score_hybrid        0.289443  0.519287    0.299418  1.032393    0.258098
+      score_v             0.287785  0.480896    0.299418  1.035437    0.258859
+old   anchor_margin       0.276170  0.552538    0.305666  0.944393    0.236098
+      score_hybrid        0.286984  0.539272    0.305666  1.161888    0.290472
+      score_v             0.277482  0.484482    0.305666  1.059363    0.264841
+PROBLEM population_final
+                        MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+Problem View                                                                    
+DTLZ2   anchor_margin       0.264712  0.574012    0.275224  1.037285    0.259321
+        score_hybrid        0.315287  0.625267    0.275224  1.546687    0.386672
+        score_v             0.310212  0.605907    0.275224  1.507138    0.376785
+DTLZ3   anchor_margin       0.306787  0.611310    0.281934  1.234629    0.308657
+        score_hybrid        0.365434  0.659088    0.281934  1.618718    0.404679
+        score_v             0.361219  0.642377    0.281934  1.583149    0.395787
+DTLZ4   anchor_margin       0.403691  0.647827    0.332871  1.568300    0.392075
+        score_hybrid        0.402067  0.635935    0.332871  1.556824    0.389206
+        score_v             0.345469  0.496239    0.332871  1.054717    0.263679
+DTLZ5   anchor_margin       0.325836  0.560416    0.317353  1.098510    0.274627
+        score_hybrid        0.331505  0.567469    0.317353  1.187038    0.296759
+        score_v             0.320897  0.529176    0.317353  1.149019    0.287255
+DTLZ6   anchor_margin       0.275993  0.546965    0.270019  1.106004    0.276501
+        score_hybrid        0.295097  0.556253    0.270019  1.147497    0.286874
+        score_v             0.309060  0.567365    0.270019  1.266449    0.316612
+DTLZ7   anchor_margin       0.163530  0.580437    0.167777  0.874340    0.218585
+        score_hybrid        0.211094  0.672852    0.167777  1.720644    0.430161
+        score_v             0.210488  0.665920    0.167777  1.702438    0.425609
+WFG1    anchor_margin       0.233179  0.545953    0.241982  0.929583    0.232396
+        score_hybrid        0.211031  0.494939    0.241982  0.712662    0.178166
+        score_v             0.171866  0.317906    0.241982  0.563243    0.140811
+WFG3    anchor_margin       0.329112  0.505588    0.419291  0.715032    0.178758
+        score_hybrid        0.300788  0.453771    0.419291  0.653811    0.163453
+        score_v             0.273780  0.334833    0.419291  0.562850    0.140712
+WFG7    anchor_margin       0.219803  0.461629    0.333168  0.510658    0.127665
+        score_hybrid        0.205682  0.341022    0.333168  0.467499    0.116875
+        score_v             0.247460  0.363663    0.333168  0.626247    0.156562
+WFG8    anchor_margin       0.260574  0.457999    0.385802  0.544196    0.136049
+        score_hybrid        0.244148  0.318928    0.385802  0.484904    0.121226
+        score_v             0.275883  0.340738    0.385802  0.595985    0.148996
+STAGES population_final
+                                 MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+Batch StageShort View                                                                    
+new   S1         anchor_margin       0.048800  0.575470    0.062376  1.089809    0.272452
+                 score_hybrid        0.049152  0.542672    0.062376  1.170458    0.292614
+                 score_v             0.053088  0.507178    0.062376  1.191078    0.297770
+      S2         anchor_margin       0.110514  0.540976    0.134714  0.925801    0.231450
+                 score_hybrid        0.117227  0.509917    0.134714  0.974132    0.243533
+                 score_v             0.124114  0.460488    0.134714  1.021315    0.255329
+      S3         anchor_margin       0.300264  0.533011    0.323504  0.943381    0.235845
+                 score_hybrid        0.311264  0.507918    0.323504  0.984039    0.246010
+                 score_v             0.303728  0.471835    0.323504  0.949756    0.237439
+      S4         anchor_margin       0.662316  0.529783    0.677078  0.977173    0.244293
+                 score_hybrid        0.680130  0.517948    0.677078  1.008675    0.252169
+                 score_v             0.670210  0.485554    0.677078  0.988314    0.247079
+old   S1         anchor_margin       0.079488  0.625932    0.087776  1.112817    0.278204
+                 score_hybrid        0.085472  0.621805    0.087776  1.488952    0.372238
+                 score_v             0.059488  0.480257    0.087776  1.111995    0.277999
+      S2         anchor_margin       0.124137  0.557339    0.150017  0.896733    0.224183
+                 score_hybrid        0.118042  0.539104    0.150017  1.201039    0.300260
+                 score_v             0.107512  0.485572    0.150017  1.126058    0.281515
+      S3         anchor_margin       0.271256  0.523011    0.320230  0.853651    0.213413
+                 score_hybrid        0.290112  0.507754    0.320230  1.013816    0.253454
+                 score_v             0.288344  0.483371    0.320230  1.005716    0.251429
+      S4         anchor_margin       0.629798  0.516883    0.664642  0.943060    0.235765
+                 score_hybrid        0.654309  0.502946    0.664642  1.002091    0.250523
+                 score_v             0.654583  0.488006    0.664642  1.004279    0.251070
+HOLM population_final
+ Outcome                        loss  nonsignificant  win
+Batch Metric    ViewB                                   
+new   AUC       anchor_margin    13              22    5
+                score_v           5              20   15
+      Lift      anchor_margin     5              27    8
+                score_v           6              28    6
+      Precision anchor_margin     4              28    8
+                score_v           6              28    6
+old   AUC       anchor_margin    19               9   12
+                score_v           4              19   17
+      Lift      anchor_margin     7              19   14
+                score_v           5              23   12
+      Precision anchor_margin     7              20   13
+                score_v           5              23   12
+ALL population_final
+                MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+View                                                                    
+anchor_margin       0.278322  0.548382    0.302542  0.963811    0.240953
+score_hybrid        0.288213  0.529099    0.302542  1.095971    0.273993
+score_v             0.282633  0.482656    0.302542  1.047184    0.261796
+TOP NEW CELLS against stronger baseline
+ View                   anchor_margin  score_hybrid   score_v    DeltaV  DeltaAnchor  DeltaBest
+Problem M  StageShort                                                                         
+DTLZ5   20 S2               0.152914      0.173181  0.160686  0.012495     0.020267   0.012495
+DTLZ3   20 S4               0.718857      0.784152  0.772114  0.012038     0.065295   0.012038
+           S3               0.338560      0.461200  0.451200  0.010000     0.122640   0.010000
+DTLZ5   20 S4               0.725714      0.744152  0.734781  0.009371     0.018438   0.009371
+DTLZ3   10 S3               0.363520      0.414560  0.405760  0.008800     0.051040   0.008800
+DTLZ5   20 S1               0.082560      0.099520  0.092480  0.007040     0.016960   0.007040
+DTLZ3   20 S2               0.115581      0.176686  0.170895  0.005790     0.061105   0.005790
+           S1               0.033600      0.054720  0.051520  0.003200     0.021120   0.003200
+DTLZ6   10 S4               0.688762      0.703924  0.702095  0.001829     0.015162   0.001829
+DTLZ5   10 S4               0.726400      0.727619  0.717181  0.010438     0.001219   0.001219
+DTLZ3   10 S2               0.122133      0.179733  0.179733  0.000000     0.057600   0.000000
+DTLZ5   10 S1               0.059840      0.059840  0.056000  0.003840     0.000000   0.000000
+LOW NEW CELLS against stronger baseline
+ View                   anchor_margin  score_hybrid   score_v    DeltaV  DeltaAnchor  DeltaBest
+Problem M  StageShort                                                                         
+WFG8    20 S4               0.563124      0.553067  0.623010 -0.069943    -0.010057  -0.069943
+           S3               0.210880      0.194800  0.255520 -0.060720    -0.016080  -0.060720
+WFG1    20 S3               0.238000      0.182080  0.124400  0.057680    -0.055920  -0.055920
+WFG8    20 S2               0.072305      0.060343  0.114895 -0.054552    -0.011962  -0.054552
+DTLZ6   20 S2               0.084114      0.105371  0.149486 -0.044114     0.021257  -0.044114
+           S3               0.234720      0.282640  0.318400 -0.035760     0.047920  -0.035760
+WFG8    10 S1               0.092480      0.059520  0.066240 -0.006720    -0.032960  -0.032960
+WFG1    10 S2               0.065829      0.034286  0.022095  0.012190    -0.031543  -0.031543
+NEW BOTH-SIGNIFICANT WINS population_final
+Precision 0 []
+AUC 1 [('DTLZ3', 20, 'S3')]
+Lift 0 []
+AUC missing by batch/truth Batch  Truth             View         
+new    front_final       anchor_margin     42
+                         score_hybrid      42
+                         score_v           42
+       front_h1          anchor_margin     82
+                         score_hybrid      82
+                         score_v           82
+       front_h3          anchor_margin     77
+                         score_hybrid      77
+                         score_v           77
+       population_final  anchor_margin     14
+                         score_hybrid      14
+                         score_v           14
+       population_h1     anchor_margin      0
+                         score_hybrid       0
+                         score_v            0
+       population_h3     anchor_margin      0
+                         score_hybrid       0
+                         score_v            0
+old    front_final       anchor_margin    271
+                         score_hybrid     271
+                         score_v          271
+       front_h1          anchor_margin    353
+                         score_hybrid     353
+                         score_v          353
+       front_h3          anchor_margin    339
+                         score_hybrid     339
+                         score_v          339
+       population_final  anchor_margin     49
+                         score_hybrid      49
+                         score_v           49
+       population_h1     anchor_margin      0
+                         score_hybrid       0
+                         score_v            0
+       population_h3     anchor_margin      0
+                         score_hybrid       0
+                         score_v            0
+ORACLE population_final hybrid
+                   OraclePrecision  ExcessOverChance  OracleHeadroom
+Batch StageShort                                                   
+new   S1                 0.248832         -0.013224        0.199680
+      S2                 0.513981         -0.017488        0.396754
+      S3                 0.931280         -0.012240        0.620016
+      S4                 1.000000          0.003051        0.319870
+old   S1                 0.333568         -0.002304        0.248096
+      S2                 0.542042         -0.031975        0.424000
+      S3                 0.868144         -0.030118        0.578032
+      S4                 0.998187         -0.010333        0.343878
+selected per-cell examples
+Problem  M StageShort    Metric         ViewB    MeanA    MeanB  MeanDelta  PValueHolm  RankBiserial
+  DTLZ3 20         S3 Precision       score_v 0.461200 0.451200   0.010000    0.621094      0.249231
+  DTLZ3 20         S3 Precision anchor_margin 0.461200 0.338560   0.122640    0.000517      0.932308
+  DTLZ3 20         S3       AUC       score_v 0.629863 0.601616   0.028247    0.005451      0.790769
+  DTLZ3 20         S3       AUC anchor_margin 0.629863 0.581782   0.048080    0.002374      0.846154
+  DTLZ3 20         S3      Lift       score_v 1.429893 1.403653   0.026240    0.804887      0.200000
+  DTLZ3 20         S3      Lift anchor_margin 1.429893 1.028309   0.401584    0.000489      0.938462
+Problem  M StageShort    Metric         ViewB    MeanA    MeanB  MeanDelta  PValueHolm  RankBiserial
+  DTLZ4 20         S3 Precision       score_v 0.462400 0.421920   0.040480    0.010131      0.747692
+  DTLZ4 20         S3 Precision anchor_margin 0.462400 0.402320   0.060080    0.022523      0.683077
+  DTLZ4 20         S3       AUC       score_v 0.593408 0.552108   0.041301    0.001727      0.846154
+  DTLZ4 20         S3       AUC anchor_margin 0.593408 0.566576   0.026832    0.019296      0.673846
+  DTLZ4 20         S3      Lift       score_v 1.292469 1.173827   0.118643    0.007275      0.766154
+  DTLZ4 20         S3      Lift anchor_margin 1.292469 1.101285   0.191184    0.023576      0.680000
+Problem  M StageShort    Metric         ViewB    MeanA    MeanB  MeanDelta  PValueHolm  RankBiserial
+  DTLZ5 20         S3 Precision       score_v 0.362320 0.344720   0.017600    1.000000      0.323077
+  DTLZ5 20         S3 Precision anchor_margin 0.362320 0.365440  -0.003120    1.000000     -0.016667
+  DTLZ5 20         S3       AUC       score_v 0.511697 0.459231   0.052466    0.000616      0.926154
+  DTLZ5 20         S3       AUC anchor_margin 0.511697 0.526466  -0.014769    0.804887     -0.292308
+  DTLZ5 20         S3      Lift       score_v 0.943559 0.894939   0.048619    0.997725      0.335385
+  DTLZ5 20         S3      Lift anchor_margin 0.943559 0.952581  -0.009023    1.000000     -0.046154
+Problem  M StageShort    Metric         ViewB    MeanA    MeanB  MeanDelta  PValueHolm  RankBiserial
+  DTLZ6 20         S3 Precision       score_v 0.282640 0.318400  -0.035760    0.154293     -0.473846
+  DTLZ6 20         S3 Precision anchor_margin 0.282640 0.234720   0.047920    0.007452      0.760000
+  DTLZ6 20         S3       AUC       score_v 0.545513 0.567590  -0.022077    0.208020     -0.483077
+  DTLZ6 20         S3       AUC anchor_margin 0.545513 0.523975   0.021538    0.138028      0.544615
+  DTLZ6 20         S3      Lift       score_v 1.078366 1.208231  -0.129865    0.151553     -0.495385
+  DTLZ6 20         S3      Lift anchor_margin 1.078366 0.871480   0.206886    0.004817      0.784615
+Problem  M StageShort    Metric         ViewB    MeanA    MeanB  MeanDelta  PValueHolm  RankBiserial
+   WFG8 20         S3 Precision       score_v 0.194800 0.255520  -0.060720    0.000761     -0.907692
+   WFG8 20         S3 Precision anchor_margin 0.194800 0.210880  -0.016080    0.173673     -0.458462
+   WFG8 20         S3       AUC       score_v 0.333668 0.389766  -0.056099    0.000147     -0.993846
+   WFG8 20         S3       AUC anchor_margin 0.333668 0.460206  -0.126538    0.000147     -1.000000
+   WFG8 20         S3      Lift       score_v 0.503874 0.665357  -0.161483    0.001260     -0.876923
+   WFG8 20         S3      Lift anchor_margin 0.503874 0.547823  -0.043949    0.129710     -0.489231
+EXAMPLE full metrics DTLZ3 20 S3 
+                MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+View                                                                    
+anchor_margin        0.33856  0.581782     0.32492  1.028309    0.257077
+score_hybrid         0.46120  0.629863     0.32492  1.429893    0.357473
+score_v              0.45120  0.601616     0.32492  1.403653    0.350913
+EXAMPLE full metrics DTLZ4 20 S3 
+                MeanPrecision   MeanAUC  MeanChance  MeanLift  MeanRecall
+View                                                                    
+anchor_margin        0.40232  0.566576     0.36802  1.101285    0.275321
+score_hybrid         0.46240  0.593408     0.36802  1.292469    0.323117
+score_v              0.42192  0.552108     0.36802  1.173827    0.293457
+EXPLORATORY BOOTSTRAP
+ Problem  M Stage    Metric      Baseline  N    Delta     Low95   High95  ExtraPositivePer25
+  DTLZ3 20    S3 Precision       score_v 25 0.010000 -0.008720 0.028160               0.250
+  DTLZ3 20    S3 Precision anchor_margin 25 0.122640  0.084480 0.161680               3.066
+  DTLZ3 20    S3       AUC       score_v 25 0.028247  0.016122 0.040540                 NaN
+  DTLZ3 20    S3       AUC anchor_margin 25 0.048080  0.029318 0.067469                 NaN
+  DTLZ3 20    S3      Lift       score_v 25 0.026240 -0.034950 0.085419                 NaN
+  DTLZ3 20    S3      Lift anchor_margin 25 0.401584  0.281918 0.522037                 NaN
+  DTLZ4 20    S3 Precision       score_v 25 0.040480  0.021440 0.059280               1.012
+  DTLZ4 20    S3 Precision anchor_margin 25 0.060080  0.026160 0.092320               1.502
+  DTLZ4 20    S3       AUC       score_v 25 0.041301  0.025759 0.056815                 NaN
+  DTLZ4 20    S3       AUC anchor_margin 25 0.026832  0.012066 0.041564                 NaN
+  DTLZ4 20    S3      Lift       score_v 25 0.118643  0.066666 0.171509                 NaN
+  DTLZ4 20    S3      Lift anchor_margin 25 0.191184  0.086938 0.293934                 NaN
+AUDIT_PASS: coverage, identities, checkpoint arithmetic, all per-run aggregates, all paired means, all Holm families

@@ -1,0 +1,149 @@
+MAIN 3 META {'N': ['None'], 'M': ['3'], 'D': ['10'], 'FE': ['None']}
+REMO W/T/L 5 4 7
+PIEA W/T/L 3 3 10
+MCEAD W/T/L 6 8 2
+PCSAEA W/T/L 14 1 1
+HES_EA W/T/L 2 5 9
+KRVEA W/T/L 8 3 5
+ALL {'+': 34, '=': 24, '-': 38} BEST 0
+COMMON {'+': 24, '=': 18, '-': 22} median 2.0563399347395803 mean -15.07049872635558
+MAIN 5 META {'N': ['None'], 'M': ['5'], 'D': ['10'], 'FE': ['None']}
+REMO W/T/L 7 6 3
+PIEA W/T/L 6 5 5
+MCEAD W/T/L 12 2 2
+PCSAEA W/T/L 15 0 1
+HES_EA W/T/L 3 8 5
+KRVEA W/T/L 6 5 5
+ALL {'+': 21, '-': 49, '=': 26} BEST 2
+COMMON {'+': 15, '-': 31, '=': 18} median 6.760848508208315 mean -4.857283908202959
+MAIN 8 META {'N': ['100'], 'M': ['8'], 'D': ['10', '11'], 'FE': ['300']}
+REMO W/T/L 10 1 5
+PIEA W/T/L 13 1 2
+MCEAD W/T/L 10 4 2
+PCSAEA W/T/L 14 2 0
+HES_EA W/T/L 0 6 10
+KRVEA W/T/L 5 6 5
+ALL {'+': 24, '-': 52, '=': 20} BEST 1
+COMMON {'+': 14, '-': 38, '=': 12} median 7.037306021878365 mean -3.3955068860205695
+MAIN 10 META {'N': ['100'], 'M': ['10'], 'D': ['30', '31'], 'FE': ['300']}
+REMO W/T/L 9 5 2
+PIEA W/T/L 6 3 7
+MCEAD W/T/L 9 3 4
+R2AEA W/T/L 7 4 5
+PCSAEA W/T/L 15 0 1
+KRVEA W/T/L 15 0 1
+CSEA W/T/L 12 3 1
+ALL {'=': 18, '+': 21, '-': 73} BEST 3
+COMMON {'=': 11, '-': 39, '+': 14} median 10.494630611024633 mean 3.372391572639123
+DTLZ1 REMO: 2.0748e+2 (4.35e+1) = / PIEA: 2.4207e+2 (7.32e+1) = / MCEAD: 2.3531e+2 (4.54e+1) = / R2AEA: 2.7206e+2 (2.49e+1) - / PCSAEA: 3.6855e+2 (2.80e+1) - / KRVEA: 3.6855e+2 (2.80e+1) - / CSEA: 2.2281e+2 (4.96e+1) = / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.2944e+2 (3.62e+1)
+DTLZ2 REMO: 1.0902e+0 (9.26e-2) = / PIEA: 9.6871e-1 (5.69e-2) + / MCEAD: 1.0974e+0 (6.08e-2) = / R2AEA: 1.4611e+0 (5.68e-2) - / PCSAEA: 1.5378e+0 (6.87e-2) - / KRVEA: 1.5416e+0 (6.16e-2) - / CSEA: 1.3229e+0 (9.81e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.0946e+0 (8.88e-2)
+DTLZ3 REMO: 8.0813e+2 (1.50e+2) + / PIEA: 5.5459e+2 (1.06e+2) + / MCEAD: 5.7499e+2 (1.31e+2) + / R2AEA: 5.6353e+2 (6.65e+1) + / PCSAEA: 1.3393e+3 (8.67e+1) - / KRVEA: 1.3574e+3 (1.10e+2) - / CSEA: 9.0082e+2 (1.72e+2) = / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 9.3919e+2 (1.40e+2)
+DTLZ4 REMO: 1.1487e+0 (1.05e-1) = / PIEA: 1.2452e+0 (4.05e-2) = / MCEAD: 1.2487e+0 (1.91e-2) - / R2AEA: 1.5944e+0 (7.20e-2) - / PCSAEA: 1.7339e+0 (5.89e-2) - / KRVEA: 1.7361e+0 (6.76e-2) - / CSEA: 1.2198e+0 (8.16e-2) = / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.1814e+0 (1.12e-1)
+DTLZ5 REMO: 6.2052e-1 (1.47e-1) = / PIEA: 2.9016e-1 (3.54e-2) + / MCEAD: 3.7432e-1 (6.73e-2) + / R2AEA: 9.8650e-1 (8.39e-2) - / PCSAEA: 9.8455e-1 (6.03e-2) - / KRVEA: 9.9808e-1 (4.84e-2) - / CSEA: 7.6415e-1 (1.07e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 6.6049e-1 (1.47e-1)
+DTLZ6 REMO: 1.6378e+1 (7.30e-1) - / PIEA: 5.4851e+0 (1.81e+0) + / MCEAD: 8.9744e+0 (1.77e+0) + / R2AEA: 1.3116e+1 (1.22e+0) + / PCSAEA: 1.8023e+1 (1.70e-1) - / KRVEA: 1.8042e+1 (1.58e-1) - / CSEA: 1.6064e+1 (6.81e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.4463e+1 (1.10e+0)
+DTLZ7 REMO: 2.1252e+1 (2.44e+0) - / PIEA: 1.8588e+1 (5.79e+0) - / MCEAD: 2.0445e+1 (4.67e+0) - / R2AEA: 6.2038e+0 (1.22e+0) + / PCSAEA: 2.9100e+1 (1.69e+0) - / KRVEA: 2.8736e+1 (1.88e+0) - / CSEA: 2.7611e+1 (2.24e+0) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.2122e+1 (2.80e+0)
+WFG1 REMO: 3.2354e+0 (8.74e-2) = / PIEA: 3.3433e+0 (4.96e-2) - / MCEAD: 3.4587e+0 (3.65e-2) - / R2AEA: 3.1986e+0 (3.20e-2) = / PCSAEA: 3.4196e+0 (1.68e-2) - / KRVEA: 3.4256e+0 (2.10e-2) - / CSEA: 3.2723e+0 (6.63e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 3.1933e+0 (2.79e-2)
+WFG2 REMO: 3.5108e+0 (1.08e+0) - / PIEA: 2.3710e+0 (4.69e-1) - / MCEAD: 3.4836e+0 (9.77e-1) - / R2AEA: 2.2469e+0 (1.13e-1) - / PCSAEA: 3.5949e+0 (6.30e-1) - / KRVEA: 3.8780e+0 (6.00e-1) - / CSEA: 3.5554e+0 (1.03e+0) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.1211e+0 (6.82e-1)
+WFG3 REMO: 1.5188e+0 (1.01e-1) + / PIEA: 1.1823e+0 (1.49e-1) + / MCEAD: 1.2551e+0 (4.56e-2) + / R2AEA: 1.5946e+0 (4.99e-2) + / PCSAEA: 1.6472e+0 (3.93e-2) + / KRVEA: 1.6496e+0 (4.64e-2) + / CSEA: 1.5723e+0 (8.05e-2) + / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.7006e+0 (5.87e-2)
+WFG4 REMO: 8.1770e+0 (9.93e-1) - / PIEA: 5.7766e+0 (5.86e-1) + / MCEAD: 7.1626e+0 (8.70e-1) = / R2AEA: 5.7901e+0 (3.16e-1) + / PCSAEA: 9.1390e+0 (4.55e-1) - / KRVEA: 9.2700e+0 (3.98e-1) - / CSEA: 9.0803e+0 (8.62e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 6.6311e+0 (6.38e-1)
+WFG5 REMO: 6.9444e+0 (5.14e-1) - / PIEA: 5.7544e+0 (2.59e-1) = / MCEAD: 6.6193e+0 (3.95e-1) - / R2AEA: 6.5834e+0 (4.62e-1) - / PCSAEA: 7.0750e+0 (1.97e-1) - / KRVEA: 6.9475e+0 (2.47e-1) - / CSEA: 7.1022e+0 (4.09e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.9732e+0 (4.00e-1)
+WFG6 REMO: 6.4255e+0 (4.79e-1) - / PIEA: 5.9360e+0 (4.03e-1) - / MCEAD: 7.2512e+0 (6.73e-1) - / R2AEA: 5.2560e+0 (1.32e-1) = / PCSAEA: 7.3710e+0 (3.74e-1) - / KRVEA: 7.3224e+0 (3.02e-1) - / CSEA: 7.4553e+0 (5.14e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.2773e+0 (2.01e-1)
+WFG7 REMO: 6.2812e+0 (7.42e-1) - / PIEA: 6.9139e+0 (5.04e-1) - / MCEAD: 8.1581e+0 (6.29e-1) - / R2AEA: 6.4875e+0 (4.09e-1) - / PCSAEA: 7.8445e+0 (3.81e-1) - / KRVEA: 7.8642e+0 (4.20e-1) - / CSEA: 7.3904e+0 (6.15e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.2969e+0 (2.57e-1)
+WFG8 REMO: 7.0559e+0 (5.06e-1) - / PIEA: 6.3573e+0 (4.99e-1) - / MCEAD: 7.4671e+0 (4.72e-1) - / R2AEA: 5.5601e+0 (1.19e-1) = / PCSAEA: 7.5364e+0 (2.73e-1) - / KRVEA: 7.4984e+0 (3.01e-1) - / CSEA: 7.7877e+0 (3.46e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.6930e+0 (2.66e-1)
+WFG9 REMO: 7.6476e+0 (7.61e-1) - / PIEA: 5.7930e+0 (3.72e-1) + / MCEAD: 7.0825e+0 (6.96e-1) - / R2AEA: 6.4412e+0 (3.15e-1) = / PCSAEA: 7.7853e+0 (4.44e-1) - / KRVEA: 7.7844e+0 (3.65e-1) - / CSEA: 8.1835e+0 (3.07e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 6.3788e+0 (6.11e-1)
+MAIN 12 META {'N': ['100'], 'M': ['12'], 'D': ['30', '31'], 'FE': ['300']}
+REMO W/T/L 7 1 1
+PIEA W/T/L 4 2 3
+MCEAD W/T/L 8 0 1
+PCSAEA W/T/L 8 0 1
+HES_EA W/T/L 8 0 1
+KRVEA W/T/L 8 0 1
+ALL {'=': 3, '-': 43, '+': 8} BEST 4
+COMMON {'=': 3, '-': 27, '+': 6} median 15.658692919056802 mean 12.6060826749759
+MAIN 20 META {'N': ['100'], 'M': ['20'], 'D': ['30', '31'], 'FE': ['300']}
+REMO W/T/L 8 6 2
+PIEA W/T/L 9 2 5
+MCEAD W/T/L 8 3 5
+R2AEA W/T/L 4 6 6
+KRVEA W/T/L 15 0 1
+CSEA W/T/L 11 4 1
+HES_EA W/T/L 15 0 1
+ALL {'+': 21, '=': 21, '-': 70} BEST 1
+COMMON {'+': 13, '-': 40, '=': 11} median 9.730999052611011 mean -0.1692897597620293
+DTLZ1 REMO: 6.7408e+1 (1.93e+1) + / PIEA: 9.3984e+1 (1.82e+1) - / MCEAD: 7.6364e+1 (3.61e+1) = / R2AEA: 1.0965e+2 (1.62e+1) - / KRVEA: 1.5756e+2 (1.98e+1) - / CSEA: 7.9813e+1 (1.99e+1) = / HES_EA: 1.6595e+2 (1.85e+1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 7.9755e+1 (1.09e+1)
+DTLZ2 REMO: 1.1173e+0 (5.45e-2) = / PIEA: 1.1636e+0 (2.17e-2) - / MCEAD: 1.2196e+0 (2.96e-2) - / R2AEA: 1.3157e+0 (4.47e-2) - / KRVEA: 1.3465e+0 (2.76e-2) - / CSEA: 1.1817e+0 (5.61e-2) - / HES_EA: 1.3478e+0 (3.70e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.1350e+0 (4.89e-2)
+DTLZ3 REMO: 2.6646e+2 (7.13e+1) = / PIEA: 2.5997e+2 (1.15e+1) = / MCEAD: 1.2168e+2 (1.12e+2) + / R2AEA: 3.0721e+2 (5.93e+1) = / KRVEA: 5.1789e+2 (7.55e+1) - / CSEA: 2.5514e+2 (6.82e+1) = / HES_EA: 5.4369e+2 (8.04e+1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.8568e+2 (6.84e+1)
+DTLZ4 REMO: 1.0368e+0 (4.26e-2) = / PIEA: 1.1269e+0 (6.03e-2) - / MCEAD: 1.2852e+0 (3.78e-2) - / R2AEA: 1.2275e+0 (5.62e-2) - / KRVEA: 1.2558e+0 (3.34e-2) - / CSEA: 1.0610e+0 (4.81e-2) = / HES_EA: 1.2647e+0 (2.73e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.0578e+0 (5.34e-2)
+DTLZ5 REMO: 2.7068e-1 (5.25e-2) = / PIEA: 1.5237e-1 (2.26e-2) + / MCEAD: 1.5161e-1 (4.26e-2) + / R2AEA: 4.4572e-1 (7.26e-2) - / KRVEA: 4.1362e-1 (4.70e-2) - / CSEA: 2.9000e-1 (5.36e-2) = / HES_EA: 4.1158e-1 (3.61e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 3.0345e-1 (6.65e-2)
+DTLZ6 REMO: 7.3417e+0 (6.33e-1) = / PIEA: 2.1640e+0 (1.05e+0) + / MCEAD: 4.1169e+0 (1.03e+0) + / R2AEA: 5.6087e+0 (1.98e+0) = / KRVEA: 9.2234e+0 (1.53e-1) - / CSEA: 7.4321e+0 (7.00e-1) - / HES_EA: 9.1974e+0 (1.22e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 6.6546e+0 (9.39e-1)
+DTLZ7 REMO: 3.8239e+1 (7.37e+0) - / PIEA: 1.8728e+1 (9.86e+0) - / MCEAD: 2.8155e+1 (1.25e+1) - / R2AEA: 1.4039e+1 (2.89e+0) + / KRVEA: 4.9744e+1 (5.36e+0) - / CSEA: 4.8818e+1 (9.05e+0) - / HES_EA: 4.8867e+1 (4.77e+0) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.8154e+1 (2.61e+0)
+WFG1 REMO: 5.6202e+0 (8.82e-2) = / PIEA: 5.7081e+0 (5.05e-2) - / MCEAD: 5.7957e+0 (4.51e-2) - / R2AEA: 5.6059e+0 (4.65e-2) = / KRVEA: 5.7218e+0 (3.08e-2) - / CSEA: 5.6736e+0 (1.06e-1) - / HES_EA: 5.7151e+0 (3.91e-2) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.6075e+0 (7.93e-2)
+WFG2 REMO: 7.9480e+0 (1.54e+0) - / PIEA: 6.0506e+0 (1.05e+0) - / MCEAD: 7.6391e+0 (2.05e+0) - / R2AEA: 4.6261e+0 (1.67e-1) + / KRVEA: 8.3973e+0 (9.72e-1) - / CSEA: 8.8363e+0 (1.30e+0) - / HES_EA: 8.8430e+0 (1.37e+0) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 5.4393e+0 (1.31e+0)
+WFG3 REMO: 2.2519e+0 (2.32e-1) + / PIEA: 1.7073e+0 (1.73e-1) + / MCEAD: 1.9974e+0 (2.03e-1) + / R2AEA: 2.6029e+0 (1.15e-1) + / KRVEA: 2.4955e+0 (8.00e-2) + / CSEA: 2.3113e+0 (1.84e-1) + / HES_EA: 2.4573e+0 (6.25e-2) + / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.7306e+0 (1.52e-1)
+WFG4 REMO: 2.9066e+1 (1.21e+0) - / PIEA: 2.0639e+1 (3.25e+0) + / MCEAD: 2.0456e+1 (3.65e+0) + / R2AEA: 1.7947e+1 (1.25e+0) + / KRVEA: 2.9490e+1 (7.24e-1) - / CSEA: 2.9600e+1 (1.48e+0) - / HES_EA: 2.9432e+1 (9.66e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.3927e+1 (1.07e+0)
+WFG5 REMO: 2.5608e+1 (1.19e+0) - / PIEA: 2.1972e+1 (9.12e-1) + / MCEAD: 2.2931e+1 (6.52e-1) = / R2AEA: 2.3519e+1 (1.28e+0) = / KRVEA: 2.4741e+1 (6.96e-1) - / CSEA: 2.5912e+1 (9.45e-1) - / HES_EA: 2.4824e+1 (5.85e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.2849e+1 (1.62e+0)
+WFG6 REMO: 2.4041e+1 (1.66e+0) - / PIEA: 2.2696e+1 (1.82e+0) - / MCEAD: 2.5327e+1 (1.94e+0) - / R2AEA: 1.5679e+1 (5.02e-1) + / KRVEA: 2.5293e+1 (5.92e-1) - / CSEA: 2.6268e+1 (1.20e+0) - / HES_EA: 2.5393e+1 (7.75e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 1.9097e+1 (6.18e-1)
+WFG7 REMO: 2.4322e+1 (1.10e+0) - / PIEA: 2.4579e+1 (8.74e-1) - / MCEAD: 2.7355e+1 (1.36e+0) - / R2AEA: 2.0597e+1 (2.63e+0) = / KRVEA: 2.6465e+1 (7.60e-1) - / CSEA: 2.6430e+1 (1.40e+0) - / HES_EA: 2.5957e+1 (7.48e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.0592e+1 (7.61e-1)
+WFG8 REMO: 2.4953e+1 (1.02e+0) - / PIEA: 2.3237e+1 (1.24e+0) - / MCEAD: 2.6026e+1 (1.81e+0) - / R2AEA: 1.6282e+1 (3.72e-1) + / KRVEA: 2.5519e+1 (4.89e-1) - / CSEA: 2.7053e+1 (7.42e-1) - / HES_EA: 2.5791e+1 (6.48e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.0738e+1 (8.26e-1)
+WFG9 REMO: 2.6155e+1 (1.38e+0) - / PIEA: 2.2604e+1 (1.32e+0) = / MCEAD: 2.3089e+1 (1.39e+0) = / R2AEA: 2.2569e+1 (1.27e+0) = / KRVEA: 2.5820e+1 (7.55e-1) - / CSEA: 2.7847e+1 (8.01e-1) - / HES_EA: 2.6166e+1 (8.22e-1) - / REMO_new2_AdaMaO_SDEOnly_UniformMix_Original: 2.3053e+1 (1.30e+0)
+ABLATION 10 EXCLUDED []
+REMO W/T/L 9 5 2 best 2
+REMO+HPC W/T/L 8 4 4 best 3
+REMO (k=15) W/T/L 10 5 1 best 0
+REMO+HPC (k=15) W/T/L 3 12 1 best 2
+REMO+candidate W/T/L 9 5 2 best 2
+full (k=15) W/T/L 0 0 0 best 7
+{'Problem': 'DTLZ7', 'N': 100, 'M': 10, 'D': 30, 'FE': 300, 'REMO': '2.1252e+1 (2.44e+0) -', 'REMO+HPC': '1.7953e+1 (3.03e+0) -', 'REMO (k=15)': '2.1381e+1 (2.48e+0) -', 'REMO+HPC (k=15)': '1.7305e+1 (1.70e+0) -', 'REMO+candidate': '1.4917e+1 (1.86e+0) -', 'full (k=15)': '1.2122e+1 (2.80e+0)'}
+{'Problem': 'WFG3', 'N': 100, 'M': 10, 'D': 31, 'FE': 300, 'REMO': '1.5188e+0 (1.01e-1) +', 'REMO+HPC': '1.5760e+0 (8.86e-2) +', 'REMO (k=15)': '1.5502e+0 (8.35e-2) +', 'REMO+HPC (k=15)': '1.6399e+0 (5.18e-2) +', 'REMO+candidate': '1.6296e+0 (6.34e-2) +', 'full (k=15)': '1.7006e+0 (5.87e-2)'}
+{'Problem': 'WFG7', 'N': 100, 'M': 10, 'D': 30, 'FE': 300, 'REMO': '6.2812e+0 (7.42e-1) -', 'REMO+HPC': '6.6489e+0 (6.28e-1) -', 'REMO (k=15)': '5.7119e+0 (4.43e-1) -', 'REMO+HPC (k=15)': '5.4193e+0 (2.07e-1) -', 'REMO+candidate': '5.7946e+0 (3.58e-1) -', 'full (k=15)': '5.2969e+0 (2.57e-1)'}
+{'Problem': 'WFG9', 'N': 100, 'M': 10, 'D': 30, 'FE': 300, 'REMO': '7.6476e+0 (7.61e-1) -', 'REMO+HPC': '7.6437e+0 (6.71e-1) -', 'REMO (k=15)': '6.9496e+0 (4.45e-1) -', 'REMO+HPC (k=15)': '6.7894e+0 (6.20e-1) -', 'REMO+candidate': '7.1350e+0 (5.95e-1) -', 'full (k=15)': '6.3788e+0 (6.11e-1)'}
+ABLATION 20 EXCLUDED [('WFG4', 10)]
+REMO W/T/L 7 6 2 best 1
+REMO+HPC W/T/L 7 4 4 best 4
+REMO (k=30) W/T/L 10 4 1 best 0
+REMO+HPC (k=30) W/T/L 3 11 1 best 3
+REMO+candidate W/T/L 8 4 3 best 2
+full (k=30) W/T/L 0 0 0 best 5
+{'Problem': 'DTLZ7', 'N': 100, 'M': 20, 'D': 30, 'FE': 300, 'REMO': '3.8239e+1 (7.37e+0) -', 'REMO+HPC': '2.9216e+1 (4.21e+0) -', 'REMO (k=30)': '4.2108e+1 (7.08e+0) -', 'REMO+HPC (k=30)': '2.5637e+1 (5.00e+0) -', 'REMO+candidate': '2.2735e+1 (3.18e+0) -', 'full (k=30)': '1.8154e+1 (2.61e+0)'}
+{'Problem': 'WFG3', 'N': 100, 'M': 20, 'D': 31, 'FE': 300, 'REMO': '2.2519e+0 (2.32e-1) +', 'REMO+HPC': '2.5155e+0 (1.99e-1) +', 'REMO (k=30)': '2.3254e+0 (1.85e-1) +', 'REMO+HPC (k=30)': '2.6644e+0 (1.17e-1) =', 'REMO+candidate': '2.4822e+0 (1.70e-1) +', 'full (k=30)': '2.7306e+0 (1.52e-1)'}
+{'Problem': 'WFG7', 'N': 100, 'M': 20, 'D': 30, 'FE': 300, 'REMO': '2.4322e+1 (1.10e+0) -', 'REMO+HPC': '2.3916e+1 (2.00e+0) -', 'REMO (k=30)': '2.2442e+1 (1.43e+0) -', 'REMO+HPC (k=30)': '2.0450e+1 (8.73e-1) =', 'REMO+candidate': '2.2471e+1 (2.16e+0) -', 'full (k=30)': '2.0592e+1 (7.61e-1)'}
+{'Problem': 'WFG9', 'N': 100, 'M': 20, 'D': 30, 'FE': 300, 'REMO': '2.6155e+1 (1.38e+0) -', 'REMO+HPC': '2.5690e+1 (1.26e+0) -', 'REMO (k=30)': '2.4590e+1 (1.41e+0) -', 'REMO+HPC (k=30)': '2.4763e+1 (1.35e+0) -', 'REMO+candidate': '2.4951e+1 (1.72e+0) -', 'full (k=30)': '2.3053e+1 (1.30e+0)'}
+ROUTES  META {'M': ['10'], 'D': ['30', '31']}
+REMO_new2_AdaMaO_SDEOnly_AlwaysExplore W/T/L 5 9 2 best 4
+REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator W/T/L 5 9 2 best 6
+REMO_new2_AdaMaO_SDEOnly_LinearSchedule W/T/L 0 16 0 best 3
+REMO_new2_AdaMaO_SDEOnly_UniformMix W/T/L 0 0 0 best 3
+DTLZ7 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '8.9139e+0 (9.77e-1) +', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '1.9957e+1 (2.57e+0) -', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '1.1862e+1 (2.14e+0) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '1.0709e+1 (2.23e+0)'}
+WFG3 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '1.7353e+0 (8.43e-2) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '1.6669e+0 (8.93e-2) =', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '1.6764e+0 (8.69e-2) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '1.6850e+0 (7.30e-2)'}
+WFG7 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '5.3263e+0 (2.68e-1) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '5.7224e+0 (4.36e-1) -', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '5.3058e+0 (3.03e-1) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '5.4102e+0 (2.64e-1)'}
+ROUTES 二十目标\ META {'M': ['20'], 'D': ['30', '31']}
+REMO_new2_AdaMaO_SDEOnly_AlwaysExplore W/T/L 4 11 1 best 1
+REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator W/T/L 5 11 0 best 9
+REMO_new2_AdaMaO_SDEOnly_LinearSchedule W/T/L 1 15 0 best 1
+REMO_new2_AdaMaO_SDEOnly_UniformMix W/T/L 0 0 0 best 5
+DTLZ7 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '1.8819e+1 (4.92e+0) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '3.3514e+1 (4.74e+0) -', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '2.2617e+1 (3.46e+0) -', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '1.8615e+1 (3.05e+0)'}
+WFG3 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '2.7991e+0 (1.76e-1) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '2.6731e+0 (1.19e-1) =', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '2.7125e+0 (1.51e-1) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '2.7272e+0 (1.06e-1)'}
+WFG7 {'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '2.1588e+1 (9.55e-1) -', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '2.2019e+1 (9.61e-1) -', 'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '2.1032e+1 (1.42e+0) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '2.0153e+1 (5.95e-1)'}
+ROUTES IGDp\ META {'M': ['20'], 'D': ['30', '31']}
+REMO_new2_AdaMaO_SDEOnly_LinearSchedule W/T/L 1 15 0 best 1
+REMO_new2_AdaMaO_SDEOnly_AlwaysExplore W/T/L 3 12 1 best 1
+REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator W/T/L 5 9 2 best 8
+REMO_new2_AdaMaO_SDEOnly_UniformMix W/T/L 0 0 0 best 6
+DTLZ7 {'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '2.2521e+1 (3.48e+0) -', 'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '1.8733e+1 (4.95e+0) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '3.3438e+1 (4.76e+0) -', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '1.8492e+1 (3.05e+0)'}
+WFG3 {'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '2.4357e+0 (1.55e-1) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '2.5568e+0 (1.32e-1) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '2.3684e+0 (1.73e-1) =', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '2.4735e+0 (1.07e-1)'}
+WFG7 {'REMO_new2_AdaMaO_SDEOnly_LinearSchedule': '1.8105e+1 (1.27e+0) =', 'REMO_new2_AdaMaO_SDEOnly_AlwaysExplore': '1.8711e+1 (9.63e-1) -', 'REMO_new2_AdaMaO_SDEOnly_AlwaysIndicator': '1.9007e+1 (8.39e-1) -', 'REMO_new2_AdaMaO_SDEOnly_UniformMix': '1.7302e+1 (6.26e-1)'}
+OVERLAP L1_vs_L3 Hybrid 50 0.39961800000000003 0.2401 0.6032
+OVERLAP L1_vs_L3 AnchorNative 50 0.42436999999999997 0.1678 0.6865
+OVERLAP L2_vs_L3 Hybrid 50 0.5469700000000001 0.2405 0.8177
+OVERLAP L2_vs_L3 AnchorNative 50 0.56993 0.2238 0.8188
+OVERLAP L3_vs_L4 Hybrid 50 0.9998699999999999 0.9935 1.0
+OVERLAP L3_vs_L4 AnchorNative 50 0.9998699999999999 0.9935 1.0
+OVERLAP L3_vs_L5 Hybrid 50 0.9880639999999999 0.9222 1.0
+OVERLAP L3_vs_L5 AnchorNative 50 0.9883540000000001 0.9288 1.0
+PAIRS ['L0_vs_L1', 'L0_vs_L2', 'L0_vs_L3', 'L0_vs_L4', 'L0_vs_L5', 'L0_vs_L7', 'L0_vs_L8', 'L1_vs_L2', 'L1_vs_L3', 'L1_vs_L4', 'L1_vs_L5', 'L1_vs_L7', 'L1_vs_L8', 'L2_vs_L3', 'L2_vs_L4', 'L2_vs_L5', 'L2_vs_L7', 'L2_vs_L8', 'L3_vs_L4', 'L3_vs_L5', 'L3_vs_L6', 'L3_vs_L7', 'L3_vs_L8', 'L4_vs_L5', 'L4_vs_L7', 'L4_vs_L8', 'L5_vs_L7', 'L5_vs_L8', 'L7_vs_L8']
+TRAJECTORY Hybrid 50 {'generations': 3350.0, 'indicatorGens': 1670.0, 'exploreGens': 1680.0, 'fallbackGens': 0.0}
+TRAJECTORY AnchorNative 50 {'generations': 3350.0, 'indicatorGens': 1670.0, 'exploreGens': 1680.0, 'fallbackGens': 0.0}
+STABILITY Hybrid 0.05 50 0.9707440000000002
+STABILITY Hybrid 0.10 50 0.954706
+STABILITY AnchorNative 0.05 50 0.9708140000000001
+STABILITY AnchorNative 0.10 50 0.954704

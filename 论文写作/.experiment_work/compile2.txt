@@ -1,0 +1,175 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(HPDC-MaOEA.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/elsarticle\elsarticle.cls
+Document Class: elsarticle 2026/01/09, 3.5: Elsevier Ltd
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdfte
+x.def))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xparse.
+sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.cfg
+) (C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (HPDC-MaOEA.spl)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/base\fleqn.clo))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\txfonts.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amscls\amsthm.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/tools\bm.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/algorithms\algorithm.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algpseudocod
+e.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/algorithmicx\algorithmicx
+.sty
+Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
+)
+Document Style - pseudocode environments for use with the `algorithmicx' style
+) (C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/enumitem\enumitem.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefineke
+ys.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds.s
+ty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.sty
+))) (C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettitle
+string.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty))
+)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.sty
+) (C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc.s
+ty)))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfilec
+heck.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquecou
+nter.sty)))
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\t1txr.fd)
+(HPDC-MaOEA.aux)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\omltxmi.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\omstxsy.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\omxtxex.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxexa.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-bas
+e.sty
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(HPDC-MaOEA.out) (HPDC-MaOEA.out)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\ot1txr.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxmia.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxsyc.fd)
+Underfull \hbox (badness 2608) in paragraph at lines 107--108
+[][]\T1/txr/m/n/10 [TODO: Use a four-move open-ing: ex-pen-sive many-
+
+Underfull \hbox (badness 1107) in paragraph at lines 142--160
+[]\T1/txr/m/n/10 Relation-based surrogate-assisted evo-lu-tion-ary al-go-rithms
+
+[1{C:/Users/lsx/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/lsx/
+AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}]
+Underfull \hbox (badness 10000) in paragraph at lines 208--209
+[][]\T1/txr/m/n/10 [TODO: Ex-port the over-all frame-work di-a-gram as
+(C:\Users\lsx\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\ot1txss.fd)
+[2]
+Underfull \hbox (badness 3364) in paragraph at lines 440--449
+[]\T1/txr/m/n/10 We em-ploy the same relation-learning ar-chi-tec-ture as
+[3]
+Underfull \hbox (badness 1308) in paragraph at lines 520--528
+\T1/txr/m/n/10 large $\OML/txmi/m/it/10 U\OT1/txr/m/n/10 (\OT1/txr/bx/n/10 x\OT
+1/txr/m/n/10 )$ \T1/txr/m/n/10 means the net-work pro-duces flat-ter class dis-
+
+
+Underfull \hbox (badness 1348) in paragraph at lines 520--528
+\T1/txr/m/n/10 tri-bu-tions around that can-di-date. The re-sult-ing softmax-
+[4]
+Underfull \hbox (badness 2644) in paragraph at lines 684--688
+[]\T1/txr/m/n/10 The ex-per-i-ments eval-u-ated over-all op-ti-mi-sa-tion per-f
+or-
+[5] [6]
+Underfull \hbox (badness 1052) in paragraph at lines 1025--1035
+\T1/txr/m/n/10 was 0.5470 be-tween the Hy-brid group and the direction-
+[7]
+Underfull \hbox (badness 1997) in paragraph at lines 1102--1103
+[][]\T1/txr/m/n/10 [TODO: Add matched closed-loop com-par-isons of the
+[8]
+Underfull \hbox (badness 6032) in paragraph at lines 1166--1174
+[]\T1/txr/m/n/10 The two modes pro-duced dif-fer-ent batch prop-er-ties.
+
+Underfull \hbox (badness 3735) in paragraph at lines 1183--1190
+\T1/txr/m/n/10 i-ment com-pared exploration-only, indicator-only, lin-early
+
+Underfull \vbox (badness 10000) has occurred while \output is active [9]
+[10] [11]
+Underfull \hbox (badness 3039) in paragraph at lines 1268--1269
+\T1/txr/m/n/10 PBI-based group-ing com-bines fine-grained or-der-ing with
+
+Underfull \hbox (badness 10000) in paragraph at lines 1296--1297
+[][]\T1/txr/m/n/10 [TODO: PC-SAEA -- pairwise-comparison-based
+
+Underfull \hbox (badness 3701) in paragraph at lines 1296--1297
+\T1/txr/m/n/10 surrogate-assisted EA, Swarm Evol. Com-put., 2023,
+[12] (HPDC-MaOEA.aux) )
+(see the transcript file for additional information) <C:\Users\lsx\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1000.pk><C:/Users/lsx/AppData/L
+ocal/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Users/l
+sx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/User
+s/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxi.pfb><C:/Use
+rs/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/U
+sers/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/
+Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxsc.pfb><C
+:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><
+C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb>
+<C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsyc.pf
+b><C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.p
+fb><C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb
+><C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><
+C:/Users/lsx/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on HPDC-MaOEA.pdf (12 pages, 205643 bytes).
+Transcript written on HPDC-MaOEA.log.

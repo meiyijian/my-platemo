@@ -1,0 +1,139 @@
+{
+  "seed": 20260906,
+  "figures": [
+    {
+      "name": "fig_framework",
+      "claim": "Two interfaces connect supervision construction and bounded evaluation allocation.",
+      "archetype": "schematic-led composite",
+      "width_mm": 180.0,
+      "height_mm": 111.0,
+      "minimum_pdf_glyph_pt": 5.6,
+      "pdf_text_spans": 45,
+      "notes": "Code-derived flow; only initial design and final selected batch consume true evaluations.",
+      "text_outside_canvas": []
+    },
+    {
+      "name": "fig_hybrid_grouping",
+      "claim": "A continuous score refines binary-group order and a bounded schedule induces group priority.",
+      "archetype": "schematic-led composite",
+      "width_mm": 180.0,
+      "height_mm": 124.0,
+      "minimum_pdf_glyph_pt": 5.6,
+      "pdf_text_spans": 152,
+      "notes": "Panels a,b use translated geometry after association. Panel b fixes delta=1; production delta is adapted and can be negative. At t=1, only L remains. Example S values are analytic inputs, not measured outcomes.",
+      "text_outside_canvas": []
+    },
+    {
+      "name": "fig_candidate_selection",
+      "claim": "An iteration uses one mode-specific search and ranking criterion with an explicit evaluation cap.",
+      "archetype": "schematic-led composite",
+      "width_mm": 180.0,
+      "height_mm": 113.0,
+      "minimum_pdf_glyph_pt": 5.28,
+      "pdf_text_spans": 44,
+      "notes": "The two branches denote alternative executions, not a shared fixed pool or parallel selections. Empty-pool variation and prediction-failure fallbacks are specified in the algorithm and source.",
+      "text_outside_canvas": []
+    },
+    {
+      "name": "fig_group_evidence",
+      "claim": "Retention association varies by stage, including reversals relative to a single-view comparator.",
+      "archetype": "quantitative grid",
+      "width_mm": 180.0,
+      "height_mm": 85.0,
+      "minimum_pdf_glyph_pt": 5.6,
+      "pdf_text_spans": 46,
+      "notes": "Fixed original 10 configurations, 25 trajectories each. 4000 percentile-bootstrap draws resample paired runs within configuration. Four stage estimates each use 250 runs. No causal or endpoint IGD inference; 5 newly added problems excluded to match manuscript protocol.",
+      "text_outside_canvas": []
+    },
+    {
+      "name": "fig_candidate_evidence",
+      "claim": "Batch properties differ among criteria, while endpoint IGD gains are problem-dependent.",
+      "archetype": "quantitative grid",
+      "width_mm": 180.0,
+      "height_mm": 136.0,
+      "minimum_pdf_glyph_pt": 7.5,
+      "pdf_text_spans": 75,
+      "notes": "All 200 runs. Dots are run-level observations. For a-d fixed problems are equally weighted and whole runs are bootstrapped within problem; e bootstraps paired log ratios by seed within problem. Late metrics use FE/maxFE>=0.5; all-trajectory batch metrics include truncated final batches. V0 is a transplanted selection rule. Sampled-pool gain is an offline diagnostic.",
+      "text_outside_canvas": []
+    },
+    {
+      "name": "fig_performance_overview",
+      "claim": "Mean IGD ratios reveal problemwise gains and counterexamples across all reported comparisons.",
+      "archetype": "quantitative grid",
+      "width_mm": 180.0,
+      "height_mm": 137.0,
+      "minimum_pdf_glyph_pt": 5.6,
+      "pdf_text_spans": 283,
+      "notes": "Supplementary descriptive overview, 224 cells. Original workbook values and symbols exported in source CSV; symbols not interpreted as newly computed tests. No interval because independent-run data are not available for these workbooks. Full means and SDs remain in the manuscript tables. No color clipping.",
+      "text_outside_canvas": []
+    }
+  ],
+  "sources": [
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original.m",
+      "sha256": "307243a5e82e8a159cfdfaffa32dc951bd8616afd08968f780bfc7986155cb8e"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\ResolveUniformMixMode.m",
+      "sha256": "48e97ebc703a933d3160f4b2667db528c745fe1cd93658990fb32833070f2f5c"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\HybridPBI_Classification.m",
+      "sha256": "7a034c55c48869fb7e94a21f030313e717d7caf2c8af29336cd59066d12d9f19"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\GetOutput_PBI.m",
+      "sha256": "844098372ebe22e418f088d0640628a6a974d60b2ae2da1c63e252fc18ddd52f"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\AdaMaOSelection.m",
+      "sha256": "abe4dd8ed74157c544899afa73136f95851db913cb6b14dfa3b09babe725aed0"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "5cf050511384c954f11ef69d77002850f73079a24f6b09db15ae4332e727fdd5"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Experiments\\REMO_new2_AdaMaO_GoodGroupPrecision\\results\\analysis\\formal\\GGP_PerRunStage.csv",
+      "sha256": "e4d8467154473d193eba341b0f06e632d4069c4f92ee8fb9632bb6dd277785cc"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Experiments\\REMO_new2_AdaMaO_CandidateValueProbe\\docs\\data\\runs.csv",
+      "sha256": "96720b2232e95acf3fb9b68b6758afa2b1c91cc68735421e4a5d899ab0873f8e"
+    },
+    {
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Experiments\\REMO_new2_AdaMaO_CandidateValueProbe\\docs\\data\\generations.csv",
+      "sha256": "06a1290f57e59a23c7ec2f0b789b58e76656f92ec4523468ffdf35fdb5bbb75b"
+    },
+    {
+      "path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\最新版算法总实验\\10目标.xlsx",
+      "sha256": "714572f96d4cc6b0484290f150c51cc60eef23cce97f5cbfce9f03bd686381f9"
+    },
+    {
+      "path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\最新版算法总实验\\20目标.xlsx",
+      "sha256": "6342d6ee7cc8266c8fef8940fbb7afddd748837d8108c54dc8c308c824b9be2d"
+    }
+  ],
+  "checks": {
+    "group_rows": {
+      "before": 48000,
+      "included": 3000,
+      "paired_run_stages": 1000,
+      "scope": "original five problems, population_final, top25, three views"
+    },
+    "candidate": {
+      "runs": 200,
+      "regular_capped_batches": 5280,
+      "all_regular_capped_batches_equal_six": true,
+      "all_truncated_capped_batches_equal_two": true
+    }
+  },
+  "versions": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "pymupdf": "1.28.2",
+    "openpyxl": "3.1.5"
+  }
+}

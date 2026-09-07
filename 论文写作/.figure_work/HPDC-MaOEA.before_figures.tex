@@ -198,8 +198,14 @@ number of real evaluations. The two interfaces stay separate: grouping
 decides \emph{what the classifier is asked to learn}, candidate selection
 decides \emph{how its scores are spent}.
 
-Figure~\ref{fig:framework} shows the two interfaces within the evaluation loop.
-\input{figures/figure_framework.tex}
+%% \begin{figure*}[t]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{fig_framework}
+%%   \caption{Overall framework of HPDC-MaOEA. \label{fig:framework}}
+%% \end{figure*}
+\TODO{Export the overall framework diagram as \texttt{fig\_framework.pdf} and
+uncomment the figure* block above; it should show the outer loop of
+Algorithm~\ref{alg:framework} with the two contributed blocks highlighted.}
 
 \begin{algorithm}[t]
 \caption{HPDC-MaOEA}
@@ -408,10 +414,6 @@ ranking with a clear group priority as the budget is consumed.
 Section~\ref{sec:exp:hpc} examines the resulting group composition and its
 association with subsequent solution retention.
 
-Figure~\ref{fig:hybrid-grouping} illustrates the two PBI definitions and the
-resulting positive-group construction with an analytical example.
-\input{figures/figure_hybrid_grouping.tex}
-
 \subsection{Relation Learning on the Hybrid Groups}
 \label{sec:method:relation}
 
@@ -497,10 +499,6 @@ shapes the inner search and produces a criterion-specific pool, while the common
 pool-construction rule and batch bound preserve a consistent expenditure
 interface. Section~\ref{sec:exp:candidate} examines how the two criteria change
 the selected batches and the resulting search performance.
-
-Figure~\ref{fig:candidate-selection} shows the alternative selection paths
-and their common evaluation-budget constraint.
-\input{figures/figure_candidate_selection.tex}
 
 \subsubsection{Exploration-Oriented Mode}
 \label{sec:method:candidate:exp}
@@ -1071,10 +1069,6 @@ All stages & 0.28698 & 0.27748 & 0.27617 \\
 \end{minipage}
 \end{table}
 
-Figure~\ref{fig:group-evidence} visualises the stagewise means and paired
-differences, with uncertainty estimated across complete runs.
-\input{figures/figure_group_evidence.tex}
-
 Hybrid achieved mean Precision@25\% of 0.28698, compared with 0.27748
 for the direction score and 0.27617 for the representative margin
 (Table~\ref{tab:exp:precision}). Its advantage was not uniform across
@@ -1184,10 +1178,6 @@ illustrates why retention alone is insufficient: its late-stage
 retention was 0.761, but its mean IGD on DTLZ7 was 32.509. The two
 criteria therefore differ in both batch composition and final quality,
 and the benefit of their combination depends on the problem.
-
-Figure~\ref{fig:candidate-evidence} displays the run-level batch diagnostics
-together with paired final-IGD ratios relative to relation top-six selection.
-\input{figures/figure_candidate_evidence.tex}
 
 \paragraph{Within-host routing comparison.}
 A separate routing experiment compared exploration-only,
