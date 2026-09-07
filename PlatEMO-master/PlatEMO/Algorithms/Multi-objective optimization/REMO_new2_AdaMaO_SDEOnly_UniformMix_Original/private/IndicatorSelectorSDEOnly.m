@@ -1,10 +1,9 @@
 function [Fitness,Lp] = IndicatorSelectorSDEOnly(Population,Lp_prev)
-%IndicatorSelectorSDEOnly Evaluate the population with the fixed SDE score.
-%
-%   [Fitness,Lp] = IndicatorSelectorSDEOnly(Population,Lp_prev) estimates
-%   the current Pareto-front shape and evaluates every solution with the
-%   existing SDE-based fitness. The function contains no indicator roulette
-%   and consumes no random numbers.
+%IndicatorSelectorSDEOnly 计算用于指标代理训练的 SDE 适应度。
+%   [Fitness,Lp] = IndicatorSelectorSDEOnly(Population,Lp_prev) 根据当前
+%   已评价种群估计 Lp 形状参数并计算每个解的 SDE 指标值。
+%   形状估计异常时使用 Lp_prev；参数无效时使用 Lp=1。
+%   Fitness 作为 RBF-SVR 的训练目标，供 CDIS 的指标准则使用。
 
     PopObj = Population.objs;
     N      = length(Population);

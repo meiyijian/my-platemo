@@ -1,21 +1,10 @@
 function varargout = onehotconv(varargin)
-% onehotconv - One-hot 编码/解码工具函数
+%onehotconv 转换关系标签与三类网络输出。
+%   ENCODED = onehotconv(LABELS,1) 将 +1、0、-1 标签分别编码为
+%   [1,0,0]、[0,1,0]、[0,0,1]，用于关系分类器训练。
 %
-% 模式 1（编码）: 标签 → one-hot 向量
-% 模式 2（解码）: one-hot 向量 → 标签
-%
-% 用法:
-%   encoded = onehotconv(labels, 1)   % 编码
-%   decoded = onehotconv(encoded, 2)  % 解码
-%
-% 标签编码规则:
-%   +1 → [1, 0, 0]
-%    0 → [0, 1, 0]
-%   -1 → [0, 0, 1]
-%
-% 设计动机：
-%   神经网络输出层使用 softmax，输出 3 个概率值
-%   one-hot 编码将分类问题转化为概率分布预测问题
+%   DECODED = onehotconv(ENCODED,2) 根据每行最大值所在列恢复标签。
+%   该输入可以是 one-hot 向量或按 [+1,0,-1] 排列的预测概率。
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for

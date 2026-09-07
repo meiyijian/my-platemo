@@ -1,32 +1,16 @@
 function p = Shape_Estimate(Population, N)
-% Shape_Estimate - 从当前非支配近似集拟合形状参数 Lp
-%
-% 本函数来自 PIEA（2024），用于拟合当前非支配近似集的广义 Lp 等值面
-% 按多目标优化常用 PF 命名：
-%   p < 1：convex PF（凸）
-%   p = 1：linear PF（线性）
-%   p > 1：concave PF（凹，如球面式 PF）
-%
-% 估计原理：
-%   - 使用当前非支配解（NDSort 第一层）作为未知 PF 的有限近似
-%   - 从 17 个候选 Lp ∈ [0.27, 6.5] 中选标准差最小的
-%   - 标准差衡量"PF 上的解到原点的 Lp 范数"是否一致
-%   - 如果某个 Lp 与当前近似集匹配，其归一化 Lp 范数的离散程度较小
-%
-% 输入：
-%   Population : 种群（含真实评估解）
-%   N          : NDSort 的层数限制
-%
-% 输出：
-%   p : 当前非支配近似集的 Lp 拟合指数
-%
-% 来源：
-%   Y. Li, W. Li, S. Li, Y. Zhao. PIEA. Information Sciences, 2024.
+%Shape_Estimate 根据当前非支配解集估计 Lp 形状参数。
+%   P = Shape_Estimate(Population,N) 取已评价种群的第一非支配前沿，
+%   归一化其目标值，并计算 17 个候选 Lp 参数对应的范数。
+%   对每个候选参数，剔除高于 Q3+1.5*(Q3-Q1) 的范数后，比较归一化范数
+%   的标准差，选择标准差最小的参数。非支配解少于 20 个时返回 P=1。
+%   N 为传给 NDSort 的目标排序解数；本函数只使用第一非支配前沿。
+%   所得参数用于 SDE 近零得分的 Lp 距离细化，计算过程沿用 PIEA。
 
     % 非支配排序，取第一层
     [FrontNo, ~] = NDSort(Population.objs, N);
     Pop = Population(FrontNo <= 1);
-    % 如果非支配解太少，回退到线性（p=1）
+    % 非支配解少于 20 个时，使用 Lp=1。
     if length(Pop) < 20
         p = 1;
         return;
@@ -51,7 +35,7 @@ function p = Shape_Estimate(Population, N)
         Q1   = temp(max(fix(Np * 0.25), 1));
         Q3   = temp(max(fix(Np * 0.75), 1));
         Max  = Q3 + k * (Q3 - Q1);
-        % 用箱线图剔除离群点
+        % 剔除高于上侧四分位阈值的范数值。
         Gp(Gp > Max) = [];
         % 计算归一化后的标准差
         Vp(i) = std(Gp ./ max(Gp));

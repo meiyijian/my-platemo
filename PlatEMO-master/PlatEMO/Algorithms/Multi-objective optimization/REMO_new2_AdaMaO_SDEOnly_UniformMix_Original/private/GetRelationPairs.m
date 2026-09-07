@@ -1,22 +1,13 @@
 function [XXs,Ls] = GetRelationPairs(Input,Catalog)
-% GetRelationPairs - 关系对样本生成（原始版本，无权重）
+%GetRelationPairs 根据 PAQC 分组构造有序解对及三类关系标签。
+%   [XXs,Ls] = GetRelationPairs(Input,Catalog) 使用 N×D 决策矩阵 Input
+%   和正组标记 Catalog，输出由两个不同解拼接成的样本 [Xi,Xj]。
+%   Catalog=true 表示正组 C1，其余为非正组 C2。
 %
-% 将粗质量分组转化为“组别关系学习”：
-% 训练样本 = 两个解的拼接 [Xi, Xj]
-% 标签 = 输入顺序下的组别关系，不是任意两个解的真实 Pareto 优劣
-%
-% 四类关系对：
-%   C1C1 (正组-正组): 标签 0，表示两解被分到同一正组
-%   C2C2 (非正组-非正组): 标签 0，表示两解被分到同一非正组
-%   C1C2 (正组-非正组): 标签 +1，表示前者属于更高组别
-%   C2C1 (非正组-正组): 标签 -1，表示前者属于更低组别
-%
-% 输入:
-%   Input   - N x D 决策变量矩阵
-%   Catalog - N x 1 logical，正组(true) / 非正组(false)
-% 输出:
-%   XXs - n_pair x 2D 关系对样本
-%   Ls  - n_pair x 1 关系标签 {-1, 0, +1}
+%   C1-C2 对的标签为 +1，C2-C1 对为 -1，两类同组对为 0。
+%   标签描述解所属组别的有序关系，同组解共同使用标签 0。
+%   删除自配对后，对同组样本随机抽样，使其总量接近一类跨组样本的数量。
+%   XXs 为 n_pair×2D 矩阵，Ls 为 n_pair×1 关系标签向量。
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
@@ -57,7 +48,7 @@ function [XXs,Ls] = GetRelationPairs(Input,Catalog)
     t_num = ceil(size(C1C2,1)/2);
 
     if size(C1C1,1) > t_num && size(C2C2,1) > t_num
-        % 两类同类对都太多，各采样 t_num 个
+        % 两类同组对都太多，各采样 t_num 个
         C1C1 = C1C1(randperm(size(C1C1,1),t_num),:);
         C2C2 = C2C2(randperm(size(C2C2,1),t_num),:);
     elseif size(C1C1,1) < t_num

@@ -1,33 +1,20 @@
 function [Output,r] = RepresentativeBasedClassification(varargin)
-%RepresentativeBasedClassification Classify solutions relative to representatives.
+%RepresentativeBasedClassification 基于参考解的二值质量分类。
+%   OUTPUT = RepresentativeBasedClassification(Pop,Ref) 将 Pop 的每个目标
+%   向量关联到余弦相似度最大的参考解，并计算相对于该参考解的 PBI 值。
+%   Pop 为 N×M 已评价目标矩阵，Ref 为参考解目标矩阵。
 %
-% 基于当前代表解锚点的 PBI 阈值，将种群产生二值区域标签
+%   对于已关联的参考解，g = d1 + delt*d2；以参考解到理想点的距离归一化。
+%   归一化值不大于 1 时 OUTPUT 为 true，否则为 false，对应论文的标签 L。
+%   该标签与连续质量得分融合后，由 PAQC 确定最终正组和非正组。
 %
-% PBI 公式：
-%   g = ||P-Zmin|| * cosθ + δ * ||P-Zmin|| * sinθ
+%   OUTPUT = RepresentativeBasedClassification(Pop,Ref,DELT) 指定类别平衡参数。
+%   未指定时，在 [-20,20] 内有界二分搜索，使 true 标签比例趋于 [0.3,0.7]；
+%   比例满足条件或搜索区间宽度小于 0.1 时停止。DELT 为 d2 的有符号系数，
+%   分类的归一化阈值始终为 1。
 %
-% 其中：
-%   P: 解的目标值
-%   Zmin: 理想点
-%   θ: 解与参考方向的夹角
-%   δ: 有符号的垂直距离系数；δ>0 时惩罚偏离，δ<0 时会奖励较大的垂直距离
-%
-% 划分标准：
-%   若 g / ||Ref-Zmin|| > 1，则标签为 false
-%   否则标签为 true；这是相对锚点阈值标签，不等同于真实 Pareto 好/坏标签
-%
-% 自适应 δ：
-%   当用户未提供 δ 时，二分搜索 δ ∈ [-20, 20]，
-%   使得 true 标签比例 r 落入 [0.3, 0.7]，主要用于控制二值标签比例
-%
-% 输入:
-%   Pop - N x M 目标值矩阵
-%   Ref - k x M 参考解目标值矩阵
-%   可选: delt - PBI 阈值（若不提供则自适应搜索）
-%
-% 输出:
-%   Output - N x 1 logical，true/false 为相对锚点阈值标签
-%   r      - true 标签比例（自适应模式下用于调试）
+%   [OUTPUT,R] = RepresentativeBasedClassification(Pop,Ref) 同时返回搜索
+%   过程中记录的 true 标签比例。指定 DELT 的调用只使用第一个输出。
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
@@ -39,9 +26,9 @@ function [Output,r] = RepresentativeBasedClassification(varargin)
 %--------------------------------------------------------------------------
 
     %% ============ 参数解析 ============
-    selfadapt = true;  % 默认自适应模式
+    selfadapt = true;  % 默认搜索类别平衡参数
     if nargin == 3
-        % 用户提供了 delt，则不自适应
+        % 使用调用方给定的类别平衡参数 delt。
         selfadapt = false;
         delt      = varargin{3};
     end
@@ -49,14 +36,14 @@ function [Output,r] = RepresentativeBasedClassification(varargin)
     Pop = varargin{1};  % 种群目标值
     Ref = varargin{2};  % 参考解目标值
 
-    %% ============ 自适应搜索阈值 delt ============
+    %% ============ 有界二分搜索类别平衡参数 delt ============
     if selfadapt
         % 搜索区间 [delt_l, delt_u]
         delt_l = -20;
         delt_u = 20;
         r = 0;
 
-        % 二分搜索，使 true 标签比例 r 落入 [0.3, 0.7]
+        % 以 true 标签比例位于 [0.3,0.7] 为目标搜索，区间足够小时停止。
         while r>0.7 || r<0.3
             delt_c = (delt_l + delt_u)/2;  % 中点
             if abs(delt_l-delt_u)<1e-1
@@ -76,23 +63,14 @@ function [Output,r] = RepresentativeBasedClassification(varargin)
 end
 %% ============ 内部函数：基于 PBI 的划分 ============
 function [Output,rate] = split_data(Pop,Ref,delt)
-% split_data - 对每个代表解锚点，用 PBI 阈值产生二值标签
-%
-% 输入：
-%   Pop  : N x M 种群目标值
-%   Ref  : k x M 参考解目标值
-%   delt : PBI 阈值
-%
-% 输出：
-%   Output : N x 1 logical，好=true，坏=false
-%   rate   : true 标签比例
+%split_data 在各参考解关联区域内按归一化 PBI 阈值生成标签。
 
     N      = size(Pop,1);
     popind = 1 : N;
     Output = true(N,1);  % 默认全部为 true 标签
 
-    % 使用原始 Pop 与 Ref 的余弦相似度分配锚点区域
-    % 注意：这里未减理想点 Z，后续区域方向 W 则使用 Ref-Z。
+    % 将每个原始目标向量关联到余弦相似度最大的参考解。
+    % 关联使用原始目标向量；分类方向 W 使用参考解相对理想点的单位向量。
     [~,ref_index] = max(1-pdist2(Pop,Ref,'cosine'),[],2);
 
     % 理想点
@@ -126,7 +104,7 @@ function [Output,rate] = split_data(Pop,Ref,delt)
         k = normR;
         g = g./k;
 
-        % 若 g > 1，则标签设为 false；当 delt<0 时该条件不能解释为单纯“偏离过大”
+        % 归一化 PBI 值大于 1 时，参考解分类标签 L 取 0。
         Output(sub_popind(g>1)) = false;
     end
 

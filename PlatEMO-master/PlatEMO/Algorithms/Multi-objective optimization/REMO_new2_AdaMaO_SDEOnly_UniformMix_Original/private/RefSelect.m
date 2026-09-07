@@ -1,23 +1,12 @@
 function Ref = RefSelect(Population,k)
-% RefSelect - 参考解选择（RSEA 策略：Radar grid based Selection Evolutionary Algorithm）
+%RefSelect 按非支配排序和径向网格选择参考解或下一代种群。
+%   Ref = RefSelect(Population,K) 从已评价种群中选择至多 K 个解。
+%   PAQC 使用该过程选择参考解；主循环对累计档案使用同一过程执行环境选择。
+%   参考解数量由调用方提供：主入口使用随目标数调整的 k_eff，_k6 入口使用 6。
+%   环境选择的请求数量为 Problem.N。
 %
-% 从种群中选出 k 个代表解，用于：
-% 1. PAQC 内部的 PBI 标签计算（k=6）
-% 2. 主流程末尾的环境选择（k=Problem.N）
-%
-% RSEA 策略的核心思想：
-%   使用雷达网格将高维目标空间映射到 2D，然后在网格中选择代表性解
-%
-% 选择标准：
-%   1. 自动保留最后一层之前的较优前沿，并额外标记一个靠近全目标均衡方向的代表解
-%   2. 优先从当前二维雷达投影中占用较少的网格选择
-%   3. 在候选网格中，综合归一化目标和与二维投影距离选择
-%
-% 输入:
-%   Population - 种群对象
-%   k          - 需要选出的解数量
-% 输出:
-%   Ref        - 选出的 k 个解
+%   先保留较优非支配前沿，在截断前沿使用二维径向网格的已选解计数、
+%   归一化目标和与投影距离选择剩余解。该操作沿用 RSEA 的径向网格选择。
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
@@ -37,44 +26,38 @@ function Ref = RefSelect(Population,k)
     [FrontNO,MaxFNO] = NDSort(PopObj,k);
     Next = find(FrontNO<=MaxFNO);  % 保留的解索引
 
-    %% ============ 目标值归一化到 [0,1] ============
-    Pmin = min(PopObj,[],1) + 1e-6;  % 加小常数避免除零
+    %% ============ 按各目标取值范围缩放 ============
+    Pmin = min(PopObj,[],1) + 1e-6;  % 最小目标值偏移量
     Pmax = max(PopObj,[],1);
     if Pmax > Pmin
         PopObj = (PopObj-repmat(Pmin,size(PopObj,1),1))./repmat(Pmax-Pmin,size(PopObj,1),1);
     end
 
     %% ============ 环境选择 ============
-    % div = ceil(sqrt(k)) 用于雷达网格的分辨率
+    % div = ceil(sqrt(k)) 用于径向网格的分辨率
     Choose = LastSelection(PopObj(Next,:),ismember(Next,find(FrontNO<MaxFNO)),ceil(sqrt(k)),k);
     Ref    = Population(Next(Choose));
 end
-%% ============ 内部函数：基于雷达网格的环境选择 ============
+%% ============ 内部函数：基于径向网格的环境选择 ============
 function Choose = LastSelection(PopObj,Choose,div,k)
-% LastSelection - 基于雷达网格策略选择 k 个解
-%
-% 输入:
-%   PopObj  - 归一化后的目标值
-%   Choose  - 逻辑向量，已自动保留的较优前沿解
-%   div     - 网格分辨率
-%   k       - 需要选出的总数
+%LastSelection 根据径向网格占用、目标和与投影距离补足选择集合。
 
-    %% ---- 识别全目标均衡方向代表解 ----
+    %% ---- 识别全目标均衡方向参考解 ----
     % 选择到 (1,1,...,1) 对角方向垂直距离最小的一个解。
-    % 该解通常靠近全目标均衡方向，不是按各目标分别选择的 PF 边界极端点。
+    % 将该解加入已选集合，用于后续径向网格选择。
     [~,Extreme] = min(sqrt(sum(PopObj.^2,2)).* ...
         sqrt(1-(1-pdist2(PopObj,ones(1,size(PopObj,2)),'cosine')).^2),[],1);
     Choose = Choose | ismember(1:size(PopObj,1),Extreme);
 
     %% ---- 计算收敛性 ----
-    % 收敛性 = 到原点的距离（归一化后），越小越好
+    % Con 为缩放后的目标值之和，再除以当前集合中的最大值。
     Con = sum(PopObj.^1,2).^1;
     Con = Con./max(Con);
 
-    %% ---- 计算雷达网格 ----
-    % 将 M 维目标空间映射到 2 维雷达坐标
+    %% ---- 计算径向网格 ----
+    % 将 M 维目标空间映射到 2 维径向投影坐标
     [Site,RLoc] = RadarGrid(PopObj,div);
-    % 计算各解二维雷达投影坐标之间的距离；RLoc 不是网格中心坐标
+    % 计算各解二维径向投影坐标之间的欧氏距离。
     RDis        = pdist2(RLoc,RLoc);
     RDis(logical(eye(length(RDis)))) = inf;  % 对角线设为无穷
 
@@ -102,20 +85,14 @@ function Choose = LastSelection(PopObj,Choose,div,k)
     end
 end
 
-%% ============ 内部函数：雷达网格映射 ============
+%% ============ 内部函数：径向网格映射 ============
 function [Site,RLoc] = RadarGrid(P,div)
-% RadarGrid - 将 M 维目标空间映射到 2 维雷达坐标，并划分网格
-%
-% 输入:
-%   P   - N x M 归一化目标值
-%   div - 网格分辨率
-% 输出:
-%   Site - N x 1 每个解所属的网格编号
-%   RLoc - 每个解的 2D 雷达投影坐标
+%RadarGrid 将目标向量转换为二维径向投影坐标并分配网格编号。
+%   Site 返回每个解的网格编号，RLoc 返回投影坐标；div 指定各维网格分辨率。
 
     [N,M] = size(P);
 
-    %% ---- 计算雷达坐标 ----
+    %% ---- 计算径向投影坐标 ----
     % theta: M 个等间隔角度
     theta     = 0 : 2*pi/M : 2*pi/M*(M-1);
     % x 坐标 = 目标值加权余弦和 / 目标值和

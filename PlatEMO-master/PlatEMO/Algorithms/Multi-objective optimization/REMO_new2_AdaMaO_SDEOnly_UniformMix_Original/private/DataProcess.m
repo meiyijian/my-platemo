@@ -1,18 +1,10 @@
 function [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
-% DataProcess - 关系对数据集划分（原始版本，无权重）
-%
-% 按关系标签 (0, +1, -1) 分层抽样, 训练集 3/4, 测试集 1/4
-% 注意：这是按关系对随机划分，不是按基础解划分；同一端点和反向关系可能跨越训练/测试集。
-%
-% 分层抽样的目的：
-%   保持三类关系标签比例大致一致，避免某类关系完全缺失
-%
-% 输入:
-%   Input  - n_pair x 2D 关系对样本
-%   Output - n_pair x 1 关系标签 {-1, 0, +1}
-% 输出:
-%   TrainIn, TrainOut  - 关系对训练集（75%）
-%   TestIn, TestOut    - 关系对留出集（25%）
+%DataProcess 按关系标签分层划分训练集与留出集。
+%   [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
+%   将有序解对 Input 按 Output 的三类标签分别随机划分，约 75% 用于训练，
+%   其余用于计算关系对留出误差 e_r。每类的训练数量向上取整。
+%   划分单位是有序解对，同一基础解可以出现在不同解对中。
+%   最后分别打乱训练集和留出集的样本顺序。
 
 %------------------------------- Copyright --------------------------------
 % Copyright (c) 2025 BIMK Group. You are free to use the PlatEMO for
@@ -28,11 +20,11 @@ function [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
 
     %% ============ 按类别分层 ============
     % 找到三类样本的索引
-    index0  = find(Output==0);    % 同类对
-    indexp1 = find(Output == 1);  % 好-坏对
-    indexn1 = find(Output == -1); % 坏-好对
+    index0  = find(Output==0);    % 同组对
+    indexp1 = find(Output == 1);  % 正组-非正组对
+    indexn1 = find(Output == -1); % 非正组-正组对
 
-    % 初始化逻辑索引（false 表示进入测试集）
+    % 初始化逻辑索引（false 表示进入留出集）
     K0  = false(1,length(index0));
     Kp1 = false(1,length(indexp1));
     Kn1 = false(1,length(indexn1));
@@ -49,8 +41,8 @@ function [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
     TrainIn  = Input(K,:);
     TrainOut = Output(K);
 
-    %% ============ 划分测试集 ============
-    % 剩余样本进入测试集
+    %% ============ 划分留出集 ============
+    % 剩余样本进入留出集
     TestIn  = Input(setdiff(1:size(Input,1),K),:);
     TestOut = Output(setdiff(1:size(Input,1),K));
 
@@ -60,7 +52,7 @@ function [TrainIn,TrainOut,TestIn,TestOut] = DataProcess(Input,Output)
     TrainIn         = TrainIn(Train_randindex,:);
     TrainOut        = TrainOut(Train_randindex);
 
-    % 测试集打乱
+    % 留出集打乱
     Test_randindex = randperm(size(TestOut,1),size(TestOut,1));
     TestIn         = TestIn(Test_randindex,:);
     TestOut        = TestOut(Test_randindex);

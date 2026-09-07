@@ -1,36 +1,20 @@
 function Next = DiversifiedInfillSelection(Problem,Ref,Input,wmax,Smodel,q_keep,n_min,n_max)
 %DiversifiedInfillSelection Criterion-diversified infill selection (CDIS).
+%   Next = DiversifiedInfillSelection(Problem,Ref,Input,WMAX,Smodel)
+%   从当前种群决策矩阵 Input 和已评价参考解 Ref 开始，进行关系模型引导的
+%   遗传搜索，累积并去重候选解，再按 Smodel.mode 选择待真实评价的有序批次。
+%   WMAX 为内循环累计生成候选解数量的停止阈值。
 %
-% CDIS 根据主程序给定的 Smodel.mode 使用探索或指标选择准则：
+%   Next = DiversifiedInfillSelection(Problem,Ref,Input,WMAX,Smodel,q_keep,n_min,n_max)
+%   指定探索得分的分位点、候选集合允许时的补足数量和评价批次上限。
+%   默认值为 0.80、4 和 6；q_keep=0.80 通常筛出最高约 20% 的候选。
+%   返回的 Next 仅含候选决策向量；主程序按剩余预算截断后执行真实评价。
 %
-% 模式说明：
-%   'conservative'（纯关系小批量模式，名称为兼容保留）：
-%     - 仅使用关系得分，选择 n_min 个候选
-%     - 触发条件：Smodel.mode 未指定或不是下面两个分支；当前主程序不使用此分支
-%     - 特点：仍完全依赖关系模型，只是不加入预测模糊度和批次距离项
-%
-%   'explore'（预测模糊度探索模式）：
-%     - 关系得分 + softmax 预测模糊度 + 决策空间分散性
-%     - 触发条件：主程序抽中探索准则，或指标模型不可用
-%     - 特点：奖励输出概率较不尖锐的候选；该量不是认知不确定性
-%
-%   'indicator'（指标模式）：
-%     - 关系得分粗筛 + 可用时由 SVR 指标值重排序
-%     - 触发条件：指标模型可用，且主程序按 pMix 抽中指标准则
-%     - 注意：预测失败时仍按原有规则回退到关系得分
-%
-% 输入：
-%   Problem : 问题对象
-%   Ref     : 参考解
-%   Input   : 当前种群的决策变量
-%   wmax    : 内层 GA 循环的累计样本上限
-%   Smodel  : 代理模型结构体（包含 net、mode、IndicatorModel 等）
-%   q_keep  : 分位点；0.80 通常保留高于 80% 分位点、即最高约 20% 的候选
-%   n_min   : 每轮最少评估数
-%   n_max   : 每轮最多评估数
-%
-% 输出：
-%   Next : 选出的候选解决策变量
+%   主程序每轮选择一种准则：
+%       'explore'   - ExplorationBasedInfill：关系得分、预测模糊度与决策空间距离。
+%       'indicator' - IndicatorBasedInfill：关系得分筛选和预测指标重排序。
+%   指标模型可用时，以 pMix 选择指标准则，否则使用探索准则。
+%   Smodel.mode 为空或其他值时执行关系得分回退分支；当前主程序不选择该分支。
 
     % 参数默认值处理
     if nargin < 6 || isempty(q_keep)
@@ -51,7 +35,7 @@ function Next = DiversifiedInfillSelection(Problem,Ref,Input,wmax,Smodel,q_keep,
 
     %% ============ 代理辅助 GA 内循环 ============
     % 使用 GA 生成候选解，然后用代理模型打分筛选
-    % 这个过程重复多轮，逐步优化候选解的质量
+    % 保留关系得分较高的候选作为下一轮父代，同时累积所有生成的候选。
     Next = OperatorGA(Problem,[Input;Ref.decs],{1,15,1,5});
     all_candidates = Next;
     i = size(Next,1);
@@ -93,19 +77,9 @@ function Next = DiversifiedInfillSelection(Problem,Ref,Input,wmax,Smodel,q_keep,
     end
 end
 
-%% ============ 保守模式选择 ============
+%% ============ 关系得分回退选择 ============
 function Next = select_conservative(Smodel,Candidates,n_min)
-% select_conservative - 纯关系小批量模式的候选解选择
-%
-% 策略：仅使用关系得分，选择得分最高的 n_min 个候选
-%
-% 输入：
-%   Smodel    : 代理模型结构体
-%   Candidates: 所有候选解
-%   n_min     : 最少选择数量
-%
-% 输出：
-%   Next : 选出的候选解决策变量
+%select_conservative 按关系得分选择至多 n_min 个候选的回退分支。
 
     % 用代理模型打分
     [~,scores] = model_select(Smodel,Candidates);
@@ -120,26 +94,12 @@ function Next = select_conservative(Smodel,Candidates,n_min)
     end
 end
 
-%% ============ 探索模式选择 ============
+%% ============ 基于探索准则的填充选择 ============
 function Next = ExplorationBasedInfill(Smodel,Candidates,q_keep,n_min,n_max)
-% ExplorationBasedInfill - 探索模式的候选解选择
-%
-% 策略：关系得分 + softmax 预测模糊度奖励 + 决策空间分散性
-%
-% 设计动机：
-%   1. 预测模糊度奖励：偏好 softmax 输出较不尖锐的候选，但不等同于认知不确定性
-%   2. 分位数筛选：使用候选集合内部排名，不代表统计鲁棒性已被验证
-%   3. 决策空间分散：防止同批候选决策向量过于接近
-%
-% 输入：
-%   Smodel    : 代理模型结构体
-%   Candidates: 所有候选解
-%   q_keep    : 分位点；保留高于该分位点的候选
-%   n_min     : 最少选择数量
-%   n_max     : 最多选择数量
-%
-% 输出：
-%   Next : 选出的候选解决策变量
+%ExplorationBasedInfill 根据探索得分和决策空间距离构造评价批次。
+%   用候选池内归一化的关系得分和预测模糊度构成探索得分 A_exp，按 q_keep
+%   分位点筛选候选。候选池允许时补足 n_min 个，最终最多选择 n_max 个。
+%   首先选择探索得分最高的候选，随后结合得分与到已选集合的距离逐个添加。
 
     % 用代理模型打分，同时返回平均 softmax 预测模糊度
     [~,scores,uncertainty] = model_select(Smodel,Candidates);
@@ -159,10 +119,10 @@ function Next = ExplorationBasedInfill(Smodel,Candidates,q_keep,n_min,n_max)
     end
     lambda_t = Smodel.lambda0 * (1 - Smodel.ratio) * max(0,1 - p_err/0.45);
 
-    % 计算增强得分 = 关系得分 + lambda_t * 预测模糊度
+    % 探索得分 A_exp = 归一化关系得分 + lambda_t*归一化预测模糊度。
     score_aug = score_n + lambda_t .* unc_n;
 
-    % 分位数筛选：保留高于 q_keep 分位点的候选；q_keep=0.80 时通常约为最高 20%
+    % 保留不低于 q_keep 分位点的候选；q_keep=0.80 时通常约为最高 20%。
     threshold = quantile(score_aug,q_keep);
     cand_idx = find(score_aug >= threshold);
     % 如果候选数不足 n_min，取得分最高的 n_min 个
@@ -175,7 +135,7 @@ function Next = ExplorationBasedInfill(Smodel,Candidates,q_keep,n_min,n_max)
     n_eval = min(n_max,max(n_min,numel(cand_idx)));
     n_eval = min(n_eval,numel(cand_idx));
 
-    % 决策空间分散选择：质量/距离加权的贪心选择，并非纯 max-min
+    % 根据探索得分和决策空间距离贪心构造评价批次。
     selected = diversity_select(Candidates,cand_idx,score_aug,n_eval);
 
     if isempty(selected)
@@ -185,25 +145,13 @@ function Next = ExplorationBasedInfill(Smodel,Candidates,q_keep,n_min,n_max)
     end
 end
 
-%% ============ 指标模式选择 ============
+%% ============ 基于指标准则的填充选择 ============
 function Next = IndicatorBasedInfill(Smodel,Candidates,n_min,n_max)
-% IndicatorBasedInfill - 指标模式的候选解选择
-%
-% 策略：关系得分粗筛 + SVR 指标重排序
-%
-% 设计动机：
-%   当线性维数集中度超过固定阈值时，代码尝试用 PIEA 风格指标值重排候选。
-%   SVR 从已评价解的决策变量拟合当代指标值，用于预测未评价候选；
-%   若 SVR 不可用，代码回退到关系得分，因此模式名不保证指标实际参与。
-%
-% 输入：
-%   Smodel    : 代理模型结构体（包含 IndicatorModel）
-%   Candidates: 所有候选解
-%   n_min     : 最少选择数量
-%   n_max     : 最多选择数量
-%
-% 输出：
-%   Next : 选出的候选解决策变量
+%IndicatorBasedInfill 根据关系得分和预测指标构造评价批次。
+%   先按关系得分保留前 30%，并在候选池允许时至少保留 20 个。
+%   RBF-SVR 根据已评价解的决策向量与 SDE 指标训练，预测筛选后候选的指标值。
+%   再按预测指标的第 70 百分位筛选，候选集合允许时补足 n_min 个，
+%   按指标降序返回至多 n_max 个候选。模型不可用或预测异常时使用关系得分。
 
     % 第一步：用关系得分粗筛，保留前 30%（至少 20 个）
     [~,scores_rel] = model_select(Smodel,Candidates);
@@ -227,7 +175,7 @@ function Next = IndicatorBasedInfill(Smodel,Candidates,n_min,n_max)
         end
     end
 
-    % 第三步：保留高于 70% 分位点的候选，通常约为最高 30%
+    % 第三步：保留不低于第 70 百分位的候选，通常约为最高 30%。
     threshold = quantile(scores_ind,0.70);
     cand_idx = find(scores_ind >= threshold);
     % 如果候选数不足 n_min，取得分最高的 n_min 个
@@ -251,34 +199,19 @@ end
 
 %% ============ 代理模型打分函数 ============
 function [ind,scores,uncertainty] = model_select(Smodel,Next)
-% model_select - 用代理模型对候选解打分
+%model_select 汇总有序解对的预测概率，计算关系得分与预测模糊度。
+%   每个候选 Xi 与正组 C1、非正组 C2 分别构造四类有序比较：
+%   [C1,Xi]、[Xi,C1]、[C2,Xi]、[Xi,C2]。
+%   网络输出顺序为 [+1,0,-1]，表示前者属于更高组、同组、前者属于更低组。
+%   四类平均概率对应论文的 a、b、c、d，关系得分为
+%   R(Xi) = 2*(c(-1)+d(+1)-a(+1)-b(-1))。
 %
-% 打分机制：
-%   对每个候选解 Xi，构造 4 类样本对让网络预测：
-%     [C1, Xi]: 正组解在前，候选在后
-%     [Xi, C1]: 候选在前，正组解在后
-%     [C2, Xi]: 非正组解在前，候选在后
-%     [Xi, C2]: 候选在前，非正组解在后
-%
-%   网络输出 3 类概率 [p+1, p0, p-1]
-%   打分规则：
-%     C_SCORE(1) 汇总候选被预测为正组同组、或高于正/非正组的组别证据
-%     C_SCORE(2) 汇总候选低于正组、或被预测为非正组同组/更低的组别证据
-%     ...（C_SCORE(2) 类似）
-%     最终 score = C_SCORE(1) - C_SCORE(2)
-%   该分数是相对粗质量组的启发式净证据，不是 Pareto 胜率。
-%
-% 输入：
-%   Smodel : 代理模型结构体
-%   Next   : 候选解决策变量
-%
-% 输出：
-%   ind        : 按得分降序排列的索引
-%   scores     : 每个候选的得分
-%   uncertainty: 每个候选的平均 softmax 预测模糊度（旧变量名保留）
+%   探索准则使用最大类别概率作为解对权重；指标准则使用算术平均。
+%   scores 返回关系得分，ind 返回降序索引。
+%   uncertainty 返回预测模糊度 U=1-mean(max(pi))，保留原有变量名。
 
     model_x = Smodel.X;
-    % 分离正组和非正组的基础解；非正组包含融合排名后 3/4 的全部解
+    % 按 PAQC 的 Catalog 分离正组 C1 和非正组 C2。
     C1_data = model_x(Smodel.Y == 1,:);
     C2_data = model_x(Smodel.Y ~= 1,:);
 
@@ -288,7 +221,7 @@ function [ind,scores,uncertainty] = model_select(Smodel,Next)
     scores      = zeros(Next_num,1);
     uncertainty = ones(Next_num,1);
 
-    % 防御：如果某一类为空，直接返回
+    % 任一训练组或候选集为空时，返回初始得分及原始顺序。
     if C1_num == 0 || C2_num == 0 || Next_num == 0
         ind = (1:Next_num)';
         return;
@@ -316,10 +249,10 @@ function [ind,scores,uncertainty] = model_select(Smodel,Next)
     % 用网络预测所有测试样本
     TestIn_nor = mapminmax('apply',all_testdata',Smodel.mp_struct)';
     pre_out = Smodel.net(TestIn_nor')';
-    % softmax 尖锐度 = 最大类别概率；它不是校准置信度或认知不确定性
+    % pair_conf 为每个有序解对的最大预测类别概率。
     pair_conf = max(pre_out,[],2);
 
-    % 为每个候选计算组别净证据和 softmax 预测模糊度
+    % 为每个候选计算关系得分 R 和预测模糊度 U。
     for i = 1:Next_num
         original = (i-1)*nPairPerSol;
 
@@ -341,7 +274,7 @@ function [ind,scores,uncertainty] = model_select(Smodel,Next)
             pre_C2Xi = weighted_mean(pre_out(idx_C2Xi,:),pair_conf(idx_C2Xi));
             pre_XiC2 = weighted_mean(pre_out(idx_XiC2,:),pair_conf(idx_XiC2));
         else
-            % 保守模式：使用简单平均
+            % 指标准则及关系得分回退分支：使用算术平均。
             pre_C1Xi = mean(pre_out(idx_C1Xi,:),1);
             pre_XiC1 = mean(pre_out(idx_XiC1,:),1);
             pre_C2Xi = mean(pre_out(idx_C2Xi,:),1);
@@ -362,10 +295,10 @@ function [ind,scores,uncertainty] = model_select(Smodel,Next)
         C_SCORE(1) = C_SCORE(1) + pre_XiC2(1);
         C_SCORE(2) = C_SCORE(2) + pre_XiC2(2) + pre_XiC2(3);
 
-        % 最终得分 = 候选偏向正组的证据 - 候选偏向非正组的证据
+        % 汇总四类比较结果，得到相对于正组和非正组的关系得分 R。
         scores(i) = C_SCORE(1) - C_SCORE(2);
         % 预测模糊度 = 1 - 全部成对预测的平均最大类别概率
-        % 由于非正组约占 3/4，该平均值通常由与非正组的比较数量主导。
+        % 对候选与两个训练组的全部有序解对取平均。
         uncertainty(i) = 1 - mean(pair_conf([idx_C1Xi,idx_XiC1,idx_C2Xi,idx_XiC2]));
     end
 
@@ -375,14 +308,7 @@ end
 
 %% ============ softmax 尖锐度加权平均 ============
 function y = weighted_mean(x,w)
-% weighted_mean - 使用 softmax 最大类别概率作为权重的加权平均
-%
-% 输入：
-%   x : n x m 矩阵
-%   w : n x 1 权重向量
-%
-% 输出：
-%   y : 1 x m 加权平均结果
+%weighted_mean 按解对的最大类别概率加权汇总预测概率。
 
     w = w(:);
     y = sum(x.*w,1)./(sum(w) + eps);
@@ -390,30 +316,10 @@ end
 
 %% ============ 多样性选择 ============
 function selected = diversity_select(Next,cand_idx,score_aug,n_eval)
-% diversity_select - 质量与决策空间距离加权的贪心批选择
-%
-% 策略：每次选一个候选加入已选集合，综合考虑增强得分和决策空间欧氏距离
-%
-% 算法步骤：
-%   1. 先选 score_aug 最高的候选
-%   2. 循环直到选满 n_eval 个：
-%      对剩余候选 j：
-%        dist_to_selected = min(||Next_j - 已选集合||)  // 到最近已选解的距离
-%        acq_j = 0.75 * score_norm(j) + 0.25 * dist_norm(j)
-%      选 acq 最大的 j 加入已选集合
-%
-% 设计动机：
-%   0.75:0.25 的权重分配表明以得分为主，多样性为辅
-%   该规则鼓励决策向量分散，但不保证目标空间或 PF 方向多样性
-%
-% 输入：
-%   Next     : 所有候选解决策变量
-%   cand_idx : 候选索引
-%   score_aug: 增强得分
-%   n_eval   : 需要选择的数量
-%
-% 输出：
-%   selected : 选出的候选索引
+%diversity_select 结合探索得分与决策空间距离贪心构造评价批次。
+%   先选探索得分最高的候选，再逐次计算剩余候选到已选集合的最小欧氏距离。
+%   每步在剩余候选上分别归一化得分和距离，按 0.75*得分+0.25*距离排序。
+%   selected 按加入顺序返回候选索引，对应论文的批次选择得分 A_batch。
 
     cand_idx = cand_idx(:);
     % 如果候选数不足，直接返回
@@ -435,7 +341,7 @@ function selected = diversity_select(Next,cand_idx,score_aug,n_eval)
         dist_to_selected = min(pdist2(Next(remain,:),Next(selected,:)),[],2);
         % 归一化距离
         div_n = norm01(dist_to_selected);
-        % 计算 acquisition function：0.75 * 得分 + 0.25 * 距离
+        % 批次选择得分 A_batch：0.75*归一化探索得分 + 0.25*归一化距离。
         acq = 0.75.*norm01(score_aug(remain)) + 0.25.*div_n;
         % 选 acq 最大的候选
         [~,best] = max(acq);
@@ -446,13 +352,7 @@ end
 
 %% ============ 归一化到 [0,1] ============
 function s = norm01(x)
-% norm01 - 将向量归一化到 [0,1]
-%
-% 输入：
-%   x : 原始向量
-%
-% 输出：
-%   s : 归一化后的向量
+%norm01 将向量按最小值和最大值归一化，取值范围过小时返回 0.5。
 
     x = x(:);
     if isempty(x)
