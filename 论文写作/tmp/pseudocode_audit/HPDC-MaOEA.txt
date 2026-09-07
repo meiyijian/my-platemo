@@ -1,0 +1,431 @@
+ Hybrid PBI-Based Quality Grouping and Dual-Mode Candidate Selection for Expensive
+                           Many-Objective Optimization
+
+                                                           [TODO: author list]
+                                        Department, University, Street, City, 000000, Province, Country
+
+
+
+
+Abstract
+[TODO: Use the challenge–contribution structure. State the two concrete gaps: binary grouping alone provides no within-label
+ordering for positive-group selection, and a fixed relation-score rule lets the score distribution determine how many candidates are
+evaluated. Introduce hybrid PBI-based quality grouping and dual-mode candidate selection as two coordinated design components,
+addressing training-group construction and expensive-evaluation selection. Lead the results with the strongest verified algorithm-
+level IGD comparison in the tested many-objective settings. Then give one concise mechanism finding about group composition or
+candidate-batch utility. Keep detailed overlap statistics and componentwise tests in the experimental section.]
+Keywords: expensive many-objective optimization, surrogate-assisted evolutionary algorithm, relation learning, penalty-based
+boundary intersection, candidate selection
+
+
+1. Introduction                                                           2.2. Relation Learning for Expensive Optimization
+                                                                             [TODO: REMO and the pairwise-comparison SAEA line;
+   [TODO: Use a four-move opening: expensive many-                        compare how each method forms training groups or pairwise
+objective relation learning; the loss of within-label ordering            labels, then position the present work as a hybrid grouping
+when forming the positive group and the dependence of fixed-              signal that combines continuous quality ranking with a binary
+cutoff batch size on the relation-score distribution; the two             representative-based group label.]
+proposed mechanisms; and algorithm-level performance fol-
+lowed by evidence explaining group construction and candi-                2.3. Quality Assessment and Candidate Selection
+date selection. Present the two mechanisms as complementary                   [TODO: Indicator-based assessment (SDE, L p shape estima-
+design roles in one algorithm. Do not lead with selection-                tion, PIEA), radial representative selection (RSEA), and in-
+overlap statistics or imply that the relation network learns a            fill/candidate selection rules. End with the gap that motivates
+within-group ordering.]                                                   Section 3.]
+   The contributions are twofold. First, a hybrid PBI-based
+quality grouping method combines a continuous PBI score with
+the binary representative-based label used in REMO. The con-              3. The Proposed HPDC-MaOEA
+tinuous score distinguishes solutions assigned the same binary               Relation-based surrogate-assisted evolutionary algorithms
+label when the positive training group is constructed. Second,            replace multi-output regression by a classifier that predicts the
+a dual-mode candidate selection method reduces the reliance               relative quality of a pair of solutions [2]. Two interfaces then
+of expensive evaluations on a single relation score. Relation-            decide what such an algorithm can learn and how much its
+guided candidate generation is retained, while indicator-based            predictions cost: the rule that turns the evaluated population
+reranking and exploration-oriented selection provide two alter-           into supervision labels, and the rule that turns the surrogate
+native criteria for selecting the final evaluation batch.                 scores of a large candidate pool into a small batch of expensive
+                                                                          evaluations. HPDC-MaOEA (hybrid-PBI dual-mode-candidate
+                                                                          many-objective evolutionary algorithm) contributes one mech-
+2. Related Work                                                           anism at each interface. Hybrid PBI-based quality grouping
+                                                                          (Section 3.2) combines a continuous PBI score with a binary
+2.1. Surrogate-Assisted Expensive Multi-/Many-Objective Op-               representative-based label. The score can distinguish solu-
+     timization                                                           tions assigned the same binary label when the positive train-
+                                                                          ing group is constructed. Dual-mode candidate selection (Sec-
+   [TODO: Kriging/RBF-based SAEAs, their scalability limit                tion 3.4) retains relation-guided candidate generation but uses
+in M, and why regression on every objective becomes unattrac-             either indicator-based reranking or exploration-oriented selec-
+tive when M grows.]                                                       tion to choose the final expensive-evaluation batch. Established
+relation learning, indicator assessment and environmental se-            Algorithm 1 HPDC-MaOEA
+lection modules provide the host algorithm; the two proposed             Input: problem, budget FEmax , population size N
+mechanisms change how its training groups are formed and                 Output: archive Arc
+                                                                          1: Sample Ninit solutions by Latin hypercube design and evaluate them
+how its surrogate scores are used.                                        2: P ← initial population; Arc ← P
+                                                                          3: while FE < FEmax do
+3.1. Overall Framework                                                    4:    t ← FE/FEmax
+  We consider the expensive many-objective problem                        5:    (C1 , C2 , R) ← HybridGroup(P, t)                           ▷ Section 3.2
+                                                                          6:    Build ordered relation pairs from C1 , C2 by (8)
+        min f(x) = f1 (x), . . . , f M (x) , Ω ⊆ RD ,
+                                         
+                                                              (1)         7:    if no pair can be formed then
+          x∈Ω                                                             8:        P ← EnvSelect(Arc , N); continue
+in which every evaluation of f is expensive, so the number of             9:    end if
+                                                                         10:    Train the relation surrogate and record its held-out error er           ▷
+real function evaluations is limited to a budget FEmax . Let                 Section 3.3
+FE be the number of evaluations consumed so far and t =                  11:    Train the indicator surrogate b
+                                                                                                              I on the evaluated solutions              ▷
+FE/FEmax ∈ [0, 1] the evaluation progress, which both pro-                   Section 3.4.2
+posed mechanisms use as their only schedule variable.                    12:    Draw the selection mode m by (15)
+                                                                         13:    S ← DualModeSelection(P, R, m, t, er )                     ▷ Algorithm 2
+   HPDC-MaOEA evaluates a Latin hypercube design of Ninit                14:    if S = ∅ then
+solutions, stores them in an archive Arc , and then repeats five         15:         S ← at most nmin offspring generated from P ∪ R
+steps until the budget is exhausted. (i) The current population          16:    end if
+                                                                         17:    Truncate S by the remaining budget, evaluate it, and append it to Arc
+P of size N is divided into a positive group and a non-positive
+                                                                         18:    P ← EnvSelect(Arc , N)
+group by hybrid PBI grouping, which also returns the set R               19: end while
+of representative solutions reused later as an additional mating
+pool. (ii) Ordered pairs are generated from the two groups and
+a three-class relation network is trained, together with a held-         3.2.1. Continuous PBI Quality Score
+out pairwise error rate er . (iii) An indicator value is computed           The continuous score assesses each solution by a PBI value
+for every evaluated solution and an RBF-SVR model is fitted              measured along a direction set V = {v j }. For low-dimensional
+from decision vectors to those values. (iv) A relation-guided            or small-population cases, V consists of uniform reference vec-
+inner search accumulates a candidate pool, one of the two se-            tors normalised to unit length. In the many-objective regime,
+lection criteria is drawn, and a batch of at most nmax candidates        the directions adapt to the current nondominated distribution
+is returned. (v) The batch is evaluated, appended to Arc , and           and are formed from its radial unit vectors,
+the next population is obtained by the radial-grid environmen-
+tal selection of RSEA [3] over the whole archive.                                            n                                      o
+                                                                                          V = f ( j) f ( j) 2      j = 1, . . . , nND ,              (2)
+   Algorithm 1 states the procedure. All expensive evaluations
+after initialisation are consumed in step (v), so both proposed
+                                                                         which are used directly as the adaptive direction set. Equation
+mechanisms operate on already evaluated data and surrogate
+                                                                         (2) makes both the number and positions of these directions
+predictions only, and neither changes the total number of real
+                                                                         follow the current nondominated distribution. Uniform vectors
+evaluations. The two interfaces stay separate: grouping decides
+                                                                         are used when the adaptive construction is not activated or its
+what the classifier is asked to learn, candidate selection decides
+                                                                         fallback condition is met.
+how its scores are spent.
+                                                                            Each objective vector is associated with the direction of
+   Figure 1 shows the two interfaces within the evaluation loop.
+                                                                         largest cosine similarity, a(i) = arg max j fiT v j /(∥fi ∥2 ∥v j ∥2 ), and
+                                                                         the conventional PBI value [1] along that direction is
+3.2. Hybrid PBI-Based Quality Grouping
+                                                                                          d1,i = (fi − z∗ )T va(i) ∥va(i) ∥2 ,
+                                                                                                                  
+   Relation learning first needs to divide the evaluated popula-
+tion into groups from which pairwise labels can be generated.                             d2,i = (fi − z∗ ) − d1,i va(i) /∥va(i) ∥2 2 ,              (3)
+The binary PBI partition of REMO [2] provides a clear group
+                                                                                         gPBI
+                                                                                          i   = d1,i + θ d2,i ,
+boundary, but all solutions assigned the same label receive the
+same group-level value. It therefore cannot distinguish two              with penalty θ. The continuous quality score is the decreasing
+solutions of different PBI quality that lie on the same side of          transform
+the boundary. Hybrid PBI-based grouping combines a contin-                                           1
+uous PBI quality score with the binary representative-based la-                             Si =           ∈ (0, 1],                (4)
+                                                                                                  1 + gPBI
+                                                                                                       i
+bel. The continuous score provides additional ranking infor-
+mation among solutions sharing a binary label, while the label           so a larger S i indicates a smaller PBI value along the associ-
+preserves a clear population-level partition. A stage-dependent          ated direction. Unlike a class label, S i can distinguish solutions
+combination of these two signals determines the positive group           assigned the same binary label. Equations (3)–(4) also fix the
+used to construct relation pairs.                                        coordinate convention of the implementation: the association is
+   Throughout this subsection P = {(xi , fi )}i=1
+                                               N
+                                                   is the current        computed from the original objective vectors, whereas the two
+population and z = mini fi the component-wise population
+                  ∗
+                                                                         distances are computed after translation by z∗ . All experiments
+minimum, taken as the ideal point.                                       in this paper use this single convention.
+                                                                     2
+           Initial design                      1 Hybrid PBI grouping                            Relation learning
+                                                                                  Groups
+          Latin hypercube                                                                                                     Relation model
+                                                  Continuous score S                            Ordered group pairs
+         + true evaluations
+                                                    + binary label L                            Three-class model
+                                                   Positive group 1                               Held-out error
+
+
+                                                                                                                                  2 Dual-mode selection
+                                                                                     Representatives: mating pool
+
+       Current population
+                                                                                                                                      Draw one mode
+       : evaluated solutions                                                                                                      Accumulate candidates
+                                                       Indicator learning                                                              Filter and rank
+                                                                                                    Predicted indicator
+                                                                                                                                      Bound the batch
+                                               SDE fitness on current population
+                                               Decision vectors → indicator SVR
+
+
+                       Repeat while
+                       FE < budget
+
+                                            Environmental selection                           Archive update                          True evaluation
+
+                                               Select next population                         Append evaluated                         || ≤ nmax
+                                               from the whole archive                             solutions                        Remaining FE budget
+
+
+
+
+Figure 1: Overall framework of HPDC-MaOEA. Hybrid PBI grouping constructs the supervision groups for relation learning, and dual-mode candidate selection
+allocates a bounded batch of expensive evaluations. The representatives also enter the mating pool (dashed arrow). The indicator surrogate is trained on the current
+evaluated population. Newly evaluated solutions enter the archive, from which environmental selection constructs the next population.
+
+
+3.2.2. Representative-Based Binary Group Label                                        across changing population states.
+    The continuous score supplies a fine-grained ordering, while
+the binary label adds a representative-relative quality boundary.                     3.2.3. Hybrid Score and Positive-Group Construction
+This boundary is derived from a small set R ⊂ P of k rep-                                The two signals are combined by a weight that follows the
+resentative solutions, selected from the current population by                        consumption of the expensive budget. With t = FE/FEmax and
+the radial-grid representative selection of RSEA [3], which is                        αt = 1 − t, the hybrid quality score of solution i is
+also the rule used by REMO [2]. The representatives are evalu-
+ated solutions that act as dynamic, population-derived reference                                    Hi = αt S i + (1 − αt )Li ,        αt = 1 − t,              (6)
+points. Their number increases with the objective dimension to
+                                                                                      and the positive group collects the highest-ranked fraction rg of
+provide finer regional coverage as the many-objective geometry
+                                                                                      the population,
+becomes richer.
+    Given R, the binary group label applies the PBI partition of                             C1 = xi rank↓ (Hi ) ≤ ⌈rg N⌉ ,       C2 = P \ C1 .
+                                                                                                   
+                                                                                                                                                    (7)
+REMO [2] with the representatives as reference points. Ev-
+ery solution is associated with the representative rb(i) of largest                   With rg < 1/2 the non-positive group C2 provides a broad con-
+cosine similarity, the associated direction is wb(i) = (rb(i) −                       trast set, while the compact positive group concentrates pair-
+z∗ )/∥rb(i) − z∗ ∥2 , the two distances d̂1,i , d̂2,i are formed as in (3)            wise supervision on the highest-priority portion of the popula-
+with va(i) replaced by wb(i) , and the binary label is                                tion.
+                                                                                         The hybrid score connects quality assessment to relation
+                             d̂1,i + δ d̂2,i
+                           "                    #
+                                                                                      learning through the chain
+                   Li = I                    ≤ 1  ∈ {0, 1}.            (5)
+                             ∥rb(i) − z∗ ∥2
+                                                                                                quality score → positive-group construction
+Normalising by ∥rb(i) − z∗ ∥2 makes the associated representative                                      → relation-pair construction,
+itself the threshold, so Li records on which side of the surface
+through that representative a solution lies. Following REMO,                          so a change in the ranking matters insofar as it changes which
+the class-balance variable δ is adjusted by bounded bisection                         solutions enter C1 and therefore which ordered pairs the relation
+so that the boundary maintains useful occupancy on both sides                         model is trained on. The budget-dependent weighting connects
+                                                                                 3
+fine-grained quality ranking with representative-based group                  For an unevaluated candidate x the trained network is queried
+priority. As the evaluation budget is consumed, the binary la-             on the four families of ordered comparisons (C1 , x), (x, C1 ),
+bel receives increasing weight, while S i refines the within-label         (C2 , x) and (x, C2 ), that is on 2N pairs per candidate. With
+order at each training step with FE < FEmax . Proposition 1                a, b, c, d the family-wise mean probability vectors in that order,
+characterises the resulting ordering.                                      the relation score aggregates the evidence that x is not inferior
+                                                                           to the positive group and is superior to the non-positive group,
+Proposition 1 (Ordering induced by the hybrid score). Let S i ∈            minus the opposite evidence,
+(0, 1] as guaranteed by (4) whenever v j ⪰ 0 and fi ⪰ z∗ , so that
+gPBI  ≥ 0. Then                                                               R(x) = 2 c−1 (x) + d+1 (x) − a+1 (x) − b−1 (x) ∈ [−4, 4],
+                                                                                                                           
+ i                                                                                                                                        (9)
+  (i) for any pair with Li = L j , Hi − H j = αt (S i − S j );             the bound following from each probability vector summing to
+ (ii) for any pair with Li = 1 and L j = 0, αt ≤ 1/2 ⇒ Hi >                one. R(x) is the aggregate group-relative preference used to
+      H j.                                                                 order unevaluated candidates.
+
+Proof. (i) is immediate from (6) because the term (1 − αt )Li              3.4. Dual-Mode Candidate Selection
+cancels. For (ii), if αt = 0, then Hi = 1 > 0 = H j . For                     The relation surrogate can rank thousands of predicted-
+0 < αt ≤ 1/2, Hi = (1 − αt ) + αt S i > 1 − αt because S i > 0,            promising candidates per iteration, but spending the expensive
+while H j = αt S j ≤ αt because S j ≤ 1; for αt ≤ 1/2 we have              budget on the top of that single ranking concentrates the batch
+1 − αt ≥ αt , hence Hi > H j .                                             on whatever preference the current surrogate happens to hold.
+   Part (i) explains why the continuous score is included: for             In particular, the number of candidates passing a fixed cutoff de-
+αt > 0, solutions assigned the same binary label can still be              pends on the distribution of R(x), which changes with the prob-
+distinguished when the positive group is formed. Part (ii) gives           lem, search stage and training set. The resulting batch size, and
+the schedule a concrete interpretation. For t < 1/2, the con-              hence the number of evaluations spent in an iteration, can vary
+tinuous score can affect ordering across the binary boundary;              even though the cutoff is unchanged (Section ??). Moreover,
+for 1/2 ≤ t < 1, binary-positive solutions take priority and the           R(x) expresses only a candidate’s predicted position relative to
+continuous score refines the order within each label. This tran-           the two training groups.
+sition combines fine-grained ranking with a clear group priority              HPDC-MaOEA responds with two design decisions. First,
+as the budget is consumed. Section ?? examines the resulting               ranking and expenditure control are separated: quantile rules
+group composition and its association with subsequent solution             define thresholds relative to the current score distribution, while
+retention.                                                                 an explicit cap nmax bounds the evaluation batch. Scores de-
+                                                                           termine candidate priority within this bound; the retained-set
+                                                                           size and remaining budget determine the feasible batch size.
+3.3. Relation Learning on the Hybrid Groups
+                                                                           Second, two alternative ranking criteria are made available —
+  HPDC-MaOEA retains the relation model of REMO [2] and                    an exploration-oriented mode (Section 3.4.1) and an indicator-
+supplies it with the redesigned hybrid groups. Every ordered               oriented mode (Section 3.4.2) — and one of them is drawn per
+pair of distinct solutions becomes one training sample whose               iteration (Section 3.4.3). The two modes provide two alterna-
+input is the concatenation [xi , x j ] ∈ R2D and whose label               tive criteria for allocating expensive evaluations while keeping
+                                                                          the per-iteration expenditure explicit and bounded.
+                         
+                         
+                         
+                          +1, xi ∈ C1 , x j ∈ C2 ,                           Both modes rank the same kind of candidate pool, produced
+                  yi j =  −1, xi ∈ C2 , x j ∈ C1 ,
+                         
+                                                             (8)           by a relation-guided inner search: genetic variation is applied
+                         
+                         
+                         
+                         
+                         0,
+                               otherwise,                                 to the union of the current population and the representatives R,
+                                                                           the relation score (9) ranks the offspring, the best of them are
+with C1 , C2 from (7), records the ordered group relation rather           retained as parents of the next inner generation together with
+than a Pareto comparison. Because rg < 1/2 makes the same-                 R, and the loop stops once the cumulative number of gener-
+group families larger than the cross-group ones, they are ran-             ated candidates reaches the limit gmax . All candidates gener-
+domly subsampled towards the cross-group count, so the three               ated along the way are accumulated and deduplicated into the
+labels of (8) are balanced by construction rather than by a                pool A. Mode-specific relation aggregation shapes the inner
+reweighted loss.                                                           search and produces a criterion-specific pool, while the com-
+   We employ the same relation-learning architecture as                    mon pool-construction rule and batch bound preserve a con-
+REMO: min–max normalised pair inputs, a class-balanced                     sistent expenditure interface. Section ?? examines how the two
+training/held-out split, and a feed-forward pattern network end-           criteria change the selected batches and the resulting search per-
+ing in a softmax over the three labels. Its output for a pair is           formance.
+written π(xa , xb ) = [π+1 , π0 , π−1 ], the predicted probabilities
+that the first solution belongs to the higher group, that both             3.4.1. Exploration-Oriented Mode
+belong to the same group, and that the second belongs to the                  This mode supplements the relation score with two quantities
+higher group. The held-out misclassification rate er is reused             the score alone does not carry: how sharply the classifier sepa-
+by the reliability-aware acquisition rule in Section 3.4.1.                rates the classes around a candidate, and how far the candidate
+                                                                       4
+lies from the rest of the batch in decision space. Let O(x) col-           Algorithm 2 Dual-mode candidate selection
+lect the 2N ordered comparisons of x used in (9). The prediction           Input: population P, representatives R, relation and indicator surrogates,
+ambiguity and the exploration-oriented acquisition score are                   mode m, progress t, held-out error er
+                                                                           Output: candidate batch S
+                                                                            1: A ← ∅; Q ← offspring of P ∪ R
+                        1        X
+         U(x) = 1 −                      max πy (xa , xb ),                 2: while |A| < gmax and Q , ∅ do
+                      |O(x)| (x ,x )∈O(x) y                    (10)         3:     A←A∪Q
+                               a   b
+                                                                            4:     Score Q by the relation surrogate, (9), and keep the best of them as
+                 e + λt U(x),
+      Aexp (x) = R(x)   e                                                      parents
+                                                                            5:     Q ← offspring of the parents and R
+                                                                            6: end while
+        e denotes min–max normalisation over the pool. A
+where (·)                                                                   7: Remove duplicates from A
+large U(x) means the network produces flatter class dis-                    8: if m = ind then
+tributions around that candidate. The resulting softmax-                    9:     Retain the top fraction qrel of A by (9)
+                                                                           10:     Rerank the retained subset by b I of (14) and keep its top quantile as H ind
+concentration signal supplies a relative acquisition order over
+                                                                           11:     S ← the nb best members of H ind under b    I
+the current pool. In this mode the same sharpness maxy πy                  12: else
+additionally weights the family-wise averages entering (9), so             13:     Compute Aexp by (10)–(11) and form H exp by (12)
+that sharper pairs contribute more to the aggregated score while           14:     S ← greedy batch of nb members of H exp by (13)
+                                                                           15: end if
+preserving the semantics of the three relation classes.                    16: Bound nb by (16) and by the remaining budget
+   The weight of the ambiguity term is reduced according to                17: return S
+the search stage and the error of the model whose ambiguity is
+being sampled,
+                                                !                          and reranks the pool. Selection then follows two stages. The
+                                            er                             relation score (9) first retains the top fraction qrel of A, after
+                λt = λ0 (1 − t) max 0, 1 −        ,         (11)
+                                           emax                            which bI reranks this reduced set. Candidates at or above its qind
+                                                                           quantile form H ind and are completed with the highest-ranked
+with er the held-out pairwise error of Section 3.3 and emax a              candidates if fewer than nmin qualify. The final batch contains
+fixed threshold. The reliability factor automatically suppresses           the best nb members under b    I. Thus, the contribution of this
+ambiguity guidance as the held-out error approaches the thresh-            mode is the two-stage use of relation-based filtering followed
+old, while the progress factor shifts the acquisition towards re-          by indicator-based reranking.
+lation quality as the budget is consumed.
+   Candidates at or above the qkeep quantile of Aexp form the              3.4.3. Probabilistic Mode Switching
+retained set                                                                 Let m ∈ {exp, ind} denote the mode of the current iteration.
+                   n                                  o                   With u ∼ U[0, 1),
+         H exp = x ∈ A Aexp (x) ≥ Qqkeep Aexp (A) ,         (12)
+                                                                                    
+                                                                                    
+                                                                                    ind, if the indicator surrogate is available
+completed with the highest-scoring candidates if fewer than                         
+                                                                                    
+                                                                                m=         and u < pmix ,
+                                                                                    
+                                                                                                                                     (15)
+                                                                                    
+nmin qualify. The batch is then assembled greedily from H exp :                     
+                                                                                    
+                                                                                    
+the first member maximises Aexp , and each subsequent member                        exp, otherwise,
+                                                                                    
+maximises
+                                                                           with pmix = 0.5. Stochastic switching assigns one intact crite-
+                              bexp (x) + (1 − w) d(x,
+           Abatch (x | S) = w A                  b S),                     rion to each iteration, preserving the distinct selection seman-
+                                                               (13)
+                d(x, S) = min ∥x − z∥2 ,                                   tics of the two modes and giving them equal selection probabil-
+                            z∈S                                            ity when the indicator surrogate is available, without requiring
+                                                                           their scores to be combined into a single ranking.
+       b is renormalised over the remaining candidates at each
+where (·)                                                                     Whichever mode is drawn, the number of expensive evalua-
+step and w > 1/2. Quality remains the primary criterion, while             tions is
+decision-space distance distributes the expensive batch across                                  nb = min nmax , |H m | ,
+                                                                                                                      
+                                                                                                                                        (16)
+distinct candidate regions.
+                                                                           truncated further by the remaining budget FEmax − FE. Before
+3.4.2. Indicator-Based Reranking Mode                                      this cap is applied, the retained set is completed to nmin when-
+                                                                           ever the pool permits. Together, the quantile rules and (16) con-
+   The second mode retains the relation model for coarse candi-
+                                                                           vert surrogate scores into a stable rank-and-budget interface. A
+date filtering and introduces a different quality criterion only for
+                                                                           direct variation step supplies candidates when the inner pool is
+final reranking. Following PIEA [4], an SDE-based fitness [5]
+                                                                           empty. Algorithm 2 summarises the module.
+is computed for each evaluated solution using the generalised
+L p front-shape estimate and its finite convergence fallback. Be-
+cause this fitness is available only for evaluated solutions, an           3.5. Computational Complexity
+RBF-SVR model approximates it in the decision space,                          Let N be the population size, Nv = O(N) the number of di-
+                                                                           rections, Nc the size of the deduplicated candidate pool, D the
+            I(x) = MI (x; D),
+            b                          D = {(xi , Ii )}i=1
+                                                       N
+                                                           ,   (14)        number of decision variables and M the number of objectives.
+                                                                       5
+   In the grouping module, association and the continuous PBI           [8] Y. Tian, R. Cheng, X. Zhang, and Y. Jin, “PlatEMO: A
+computation (3)–(4) cost O(NNv M), the direction set (2) costs              MATLAB platform for evolutionary multi-objective op-
+one normalisation of the nondominated vectors, the bounded bi-              timization,” IEEE Comput. Intell. Mag., vol. 12, no. 4,
+section of (5) costs O(Bδ NkM) with Bδ fixed by the bracket and             pp. 73–87, 2017.
+the tolerance, and representative selection adds nondominated
+sorting and radial-projection distances. With Nv = O(N) and
+k = O(N) the module is dominated by O(N 2 M), and generating
+the relation pairs adds O(N 2 D).
+   In the candidate module, scoring one candidate requires 2N
+network inputs of dimension 2D, so the pool costs O(Nc ND)
+in data construction and prediction, which dominates the mod-
+ule. The indicator fitness costs O(N 2 M), the indicator-oriented
+mode adds one SVR fit on the N evaluated solutions plus
+predictions on the screened subset, and the greedy construc-
+tion (13) costs O(nmax Nc D). The per-iteration cost is therefore
+O(Nc ND + N 2 M). Neither module consumes expensive evalu-
+ations, so the total number of real evaluations remains FEmax
+regardless of the mode sequence; the wall-clock share of the
+two modules is reported in Section ??.
+
+
+4. Conclusion
+
+   [TODO: Reinforce the two design contributions: hybrid
+PBI-based grouping combines fine-grained ordering with
+representative-based group priority, and dual-mode candidate
+selection offers exploration and indicator criteria within an
+explicit evaluation-batch bound. State the strongest verified
+algorithm-level result and its benchmark scope. Close by con-
+necting the group-composition and candidate-batch findings to
+these two design roles, keeping empirical performance claims
+at the level supported by their matched comparisons.]
+
+
+References
+
+[1] Q. Zhang and H. Li, “MOEA/D: A multiobjective evolu-
+    tionary algorithm based on decomposition,” IEEE Trans.
+    Evol. Comput., vol. 11, no. 6, pp. 712–731, 2007.
+
+[2] [TODO: REMO – relation-model-based expensive multi-
+    objective optimization.]
+
+[3] [TODO: RSEA – radar-grid based selection evolutionary
+    algorithm.]
+
+[4] Y. Li, W. Li, S. Li, and Y. Zhao, “PIEA,” Information Sci-
+    ences, 2024. [TODO: complete volume and pages.]
+
+[5] M. Li, S. Yang, and X. Liu, “Shift-based density estimation
+    for Pareto-based algorithms in many-objective optimiza-
+    tion,” IEEE Trans. Evol. Comput., vol. 18, no. 3, pp. 348–
+    365, 2014.
+
+[6] [TODO: PC-SAEA           –   pairwise-comparison-based
+    surrogate-assisted EA, Swarm Evol. Comput., 2023,
+    doi:10.1016/j.swevo.2023.101323.]
+
+[7] [TODO: R2AEA – two-stage relation-based expensive op-
+    timization.]
+                                                                    6
+

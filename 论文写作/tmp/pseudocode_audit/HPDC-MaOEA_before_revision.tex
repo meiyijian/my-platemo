@@ -177,29 +177,21 @@ progress, which both proposed mechanisms use as their only schedule variable.
 HPDC-MaOEA evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
 stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and then repeats five
 steps until the budget is exhausted. (i)~The current population $\mathcal{P}$
-is divided into a positive group and a non-positive group by
+of size $N$ is divided into a positive group and a non-positive group by
 hybrid PBI grouping, which also returns the set $\mathcal{R}$ of
 representative solutions reused later as an additional mating pool.
 (ii)~Ordered pairs are generated from the two groups and a three-class relation
 network is trained, together with a held-out pairwise error rate $e_r$.
-(iii)~An indicator value is computed for each solution in $\mathcal{P}$ and an
+(iii)~An indicator value is computed for every evaluated solution and an
 RBF-SVR model is fitted from decision vectors to those values.
-(iv)~One of the two selection modes is drawn, a relation-guided inner search
-accumulates candidates under that mode, and a batch of at most $n_{\max}$ candidates is
+(iv)~A relation-guided inner search accumulates a candidate pool, one of the
+two selection criteria is drawn, and a batch of at most $n_{\max}$ candidates is
 returned. (v)~The batch is evaluated, appended to
 $\mathcal{A}_{\mathrm{rc}}$, and the next population is obtained by the
 radial-grid environmental selection of RSEA~\cite{ref:rsea} over the whole
 archive.
 
-Algorithm~\ref{alg:framework} states the procedure; its grouping and candidate
-selection steps are detailed in Algorithms~\ref{alg:grouping}
-and~\ref{alg:candidate}, respectively. The initial design satisfies
-$2\leq N_{\mathrm{init}}\leq FE_{\max}$, and $N$ is the target population size
-for environmental selection. The relation surrogate $\mathcal{M}_R$ includes
-the group references and input normalisation needed for prediction, while
-$\mathcal{M}_I$ denotes the indicator surrogate when available. The controls
-defined in the following subsections are shared by the three procedures.
-All expensive evaluations
+Algorithm~\ref{alg:framework} states the procedure. All expensive evaluations
 after initialisation are consumed in step~(v), so both proposed mechanisms operate on already
 evaluated data and surrogate predictions only, and neither changes the total
 number of real evaluations. The two interfaces stay separate: grouping
@@ -213,33 +205,40 @@ Figure~\ref{fig:framework} shows the two interfaces within the evaluation loop.
 \caption{HPDC-MaOEA}
 \label{alg:framework}
 \begin{algorithmic}[1]
-\Require problem $(\Omega,\vf)$, budget $FE_{\max}$, initial size
-         $N_{\mathrm{init}}$, population size $N$
-\Ensure archive $\mathcal{A}_{\mathrm{rc}}$ of evaluated solutions
-\State $\mathcal{P}\gets N_{\mathrm{init}}$ solutions sampled by Latin hypercube design
-\State Evaluate $\mathcal{P}$; $FE\gets N_{\mathrm{init}}$
-\State $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
+\Require problem, budget $FE_{\max}$, population size $N$
+\Ensure archive $\mathcal{A}_{\mathrm{rc}}$
+\State Sample $N_{\mathrm{init}}$ solutions by Latin hypercube design and
+       evaluate them
+\State $\mathcal{P}\gets$ initial population;
+       $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
 \While{$FE<FE_{\max}$}
   \State $t\gets FE/FE_{\max}$
   \State $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$
          \Call{HybridGroup}{$\mathcal{P},t$}
+         \Comment{Section~\ref{sec:method:hpc}}
   \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
-  \State Train $\mathcal{M}_R$ and obtain its held-out error $e_r$
-  \State Train $\mathcal{M}_I$ on $\mathcal{P}$, or set $\mathcal{M}_I\gets\emptyset$ if unavailable
+  \If{no pair can be formed}
+    \State $\mathcal{P}\gets$
+           \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N$};
+           \textbf{continue}
+  \EndIf
+  \State Train the relation surrogate and record its held-out error $e_r$
+         \Comment{Section~\ref{sec:method:relation}}
+  \State Train the indicator surrogate $\widehat I$ on the evaluated solutions
+         \Comment{Section~\ref{sec:method:candidate:ind}}
   \State Draw the selection mode $m$ by \eqref{eq:mode}
   \State $\mathcal{S}\gets$
-         \Call{DualModeSelect}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
+         \Call{DualModeSelection}{$\mathcal{P},\mathcal{R},m,t,e_r$}
+         \Comment{Algorithm~\ref{alg:candidate}}
   \If{$\mathcal{S}=\emptyset$}
     \State $\mathcal{S}\gets$ at most $n_{\min}$ offspring generated from
            $\mathcal{P}\cup\mathcal{R}$
   \EndIf
-  \State Keep the first $\min(|\mathcal{S}|,FE_{\max}-FE)$ candidates in $\mathcal{S}$
-  \State Evaluate $\mathcal{S}$ and append it to $\mathcal{A}_{\mathrm{rc}}$
-  \State $FE\gets FE+|\mathcal{S}|$
+  \State Truncate $\mathcal{S}$ by the remaining budget, evaluate it, and
+         append it to $\mathcal{A}_{\mathrm{rc}}$
   \State $\mathcal{P}\gets$ \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N$}
 \EndWhile
-\State \Return $\mathcal{A}_{\mathrm{rc}}$
 \end{algorithmic}
 \end{algorithm}
 
@@ -259,7 +258,7 @@ combination of these two signals determines the positive group used to construct
 relation pairs.
 
 Throughout this subsection $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$ is the
-current population, with $N=|\mathcal{P}|$, and $\vz^{*}=\min_i\vf_i$ the component-wise population
+current population and $\vz^{*}=\min_i\vf_i$ the component-wise population
 minimum, taken as the ideal point.
 
 \subsubsection{Continuous PBI Quality Score}
@@ -361,29 +360,6 @@ population,
 With $r_g<1/2$ the non-positive group $\mathcal{C}_2$ provides a broad contrast
 set, while the compact positive group concentrates pairwise supervision on the
 highest-priority portion of the population.
-
-Algorithm~\ref{alg:grouping} summarises the construction. Ties in the hybrid
-score are resolved by population order so that the positive group has exactly
-$\lceil r_gN\rceil$ members.
-
-\begin{algorithm}[t]
-\caption{Hybrid PBI-based quality grouping}
-\label{alg:grouping}
-\begin{algorithmic}[1]
-\Require evaluated population $\mathcal{P}$, progress $t$
-\Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
-\State $N\gets|\mathcal{P}|$; $\vz^{*}\gets\min_i\vf_i$
-\State Construct the reference directions $\mathcal{V}$
-\State Associate each solution with its closest direction by cosine similarity
-\State Compute $S_i$ for all solutions by \eqref{eq:pbi}--\eqref{eq:score-cont}
-\State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
-\State Adjust $\delta$ by bounded bisection and obtain $L_i$ by \eqref{eq:label-bin}
-\State $\alpha_t\gets1-t$; $H_i\gets\alpha_tS_i+(1-\alpha_t)L_i$ for all $i$
-\State $\mathcal{C}_1\gets$ the $\lceil r_gN\rceil$ highest-scoring solutions under $H_i$
-\State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$
-\State \Return $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})$
-\end{algorithmic}
-\end{algorithm}
 
 The hybrid score connects quality assessment to relation learning through the
 chain
@@ -508,9 +484,9 @@ per-iteration expenditure explicit and bounded.
 Both modes rank the same kind of candidate pool, produced by a relation-guided
 inner search: genetic variation is applied to the union of the current
 population and the representatives $\mathcal{R}$, the relation score
-\eqref{eq:relscore} ranks the offspring, up to $|\mathcal{R}|$ of the best are retained as
+\eqref{eq:relscore} ranks the offspring, the best of them are retained as
 parents of the next inner generation together with $\mathcal{R}$, and the loop
-stops once the cumulative number of generated candidates reaches the threshold
+stops once the cumulative number of generated candidates reaches the limit
 $g_{\max}$. All candidates generated along the way are accumulated and
 deduplicated into the pool $\mathcal{A}$. Mode-specific relation aggregation
 shapes the inner search and produces a criterion-specific pool, while the common
@@ -633,50 +609,38 @@ applied, the retained set is completed to $n_{\min}$ whenever the pool permits.
 Together, the quantile rules and \eqref{eq:batch} convert surrogate scores into
 a stable rank-and-budget interface. A direct variation step supplies candidates
 when the inner pool is empty. Algorithm~\ref{alg:candidate} summarises the
-module and returns the batch in selection order; Algorithm~\ref{alg:framework}
-applies the remaining-budget truncation immediately before evaluation.
+module.
 
 \begin{algorithm}[t]
 \caption{Dual-mode candidate selection}
 \label{alg:candidate}
 \begin{algorithmic}[1]
-\Require population $\mathcal{P}$, representatives $\mathcal{R}$, surrogates
-         $\mathcal{M}_R,\mathcal{M}_I$, mode $m$, progress $t$, error $e_r$
-\Ensure ordered candidate batch $\mathcal{S}$
-\State $\mathcal{Q}\gets$ offspring generated from $\mathcal{P}\cup\mathcal{R}$
-\State Initialise the candidate list $\mathcal{L}$ with $\mathcal{Q}$; $c\gets|\mathcal{Q}|$
-\While{$c<g_{\max}$ and $\mathcal{Q}\neq\emptyset$}
-  \State Score $\mathcal{Q}$ using $\mathcal{M}_R$ with the aggregation for mode $m$
-  \State Retain the best $\min(|\mathcal{R}|,|\mathcal{Q}|)$ candidates as parents
-  \State $\mathcal{Q}\gets$ offspring generated from the parents and $\mathcal{R}$
-  \State Append $\mathcal{Q}$ to $\mathcal{L}$; $c\gets c+|\mathcal{Q}|$
+\Require population $\mathcal{P}$, representatives $\mathcal{R}$, relation and
+         indicator surrogates, mode $m$, progress $t$, held-out error $e_r$
+\Ensure candidate batch $\mathcal{S}$
+\State $\mathcal{A}\gets\emptyset$;
+       $\mathcal{Q}\gets$ offspring of $\mathcal{P}\cup\mathcal{R}$
+\While{$|\mathcal{A}|<g_{\max}$ and $\mathcal{Q}\neq\emptyset$}
+  \State $\mathcal{A}\gets\mathcal{A}\cup\mathcal{Q}$
+  \State Score $\mathcal{Q}$ by the relation surrogate, \eqref{eq:relscore},
+         and keep the best of them as parents
+  \State $\mathcal{Q}\gets$ offspring of the parents and $\mathcal{R}$
 \EndWhile
-\State $\mathcal{A}\gets$ the distinct candidates in $\mathcal{L}$
-\If{$\mathcal{A}=\emptyset$}
-  \State \Return $\emptyset$
-\EndIf
+\State Remove duplicates from $\mathcal{A}$
 \If{$m=\mathrm{ind}$}
-  \State $\mathcal{B}\gets$ the $\lceil q_{\mathrm{rel}}|\mathcal{A}|\rceil$ highest-scoring candidates under $R(\vx)$
-  \State Predict $\widehat I(\vx)$ on $\mathcal{B}$ using $\mathcal{M}_I$
-  \State $\tau\gets Q_{q_{\mathrm{ind}}}(\widehat I(\mathcal{B}))$
-  \State $\mathcal{H}^{\mathrm{ind}}\gets\{\vx\in\mathcal{B}\mid\widehat I(\vx)\geq\tau\}$
-  \State Complete $\mathcal{H}^{\mathrm{ind}}$ to $\min(n_{\min},|\mathcal{B}|)$ using the best
-         remaining candidates in $\mathcal{B}$ under $\widehat I$, if needed
-  \State $n_b\gets\min(n_{\max},|\mathcal{H}^{\mathrm{ind}}|)$
+  \State Retain the top fraction $q_{\mathrm{rel}}$ of $\mathcal{A}$ by
+         \eqref{eq:relscore}
+  \State Rerank the retained subset by $\widehat I$ of \eqref{eq:svr} and keep
+         its top quantile as $\mathcal{H}^{\mathrm{ind}}$
   \State $\mathcal{S}\gets$ the $n_b$ best members of
          $\mathcal{H}^{\mathrm{ind}}$ under $\widehat I$
 \Else
   \State Compute $A_{\mathrm{exp}}$ by \eqref{eq:expscore}--\eqref{eq:lambda}
          and form $\mathcal{H}^{\mathrm{exp}}$ by \eqref{eq:prefilter-exp}
-  \State Complete $\mathcal{H}^{\mathrm{exp}}$ to $\min(n_{\min},|\mathcal{A}|)$ using the best
-         remaining candidates in $\mathcal{A}$ under $A_{\mathrm{exp}}$, if needed
-  \State $n_b\gets\min(n_{\max},|\mathcal{H}^{\mathrm{exp}}|)$
-  \State Initialise $\mathcal{S}$ with the maximiser of $A_{\mathrm{exp}}$ in $\mathcal{H}^{\mathrm{exp}}$
-  \While{$|\mathcal{S}|<n_b$}
-    \State Append the maximiser of $A_{\mathrm{batch}}(\vx\mid\mathcal{S})$ over
-           $\mathcal{H}^{\mathrm{exp}}\setminus\mathcal{S}$ to $\mathcal{S}$
-  \EndWhile
+  \State $\mathcal{S}\gets$ greedy batch of $n_b$ members of
+         $\mathcal{H}^{\mathrm{exp}}$ by \eqref{eq:greedy}
 \EndIf
+\State Bound $n_b$ by \eqref{eq:batch} and by the remaining budget
 \State \Return $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
