@@ -1,10 +1,10 @@
 % !TeX program = pdflatex
 % ==========================================================================
-%  HPDC-MaOEA -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
+%  PACDIS -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
 %
-%  The manuscript is organised around two contributions: hybrid PBI quality
-%  grouping and dual-mode candidate selection. Established components are
-%  cited where they enter the framework.
+%  The manuscript is organised around two contributions: PBI-assisted quality
+%  classification (PAQC) and criterion-diversified infill selection (CDIS).
+%  Established components are cited where they enter the framework.
 %
 %  Layout notes:
 %    * elsarticle option "5p" is Elsevier's final two-column journal layout
@@ -58,7 +58,7 @@
 
 \begin{frontmatter}
 
-\title{Hybrid PBI-Based Quality Grouping and Dual-Mode Candidate Selection
+\title{PBI-Assisted Quality Classification and Criterion-Diversified Infill Selection
 for Expensive Many-Objective Optimization}
 
 %% Author block. Replace the placeholders and add \corref/\ead as needed:
@@ -78,8 +78,8 @@ for Expensive Many-Objective Optimization}
 \TODO{Use the challenge--contribution structure. State the two concrete gaps:
 binary grouping alone provides no within-label ordering for positive-group selection,
 and a fixed relation-score rule lets the score distribution determine how many
-candidates are evaluated. Introduce hybrid PBI-based quality grouping and
-dual-mode candidate selection as two coordinated design components, addressing
+candidates are evaluated. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
+criterion-diversified infill selection (CDIS), addressing
 training-group construction and expensive-evaluation selection. Lead the results
 with the strongest verified algorithm-level IGD comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
@@ -90,7 +90,7 @@ componentwise tests in the experimental section.}
 \begin{keyword}
 expensive many-objective optimization \sep surrogate-assisted evolutionary
 algorithm \sep relation learning \sep penalty-based boundary intersection \sep
-candidate selection
+infill selection
 \end{keyword}
 
 \end{frontmatter}
@@ -106,11 +106,11 @@ group construction and candidate selection. Present the two mechanisms as
 complementary design roles in one algorithm. Do not lead with selection-overlap
 statistics or imply that the relation network learns a within-group ordering.}
 
-The contributions are twofold. First, a hybrid PBI-based quality grouping
-method combines a continuous PBI score with the binary representative-based
+The contributions are twofold. First, PBI-assisted quality classification
+(PAQC) combines a continuous PBI score with the binary representative-based
 label used in REMO. The continuous score distinguishes solutions assigned the
-same binary label when the positive training group is constructed. Second, a
-dual-mode candidate selection method reduces the reliance of expensive
+same binary label when the positive training group is constructed. Second,
+criterion-diversified infill selection (CDIS) reduces the reliance of expensive
 evaluations on a single relation score. Relation-guided candidate generation is
 retained, while indicator-based reranking and exploration-oriented selection
 provide two alternative criteria for selecting the final evaluation batch.
@@ -136,7 +136,7 @@ representative-based group label.}
 representative selection (RSEA), and infill/candidate selection rules. End with
 the gap that motivates Section~\ref{sec:method}.}
 
-\section{The Proposed HPDC-MaOEA}
+\section{The Proposed PACDIS}
 \label{sec:method}
 
 Relation-based surrogate-assisted evolutionary algorithms replace multi-output
@@ -145,13 +145,14 @@ solutions~\cite{ref:remo}. Two interfaces then decide what such an algorithm
 can learn and how much its predictions cost: the rule that turns the evaluated
 population into supervision labels, and the rule that turns the surrogate
 scores of a large candidate pool into a small batch of expensive evaluations.
-HPDC-MaOEA (hybrid-PBI dual-mode-candidate many-objective evolutionary
-algorithm) contributes one mechanism at each interface. \emph{Hybrid PBI-based
-quality grouping} (Section~\ref{sec:method:hpc}) combines a continuous PBI
+We propose PACDIS, a surrogate-assisted many-objective evolutionary
+algorithm that contributes one mechanism at each interface.
+\emph{PBI-assisted quality classification} (PAQC;
+Section~\ref{sec:method:paqc}) combines a continuous PBI
 score with a binary representative-based label. The score can distinguish
 solutions assigned the same binary label when the positive training group is
-constructed. \emph{Dual-mode candidate selection}
-(Section~\ref{sec:method:candidate}) retains relation-guided candidate
+constructed. \emph{Criterion-diversified infill selection} (CDIS;
+Section~\ref{sec:method:cdis}) retains relation-guided candidate
 generation but uses either indicator-based reranking or exploration-oriented
 selection to choose the final expensive-evaluation batch. Established relation
 learning, indicator assessment and environmental selection modules provide the
@@ -174,11 +175,11 @@ evaluations is limited to a budget $FE_{\max}$. Let $FE$ be the number of
 evaluations consumed so far and $t=FE/FE_{\max}\in[0,1]$ the evaluation
 progress, which both proposed mechanisms use as their only schedule variable.
 
-HPDC-MaOEA evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
+PACDIS evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
 stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and then repeats five
 steps until the budget is exhausted. (i)~The current population $\mathcal{P}$
 is divided into a positive group and a non-positive group by
-hybrid PBI grouping, which also returns the set $\mathcal{R}$ of
+PAQC, which also returns the set $\mathcal{R}$ of
 representative solutions reused later as an additional mating pool.
 (ii)~Ordered pairs are generated from the two groups and a three-class relation
 network is trained, together with a held-out pairwise error rate $e_r$.
@@ -192,8 +193,8 @@ radial-grid environmental selection of RSEA~\cite{ref:rsea} over the whole
 archive.
 
 Algorithm~\ref{alg:framework} states the procedure; its grouping and candidate
-selection steps are detailed in Algorithms~\ref{alg:grouping}
-and~\ref{alg:candidate}, respectively. The initial design satisfies
+selection steps are detailed in Algorithms~\ref{alg:paqc}
+and~\ref{alg:cdis}, respectively. The initial design satisfies
 $2\leq N_{\mathrm{init}}\leq FE_{\max}$, and $N$ is the target population size
 for environmental selection. The relation surrogate $\mathcal{M}_R$ includes
 the group references and input normalisation needed for prediction, while
@@ -210,7 +211,7 @@ Figure~\ref{fig:framework} shows the two interfaces within the evaluation loop.
 \input{figures/figure_framework.tex}
 
 \begin{algorithm}[t]
-\caption{HPDC-MaOEA}
+\caption{PACDIS}
 \label{alg:framework}
 \begin{algorithmic}[1]
 \Require problem $(\Omega,\vf)$, budget $FE_{\max}$, initial size
@@ -222,14 +223,14 @@ Figure~\ref{fig:framework} shows the two interfaces within the evaluation loop.
 \While{$FE<FE_{\max}$}
   \State $t\gets FE/FE_{\max}$
   \State $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$
-         \Call{HybridGroup}{$\mathcal{P},t$}
+         \Call{PBIQualityClassification}{$\mathcal{P},t$}
   \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
   \State Train $\mathcal{M}_R$ and obtain its held-out error $e_r$
   \State Train $\mathcal{M}_I$ on $\mathcal{P}$, or set $\mathcal{M}_I\gets\emptyset$ if unavailable
   \State Draw the selection mode $m$ by \eqref{eq:mode}
   \State $\mathcal{S}\gets$
-         \Call{DualModeSelect}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
+  \Statex \hspace{\algorithmicindent}\Call{DiversifiedInfillSelection}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
   \If{$\mathcal{S}=\emptyset$}
     \State $\mathcal{S}\gets$ at most $n_{\min}$ offspring generated from
            $\mathcal{P}\cup\mathcal{R}$
@@ -243,15 +244,15 @@ Figure~\ref{fig:framework} shows the two interfaces within the evaluation loop.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Hybrid PBI-Based Quality Grouping}
-\label{sec:method:hpc}
+\subsection{PBI-Assisted Quality Classification (PAQC)}
+\label{sec:method:paqc}
 
 Relation learning first needs to divide the evaluated population into groups
 from which pairwise labels can be generated. The binary PBI partition of
 REMO~\cite{ref:remo} provides a clear group boundary, but all solutions assigned
 the same label receive the same group-level value. It therefore cannot
 distinguish two solutions of different PBI quality that lie on the same side of
-the boundary. Hybrid PBI-based grouping combines a continuous PBI quality score
+the boundary. PAQC combines a continuous PBI quality score
 with the binary representative-based label. The continuous score provides
 additional ranking information among solutions sharing a binary label, while
 the label preserves a clear population-level partition. A stage-dependent
@@ -262,10 +263,11 @@ Throughout this subsection $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$ is the
 current population, with $N=|\mathcal{P}|$, and $\vz^{*}=\min_i\vf_i$ the component-wise population
 minimum, taken as the ideal point.
 
-\subsubsection{Continuous PBI Quality Score}
-\label{sec:method:hpc:cont}
+\subsubsection{Continuous PBI Quality Assessment}
+\label{sec:method:paqc:cont}
 
-The continuous score assesses each solution by a PBI value measured along a
+The procedure \textsc{ContinuousPBIQualityAssessment} assesses each solution
+by a PBI value measured along a
 direction set $\mathcal{V}=\{\vv_j\}$. For low-dimensional or small-population
 cases, $\mathcal{V}$ consists of uniform reference vectors normalised to unit
 length. In the many-objective regime, the directions adapt to the current
@@ -306,11 +308,12 @@ convention of the implementation: the association is computed from the original
 objective vectors, whereas the two distances are computed after translation by
 $\vz^{*}$. All experiments in this paper use this single convention.
 
-\subsubsection{Representative-Based Binary Group Label}
-\label{sec:method:hpc:coarse}
+\subsubsection{Representative-Based Classification}
+\label{sec:method:paqc:coarse}
 
 The continuous score supplies a fine-grained ordering, while the binary label
-adds a representative-relative quality boundary. This boundary is derived from a small set
+produced by \textsc{RepresentativeBasedClassification} adds a
+representative-relative quality boundary. This boundary is derived from a small set
 $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
 the current population by the radial-grid representative selection of
 RSEA~\cite{ref:rsea}, which is also the rule used by REMO~\cite{ref:remo}. The
@@ -338,7 +341,7 @@ $\delta$ is adjusted by bounded bisection so that the boundary maintains useful
 occupancy on both sides across changing population states.
 
 \subsubsection{Hybrid Score and Positive-Group Construction}
-\label{sec:method:hpc:hybrid}
+\label{sec:method:paqc:hybrid}
 
 The two signals are combined by a weight that follows the consumption of the
 expensive budget. With $t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality
@@ -362,13 +365,13 @@ With $r_g<1/2$ the non-positive group $\mathcal{C}_2$ provides a broad contrast
 set, while the compact positive group concentrates pairwise supervision on the
 highest-priority portion of the population.
 
-Algorithm~\ref{alg:grouping} summarises the construction. Ties in the hybrid
+Algorithm~\ref{alg:paqc} summarises the construction. Ties in the hybrid
 score are resolved by population order so that the positive group has exactly
 $\lceil r_gN\rceil$ members.
 
 \begin{algorithm}[t]
-\caption{Hybrid PBI-based quality grouping}
-\label{alg:grouping}
+\caption{PBIQualityClassification (PAQC)}
+\label{alg:paqc}
 \begin{algorithmic}[1]
 \Require evaluated population $\mathcal{P}$, progress $t$
 \Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
@@ -429,14 +432,14 @@ For $t<1/2$, the continuous score can affect ordering across the binary boundary
 for $1/2\leq t<1$, binary-positive solutions take priority and the continuous
 score refines the order within each label. This transition combines fine-grained
 ranking with a clear group priority as the budget is consumed.
-Section~\ref{sec:exp:hpc} examines the resulting group composition and its
+Section~\ref{sec:exp:paqc} examines the resulting group composition and its
 association with subsequent solution retention.
 
-\subsection{Relation Learning on the Hybrid Groups}
+\subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
 
-HPDC-MaOEA retains the relation model of REMO~\cite{ref:remo} and supplies it
-with the redesigned hybrid groups. Every ordered pair
+PACDIS retains the relation model of REMO~\cite{ref:remo} and supplies it
+with the groups constructed by PAQC. Every ordered pair
 of distinct solutions becomes one training sample whose input is the
 concatenation $[\vx_i,\vx_j]\in\mathbb{R}^{2D}$ and whose label
 \begin{equation}
@@ -463,7 +466,7 @@ $\bm{\pi}(\vx_a,\vx_b)=[\pi_{+1},\pi_0,\pi_{-1}]$, the predicted probabilities
 that the first solution belongs to the higher group, that both belong to the
 same group, and that the second belongs to the higher group. The held-out
 misclassification rate $e_r$ is reused by the reliability-aware acquisition
-rule in Section~\ref{sec:method:candidate:exp}.
+rule in Section~\ref{sec:method:cdis:exp}.
 
 For an unevaluated candidate $\vx$ the trained network is queried on the four
 families of ordered comparisons $(\mathcal{C}_1,\vx)$, $(\vx,\mathcal{C}_1)$,
@@ -480,8 +483,8 @@ R(\vx)=2\bigl[c_{-1}(\vx)+d_{+1}(\vx)-a_{+1}(\vx)-b_{-1}(\vx)\bigr]
 the bound following from each probability vector summing to one. $R(\vx)$ is the
 aggregate group-relative preference used to order unevaluated candidates.
 
-\subsection{Dual-Mode Candidate Selection}
-\label{sec:method:candidate}
+\subsection{Criterion-Diversified Infill Selection (CDIS)}
+\label{sec:method:cdis}
 
 The relation surrogate can rank thousands of predicted-promising candidates per
 iteration, but spending the expensive budget on the top of that single ranking
@@ -493,15 +496,15 @@ spent in an iteration, can vary even though the cutoff is unchanged
 (Section~\ref{sec:exp:candidate}). Moreover, $R(\vx)$ expresses only a
 candidate's predicted position relative to the two training groups.
 
-HPDC-MaOEA responds with two design decisions. First, ranking and expenditure
+PACDIS responds with two design decisions. First, ranking and expenditure
 control are separated: quantile rules define thresholds relative to the current
 score distribution, while an explicit cap $n_{\max}$ bounds the evaluation
 batch. Scores determine candidate priority within this bound; the retained-set
 size and remaining budget determine the feasible batch size. Second, two alternative ranking
 criteria are made available --- an exploration-oriented mode
-(Section~\ref{sec:method:candidate:exp}) and an indicator-oriented mode
-(Section~\ref{sec:method:candidate:ind}) --- and one of them is drawn per
-iteration (Section~\ref{sec:method:candidate:mix}). The two modes provide two
+(Section~\ref{sec:method:cdis:exp}) and an indicator-oriented mode
+(Section~\ref{sec:method:cdis:ind}) --- and one of them is drawn per
+iteration (Section~\ref{sec:method:cdis:mix}). The two modes provide two
 alternative criteria for allocating expensive evaluations while keeping the
 per-iteration expenditure explicit and bounded.
 
@@ -518,10 +521,11 @@ pool-construction rule and batch bound preserve a consistent expenditure
 interface. Section~\ref{sec:exp:candidate} examines how the two criteria change
 the selected batches and the resulting search performance.
 
-\subsubsection{Exploration-Oriented Mode}
-\label{sec:method:candidate:exp}
+\subsubsection{Exploration-Based Infill}
+\label{sec:method:cdis:exp}
 
-This mode supplements the relation score with two quantities the score alone
+The procedure \textsc{ExplorationBasedInfill} supplements the relation score
+with two quantities the score alone
 does not carry: how sharply the classifier separates the classes around a
 candidate, and how far the candidate lies from the rest of the batch in
 decision space. Let $\mathcal{O}(\vx)$ collect the $2N$ ordered comparisons of
@@ -580,10 +584,11 @@ where $\widehat{(\cdot)}$ is renormalised over the remaining candidates at each
 step and $w>1/2$. Quality remains the primary criterion, while decision-space
 distance distributes the expensive batch across distinct candidate regions.
 
-\subsubsection{Indicator-Based Reranking Mode}
-\label{sec:method:candidate:ind}
+\subsubsection{Indicator-Based Infill}
+\label{sec:method:cdis:ind}
 
-The second mode retains the relation model for coarse candidate filtering and
+The procedure \textsc{IndicatorBasedInfill} retains the relation model for
+coarse candidate filtering and
 introduces a different quality criterion only for final reranking. Following
 PIEA~\cite{ref:piea}, an SDE-based fitness~\cite{ref:sde} is computed for each
 evaluated solution using the generalised $L_p$ front-shape estimate and its
@@ -604,8 +609,8 @@ qualify. The final batch contains the best $n_b$ members under $\widehat I$.
 Thus, the contribution of this mode is the two-stage use of relation-based
 filtering followed by indicator-based reranking.
 
-\subsubsection{Probabilistic Mode Switching}
-\label{sec:method:candidate:mix}
+\subsubsection{Selection-Criterion Switching}
+\label{sec:method:cdis:mix}
 
 Let $m\in\{\mathrm{exp},\mathrm{ind}\}$ denote the mode of the current
 iteration. With $u\sim U[0,1)$,
@@ -632,13 +637,13 @@ truncated further by the remaining budget $FE_{\max}-FE$. Before this cap is
 applied, the retained set is completed to $n_{\min}$ whenever the pool permits.
 Together, the quantile rules and \eqref{eq:batch} convert surrogate scores into
 a stable rank-and-budget interface. A direct variation step supplies candidates
-when the inner pool is empty. Algorithm~\ref{alg:candidate} summarises the
+when the inner pool is empty. Algorithm~\ref{alg:cdis} summarises the
 module and returns the batch in selection order; Algorithm~\ref{alg:framework}
 applies the remaining-budget truncation immediately before evaluation.
 
 \begin{algorithm}[t]
-\caption{Dual-mode candidate selection}
-\label{alg:candidate}
+\caption{DiversifiedInfillSelection (CDIS)}
+\label{alg:cdis}
 \begin{algorithmic}[1]
 \Require population $\mathcal{P}$, representatives $\mathcal{R}$, surrogates
          $\mathcal{M}_R,\mathcal{M}_I$, mode $m$, progress $t$, error $e_r$
@@ -688,7 +693,7 @@ Let $N$ be the population size, $N_v=O(N)$ the number of directions, $N_c$ the
 size of the deduplicated candidate pool, $D$ the number of decision variables
 and $M$ the number of objectives.
 
-In the grouping module, association and the continuous PBI computation
+In PAQC, association and the continuous PBI computation
 \eqref{eq:pbi}--\eqref{eq:score-cont} cost $O(NN_vM)$, the direction set
 \eqref{eq:direction} costs one normalisation of the nondominated vectors, the
 bounded bisection of \eqref{eq:label-bin} costs $O(B_\delta NkM)$ with
@@ -697,7 +702,7 @@ adds nondominated sorting and radial-projection distances. With $N_v=O(N)$ and
 $k=O(N)$ the module is dominated by $O(N^2M)$, and generating the relation pairs
 adds $O(N^2D)$.
 
-In the candidate module, scoring one candidate requires $2N$ network inputs of
+In CDIS, scoring one candidate requires $2N$ network inputs of
 dimension $2D$, so the pool costs $O(N_cND)$ in data construction and
 prediction, which dominates the module. The indicator fitness costs $O(N^2M)$,
 the indicator-oriented mode adds one SVR fit on the $N$ evaluated solutions plus
@@ -710,9 +715,9 @@ share of the two modules is reported in Section~\ref{sec:exp:sensitivity}.
 
 \section{Conclusion}
 \label{sec:conclusion}
-\TODO{Reinforce the two design contributions: hybrid PBI-based grouping combines
-fine-grained ordering with representative-based group priority, and dual-mode
-candidate selection offers exploration and indicator criteria within an
+\TODO{Reinforce the two design contributions of PACDIS: PAQC combines
+fine-grained ordering with representative-based group priority, and CDIS
+offers exploration and indicator criteria within an
 explicit evaluation-batch bound. State the strongest verified algorithm-level
 result and its benchmark scope. Close by connecting the group-composition and
 candidate-batch findings to these two design roles, keeping empirical performance

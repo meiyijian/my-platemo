@@ -1,4 +1,4 @@
-"""Rebuild the HPDC-MaOEA manuscript figures from source tables and equations.
+"""Rebuild the PACDIS manuscript figures from source tables and equations.
 
 Run from any directory:
 uv run --with matplotlib --with pandas --with scipy --with pymupdf \
@@ -136,14 +136,14 @@ def framework():
     box(ax,(4,85),(33,19),'Initial design','Latin hypercube\n+ true evaluations')
     box(ax,(4,48),(33,22),'Current population',r'$\mathcal{P}$: evaluated solutions')
     arrow(ax,[(20.5,85),(20.5,70)])
-    box(ax,(47,77),(41,27),'1  Hybrid PBI grouping',r'Continuous score $S$'+'\n'+r'+ binary label $L$'+'\n'+r'Positive group $\mathcal{C}_1$',BLUE,'#EDF4F8',body_size=8)
+    box(ax,(47,77),(41,27),'1  PAQC',r'Continuous score $S$'+'\n'+r'+ binary label $L$'+'\n'+r'Positive group $\mathcal{C}_1$',BLUE,'#EDF4F8',body_size=8)
     arrow(ax,[(37,61),(42,61),(42,90),(47,90)])
     box(ax,(101,77),(33,27),'Relation learning','Ordered group pairs\nThree-class model\nHeld-out error')
     arrow(ax,[(88,90),(101,90)])
     ax.text(94.5,95,'Groups',ha='center',fontsize=7.5)
     box(ax,(47,37),(51,22),'Indicator learning','SDE fitness on current population\nDecision vectors → indicator SVR')
     arrow(ax,[(37,55),(42,55),(42,48),(47,48)])
-    box(ax,(143,40),(33,37),'2  Dual-mode selection','Draw one mode\nAccumulate candidates\nFilter and rank\nBound the batch',ORANGE,'#FBF2E9',title_size=8,body_size=7.8)
+    box(ax,(143,40),(33,37),'2  CDIS','Draw one criterion\nAccumulate candidates\nFilter and rank\nBound the batch',ORANGE,'#FBF2E9',title_size=8,body_size=7.8)
     arrow(ax,[(134,87),(159.5,87),(159.5,77)])
     ax.text(149,92,'Relation model',ha='center',fontsize=7.5)
     arrow(ax,[(98,48),(143,48)])
@@ -387,7 +387,7 @@ def candidate_evidence():
     ax.grid(axis='y',color=LIGHT,lw=.45)
     ax.set_xlim(-.65,3.65)
     handles=[Line2D([],[],color=c,marker=m,ls='',ms=4,label=label) for c,m,label in zip(COLORS,MARKERS,
-             ['V0: REMO rule','V1: relation top-six','V2: exploration','V3: indicator','V4: dual mode'])]
+             ['V0: REMO rule','V1: relation top-six','V2: exploration','V3: indicator','V4: CDIS'])]
     fig.legend(handles=handles,loc='lower center',bbox_to_anchor=(.5,.10),ncol=3,columnspacing=1.4,handletextpad=.5,fontsize=7.6)
     fig.text(.5,.945,'Candidate-value probe  |  4 problems × 5 policies × 10 runs  |  M = 20  |  FE budget = 300',ha='center',fontsize=8.2)
     fig.text(.5,.065,'a–d: 40 run values per policy; means and 95% stratified bootstrap CIs.',ha='center',fontsize=7.5)
@@ -447,9 +447,9 @@ def performance():
     cb.solids.set_edgecolor('face')
     ticks=[x for x in [-2,-1,0,1,2] if -limit<=x<=limit]
     cb.set_ticks(ticks,labels=[f'{2.**x:g}' for x in ticks]);cb.ax.tick_params(labelsize=7.5)
-    cb.set_label(r'Mean IGD of HPDC-MaOEA / comparator ($\log_2$ color scale)',fontsize=8,labelpad=2)
+    cb.set_label(r'Mean IGD of PACDIS / comparator ($\log_2$ color scale)',fontsize=8,labelpad=2)
     fig.text(.5,.975,'Main-comparison overview  |  all 16 problems per objective count  |  FE budget = 300',ha='center',fontsize=8.3)
-    fig.text(.5,.012,'Ratio < 1 favors HPDC-MaOEA. * Identical source entries awaiting provenance check; no significance encoded.',ha='center',fontsize=7.3)
+    fig.text(.5,.012,'Ratio < 1 favors PACDIS. * Identical source entries awaiting provenance check; no significance encoded.',ha='center',fontsize=7.3)
     save(fig,'fig_performance_overview','Mean IGD ratios reveal problemwise gains and counterexamples across all reported comparisons.',
          'quantitative grid','Supplementary descriptive overview, 224 cells. Original workbook values and symbols exported in source CSV; symbols not interpreted as newly computed tests. No interval because independent-run data are not available for these workbooks. Full means and SDs remain in the manuscript tables. No color clipping.')
 
@@ -469,7 +469,7 @@ def gallery():
 
 
 if __name__=='__main__':
-    for file in ['REMO_new2_AdaMaO_SDEOnly_UniformMix_Original.m','ResolveUniformMixMode.m','private/HybridPBI_Classification.m','private/GetOutput_PBI.m','private/AdaMaOSelection.m','private/IndicatorSelectorSDEOnly.m']:
+    for file in ['REMO_new2_AdaMaO_SDEOnly_UniformMix_Original.m','ResolveUniformMixMode.m','private/PBIQualityClassification.m','private/RepresentativeBasedClassification.m','private/DiversifiedInfillSelection.m','private/IndicatorSelectorSDEOnly.m']:
         source(ALG/file)
     for fn in [framework,grouping,candidate,group_evidence,candidate_evidence,performance]:
         print('Building',fn.__name__,flush=True);fn()

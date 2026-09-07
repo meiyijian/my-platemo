@@ -1,5 +1,5 @@
-function [Output,r] = GetOutput_PBI(varargin)
-% GetOutput_PBI - PBI 阈值划分（动态标签生成）
+function [Output,r] = RepresentativeBasedClassification(varargin)
+%RepresentativeBasedClassification Classify solutions relative to representatives.
 %
 % 基于当前代表解锚点的 PBI 阈值，将种群产生二值区域标签
 %

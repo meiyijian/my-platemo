@@ -2,7 +2,7 @@ function Ref = RefSelect(Population,k)
 % RefSelect - 参考解选择（RSEA 策略：Radar grid based Selection Evolutionary Algorithm）
 %
 % 从种群中选出 k 个代表解，用于：
-% 1. HPC 内部的 PBI 标签计算（k=6）
+% 1. PAQC 内部的 PBI 标签计算（k=6）
 % 2. 主流程末尾的环境选择（k=Problem.N）
 %
 % RSEA 策略的核心思想：

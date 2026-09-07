@@ -58,8 +58,8 @@ function testStandaloneDependencyBoundary(testCase)
         verifyFalse(testCase,contains(source,forbidden{i}), ...
             sprintf('Forbidden dependency remains: %s',forbidden{i}));
     end
-    verifyTrue(testCase,isfile(fullfile(root,'private','AdaMaOSelection.m')));
-    verifyTrue(testCase,isfile(fullfile(root,'private','HybridPBI_Classification.m')));
+    verifyTrue(testCase,isfile(fullfile(root,'private','DiversifiedInfillSelection.m')));
+    verifyTrue(testCase,isfile(fullfile(root,'private','PBIQualityClassification.m')));
     verifyTrue(testCase,isfile(fullfile(root,'private','IndicatorSelectorSDEOnly.m')));
 end
 
@@ -95,10 +95,10 @@ function testMainRejectsInvalidParameterConfiguration(testCase)
         'AdaMaO:InvalidParameter');
 end
 
-function testHybridPbiUsesConfiguredPositiveGroupRatio(testCase)
+function testPAQCUsesConfiguredPositiveGroupRatio(testCase)
     root = testCase.TestData.AlgorithmDir;
-    hybridFile = fullfile(root,'private','HybridPBI_Classification.m');
-    source = fileread(hybridFile);
+    qualityFile = fullfile(root,'private','PBIQualityClassification.m');
+    source = fileread(qualityFile);
     verifyTrue(testCase,contains(source, ...
         "rGood = get_option(varargin, 'rGood', 0.25)"));
     verifyTrue(testCase,contains(source,'good_num = ceil(N * rGood);'));

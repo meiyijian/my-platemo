@@ -1,8 +1,8 @@
-function [good_idx, bad_idx, Catalog, confidence, Ref] = HybridPBI_Classification(Population, ratio, varargin)
-% HybridPBI_Classification - 混合 PBI 分类
+function [good_idx, bad_idx, Catalog, confidence, Ref] = PBIQualityClassification(Population, ratio, varargin)
+%PBIQualityClassification PBI-assisted quality classification (PAQC).
 %
 % 结合当前种群派生的分布方向场和代表解锚点标签，对种群形成粗质量分组
-% 这是 REMO_new2 系列算法的核心分类模块
+% PAQC 为关系学习构造已评价种群的正组与非正组。
 %
 % 分类原理：
 %   使用两种信号对种群打分：
@@ -64,33 +64,11 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = HybridPBI_Classificatio
     Zmin = min(PopObj, [], 1);
 
     %% ============ 步骤三：计算参考向量场得分 score_v ============
-    % 对每个解，使用原始目标向量与 V 的余弦相似度找到关联方向
-    % 注意：此处分区未减 Zmin，而后续 PBI 投影使用 PopObj-Zmin，两步坐标原点并不一致。
-    cosine = 1 - pdist2(PopObj, V, 'cosine');  % 余弦相似度
-    [~, ref_idx] = max(cosine, [], 2);         % 最相似的参考向量索引
-
-    d1 = zeros(N,1);  % 投影长度
-    d2 = zeros(N,1);  % 垂直距离
-    for i = 1:N
-        vi = ref_idx(i);
-        w = V(vi,:);  % 对应的参考向量方向
-
-        % d1 = 解到理想点沿 w 方向的投影长度
-        d1(i) = (PopObj(i,:) - Zmin) * w' / norm(w);
-        % 投影点
-        proj = Zmin + d1(i) * w;
-        % d2 = 解到投影点的垂直距离
-        d2(i) = norm(PopObj(i,:) - proj);
-    end
-
-    % PBI 距离 = d1 + theta * d2（theta 越大，对偏离方向的惩罚越重）
-    PBI_v = d1 + theta * d2;
-    % 得分 = 1/(1+PBI)，PBI 越小得分越高（越好）
-    score_v = 1 ./ (1 + PBI_v);
+    score_v = ContinuousPBIQualityAssessment(PopObj,V,Zmin,theta);
 
     %% ============ 步骤四：动态标签（基于参考解） ============
     % label_dyn: 1=好, 0=坏（基于 PBI 阈值划分）
-    label_dyn = GetOutput_PBI(PopObj, RefObj);
+    label_dyn = RepresentativeBasedClassification(PopObj, RefObj);
 
     %% ============ 步骤五：融合得分 ============
     % alpha = 1 - ratio
@@ -120,6 +98,34 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = HybridPBI_Classificatio
     Catalog = false(N,1);
     Catalog(good_idx) = true;
     % 注意：中间排名和末端排名解都标记为 false，统一作为非正组
+end
+
+function score_v = ContinuousPBIQualityAssessment(PopObj,V,Zmin,theta)
+%ContinuousPBIQualityAssessment Compute continuous directional PBI scores.
+    N = size(PopObj,1);
+    % 对每个解，使用原始目标向量与 V 的余弦相似度找到关联方向
+    % 注意：此处分区未减 Zmin，而后续 PBI 投影使用 PopObj-Zmin，两步坐标原点并不一致。
+    cosine = 1 - pdist2(PopObj, V, 'cosine');  % 余弦相似度
+    [~, ref_idx] = max(cosine, [], 2);         % 最相似的参考向量索引
+
+    d1 = zeros(N,1);  % 投影长度
+    d2 = zeros(N,1);  % 垂直距离
+    for i = 1:N
+        vi = ref_idx(i);
+        w = V(vi,:);  % 对应的参考向量方向
+
+        % d1 = 解到理想点沿 w 方向的投影长度
+        d1(i) = (PopObj(i,:) - Zmin) * w' / norm(w);
+        % 投影点
+        proj = Zmin + d1(i) * w;
+        % d2 = 解到投影点的垂直距离
+        d2(i) = norm(PopObj(i,:) - proj);
+    end
+
+    % PBI 距离 = d1 + theta * d2（theta 越大，对偏离方向的惩罚越重）
+    PBI_v = d1 + theta * d2;
+    % 得分 = 1/(1+PBI)，PBI 越小得分越高（越好）
+    score_v = 1 ./ (1 + PBI_v);
 end
 
 %% ============ 内部函数：解析可选参数 ============

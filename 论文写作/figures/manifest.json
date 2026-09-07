@@ -71,23 +71,23 @@
   "sources": [
     {
       "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original.m",
-      "sha256": "307243a5e82e8a159cfdfaffa32dc951bd8616afd08968f780bfc7986155cb8e"
+      "sha256": "a311cd36d9f4d290d7978b04016a80fbb864bc39af07f8a0ee917f6eb6451e20"
     },
     {
       "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\ResolveUniformMixMode.m",
       "sha256": "48e97ebc703a933d3160f4b2667db528c745fe1cd93658990fb32833070f2f5c"
     },
     {
-      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\HybridPBI_Classification.m",
-      "sha256": "7a034c55c48869fb7e94a21f030313e717d7caf2c8af29336cd59066d12d9f19"
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\PBIQualityClassification.m",
+      "sha256": "529fa80576de23ca21cd3bc29b9ff8cedcffb1151bef90ae11628c7f83f5f834"
     },
     {
-      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\GetOutput_PBI.m",
-      "sha256": "844098372ebe22e418f088d0640628a6a974d60b2ae2da1c63e252fc18ddd52f"
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\RepresentativeBasedClassification.m",
+      "sha256": "44dfdc8b6046caaa8960267bf2113f9ec5630a81e0b243914204f801dec0d4e2"
     },
     {
-      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\AdaMaOSelection.m",
-      "sha256": "abe4dd8ed74157c544899afa73136f95851db913cb6b14dfa3b09babe725aed0"
+      "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\DiversifiedInfillSelection.m",
+      "sha256": "d92e5d9afcaba8fe9d61badd8e1b2a3f73a4cdc1ea6855c09ba15ebd2e1cc9a4"
     },
     {
       "path": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\IndicatorSelectorSDEOnly.m",

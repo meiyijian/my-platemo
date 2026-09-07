@@ -1,6 +1,7 @@
 classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Original < ALGORITHM
 % <2026> <multi/many> <real> <expensive>
 % UniformMix with original unweighted relation-network training
+% PACDIS modules: PAQC quality classification and CDIS infill selection.
 % gmax --- 3000 --- Maximum surrogate-assisted training generations
 % pMix --- 0.50 --- Probability of using indicator-based selection
 % rGood --- 0.25 --- Proportion of solutions assigned to the positive group
@@ -34,7 +35,7 @@ classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Original < ALGORITHM
                 u = rand(modeStream,1);
                 ratio = Problem.FE / Problem.maxFE;
                 k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)));
-                [~,~,Catalog,~,Ref] = HybridPBI_Classification( ...
+                [~,~,Catalog,~,Ref] = PBIQualityClassification( ...
                     Population,ratio,'Nref',N,'k',k_eff, ...
                     'theta',5,'rGood',rGood);
 
@@ -81,7 +82,7 @@ classdef REMO_new2_AdaMaO_SDEOnly_UniformMix_Original < ALGORITHM
                 Smodel.n_min = nMin;
                 Smodel.n_max = nMax;
 
-                Next = AdaMaOSelection( ...
+                Next = DiversifiedInfillSelection( ...
                     Problem,Ref,Population.decs,gmax,Smodel, ...
                     qKeep,nMin,nMax);
 

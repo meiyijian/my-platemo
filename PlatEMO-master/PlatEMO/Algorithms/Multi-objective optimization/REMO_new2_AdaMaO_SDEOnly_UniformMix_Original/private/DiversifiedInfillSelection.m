@@ -1,23 +1,23 @@
-function Next = AdaMaOSelection(Problem,Ref,Input,wmax,Smodel,q_keep,n_min,n_max)
-% AdaMaOSelection - 按固定诊断阈值路由的代理辅助候选解选择
+function Next = DiversifiedInfillSelection(Problem,Ref,Input,wmax,Smodel,q_keep,n_min,n_max)
+%DiversifiedInfillSelection Criterion-diversified infill selection (CDIS).
 %
-% 本函数是 REMO_new2_AdaMaO 的核心选择模块，根据 Smodel.mode 选择不同的策略：
+% CDIS 根据主程序给定的 Smodel.mode 使用探索或指标选择准则：
 %
 % 模式说明：
 %   'conservative'（纯关系小批量模式，名称为兼容保留）：
 %     - 仅使用关系得分，选择 n_min 个候选
-%     - 触发条件：其他两个分支不满足
+%     - 触发条件：Smodel.mode 未指定或不是下面两个分支；当前主程序不使用此分支
 %     - 特点：仍完全依赖关系模型，只是不加入预测模糊度和批次距离项
 %
 %   'explore'（预测模糊度探索模式）：
 %     - 关系得分 + softmax 预测模糊度 + 决策空间分散性
-%     - 触发条件：关系对留出误差不高且方向占用率低于固定阈值
+%     - 触发条件：主程序抽中探索准则，或指标模型不可用
 %     - 特点：奖励输出概率较不尖锐的候选；该量不是认知不确定性
 %
 %   'indicator'（指标模式）：
 %     - 关系得分粗筛 + 可用时由 SVR 指标值重排序
-%     - 触发条件：指标分支启用、关系对留出误差不高且线性维数集中度达到阈值
-%     - 注意：主程序触发该模式时未保证 IndicatorModel 非空；为空时回退到关系得分
+%     - 触发条件：指标模型可用，且主程序按 pMix 抽中指标准则
+%     - 注意：预测失败时仍按原有规则回退到关系得分
 %
 % 输入：
 %   Problem : 问题对象
@@ -83,10 +83,10 @@ function Next = AdaMaOSelection(Problem,Ref,Input,wmax,Smodel,q_keep,n_min,n_max
     switch mode
         case 'indicator'
             % 指标模式：关系得分粗筛 + 可用时由 SVR 指标值重排序
-            Next = select_indicator(Smodel,all_candidates,n_min,n_max);
+            Next = IndicatorBasedInfill(Smodel,all_candidates,n_min,n_max);
         case 'explore'
             % 探索模式：关系得分 + softmax 预测模糊度 + 决策空间分散性
-            Next = select_explore(Smodel,all_candidates,q_keep,n_min,n_max);
+            Next = ExplorationBasedInfill(Smodel,all_candidates,q_keep,n_min,n_max);
         otherwise
             % 纯关系小批量模式：仅使用关系得分
             Next = select_conservative(Smodel,all_candidates,n_min);
@@ -121,8 +121,8 @@ function Next = select_conservative(Smodel,Candidates,n_min)
 end
 
 %% ============ 探索模式选择 ============
-function Next = select_explore(Smodel,Candidates,q_keep,n_min,n_max)
-% select_explore - 探索模式的候选解选择
+function Next = ExplorationBasedInfill(Smodel,Candidates,q_keep,n_min,n_max)
+% ExplorationBasedInfill - 探索模式的候选解选择
 %
 % 策略：关系得分 + softmax 预测模糊度奖励 + 决策空间分散性
 %
@@ -186,8 +186,8 @@ function Next = select_explore(Smodel,Candidates,q_keep,n_min,n_max)
 end
 
 %% ============ 指标模式选择 ============
-function Next = select_indicator(Smodel,Candidates,n_min,n_max)
-% select_indicator - 指标模式的候选解选择
+function Next = IndicatorBasedInfill(Smodel,Candidates,n_min,n_max)
+% IndicatorBasedInfill - 指标模式的候选解选择
 %
 % 策略：关系得分粗筛 + SVR 指标重排序
 %
