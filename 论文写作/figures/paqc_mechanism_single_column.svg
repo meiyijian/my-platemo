@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="88.56mm" height="149.5mm" viewBox="0 0 840 1418"><defs>
+    <marker id="arrow-black" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#000" />
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#1769ff" />
+    </marker>
+  </defs>
+  <style>
+.axis{stroke:#000;stroke-width:2.2;fill:none}
+.thin{stroke:#000;stroke-width:1.8;fill:none}
+.red{stroke:#ff1d16;stroke-width:2.1;fill:none}
+.redDash{stroke:#ff4c10;stroke-width:2.0;fill:none;stroke-dasharray:14 10 2 10}
+.blueDash{stroke:#1769ff;stroke-width:2.0;fill:none;stroke-dasharray:10 8}
+.blue{stroke:#1769ff;stroke-width:2.0;fill:none}
+.t{font-family:'Times New Roman',serif;fill:#000}
+.tb{font-family:'Times New Roman',serif;fill:#1769ff}
+.title{font-size:30px}
+.lab{font-size:28px;font-style:italic}
+.txt{font-size:24px}
+.small{font-size:24px}
+.legend{font-size:23px}
+</style>
+  <rect x="0" y="0" width="840" height="1418" fill="white" /><g id="left_panel" transform="translate(0,-10)">
+    <line x1="48" y1="644" x2="826" y2="644" class="axis" marker-end="url(#arrow-black)" />
+    <line x1="84" y1="682" x2="84" y2="74" class="axis" marker-end="url(#arrow-black)" />
+    <text x="39" y="684" class="t lab">O = Z</text>
+    <text x="801" y="690" class="t lab">f₁</text>
+    <text x="39" y="99" class="t lab">f₂</text>
+    <path d="M 121 181 C 163 390, 345 585, 659 616" class="red" fill="none" />
+    <text x="652" y="605" class="t lab">PF</text>
+    <line x1="84" y1="644" x2="348.45" y2="165.53000000000003" class="thin" marker-end="url(#arrow-black)" />
+    <line x1="84" y1="644" x2="723.6" y2="370.94" class="thin" marker-end="url(#arrow-black)" />
+    <polygon points="299,243 311,255 299,267 287,255" fill="#f2b51d" stroke="#000" stroke-width="1.5" />
+    <text x="322" y="249" class="t lab">R₁</text>
+    <polygon points="604,410 616,422 604,434 592,422" fill="#f2b51d" stroke="#000" stroke-width="1.5" />
+    <text x="606" y="396" class="t lab">R₂</text>
+    <path d="M243 213 L299 255 L394 279" class="redDash" fill="none" />
+    <path d="M568 345 L604 422 L643 493" class="redDash" fill="none" />
+    <text x="407" y="172" class="t txt">Reference-based boundary</text>
+    <line x1="403" y1="182" x2="367" y2="215" class="thin" marker-end="url(#arrow-black)" />
+    <circle cx="189.032384" cy="349.97440000000006" r="11" fill="#24aaa5" stroke="none" stroke-width="1.5" />
+    <text x="203.032384" y="337.97440000000006" class="t lab">P₁</text>
+    <circle cx="448.375" cy="564.34375" r="11" fill="#24aaa5" stroke="none" stroke-width="1.5" />
+    <text x="462.375" y="552.34375" class="t lab">P₂</text>
+    <circle cx="692" cy="239" r="11" fill="#24aaa5" stroke="none" stroke-width="1.5" />
+    <text x="704" y="226" class="t lab">C</text>
+    <rect x="124.73958700000003" y="223.89943125000002" width="20" height="20" fill="none" stroke="#ff4c10" stroke-width="2" />
+    <text x="149.73958700000003" y="214.89943125000002" class="t lab">A</text>
+    <rect x="351" y="371" width="21" height="21" fill="none" stroke="#ff4c10" stroke-width="2" />
+    <rect x="542" y="546" width="20" height="20" fill="none" stroke="#ff4c10" stroke-width="2" />
+    <text x="574" y="552" class="t lab">B</text>
+  </g>
+  <g id="right_panel" transform="translate(0,650)">
+    <line x1="48" y1="644" x2="826" y2="644" class="axis" marker-end="url(#arrow-black)" />
+    <line x1="84" y1="682" x2="84" y2="74" class="axis" marker-end="url(#arrow-black)" />
+    <line x1="84" y1="644" x2="513.9625" y2="550.005625" class="blueDash" marker-end="url(#arrow-blue)" /><line x1="84" y1="644" x2="252.0518144" y2="173.5590400000001" class="blueDash" marker-end="url(#arrow-blue)" /><text x="39" y="684" class="t lab">O = Z</text>
+    <text x="801" y="690" class="t lab">f₁</text>
+    <text x="39" y="99" class="t lab">f₂</text>
+    <path d="M 121 181 C 163 390, 345 585, 659 616" class="red" fill="none" />
+    <text x="652" y="605" class="t lab">PF</text>
+    <line x1="84" y1="644" x2="348.45" y2="165.53000000000003" class="thin" marker-end="url(#arrow-black)" />
+    <line x1="84" y1="644" x2="723.6" y2="370.94" class="thin" marker-end="url(#arrow-black)" />
+    <polygon points="299,243 311,255 299,267 287,255" fill="#f2b51d" stroke="#000" stroke-width="1.5" />
+    <text x="322" y="249" class="t lab">R₁</text>
+    <polygon points="604,410 616,422 604,434 592,422" fill="#f2b51d" stroke="#000" stroke-width="1.5" />
+    <text x="606" y="396" class="t lab">R₂</text>
+    <path d="M243 213 L299 255 L394 279" class="redDash" fill="none" />
+    <path d="M568 345 L604 422 L643 493" class="redDash" fill="none" />
+    <circle cx="189.032384" cy="349.97440000000006" r="11" fill="#24aaa5" stroke="none" stroke-width="1.5" />
+    <text x="203.032384" y="337.97440000000006" class="t lab">P₁</text>
+    <circle cx="448.375" cy="564.34375" r="11" fill="#24aaa5" stroke="none" stroke-width="1.5" />
+    <text x="462.375" y="552.34375" class="t lab">P₂</text>
+    <text x="704" y="226" class="t lab">C</text>
+    <text x="149.73958700000003" y="214.89943125000002" class="t lab">A</text>
+    <rect x="351" y="371" width="21" height="21" fill="none" stroke="#ff4c10" stroke-width="2" />
+    <text x="574" y="552" class="t lab">B</text>
+  <rect x="682" y="229" width="20" height="20" fill="none" stroke="#ff4c10" stroke-width="2" /><circle cx="134.73958700000003" cy="233.89943125000002" r="11" fill="#24aaa5" /><circle cx="134.73958700000003" cy="233.89943125000002" r="22" fill="none" stroke="#1769ff" stroke-width="2" /><circle cx="552.0" cy="556.0" r="11" fill="#24aaa5" /><circle cx="552.0" cy="556.0" r="22" fill="none" stroke="#1769ff" stroke-width="2" /><text x="228.0518144" y="159.5590400000001" class="tb lab">v₁</text><text x="489.9625" y="536.005625" class="tb lab">v₂</text><text x="350" y="130" class="tb txt">Directional PBI assessment</text><line x1="342" y1="137" x2="245" y2="198" class="blue" marker-end="url(#arrow-blue)" /><text x="310" y="310" class="t txt">Non-dominated solutions</text><line x1="303" y1="307" x2="211.032384" y2="353.97440000000006" class="thin" marker-end="url(#arrow-black)" /><line x1="418" y1="324" x2="444.375" y2="542.34375" class="thin" marker-end="url(#arrow-black)" /><text x="610" y="519" class="tb small">Reassigned to</text><text x="610" y="544" class="tb small">Good group</text><line x1="602" y1="548" x2="579" y2="556" class="blue" marker-end="url(#arrow-blue)" /></g>
+  <text x="125" y="35" class="t title">(a) Representative-based classification</text><text x="350" y="695" class="t title">(b) PAQC</text><g><circle cx="80" cy="1384" r="11" fill="#24aaa5" /><text x="102" y="1393" class="t legend">Good group</text><rect x="285" y="1373" width="22" height="22" fill="none" stroke="#ff4c10" stroke-width="2" /><text x="319" y="1393" class="t legend">Bad group</text><polygon points="538,1372 550,1384 538,1396 526,1384" fill="#f2b51d" stroke="black" stroke-width="1.5" /><text x="562" y="1393" class="t legend">Reference solution</text></g></svg>
