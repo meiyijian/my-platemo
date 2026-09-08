@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1774" height="887" viewBox="0 0 1774 887">
+<title>Representative-based classification and PAQC</title>
+<desc>Editable reconstruction of paqc_geometry_v5.png. Conceptual illustration, not a numerically validated classification example. P1 and P2 illustrate non-dominated solutions used in the adaptive reference-direction branch.</desc>
+<defs>
+<marker id="black-arrow" viewBox="0 0 12 9" refX="11" refY="4.5" markerWidth="11" markerHeight="9" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0 L12,4.5 L0,9 Z" fill="#111"/></marker>
+<marker id="axis-arrow" viewBox="0 0 20 16" refX="19" refY="8" markerWidth="20" markerHeight="16" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L20,8 L0,16 Z" fill="#111"/></marker>
+<marker id="ray-arrow" viewBox="0 0 20 14" refX="19" refY="7" markerWidth="20" markerHeight="14" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L20,7 L0,14 Z" fill="#111"/></marker>
+<marker id="blue-arrow" viewBox="0 0 15 10" refX="14" refY="5" markerWidth="15" markerHeight="10" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L15,5 L0,10 Z" fill="#0054ff"/></marker>
+</defs>
+<rect width="1774" height="887" fill="white"/>
+<g font-family="Times New Roman, Times, serif" fill="#111" stroke-linejoin="round">
+<text x="221" y="43" font-size="36" font-style="normal" fill="#111">(a) Representative-based classification</text>
+<text x="1264" y="43" font-size="36" font-style="normal" fill="#111">(b) PAQC</text>
+<g id="representative" transform="translate(0 0)">
+<line x1="49.0" y1="663.0" x2="850.0" y2="663.0" stroke="#111" stroke-width="1.9"/>
+<path d="M850,663 L830.0,671.0 L830.0,655.0 Z" fill="#111"/>
+<line x1="86.0" y1="674.0" x2="86.0" y2="75.0" stroke="#111" stroke-width="1.9"/>
+<path d="M86,75 L94.0,95.0 L78.0,95.0 Z" fill="#111"/>
+<text x="41" y="94" font-size="34" font-style="italic" fill="#111">f<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<text x="825" y="706" font-size="34" font-style="italic" fill="#111">f<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="43" y="702" font-size="33" font-style="italic" fill="#111">O = Z</text>
+<g id="left-R1-ray" data-origin="86,663" data-through="307,263">
+<line x1="86.0" y1="663.0" x2="358.3825" y2="170.00000000000006" stroke="#111" stroke-width="1.9"/>
+<path d="M358.3825,170.0 L354.83757433677704,190.89099093011683 L342.58351031575955,184.12062055850467 Z" fill="#111"/>
+</g>
+<g id="left-R2-ray" data-origin="86,663" data-through="621,434">
+<line x1="86.0" y1="663.0" x2="733.0" y2="386.05981308411214" stroke="#111" stroke-width="1.9"/>
+<path d="M733.0,386.05981308411214 L717.3680774165326,400.36516160641247 L711.8590146702869,387.49464383679936 Z" fill="#111"/>
+</g>
+<path d="M125,187 C137,248 155,308 192,362 C248,457 339,541 448,589 C520,617 603,631 677,633" fill="none" stroke="#ff202a" stroke-width="1.65"/>
+<text x="670" y="620" font-size="30" font-style="italic" fill="#111">PF</text>
+<line x1="252.0" y1="219.0" x2="265.2747697605315" y2="229.61981580842522" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="273.0834578549618" y1="235.86676628396947" x2="274.6451954738479" y2="237.1161563790783" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="282.4538835682782" y1="243.36310685462254" x2="295.7286533288097" y2="253.98292266304776" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="303.53734142324004" y1="260.229873138592" x2="305.09907904212605" y2="261.47926323370086" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="307.0" y1="263.0" x2="323.482166303671" y2="267.16391569776954" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="333.1775582470069" y1="269.61327787292805" x2="335.1166366356741" y2="270.10315030795977" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="344.81202857901" y1="272.55251248311833" x2="361.29419488268104" y2="276.7164281808878" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="370.98958682601693" y1="279.1657903560464" x2="372.9286652146841" y2="279.6556627910781" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="382.62405715802" y1="282.1050249662366" x2="399.106223461691" y2="286.26894066400615" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="584.0" y1="352.0" x2="590.9919107378964" y2="367.49558595966244" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="595.1047994072474" y1="376.61063652416976" x2="595.9273771411175" y2="378.43364663707126" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="600.0402658104683" y1="387.54869720157853" x2="607.0321765483649" y2="403.044283161241" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="611.1450652177157" y1="412.15933372574835" x2="611.9676429515858" y2="413.9823438386498" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="616.0805316209368" y1="423.0973944031571" x2="621.0" y2="434.0" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="621.0" y1="434.0" x2="629.2739366896595" y2="448.8506555968249" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="634.1409582718122" y1="457.586335359663" x2="635.1143625882428" y2="459.33347131223064" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="639.9813841703955" y1="468.0691510750688" x2="648.255320860055" y2="482.91980667189364" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="653.1223424422077" y1="491.6554864347318" x2="654.0957467586383" y2="493.4026223872994" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="658.962768340791" y1="502.1383021501376" x2="660.0" y2="504.0" stroke="#ff641e" stroke-width="1.8"/>
+<path d="M307,251 L319,263 L307,275 L295,263 Z" fill="#e8b129" stroke="#111" stroke-width="1.4"/>
+<path d="M621,422 L633,434 L621,446 L609,434 Z" fill="#e8b129" stroke="#111" stroke-width="1.4"/>
+<text x="331" y="253" font-size="29" font-style="italic" fill="#111">R<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="626" y="406" font-size="29" font-style="italic" fill="#111">R<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<rect x="133.5" y="232.5" width="21" height="21" fill="white" stroke="#ff6c17" stroke-width="2"/>
+<rect x="555.5" y="560.5" width="21" height="21" fill="white" stroke="#ff6c17" stroke-width="2"/>
+<circle cx="711" cy="247" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<rect x="360.5" y="381.5" width="21" height="21" fill="white" stroke="#ff6c17" stroke-width="2"/>
+<circle cx="192" cy="362" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<circle cx="448" cy="589" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<text x="152" y="220" font-size="30" font-style="italic" fill="#111">A</text>
+<text x="586" y="567" font-size="30" font-style="italic" fill="#111">B</text>
+<text x="726" y="229" font-size="30" font-style="italic" fill="#111">C</text>
+<text x="205" y="350" font-size="30" font-style="italic" fill="#111">P<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="460" y="582" font-size="30" font-style="italic" fill="#111">P<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<text x="418" y="177" font-size="25" font-style="normal" fill="#111">Reference-based boundary</text>
+<line x1="415.0" y1="188.0" x2="379.0" y2="222.0" stroke="#111" stroke-width="1.9"/>
+<path d="M379,222 L384.63435193226104,210.48895841796121 L390.81396372893454,217.03207679090957 Z" fill="#111"/>
+</g>
+<g id="paqc" transform="translate(888 0)">
+<line x1="49.0" y1="663.0" x2="850.0" y2="663.0" stroke="#111" stroke-width="1.9"/>
+<path d="M850,663 L830.0,671.0 L830.0,655.0 Z" fill="#111"/>
+<line x1="86.0" y1="674.0" x2="86.0" y2="75.0" stroke="#111" stroke-width="1.9"/>
+<path d="M86,75 L94.0,95.0 L78.0,95.0 Z" fill="#111"/>
+<text x="41" y="94" font-size="34" font-style="italic" fill="#111">f<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<text x="825" y="706" font-size="34" font-style="italic" fill="#111">f<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="43" y="702" font-size="33" font-style="italic" fill="#111">O = Z</text>
+<g id="right-R1-ray" data-origin="86,663" data-through="307,263">
+<line x1="86.0" y1="663.0" x2="358.3825" y2="170.00000000000006" stroke="#111" stroke-width="1.9"/>
+<path d="M358.3825,170.0 L354.83757433677704,190.89099093011683 L342.58351031575955,184.12062055850467 Z" fill="#111"/>
+</g>
+<g id="right-R2-ray" data-origin="86,663" data-through="621,434">
+<line x1="86.0" y1="663.0" x2="733.0" y2="386.05981308411214" stroke="#111" stroke-width="1.9"/>
+<path d="M733.0,386.05981308411214 L717.3680774165326,400.36516160641247 L711.8590146702869,387.49464383679936 Z" fill="#111"/>
+</g>
+<path d="M125,187 C137,248 155,308 192,362 C248,457 339,541 448,589 C520,617 603,631 677,633" fill="none" stroke="#ff202a" stroke-width="1.65"/>
+<text x="670" y="620" font-size="30" font-style="italic" fill="#111">PF</text>
+<line x1="252.0" y1="219.0" x2="265.2747697605315" y2="229.61981580842522" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="273.0834578549618" y1="235.86676628396947" x2="274.6451954738479" y2="237.1161563790783" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="282.4538835682782" y1="243.36310685462254" x2="295.7286533288097" y2="253.98292266304776" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="303.53734142324004" y1="260.229873138592" x2="305.09907904212605" y2="261.47926323370086" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="307.0" y1="263.0" x2="323.482166303671" y2="267.16391569776954" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="333.1775582470069" y1="269.61327787292805" x2="335.1166366356741" y2="270.10315030795977" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="344.81202857901" y1="272.55251248311833" x2="361.29419488268104" y2="276.7164281808878" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="370.98958682601693" y1="279.1657903560464" x2="372.9286652146841" y2="279.6556627910781" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="382.62405715802" y1="282.1050249662366" x2="399.106223461691" y2="286.26894066400615" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="584.0" y1="352.0" x2="590.9919107378964" y2="367.49558595966244" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="595.1047994072474" y1="376.61063652416976" x2="595.9273771411175" y2="378.43364663707126" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="600.0402658104683" y1="387.54869720157853" x2="607.0321765483649" y2="403.044283161241" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="611.1450652177157" y1="412.15933372574835" x2="611.9676429515858" y2="413.9823438386498" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="616.0805316209368" y1="423.0973944031571" x2="621.0" y2="434.0" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="621.0" y1="434.0" x2="629.2739366896595" y2="448.8506555968249" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="634.1409582718122" y1="457.586335359663" x2="635.1143625882428" y2="459.33347131223064" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="639.9813841703955" y1="468.0691510750688" x2="648.255320860055" y2="482.91980667189364" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="653.1223424422077" y1="491.6554864347318" x2="654.0957467586383" y2="493.4026223872994" stroke="#ff641e" stroke-width="1.8"/>
+<line x1="658.962768340791" y1="502.1383021501376" x2="660.0" y2="504.0" stroke="#ff641e" stroke-width="1.8"/>
+<g id="right-v1-ray" data-origin="86,663" data-through="192,362">
+<line x1="86.0" y1="663.0" x2="89.32164386249819" y2="653.5677848810193" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="91.3146301799971" y1="647.9084558096308" x2="94.63627404249529" y2="638.4762406906502" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="96.62926035999419" y1="632.8169116192618" x2="99.95090422249238" y2="623.384696500281" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="101.9438905399913" y1="617.7253674288926" x2="105.2655344024895" y2="608.2931523099119" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="107.2585207199884" y1="602.6338232385235" x2="110.58016458248659" y2="593.2016081195428" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="112.57315089998549" y1="587.5422790481543" x2="115.89479476248368" y2="578.1100639291737" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="117.8877810799826" y1="572.4507348577853" x2="121.20942494248078" y2="563.0185197388046" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="123.2024112599797" y1="557.3591906674161" x2="126.52405512247788" y2="547.9269755484354" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="128.5170414399768" y1="542.267646477047" x2="131.83868530247497" y2="532.8354313580663" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="133.8316716199739" y1="527.1761022866779" x2="137.15331548247207" y2="517.7438871676973" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="139.14630179997098" y1="512.0845580963088" x2="142.46794566246916" y2="502.6523429773281" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="144.4609319799681" y1="496.9930139059396" x2="147.7825758424663" y2="487.56079878695897" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="149.7755621599652" y1="481.90146971557056" x2="153.09720602246338" y2="472.46925459658985" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="155.0901923399623" y1="466.8099255252014" x2="158.41183620246048" y2="457.3777104062207" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="160.4048225199594" y1="451.7183813348323" x2="163.72646638245757" y2="442.2861662158516" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="165.7194526999565" y1="436.62683714446314" x2="169.04109656245467" y2="427.19462202548243" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="171.0340828799536" y1="421.5352929540941" x2="174.3557267424518" y2="412.10307783511337" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="176.34871305995068" y1="406.4437487637249" x2="179.6703569224489" y2="397.01153364474425" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="181.66334323994778" y1="391.3522045733558" x2="184.98498710244598" y2="381.9199894543751" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="186.97797341994487" y1="376.26066038298666" x2="190.29961728244308" y2="366.828445264006" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="192.29260359994197" y1="361.16911619261754" x2="195.61424746244018" y2="351.73690107363683" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="197.60723377993907" y1="346.0775720022484" x2="200.92887764243727" y2="336.6453568832677" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="202.9218639599362" y1="330.9860278118793" x2="206.24350782243437" y2="321.5538126928986" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="208.23649413993328" y1="315.8944836215102" x2="211.55813800243146" y2="306.46226850252947" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="213.55112431993038" y1="300.80293943114106" x2="216.87276818242856" y2="291.37072431216035" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="218.86575449992748" y1="285.71139524077194" x2="222.18739836242565" y2="276.2791801217912" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="224.18038467992457" y1="270.6198510504028" x2="227.50202854242278" y2="261.1876359314221" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="229.49501485992167" y1="255.5283068600337" x2="232.81665872241987" y2="246.096091741053" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="234.8096450399188" y1="240.43676266966457" x2="238.13128890241697" y2="231.00454755068387" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="240.1242752199159" y1="225.34521847929545" x2="243.44591908241406" y2="215.91300336031475" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="245.43890539991298" y1="210.25367428892633" x2="248.76054926241116" y2="200.82145916994563" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="250.75353557991008" y1="195.1621300985572" x2="250.81063122923587" y2="195.0" stroke="#0054ff" stroke-width="1.7"/>
+<path d="M250.81063122923587,195.0 L250.54427299497894,210.80914460972016 L241.11205787599823,207.48750074722196 Z" fill="#0054ff"/>
+</g>
+<g id="right-v2-ray" data-origin="86,663" data-through="448,589">
+<line x1="86.0" y1="663.0" x2="95.79739078021312" y2="660.9972184592934" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="101.675825248341" y1="659.7955495348696" x2="111.47321602855412" y2="657.792767994163" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="117.351650496682" y1="656.591099069739" x2="127.14904127689512" y2="654.5883175290325" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="133.027475745023" y1="653.3866486046086" x2="142.82486652523613" y2="651.383867063902" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="148.703300993364" y1="650.182198139478" x2="158.5006917735771" y2="648.1794165987716" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="164.37912624170497" y1="646.9777476743476" x2="174.17651702191813" y2="644.974966133641" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="180.054951490046" y1="643.7732972092172" x2="189.8523422702591" y2="641.7705156685106" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="195.73077673838696" y1="640.5688467440866" x2="205.5281675186001" y2="638.56606520338" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="211.406601986728" y1="637.3643962789562" x2="221.2039927669411" y2="635.3616147382496" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="227.08242723506896" y1="634.1599458138257" x2="236.8798180152821" y2="632.1571642731192" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="242.75825248340996" y1="630.9554953486952" x2="252.5556432636231" y2="628.9527138079886" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="258.43407773175096" y1="627.7510448835648" x2="268.23146851196407" y2="625.7482633428582" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="274.109902980092" y1="624.5465944184342" x2="283.9072937603051" y2="622.5438128777278" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="289.78572822843296" y1="621.3421439533038" x2="299.5831190086461" y2="619.3393624125972" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="305.46155347677393" y1="618.1376934881733" x2="315.2589442569871" y2="616.1349119474668" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="321.13737872511496" y1="614.9332430230428" x2="330.93476950532806" y2="612.9304614823362" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="336.813203973456" y1="611.7287925579124" x2="346.6105947536691" y2="609.7260110172058" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="352.48902922179695" y1="608.5243420927818" x2="362.28642000201006" y2="606.5215605520754" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="368.1648544701379" y1="605.3198916276514" x2="377.9622452503511" y2="603.3171100869448" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="383.84067971847895" y1="602.1154411625209" x2="393.63807049869206" y2="600.1126596218144" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="399.5165049668199" y1="598.9109906973904" x2="409.3138957470331" y2="596.9082091566838" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="415.19233021516095" y1="595.70654023226" x2="424.98972099537406" y2="593.7037586915534" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="430.8681554635019" y1="592.5020897671295" x2="440.6655462437151" y2="590.499308226423" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="446.54398071184295" y1="589.297639301999" x2="456.34137149205606" y2="587.2948577612924" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="462.2198059601839" y1="586.0931888368685" x2="472.0171967403971" y2="584.090407296162" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="477.89563120852495" y1="582.888738371738" x2="487.69302198873805" y2="580.8859568310315" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="493.5714564568659" y1="579.6842879066076" x2="503.368847237079" y2="577.681506365901" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="509.24728170520694" y1="576.4798374414771" x2="519.04467248542" y2="574.4770559007706" stroke="#0054ff" stroke-width="1.7"/>
+<line x1="524.9231069535479" y1="573.2753869763466" x2="534.720497733761" y2="571.27260543564" stroke="#0054ff" stroke-width="1.7"/>
+<path d="M537.0,570.8066298342542 L523.3053046000337,578.7094975354206 L521.3025230593271,568.9121067552074 Z" fill="#0054ff"/>
+</g>
+<text x="205" y="195" font-size="28" font-style="italic" fill="#0054ff">v<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="505" y="542" font-size="25" font-style="italic" fill="#0054ff">v<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<path d="M307,251 L319,263 L307,275 L295,263 Z" fill="#e8b129" stroke="#111" stroke-width="1.4"/>
+<path d="M621,422 L633,434 L621,446 L609,434 Z" fill="#e8b129" stroke="#111" stroke-width="1.4"/>
+<text x="331" y="253" font-size="29" font-style="italic" fill="#111">R<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="626" y="406" font-size="29" font-style="italic" fill="#111">R<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<circle cx="144" cy="243" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<circle cx="566" cy="571" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<rect x="700.5" y="236.5" width="21" height="21" fill="white" stroke="#ff6c17" stroke-width="2"/>
+<rect x="360.5" y="381.5" width="21" height="21" fill="white" stroke="#ff6c17" stroke-width="2"/>
+<circle cx="192" cy="362" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<circle cx="448" cy="589" r="10" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<text x="152" y="220" font-size="30" font-style="italic" fill="#111">A</text>
+<text x="586" y="542" font-size="30" font-style="italic" fill="#111">B</text>
+<text x="726" y="229" font-size="30" font-style="italic" fill="#111">C</text>
+<text x="205" y="350" font-size="30" font-style="italic" fill="#111">P<tspan baseline-shift="sub" font-size="70%">1</tspan></text>
+<text x="460" y="582" font-size="30" font-style="italic" fill="#111">P<tspan baseline-shift="sub" font-size="70%">2</tspan></text>
+<circle cx="144" cy="243" r="22" fill="none" stroke="#0054ff" stroke-width="1.6"/>
+<circle cx="566" cy="571" r="22" fill="none" stroke="#0054ff" stroke-width="1.6"/>
+<text x="317" y="145" font-size="24" font-style="italic" fill="#0054ff">Directional PBI assessment</text>
+<line x1="312.0" y1="148.0" x2="276.0" y2="176.0" stroke="#0054ff" stroke-width="1.4"/>
+<path d="M276,176 L284.7705801930703,162.84412971039458 L290.90998632821953,170.73765188415783 Z" fill="#0054ff"/>
+<text x="284" y="424" font-size="24" font-style="italic" fill="#111">Non-dominated solutions</text>
+<line x1="277.0" y1="384.0" x2="219.0" y2="369.0" stroke="#111" stroke-width="1.7"/>
+<path d="M219,369 L231.74448563819755,367.64793276137004 L229.4910402404809,376.3612549658744 Z" fill="#111"/>
+<line x1="389.0" y1="436.0" x2="448.0" y2="565.0" stroke="#111" stroke-width="1.7"/>
+<path d="M448,565 L438.9165913998085,555.9588889951528 L447.1011760989333,552.2155518071811 Z" fill="#111"/>
+<text x="646" y="534" font-size="22" font-style="italic" fill="#0054ff">Reassigned to Good group</text>
+<line x1="641.0" y1="535.0" x2="604.0" y2="563.0" stroke="#0054ff" stroke-width="1.4"/>
+<path d="M604,563 L612.9438824331071,549.9613280192054 L618.9783091349625,557.9353918752286 Z" fill="#0054ff"/>
+</g>
+<g id="legend"><rect x="470" y="765" width="836" height="62" fill="white" stroke="#111" stroke-width="1.6"/>
+<circle cx="531" cy="796" r="13" fill="#1ba3a2" stroke="#078f91" stroke-width="1"/>
+<text x="562" y="806" font-size="28" font-style="normal" fill="#111">Good group</text>
+<rect x="770" y="783" width="26" height="27" fill="white" stroke="#ff6c17" stroke-width="2.5"/>
+<text x="818" y="806" font-size="28" font-style="normal" fill="#111">Bad group</text>
+<path d="M1030,782 L1045,797 L1030,812 L1015,797 Z" fill="#e8b129" stroke="#111" stroke-width="1.4"/>
+<text x="1066" y="806" font-size="28" font-style="normal" fill="#111">Reference solution</text>
+</g></g></svg>
