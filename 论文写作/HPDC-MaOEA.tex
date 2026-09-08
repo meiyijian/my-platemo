@@ -259,6 +259,25 @@ the label preserves a clear population-level partition. A stage-dependent
 combination of these two signals determines the positive group used to construct
 relation pairs.
 
+Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
+signals and their roles in grouping.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{figures/paqc_mechanism.png}
+\caption{Conceptual illustration of representative-based classification and
+PAQC. Black rays connect the ideal point $Z$ to representative solutions, and
+orange dash-dotted segments indicate local classification thresholds. Blue
+dashed rays show directions constructed from nondominated solutions $P_1$ and
+$P_2$. In (a), ``Good group'' and ``Bad group'' denote the binary labels
+$L_i=1$ and $L_i=0$; in (b), they denote $\mathcal{C}_1$ and
+$\mathcal{C}_2$, respectively. Blue rings highlight the reassignment of $A$
+and $B$. The PF is an external reference only. Selected solutions and schematic
+boundaries are shown, rather than a complete population or a numerically
+evaluated example. Geometric presentation adapted from REMO~\cite{ref:remo}.}
+\label{fig:paqc-mechanism}
+\end{figure*}
+
 Throughout this subsection $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$ is the
 current population, with $N=|\mathcal{P}|$, and $\vz^{*}=\min_i\vf_i$ the component-wise population
 minimum, taken as the ideal point.
@@ -364,6 +383,30 @@ population,
 With $r_g<1/2$ the non-positive group $\mathcal{C}_2$ provides a broad contrast
 set, while the compact positive group concentrates pairwise supervision on the
 highest-priority portion of the population.
+
+Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
+signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
+thresholds used to obtain $L_i$. In panel~(b), the nondominated solutions
+$P_1$ and $P_2$ supply the adaptive directions $\vv_1$ and $\vv_2$ through
+\eqref{eq:direction}; these directions determine $S_i$, rather than directly
+assigning group membership. The reassignment of $A$ and $B$ to the positive
+group and of $C$ to its complement schematically depicts how the additional
+directional information can change selection priorities through
+\eqref{eq:fuse}--\eqref{eq:group}. Such a reversal of the ordering between
+binary-negative and binary-positive solutions requires $t<1/2$ and a
+sufficient continuous-score difference, as characterised by
+Proposition~\ref{prop:order}. PAQC therefore modifies the ranking used to form
+the groups, without replacing the representative-based boundary with a new
+geometric boundary.
+
+The diagram uses two objectives to visualise the adaptive branch of the
+many-objective method; low-dimensional runs instead use the uniform directions
+described in Section~\ref{sec:method:paqc:cont}. Setting $O=Z$ makes the radial
+construction in \eqref{eq:direction} visible as rays through $P_1$ and $P_2$.
+These two solutions are placed on the PF for illustration, whereas the
+implementation uses the current nondominated set and does not require the true
+PF. Their displayed positive-group membership is an illustrative assignment,
+not a consequence guaranteed by nondominance.
 
 Algorithm~\ref{alg:paqc} summarises the construction. Ties in the hybrid
 score are resolved by population order so that the positive group has exactly
