@@ -132,35 +132,14 @@ def arrow(ax, pts, color=GRAY, style='-', width=.95):
 
 
 def framework():
-    fig, ax = canvas(111)
-    box(ax,(4,85),(33,19),'Initial design','Latin hypercube\n+ true evaluations')
-    box(ax,(4,48),(33,22),'Current population',r'$\mathcal{P}$: evaluated solutions')
-    arrow(ax,[(20.5,85),(20.5,70)])
-    box(ax,(47,77),(41,27),'1  PAQC',r'Continuous score $S$'+'\n'+r'+ binary label $L$'+'\n'+r'Positive group $\mathcal{C}_1$',BLUE,'#EDF4F8',body_size=8)
-    arrow(ax,[(37,61),(42,61),(42,90),(47,90)])
-    box(ax,(101,77),(33,27),'Relation learning','Ordered group pairs\nThree-class model\nHeld-out error')
-    arrow(ax,[(88,90),(101,90)])
-    ax.text(94.5,95,'Groups',ha='center',fontsize=7.5)
-    box(ax,(47,37),(51,22),'Indicator learning','SDE fitness on current population\nDecision vectors → indicator SVR')
-    arrow(ax,[(37,55),(42,55),(42,48),(47,48)])
-    box(ax,(143,40),(33,37),'2  CDIS','Draw one criterion\nAccumulate candidates\nFilter and rank\nBound the batch',ORANGE,'#FBF2E9',title_size=8,body_size=7.8)
-    arrow(ax,[(134,87),(159.5,87),(159.5,77)])
-    ax.text(149,92,'Relation model',ha='center',fontsize=7.5)
-    arrow(ax,[(98,48),(143,48)])
-    ax.text(120.5,51,'Predicted indicator',ha='center',fontsize=7.3)
-    arrow(ax,[(77,77),(77,67),(139,67),(143,67)],BLUE,style='--')
-    ax.text(108,70,'Representatives: mating pool',ha='center',fontsize=7.3,color=BLUE)
-    box(ax,(143,6),(33,22),'True evaluation',r'$|\mathcal{S}|\leq n_{\max}$'+'\nRemaining FE budget',ORANGE,'#FBF2E9')
-    arrow(ax,[(159.5,40),(159.5,28)])
-    box(ax,(98,6),(32,22),'Archive update','Append evaluated\nsolutions')
-    box(ax,(47,6),(37,22),'Environmental selection','Select next population\nfrom the whole archive')
-    arrow(ax,[(143,17),(130,17)])
-    arrow(ax,[(98,17),(84,17)])
-    arrow(ax,[(47,17),(20.5,17),(20.5,48)])
-    ax.text(24,32,'Repeat while\nFE < budget',fontsize=7.5,ha='left',va='center')
-    save(fig,'fig_framework','Two interfaces connect supervision construction and bounded evaluation allocation.',
-         'schematic-led composite','Code-derived flow; only initial design and final selected batch consume true evaluations.')
-
+    from build_framework_flowchart import draw_framework
+    fig = draw_framework()
+    save(fig, 'fig_framework',
+         'PACDIS evaluation loop with explicit budget, candidate-search, and mode decisions.',
+         'method-level flowchart',
+         'Compact nodes and Yes/No branches; c counts generated candidates. Mode is drawn before inner search. Detailed safeguards remain in the manuscript.')
+    svg_path = OUT / 'fig_framework.svg'
+    svg_path.write_text('\n'.join(line.rstrip() for line in svg_path.read_text(encoding='utf-8').splitlines())+'\n', encoding='utf-8')
 
 def grouping():
     fig = plt.figure(figsize=(180/25.4,124/25.4))

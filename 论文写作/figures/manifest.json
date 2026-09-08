@@ -3,13 +3,13 @@
   "figures": [
     {
       "name": "fig_framework",
-      "claim": "Two interfaces connect supervision construction and bounded evaluation allocation.",
-      "archetype": "schematic-led composite",
-      "width_mm": 180.0,
-      "height_mm": 111.0,
-      "minimum_pdf_glyph_pt": 5.6,
-      "pdf_text_spans": 45,
-      "notes": "Code-derived flow; only initial design and final selected batch consume true evaluations.",
+      "claim": "PACDIS evaluation loop and CDIS control flow.",
+      "archetype": "method-level flowchart",
+      "width_mm": 180,
+      "height_mm": 157,
+      "minimum_pdf_glyph_pt": 5.88,
+      "pdf_text_spans": 70,
+      "notes": "Empty-pool safeguards and detailed score formulas remain in the method. Mode is drawn before candidate search. Quantile filtering includes retained-set completion before batch selection.",
       "text_outside_canvas": []
     },
     {

@@ -1,0 +1,12 @@
+{
+  "source": "../HPDC-MaOEA.tex, Section 3 and Algorithms 1 and 3",
+  "source_sha256": "f010d788a1b7b2cbbad0d7b03c408b4f90097c7b1082e5287f38b5c798c99bfd",
+  "width_mm": 180,
+  "height_mm": 157,
+  "png_dpi": 600,
+  "minimum_pdf_glyph_pt": 5.880000114440918,
+  "embedded_raster_count": 0,
+  "semantics": "Method-level flow; c counts generated candidates, not generations.",
+  "simplifications": "Empty-pool safeguards and detailed score formulas remain in the method. Mode is drawn before candidate search. Quantile filtering includes retained-set completion before batch selection.",
+  "alt_text": "PACDIS starts with an evaluated Latin hypercube design, checks the evaluation budget, constructs PAQC groups, trains relation and indicator models, runs CDIS, evaluates the selected batch, and updates the population from the archive. CDIS draws one mode, loops over relation-guided candidate generation, and branches into indicator or exploration selection before applying the batch bound."
+}

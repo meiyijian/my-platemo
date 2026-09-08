@@ -1,11 +1,16 @@
-\begin{figure*}[t]
+\begin{figure*}[!t]
   \centering
   \includegraphics[width=0.98\textwidth]{figures/fig_framework.pdf}
-  \caption{Overall framework of PACDIS. PAQC constructs the
-  supervision groups for relation learning, and CDIS
-  allocates a bounded batch of expensive evaluations. The representatives also
-  enter the mating pool (dashed arrow). The indicator surrogate is trained on
-  the current evaluated population. Newly evaluated solutions enter the archive,
-  from which environmental selection constructs the next population.
+  \caption{Flowchart of PACDIS. Left: the expensive-evaluation loop, with PAQC
+  constructing the training groups and CDIS selecting the infill batch.
+  Right: expansion of CDIS (dotted connector). A mode is drawn before the
+  relation-guided search; $c$ counts the generated candidates and $g_{\max}$
+  bounds their accumulation. Indicator mode is drawn with probability
+  $p_{\mathrm{mix}}=0.5$ when its surrogate is available; otherwise exploration
+  mode is used. The selected mode determines the final filtering and selection
+  criterion. Quantile filtering includes retained-set completion before batch
+  selection; the batch is further bounded by the remaining evaluation budget.
+  Detailed safeguards are given in
+  Algorithms~\ref{alg:framework} and~\ref{alg:cdis}.
   \label{fig:framework}}
 \end{figure*}
