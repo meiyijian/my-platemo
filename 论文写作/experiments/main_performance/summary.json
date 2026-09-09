@@ -1,0 +1,238 @@
+{
+  "symbol_order": "+/-/=",
+  "by_objectives": {
+    "10": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          2,
+          9,
+          5
+        ],
+        "PIEA": [
+          7,
+          6,
+          3
+        ],
+        "CSEA": [
+          1,
+          12,
+          3
+        ],
+        "PC-SAEA": [
+          0,
+          15,
+          1
+        ],
+        "K-RVEA": [
+          3,
+          10,
+          3
+        ],
+        "MCEA/D": [
+          4,
+          9,
+          3
+        ]
+      },
+      "best_mean_counts": {
+        "REMO": 2,
+        "PIEA": 7,
+        "K-RVEA": 4,
+        "PACDIS": 3
+      },
+      "lower_mean_counts": {
+        "REMO": 10,
+        "PIEA": 8,
+        "CSEA": 13,
+        "PC-SAEA": 15,
+        "K-RVEA": 11,
+        "MCEA/D": 12
+      },
+      "best_mean_problems_PACDIS": [
+        "WFG1",
+        "WFG7",
+        "WFG8"
+      ]
+    },
+    "15": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          4,
+          9,
+          3
+        ],
+        "PIEA": [
+          6,
+          7,
+          3
+        ],
+        "CSEA": [
+          1,
+          11,
+          4
+        ],
+        "PC-SAEA": [
+          0,
+          15,
+          1
+        ],
+        "K-RVEA": [
+          2,
+          8,
+          6
+        ],
+        "MCEA/D": [
+          5,
+          9,
+          2
+        ]
+      },
+      "best_mean_counts": {
+        "REMO": 3,
+        "PACDIS": 4,
+        "MCEA/D": 2,
+        "PIEA": 4,
+        "K-RVEA": 3
+      },
+      "lower_mean_counts": {
+        "REMO": 10,
+        "PIEA": 9,
+        "CSEA": 12,
+        "PC-SAEA": 15,
+        "K-RVEA": 11,
+        "MCEA/D": 11
+      },
+      "best_mean_problems_PACDIS": [
+        "DTLZ2",
+        "WFG6",
+        "WFG7",
+        "WFG8"
+      ]
+    },
+    "20": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          2,
+          8,
+          6
+        ],
+        "PIEA": [
+          5,
+          9,
+          2
+        ],
+        "CSEA": [
+          1,
+          11,
+          4
+        ],
+        "PC-SAEA": [
+          1,
+          15,
+          0
+        ],
+        "K-RVEA": [
+          2,
+          8,
+          6
+        ],
+        "MCEA/D": [
+          5,
+          8,
+          3
+        ]
+      },
+      "best_mean_counts": {
+        "REMO": 3,
+        "MCEA/D": 3,
+        "PIEA": 4,
+        "K-RVEA": 2,
+        "PACDIS": 4
+      },
+      "lower_mean_counts": {
+        "REMO": 10,
+        "PIEA": 9,
+        "CSEA": 13,
+        "PC-SAEA": 15,
+        "K-RVEA": 13,
+        "MCEA/D": 10
+      },
+      "best_mean_problems_PACDIS": [
+        "WFG1",
+        "WFG6",
+        "WFG7",
+        "WFG8"
+      ]
+    }
+  },
+  "by_suite": {
+    "DTLZ": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          5,
+          5,
+          11
+        ],
+        "PIEA": [
+          9,
+          7,
+          5
+        ],
+        "CSEA": [
+          0,
+          10,
+          11
+        ],
+        "PC-SAEA": [
+          0,
+          21,
+          0
+        ],
+        "K-RVEA": [
+          3,
+          12,
+          6
+        ],
+        "MCEA/D": [
+          9,
+          8,
+          4
+        ]
+      }
+    },
+    "WFG": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          3,
+          21,
+          3
+        ],
+        "PIEA": [
+          9,
+          15,
+          3
+        ],
+        "CSEA": [
+          3,
+          24,
+          0
+        ],
+        "PC-SAEA": [
+          1,
+          24,
+          2
+        ],
+        "K-RVEA": [
+          4,
+          14,
+          9
+        ],
+        "MCEA/D": [
+          5,
+          18,
+          4
+        ]
+      }
+    }
+  }
+}

@@ -26,6 +26,8 @@
 \usepackage{algpseudocode}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{placeins}
 \usepackage[hidelinks]{hyperref}
 
 % graphicx is already loaded by elsarticle.cls
@@ -750,6 +752,100 @@ Neither module consumes expensive evaluations, so the total number of real
 evaluations remains $FE_{\max}$ regardless of the mode sequence.
 
 
+\section{Experimental Studies}
+\label{sec:exp}
+
+\subsection{Experimental Settings}
+\label{sec:exp:settings}
+
+\paragraph{Test problems and evaluation budget.}
+The main performance study covers DTLZ1--DTLZ7 and WFG1--WFG9 with
+$M\in\{10,15,20\}$, giving 48 problem--objective configurations. These
+settings target expensive optimization with relatively large numbers of
+objectives. All experiments were conducted in PlatEMO~\cite{ref:platemo},
+with a configured population size of $N=100$ and a maximum budget of
+$FE_{\max}=300$ real function evaluations, including initialization.
+The decision dimension was $D=30$, except for WFG2 and WFG3 at
+$M=10$ and $M=20$, where the problem definitions required $D=31$.
+All 15-objective instances used $D=30$.
+
+\paragraph{Compared algorithms.}
+PACDIS is compared with six surrogate-assisted algorithms:
+REMO~\cite{ref:remo}, PIEA~\cite{ref:piea}, CSEA~\cite{ref:csea},
+PC-SAEA~\cite{ref:pcsaea}, K-RVEA~\cite{ref:krvea} and
+MCEA/D~\cite{ref:mcead}. REMO and PC-SAEA provide relation-learning and
+pairwise-comparison baselines, respectively. PIEA represents indicator-based
+surrogate modeling, CSEA uses classification, K-RVEA combines Kriging with
+reference-vector-guided search, and MCEA/D uses multiple classifiers within
+a decomposition framework. This set compares PACDIS with related learning
+mechanisms as well as alternative surrogate and selection strategies.
+
+For PC-SAEA and K-RVEA, the initial number of real evaluations was set to
+$N_{\mathrm{init}}=100$ at all three objective counts to leave search budget
+within the 300-evaluation limit. These variants are recorded as
+\texttt{PCSAEA\_N100} and \texttt{KRVEA\_100} in the experiment exports.
+The tables use their conventional algorithm names for brevity.
+This initialization setting is distinct from the configured population size
+$N$. The PACDIS results correspond to the implementation recorded as
+\texttt{REMO\_new2\_AdaMaO\_SDEOnly\_UniformMix\_Original}.
+
+\paragraph{Performance indicator and statistical reporting.}
+Performance is measured by inverted generational distance (IGD), with
+smaller values indicating a better approximation to the reference Pareto
+front. Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} group the results by
+problem, with three rows for $M=10$, 15 and 20. Each entry reports the mean
+above the standard deviation in parentheses. The cell with the lowest mean
+among the seven retained algorithms is shaded and bold. The pairwise statistical annotations
+are retained from the PlatEMO exports. A $+$ indicates that the baseline
+was reported as better than PACDIS, a $-$ indicates that it was reported as
+worse, and an $=$ indicates no detected difference. The bottom row of each
+table counts these symbols in the order $+/-/=$ for each baseline across
+all problem--objective configurations in that table. These counts summarize
+the supplied pairwise outcomes and are not a separate omnibus test across problems.
+
+\TODO{Complete the number of independent runs, confirm the statistical-test
+option used for these exports, and specify the IGD reference sets and
+execution environment. The local PlatEMO rank-sum export uses a 0.05
+threshold without a multiple-comparison adjustment; confirm that this option
+was used before finalizing the statistical protocol.}
+
+\subsection{Comparison with the Six Baseline Algorithms}
+\label{sec:exp:comparison}
+
+PACDIS achieves the lowest mean IGD on 3, 4 and 4 of the 16 problems at
+$M=10$, 15 and 20, respectively. Its most consistent best-mean results occur
+on WFG7 and WFG8, where it ranks first at all three objective counts.
+These results show competitive performance throughout the tested range,
+with advantages that depend on the problem and the comparator.
+
+\input{experiments/main_performance/table_dtlz}
+\input{experiments/main_performance/table_wfg}
+
+For REMO, the $+/-/=$ counts are 2/9/5, 4/9/3 and 2/8/6 at
+$M=10$, 15 and 20, respectively. The CSEA, PC-SAEA, K-RVEA and MCEA/D
+columns also contain more $-$ than $+$ entries in every objective setting.
+The comparison with PIEA is closer: its corresponding counts are 7/6/3,
+6/7/3 and 5/9/2. Thus, the improvement over the relation-learning baseline
+does not imply uniform superiority over indicator-based surrogate search.
+
+The detailed results reveal complementary strengths among the algorithms.
+At $M=10$, K-RVEA has the lowest mean IGD on DTLZ7, WFG2, WFG5 and WFG6,
+whereas PACDIS leads on WFG1, WFG7 and WFG8. At $M=15$, PACDIS leads on
+DTLZ2, WFG6, WFG7 and WFG8. At $M=20$, its best-mean results occur on
+WFG1, WFG6, WFG7 and WFG8. In particular, WFG6 becomes a best-mean result
+for PACDIS at 15 and 20 objectives, while K-RVEA remains stronger on DTLZ7.
+
+Several counterexamples delimit these advantages. PIEA outperforms PACDIS
+on DTLZ5 and DTLZ6 at all three objective counts. MCEA/D obtains the lowest
+mean IGD on DTLZ3 at 15 and 20 objectives. WFG3 remains a difficult case:
+PACDIS has a larger mean IGD than REMO, PIEA, CSEA, PC-SAEA and MCEA/D in
+all three settings, although its comparison with K-RVEA is favorable.
+The results therefore support competitiveness within the tested
+10--20-objective range, rather than a monotonic increase in advantage with
+the number of objectives. They assess the complete algorithm; attributing
+the gains to PAQC and CDIS requires matched component comparisons.
+
+\FloatBarrier
 \section{Conclusion}
 \label{sec:conclusion}
 \TODO{Reinforce the two design contributions of PACDIS: PAQC combines
@@ -760,7 +856,7 @@ result and its benchmark scope. Close by connecting the group-composition and
 candidate-batch findings to these two design roles, keeping empirical performance
 claims at the level supported by their matched comparisons.}
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 
 \bibitem{ref:moead}
 Q.~Zhang and H.~Li,
@@ -768,15 +864,18 @@ Q.~Zhang and H.~Li,
 \emph{IEEE Trans. Evol. Comput.}, vol.~11, no.~6, pp.~712--731, 2007.
 
 \bibitem{ref:remo}
-\TODO{REMO -- relation-model-based expensive multi-objective optimization.}
+H.~Hao, A.~Zhou, H.~Qian, and H.~Zhang,
+``Expensive multiobjective optimization by relation learning and prediction,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~26, no.~5, pp.~1157--1170, 2022.
 
 \bibitem{ref:rsea}
 \TODO{RSEA -- radar-grid based selection evolutionary algorithm.}
 
 \bibitem{ref:piea}
 Y.~Li, W.~Li, S.~Li, and Y.~Zhao,
-``PIEA,'' \emph{Information Sciences}, 2024.
-\TODO{complete volume and pages.}
+``A performance indicator-based evolutionary algorithm for expensive
+high-dimensional multi-/many-objective optimization,''
+\emph{Information Sciences}, vol.~678, art.~121045, 2024.
 
 \bibitem{ref:sde}
 M.~Li, S.~Yang, and X.~Liu,
@@ -785,11 +884,28 @@ many-objective optimization,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~18, no.~3, pp.~348--365, 2014.
 
 \bibitem{ref:pcsaea}
-\TODO{PC-SAEA -- pairwise-comparison-based surrogate-assisted EA,
-Swarm Evol. Comput., 2023, doi:10.1016/j.swevo.2023.101323.}
+Y.~Tian, J.~Hu, C.~He, H.~Ma, L.~Zhang, and X.~Zhang,
+``A pairwise comparison based surrogate-assisted evolutionary algorithm for
+expensive multi-objective optimization,''
+\emph{Swarm Evol. Comput.}, vol.~80, art.~101323, 2023.
 
-\bibitem{ref:r2aea}
-\TODO{R2AEA -- two-stage relation-based expensive optimization.}
+\bibitem{ref:csea}
+L.~Pan, C.~He, Y.~Tian, H.~Wang, X.~Zhang, and Y.~Jin,
+``A classification based surrogate-assisted evolutionary algorithm for
+expensive many-objective optimization,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~23, no.~1, pp.~74--88, 2019.
+
+\bibitem{ref:krvea}
+T.~Chugh, Y.~Jin, K.~Miettinen, J.~Hakanen, and K.~Sindhya,
+``A surrogate-assisted reference vector guided evolutionary algorithm for
+computationally expensive many-objective optimization,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~22, no.~1, pp.~129--142, 2018.
+
+\bibitem{ref:mcead}
+T.~Sonoda and M.~Nakata,
+``Multiple classifiers-assisted evolutionary algorithm based on decomposition
+for high-dimensional multi-objective problems,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~26, no.~6, pp.~1581--1595, 2022.
 
 \bibitem{ref:platemo}
 Y.~Tian, R.~Cheng, X.~Zhang, and Y.~Jin,
