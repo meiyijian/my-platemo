@@ -1,0 +1,22 @@
+{
+  "status": "NUMERICAL_AND_EXPORT_PASS",
+  "comparison": "same points and scales",
+  "style_reference": "user-supplied REMO figure; newly drawn vector artwork",
+  "figure_size_mm": [
+    170,
+    79
+  ],
+  "cutoff_gap": 0.013573748803988983,
+  "figures": [
+    {
+      "lang": "cn",
+      "min_glyph_pt": 8.699999809265137,
+      "raster_images_in_pdf": 0
+    },
+    {
+      "lang": "en",
+      "min_glyph_pt": 8.699999809265137,
+      "raster_images_in_pdf": 0
+    }
+  ]
+}

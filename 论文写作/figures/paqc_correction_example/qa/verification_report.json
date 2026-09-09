@@ -1,0 +1,336 @@
+{
+  "status": "AUTOMATED_CHECK_PASS; visual review still required",
+  "sources": [
+    {
+      "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+      "snapshot": "source_snapshot\\RepresentativeBasedClassification.m",
+      "snapshot_sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+      "operation": "byte-preserved copy"
+    },
+    {
+      "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Utility functions\\UniformPoint.m",
+      "sha256": "3f228a816d94156874c11d0ad165d00d975d90dda150c8f8b866d8c129a87126",
+      "snapshot": "source_snapshot\\UniformPoint.m",
+      "snapshot_sha256": "3f228a816d94156874c11d0ad165d00d975d90dda150c8f8b866d8c129a87126",
+      "operation": "byte-preserved copy"
+    },
+    {
+      "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\PBIQualityClassification.m",
+      "sha256": "38e84fc7e7087d8d7f5475db70aad0ff61c3c398a3a03fa59b382577325172a4",
+      "snapshot": "source_snapshot\\ContinuousPBIQualityAssessment.m",
+      "snapshot_sha256": "f30a8d1a2f37791d9e70b02de47a8b4752f08394f36fb65a457b23c2cc446571",
+      "operation": "exact local-function text extraction; no executable edits"
+    }
+  ],
+  "matlab_verified": true,
+  "figures": [
+    {
+      "lang": "cn",
+      "physical_mm": [
+        180,
+        95
+      ],
+      "panels": [
+        {
+          "main_limits": [
+            [
+              -0.12,
+              2.3
+            ],
+            [
+              -0.15,
+              6.3
+            ]
+          ],
+          "zoom_limits": [
+            [
+              0.84,
+              1.04
+            ],
+            [
+              0.21,
+              0.41
+            ]
+          ],
+          "points": [
+            [
+              0.9486832980505138,
+              0.31622776601683794
+            ],
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.5
+            ],
+            [
+              0.0,
+              4.0
+            ],
+            [
+              0.0,
+              4.5
+            ],
+            [
+              0.0,
+              5.0
+            ],
+            [
+              0.0,
+              6.0
+            ],
+            [
+              2.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "main_limits": [
+            [
+              -0.12,
+              2.3
+            ],
+            [
+              -0.15,
+              6.3
+            ]
+          ],
+          "zoom_limits": [
+            [
+              0.84,
+              1.04
+            ],
+            [
+              0.21,
+              0.41
+            ]
+          ],
+          "points": [
+            [
+              0.9486832980505138,
+              0.31622776601683794
+            ],
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.5
+            ],
+            [
+              0.0,
+              4.0
+            ],
+            [
+              0.0,
+              4.5
+            ],
+            [
+              0.0,
+              5.0
+            ],
+            [
+              0.0,
+              6.0
+            ],
+            [
+              2.0,
+              0.0
+            ]
+          ]
+        }
+      ],
+      "outside_text": [],
+      "actual_pdf_mm": [
+        179.99999491373697,
+        95.00000449286567
+      ],
+      "png_pixels": [
+        4251,
+        2244
+      ],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "min_pdf_glyph_pt": 5.739999771118164,
+      "clipped_spans": [],
+      "embedded_fonts": [
+        "BXVGUH+DejaVuSans-Bold",
+        "OEZPEB+DejaVuSans-Oblique",
+        "FRVGSN+DejaVuSans",
+        "GRJOGI+STIXGeneral-Regular",
+        "BHZONI+STIXGeneral-Bold",
+        "ELADHL+STIXGeneral-Italic",
+        "FANVFW+ArialMT",
+        "EUMTPN+MicrosoftYaHei"
+      ],
+      "raster_images_in_pdf": 0
+    },
+    {
+      "lang": "en",
+      "physical_mm": [
+        180,
+        95
+      ],
+      "panels": [
+        {
+          "main_limits": [
+            [
+              -0.12,
+              2.3
+            ],
+            [
+              -0.15,
+              6.3
+            ]
+          ],
+          "zoom_limits": [
+            [
+              0.84,
+              1.04
+            ],
+            [
+              0.21,
+              0.41
+            ]
+          ],
+          "points": [
+            [
+              0.9486832980505138,
+              0.31622776601683794
+            ],
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.5
+            ],
+            [
+              0.0,
+              4.0
+            ],
+            [
+              0.0,
+              4.5
+            ],
+            [
+              0.0,
+              5.0
+            ],
+            [
+              0.0,
+              6.0
+            ],
+            [
+              2.0,
+              0.0
+            ]
+          ]
+        },
+        {
+          "main_limits": [
+            [
+              -0.12,
+              2.3
+            ],
+            [
+              -0.15,
+              6.3
+            ]
+          ],
+          "zoom_limits": [
+            [
+              0.84,
+              1.04
+            ],
+            [
+              0.21,
+              0.41
+            ]
+          ],
+          "points": [
+            [
+              0.9486832980505138,
+              0.31622776601683794
+            ],
+            [
+              1.0,
+              0.0
+            ],
+            [
+              0.0,
+              3.5
+            ],
+            [
+              0.0,
+              4.0
+            ],
+            [
+              0.0,
+              4.5
+            ],
+            [
+              0.0,
+              5.0
+            ],
+            [
+              0.0,
+              6.0
+            ],
+            [
+              2.0,
+              0.0
+            ]
+          ]
+        }
+      ],
+      "outside_text": [],
+      "actual_pdf_mm": [
+        179.99999491373697,
+        95.00000449286567
+      ],
+      "png_pixels": [
+        4251,
+        2244
+      ],
+      "png_dpi": [
+        599.9988,
+        599.9988
+      ],
+      "min_pdf_glyph_pt": 5.739999771118164,
+      "clipped_spans": [],
+      "embedded_fonts": [
+        "BXVGUH+DejaVuSans-Bold",
+        "OEZPEB+DejaVuSans-Oblique",
+        "FRVGSN+DejaVuSans",
+        "GRJOGI+STIXGeneral-Regular",
+        "BHZONI+STIXGeneral-Bold",
+        "ELADHL+STIXGeneral-Italic",
+        "EPSTTZ+ArialMT"
+      ],
+      "raster_images_in_pdf": 0
+    }
+  ],
+  "cutoff_gap": 0.022221913580089236,
+  "boundary_epsilon_control": "A/B result unchanged without cosine epsilon",
+  "requirements": "Provisional general manuscript dimensions, not a journal compliance claim.",
+  "A_over_B_crossing_t": 0.2173918336459238,
+  "selection_change": {
+    "reference_positive": [
+      "B",
+      "C"
+    ],
+    "hybrid_positive": [
+      "A",
+      "R"
+    ]
+  }
+}

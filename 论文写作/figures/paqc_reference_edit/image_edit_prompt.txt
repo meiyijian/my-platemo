@@ -1,0 +1,19 @@
+Edit image 1, the user's two-panel academic figure, into a restrained and scientifically corrected illustration for a research manuscript. Image 1 is the edit target and typography/style reference. Image 2 is the authoritative reference for the point positions, geometry, and A/B membership changes, from an independently computed illustrative example. Use the geometry in image 2 rather than copying the staircase or the curved alleged hybrid boundary in image 1.
+
+Keep: white background, two equal side-by-side objective-space panels, crisp arrow-ended black axes, serif scientific typography, simple flat markers, generous white space. Overall landscape aspect about 2:1. Do not make an infographic: no table, no inset, no gradients, no shadows, no texture, no large caption baked into the image.
+
+Correct the titles exactly:
+Left, two lines if needed: "Representative-Based Classification"
+Right, two lines: "PBI-Assisted Quality Classification" then "(PAQC)"
+Retain panel labels "(a)" and "(b)" below the respective plots. Small f1 and f2 axis labels are allowed.
+
+Make it visually distinct from the REMO-style source through the coherent new marker vocabulary: teal circles = positive group, warm light-gray squares = non-positive group, ochre diamonds with a dark outline = reference solutions. Replace all stars and hexagons accordingly. Blue thin outlines and blue letter labels A and B identify the two focal solutions. NO red unlabeled dots, no decorative highlight brackets.
+
+CRITICAL geometry:
+Use the sparse 12-point arrangement and the SINGLE reference shown in image 2, at precisely matching relative positions between the two panels. All background points remain in the same positions and classes. A stays on the gray quarter-circle marked "PF"; B stays just outside PF, to the upper-left of A. In the LEFT panel, A is a non-positive square and B is a positive teal circle. In the RIGHT panel, A is a positive teal circle and B is a non-positive square. The reference diamond stays at the lower-right end of PF. The other positive background point is the one high toward the left; other background points are squares.
+
+Left: retain the slanted dashed classification boundary from image 2, in muted burgundy, passing near A and B and ending at the reference diamond. Do not draw an orthogonal staircase.
+Right: REMOVE any alleged red hybrid geometric boundary. Show the single straight blue reference-direction arrow from near the lower left through A toward upper right, and the short blue dotted perpendicular connector from B to that direction, as in image 2. Label this arrow "Continuous PBI score S". This is a scoring direction, NOT a classification boundary.
+Use a small label "Reference-based label L" in the left panel's free upper-right space, with a short leader to its dashed boundary, avoiding point overlap.
+
+At the bottom, outside the two plotting areas, add ONE compact symbol legend with exact labels: "Reference solution" (ochre diamond), "Positive group" (teal circle), "Non-positive group" (gray square). No other text. This is a conceptual manuscript illustration; do not add numeric results, correctness claims, or an invented full-method decision boundary. Render all English text cleanly and exactly.

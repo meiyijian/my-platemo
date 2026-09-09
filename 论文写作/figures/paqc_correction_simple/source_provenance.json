@@ -1,0 +1,23 @@
+[
+  {
+    "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\RepresentativeBasedClassification.m",
+    "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+    "snapshot": "source_snapshot\\RepresentativeBasedClassification.m",
+    "snapshot_sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+    "operation": "byte-preserved copy"
+  },
+  {
+    "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Utility functions\\UniformPoint.m",
+    "sha256": "3f228a816d94156874c11d0ad165d00d975d90dda150c8f8b866d8c129a87126",
+    "snapshot": "source_snapshot\\UniformPoint.m",
+    "snapshot_sha256": "3f228a816d94156874c11d0ad165d00d975d90dda150c8f8b866d8c129a87126",
+    "operation": "byte-preserved copy"
+  },
+  {
+    "source": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original\\private\\PBIQualityClassification.m",
+    "sha256": "38e84fc7e7087d8d7f5475db70aad0ff61c3c398a3a03fa59b382577325172a4",
+    "snapshot": "source_snapshot\\ContinuousPBIQualityAssessment.m",
+    "snapshot_sha256": "f30a8d1a2f37791d9e70b02de47a8b4752f08394f36fb65a457b23c2cc446571",
+    "operation": "exact local-function text extraction; no executable edits"
+  }
+]

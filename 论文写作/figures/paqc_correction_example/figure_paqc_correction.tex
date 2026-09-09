@@ -1,0 +1,29 @@
+% Insert from the manuscript directory after the PAQC motivation paragraph:
+% \input{figures/paqc_correction_example/figure_paqc_correction}
+% Requires graphicx. This snippet does not modify the manuscript automatically.
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=180mm]{figures/paqc_correction_example/paqc_correction_en.pdf}
+  \caption{Illustration of directional information correcting representative-based grouping.
+  The same eight constructed objective vectors are shown in both panels for
+  minimization over $f_1,f_2\geq0$ and $f_1^2+f_2^2\geq1$.
+  The unit quarter-circle is the known Pareto front and is used only to assess
+  the illustrated decisions; it is not supplied to either scoring rule.
+  (a)~Given the reference $R=(1,0)$ and $\delta=0.234375$, the
+  representative-based classifier assigns $L_A=0$ and $L_B=1$, although
+  $A=(3/\sqrt{10},1/\sqrt{10})$ lies on the front and $B=(0,3.5)$ lies outside it.
+  The dashed curve is the computed reference classification boundary.
+  (b)~With $\theta=5$ and budget progress $t=0.20$, directional scores enter
+  $H=0.8S+0.2L$. The top two of eight scores select $A$ and $R$, excluding $B$.
+  Dotted lines show the directions associated with $A$ and $B$; matched insets
+  enlarge the neighborhood of $A$. Filled and open markers denote membership
+  and non-membership in the respective positive groups; the diamond denotes
+  the reference. The bottom table reports the focal scores.
+  All labels follow the current numerical implementation, including its
+  treatment of points on the classification boundary.
+  This is a classification example with a prescribed reference and parameters,
+  not an experimental result or a validation of reference selection.
+  It illustrates an early-stage correction; cross-label reversal is not
+  guaranteed throughout the budget.}
+  \label{fig:paqc-correction-example}
+\end{figure*}

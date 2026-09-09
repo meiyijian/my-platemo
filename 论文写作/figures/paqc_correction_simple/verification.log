@@ -1,0 +1,7 @@
+    Name      f1         f2       ReferenceLabel       S          H       HybridSelected    DistanceToKnownPF
+    ____    _______    _______    ______________    _______    _______    ______________    _________________
+
+    "A"     0.90711    0.90711          0               0.5        0.4        true             -1.1102e-16   
+    "B"     0.64391     1.2717          1           0.23303    0.38643        false                   0.16   
+
+MATLAB_SIMPLE_SOURCE_CHECK_PASS; cutoff gap = 0.013573748804

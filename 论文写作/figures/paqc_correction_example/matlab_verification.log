@@ -1,0 +1,13 @@
+    Solution      f1         f2       DirectionIndex    DirectionalD1    DirectionalD2    ReferenceNormalizedG    ReferenceLabel    ContinuousScore    HybridScore    HybridRank    HybridSelected    DistanceToKnownPF    ReferenceLabelWithoutEpsilon
+    ________    _______    _______    ______________    _____________    _____________    ____________________    ______________    _______________    ___________    __________    ______________    _________________    ____________________________
+
+      "A"       0.94868    0.31623          5                  1          1.2413e-16             1.0228                 0                   0.5              0.4          1             true                   0                      false            
+      "R"             1          0          9                  1               1e-06             1.0003                 0                   0.5              0.4          2             true                   0                      true             
+      "B"             0        3.5          8                3.5             3.5e-06            0.82031                 1               0.22222          0.37778          3             false                2.5                      true             
+      "C"             0          4          8                  4               4e-06             0.9375                 1                   0.2             0.36          4             false                  3                      true             
+      "D"             0        4.5          8                4.5             4.5e-06             1.0547                 0               0.18182          0.14545          6             false                3.5                      false            
+      "E"             0          5          8                  5               5e-06             1.1719                 0               0.16667          0.13333          7             false                  4                      false            
+      "F"             0          6          8                  6               6e-06             1.4062                 0               0.14286          0.11429          8             false                  5                      false            
+      "G"             2          0          9                  2               2e-06             2.0007                 0               0.33333          0.26667          5             false                  1                      false            
+
+MATLAB_SOURCE_CHECK_PASS; cutoff margin = 0.0222219135801
