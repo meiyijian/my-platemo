@@ -228,15 +228,9 @@ relation-guided candidate search and criterion-dependent infill branches.
   \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
   \State Train $\mathcal{M}_R$ and obtain its held-out error $e_r$
-  \State Train $\mathcal{M}_I$ on $\mathcal{P}$, or set $\mathcal{M}_I\gets\emptyset$ if unavailable
-  \State Draw the selection mode $m$ by \eqref{eq:mode}
-  \State $\mathcal{S}\gets$
-  \Statex \hspace{\algorithmicindent}\Call{DiversifiedInfillSelection}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
-  \If{$\mathcal{S}=\emptyset$}
-    \State $\mathcal{S}\gets$ at most $n_{\min}$ offspring generated from
-           $\mathcal{P}\cup\mathcal{R}$
-  \EndIf
-  \State Keep the first $\min(|\mathcal{S}|,FE_{\max}-FE)$ candidates in $\mathcal{S}$
+  \State Train the indicator surrogate $\mathcal{M}_I$ on $\mathcal{P}$
+  \State Draw an exploration or indicator mode $m$
+  \State $\mathcal{S}\gets$ \Call{CDIS}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
   \State Evaluate $\mathcal{S}$ and append it to $\mathcal{A}_{\mathrm{rc}}$
   \State $FE\gets FE+|\mathcal{S}|$
   \State $\mathcal{P}\gets$ \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N$}
@@ -419,14 +413,12 @@ $\lceil r_gN\rceil$ members.
 \begin{algorithmic}[1]
 \Require evaluated population $\mathcal{P}$, progress $t$
 \Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
-\State $N\gets|\mathcal{P}|$; $\vz^{*}\gets\min_i\vf_i$
-\State Construct the reference directions $\mathcal{V}$
-\State Associate each solution with its closest direction by cosine similarity
-\State Compute $S_i$ for all solutions by \eqref{eq:pbi}--\eqref{eq:score-cont}
+\State Construct $\mathcal{V}$ and associate solutions by cosine similarity
+\State Compute continuous PBI quality $S_i$ by \eqref{eq:pbi}--\eqref{eq:score-cont}
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
-\State Adjust $\delta$ by bounded bisection and obtain $L_i$ by \eqref{eq:label-bin}
-\State $\alpha_t\gets1-t$; $H_i\gets\alpha_tS_i+(1-\alpha_t)L_i$ for all $i$
-\State $\mathcal{C}_1\gets$ the $\lceil r_gN\rceil$ highest-scoring solutions under $H_i$
+\State Obtain representative-based labels $L_i$ by \eqref{eq:label-bin}
+\State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
+\State $\mathcal{C}_1\gets$ the top $\lceil r_g|\mathcal{P}|\rceil$ solutions under $H_i$
 \State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$
 \State \Return $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})$
 \end{algorithmic}
@@ -678,8 +670,10 @@ applied, the retained set is completed to $n_{\min}$ whenever the pool permits.
 Together, the quantile rules and \eqref{eq:batch} convert surrogate scores into
 a stable rank-and-budget interface. A direct variation step supplies candidates
 when the inner pool is empty. Algorithm~\ref{alg:cdis} summarises the
-module and returns the batch in selection order; Algorithm~\ref{alg:framework}
-applies the remaining-budget truncation immediately before evaluation.
+module and returns the batch in selection order. For clarity, the pseudocode
+omits these routine completion and fallback steps. In
+Algorithm~\ref{alg:framework}, $\mathcal{S}$ is implicitly truncated to its first
+$\min(|\mathcal{S}|,FE_{\max}-FE)$ members before evaluation and the $FE$ update.
 
 \begin{algorithm}[t]
 \caption{DiversifiedInfillSelection (CDIS)}
@@ -688,39 +682,17 @@ applies the remaining-budget truncation immediately before evaluation.
 \Require population $\mathcal{P}$, representatives $\mathcal{R}$, surrogates
          $\mathcal{M}_R,\mathcal{M}_I$, mode $m$, progress $t$, error $e_r$
 \Ensure ordered candidate batch $\mathcal{S}$
-\State $\mathcal{Q}\gets$ offspring generated from $\mathcal{P}\cup\mathcal{R}$
-\State Initialise the candidate list $\mathcal{L}$ with $\mathcal{Q}$; $c\gets|\mathcal{Q}|$
-\While{$c<g_{\max}$ and $\mathcal{Q}\neq\emptyset$}
-  \State Score $\mathcal{Q}$ using $\mathcal{M}_R$ with the aggregation for mode $m$
-  \State Retain the best $\min(|\mathcal{R}|,|\mathcal{Q}|)$ candidates as parents
-  \State $\mathcal{Q}\gets$ offspring generated from the parents and $\mathcal{R}$
-  \State Append $\mathcal{Q}$ to $\mathcal{L}$; $c\gets c+|\mathcal{Q}|$
-\EndWhile
-\State $\mathcal{A}\gets$ the distinct candidates in $\mathcal{L}$
-\If{$\mathcal{A}=\emptyset$}
-  \State \Return $\emptyset$
-\EndIf
+\State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
+\State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
 \If{$m=\mathrm{ind}$}
-  \State $\mathcal{B}\gets$ the $\lceil q_{\mathrm{rel}}|\mathcal{A}|\rceil$ highest-scoring candidates under $R(\vx)$
-  \State Predict $\widehat I(\vx)$ on $\mathcal{B}$ using $\mathcal{M}_I$
-  \State $\tau\gets Q_{q_{\mathrm{ind}}}(\widehat I(\mathcal{B}))$
-  \State $\mathcal{H}^{\mathrm{ind}}\gets\{\vx\in\mathcal{B}\mid\widehat I(\vx)\geq\tau\}$
-  \State Complete $\mathcal{H}^{\mathrm{ind}}$ to $\min(n_{\min},|\mathcal{B}|)$ using the best
-         remaining candidates in $\mathcal{B}$ under $\widehat I$, if needed
-  \State $n_b\gets\min(n_{\max},|\mathcal{H}^{\mathrm{ind}}|)$
-  \State $\mathcal{S}\gets$ the $n_b$ best members of
-         $\mathcal{H}^{\mathrm{ind}}$ under $\widehat I$
+  \State $\mathcal{B}\gets$ candidates screened by relation score $R(\vx)$
+  \State Rerank $\mathcal{B}$ by the indicator predictions $\widehat I$ of $\mathcal{M}_I$
+  \State $\mathcal{S}\gets$ the best $n_b$ candidates after indicator filtering
 \Else
-  \State Compute $A_{\mathrm{exp}}$ by \eqref{eq:expscore}--\eqref{eq:lambda}
-         and form $\mathcal{H}^{\mathrm{exp}}$ by \eqref{eq:prefilter-exp}
-  \State Complete $\mathcal{H}^{\mathrm{exp}}$ to $\min(n_{\min},|\mathcal{A}|)$ using the best
-         remaining candidates in $\mathcal{A}$ under $A_{\mathrm{exp}}$, if needed
-  \State $n_b\gets\min(n_{\max},|\mathcal{H}^{\mathrm{exp}}|)$
-  \State Initialise $\mathcal{S}$ with the maximiser of $A_{\mathrm{exp}}$ in $\mathcal{H}^{\mathrm{exp}}$
-  \While{$|\mathcal{S}|<n_b$}
-    \State Append the maximiser of $A_{\mathrm{batch}}(\vx\mid\mathcal{S})$ over
-           $\mathcal{H}^{\mathrm{exp}}\setminus\mathcal{S}$ to $\mathcal{S}$
-  \EndWhile
+  \State Compute exploration scores $A_{\mathrm{exp}}$ by \eqref{eq:expscore}--\eqref{eq:lambda}
+  \State $\mathcal{H}^{\mathrm{exp}}\gets$ candidates retained by \eqref{eq:prefilter-exp}
+  \State Seed $\mathcal{S}$ with the highest-scoring member of $\mathcal{H}^{\mathrm{exp}}$
+  \State Greedily extend $\mathcal{S}$ to $n_b$ members by \eqref{eq:greedy}
 \EndIf
 \State \Return $\mathcal{S}$
 \end{algorithmic}
