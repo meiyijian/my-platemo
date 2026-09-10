@@ -78,7 +78,8 @@ for Expensive Many-Objective Optimization}
 
 \begin{abstract}
 \TODO{Use the challenge--contribution structure. State the two concrete gaps:
-binary grouping alone provides no within-label ordering for positive-group selection,
+the binary PBI criterion provides only a coarse membership signal for
+constructing relation-learning groups,
 and a fixed relation-score rule lets the score distribution determine how many
 candidates are evaluated. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
 criterion-diversified infill selection (CDIS), addressing
@@ -101,7 +102,7 @@ infill selection
 \label{sec:intro}
 
 \TODO{Use a four-move opening: expensive many-objective relation learning; the
-loss of within-label ordering when forming the positive group and the dependence of
+coarse membership signal supplied by the binary PBI criterion and the dependence of
 fixed-cutoff batch size on the relation-score distribution; the two proposed
 mechanisms; and algorithm-level performance followed by evidence explaining
 group construction and candidate selection. Present the two mechanisms as
@@ -110,8 +111,9 @@ statistics or imply that the relation network learns a within-group ordering.}
 
 The contributions are twofold. First, PBI-assisted quality classification
 (PAQC) combines a continuous PBI score with the binary representative-based
-label used in REMO. The continuous score distinguishes solutions assigned the
-same binary label when the positive training group is constructed. Second,
+label used in REMO.
+The resulting hybrid score prioritizes solutions before discretization,
+refining positive-group membership for relation learning. Second,
 criterion-diversified infill selection (CDIS) reduces the reliance of expensive
 evaluations on a single relation score. Relation-guided candidate generation is
 retained, while indicator-based reranking and exploration-oriented selection
@@ -128,9 +130,9 @@ regression on every objective becomes unattractive when $M$ grows.}
 \subsection{Relation Learning for Expensive Optimization}
 \label{sec:related:relation}
 \TODO{REMO and the pairwise-comparison SAEA line; compare how each method forms
-training groups or pairwise labels, then position the present work as a hybrid
-grouping signal that combines continuous quality ranking with a binary
-representative-based group label.}
+training groups or pairwise labels, then position the present work as
+quality-aware group construction that combines a continuous quality score with
+a binary representative-based label before assigning training-group membership.}
 
 \subsection{Quality Assessment and Candidate Selection}
 \label{sec:related:selection}
@@ -150,9 +152,10 @@ scores of a large candidate pool into a small batch of expensive evaluations.
 We propose PACDIS, a surrogate-assisted many-objective evolutionary
 algorithm that contributes one mechanism at each interface.
 \emph{PBI-assisted quality classification} (PAQC) combines a continuous PBI
-score with a binary representative-based label. The score can distinguish
-solutions assigned the same binary label when the positive training group is
-constructed. \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided candidate
+score with a binary representative-based label.
+The hybrid score determines which solutions enter the positive training group,
+providing quality-aware group construction before relation-pair labels are
+assigned. \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided candidate
 generation but uses either indicator-based reranking or exploration-oriented
 selection to choose the final expensive-evaluation batch. Established relation
 learning, indicator assessment and environmental selection modules provide the
@@ -243,16 +246,15 @@ relation-guided candidate search and criterion-dependent infill branches.
 \label{sec:method:paqc}
 
 Relation learning first needs to divide the evaluated population into groups
-from which pairwise labels can be generated. The binary PBI partition of
-REMO~\cite{ref:remo} provides a clear group boundary, but all solutions assigned
-the same label receive the same group-level value. It therefore cannot
-distinguish two solutions of different PBI quality that lie on the same side of
-the boundary. PAQC combines a continuous PBI quality score
-with the binary representative-based label. The continuous score provides
-additional ranking information among solutions sharing a binary label, while
-the label preserves a clear population-level partition. A stage-dependent
-combination of these two signals determines the positive group used to construct
-relation pairs.
+from which pairwise labels can be generated. The binary PBI criterion of
+REMO~\cite{ref:remo} provides only a coarse membership signal for constructing
+relation-learning groups. PAQC introduces a continuous quality score before
+discretization to prioritize solutions when forming the positive training group.
+A stage-dependent combination of this score and the representative-based binary
+label selects a prescribed fraction of the population as the positive group;
+the remaining solutions form its complement. This quality-aware group
+construction refines positive-group membership while retaining the same
+three-class relation-label scheme.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -315,8 +317,8 @@ S_i=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 \label{eq:score-cont}
 \end{equation}
 so a larger $S_i$ indicates a smaller PBI value along the associated direction.
-Unlike a class label, $S_i$ can distinguish solutions assigned the same binary
-label.
+The score supplies a quality-based selection priority that is combined with
+the representative-based label before training groups are assigned.
 Equations \eqref{eq:pbi}--\eqref{eq:score-cont} also fix the coordinate
 convention of the implementation: the association is computed from the original
 objective vectors, whereas the two distances are computed after translation by
@@ -325,7 +327,7 @@ $\vz^{*}$. All experiments in this paper use this single convention.
 \subsubsection{Representative-Based Classification}
 \label{sec:method:paqc:coarse}
 
-The continuous score supplies a fine-grained ordering, while the binary label
+The continuous score supplies a selection priority for group construction, while the binary label
 produced by \textsc{RepresentativeBasedClassification} adds a
 representative-relative quality boundary. This boundary is derived from a small set
 $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
@@ -437,8 +439,9 @@ which solutions enter $\mathcal{C}_1$ and therefore which ordered pairs the
 relation model is trained on. The budget-dependent weighting connects
 fine-grained quality ranking with representative-based group priority. As the
 evaluation budget is consumed, the binary label receives increasing weight,
-while $S_i$ refines the within-label order at each training step with $FE<FE_{\max}$.
-Proposition~\ref{prop:order} characterises the resulting ordering.
+while $S_i$ contributes to the selection priority used to fill the positive-group
+quota at each training step with $FE<FE_{\max}$.
+Proposition~\ref{prop:order} characterises this ordering before discretization.
 
 \begin{proposition}[Ordering induced by the hybrid score]
 \label{prop:order}
@@ -461,13 +464,15 @@ while $H_j=\alpha_tS_j\leq\alpha_t$ because $S_j\leq1$; for
 $\alpha_t\leq1/2$ we have $1-\alpha_t\geq\alpha_t$, hence $H_i>H_j$.
 \end{proof}
 
-Part~(i) explains why the continuous score is included: for $\alpha_t>0$,
-solutions assigned the same binary label can still be distinguished when the
-positive group is formed. Part~(ii) gives the schedule a concrete interpretation.
-For $t<1/2$, the continuous score can affect ordering across the binary boundary;
-for $1/2\leq t<1$, binary-positive solutions take priority and the continuous
-score refines the order within each label. This transition combines fine-grained
-ranking with a clear group priority as the budget is consumed.
+Part~(i) explains how the continuous score affects positive-group membership:
+for $\alpha_t>0$, solutions sharing an original label $L_i$ are prioritized by
+$S_i$ when the positive-group cutoff falls inside that label class.
+Part~(ii) gives the schedule a concrete interpretation. For $t<1/2$, the
+continuous score can affect selection priority across the original binary
+boundary; for $1/2\leq t<1$, binary-positive solutions take priority and $S_i$
+determines which members of the label class intersected by the cutoff are
+selected. Thus the schedule controls how continuous quality and the
+representative-based label contribute to constructing $\mathcal{C}_1$.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -486,7 +491,10 @@ y_{ij}=
 \label{eq:pairlabel}
 \end{equation}
 with $\mathcal{C}_1,\mathcal{C}_2$ from \eqref{eq:group}, records the ordered
-group relation rather than a Pareto comparison. Because $r_g<1/2$ makes the
+group relation rather than a Pareto comparison. Both same-group pair types
+retain label~0 regardless of their members' $S_i$ or $H_i$ values. PAQC therefore
+changes the composition of the training groups; the relation labels do not
+encode quality ordering within either group. Because $r_g<1/2$ makes the
 same-group families larger than the cross-group ones, they are randomly
 subsampled towards the cross-group count, so the three labels of
 \eqref{eq:pairlabel} are balanced by construction rather than by a reweighted
@@ -820,8 +828,8 @@ the gains to PAQC and CDIS requires matched component comparisons.
 \FloatBarrier
 \section{Conclusion}
 \label{sec:conclusion}
-\TODO{Reinforce the two design contributions of PACDIS: PAQC combines
-fine-grained ordering with representative-based group priority, and CDIS
+\TODO{Reinforce the two design contributions of PACDIS: PAQC refines
+positive-group membership through quality-aware group construction, and CDIS
 offers exploration and indicator criteria within an
 explicit evaluation-batch bound. State the strongest verified algorithm-level
 result and its benchmark scope. Close by connecting the group-composition and
