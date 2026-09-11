@@ -15,7 +15,7 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = PBIQualityClassificatio
 %   good_idx 为融合排名前 ceil(N*rGood) 个解的索引；Catalog 在这些
 %   位置为 true，其余为 false。非正组包含所有未进入正组的解。
 %   bad_idx 为融合排名最后 ceil(N*rGood) 个解的索引，主程序不使用此输出。
-%   confidence 返回 1-abs(S-L)，表示两个信号的一致性，主程序不使用此输出。
+%   confidence 返回 1-abs(S-L)，主程序不使用此输出。
 %   Ref 为从当前种群选出的已评价参考解，同时用于后续交配池。
 
     %% ============ 参数解析 ============
@@ -66,9 +66,10 @@ function [good_idx, bad_idx, Catalog, confidence, Ref] = PBIQualityClassificatio
     alpha = 1 - ratio;
     score_hybrid = alpha * score_v + (1-alpha) * double(label_dyn);
 
-    %% ============ 步骤六：计算两个质量信号的一致性输出 ============
-    % 一致性分数 = 1 - |score_v - label_dyn|
-    % 值越大表示连续得分 S 与二值标签 L 越接近；主程序不使用该输出。
+    %% ============ 步骤六：计算 confidence 输出 ============
+    % confidence = 1 - |score_v - label_dyn|；主程序不使用该输出。
+    % 注意 score_v 是连续量、label_dyn 是二值阈值标签，二者量纲不同，
+    % 该差值不构成两个信号的一致性度量。
     confidence = 1 - abs(score_v - double(label_dyn));
 
     %% ============ 步骤七：确定正组及末端排名索引 ============

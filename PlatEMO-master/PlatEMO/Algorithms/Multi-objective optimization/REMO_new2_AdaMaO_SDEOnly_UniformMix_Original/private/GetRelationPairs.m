@@ -44,7 +44,6 @@ function [XXs,Ls] = GetRelationPairs(Input,Catalog)
     C2C2(t_equ_ind,:) = [];
 
     %% ============ 数量平衡 ============
-    % 目标：平衡跨组对和同组对的数量
     t_num = ceil(size(C1C2,1)/2);
 
     if size(C1C1,1) > t_num && size(C2C2,1) > t_num
