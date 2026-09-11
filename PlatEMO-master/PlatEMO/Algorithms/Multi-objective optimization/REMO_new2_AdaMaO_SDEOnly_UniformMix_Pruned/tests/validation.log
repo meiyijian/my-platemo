@@ -1,0 +1,68 @@
+PrunedIndicatorSelection.m: 0 issues
+QualityBatchDistanceSelection.m: 0 issues
+REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned.m: 0 issues
+ResolveUniformMixMode.m: 0 issues
+CreateSDECandidateModeStream.m: 0 issues
+DataProcess.m: 0 issues
+DiversifiedInfillSelection.m: 0 issues
+GetRelationPairs.m: 0 issues
+IndicatorSelectorSDEOnly.m: 0 issues
+PBIQualityClassification.m: 0 issues
+RefSelect.m: 0 issues
+RepresentativeBasedClassification.m: 0 issues
+Shape_Estimate.m: 0 issues
+calFitness_SDE.m: 0 issues
+onehotconv.m: 0 issues
+PrunedIntegrationTest.m: 0 issues
+PrunedSelectionTest.m: 0 issues
+正在运行 PrunedIntegrationTest
+....
+已完成 PrunedIntegrationTest
+__________
+
+正在运行 PrunedSelectionTest
+..........
+已完成 PrunedSelectionTest
+__________
+
+                                   Name                                   Passed    Failed    Incomplete    Duration       Details   
+    __________________________________________________________________    ______    ______    __________    _________    ____________
+
+    {'PrunedIntegrationTest/exploreUsesSixThenRemainingOne'          }    true      false       false          10.148    {1x1 struct}
+    {'PrunedIntegrationTest/indicatorConfigurationRespectsBudget'    }    true      false       false          1.4517    {1x1 struct}
+    {'PrunedIntegrationTest/initializationRespectsSmallBudget'       }    true      false       false         0.23153    {1x1 struct}
+    {'PrunedIntegrationTest/rejectsLegacySevenParameterCall'         }    true      false       false         0.84962    {1x1 struct}
+    {'PrunedSelectionTest/qualityFilterRejectsDistantLowScore'       }    true      false       false        0.094276    {1x1 struct}
+    {'PrunedSelectionTest/distancesUpdateAfterEverySelection'        }    true      false       false       0.0022476    {1x1 struct}
+    {'PrunedSelectionTest/scarceExplorePoolHasNoMinimumCompletion'   }    true      false       false       0.0045015    {1x1 struct}
+    {'PrunedSelectionTest/tiesUseScoreThenInputOrder'                }    true      false       false       0.0027786    {1x1 struct}
+    {'PrunedSelectionTest/allEqualScoresKeepStableDistanceTies'      }    true      false       false       0.0026834    {1x1 struct}
+    {'PrunedSelectionTest/rawDecisionUnitsArePreserved'              }    true      false       false       0.0032013    {1x1 struct}
+    {'PrunedSelectionTest/indicatorHasNeitherCountFloorNorCompletion'}    true      false       false       0.0030336    {1x1 struct}
+    {'PrunedSelectionTest/indicatorDirectlyTakesTopSix'              }    true      false       false       0.0019925    {1x1 struct}
+    {'PrunedSelectionTest/indicatorUsesPredictionsForReranking'      }    true      false       false         0.12488    {1x1 struct}
+    {'PrunedSelectionTest/selectorsRespectZeroAndRemainingBudget'    }    true      false       false         0.18049    {1x1 struct}
+
+trainscg
+dividerand
+ 
+    Function Parameters for 'dividerand'
+ 
+    Training Ratio trainRatio: 0.7
+    Validation Ratio valRatio: 0.15
+    Test Ratio      testRatio: 0.15
+ 
+ 
+    Function Parameters for 'trainscg'
+ 
+    Show Training Window Feedback   showWindow: true
+    Show Command Line Feedback showCommandLine: false
+    Command Line Frequency                show: 25
+    Maximum Epochs                      epochs: 1000
+    Maximum Training Time                 time: Inf
+    Performance Goal                      goal: 0
+    Minimum Gradient                  min_grad: 1e-06
+    Maximum Validation Checks         max_fail: 6
+    Sigma                                sigma: 5e-05
+    Lambda                              lambda: 5e-07
+ 

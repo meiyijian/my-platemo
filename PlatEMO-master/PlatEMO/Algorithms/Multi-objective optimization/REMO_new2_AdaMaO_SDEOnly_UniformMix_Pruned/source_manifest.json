@@ -1,0 +1,59 @@
+{
+  "source_variant": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+  "target_variant": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned",
+  "date": "2026-09-11",
+  "source_files": [
+    {
+      "path": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original.m",
+      "sha256": "f4742956bcc6e702024bbca47c66e3b0ebc54a0d0a34325d0e2d3b193cfc85e3"
+    },
+    {
+      "path": "ResolveUniformMixMode.m",
+      "sha256": "c8cd08539b06171da02e2deb54669d9875d3cebce8e2a678ae64e05f0f721fe6"
+    },
+    {
+      "path": "private\\calFitness_SDE.m",
+      "sha256": "6442e399ebd4ffac8f01d2d3564cc76ec9a84e0e80f20fe30986fa8c2d938640"
+    },
+    {
+      "path": "private\\CreateSDECandidateModeStream.m",
+      "sha256": "57566540ad78dba1819049d865c9cbfd02899cfe2393367847b2667a4ed66d8c"
+    },
+    {
+      "path": "private\\DataProcess.m",
+      "sha256": "d6cb7a56dd4763b3b4442827e01266ba7556771d46ded83f6ecc686f00b5627e"
+    },
+    {
+      "path": "private\\DiversifiedInfillSelection.m",
+      "sha256": "3af7cc7ff5e4ab70e0a333e61d7a2e9f896b510b044383bbdbf301d04368f2e9"
+    },
+    {
+      "path": "private\\GetRelationPairs.m",
+      "sha256": "7bd10b5e2e19cd4bc410a33a2c292747b11411239fc59c5e1bf43932e5b18a77"
+    },
+    {
+      "path": "private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "e538b3559d211f7e6041795ba51b780137dc4a7d94b2af17dde01ecb49318a74"
+    },
+    {
+      "path": "private\\onehotconv.m",
+      "sha256": "e44d6e8e58ade9e5c48347ac164d8b733f3216dbda4fb31ae29d219ba526b5fa"
+    },
+    {
+      "path": "private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "private\\Shape_Estimate.m",
+      "sha256": "acb9a2a53745283e67abf1bb763b4aee240a9dd7a8a1169eee25de58119279d7"
+    }
+  ]
+}

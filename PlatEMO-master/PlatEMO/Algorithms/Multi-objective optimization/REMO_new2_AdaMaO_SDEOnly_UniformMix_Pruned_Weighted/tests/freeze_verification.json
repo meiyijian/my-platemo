@@ -1,0 +1,118 @@
+{
+  "baseline_files": [
+    {
+      "path": "PrunedIndicatorSelection.m",
+      "unchanged": true
+    },
+    {
+      "path": "QualityBatchDistanceSelection.m",
+      "unchanged": true
+    },
+    {
+      "path": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned.m",
+      "unchanged": true
+    },
+    {
+      "path": "ResolveUniformMixMode.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\calFitness_SDE.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\CreateSDECandidateModeStream.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\DataProcess.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\DiversifiedInfillSelection.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\GetRelationPairs.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\IndicatorSelectorSDEOnly.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\onehotconv.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\PBIQualityClassification.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\RefSelect.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\RepresentativeBasedClassification.m",
+      "unchanged": true
+    },
+    {
+      "path": "private\\Shape_Estimate.m",
+      "unchanged": true
+    }
+  ],
+  "shared_files": [
+    {
+      "path": "private\\calFitness_SDE.m",
+      "identical": true
+    },
+    {
+      "path": "private\\CreateSDECandidateModeStream.m",
+      "identical": true
+    },
+    {
+      "path": "private\\DataProcess.m",
+      "identical": true
+    },
+    {
+      "path": "private\\GetRelationPairs.m",
+      "identical": true
+    },
+    {
+      "path": "private\\IndicatorSelectorSDEOnly.m",
+      "identical": true
+    },
+    {
+      "path": "private\\onehotconv.m",
+      "identical": true
+    },
+    {
+      "path": "private\\PBIQualityClassification.m",
+      "identical": true
+    },
+    {
+      "path": "private\\RefSelect.m",
+      "identical": true
+    },
+    {
+      "path": "private\\RepresentativeBasedClassification.m",
+      "identical": true
+    },
+    {
+      "path": "private\\Shape_Estimate.m",
+      "identical": true
+    },
+    {
+      "path": "PrunedIndicatorSelection.m",
+      "identical": true
+    },
+    {
+      "path": "ResolveUniformMixMode.m",
+      "identical": true
+    }
+  ],
+  "only_expected_main_changes": true,
+  "only_expected_dispatch_changes": true,
+  "test_count": 10,
+  "tests_passed": 10
+}

@@ -1,0 +1,6 @@
+DTLZ5 neutral decision distance 2.82842712475, objective distance 0
+DTLZ5 useful angle decision distance 0.3, objective distance 0.466890727712
+DTLZ5 chosen indices for tied scores: [1 2]
+DTLZ2 tail excursion: decision distance 1.83303027798, objective norms [1 4.36], g 3.36
+Constructed identical-pool selection, old no-ambiguity [1 2]; pruned [1 6]
+Indicator finite-score fallback invariance checks passed: 80

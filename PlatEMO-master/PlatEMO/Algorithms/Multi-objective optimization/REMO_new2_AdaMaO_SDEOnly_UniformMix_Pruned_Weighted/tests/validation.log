@@ -1,0 +1,35 @@
+PrunedIndicatorSelection.m: 0 issues
+PrunedWeightedBatchSelection.m: 0 issues
+REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted.m: 0 issues
+ResolveUniformMixMode.m: 0 issues
+CreateSDECandidateModeStream.m: 0 issues
+DataProcess.m: 0 issues
+DiversifiedInfillSelection.m: 0 issues
+GetRelationPairs.m: 0 issues
+IndicatorSelectorSDEOnly.m: 0 issues
+PBIQualityClassification.m: 0 issues
+RefSelect.m: 0 issues
+RepresentativeBasedClassification.m: 0 issues
+Shape_Estimate.m: 0 issues
+calFitness_SDE.m: 0 issues
+onehotconv.m: 0 issues
+PrunedWeightedTest.m: 0 issues
+正在运行 PrunedWeightedTest
+..........
+已完成 PrunedWeightedTest
+__________
+
+                                   Name                                    Passed    Failed    Incomplete    Duration       Details   
+    ___________________________________________________________________    ______    ______    __________    _________    ____________
+
+    {'PrunedWeightedTest/qualityCanOutweighDistance'                  }    true      false       false          1.5471    {1x1 struct}
+    {'PrunedWeightedTest/distanceStillBreaksQualityPlateau'           }    true      false       false        0.025734    {1x1 struct}
+    {'PrunedWeightedTest/usesEuclideanNotSquaredDistanceInWeightedSum'}    true      false       false        0.022169    {1x1 struct}
+    {'PrunedWeightedTest/scarceQualityPoolIsNotCompleted'             }    true      false       false         0.01185    {1x1 struct}
+    {'PrunedWeightedTest/tiesFollowOriginalInputOrder'                }    true      false       false        0.036328    {1x1 struct}
+    {'PrunedWeightedTest/takingWholePoolKeepsOriginalScoreOrder'      }    true      false       false       0.0035494    {1x1 struct}
+    {'PrunedWeightedTest/zeroBudgetReturnsEmpty'                      }    true      false       false         0.01221    {1x1 struct}
+    {'PrunedWeightedTest/indicatorShortlistStillHasNoCountFloor'      }    true      false       false       0.0074004    {1x1 struct}
+    {'PrunedWeightedTest/exploreRespectsRemainingBudget'              }    true      false       false          6.6302    {1x1 struct}
+    {'PrunedWeightedTest/pureIndicatorRunMatchesFrozenPruned'         }    true      false       false           2.771    {1x1 struct}
+

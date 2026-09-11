@@ -1,0 +1,61 @@
+DTLZ2 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+{函数的输入参数包括冒号运算符。要输入冒号字符，请改用 ':'。
+
+出错 audit_archives (第 49 行)
+                    bestG=sum((population.best.decs(:,10:end)-0.5).^2,2);
+
+出错 run (第 91 行)
+evalin('caller', strcat(script, ';'));
+} 
+DTLZ2 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+{在不同结构体之间进行下标赋值。
+
+出错 audit_archives (第 70 行)
+            Records(n)=r;
+
+出错 run (第 91 行)
+evalin('caller', strcat(script, ';'));
+} 
+DTLZ2 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original DTLZ2: 18 runs
+Loaded Maximin DTLZ2: 9 runs
+Loaded Pruned DTLZ2: 9 runs
+DTLZ5 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original DTLZ5: 18 runs
+Loaded Maximin DTLZ5: 9 runs
+Loaded Pruned DTLZ5: 9 runs
+DTLZ7 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original DTLZ7: 18 runs
+Loaded Maximin DTLZ7: 9 runs
+Loaded Pruned DTLZ7: 9 runs
+WFG4 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original WFG4: 18 runs
+Loaded Maximin WFG4: 9 runs
+Loaded Pruned WFG4: 9 runs
+WFG7 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original WFG7: 18 runs
+Loaded Maximin WFG7: 9 runs
+Loaded Pruned WFG7: 9 runs
+WFG9 metric fields: runtime,IGD,HV,IGDp; result FE [100 106 112 118 124 130 136 142 148 166 178 196 214 232 250 262 280 300], rows 300
+Loaded Original WFG9: 18 runs
+Loaded Maximin WFG9: 9 runs
+Loaded Pruned WFG9: 9 runs
+Exported 216 run summaries.
+DTLZ2 Original n=18 mean=1.0946272 sd=0.088796624 first9=1.109264 sd9=0.10531513
+DTLZ2 Maximin n=9 mean=1.2700751 sd=0.093450854 first9=1.2700751 sd9=0.093450854
+DTLZ2 Pruned n=9 mean=1.2387784 sd=0.10519957 first9=1.2387784 sd9=0.10519957
+DTLZ5 Original n=18 mean=0.66049095 sd=0.1467164 first9=0.65280005 sd9=0.1791431
+DTLZ5 Maximin n=9 mean=0.8966157 sd=0.066647865 first9=0.8966157 sd9=0.066647865
+DTLZ5 Pruned n=9 mean=0.8555791 sd=0.14890694 first9=0.8555791 sd9=0.14890694
+DTLZ7 Original n=18 mean=12.122419 sd=2.7976911 first9=12.063501 sd9=3.2611377
+DTLZ7 Maximin n=9 mean=18.61772 sd=2.5121018 first9=18.61772 sd9=2.5121018
+DTLZ7 Pruned n=9 mean=10.766713 sd=1.225773 first9=10.766713 sd9=1.225773
+WFG4 Original n=18 mean=6.6310984 sd=0.63810365 first9=6.697583 sd9=0.58182601
+WFG4 Maximin n=9 mean=6.015123 sd=0.51783875 first9=6.015123 sd9=0.51783875
+WFG4 Pruned n=9 mean=6.4035589 sd=0.56033824 first9=6.4035589 sd9=0.56033824
+WFG7 Original n=18 mean=5.296864 sd=0.2566663 first9=5.3767747 sd9=0.31833135
+WFG7 Maximin n=9 mean=5.5625155 sd=0.31371464 first9=5.5625155 sd9=0.31371464
+WFG7 Pruned n=9 mean=5.462868 sd=0.29047938 first9=5.462868 sd9=0.29047938
+WFG9 Original n=18 mean=6.3787624 sd=0.61060821 first9=6.4111193 sd9=0.70592715
+WFG9 Maximin n=9 mean=7.1261538 sd=0.49297154 first9=7.1261538 sd9=0.49297154
+WFG9 Pruned n=9 mean=6.6198484 sd=0.50728944 first9=6.6198484 sd9=0.50728944
