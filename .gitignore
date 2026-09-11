@@ -35,3 +35,10 @@ _pv/
 
 # PlatEMO GUI 状态缓存：每次打开界面选算法/问题都会变，不含有效工作
 PlatEMO-master/PlatEMO/GUI/GUI.mat
+
+# 第三方技能仓克隆（自带 .git，不属于本仓库）
+agent-skills/
+
+# 论文写作临时目录：编译产物与核对截图
+# （tmp/pseudocode_audit/ 已入库，不受此规则影响）
+论文写作/tmp/
