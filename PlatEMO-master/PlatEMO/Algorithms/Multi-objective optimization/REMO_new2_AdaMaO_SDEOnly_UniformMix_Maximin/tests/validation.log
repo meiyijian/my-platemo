@@ -1,0 +1,28 @@
+正在运行 TestArchiveMaximinSelection
+........
+已完成 TestArchiveMaximinSelection
+__________
+
+正在运行 TestMaximinIntegration
+...
+已完成 TestMaximinIntegration
+__________
+
+                                   Name                                   Passed    Failed    Incomplete    Duration      Details   
+    __________________________________________________________________    ______    ______    __________    ________    ____________
+
+    {'TestArchiveMaximinSelection/updatesDistanceAfterEachSelection' }    true      false       false        0.37731    {1x1 struct}
+    {'TestArchiveMaximinSelection/usesBoundsInsteadOfRawUnits'       }    true      false       false       0.019673    {1x1 struct}
+    {'TestArchiveMaximinSelection/excludesArchiveAndRepeatedRows'    }    true      false       false       0.021128    {1x1 struct}
+    {'TestArchiveMaximinSelection/tiesUseScoreThenOriginalOrder'     }    true      false       false       0.027107    {1x1 struct}
+    {'TestArchiveMaximinSelection/ignoresFixedVariables'             }    true      false       false        0.01766    {1x1 struct}
+    {'TestArchiveMaximinSelection/handlesEmptyAndExhaustedCandidates'}    true      false       false       0.014434    {1x1 struct}
+    {'TestArchiveMaximinSelection/respectsBudgetCap'                 }    true      false       false       0.014775    {1x1 struct}
+    {'TestArchiveMaximinSelection/emptyArchiveUsesScoresToSeed'      }    true      false       false       0.059487    {1x1 struct}
+    {'TestMaximinIntegration/exploreUsesSixThenRemainingOne'         }    true      false       false         19.095    {1x1 struct}
+    {'TestMaximinIntegration/indicatorModeStillRuns'                 }    true      false       false         1.0111    {1x1 struct}
+    {'TestMaximinIntegration/initializationRespectsSmallBudget'      }    true      false       false        0.41988    {1x1 struct}
+
+REMO_new2_AdaMaO_SDEOnly_UniformMix_Maximin.m: 0 analyzer messages
+ArchiveMaximinSelection.m: 0 analyzer messages
+private/DiversifiedInfillSelection.m: 0 analyzer messages
