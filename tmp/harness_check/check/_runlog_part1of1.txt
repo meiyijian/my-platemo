@@ -1,0 +1,10 @@
+==== part 1/1 start 2026-09-11 23:38:30 ====
+[2026-09-11 23:38:30] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-11 23:38:31] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-11 23:38:31] SaveCount 18 | Runs 2 | M 10 | requested D 30 | N 100 | maxFE 120 | Seeds deterministic(base=20260911)
+[2026-09-11 23:38:31] Slice 1/1 -> 1 problems: DTLZ1
+[2026-09-11 23:38:31] --- DTLZ1 (global #1): M=10 D=30 maxFE=120 ---
+[2026-09-11 23:39:05] [done] DTLZ1 run 1 | IGD first 416.044 -> final NaN | runtime 33.6s | wall 34.0s | IGD length 5 ~= 18
+[2026-09-11 23:39:35] [done] DTLZ1 run 2 | IGD first 454.6 -> final NaN | runtime 29.3s | wall 29.5s | IGD length 5 ~= 18
+[2026-09-11 23:39:35] ==== part 1/1 done: 2 runs (0 skipped) in 63.7 s (0.0 h) ====
+[2026-09-11 23:39:36] Summary CSV: D:\PlatEMO-master\tmp\harness_check\check\_runlog_part1of1.csv

@@ -1,0 +1,3 @@
+Problem,Run,File,Status,IGD,Runtime,FE,D,Seconds
+DTLZ1,1,D:\PlatEMO-master\tmp\harness_check\check\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_DTLZ1_M10_D30_1.mat,done,NaN,33.6256701,NaN,30,34.0455887
+DTLZ1,2,D:\PlatEMO-master\tmp\harness_check\check\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_DTLZ1_M10_D30_2.mat,done,NaN,29.3080358,NaN,30,29.5372148

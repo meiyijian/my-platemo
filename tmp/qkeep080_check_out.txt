@@ -1,0 +1,6 @@
+A: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned | params [3000 0.5 0.25 0.7 6] | FE 106 | final IGD 1.7061936113
+B: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned | params [3000 0.5 0.25 0.8 6] | FE 106 | final IGD 1.7000396761
+C: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | params [3000 0.5 0.25 0.8 6] | FE 106 | final IGD 1.7000396761
+
+B == C (clone faithful) : true   |diff| = 0.000e+00
+A ~= B (qKeep matters)  : true   |diff| = 6.154e-03

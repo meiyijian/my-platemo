@@ -1,0 +1,4 @@
+DefaultCharacterSet: GBK
+literal: D:\REMOandDREMO测试集\10目标\n30
+codepoints: [68 58 92 82 69 77 79 97 110 100 68 82 69 77 79 27979 35797 38598 92 49 48 30446 26631 92 110 51 48]
+exists: 1

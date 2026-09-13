@@ -1,0 +1,150 @@
+[2026-09-12 06:47:18] part 3 attempt 1 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 06:47:24] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 06:47:29] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 06:47:29] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 06:47:29] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 06:47:29] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 06:48:19] part 3 attempt 1 exited rc=127
+[2026-09-12 06:48:22] part 3 attempt 1 ended early, 0 result files present so far
+[2026-09-12 06:48:28] part 3 attempt 2 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 06:48:35] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 06:48:40] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 06:48:40] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 06:48:40] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 06:48:40] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 06:53:20] part 3 attempt 2 exited rc=127
+[2026-09-12 06:53:22] part 3 attempt 2 ended early, 2 result files present so far
+[2026-09-12 06:53:28] part 3 attempt 3 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 06:53:34] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 06:53:39] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 06:53:39] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 06:53:39] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 06:53:39] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 06:54:28] part 3 attempt 3 exited rc=127
+[2026-09-12 06:54:30] part 3 attempt 3 ended early, 2 result files present so far
+[2026-09-12 06:54:37] part 3 attempt 4 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 06:54:43] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 06:54:52] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 06:54:52] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 06:54:52] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 06:54:52] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+[2026-09-12 07:00:12] [done] DTLZ3 run 1 | IGD first 1565.92 -> final 1001.11 | runtime 319.7s | wall 320.2s | ok
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 07:01:45] part 3 attempt 4 exited rc=127
+[2026-09-12 07:01:47] part 3 attempt 4 ended early, 7 result files present so far
+[2026-09-12 07:01:54] part 3 attempt 5 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 07:02:01] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 07:02:07] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 07:02:07] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 07:02:07] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 07:02:07] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+[2026-09-12 07:02:07] [skip] D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080_DTLZ3_M10_D30_1.mat (valid, final IGD 1001.113360)
+[2026-09-12 07:07:30] [done] DTLZ3 run 2 | IGD first 1379.15 -> final 778.437 | runtime 322.7s | wall 323.2s | ok
+[2026-09-12 07:12:37] [done] DTLZ3 run 3 | IGD first 1418.69 -> final 1090.72 | runtime 305.9s | wall 306.3s | ok
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 07:13:48] part 3 attempt 5 exited rc=127
+[2026-09-12 07:13:50] part 3 attempt 5 ended early, 16 result files present so far
+[2026-09-12 07:13:56] part 3 attempt 6 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 07:14:02] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 07:14:07] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 07:14:07] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 07:14:07] Slice 3/4 -> 4 problems: DTLZ3, DTLZ7, WFG4, WFG8
+[2026-09-12 07:14:07] --- DTLZ3 (global #3): M=10 D=30 maxFE=300 ---
+[2026-09-12 07:14:07] [skip] D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080_DTLZ3_M10_D30_1.mat (valid, final IGD 1001.113360)
+[2026-09-12 07:14:07] [skip] D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080_DTLZ3_M10_D30_2.mat (valid, final IGD 778.436511)
+[2026-09-12 07:14:07] [skip] D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080_DTLZ3_M10_D30_3.mat (valid, final IGD 1090.723771)
+[2026-09-12 07:18:28] [done] DTLZ3 run 4 | IGD first 1394.75 -> final 724.863 | runtime 260.1s | wall 260.5s | ok
+[2026-09-12 07:22:34] [done] DTLZ3 run 5 | IGD first 1600.75 -> final 946.868 | runtime 245.5s | wall 245.9s | ok
+[2026-09-12 07:26:51] [done] DTLZ3 run 6 | IGD first 1514.05 -> final 1004.77 | runtime 257.2s | wall 257.5s | ok
+[2026-09-12 07:32:10] [done] DTLZ3 run 7 | IGD first 1420.31 -> final 953.63 | runtime 318.7s | wall 319.0s | ok
+[2026-09-12 07:37:21] [done] DTLZ3 run 8 | IGD first 1633.71 -> final 884.468 | runtime 310.8s | wall 311.2s | ok
+[2026-09-12 07:41:46] [done] DTLZ3 run 9 | IGD first 1524.29 -> final 883.547 | runtime 264.1s | wall 264.4s | ok
+[2026-09-12 07:45:59] [done] DTLZ3 run 10 | IGD first 1502.42 -> final 1040.32 | runtime 252.8s | wall 253.2s | ok
+[2026-09-12 07:50:12] [done] DTLZ3 run 11 | IGD first 1383.84 -> final 1045.58 | runtime 252.9s | wall 253.3s | ok
+[2026-09-12 07:54:31] [done] DTLZ3 run 12 | IGD first 1537.83 -> final 1059.52 | runtime 257.9s | wall 258.2s | ok
+[2026-09-12 07:58:53] [done] DTLZ3 run 13 | IGD first 1531.65 -> final 735.33 | runtime 262.3s | wall 262.7s | ok
+[2026-09-12 08:02:59] [done] DTLZ3 run 14 | IGD first 1511.28 -> final 1027.2 | runtime 245.6s | wall 245.9s | ok
+[2026-09-12 08:07:13] [done] DTLZ3 run 15 | IGD first 1021.33 -> final 987.237 | runtime 253.7s | wall 254.0s | ok
+[2026-09-12 08:11:18] [done] DTLZ3 run 16 | IGD first 1413.66 -> final 1045.24 | runtime 244.2s | wall 244.6s | ok
+[2026-09-12 08:15:40] [done] DTLZ3 run 17 | IGD first 1317.56 -> final 671.483 | runtime 262.4s | wall 262.7s | ok
+[2026-09-12 08:20:21] [done] DTLZ3 run 18 | IGD first 1574.96 -> final 1243.16 | runtime 280.6s | wall 280.9s | ok
+[2026-09-12 08:20:21] --- DTLZ7 (global #7): M=10 D=30 maxFE=300 ---
+[2026-09-12 08:25:18] [done] DTLZ7 run 1 | IGD first 34.3634 -> final 11.2191 | runtime 296.6s | wall 297.1s | ok
+[2026-09-12 08:30:31] [done] DTLZ7 run 2 | IGD first 32.3753 -> final 15.487 | runtime 312.4s | wall 312.9s | ok
+[2026-09-12 08:35:02] [done] DTLZ7 run 3 | IGD first 32.0341 -> final 10.7523 | runtime 270.3s | wall 270.7s | ok
+[2026-09-12 08:39:13] [done] DTLZ7 run 4 | IGD first 30.0242 -> final 10.053 | runtime 250.3s | wall 250.7s | ok
+[2026-09-12 08:43:22] [done] DTLZ7 run 5 | IGD first 29.3358 -> final 8.50404 | runtime 249.2s | wall 249.6s | ok
+[2026-09-12 08:47:37] [done] DTLZ7 run 6 | IGD first 26.4693 -> final 10.3332 | runtime 254.1s | wall 254.6s | ok
+[2026-09-12 08:51:44] [done] DTLZ7 run 7 | IGD first 31.4333 -> final 9.2137 | runtime 246.7s | wall 247.2s | ok
+[2026-09-12 08:56:00] [done] DTLZ7 run 8 | IGD first 28.7102 -> final 9.28426 | runtime 255.5s | wall 256.1s | ok
+[2026-09-12 09:00:32] [done] DTLZ7 run 9 | IGD first 34.7876 -> final 15.0125 | runtime 271.6s | wall 272.0s | ok
+[2026-09-12 09:05:48] [done] DTLZ7 run 10 | IGD first 33.9884 -> final 10.4631 | runtime 315.7s | wall 316.1s | ok
+[2026-09-12 09:11:08] [done] DTLZ7 run 11 | IGD first 29.6494 -> final 6.91484 | runtime 319.4s | wall 319.8s | ok
+[2026-09-12 09:15:31] [done] DTLZ7 run 12 | IGD first 34.3629 -> final 12.6083 | runtime 262.1s | wall 262.5s | ok
+[2026-09-12 09:19:46] [done] DTLZ7 run 13 | IGD first 28.5061 -> final 11.012 | runtime 254.4s | wall 254.8s | ok
+[2026-09-12 09:24:44] [done] DTLZ7 run 14 | IGD first 32.1578 -> final 8.21714 | runtime 297.9s | wall 298.3s | ok
+[2026-09-12 09:29:46] [done] DTLZ7 run 15 | IGD first 29.3165 -> final 8.94217 | runtime 301.5s | wall 301.9s | ok
+[2026-09-12 09:34:32] [done] DTLZ7 run 16 | IGD first 32.2183 -> final 9.71346 | runtime 285.7s | wall 286.1s | ok
+[2026-09-12 09:38:44] [done] DTLZ7 run 17 | IGD first 28.2234 -> final 10.9975 | runtime 251.5s | wall 252.0s | ok
+[2026-09-12 09:42:54] [done] DTLZ7 run 18 | IGD first 32.0931 -> final 11.045 | runtime 249.2s | wall 249.6s | ok
+[2026-09-12 09:42:54] --- WFG4 (global #11): M=10 D=30 maxFE=300 ---
+[2026-09-12 09:47:05] [done] WFG4 run 1 | IGD first 11.4942 -> final 8.51941 | runtime 250.8s | wall 251.1s | ok
+[2026-09-12 09:51:26] [done] WFG4 run 2 | IGD first 9.65566 -> final 6.00019 | runtime 261.1s | wall 261.5s | ok
+[2026-09-12 09:55:36] [done] WFG4 run 3 | IGD first 9.47686 -> final 6.45842 | runtime 249.7s | wall 250.0s | ok
+[2026-09-12 09:59:47] [done] WFG4 run 4 | IGD first 10.5789 -> final 6.49462 | runtime 250.1s | wall 250.5s | ok
+[2026-09-12 10:04:23] [done] WFG4 run 5 | IGD first 10.9209 -> final 7.58123 | runtime 275.5s | wall 275.9s | ok
+[2026-09-12 10:08:44] [done] WFG4 run 6 | IGD first 10.5014 -> final 6.47838 | runtime 260.8s | wall 261.2s | ok
+[2026-09-12 10:14:02] [done] WFG4 run 7 | IGD first 10.2184 -> final 6.67794 | runtime 317.3s | wall 317.6s | ok
+[2026-09-12 10:19:13] [done] WFG4 run 8 | IGD first 11.0723 -> final 6.3628 | runtime 311.1s | wall 311.5s | ok
+[2026-09-12 10:23:25] [done] WFG4 run 9 | IGD first 10.7467 -> final 5.97448 | runtime 252.0s | wall 252.4s | ok
+[2026-09-12 10:27:58] [done] WFG4 run 10 | IGD first 10.7999 -> final 6.53174 | runtime 272.4s | wall 272.8s | ok
+[2026-09-12 10:32:37] [done] WFG4 run 11 | IGD first 9.9182 -> final 6.92409 | runtime 278.0s | wall 278.3s | ok
+[2026-09-12 10:37:03] [done] WFG4 run 12 | IGD first 11.0316 -> final 6.06957 | runtime 265.8s | wall 266.2s | ok
+[2026-09-12 10:41:51] [done] WFG4 run 13 | IGD first 9.96563 -> final 6.40861 | runtime 287.5s | wall 287.9s | ok
+[2026-09-12 10:47:29] [done] WFG4 run 14 | IGD first 9.51111 -> final 7.00399 | runtime 335.9s | wall 336.4s | ok
+[2026-09-12 10:52:53] [done] WFG4 run 15 | IGD first 10.9985 -> final 7.36699 | runtime 323.3s | wall 323.7s | ok
+[2026-09-12 10:57:46] [done] WFG4 run 16 | IGD first 10.3549 -> final 8.73381 | runtime 292.3s | wall 292.7s | ok
+[2026-09-12 11:02:34] [done] WFG4 run 17 | IGD first 10.7122 -> final 7.16628 | runtime 288.0s | wall 288.4s | ok
+[2026-09-12 11:07:37] [done] WFG4 run 18 | IGD first 10.3904 -> final 7.27135 | runtime 302.2s | wall 302.6s | ok
+[2026-09-12 11:07:37] --- WFG8 (global #15): M=10 D=30 maxFE=300 ---
+[2026-09-12 11:12:00] [done] WFG8 run 1 | IGD first 8.4553 -> final 5.69929 | runtime 262.7s | wall 263.1s | ok
+[2026-09-12 11:16:23] [done] WFG8 run 2 | IGD first 8.81195 -> final 5.64077 | runtime 262.4s | wall 262.8s | ok
+[2026-09-12 11:20:48] [done] WFG8 run 3 | IGD first 8.09869 -> final 5.71607 | runtime 264.4s | wall 264.8s | ok
+[2026-09-12 11:25:10] [done] WFG8 run 4 | IGD first 8.79509 -> final 5.89472 | runtime 261.7s | wall 262.1s | ok
+[2026-09-12 11:29:36] [done] WFG8 run 5 | IGD first 8.57473 -> final 5.513 | runtime 266.3s | wall 266.7s | ok
+[2026-09-12 11:33:48] [done] WFG8 run 6 | IGD first 8.73731 -> final 5.53686 | runtime 250.7s | wall 251.1s | ok
+[2026-09-12 11:38:07] [done] WFG8 run 7 | IGD first 8.39593 -> final 5.59201 | runtime 258.7s | wall 259.1s | ok
+[2026-09-12 11:42:29] [done] WFG8 run 8 | IGD first 8.30835 -> final 5.53221 | runtime 261.7s | wall 262.2s | ok
+[2026-09-12 11:46:56] [done] WFG8 run 9 | IGD first 8.62286 -> final 5.71055 | runtime 266.3s | wall 266.7s | ok
+[2026-09-12 11:51:16] [done] WFG8 run 10 | IGD first 8.50253 -> final 5.97136 | runtime 259.8s | wall 260.2s | ok
+[2026-09-12 11:55:33] [done] WFG8 run 11 | IGD first 8.86899 -> final 5.69666 | runtime 257.3s | wall 257.7s | ok
+[2026-09-12 11:59:50] [done] WFG8 run 12 | IGD first 9.40357 -> final 5.46077 | runtime 256.6s | wall 257.0s | ok
+[2026-09-12 12:04:11] [done] WFG8 run 13 | IGD first 8.2348 -> final 5.88223 | runtime 260.2s | wall 260.7s | ok
+[2026-09-12 12:08:50] [done] WFG8 run 14 | IGD first 8.93087 -> final 5.54091 | runtime 278.3s | wall 278.7s | ok
+[2026-09-12 12:13:25] [done] WFG8 run 15 | IGD first 8.74928 -> final 5.62626 | runtime 274.7s | wall 275.1s | ok
+[2026-09-12 12:17:48] [done] WFG8 run 16 | IGD first 8.69934 -> final 5.70915 | runtime 262.8s | wall 263.2s | ok
+[2026-09-12 12:21:43] [done] WFG8 run 17 | IGD first 8.91131 -> final 5.91467 | runtime 234.7s | wall 235.1s | ok
+[2026-09-12 12:25:00] [done] WFG8 run 18 | IGD first 8.70512 -> final 5.91959 | runtime 196.9s | wall 197.2s | ok
+[2026-09-12 12:25:00] ==== part 3/4 done: 72 runs (3 skipped) in 18650.9 s (5.2 h) ====
+[2026-09-12 12:25:01] Summary CSV: D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\_runlog_part3of4.csv
+
+ans = 
+
+  包含以下字段的 1x72 struct 数组:
+
+    Problem
+    Run
+    File
+    Status
+    IGD
+    Runtime
+    FE
+    D
+    Seconds
+
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 12:25:09] part 3 attempt 6 exited rc=127
+[2026-09-12 12:25:10] part 3 COMPLETE after 6 attempt(s)

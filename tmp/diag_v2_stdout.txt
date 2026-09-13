@@ -1,0 +1,15 @@
+[2026-09-11 23:21:47] ==== variant 2 | runs 6 | maxFE 120 | cwd D:\PlatEMO-master\tmp\diag_scratch\v2 ====
+[2026-09-11 23:21:47] matlab 9.11.0.1769968 (R2021b) | threads 8 | java Java 1.8.0_202-b08 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+[2026-09-11 23:21:48] --- run 1/6 starting ---
+[2026-09-11 23:22:35] --- run 1 OK: FE=120 IGD(end)=1.340816 runtime=46.5s wall=47.0s ---
+[2026-09-11 23:22:35] --- run 2/6 starting ---
+[2026-09-11 23:23:08] --- run 2 OK: FE=120 IGD(end)=1.653017 runtime=33.1s wall=33.2s ---
+[2026-09-11 23:23:08] --- run 3/6 starting ---
+[2026-09-11 23:23:43] --- run 3 OK: FE=120 IGD(end)=1.375903 runtime=34.0s wall=34.2s ---
+[2026-09-11 23:23:43] --- run 4/6 starting ---
+[2026-09-11 23:24:14] --- run 4 OK: FE=120 IGD(end)=1.641985 runtime=30.8s wall=31.0s ---
+[2026-09-11 23:24:14] --- run 5/6 starting ---
+[2026-09-11 23:24:47] --- run 5 OK: FE=120 IGD(end)=1.586849 runtime=32.9s wall=33.1s ---
+[2026-09-11 23:24:47] --- run 6/6 starting ---
+[2026-09-11 23:25:20] --- run 6 OK: FE=120 IGD(end)=1.705915 runtime=32.7s wall=32.9s ---
+[2026-09-11 23:25:20] ==== variant 2 finished all 6 runs ====

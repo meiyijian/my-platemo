@@ -1,0 +1,101 @@
+[2026-09-12 06:47:18] part 4 attempt 1 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 params=3000,0.50,0.25,0.80,6)
+[2026-09-12 06:47:25] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-12 06:47:29] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080 | parameters [3000            0.5           0.25            0.8              6]
+[2026-09-12 06:47:29] SaveCount 18 | Runs 18 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-12 06:47:29] Slice 4/4 -> 4 problems: DTLZ4, WFG1, WFG5, WFG9
+[2026-09-12 06:47:29] --- DTLZ4 (global #4): M=10 D=30 maxFE=300 ---
+[2026-09-12 06:52:18] [done] DTLZ4 run 1 | IGD first 1.9365 -> final 1.47379 | runtime 288.4s | wall 288.8s | ok
+[2026-09-12 06:57:28] [done] DTLZ4 run 2 | IGD first 1.95982 -> final 1.44734 | runtime 309.2s | wall 309.7s | ok
+[2026-09-12 07:02:56] [done] DTLZ4 run 3 | IGD first 1.97399 -> final 1.30865 | runtime 327.7s | wall 328.1s | ok
+[2026-09-12 07:08:11] [done] DTLZ4 run 4 | IGD first 1.74809 -> final 1.40473 | runtime 315.1s | wall 315.5s | ok
+[2026-09-12 07:13:32] [done] DTLZ4 run 5 | IGD first 1.91279 -> final 1.3984 | runtime 320.7s | wall 321.2s | ok
+[2026-09-12 07:17:45] [done] DTLZ4 run 6 | IGD first 1.7395 -> final 1.37505 | runtime 251.8s | wall 252.3s | ok
+[2026-09-12 07:22:03] [done] DTLZ4 run 7 | IGD first 1.84402 -> final 1.3758 | runtime 258.0s | wall 258.4s | ok
+[2026-09-12 07:26:22] [done] DTLZ4 run 8 | IGD first 1.8169 -> final 1.10869 | runtime 258.7s | wall 259.1s | ok
+[2026-09-12 07:31:28] [done] DTLZ4 run 9 | IGD first 1.9961 -> final 1.19949 | runtime 305.4s | wall 305.8s | ok
+[2026-09-12 07:36:42] [done] DTLZ4 run 10 | IGD first 1.91166 -> final 1.21652 | runtime 314.0s | wall 314.4s | ok
+[2026-09-12 07:41:17] [done] DTLZ4 run 11 | IGD first 1.67386 -> final 1.19163 | runtime 274.5s | wall 274.9s | ok
+[2026-09-12 07:45:22] [done] DTLZ4 run 12 | IGD first 1.81142 -> final 1.26064 | runtime 244.3s | wall 244.7s | ok
+[2026-09-12 07:49:43] [done] DTLZ4 run 13 | IGD first 1.94112 -> final 1.36057 | runtime 261.4s | wall 261.8s | ok
+[2026-09-12 07:54:19] [done] DTLZ4 run 14 | IGD first 1.93506 -> final 1.29757 | runtime 275.7s | wall 276.0s | ok
+[2026-09-12 07:58:31] [done] DTLZ4 run 15 | IGD first 1.90598 -> final 1.30253 | runtime 251.1s | wall 251.5s | ok
+[2026-09-12 08:02:52] [done] DTLZ4 run 16 | IGD first 1.90204 -> final 1.44216 | runtime 260.3s | wall 260.7s | ok
+[2026-09-12 08:07:02] [done] DTLZ4 run 17 | IGD first 1.93261 -> final 1.31994 | runtime 249.8s | wall 250.1s | ok
+[2026-09-12 08:11:21] [done] DTLZ4 run 18 | IGD first 1.96001 -> final 1.24978 | runtime 258.7s | wall 259.0s | ok
+[2026-09-12 08:11:22] --- WFG1 (global #8): M=10 D=30 maxFE=300 ---
+[2026-09-12 08:15:35] [done] WFG1 run 1 | IGD first 3.41737 -> final 3.16708 | runtime 253.3s | wall 253.7s | ok
+[2026-09-12 08:20:27] [done] WFG1 run 2 | IGD first 3.50598 -> final 3.17907 | runtime 290.7s | wall 291.0s | ok
+[2026-09-12 08:25:34] [done] WFG1 run 3 | IGD first 3.49801 -> final 3.17284 | runtime 307.4s | wall 307.7s | ok
+[2026-09-12 08:30:43] [done] WFG1 run 4 | IGD first 3.48072 -> final 3.23746 | runtime 308.6s | wall 309.0s | ok
+[2026-09-12 08:35:18] [done] WFG1 run 5 | IGD first 3.46265 -> final 3.25546 | runtime 274.5s | wall 274.9s | ok
+[2026-09-12 08:39:41] [done] WFG1 run 6 | IGD first 3.43104 -> final 3.07169 | runtime 262.4s | wall 262.8s | ok
+[2026-09-12 08:43:52] [done] WFG1 run 7 | IGD first 3.47072 -> final 3.13932 | runtime 250.4s | wall 250.7s | ok
+[2026-09-12 08:48:09] [done] WFG1 run 8 | IGD first 3.5053 -> final 3.22125 | runtime 256.5s | wall 256.9s | ok
+[2026-09-12 08:52:36] [done] WFG1 run 9 | IGD first 3.46919 -> final 3.18603 | runtime 266.8s | wall 267.3s | ok
+[2026-09-12 08:57:00] [done] WFG1 run 10 | IGD first 3.49319 -> final 3.14406 | runtime 263.9s | wall 264.4s | ok
+[2026-09-12 09:01:18] [done] WFG1 run 11 | IGD first 3.52546 -> final 3.2525 | runtime 257.5s | wall 257.9s | ok
+[2026-09-12 09:06:38] [done] WFG1 run 12 | IGD first 3.50333 -> final 3.17773 | runtime 319.9s | wall 320.3s | ok
+[2026-09-12 09:12:00] [done] WFG1 run 13 | IGD first 3.47865 -> final 3.22531 | runtime 320.7s | wall 321.2s | ok
+[2026-09-12 09:16:23] [done] WFG1 run 14 | IGD first 3.45948 -> final 3.16049 | runtime 262.8s | wall 263.2s | ok
+[2026-09-12 09:20:43] [done] WFG1 run 15 | IGD first 3.51351 -> final 3.21956 | runtime 260.3s | wall 260.7s | ok
+[2026-09-12 09:26:00] [done] WFG1 run 16 | IGD first 3.43214 -> final 3.17445 | runtime 315.7s | wall 316.1s | ok
+[2026-09-12 09:31:03] [done] WFG1 run 17 | IGD first 3.41605 -> final 3.11186 | runtime 303.5s | wall 303.9s | ok
+[2026-09-12 09:35:33] [done] WFG1 run 18 | IGD first 3.45761 -> final 3.19986 | runtime 269.3s | wall 269.7s | ok
+[2026-09-12 09:35:33] --- WFG5 (global #12): M=10 D=30 maxFE=300 ---
+[2026-09-12 09:39:45] [done] WFG5 run 1 | IGD first 8.72569 -> final 5.35327 | runtime 251.6s | wall 252.0s | ok
+[2026-09-12 09:43:54] [done] WFG5 run 2 | IGD first 8.23628 -> final 6.51696 | runtime 248.5s | wall 248.9s | ok
+[2026-09-12 09:48:05] [done] WFG5 run 3 | IGD first 7.92902 -> final 5.92676 | runtime 250.4s | wall 250.9s | ok
+[2026-09-12 09:52:15] [done] WFG5 run 4 | IGD first 8.43992 -> final 6.32007 | runtime 249.5s | wall 250.0s | ok
+[2026-09-12 09:56:23] [done] WFG5 run 5 | IGD first 9.01837 -> final 6.07453 | runtime 247.3s | wall 247.8s | ok
+[2026-09-12 10:00:35] [done] WFG5 run 6 | IGD first 7.91821 -> final 5.64531 | runtime 251.9s | wall 252.3s | ok
+[2026-09-12 10:05:03] [done] WFG5 run 7 | IGD first 8.35339 -> final 5.84493 | runtime 268.0s | wall 268.4s | ok
+[2026-09-12 10:09:26] [done] WFG5 run 8 | IGD first 8.00629 -> final 5.36236 | runtime 262.4s | wall 262.8s | ok
+[2026-09-12 10:14:33] [done] WFG5 run 9 | IGD first 7.76053 -> final 6.36777 | runtime 306.5s | wall 307.0s | ok
+[2026-09-12 10:19:26] [done] WFG5 run 10 | IGD first 8.05958 -> final 5.55844 | runtime 292.9s | wall 293.3s | ok
+[2026-09-12 10:23:43] [done] WFG5 run 11 | IGD first 7.7365 -> final 5.1668 | runtime 255.8s | wall 256.2s | ok
+[2026-09-12 10:28:15] [done] WFG5 run 12 | IGD first 8.38148 -> final 5.25388 | runtime 272.0s | wall 272.4s | ok
+[2026-09-12 10:32:43] [done] WFG5 run 13 | IGD first 8.52442 -> final 5.59506 | runtime 267.6s | wall 268.0s | ok
+[2026-09-12 10:37:12] [done] WFG5 run 14 | IGD first 7.75876 -> final 6.17902 | runtime 268.3s | wall 268.6s | ok
+[2026-09-12 10:42:01] [done] WFG5 run 15 | IGD first 8.05743 -> final 5.42218 | runtime 288.9s | wall 289.3s | ok
+[2026-09-12 10:47:44] [done] WFG5 run 16 | IGD first 8.19748 -> final 5.84668 | runtime 339.9s | wall 340.4s | ok
+[2026-09-12 10:52:54] [done] WFG5 run 17 | IGD first 7.35278 -> final 6.49656 | runtime 310.0s | wall 310.5s | ok
+[2026-09-12 10:57:45] [done] WFG5 run 18 | IGD first 8.04188 -> final 6.37123 | runtime 290.7s | wall 291.1s | ok
+[2026-09-12 10:57:45] --- WFG9 (global #16): M=10 D=30 maxFE=300 ---
+[2026-09-12 11:02:49] [done] WFG9 run 1 | IGD first 8.39459 -> final 6.01504 | runtime 303.7s | wall 304.1s | ok
+[2026-09-12 11:08:01] [done] WFG9 run 2 | IGD first 9.08364 -> final 6.92907 | runtime 311.5s | wall 312.0s | ok
+[2026-09-12 11:12:32] [done] WFG9 run 3 | IGD first 9.15642 -> final 7.15755 | runtime 270.1s | wall 270.6s | ok
+[2026-09-12 11:17:01] [done] WFG9 run 4 | IGD first 8.92352 -> final 6.41915 | runtime 268.8s | wall 269.2s | ok
+[2026-09-12 11:21:28] [done] WFG9 run 5 | IGD first 8.61922 -> final 7.87018 | runtime 266.8s | wall 267.2s | ok
+[2026-09-12 11:25:57] [done] WFG9 run 6 | IGD first 8.12217 -> final 5.92396 | runtime 268.2s | wall 268.6s | ok
+[2026-09-12 11:30:24] [done] WFG9 run 7 | IGD first 9.15115 -> final 6.58885 | runtime 266.9s | wall 267.3s | ok
+[2026-09-12 11:34:52] [done] WFG9 run 8 | IGD first 9.11142 -> final 6.16718 | runtime 267.0s | wall 267.4s | ok
+[2026-09-12 11:39:28] [done] WFG9 run 9 | IGD first 8.84057 -> final 5.72481 | runtime 276.4s | wall 276.8s | ok
+[2026-09-12 11:44:05] [done] WFG9 run 10 | IGD first 8.33907 -> final 6.69179 | runtime 276.2s | wall 276.5s | ok
+[2026-09-12 11:48:30] [done] WFG9 run 11 | IGD first 8.9999 -> final 6.72163 | runtime 265.0s | wall 265.5s | ok
+[2026-09-12 11:52:51] [done] WFG9 run 12 | IGD first 8.59281 -> final 7.08915 | runtime 260.2s | wall 260.7s | ok
+[2026-09-12 11:57:13] [done] WFG9 run 13 | IGD first 8.47618 -> final 6.50393 | runtime 261.0s | wall 261.4s | ok
+[2026-09-12 12:01:35] [done] WFG9 run 14 | IGD first 8.75519 -> final 6.34454 | runtime 261.7s | wall 262.1s | ok
+[2026-09-12 12:06:00] [done] WFG9 run 15 | IGD first 9.03611 -> final 7.09006 | runtime 264.7s | wall 265.0s | ok
+[2026-09-12 12:10:49] [done] WFG9 run 16 | IGD first 9.27974 -> final 6.58014 | runtime 288.6s | wall 289.0s | ok
+[2026-09-12 12:15:16] [done] WFG9 run 17 | IGD first 8.64573 -> final 7.49367 | runtime 266.9s | wall 267.3s | ok
+[2026-09-12 12:19:49] [done] WFG9 run 18 | IGD first 9.11448 -> final 6.33159 | runtime 272.1s | wall 272.6s | ok
+[2026-09-12 12:19:49] ==== part 4/4 done: 72 runs (0 skipped) in 19937.2 s (5.5 h) ====
+[2026-09-12 12:19:49] Summary CSV: D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\_runlog_part4of4.csv
+
+ans = 
+
+  包含以下字段的 1x72 struct 数组:
+
+    Problem
+    Run
+    File
+    Status
+    IGD
+    Runtime
+    FE
+    D
+    Seconds
+
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
+[2026-09-12 12:20:04] part 4 attempt 1 exited rc=127
+[2026-09-12 12:20:06] part 4 COMPLETE after 1 attempt(s)

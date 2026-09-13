@@ -1,0 +1,33 @@
+{
+  "variant": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080",
+  "created": "2026-09-12",
+  "copied_from": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned",
+  "purpose": "Freeze qKeep at the source default 0.80. The upstream Pruned variant was run for its formal experiment with an explicit override qKeep=0.70, so a separate class name is needed to give the 0.80 experiment its own result directory and file prefix instead of overwriting the 0.70 data.",
+  "sha256": {
+    "this_main_file": "16ca638a68b65cd149bd0063bc458db21c0a3a5565218a147783437d800691f4",
+    "upstream_main_file": "0dafbe87a02dd141b2d29b0e0fa04aec00d4ee8596352d5b1176760c055f0266"
+  },
+  "content_differences_from_upstream": [
+    "classdef name on line 1",
+    "five added header comment lines documenting this qKeep=0.80 variant",
+    "README title, entry point, and the MATLAB example's class name"
+  ],
+  "content_identical_to_upstream": [
+    "the whole class body (main, validateUniformMixParameters, TrainOriginalRelationModel)",
+    "the ParameterSet default (3000,0.50,0.25,0.80,6) - identical in both files",
+    "all 11 modules under private/ (byte-identical)",
+    "root-level PrunedIndicatorSelection.m, QualityBatchDistanceSelection.m, ResolveUniformMixMode.m"
+  ],
+  "runtime_parameters_used": [3000, 0.5, 0.25, 0.8, 6],
+  "data_directory": "D:\\REMOandDREMO测试集\\10目标\\n30\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080",
+  "experiment_protocol": {
+    "problems": "DTLZ1-DTLZ7, WFG1-WFG9 (16)",
+    "runs_per_problem": 18,
+    "N": 100,
+    "M": 10,
+    "requested_D": 30,
+    "maxFE": 300,
+    "seed_mode": "deterministic, rng(20260911 + 1000*problemGlobalIndex + run, 'twister'); the run number is also passed to the algorithm so the CDIS mode stream differs per run",
+    "harness": "PlatEMO/Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/run_UniformMixPrunedFullSeries.m"
+  }
+}

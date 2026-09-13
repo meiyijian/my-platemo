@@ -1,0 +1,30 @@
+directory      : D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080
+algorithm      : REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080
+mat files      : 288
+valid runs     : 288
+missing combos : 0
+
+per-problem summary of the FINAL IGD (smaller is better)
+Problem    D   n         mean         std       median          min          max
+--------------------------------------------------------------------------------
+DTLZ1     30  18   228.939291   29.829855   227.870516   178.464866   284.262047
+DTLZ2     30  18     1.158167    0.102734     1.155817     0.942347     1.351274
+DTLZ3     30  18   951.304882  147.436953   994.175423   671.483262  1243.156865
+DTLZ4     30  18     1.318516    0.100477     1.314294     1.108685     1.473791
+DTLZ5     30  18     0.770368    0.107252     0.774989     0.516598     0.994136
+DTLZ6     30  18    14.259446    1.084733    14.290227    11.412982    15.840252
+DTLZ7     30  18    10.542919    2.162350    10.398186     6.914840    15.487020
+WFG1      30  18     3.183112    0.048376     3.178401     3.071694     3.255461
+WFG2      31  18     2.151719    0.632362     1.959155     1.566061     4.045164
+WFG3      31  18     1.714454    0.060465     1.727984     1.572791     1.787543
+WFG4      30  18     6.890217    0.785676     6.604840     5.974479     8.733806
+WFG5      30  18     5.850101    0.451781     5.845804     5.166800     6.516963
+WFG6      30  18     5.203771    0.140278     5.159506     5.024217     5.542095
+WFG7      30  18     5.396938    0.252316     5.348113     4.946742     5.971016
+WFG8      30  18     5.697615    0.159468     5.697974     5.460771     5.971359
+WFG9      30  18     6.646793    0.554481     6.584494     5.724813     7.870182
+
+per-run CSV    : D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\_verify_runs.csv
+workbook       : D:\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080\_verify_summary.xlsx
+
+RESULT: COMPLETE

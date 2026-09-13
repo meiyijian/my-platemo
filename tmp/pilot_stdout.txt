@@ -1,0 +1,9 @@
+harness dir: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries
+cwd: D:\PlatEMO-master\tmp
+[2026-09-11 23:15:38] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-11 23:15:39] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-11 23:15:39] SaveCount 18 | Runs 2 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=20260911)
+[2026-09-11 23:15:39] Slice 1/1 -> 1 problems: DTLZ2
+[2026-09-11 23:15:39] --- DTLZ2 (global #1): M=10 D=30 maxFE=300 ---
+[2026-09-11 23:19:52] [done] DTLZ2 | IGD  -> 49.000000 | runtime 46.0s | wall 53.0s | 9528583994005[done] 1.213980e+00 | IGD 2.517559e+02 -> 252.597416 | runtime 111.0s | wall 107.0s | 
+ERROR: MATLAB error Exit Status: 0xc0000374, Heap corruption
