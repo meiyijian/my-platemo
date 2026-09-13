@@ -1,0 +1,424 @@
+{
+  "ranks": {
+    "REMO": {
+      "all": 4.75,
+      "DTLZ": 3.2857142857142856,
+      "WFG": 5.888888888888889,
+      "best": 3
+    },
+    "PIEA": {
+      "all": 3.8125,
+      "DTLZ": 3.7142857142857144,
+      "WFG": 3.888888888888889,
+      "best": 3
+    },
+    "MCEAD": {
+      "all": 5.0,
+      "DTLZ": 3.857142857142857,
+      "WFG": 5.888888888888889,
+      "best": 2
+    },
+    "R2AEA": {
+      "all": 4.0625,
+      "DTLZ": 6.0,
+      "WFG": 2.5555555555555554,
+      "best": 4
+    },
+    "CSEA": {
+      "all": 6.6875,
+      "DTLZ": 5.142857142857143,
+      "WFG": 7.888888888888889,
+      "best": 0
+    },
+    "PCSAEA_N100": {
+      "all": 7.5,
+      "DTLZ": 8.571428571428571,
+      "WFG": 6.666666666666667,
+      "best": 0
+    },
+    "KRVEA_100": {
+      "all": 5.5625,
+      "DTLZ": 6.0,
+      "WFG": 5.222222222222222,
+      "best": 2
+    },
+    "Original": {
+      "all": 3.75,
+      "DTLZ": 3.857142857142857,
+      "WFG": 3.6666666666666665,
+      "best": 0
+    },
+    "Weighted": {
+      "all": 3.875,
+      "DTLZ": 4.571428571428571,
+      "WFG": 3.3333333333333335,
+      "best": 2
+    }
+  },
+  "comparisons": {
+    "REMO": {
+      "Weighted": [
+        9,
+        3,
+        4
+      ],
+      "Original": [
+        8,
+        6,
+        2
+      ],
+      "WeightedHolm": [
+        9,
+        4,
+        3
+      ],
+      "OriginalHolm": [
+        8,
+        7,
+        1
+      ]
+    },
+    "PIEA": {
+      "Weighted": [
+        6,
+        4,
+        6
+      ],
+      "Original": [
+        9,
+        2,
+        5
+      ],
+      "WeightedHolm": [
+        6,
+        5,
+        5
+      ],
+      "OriginalHolm": [
+        5,
+        7,
+        4
+      ]
+    },
+    "MCEAD": {
+      "Weighted": [
+        8,
+        3,
+        5
+      ],
+      "Original": [
+        8,
+        3,
+        5
+      ],
+      "WeightedHolm": [
+        8,
+        3,
+        5
+      ],
+      "OriginalHolm": [
+        8,
+        3,
+        5
+      ]
+    },
+    "R2AEA": {
+      "Weighted": [
+        4,
+        7,
+        5
+      ],
+      "Original": [
+        4,
+        6,
+        6
+      ],
+      "WeightedHolm": [
+        4,
+        9,
+        3
+      ],
+      "OriginalHolm": [
+        4,
+        8,
+        4
+      ]
+    },
+    "CSEA": {
+      "Weighted": [
+        10,
+        4,
+        2
+      ],
+      "Original": [
+        11,
+        4,
+        1
+      ],
+      "WeightedHolm": [
+        9,
+        5,
+        2
+      ],
+      "OriginalHolm": [
+        8,
+        7,
+        1
+      ]
+    },
+    "PCSAEA_N100": {
+      "Weighted": [
+        15,
+        0,
+        1
+      ],
+      "Original": [
+        15,
+        0,
+        1
+      ],
+      "WeightedHolm": [
+        15,
+        0,
+        1
+      ],
+      "OriginalHolm": [
+        15,
+        0,
+        1
+      ]
+    },
+    "KRVEA_100": {
+      "Weighted": [
+        6,
+        8,
+        2
+      ],
+      "Original": [
+        8,
+        6,
+        2
+      ],
+      "WeightedHolm": [
+        4,
+        11,
+        1
+      ],
+      "OriginalHolm": [
+        6,
+        8,
+        2
+      ]
+    },
+    "Original": {
+      "Weighted": [
+        1,
+        15,
+        0
+      ],
+      "Original": null,
+      "WeightedHolm": [
+        1,
+        15,
+        0
+      ],
+      "OriginalHolm": null
+    }
+  },
+  "FE": {
+    "REMO": {
+      "305": 10,
+      "303": 33,
+      "301": 61,
+      "304": 10,
+      "302": 48,
+      "300": 97,
+      "306": 15,
+      "308": 4,
+      "307": 8,
+      "311": 1,
+      "309": 1
+    },
+    "PIEA": {
+      "300": 288
+    },
+    "MCEAD": {
+      "300": 288
+    },
+    "R2AEA": {
+      "300": 288
+    },
+    "CSEA": {
+      "301": 29,
+      "309": 31,
+      "304": 24,
+      "307": 28,
+      "308": 19,
+      "305": 23,
+      "300": 26,
+      "311": 12,
+      "306": 13,
+      "310": 16,
+      "303": 31,
+      "302": 36
+    },
+    "PCSAEA_N100": {
+      "300": 288
+    },
+    "KRVEA_100": {
+      "300": 288
+    },
+    "Original": {
+      "300": 288
+    },
+    "Weighted": {
+      "300": 288
+    }
+  },
+  "perProblem": [
+    {
+      "problem": "DTLZ1",
+      "Original": 79.75537905435516,
+      "Weighted": 87.89480493008818,
+      "OriginalRank": 3,
+      "WeightedRank": 5,
+      "best": "REMO",
+      "bestIGD": 67.40805291802585
+    },
+    {
+      "problem": "DTLZ2",
+      "Original": 1.135000547331803,
+      "Weighted": 1.1479253056138945,
+      "OriginalRank": 2,
+      "WeightedRank": 3,
+      "best": "REMO",
+      "bestIGD": 1.117283227295924
+    },
+    {
+      "problem": "DTLZ3",
+      "Original": 285.6840528830996,
+      "Weighted": 327.5729244619058,
+      "OriginalRank": 5,
+      "WeightedRank": 8,
+      "best": "MCEAD",
+      "bestIGD": 121.67740499925077
+    },
+    {
+      "problem": "DTLZ4",
+      "Original": 1.0577840085341115,
+      "Weighted": 1.0531623790437685,
+      "OriginalRank": 3,
+      "WeightedRank": 2,
+      "best": "REMO",
+      "bestIGD": 1.0368036436155978
+    },
+    {
+      "problem": "DTLZ5",
+      "Original": 0.30344553114967576,
+      "Weighted": 0.3230861723594035,
+      "OriginalRank": 5,
+      "WeightedRank": 7,
+      "best": "MCEAD",
+      "bestIGD": 0.15161235759749161
+    },
+    {
+      "problem": "DTLZ6",
+      "Original": 6.6545672748619165,
+      "Weighted": 6.562366141636193,
+      "OriginalRank": 5,
+      "WeightedRank": 4,
+      "best": "PIEA",
+      "bestIGD": 2.164004557854933
+    },
+    {
+      "problem": "DTLZ7",
+      "Original": 18.153984792634397,
+      "Weighted": 14.959496549462209,
+      "OriginalRank": 4,
+      "WeightedRank": 3,
+      "best": "KRVEA_100",
+      "bestIGD": 3.658674092154935
+    },
+    {
+      "problem": "WFG1",
+      "Original": 5.607526124474686,
+      "Weighted": 5.605498098762423,
+      "OriginalRank": 3,
+      "WeightedRank": 1,
+      "best": "Weighted",
+      "bestIGD": 5.605498098762423
+    },
+    {
+      "problem": "WFG2",
+      "Original": 5.4392842067184555,
+      "Weighted": 4.895342832262831,
+      "OriginalRank": 4,
+      "WeightedRank": 3,
+      "best": "KRVEA_100",
+      "bestIGD": 4.480351781190431
+    },
+    {
+      "problem": "WFG3",
+      "Original": 2.7306373539706636,
+      "Weighted": 2.727639593633685,
+      "OriginalRank": 8,
+      "WeightedRank": 7,
+      "best": "PIEA",
+      "bestIGD": 1.7073369513628986
+    },
+    {
+      "problem": "WFG4",
+      "Original": 23.927175322933042,
+      "Weighted": 24.588641801249324,
+      "OriginalRank": 4,
+      "WeightedRank": 5,
+      "best": "R2AEA",
+      "bestIGD": 17.947042407523014
+    },
+    {
+      "problem": "WFG5",
+      "Original": 22.84909901880433,
+      "Weighted": 22.605206120755543,
+      "OriginalRank": 4,
+      "WeightedRank": 3,
+      "best": "PIEA",
+      "bestIGD": 21.972307025043694
+    },
+    {
+      "problem": "WFG6",
+      "Original": 19.09692592895204,
+      "Weighted": 18.92419634019608,
+      "OriginalRank": 3,
+      "WeightedRank": 2,
+      "best": "R2AEA",
+      "bestIGD": 15.678893327236267
+    },
+    {
+      "problem": "WFG7",
+      "Original": 20.591523020578904,
+      "Weighted": 20.368355705718347,
+      "OriginalRank": 2,
+      "WeightedRank": 1,
+      "best": "Weighted",
+      "bestIGD": 20.368355705718347
+    },
+    {
+      "problem": "WFG8",
+      "Original": 20.73817852909242,
+      "Weighted": 20.820442746580827,
+      "OriginalRank": 2,
+      "WeightedRank": 3,
+      "best": "R2AEA",
+      "bestIGD": 16.28228797970317
+    },
+    {
+      "problem": "WFG9",
+      "Original": 23.05326801681922,
+      "Weighted": 23.686864384316067,
+      "OriginalRank": 3,
+      "WeightedRank": 5,
+      "best": "R2AEA",
+      "bestIGD": 22.568948756713304
+    }
+  ]
+}

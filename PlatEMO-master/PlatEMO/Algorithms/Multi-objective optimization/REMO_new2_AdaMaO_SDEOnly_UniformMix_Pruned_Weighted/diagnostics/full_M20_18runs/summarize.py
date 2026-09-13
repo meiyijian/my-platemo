@@ -1,0 +1,90 @@
+import json,csv,collections
+from pathlib import Path
+import numpy as np
+out=Path(__file__).parent
+r=json.loads((out/'runs.json').read_text(encoding='utf-8'))
+s=json.loads((out/'comparisons.json').read_text())
+alg=list(dict.fromkeys(x['algorithm'] for x in r)); ps=list(dict.fromkeys(x['problem'] for x in r))
+groups={(a,p):[x for x in r if x['algorithm']==a and x['problem']==p] for a in alg for p in ps}
+assert len(alg)==9 and len(ps)==16 and len(r)==2592
+assert all(sorted(x['run'] for x in v)==list(range(1,19)) for v in groups.values())
+assert all(x['IGD'] is not None and np.isfinite(x['IGD']) for x in r)
+assert all(x['qKeep']==.7 and x['FE']==300 for x in r if x['algorithm']=='Weighted')
+m=np.array([[np.mean([x['IGD'] for x in groups[a,p]]) for a in alg] for p in ps])
+assert all(len(set(row))==9 for row in m)
+rank=1+np.argsort(np.argsort(m,axis=1),axis=1)
+index={(x['target'],x['comparator'],x['problem']):x for x in s}
+def wtl(t,a,key='pExact'):
+ v=[index[t,a,p] for p in ps]
+ return [sum(x[key]<.05 and x['relativePercent']<0 for x in v),sum(x[key]>=.05 for x in v),sum(x[key]<.05 and x['relativePercent']>0 for x in v)]
+summary={'ranks':{a:{'all':float(rank[:,i].mean()),'DTLZ':float(rank[:7,i].mean()),'WFG':float(rank[7:,i].mean()),'best':int((rank[:,i]==1).sum())} for i,a in enumerate(alg)},'comparisons':{a:{'Weighted':wtl('Weighted',a),'Original':wtl('Original',a) if a!='Original' else None,'WeightedHolm':wtl('Weighted',a,'pHolm'),'OriginalHolm':wtl('Original',a,'pHolm') if a!='Original' else None} for a in alg if a!='Weighted'},'FE':{a:dict(collections.Counter(x['FE'] for x in r if x['algorithm']==a)) for a in alg},'perProblem':[dict(problem=p,Original=m[i,7],Weighted=m[i,8],OriginalRank=int(rank[i,7]),WeightedRank=int(rank[i,8]),best=alg[np.argmin(m[i])],bestIGD=float(m[i].min())) for i,p in enumerate(ps)]}
+(out/'summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False),encoding='utf-8')
+with (out/'means_and_ranks.csv').open('w',newline='',encoding='utf-8-sig') as f:
+ w=csv.writer(f);w.writerow(['Problem']+[a+'_IGD' for a in alg]+[a+'_rank' for a in alg]);
+ for i,p in enumerate(ps):w.writerow([p]+m[i].tolist()+rank[i].tolist())
+print(json.dumps(summary,indent=2,ensure_ascii=False))
+print('PRIMARY',json.dumps([x for x in s if x['target']=='Weighted' and x['comparator']=='Original'],indent=2))
+
+def label(v):return '/'.join(map(str,v))
+primary=[index['Weighted','Original',p] for p in ps]
+lines=['# Weighted 二十目标全系列 18 次结果分析','',
+'## 主要结论','',
+'Weighted（qKeep=0.70）在 M=20 下总体接近全参数版；逐题精确秩和检验为 1 胜、15 项未检出显著差异、0 负，按这 16 题 Holm 校正后仍为 1/15/0。唯一确认的改善为 DTLZ7，IGD 均值下降 17.60%。未检出差异不等于等效或非劣效证明，也不支持全面超过全参数版。',
+'',
+'相对七个外部算法的 112 项逐题比较，Weighted 为 58/29/25，全参数版为 63/27/22（胜/未检出差异/负，未经多重校正）。这只是描述性计数，不把 112 项当独立样本做总体推断。九算法平均排名：Original 3.7500、PIEA 3.8125、Weighted 3.8750，前三名接近。',
+'','## 数据与比较口径','',
+'- 数据根目录：C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标。对比算法沿用十目标分析中的 REMO、PIEA、MCEAD、R2AEA、CSEA、PCSAEA_N100、KRVEA_100，并加入 Original 与 Weighted。',
+'- 九算法均取相同 DTLZ1–7/WFG1–9、运行编号 1–18，共 2592 份 MAT。部分目录有更多文件，本次不混入其他问题或第 19 次以后的运行。各问题实际维数匹配：WFG2/3 为 31，其余 30。没有排除离群结果。',
+'- Weighted 的 288 份 metadata 均确认 qKeep=0.70，全部最终 FE=300，最终 IGD 有效。其余实际 FE 见后表。Original 当前存档配置 qKeep=0.80，其余仍为全参数配置。',
+'- 使用保存的最终 IGD，越小越好。Weighted 尚未保存 HV，本次没有据此作 HV 结论，也没有重新生成历史 IGD 参考前沿。历史文件未保存本轮格式的完整种子/源码版本信息，故不能仅凭相同运行编号按配对检验处理。',
+'- 逐题采用双侧精确 Wilcoxon 秩和检验，alpha=0.05；MATLAB 默认与精确方法在本次胜负判定上完全一致。Holm 校正以“一个目标版本与一个对手的 16 题”为一个检验族；不声称控制跨所有算法、所有指标的整体错误率。',
+'- 排名按每题 18 次 IGD 均值计算，再跨问题取平均；不将不同问题的原始 IGD 直接相加。不用平均排名的小差距作显著总体优劣结论。',
+'','## 与全参数版逐题比较','',
+'相对变化 = 100×(Weighted均值/Original均值−1)，负值表示改善。',
+'','| 问题 | Original 均值 | Weighted 均值±SD | 相对变化 | 精确 p | Holm p |',
+'|---|---:|---:|---:|---:|---:|']
+for x in primary:lines.append(f"| {x['problem']} | {x['meanComparator']:.6g} | {x['meanTarget']:.6g} ± {x['sdTarget']:.4g} | {x['relativePercent']:+.2f}% | {x['pExact']:.5g} | {x['pHolm']:.5g} |")
+lines += ['',
+'DTLZ7 从 18.154 降至 14.959，精确 p=0.0001548，Holm p=0.002476；10000 次独立 bootstrap 的均值比变化 95% percentile 区间为 [−25.23%, −10.15%]，该区间未作多重校正。DTLZ1 与 DTLZ3 的均值分别恶化 10.21%、14.66%，虽未检出显著差异，仍是值得保留的风险信号。WFG2 均值改善 10.00%，但 p=0.26495，不能称为稳定显著提升。',
+'','## 与外部算法比较','',
+'胜/平/负从该版本视角统计，平表示未检出显著差异。',
+'','| 对手 | Weighted 未校正 | Original 未校正 | Weighted Holm | Original Holm |','|---|---:|---:|---:|---:|']
+for a in alg[:7]:lines.append(f"| {a} | {label(wtl('Weighted',a))} | {label(wtl('Original',a))} | {label(wtl('Weighted',a,'pHolm'))} | {label(wtl('Original',a,'pHolm'))} |")
+lines += ['',
+'Weighted 对 REMO、MCEAD、CSEA、PCSAEA_N100、KRVEA_100 胜多负少。对 PIEA 为 6/4/6，优势不明显；对 R2AEA 为 4/7/5，略处下风。不能将“超过若干对手”写成“全面优于所有对手”。',
+'','## 排名与性能分布','',
+'| 算法 | 全系列平均排名 | DTLZ 平均排名 | WFG 平均排名 | 均值第一题数 |','|---|---:|---:|---:|---:|']
+for a in sorted(alg,key=lambda a:summary['ranks'][a]['all']):
+ t=summary['ranks'][a];lines.append(f"| {a} | {t['all']:.4f} | {t['DTLZ']:.4f} | {t['WFG']:.4f} | {t['best']} |")
+lines += ['',
+'Weighted 的 WFG 平均排名由 Original 的 3.6667 改善到 3.3333，而 DTLZ 从 3.8571 退至 4.5714；整体的小差距掩盖了系列差异。',
+'',
+'Weighted 在 WFG1、WFG7 的均值第一，但并非显著优于所有算法。WFG1 对 R2AEA 和 Original 差距极小且不显著；WFG7 对 Original/R2AEA 也不显著，不过对其余六个外部算法均显著更好，且在逐对手的 Holm 校正后保留。',
+'',
+'主要短板：DTLZ3 为九算法第八，Weighted 327.57 对 MCEAD 121.68；DTLZ5 第七，0.32309 对 MCEAD 0.15161；DTLZ6 为 6.5624 对 PIEA 2.1640；WFG3 第七，2.7276 对 PIEA 1.7073。它们也是全参数版不同程度存在的问题，不能全部归因于参数简化。DTLZ7 虽优于全参数版，仍明显落后于 KRVEA_100 的 3.6587。',
+'','## 十目标与二十目标的衔接','',
+'| 指标 | M=10 | M=20 |','|---|---:|---:|',
+'| Weighted vs Original，未校正胜/平/负 | 3/10/3 | 1/15/0 |',
+'| Weighted vs Original，逐目标数16题 Holm | 1/13/2 | 1/15/0 |',
+'| Weighted 平均排名 | 3.8125 | 3.8750 |',
+'| Original 平均排名 | 3.6250 | 3.7500 |',
+'| DTLZ2 相对 Original | +10.18% | +1.14% |',
+'| DTLZ5 相对 Original | +25.57% | +6.47% |',
+'| DTLZ7 相对 Original | −27.43% | −17.60% |',
+'',
+'二十目标结果没有重复出现十目标 DTLZ2/5 的显著退化，而且 DTLZ7 的改善跨两个目标数出现。这支持继续保留简化结构作为候选，但不同目标数不是相同统计检验，不能仅由“一个显著、一个不显著”证明目标数与简化操作存在交互，也不能用跨目标数原始 IGD 的大小解释谁更容易。',
+'','## 实际评价预算核对','',
+'| 算法 | 最终 FE 范围 | 恰为300的次数 |','|---|---:|---:|']
+for a in alg:
+ vals=[x['FE'] for x in r if x['algorithm']==a];lines.append(f"| {a} | {min(vals)}–{max(vals)} | {vals.count(300)}/288 |")
+lines += ['',
+'REMO 与 CSEA 的部分历史运行超出 300，最多为 311；其余七算法全部严格 300。保留这些对比并披露实际 FE，不能宣称所有历史运行完全等预算。对照算法有额外评价机会，但不能据此推算修正后的排名。',
+'','## 后续建议','',
+'1. 先冻结 Weighted qKeep=0.70，不因这次结果再立即改参数；目前它是有竞争力的简化候选，而不是已被证明优于全参数版的最终胜出版本。',
+'2. 若论文计划报告 M=10/15/20，下一步补 M=15 的既定系列，沿用预先确定的问题、次数、预算与对手。不要只补有利问题。',
+'3. 从已保存种群补充统一设置的 HV 和收敛曲线，尤其关注 DTLZ3、DTLZ5、DTLZ6、WFG3 与改善明显的 DTLZ7。HV 在高维的计算方案和随机性应单独说明。',
+'4. 关于简化的表述可围绕“删减辅助规则后在所测二十目标问题上保留多数性能，DTLZ7 改善”，并同时披露十目标 DTLZ2/5 的局部损失。不能称参数无用或无代价简化。',
+'5. 若继续研究模糊度奖励，另作固定其余设置的匹配对照；本轮 Original 与 Weighted 仍同时存在 qKeep 和多项规则差异，不能将结果归因于某个单独参数。',
+'','## 材料位置','',
+'本目录 runs.json/run_metrics.csv 保存逐次原始指标和 FE，comparisons.csv 保存检验、效应量及 Original 对照的 bootstrap 区间，means_and_ranks.csv 保存全部均值与排名。summary.json 保存可复核汇总。未修改正式 MAT、算法实现或既有结果表。','']
+(out/'Weighted二十目标18次_完整比较分析.md').write_text('\n'.join(lines),encoding='utf-8')

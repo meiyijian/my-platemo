@@ -1,0 +1,250 @@
+{
+  "workbookReconciliation": {
+    "means": 144,
+    "standardDeviations": 144,
+    "testSymbols": 128,
+    "mismatches": []
+  },
+  "rankings": {
+    "REMO": {
+      "meanRank": 4.875,
+      "DTLZRank": 3.7142857142857144,
+      "WFGRank": 5.777777777777778,
+      "bestCount": 2
+    },
+    "PIEA": {
+      "meanRank": 3.3125,
+      "DTLZRank": 2.7142857142857144,
+      "WFGRank": 3.7777777777777777,
+      "bestCount": 7
+    },
+    "MCEAD": {
+      "meanRank": 5.4375,
+      "DTLZRank": 3.857142857142857,
+      "WFGRank": 6.666666666666667,
+      "bestCount": 0
+    },
+    "R2AEA": {
+      "meanRank": 4.25,
+      "DTLZRank": 5.285714285714286,
+      "WFGRank": 3.4444444444444446,
+      "bestCount": 1
+    },
+    "CSEA": {
+      "meanRank": 6.6875,
+      "DTLZRank": 5.285714285714286,
+      "WFGRank": 7.777777777777778,
+      "bestCount": 0
+    },
+    "PCSAEA_N100": {
+      "meanRank": 8.0625,
+      "DTLZRank": 9.0,
+      "WFGRank": 7.333333333333333,
+      "bestCount": 0
+    },
+    "KRVEA_100": {
+      "meanRank": 4.9375,
+      "DTLZRank": 6.428571428571429,
+      "WFGRank": 3.7777777777777777,
+      "bestCount": 4
+    },
+    "Original": {
+      "meanRank": 3.625,
+      "DTLZRank": 4.142857142857143,
+      "WFGRank": 3.2222222222222223,
+      "bestCount": 1
+    },
+    "Weighted": {
+      "meanRank": 3.8125,
+      "DTLZRank": 4.571428571428571,
+      "WFGRank": 3.2222222222222223,
+      "bestCount": 1
+    }
+  },
+  "weightedVsOriginal": {
+    "meanBetter": 8,
+    "meanWorse": 8,
+    "WTL": [
+      3,
+      10,
+      3
+    ],
+    "HolmWTL": [
+      1,
+      13,
+      2
+    ],
+    "medianPercent": 0.16495002308281048
+  },
+  "baselineComparisons": {
+    "REMO": {
+      "Weighted": [
+        10,
+        1,
+        5
+      ],
+      "Original": [
+        9,
+        5,
+        2
+      ],
+      "WeightedHolm": [
+        10,
+        1,
+        5
+      ]
+    },
+    "PIEA": {
+      "Weighted": [
+        5,
+        4,
+        7
+      ],
+      "Original": [
+        6,
+        3,
+        7
+      ],
+      "WeightedHolm": [
+        5,
+        4,
+        7
+      ]
+    },
+    "MCEAD": {
+      "Weighted": [
+        9,
+        2,
+        5
+      ],
+      "Original": [
+        9,
+        3,
+        4
+      ],
+      "WeightedHolm": [
+        7,
+        4,
+        5
+      ]
+    },
+    "R2AEA": {
+      "Weighted": [
+        7,
+        4,
+        5
+      ],
+      "Original": [
+        7,
+        4,
+        5
+      ],
+      "WeightedHolm": [
+        6,
+        5,
+        5
+      ]
+    },
+    "CSEA": {
+      "Weighted": [
+        11,
+        4,
+        1
+      ],
+      "Original": [
+        12,
+        3,
+        1
+      ],
+      "WeightedHolm": [
+        11,
+        4,
+        1
+      ]
+    },
+    "PCSAEA_N100": {
+      "Weighted": [
+        15,
+        1,
+        0
+      ],
+      "Original": [
+        15,
+        1,
+        0
+      ],
+      "WeightedHolm": [
+        15,
+        1,
+        0
+      ]
+    },
+    "KRVEA_100": {
+      "Weighted": [
+        9,
+        4,
+        3
+      ],
+      "Original": [
+        10,
+        3,
+        3
+      ],
+      "WeightedHolm": [
+        7,
+        7,
+        2
+      ]
+    }
+  },
+  "actualFE": {
+    "REMO": [
+      300,
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      310
+    ],
+    "PIEA": [
+      300
+    ],
+    "MCEAD": [
+      300
+    ],
+    "R2AEA": [
+      300,
+      306
+    ],
+    "CSEA": [
+      300,
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311
+    ],
+    "PCSAEA_N100": [
+      300
+    ],
+    "KRVEA_100": [
+      300
+    ],
+    "Original": [
+      300
+    ],
+    "Weighted": [
+      300
+    ]
+  }
+}

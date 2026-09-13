@@ -1,0 +1,20 @@
+N=100 (configured), maxFE=300; D=30 requested; runs=1:30.
+Weighted parameters: {3000,0.50,0.25,0.70,6}; mode run=1.
+Checking existing results. No optimization during this stage.
+M=10 existing: 2784 / 3360
+M=15 existing: 2496 / 3360
+M=20 existing: 2592 / 3360
+           REMO    PIEA    CSEA    PCSAEA_N100    KRVEA_100    MCEAD    Weighted
+           ____    ____    ____    ___________    _________    _____    ________
+
+    M10    480     480     480         288           288        480       288   
+    M15    480     480     480         288           288        480         0   
+    M20    480     480     480         288           288        288       288   
+
+Existing=7872; pending=2208; conflicts=0; total=10080.
+Legacy files without per-run metadata are marked legacy-unverified.
+Actual FE above 300 is retained and reported, not called equal-budget.
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 1 workers.
+PASS: process-worker setup, seven algorithm constructors, complete/duplicate-FE reuse, parameter mismatch and incomplete-result rejection. No optimization run started.
+Parallel pool using the 'Processes' profile is shutting down.

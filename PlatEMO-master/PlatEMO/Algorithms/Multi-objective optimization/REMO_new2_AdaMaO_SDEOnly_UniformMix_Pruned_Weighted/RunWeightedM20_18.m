@@ -1,0 +1,106 @@
+function RunWeightedM20_18(action)
+% Run all sixteen M20 problems, 18 repetitions each; each run is saved separately.
+    if nargin < 1, action = 'run'; end
+    assert(ismember(action,{'run','check'}),'Unknown action.');
+    platform = 'D:/PlatEMO-master/PlatEMO-master/PlatEMO';
+    addpath(genpath(platform));
+    algorithm = 'REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted';
+    root = fileparts(mfilename('fullpath'));
+    assert(strcmpi(fileparts(which(algorithm)),root),'Wrong algorithm path.');
+    dataRoot = 'C:/Users/lsx/Desktop/REMOandDREMO测试集/20目标';
+    folder = fullfile(dataRoot,algorithm);
+    logs = fullfile(root,'diagnostics','Weighted_M20_18runs');
+    problems = {'DTLZ1','DTLZ2','DTLZ3','DTLZ4','DTLZ5','DTLZ6','DTLZ7','WFG1','WFG2','WFG3','WFG4','WFG5','WFG6','WFG7','WFG8','WFG9'};
+    parameters = {3000,0.50,0.25,0.70,6};
+    jobs = struct([]);
+    for p = 1:numel(problems)
+        pro = feval(problems{p},'N',100,'M',20,'D',30,'maxFE',300);
+        assert(ismember(pro.D,[30,31]) && pro.M==20 && pro.N==100 && pro.maxFE==300);
+        for r = 1:18
+            j = struct('algorithm',algorithm,'problem',problems{p}, ...
+                'runId',r,'seed',20260912+1000*p+r,'parameters',{parameters}, ...
+                'file',fullfile(folder,sprintf('%s_%s_M20_D%d_%d.mat',algorithm,problems{p},pro.D,r)), ...
+                'logs',logs,'actualD',pro.D);
+            if isempty(jobs), jobs=j; else, jobs(end+1)=j; end %#ok<AGROW>
+        end
+    end
+    a = feval(algorithm,'parameter',parameters,'outputFcn',@(~,~)[]);
+    assert(isequal(a.parameter,parameters));
+    fprintf('Algorithm: %s\nqKeep: 0.70; M=20; requested D=30; N=100; maxFE=300\n',algorithm);
+    fprintf('Problems: %s\nJobs: %d; workers: 6\nSave folder: %s\n',strjoin(problems,', '),numel(jobs),folder);
+    if strcmp(action,'check')
+        fprintf('CHECK PASSED. No optimization runs started.\n');
+        return;
+    end
+    if ~isfolder(folder), mkdir(folder); end
+    if ~isfolder(logs), mkdir(logs); end
+    % The GUI leaves Algorithm.run empty; its mode stream falls back to 1.
+    % Keep that behavior. The file runId and global RNG seed still differ.
+    pending = true(size(jobs));
+    for i = 1:numel(jobs)
+        if isfile(jobs(i).file)
+            old = load(jobs(i).file,'result','metric','metadata');
+            assert(isfield(old,'metadata') && isequal(old.metadata.parameters,parameters) ...
+                && old.metadata.seed==jobs(i).seed && old.metadata.modeRunId==1 ...
+                && old.result{end,1}==300 && isfield(old.metric,'IGD') ...
+                && isfinite(old.metric.IGD(end)), ...
+                'Existing file is incomplete or has different settings: %s',jobs(i).file);
+            pending(i)=false;
+        end
+    end
+    fprintf('Already complete: %d; remaining: %d\n',sum(~pending),sum(pending));
+    jobs=jobs(pending);
+    if isempty(jobs), return; end
+    pool=gcp('nocreate');
+    if isempty(pool), pool=parpool('Processes',6); end
+    assert(isa(pool,'parallel.ProcessPool') && pool.NumWorkers==6, ...
+        'Run this script in a MATLAB session with a six-worker process pool.');
+    futures=parallel.FevalFuture.empty;
+    for i=1:numel(jobs)
+        futures(i)=parfeval(pool,@runOne,1,jobs(i));
+    end
+    finished=onCleanup(@()cancel(futures));
+    failures=0;
+    for i=1:numel(jobs)
+        [~,s]=fetchNext(futures);
+        if s.ok
+            fprintf('[%d/%d] %s run %02d: IGD=%.7g; saved\n',i,numel(jobs),s.problem,s.runId,s.IGD);
+        else
+            failures=failures+1;
+            fprintf(2,'[%d/%d] FAILED %s run %02d: %s\n',i,numel(jobs),s.problem,s.runId,s.message);
+        end
+    end
+    assert(failures==0,'%d jobs failed. See diagnostics/Weighted_M20_18runs.',failures);
+    fprintf('COMPLETE: all 288 runs saved individually.\n');
+end
+
+function status=runOne(job)
+    status=struct('ok',false,'problem',job.problem,'runId',job.runId,'IGD',NaN,'message','');
+    try
+        assert(~isfile(job.file),'Refusing to overwrite an existing result.');
+        pro=feval(job.problem,'N',100,'M',20,'D',30,'maxFE',300);
+        alg=feval(job.algorithm,'parameter',job.parameters,'save',18,'run',1,'outputFcn',@(~,~)[]);
+        rng(job.seed,'twister');
+        metadata=struct('algorithm',job.algorithm,'problem',job.problem,'runId',job.runId, ...
+            'seed',job.seed,'modeRunId',1,'parameters',{job.parameters}, ...
+            'N',100,'M',20,'D',job.actualD,'maxFE',300,'save',18,'matlabVersion',version, ...
+            'started',char(datetime('now','Format','yyyy-MM-dd HH:mm:ss')),'rngBeforeSolve',rng);
+        alg.Solve(pro);
+        result=alg.result; metric=alg.metric;
+        metadata.actualFE=pro.FE;
+        % Preserve populations first, even if subsequent metric calculation fails.
+        save(job.file,'result','metric','metadata','-v7');
+        assert(pro.FE==300,'Run ended before reaching FE=300.');
+        alg.CalMetric('IGD');
+        metric=alg.metric;
+        assert(isfinite(metric.IGD(end)),'Final IGD is not finite.');
+        metadata.finished=char(datetime('now','Format','yyyy-MM-dd HH:mm:ss'));
+        save(job.file,'metric','metadata','-append');
+        status.ok=true; status.IGD=metric.IGD(end);
+    catch err
+        status.message=err.message;
+        file=fullfile(job.logs,sprintf('%s_run%02d_error.txt',job.problem,job.runId));
+        fid=fopen(file,'w','n','UTF-8');
+        if fid>=0, fprintf(fid,'%s',getReport(err,'extended','hyperlinks','off')); fclose(fid); end
+    end
+end
