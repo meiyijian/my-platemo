@@ -1,0 +1,82 @@
+Algorithm: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Q080
+qKeep: 0.80; M=10; D=30; N=100; maxFE=300
+Problems: DTLZ2, DTLZ5, DTLZ7, WFG7
+Jobs: 72; workers: 6
+Save folder: C:\Users\lsx\Desktop\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Q080
+Already complete: 0; remaining: 72
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 6 workers.
+[1/72] DTLZ2 run 02: IGD=1.081072; saved
+[2/72] DTLZ2 run 01: IGD=1.133164; saved
+[3/72] DTLZ2 run 05: IGD=1.449381; saved
+[4/72] DTLZ2 run 06: IGD=1.206897; saved
+[5/72] DTLZ2 run 03: IGD=1.118587; saved
+[6/72] DTLZ2 run 04: IGD=1.163145; saved
+[7/72] DTLZ2 run 07: IGD=1.097668; saved
+[8/72] DTLZ2 run 08: IGD=1.147474; saved
+[9/72] DTLZ2 run 09: IGD=1.088001; saved
+[10/72] DTLZ2 run 10: IGD=1.268561; saved
+[11/72] DTLZ2 run 11: IGD=1.27995; saved
+[12/72] DTLZ2 run 12: IGD=1.104609; saved
+[13/72] DTLZ2 run 13: IGD=1.226852; saved
+[14/72] DTLZ2 run 14: IGD=0.9800931; saved
+[15/72] DTLZ2 run 15: IGD=1.139433; saved
+[16/72] DTLZ2 run 16: IGD=1.263968; saved
+[17/72] DTLZ2 run 18: IGD=1.232402; saved
+[18/72] DTLZ2 run 17: IGD=1.27327; saved
+[19/72] DTLZ5 run 01: IGD=0.8154286; saved
+[20/72] DTLZ5 run 02: IGD=0.8185589; saved
+[21/72] DTLZ5 run 03: IGD=0.8348705; saved
+[22/72] DTLZ5 run 04: IGD=0.7010426; saved
+[23/72] DTLZ5 run 06: IGD=0.6223331; saved
+[24/72] DTLZ5 run 05: IGD=0.7253062; saved
+[25/72] DTLZ5 run 07: IGD=0.5209145; saved
+[26/72] DTLZ5 run 08: IGD=0.6501074; saved
+[27/72] DTLZ5 run 09: IGD=0.710196; saved
+[28/72] DTLZ5 run 11: IGD=0.7974789; saved
+[29/72] DTLZ5 run 12: IGD=0.9885469; saved
+[30/72] DTLZ5 run 10: IGD=0.9419595; saved
+[31/72] DTLZ5 run 13: IGD=0.7850074; saved
+[32/72] DTLZ5 run 14: IGD=0.8408461; saved
+[33/72] DTLZ5 run 17: IGD=0.7972795; saved
+[34/72] DTLZ5 run 15: IGD=0.5932866; saved
+[35/72] DTLZ5 run 18: IGD=0.6060858; saved
+[36/72] DTLZ5 run 16: IGD=0.9243478; saved
+[37/72] DTLZ7 run 02: IGD=9.750139; saved
+[38/72] DTLZ7 run 01: IGD=10.31967; saved
+[39/72] DTLZ7 run 03: IGD=10.56933; saved
+[40/72] DTLZ7 run 04: IGD=9.992118; saved
+[41/72] DTLZ7 run 05: IGD=9.998729; saved
+[42/72] DTLZ7 run 06: IGD=11.24615; saved
+[43/72] DTLZ7 run 08: IGD=10.89394; saved
+[44/72] DTLZ7 run 07: IGD=9.618511; saved
+[45/72] DTLZ7 run 10: IGD=8.279144; saved
+[46/72] DTLZ7 run 09: IGD=8.106036; saved
+[47/72] DTLZ7 run 11: IGD=7.994425; saved
+[48/72] DTLZ7 run 12: IGD=9.133718; saved
+[49/72] DTLZ7 run 14: IGD=10.14576; saved
+[50/72] DTLZ7 run 13: IGD=7.244358; saved
+[51/72] DTLZ7 run 16: IGD=7.204046; saved
+[52/72] DTLZ7 run 17: IGD=9.32003; saved
+[53/72] DTLZ7 run 15: IGD=8.54068; saved
+[54/72] DTLZ7 run 18: IGD=10.38024; saved
+[55/72] WFG7 run 02: IGD=5.2518; saved
+[56/72] WFG7 run 01: IGD=5.34049; saved
+[57/72] WFG7 run 04: IGD=5.427091; saved
+[58/72] WFG7 run 03: IGD=5.360143; saved
+[59/72] WFG7 run 05: IGD=5.270313; saved
+[60/72] WFG7 run 06: IGD=5.680044; saved
+[61/72] WFG7 run 08: IGD=5.263203; saved
+[62/72] WFG7 run 07: IGD=5.143917; saved
+[63/72] WFG7 run 10: IGD=5.397716; saved
+[64/72] WFG7 run 11: IGD=5.220123; saved
+[65/72] WFG7 run 12: IGD=5.92991; saved
+[66/72] WFG7 run 09: IGD=5.11978; saved
+[67/72] WFG7 run 14: IGD=5.993598; saved
+[68/72] WFG7 run 13: IGD=5.616021; saved
+[69/72] WFG7 run 15: IGD=5.566329; saved
+[70/72] WFG7 run 18: IGD=5.397995; saved
+[71/72] WFG7 run 17: IGD=5.361117; saved
+[72/72] WFG7 run 16: IGD=6.165584; saved
+COMPLETE: all 72 runs saved individually.
+Parallel pool using the 'Processes' profile is shutting down.

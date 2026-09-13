@@ -1,0 +1,43 @@
+Algorithm: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Q070
+qKeep: 0.70; M=10; D=30; N=100; maxFE=300
+Problems: DTLZ2, DTLZ5, DTLZ7, WFG7
+Jobs: 72; workers: 6
+Save folder: C:\Users\lsx\Desktop\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Q070
+Already complete: 0; remaining: 72
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 6 workers.
+[1/72] DTLZ2 run 03: IGD=1.120415; saved
+[2/72] DTLZ2 run 05: IGD=1.270612; saved
+[3/72] DTLZ2 run 02: IGD=0.903134; saved
+[4/72] DTLZ2 run 04: IGD=1.275438; saved
+[5/72] DTLZ2 run 06: IGD=1.192491; saved
+[6/72] DTLZ2 run 01: IGD=1.068907; saved
+[7/72] DTLZ2 run 07: IGD=1.141272; saved
+[8/72] DTLZ2 run 08: IGD=1.155044; saved
+[9/72] DTLZ2 run 11: IGD=1.181073; saved
+[10/72] DTLZ2 run 09: IGD=1.299033; saved
+[11/72] DTLZ2 run 10: IGD=1.278402; saved
+[12/72] DTLZ2 run 12: IGD=1.141445; saved
+[13/72] DTLZ2 run 13: IGD=1.207902; saved
+[14/72] DTLZ2 run 15: IGD=1.045262; saved
+[15/72] DTLZ2 run 14: IGD=0.9874976; saved
+[16/72] DTLZ2 run 17: IGD=1.185947; saved
+[17/72] DTLZ2 run 16: IGD=1.109175; saved
+[18/72] DTLZ2 run 18: IGD=1.079517; saved
+[19/72] DTLZ5 run 01: IGD=0.943093; saved
+[20/72] DTLZ5 run 04: IGD=0.7932568; saved
+[21/72] DTLZ5 run 02: IGD=0.8736551; saved
+[22/72] DTLZ5 run 06: IGD=0.8489939; saved
+[23/72] DTLZ5 run 05: IGD=0.6741104; saved
+[24/72] DTLZ5 run 03: IGD=0.7918159; saved
+[25/72] DTLZ5 run 10: IGD=0.8542238; saved
+[26/72] DTLZ5 run 07: IGD=0.8511665; saved
+[27/72] DTLZ5 run 08: IGD=0.6986215; saved
+[28/72] DTLZ5 run 11: IGD=0.8513026; saved
+[29/72] DTLZ5 run 09: IGD=0.8311477; saved
+[30/72] DTLZ5 run 12: IGD=0.8508878; saved
+[31/72] DTLZ5 run 14: IGD=0.8074589; saved
+[32/72] DTLZ5 run 13: IGD=0.760601; saved
+[33/72] DTLZ5 run 15: IGD=0.8880125; saved
+[34/72] DTLZ5 run 16: IGD=0.8135778; saved
+[35/72] DTLZ5 run 17: IGD=0.7597744; saved

@@ -1,0 +1,62 @@
+[
+  {
+    "File": "PrunedIndicatorSelection.m",
+    "Verified": true
+  },
+  {
+    "File": "PrunedWeightedBatchSelection.m",
+    "Verified": true
+  },
+  {
+    "File": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted.m",
+    "Verified": true
+  },
+  {
+    "File": "ResolveUniformMixMode.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\calFitness_SDE.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\CreateSDECandidateModeStream.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\DataProcess.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\DiversifiedInfillSelection.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\GetRelationPairs.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\IndicatorSelectorSDEOnly.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\onehotconv.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\PBIQualityClassification.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\RefSelect.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\RepresentativeBasedClassification.m",
+    "Verified": true
+  },
+  {
+    "File": "private\\Shape_Estimate.m",
+    "Verified": true
+  }
+]
