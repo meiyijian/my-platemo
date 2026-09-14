@@ -1,0 +1,22 @@
+正在运行 Lambdat030Test
+.......
+已完成 Lambdat030Test
+__________
+
+  1x7 TestResult 数组 - 属性:
+
+    Name
+    Passed
+    Failed
+    Incomplete
+    Duration
+    Details
+
+总计:
+   7 Passed, 0 Failed, 0 Incomplete.
+   19.4794 秒测试时间。
+
+Algorithm : REMO_UniformMix_Pruned_Weighted_Lambdat030
+Arms      : lambdat030 {3000,0.50,0.25,0.70,6}; baseline {3000,0.50,0.25,0.70,6}
+Planned runs: 80; already present: 0; to run: 80
+CHECK PASSED. No optimization started.

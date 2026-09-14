@@ -1,0 +1,132 @@
+{
+  "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020",
+  "files": [
+    {
+      "file": "analyze_lambdat030.m",
+      "source_file": "analyze_lambda020.m",
+      "source_sha256": "638ae3ad1808f2f3502f1ffb7d9cf03dfce305f630ddc2f324843f53d978da37",
+      "new_sha256": "6c87f5c5d8f7ebaa8f2453874d037316d01eec88cb1cde54fc8fed4cab69ac34",
+      "byte_identical": false
+    },
+    {
+      "file": "Lambdat030WeightedBatchSelection.m",
+      "source_file": "LambdaWeightedBatchSelection.m",
+      "source_sha256": "67a5a861c4e7fa12d7eefdfc40058f5da640ed470a17e9581732a7cba41cb735",
+      "new_sha256": "fcc9214d461c130882cba08e10ab66c0c90c8de03935df4f3b39ee4228c914a0",
+      "byte_identical": false
+    },
+    {
+      "file": "PrunedIndicatorSelection.m",
+      "source_file": "PrunedIndicatorSelection.m",
+      "source_sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95",
+      "new_sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95",
+      "byte_identical": true
+    },
+    {
+      "file": "PrunedWeightedBatchSelection.m",
+      "source_file": "PrunedWeightedBatchSelection.m",
+      "source_sha256": "bb3e028f903eb0c25afba444906bc15d6699b1b8cca1b21a82b765e7ec8766b0",
+      "new_sha256": "bb3e028f903eb0c25afba444906bc15d6699b1b8cca1b21a82b765e7ec8766b0",
+      "byte_identical": true
+    },
+    {
+      "file": "REMO_UniformMix_Pruned_Weighted_Lambdat030.m",
+      "source_file": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020.m",
+      "source_sha256": "018487d77e678d5d7e355122a88ab0533aaead13672869367713acb8bd507e59",
+      "new_sha256": "b900fb20924b17d93fb73a115f7e88f714efad70ae2fa9925af550ebc4fff8c8",
+      "byte_identical": false
+    },
+    {
+      "file": "ResolveUniformMixMode.m",
+      "source_file": "ResolveUniformMixMode.m",
+      "source_sha256": "c8cd08539b06171da02e2deb54669d9875d3cebce8e2a678ae64e05f0f721fe6",
+      "new_sha256": "c8cd08539b06171da02e2deb54669d9875d3cebce8e2a678ae64e05f0f721fe6",
+      "byte_identical": true
+    },
+    {
+      "file": "RunLambdat030_10.m",
+      "source_file": "RunLambda020_10.m",
+      "source_sha256": "7c98c0b59932103532f115d2bdf2227e1b45c5fe97173a5e4bb8b863432a817e",
+      "new_sha256": "d3f5b959cc6e02935d106e07a99566165b37c3ff5527fda2ec043e7c8b8a583c",
+      "byte_identical": false
+    },
+    {
+      "file": "private/calFitness_SDE.m",
+      "source_file": "private/calFitness_SDE.m",
+      "source_sha256": "6442e399ebd4ffac8f01d2d3564cc76ec9a84e0e80f20fe30986fa8c2d938640",
+      "new_sha256": "6442e399ebd4ffac8f01d2d3564cc76ec9a84e0e80f20fe30986fa8c2d938640",
+      "byte_identical": true
+    },
+    {
+      "file": "private/CreateSDECandidateModeStream.m",
+      "source_file": "private/CreateSDECandidateModeStream.m",
+      "source_sha256": "57566540ad78dba1819049d865c9cbfd02899cfe2393367847b2667a4ed66d8c",
+      "new_sha256": "57566540ad78dba1819049d865c9cbfd02899cfe2393367847b2667a4ed66d8c",
+      "byte_identical": true
+    },
+    {
+      "file": "private/DataProcess.m",
+      "source_file": "private/DataProcess.m",
+      "source_sha256": "d6cb7a56dd4763b3b4442827e01266ba7556771d46ded83f6ecc686f00b5627e",
+      "new_sha256": "d6cb7a56dd4763b3b4442827e01266ba7556771d46ded83f6ecc686f00b5627e",
+      "byte_identical": true
+    },
+    {
+      "file": "private/DiversifiedInfillSelection.m",
+      "source_file": "private/DiversifiedInfillSelection.m",
+      "source_sha256": "000971112c1b37477f01b6d16220fdea12517cc55750b8c17f4ecdba8a614474",
+      "new_sha256": "8eba76926cc07a4502315575b01699b43d752a4870461db89cb1000a56314817",
+      "byte_identical": false
+    },
+    {
+      "file": "private/GetRelationPairs.m",
+      "source_file": "private/GetRelationPairs.m",
+      "source_sha256": "7bd10b5e2e19cd4bc410a33a2c292747b11411239fc59c5e1bf43932e5b18a77",
+      "new_sha256": "7bd10b5e2e19cd4bc410a33a2c292747b11411239fc59c5e1bf43932e5b18a77",
+      "byte_identical": true
+    },
+    {
+      "file": "private/IndicatorSelectorSDEOnly.m",
+      "source_file": "private/IndicatorSelectorSDEOnly.m",
+      "source_sha256": "e538b3559d211f7e6041795ba51b780137dc4a7d94b2af17dde01ecb49318a74",
+      "new_sha256": "e538b3559d211f7e6041795ba51b780137dc4a7d94b2af17dde01ecb49318a74",
+      "byte_identical": true
+    },
+    {
+      "file": "private/onehotconv.m",
+      "source_file": "private/onehotconv.m",
+      "source_sha256": "e44d6e8e58ade9e5c48347ac164d8b733f3216dbda4fb31ae29d219ba526b5fa",
+      "new_sha256": "e44d6e8e58ade9e5c48347ac164d8b733f3216dbda4fb31ae29d219ba526b5fa",
+      "byte_identical": true
+    },
+    {
+      "file": "private/PBIQualityClassification.m",
+      "source_file": "private/PBIQualityClassification.m",
+      "source_sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195",
+      "new_sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195",
+      "byte_identical": true
+    },
+    {
+      "file": "private/RefSelect.m",
+      "source_file": "private/RefSelect.m",
+      "source_sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351",
+      "new_sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351",
+      "byte_identical": true
+    },
+    {
+      "file": "private/RepresentativeBasedClassification.m",
+      "source_file": "private/RepresentativeBasedClassification.m",
+      "source_sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+      "new_sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+      "byte_identical": true
+    },
+    {
+      "file": "private/Shape_Estimate.m",
+      "source_file": "private/Shape_Estimate.m",
+      "source_sha256": "acb9a2a53745283e67abf1bb763b4aee240a9dd7a8a1169eee25de58119279d7",
+      "new_sha256": "acb9a2a53745283e67abf1bb763b4aee240a9dd7a8a1169eee25de58119279d7",
+      "byte_identical": true
+    }
+  ],
+  "validation": "7 tests passed; exploration and indicator-requested smoke runs ended at FE=107; fixed lambdaT=0.30; 80-job check only, no formal runs"
+}
