@@ -14,7 +14,8 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OURS = "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original"
+OURS = "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted"
+FILES = {10: "pruned_weight十目标.xlsx", 15: "pruned_weight十五目标.xlsx", 20: "pruned_weight二十目标.xlsx"}
 ORDER = ["REMO", "PIEA", "CSEA", "PC-SAEA", "K-RVEA", "MCEA/D", "PACDIS"]
 ALIASES = {"REMO": "REMO", "PIEA": "PIEA", "CSEA": "CSEA",
            "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",
@@ -28,13 +29,13 @@ def extract(source):
     from openpyxl import load_workbook
     records, manifest = [], {"excluded_algorithm": "R2AEA", "sources": []}
     for m in [10, 15, 20]:
-        path = source / f"{m}目标.xlsx"
+        path = source / FILES[m]
         content = path.read_bytes()
         wb = load_workbook(path, data_only=True)
         ws = wb["IGD"]
         headers = {str(c.value): c.column for c in ws[1] if c.value is not None}
         assert set(ALIASES[h] for h in headers if h in ALIASES) == set(ORDER)
-        info = {"filename": path.name, "sha256": hashlib.sha256(content).hexdigest(),
+        info = {"filename": path.name, "source_path": str(path.resolve()), "sha256": hashlib.sha256(content).hexdigest(),
                 "sheet": "IGD", "M": m, "reference_algorithm": OURS,
                 "headers": list(headers), "metadata": [], "exported_summary": {}}
         for row in range(2, 18):

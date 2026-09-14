@@ -1,11 +1,20 @@
 function summary = RunPaperWeighted30(action,workers)
-%RUNPAPERWEIGHTED30 Resume the seven-algorithm, 48-instance paper experiment.
+%RUNPAPERWEIGHTED30 Resume baselines on DTLZ/WFG and Weighted on DTLZ only.
 %   RunPaperWeighted30('check') audits existing files without optimization.
 %   RunPaperWeighted30('run',2) fills run IDs 1:30 using two process workers.
+%   RunPaperWeighted30('run','max') uses the local profile/hardware limit.
 %   Historical results are never overwritten. Read README_30runs.md first.
     if nargin < 1, action = 'run'; end
-    if nargin < 2, workers = 2; end
+    if nargin < 2, workers = 'max'; end
     assert(ismember(action,{'run','check','verify'}),'Use run, check or verify.');
+    if (ischar(workers) || isstring(workers)) && strcmpi(workers,'max')
+        localCluster=parcluster('Processes');
+        logicalCPUs=str2double(getenv('NUMBER_OF_PROCESSORS'));
+        assert(isfinite(logicalCPUs) && logicalCPUs>=1,'Cannot determine local CPU limit.');
+        workers=min(localCluster.NumWorkers,logicalCPUs);
+        fprintf('Maximum local concurrency: %d (profile=%d, logical CPUs=%d).\n', ...
+            workers,localCluster.NumWorkers,logicalCPUs);
+    end
     validateattributes(workers,{'numeric'},{'scalar','integer','positive'});
     root = fileparts(mfilename('fullpath'));
     platform = fileparts(fileparts(fileparts(root)));
@@ -30,6 +39,7 @@ function summary = RunPaperWeighted30(action,workers)
     save(manifestFile,'manifest','cfg');
     fprintf('N=100 (configured), maxFE=300; D=30 requested; runs=1:30.\n');
     fprintf('Weighted parameters: {3000,0.50,0.25,0.70,6}; mode run=1.\n');
+    fprintf('Local scope: six baselines DTLZ1-7/WFG1-9; Weighted DTLZ1-7 only.\n');
     fprintf('Checking existing results. No optimization during this stage.\n');
     rows = struct([]); jobs = struct([]); counts = zeros(3,7);
     for mi = 1:3
@@ -41,6 +51,11 @@ function summary = RunPaperWeighted30(action,workers)
             assert(pro.D==expectedD && pro.M==M && pro.N==100);
             for ai = 1:7
                 alg = cfg.algorithms{ai};
+                % Weighted WFG1-9 is handled on the user's other computer.
+                % Exclude before inventory and scheduling, at every objective count.
+                if strcmp(alg,cfg.algorithms{7}) && startsWith(problem,'WFG')
+                    continue;
+                end
                 folder = fullfile(cfg.dataFolders{mi},alg);
                 for ri = 1:30
                     name = sprintf('%s_%s_M%d_D%d_%d.mat',alg,problem,M,pro.D,ri);
@@ -80,7 +95,7 @@ function summary = RunPaperWeighted30(action,workers)
                 end
             end
         end
-        fprintf('M=%d existing: %d / 3360\n',M,sum(counts(mi,:)));
+        fprintf('M=%d existing: %d / 3090 local runs\n',M,sum(counts(mi,:)));
     end
     audit = struct2table(rows);
     writetable(audit,fullfile(cfg.logs,['inventory_',stamp,'.csv']),'Encoding','UTF-8');
@@ -88,7 +103,10 @@ function summary = RunPaperWeighted30(action,workers)
     summary = array2table(counts,'VariableNames',cfg.labels,'RowNames',{'M10','M15','M20'});
     disp(summary);
     conflicts = sum(strcmp({rows.state},'conflict'));
-    fprintf('Existing=%d; pending=%d; conflicts=%d; total=10080.\n',sum(counts,'all'),numel(jobs),conflicts);
+    assert(numel(rows)==9270,'Unexpected local experiment scope.');
+    assert(~any(strcmp({rows.algorithm},cfg.algorithms{7}) & startsWith({rows.problem},'WFG')), ...
+        'Weighted WFG must never enter the local schedule.');
+    fprintf('Existing=%d; pending=%d; conflicts=%d; local total=9270; Weighted WFG excluded=810.\n',sum(counts,'all'),numel(jobs),conflicts);
     fprintf('Legacy files without per-run metadata are marked legacy-unverified.\n');
     fprintf('Actual FE above 300 is retained and reported, not called equal-budget.\n');
     if strcmp(action,'check'), return; end
@@ -104,6 +122,8 @@ function summary = RunPaperWeighted30(action,workers)
     pool = gcp('nocreate');
     if isempty(pool), pool=parpool('Processes',workers); end
     assert(isa(pool,'parallel.ProcessPool'),'Use a process pool, not a thread pool.');
+    assert(pool.NumWorkers>=workers, ...
+        'Existing pool is too small. Run in a fresh batch MATLAB session for the requested concurrency.');
     fprintf('Pool has %d workers; this runner uses at most %d.\n',pool.NumWorkers,min(workers,pool.NumWorkers));
     setup = parfevalOnAll(pool,@prepareWorker,0,platform,root);
     fetchOutputs(setup);
