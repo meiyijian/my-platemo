@@ -1,0 +1,28 @@
+{
+  "controlIGD": 1.2768012367242776,
+  "results": [
+    {
+      "label": "K2_two_worker_pool",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted",
+      "context": "worker",
+      "ok": false,
+      "IGD": null,
+      "message": "内存不足。",
+      "threads": 1,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify_context2\\K2.mat"
+    },
+    {
+      "label": "K1_two_worker_pool",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted",
+      "context": "worker",
+      "ok": true,
+      "IGD": 1.123668809672717,
+      "message": "",
+      "threads": 1,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify_context2\\K1.mat"
+    }
+  ],
+  "selfConsistent": false,
+  "reproducesStoredControl": false,
+  "poolWorkers": 2
+}

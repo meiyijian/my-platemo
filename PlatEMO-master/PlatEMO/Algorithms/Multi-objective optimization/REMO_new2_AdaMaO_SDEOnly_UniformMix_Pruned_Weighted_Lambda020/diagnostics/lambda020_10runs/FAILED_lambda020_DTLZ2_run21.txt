@@ -1,0 +1,28 @@
+内存不足。
+
+出错 mapminmax.apply (第 6 行)
+  y = bsxfun(@minus,x,settings.xoffset);
+
+出错 nnet7.process_fcn (第 28 行)
+      out1 = info.apply(in2,out2);
+
+出错 mapminmax (第 46 行)
+    y = nnet7.process_fcn(mfilename,x,varargin{:});
+
+出错 DiversifiedInfillSelection>model_select (第 120 行)
+    TestIn_nor = mapminmax('apply',all_testdata',Smodel.mp_struct)';
+
+出错 DiversifiedInfillSelection (第 30 行)
+    [~,scores,uncertainty] = model_select(Smodel,allCandidates);
+
+出错 REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020/main (第 108 行)
+                Next = DiversifiedInfillSelection( ...
+
+出错 ALGORITHM/Solve (第 84 行)
+                obj.main(obj.pro);
+
+出错 RunLambda020_10>runOne (第 243 行)
+        alg.Solve(pro);
+
+出错 parallel.internal.queue.cppEvaluateRequest (第 42 行)
+        [outArgs{1:numArgsOut}] = builtin('feval', userFcn, args{:});

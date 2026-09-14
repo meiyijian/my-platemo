@@ -1,0 +1,90 @@
+﻿LAUNCH_M20 2026-09-14 20:45:39
+Maximum local concurrency: 6 (profile=6, logical CPUs=12).
+Algorithm : REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020
+Arm       : lambda020 {3000,0.50,0.25,0.70,6,0.20}
+Problems  : DTLZ1, DTLZ2, DTLZ3, DTLZ4, DTLZ5, DTLZ6, DTLZ7 | M=20 D=30 N=100 maxFE=300 save=18
+RunIds    : 1..18
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\20目标\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020
+Scratch   : C:\Users\lsx\AppData\Local\Temp\lambda020_m20_runs
+Planned runs: 126; already present: 0; to run: 126
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 6 workers.
+Using 6 process workers.
+[1/126] lambda020 DTLZ1 run 02 IGD=76.40451474 | elapsed 6.4 min
+[2/126] lambda020 DTLZ1 run 04 IGD=89.37568158 | elapsed 6.5 min
+[3/126] lambda020 DTLZ1 run 01 IGD=69.36855577 | elapsed 6.5 min
+[4/126] lambda020 DTLZ1 run 06 IGD=124.32503 | elapsed 6.6 min
+[5/126] lambda020 DTLZ1 run 05 IGD=82.56416318 | elapsed 6.6 min
+[6/126] lambda020 DTLZ1 run 03 IGD=73.06248169 | elapsed 6.8 min
+[7/126] lambda020 DTLZ1 run 07 IGD=121.5763791 | elapsed 11.9 min
+[8/126] lambda020 DTLZ1 run 08 IGD=82.75454009 | elapsed 12.0 min
+[9/126] lambda020 DTLZ1 run 11 IGD=89.33278069 | elapsed 12.0 min
+[10/126] lambda020 DTLZ1 run 09 IGD=104.0610592 | elapsed 12.1 min
+[11/126] lambda020 DTLZ1 run 12 IGD=92.40595897 | elapsed 12.2 min
+[12/126] lambda020 DTLZ1 run 10 IGD=93.12175125 | elapsed 12.2 min
+[13/126] lambda020 DTLZ1 run 13 IGD=97.37182598 | elapsed 17.6 min
+[14/126] lambda020 DTLZ1 run 17 IGD=110.0738583 | elapsed 17.6 min
+[15/126] lambda020 DTLZ1 run 15 IGD=64.52341832 | elapsed 17.6 min
+[16/126] lambda020 DTLZ1 run 14 IGD=87.55627633 | elapsed 17.7 min
+[17/126] lambda020 DTLZ1 run 18 IGD=67.40825128 | elapsed 17.7 min
+[18/126] lambda020 DTLZ1 run 16 IGD=58.2628826 | elapsed 17.7 min
+[19/126] lambda020 DTLZ2 run 02 IGD=1.180615328 | elapsed 23.1 min
+[20/126] lambda020 DTLZ2 run 04 IGD=1.08972662 | elapsed 23.2 min
+[21/126] lambda020 DTLZ2 run 01 IGD=1.225284117 | elapsed 23.2 min
+[22/126] lambda020 DTLZ2 run 03 IGD=1.152206918 | elapsed 23.2 min
+[23/126] lambda020 DTLZ2 run 06 IGD=1.153014887 | elapsed 23.4 min
+[24/126] lambda020 DTLZ2 run 05 IGD=1.066939388 | elapsed 23.4 min
+[25/126] lambda020 DTLZ2 run 07 IGD=1.187912464 | elapsed 28.7 min
+[26/126] lambda020 DTLZ2 run 08 IGD=1.121142663 | elapsed 28.9 min
+[27/126] lambda020 DTLZ2 run 10 IGD=1.192380351 | elapsed 28.9 min
+[28/126] lambda020 DTLZ2 run 09 IGD=1.203938791 | elapsed 28.9 min
+[29/126] lambda020 DTLZ2 run 12 IGD=1.123294526 | elapsed 29.0 min
+[30/126] lambda020 DTLZ2 run 11 IGD=1.151810108 | elapsed 29.1 min
+[31/126] lambda020 DTLZ2 run 13 IGD=1.194355603 | elapsed 34.3 min
+[32/126] lambda020 DTLZ2 run 14 IGD=1.209584103 | elapsed 34.5 min
+[33/126] lambda020 DTLZ2 run 16 IGD=1.140590607 | elapsed 34.5 min
+[34/126] lambda020 DTLZ2 run 18 IGD=1.224452381 | elapsed 34.8 min
+[35/126] lambda020 DTLZ2 run 15 IGD=1.13317811 | elapsed 34.9 min
+[36/126] lambda020 DTLZ2 run 17 IGD=1.188898063 | elapsed 34.9 min
+[37/126] lambda020 DTLZ3 run 02 IGD=405.4480904 | elapsed 39.4 min
+[38/126] lambda020 DTLZ3 run 03 IGD=272.6129576 | elapsed 39.5 min
+[39/126] lambda020 DTLZ3 run 01 IGD=393.8037359 | elapsed 39.5 min
+[40/126] lambda020 DTLZ3 run 04 IGD=357.2765755 | elapsed 39.8 min
+[41/126] lambda020 DTLZ3 run 06 IGD=270.5439152 | elapsed 39.9 min
+[42/126] lambda020 DTLZ3 run 05 IGD=405.0337131 | elapsed 40.1 min
+[43/126] lambda020 DTLZ3 run 08 IGD=316.3865881 | elapsed 44.4 min
+[44/126] lambda020 DTLZ3 run 09 IGD=291.8982915 | elapsed 44.7 min
+[45/126] lambda020 DTLZ3 run 07 IGD=217.5421514 | elapsed 44.7 min
+[46/126] lambda020 DTLZ3 run 10 IGD=359.3644629 | elapsed 45.0 min
+[47/126] lambda020 DTLZ3 run 11 IGD=322.6520152 | elapsed 45.2 min
+[48/126] lambda020 DTLZ3 run 12 IGD=328.380678 | elapsed 45.5 min
+[49/126] lambda020 DTLZ3 run 13 IGD=315.4883672 | elapsed 50.0 min
+[50/126] lambda020 DTLZ3 run 14 IGD=250.0731962 | elapsed 50.2 min
+[51/126] lambda020 DTLZ3 run 15 IGD=305.529416 | elapsed 50.4 min
+[52/126] lambda020 DTLZ3 run 16 IGD=386.0340834 | elapsed 50.7 min
+[53/126] lambda020 DTLZ3 run 17 IGD=381.0906218 | elapsed 50.7 min
+[54/126] lambda020 DTLZ3 run 18 IGD=358.707057 | elapsed 50.9 min
+[55/126] lambda020 DTLZ4 run 02 IGD=1.101628207 | elapsed 55.3 min
+[56/126] lambda020 DTLZ4 run 01 IGD=1.106429481 | elapsed 55.4 min
+[57/126] lambda020 DTLZ4 run 03 IGD=1.043596786 | elapsed 55.6 min
+[58/126] lambda020 DTLZ4 run 06 IGD=1.020729577 | elapsed 56.0 min
+[59/126] lambda020 DTLZ4 run 05 IGD=1.138509193 | elapsed 56.1 min
+[60/126] lambda020 DTLZ4 run 04 IGD=1.024762701 | elapsed 56.3 min
+[61/126] lambda020 DTLZ4 run 07 IGD=1.018154936 | elapsed 61.5 min
+[62/126] lambda020 DTLZ4 run 08 IGD=1.084766202 | elapsed 61.5 min
+[63/126] lambda020 DTLZ4 run 09 IGD=1.075056841 | elapsed 61.8 min
+[64/126] lambda020 DTLZ4 run 10 IGD=1.016346209 | elapsed 62.2 min
+[65/126] lambda020 DTLZ4 run 11 IGD=1.079914768 | elapsed 62.3 min
+[66/126] lambda020 DTLZ4 run 12 IGD=1.148018699 | elapsed 62.3 min
+[67/126] lambda020 DTLZ4 run 13 IGD=1.056761448 | elapsed 66.4 min
+[68/126] lambda020 DTLZ4 run 14 IGD=1.049830608 | elapsed 66.6 min
+[69/126] lambda020 DTLZ4 run 15 IGD=1.076240918 | elapsed 66.8 min
+[70/126] lambda020 DTLZ4 run 16 IGD=0.9812752546 | elapsed 67.2 min
+[71/126] lambda020 DTLZ4 run 17 IGD=1.096717583 | elapsed 67.3 min
+[72/126] lambda020 DTLZ4 run 18 IGD=1.054203395 | elapsed 67.4 min
+[73/126] lambda020 DTLZ5 run 01 IGD=0.2748387053 | elapsed 71.4 min
+[74/126] lambda020 DTLZ5 run 02 IGD=0.2967023421 | elapsed 71.4 min
+[75/126] lambda020 DTLZ5 run 03 IGD=0.371975344 | elapsed 71.8 min
+[76/126] lambda020 DTLZ5 run 04 IGD=0.3087738927 | elapsed 72.0 min
+[77/126] lambda020 DTLZ5 run 06 IGD=0.3550730453 | elapsed 72.4 min
+[78/126] lambda020 DTLZ5 run 05 IGD=0.3649175379 | elapsed 72.4 min

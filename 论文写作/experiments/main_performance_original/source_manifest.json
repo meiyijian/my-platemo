@@ -1,0 +1,435 @@
+{
+  "excluded_algorithm": "R2AEA",
+  "sources": [
+    {
+      "filename": "10目标.xlsx",
+      "sha256": "b56213940020f0b8c8f371e5905d87f407afdeba87e4e4036b99c114ae6c71a9",
+      "sheet": "IGD",
+      "M": 10,
+      "reference_algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "headers": [
+        "Problem",
+        "N",
+        "M",
+        "D",
+        "FE",
+        "REMO",
+        "PIEA",
+        "MCEAD",
+        "R2AEA",
+        "CSEA",
+        "PCSAEA_N100",
+        "KRVEA_100",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original"
+      ],
+      "metadata": [
+        {
+          "problem": "DTLZ1",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ2",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ3",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ4",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ5",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ6",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ7",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG1",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG2",
+          "N": 100,
+          "M": 10,
+          "D": 31,
+          "FE": 300
+        },
+        {
+          "problem": "WFG3",
+          "N": 100,
+          "M": 10,
+          "D": 31,
+          "FE": 300
+        },
+        {
+          "problem": "WFG4",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG5",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG6",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG7",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG8",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG9",
+          "N": 100,
+          "M": 10,
+          "D": 30,
+          "FE": 300
+        }
+      ],
+      "exported_summary": {
+        "REMO": "2/9/5",
+        "PIEA": "7/6/3",
+        "MCEAD": "4/9/3",
+        "CSEA": "1/12/3",
+        "PCSAEA_N100": "0/15/1",
+        "KRVEA_100": "3/10/3"
+      }
+    },
+    {
+      "filename": "15目标.xlsx",
+      "sha256": "870e1b04fd03b764d1daa506db8e3e9f1b2273714a29853c5ba59f52113327a5",
+      "sheet": "IGD",
+      "M": 15,
+      "reference_algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "headers": [
+        "Problem",
+        "M",
+        "D",
+        "REMO",
+        "PIEA",
+        "MCEAD",
+        "CSEA",
+        "R2AEA",
+        "KRVEA_100",
+        "PCSAEA_N100",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original"
+      ],
+      "metadata": [
+        {
+          "problem": "DTLZ1",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ2",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ3",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ4",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ5",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ6",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ7",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG1",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG2",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG3",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG4",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG5",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG6",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG7",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG8",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG9",
+          "N": null,
+          "M": 15,
+          "D": 30,
+          "FE": null
+        }
+      ],
+      "exported_summary": {
+        "REMO": "4/9/3",
+        "PIEA": "6/7/3",
+        "MCEAD": "5/9/2",
+        "CSEA": "1/11/4",
+        "KRVEA_100": "2/8/6",
+        "PCSAEA_N100": "0/15/1"
+      }
+    },
+    {
+      "filename": "20目标.xlsx",
+      "sha256": "2f4641e5cad555f52b70fabb3471224e3f06ccfd1ac132c1d8d2dc8ec1f5e1ae",
+      "sheet": "IGD",
+      "M": 20,
+      "reference_algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "headers": [
+        "Problem",
+        "N",
+        "M",
+        "D",
+        "FE",
+        "REMO",
+        "PIEA",
+        "MCEAD",
+        "R2AEA",
+        "CSEA",
+        "PCSAEA_N100",
+        "KRVEA_100",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original"
+      ],
+      "metadata": [
+        {
+          "problem": "DTLZ1",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ2",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ3",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ4",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ5",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ6",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "DTLZ7",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG1",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG2",
+          "N": 100,
+          "M": 20,
+          "D": 31,
+          "FE": 300
+        },
+        {
+          "problem": "WFG3",
+          "N": 100,
+          "M": 20,
+          "D": 31,
+          "FE": 300
+        },
+        {
+          "problem": "WFG4",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG5",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG6",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG7",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG8",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        },
+        {
+          "problem": "WFG9",
+          "N": 100,
+          "M": 20,
+          "D": 30,
+          "FE": 300
+        }
+      ],
+      "exported_summary": {
+        "REMO": "2/8/6",
+        "PIEA": "5/9/2",
+        "MCEAD": "5/8/3",
+        "CSEA": "1/11/4",
+        "PCSAEA_N100": "1/15/0",
+        "KRVEA_100": "2/8/6"
+      }
+    }
+  ]
+}
