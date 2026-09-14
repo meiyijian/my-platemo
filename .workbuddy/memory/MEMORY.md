@@ -45,3 +45,8 @@
 
 ## 默认实验参数
 - N=100，D=30（论文 WFG sweep 用 D=10 系），maxFE=300，gmax=3000（代理内部 GA 上限，与总预算不同）。
+
+## Git 环境红线（0914 事故沉淀）
+- 本机 git 严禁 pull --rebase（could not mark as interactive 且清空 refs/objects）；出事后恢复套路：备份零散对象 → ls-files 找缺失 blob → 工作树 hash-object -w 重建 → write-tree → GIT_INDEX_FILE 临时索引手工构造合并提交（脚本模板 tmp/git_rescue/plumbing_merge.py）。
+- 两台电脑并发操作同一 .git 会互相踩踏（引用消失、文件被删、index.lock），务必错开；一台操作完先 push、另一台先 pull。
+- SIGTERM 频发：重 git 操作（merge/reset --hard）易被中途杀死，改用 read-tree + checkout-index 分步对齐；残留 index.lock 可直接删（确认无 git 进程）。
