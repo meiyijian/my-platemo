@@ -1,0 +1,1 @@
+C:\Users\lsx\.workbuddy\binaries\PortableGit\versions\1.2.0\bin\bash.exe: line 1: /c/Windows/system32/schtasks: Permission denied

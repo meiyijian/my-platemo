@@ -14,6 +14,9 @@
 #   FOLDER   result sub-directory name (default: $ALG)
 #   PARAMS   comma-separated parameter list (default 3000,0.50,0.25,0.80,6)
 #   HARNESS  harness directory         (default the FullSeries experiment)
+#   FUNC     MATLAB harness function   (default run_UniformMixPrunedFullSeries)
+#   OUTDIR   result root directory     (default D:/REMOandDREMO测试集/10目标/n30/$FOLDER)
+#   SCRATCHROOT  scratch/log root      (default D:/PlatEMO-master/tmp/pruned_fullseries)
 set -u
 
 PART=${1:?part index required}
@@ -24,10 +27,12 @@ ALG=${ALG:-REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_qKeep080}
 FOLDER=${FOLDER:-$ALG}
 PARAMS=${PARAMS:-3000,0.50,0.25,0.80,6}
 HARNESS=${HARNESS:-D:/PlatEMO-master/PlatEMO-master/PlatEMO/Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries}
+FUNC=${FUNC:-run_UniformMixPrunedFullSeries}
+OUTDIR=${OUTDIR:-D:/REMOandDREMO测试集/10目标/n30/$FOLDER}
+SCRATCHROOT=${SCRATCHROOT:-D:/PlatEMO-master/tmp/pruned_fullseries}
 
 MATLAB="/d/software/mathlab/bin/matlab.exe"
-SCRATCH="D:/PlatEMO-master/tmp/pruned_fullseries/$FOLDER"
-OUTDIR="D:/REMOandDREMO测试集/10目标/n30/$FOLDER"
+SCRATCH="$SCRATCHROOT/$FOLDER"
 RUNLOG="$OUTDIR/_runlog_part${PART}of${NPARTS}.txt"
 STDOUT="$SCRATCH/part${PART}of${NPARTS}_stdout.log"
 
@@ -36,8 +41,8 @@ mkdir -p "$SCRATCH" "$OUTDIR"
 STAMP() { date '+%Y-%m-%d %H:%M:%S'; }
 
 for attempt in $(seq 1 "$MAXATTEMPTS"); do
-    echo "[$(STAMP)] part $PART attempt $attempt launching MATLAB (alg=$ALG params=$PARAMS)" >> "$STDOUT"
-    "$MATLAB" -batch "maxNumCompThreads(4); addpath('$HARNESS'); run_UniformMixPrunedFullSeries($PART,$NPARTS,'Algorithm','$ALG','FolderName','$FOLDER','Parameters',{$PARAMS})" >> "$STDOUT" 2>&1
+    echo "[$(STAMP)] part $PART attempt $attempt launching MATLAB (alg=$ALG params=$PARAMS func=$FUNC)" >> "$STDOUT"
+    "$MATLAB" -batch "maxNumCompThreads(4); addpath('$HARNESS'); $FUNC($PART,$NPARTS,'Algorithm','$ALG','FolderName','$FOLDER','Parameters',{$PARAMS})" >> "$STDOUT" 2>&1
     rc=$?
     echo "[$(STAMP)] part $PART attempt $attempt exited rc=$rc" >> "$STDOUT"
 
