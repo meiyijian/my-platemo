@@ -1,0 +1,54 @@
+[2026-09-14 09:48:25] part 3 attempt 1 launching MATLAB (alg=REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted params=3000,0.50,0.25,0.70,6 func=run_WeightedWFG_M5D10)
+[2026-09-14 09:48:31] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-14 09:48:41] WFG1: M=5 D=10 maxFE=300 (canonical index 8)
+[2026-09-14 09:48:46] WFG2: M=5 D=10 maxFE=300 (canonical index 9)
+[2026-09-14 09:48:46] WFG3: M=5 D=10 maxFE=300 (canonical index 10)
+[2026-09-14 09:48:46] WFG4: M=5 D=10 maxFE=300 (canonical index 11)
+[2026-09-14 09:48:46] WFG5: M=5 D=10 maxFE=300 (canonical index 12)
+[2026-09-14 09:48:46] WFG6: M=5 D=10 maxFE=300 (canonical index 13)
+[2026-09-14 09:48:46] WFG7: M=5 D=10 maxFE=300 (canonical index 14)
+[2026-09-14 09:48:46] WFG8: M=5 D=10 maxFE=300 (canonical index 15)
+[2026-09-14 09:48:46] WFG9: M=5 D=10 maxFE=300 (canonical index 16)
+[2026-09-14 09:48:46] Algorithm REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-14 09:48:46] SaveCount 30 | Runs 30 | M 5 | requested D 10 | N 100 | maxFE 300 | modeRunId 1 | seedBase 20260912
+[2026-09-14 09:48:46] Slice 3/4 -> 67 of 270 jobs
+[2026-09-14 09:50:48] [done] WFG1 run 3 seed 20768915 | IGD first 2.72598 -> final 2.13325 | runtime 117.7s | wall 118.6s | ok
+[2026-09-14 09:52:45] [done] WFG1 run 7 seed 20768919 | IGD first 2.74369 -> final 2.2103 | runtime 115.9s | wall 116.3s | ok
+[2026-09-14 09:54:58] [done] WFG1 run 11 seed 20768923 | IGD first 2.7438 -> final 2.17414 | runtime 130.8s | wall 131.2s | ok
+[2026-09-14 09:56:52] [done] WFG1 run 15 seed 20768927 | IGD first 2.67318 -> final 2.06411 | runtime 112.2s | wall 112.6s | ok
+[2026-09-14 09:58:45] [done] WFG1 run 19 seed 20768931 | IGD first 2.60205 -> final 2.05701 | runtime 111.8s | wall 112.1s | ok
+[2026-09-14 10:00:42] [done] WFG1 run 23 seed 20768935 | IGD first 2.70951 -> final 2.18181 | runtime 115.4s | wall 115.8s | ok
+[2026-09-14 10:02:37] [done] WFG1 run 27 seed 20768939 | IGD first 2.63843 -> final 2.12193 | runtime 113.4s | wall 113.8s | ok
+[2026-09-14 10:02:39] [skip] D:\REMOandDREMO²âÊÔ¼¯\5Ä¿±ê\n10\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_WFG2_M5_D10_1.mat (valid, final IGD 0.834633)
+[2026-09-14 10:04:40] [done] WFG2 run 5 seed 20769917 | IGD first 2.03959 -> final 0.830145 | runtime 118.8s | wall 119.1s | ok
+[2026-09-14 10:06:42] [done] WFG2 run 9 seed 20769921 | IGD first 1.8687 -> final 1.09823 | runtime 120.0s | wall 120.3s | ok
+[2026-09-14 10:08:36] [done] WFG2 run 13 seed 20769925 | IGD first 1.80419 -> final 0.766999 | runtime 113.1s | wall 113.4s | ok
+[2026-09-14 10:10:34] [done] WFG2 run 17 seed 20769929 | IGD first 1.5776 -> final 0.721875 | runtime 115.2s | wall 115.5s | ok
+[2026-09-14 10:12:30] [done] WFG2 run 21 seed 20769933 | IGD first 2.17439 -> final 0.693787 | runtime 114.4s | wall 114.7s | ok
+[2026-09-14 10:14:27] [done] WFG2 run 25 seed 20769937 | IGD first 1.99097 -> final 0.964589 | runtime 114.8s | wall 115.1s | ok
+[2026-09-14 10:16:22] [done] WFG2 run 29 seed 20769941 | IGD first 2.38637 -> final 0.731211 | runtime 113.8s | wall 114.1s | ok
+[2026-09-14 10:18:12] [done] WFG3 run 3 seed 20770915 | IGD first 0.886696 -> final 0.781962 | runtime 109.0s | wall 109.3s | ok
+[2026-09-14 10:20:04] [done] WFG3 run 7 seed 20770919 | IGD first 0.858257 -> final 0.832166 | runtime 111.5s | wall 111.9s | ok
+[2026-09-14 10:21:57] [done] WFG3 run 11 seed 20770923 | IGD first 0.810738 -> final 0.757196 | runtime 113.1s | wall 113.4s | ok
+[2026-09-14 10:23:47] [done] WFG3 run 15 seed 20770927 | IGD first 0.963123 -> final 0.896232 | runtime 110.0s | wall 110.4s | ok
+[2026-09-14 10:25:38] [done] WFG3 run 19 seed 20770931 | IGD first 0.905603 -> final 0.799874 | runtime 110.2s | wall 110.6s | ok
+[2026-09-14 10:27:31] [done] WFG3 run 23 seed 20770935 | IGD first 0.925985 -> final 0.83686 | runtime 112.8s | wall 113.2s | ok
+[2026-09-14 10:29:23] [done] WFG3 run 27 seed 20770939 | IGD first 0.927433 -> final 0.764113 | runtime 111.4s | wall 111.7s | ok
+[2026-09-14 10:31:17] [done] WFG4 run 1 seed 20771913 | IGD first 2.72033 -> final 1.31188 | runtime 113.6s | wall 114.0s | ok
+[2026-09-14 10:33:10] [done] WFG4 run 5 seed 20771917 | IGD first 2.70743 -> final 1.2979 | runtime 112.4s | wall 112.7s | ok
+[2026-09-14 10:35:05] [done] WFG4 run 9 seed 20771921 | IGD first 2.57197 -> final 1.23458 | runtime 114.9s | wall 115.2s | ok
+[2026-09-14 10:36:57] [done] WFG4 run 13 seed 20771925 | IGD first 2.8526 -> final 1.43432 | runtime 111.7s | wall 112.1s | ok
+[2026-09-14 10:39:03] [done] WFG4 run 17 seed 20771929 | IGD first 2.86122 -> final 1.3243 | runtime 126.0s | wall 126.3s | ok
+[2026-09-14 10:40:59] [done] WFG4 run 21 seed 20771933 | IGD first 2.46766 -> final 1.32533 | runtime 115.8s | wall 116.2s | ok
+[2026-09-14 10:42:54] [done] WFG4 run 25 seed 20771937 | IGD first 2.75796 -> final 1.30475 | runtime 114.4s | wall 114.8s | ok
+[2026-09-14 10:44:48] [done] WFG4 run 29 seed 20771941 | IGD first 2.63065 -> final 1.3529 | runtime 113.1s | wall 113.5s | ok
+[2026-09-14 10:46:45] [done] WFG5 run 3 seed 20772915 | IGD first 1.9295 -> final 1.2988 | runtime 116.8s | wall 117.2s | ok
+[2026-09-14 10:48:45] [done] WFG5 run 7 seed 20772919 | IGD first 1.98056 -> final 1.17854 | runtime 119.9s | wall 120.3s | ok
+[2026-09-14 10:50:41] [done] WFG5 run 11 seed 20772923 | IGD first 2.09444 -> final 1.2943 | runtime 115.4s | wall 115.8s | ok
+[2026-09-14 10:52:33] [done] WFG5 run 15 seed 20772927 | IGD first 2.02728 -> final 1.23679 | runtime 111.9s | wall 112.3s | ok
+[2026-09-14 10:54:28] [done] WFG5 run 19 seed 20772931 | IGD first 1.94451 -> final 1.22939 | runtime 114.0s | wall 114.4s | ok
+[2026-09-14 10:56:23] [done] WFG5 run 23 seed 20772935 | IGD first 2.06866 -> final 1.18216 | runtime 114.8s | wall 115.2s | ok
+[2026-09-14 10:58:17] [done] WFG5 run 27 seed 20772939 | IGD first 2.10011 -> final 1.21579 | runtime 113.6s | wall 114.0s | ok
+[2026-09-14 11:00:12] [done] WFG6 run 1 seed 20773913 | IGD first 2.20965 -> final 1.53778 | runtime 114.5s | wall 114.9s | ok
+[2026-09-14 11:02:04] [done] WFG6 run 5 seed 20773917 | IGD first 2.12801 -> final 1.46094 | runtime 111.7s | wall 112.2s | ok
+[2026-09-14 11:03:57] [done] WFG6 run 9 seed 20773921 | IGD first 2.16143 -> final 1.6159 | runtime 112.9s | wall 113.2s | ok
