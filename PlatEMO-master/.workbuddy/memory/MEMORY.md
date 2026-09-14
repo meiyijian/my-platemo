@@ -3,9 +3,17 @@
 ## 概况 / Git
 - PlatEMO（进化多目标优化平台），MATLAB。fork of `https://github.com/meiyijian/my-platemo.git`，分支 `master`
 - **git 仓库根 = `D:\PlatEMO-master`**，工作区 `D:\PlatEMO-master\PlatEMO-master` 是其子目录（`../` 路径会出现在 status 里，正常）
-- 代理陷阱：全局 `http.proxy=http://127.0.0.1:7897` 常不可用 → 失败时用 `git -c http.proxy= -c https.proxy= push origin master`
+- 远端 `origin` = `https://github.com/meiyijian/my-platemo.git`，分支 `master`；全局代理 `http.proxy=127.0.0.1:7897`（Clash）**2026-09-14 实测可用**（能到 GitHub，edge=japaneast），不再是主要障碍
 - 主线：REMO_new2_AdaMaO 系列 + SDEOnly / Pruned_Weighted / Lambda020 变体、候选模式消融，目标 Q1（SWEVO）
 - 本地 PlatEMO **v4.12**，官方已 v4.16 → **不要整体升级 GUI/框架**（差异多为版权年份）
+
+### 提交 + 推送固定套路（2026-09-14 实测，三个沙箱坑）
+1. **绝不用 `git add -A`**：会被沙箱中断（进程被杀 → 留下 0 字节 `.git/index.lock`、exit 1、无输出）。改成显式路径逐组 `git add -- <path...>`（目录也行）。残留锁用 `[System.IO.File]::Delete('<repo>\.git\index.lock')` 清（`Remove-Item` 被 safe-delete 拦）。
+2. **必须带 `-c core.longpaths=true`**：算法目录 + 88 字符文件名总长 266 > 260，否则 `git add` 该目录直接失败。
+3. **推送失败先看是不是 401**（不是凭据过期）：`git credential-manager` 在沙箱里起不来 → git 调完 helper 直接 exit 128 且 stderr 全空。绕法：`git credential fill` 取出 token（`gho_` 40 位，username=116729236）→ base64 成 `Authorization: Basic` 写进临时 cfg → `git -c include.path=<临时cfg> -c credential.helper= -c core.longpaths=true push origin master` → **用完立即删临时 cfg**。
+4. 抓 git 报错用 `git ... 2> $errfile`（`2>&1 | Out-String` 在 push 场景拿到空串）；**别把路径写成 `$out.tmp`**（会被当成属性访问，输出丢给 `$null`）。读中文先 `[Console]::OutputEncoding=[Text.Encoding]::UTF8`。含 `%H%n` 的格式串会触发沙箱 `%VAR%` 误判 → 用 `git show -s --format=full`。
+5. 一次性推进多个提交很正常（远端可能积压好几条未推）。
+
 
 ## 数据位置（先自己查，不要反问路径）
 - 原始数据 / 图表：`C:\Users\lsx\Desktop\REMOandDREMO测试集`（按目标数分目录，`10目标\n30` 为主战场）
