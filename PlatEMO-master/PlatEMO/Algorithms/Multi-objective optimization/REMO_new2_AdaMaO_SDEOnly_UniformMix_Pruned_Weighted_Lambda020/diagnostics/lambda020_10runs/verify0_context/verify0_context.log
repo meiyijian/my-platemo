@@ -1,0 +1,22 @@
+Control IGD (stored baseline, DTLZ2 run 19): 1.27680123672
+Seed: 21262931; client threads: 6
+
+--- J1 baseline, client session (serial) ---
+J1_baseline_client         context=client           IGD=1.08234817842 delta=-0.1945 ok=1
+--- J2..J4 on process workers ---
+J2_baseline_worker         context=worker           IGD=1.12366880967 delta=-0.1531 ok=1
+J4_baseline_worker_repeat  context=worker           IGD=1.12366880967 delta=-0.1531 ok=1
+J3_lambda0_worker          context=worker           IGD=1.12366880967 delta=-0.1531 ok=1
+
+--- summary ---
+label                      context                IGD                delta        matches control
+J1_baseline_client         client                 1.08234817842      -0.1945      0
+J2_baseline_worker         worker                 1.12366880967      -0.1531      0
+J4_baseline_worker_repeat  worker                 1.12366880967      -0.1531      0
+J3_lambda0_worker          worker                 1.12366880967      -0.1531      0
+
+baseline reproduces stored control, client : 0
+baseline reproduces stored control, worker : 0
+worker runs self-consistent                : 1
+lambda0=0 equals baseline in the worker    : 1
+VERDICT: PASS

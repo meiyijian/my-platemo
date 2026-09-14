@@ -1,0 +1,48 @@
+Control algorithm: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted
+Control folder: C:\Users\lsx\Desktop\REMOandDREMO测试集\10目标\n30\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted
+Run IDs: 19..28
+
+prob   pi  run  seed       M   D    N    FE   modeId IGDok  save    verdict
+DTLZ2  2   19   21262931   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   20   21262932   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   21   21262933   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   22   21262934   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   23   21262935   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   24   21262936   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   25   21262937   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   26   21262938   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   27   21262939   10  30   100  300  1      1      30      ACCEPT
+DTLZ2  2   28   21262940   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   19   21264931   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   20   21264932   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   21   21264933   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   22   21264934   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   23   21264935   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   24   21264936   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   25   21264937   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   26   21264938   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   27   21264939   10  30   100  300  1      1      30      ACCEPT
+DTLZ4  4   28   21264940   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   19   21265931   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   20   21265932   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   21   21265933   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   22   21265934   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   23   21265935   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   24   21265936   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   25   21265937   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   26   21265938   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   27   21265939   10  30   100  300  1      1      30      ACCEPT
+DTLZ5  5   28   21265940   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   19   21267931   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   20   21267932   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   21   21267933   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   22   21267934   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   23   21267935   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   24   21267936   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   25   21267937   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   26   21267938   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   27   21267939   10  30   100  300  1      1      30      ACCEPT
+DTLZ7  7   28   21267940   10  30   100  300  1      1      30      ACCEPT
+
+Accepted seed-matched control files: 40 of 40
+VERDICT: PASS - existing runs 19..28 are reusable controls.

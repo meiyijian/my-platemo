@@ -1,0 +1,14 @@
+Stored control IGD : 1.27680123672
+Reference results  : client 1.0823481784157407 (6 threads)
+                     3-worker pool 1.123668809672717 (1 thread)
+Seed: 21262931
+
+Pool workers: 2
+K2_two_worker_pool     threads=1 IGD=NaN deltaVsStored=NaN ok=0
+   ERROR: 内存不足。
+K1_two_worker_pool     threads=1 IGD=1.12366880967 deltaVsStored=-0.1531 ok=1
+
+two-worker runs self-consistent     : 0
+two-worker pool reproduces stored   : 0
+VERDICT: two-worker runs disagree with each other; the pipeline is not
+deterministic even inside one pool configuration.

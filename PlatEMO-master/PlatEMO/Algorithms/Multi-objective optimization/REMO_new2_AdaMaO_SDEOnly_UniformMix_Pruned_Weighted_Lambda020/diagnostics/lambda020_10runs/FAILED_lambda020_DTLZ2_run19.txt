@@ -1,0 +1,34 @@
+内存不足。
+
+出错 nndata (第 77 行)
+    x{i,1} = value + zeros(elements(i),samples,'like',value);
+
+出错 network/sim>simDataCellOfMatrix (第 545 行)
+  Ai = nndata(nn.layer_sizes(net),Q,net.numLayerDelays,zeros('like',arrayType));
+
+出错 network/sim>simData (第 369 行)
+  [err,net,X,Xi,Ai,T,EW,Q,TS] = simDataCellOfMatrix(net,X,Xi,Ai,T,EW);
+
+出错 network/sim (第 268 行)
+  [data,err] = simData(net,X,Xi,Ai,T,EW);
+
+出错 索引 (第 15 行)
+        otherwise, v = sim(vin,subs{:});
+
+出错 DiversifiedInfillSelection>model_select (第 121 行)
+    pre_out = Smodel.net(TestIn_nor')';
+
+出错 DiversifiedInfillSelection (第 30 行)
+    [~,scores,uncertainty] = model_select(Smodel,allCandidates);
+
+出错 REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020/main (第 108 行)
+                Next = DiversifiedInfillSelection( ...
+
+出错 ALGORITHM/Solve (第 84 行)
+                obj.main(obj.pro);
+
+出错 RunLambda020_10>runOne (第 243 行)
+        alg.Solve(pro);
+
+出错 parallel.internal.queue.cppEvaluateRequest (第 42 行)
+        [outArgs{1:numArgsOut}] = builtin('feval', userFcn, args{:});

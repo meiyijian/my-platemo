@@ -1,0 +1,54 @@
+{
+  "controlIGD": 1.2768012367242776,
+  "results": [
+    {
+      "label": "J1_baseline_client",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted",
+      "context": "client",
+      "ok": true,
+      "IGD": 1.0823481784157407,
+      "message": "",
+      "threads": 6,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify0_context\\J1_baseline_client.mat",
+      "controlIGD": 1.2768012367242776
+    },
+    {
+      "label": "J2_baseline_worker",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted",
+      "context": "worker",
+      "ok": true,
+      "IGD": 1.123668809672717,
+      "message": "",
+      "threads": 1,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify0_context\\J2_baseline_worker.mat",
+      "controlIGD": 1.2768012367242776
+    },
+    {
+      "label": "J4_baseline_worker_repeat",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted",
+      "context": "worker",
+      "ok": true,
+      "IGD": 1.123668809672717,
+      "message": "",
+      "threads": 1,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify0_context\\J4_baseline_worker_repeat.mat",
+      "controlIGD": 1.2768012367242776
+    },
+    {
+      "label": "J3_lambda0_worker",
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020",
+      "context": "worker",
+      "ok": true,
+      "IGD": 1.123668809672717,
+      "message": "",
+      "threads": 1,
+      "file": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted_Lambda020\\diagnostics\\lambda020_10runs\\verify0_context\\J3_lambda0_worker.mat",
+      "controlIGD": 1.2768012367242776
+    }
+  ],
+  "baselineReproducesControlInClient": false,
+  "baselineReproducesControlInWorker": false,
+  "workersSelfConsistent": true,
+  "lambda0EqualsBaselineInWorker": true,
+  "verdict": "PASS"
+}

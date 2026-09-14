@@ -1,0 +1,8 @@
+lambda0=0 snapshots: 30; control snapshots: 30
+lambda0=0 FE grid : [100 106 112 118 124 130 136 142 148 154 160 166 172 178 184 190 196 202 208 214 220 226 232 238 250 256 268 280 286 300]
+control   FE grid : [100 106 112 118 124 130 136 142 148 154 160 166 172 178 184 190 196 202 208 214 220 226 232 238 250 256 268 280 286 300]
+
+RNG state before Solve identical: 1
+MATLAB version identical        : 1
+
+k    FE_this FE_ctl popEqual                 objsEqual                maxAbsDecDiff
