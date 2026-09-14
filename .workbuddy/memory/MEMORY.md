@@ -19,7 +19,7 @@
 - 实验数据表（xlsx）在用户 Desktop：`AdaMao实验表/消融实验/指标模式/`（M=10、M=20）、`简化参数/`（Simple 结果）。
 
 ## 常用脚本/工具
-- Python venv：`C:/Users/lsx/.workbuddy/binaries/python/envs/default`（装了 openpyxl），解析 xlsx 用。
+- Python venv：`C:/Users/lsx/.workbuddy/binaries/python/envs/default`（装了 openpyxl），解析 xlsx 用。**python.exe 实际在 `Scripts/` 下**（`...envs/default/Scripts/python.exe`，Windows 布局；记忆中旧写的 bin/ 是错的）。
 - MATLAB：`/d/software/mathlab/bin/matlab`，pcode 可纯语法校验 .m（checkcode 在此沙箱因 Java 编辑器服务故障不可用）。
 - checkcode 实际可用（`-batch` 下正常），之前"不可用"的说法已过时。
 
@@ -89,3 +89,12 @@
 - `tmp/supervise_part.sh` 已泛化，支持 `ALG`/`FOLDER`/`PARAMS`/`HARNESS` 环境变量覆盖，日志按 FOLDER 分目录。
 - **qKeep 消融结论（2026-09-12，16 题 × 18 次全系列）**：qKeep=0.70 与 0.80 **8 胜 8 负、无系统性差异**；Holm 校正后唯一显著是 WFG6（0.80 好 2.0%，p_holm=0.031）。DTLZ5 q080 好 7.0%（p=0.108 未过校正）、WFG9 差 5.2%（p=0.067）。→ **可排除 qKeep 是 Pruned 退化的主因**，与"持续质量约束（0.75/0.25 权重）才是第一嫌疑"的判断互洽。
 - 可复用脚本 `Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/compare_qkeep.py`：**配对** Wilcoxon + Holm + 胜负计数；两组同种子同 run 号时必须用配对设计（比独立样本秩和更有效）。
+
+## 论文 30 跑实验与 Weighted M=15 WFG（2026-09-13）
+- 论文级 runner：`...Pruned_Weighted/RunPaperWeighted30.m`（7 算法 × 16 题 × M=10/15/20 × 30 跑）。**其配置的数据根 `C:/Users/lsx/Desktop/REMOandDREMO测试集` 已消失**（C 盘清理，桌面无此目录且清理清单未记录）：C 盘独有的 KRVEA_100 / PCSAEA_N100（各 M×288）、Weighted M20 288、09-12 晚补跑 498/2208 **全部丢失**；RUNNING.lock 残留在 `...Weighted/diagnostics/paper_30runs/`（重跑前需删）。D 盘老基线（M=15 各算法 480=16题×30跑）完好。
+- Weighted 论文种子方案：`20260912 + M*100000 + p*1000 + r`（p=论文题号：DTLZ1-7→1..7，WFG1-9→8..16），模式流固定 `'run',1`（modeRunId=1），save=30。
+- **M=15 下 WFG2/3 保持 D30**（K=14，L=16 为偶）；仅 M=10/20 才 D31。已双向实测（WFG2.m 的 `ceil((D-K)/2)*2+K`）。
+- Weighted M=15 WFG 30 跑（2026-09-13 部署）：harness `Experiments/REMO_new2_AdaMaO_Weighted_WFG_M15/run_WeightedWFG_M15.m`（job 级 4 分区轮转、断点续跑、每 .mat 带 metadata 兼容 inspectResult）+ `verify_weighted_wfg_m15.py`（校验 seed/modeRunId/params）。数据：`D:\REMOandDREMO测试集\15目标\REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted\`。单跑 ≈185s，270 跑 4 分区预计 wall ≈4.5h。
+- harness 里 **Solve 后必须先 `ALG.CalMetric('IGD')` 再取 metric**（漏掉即报"无法识别的字段名称 IGD"；且 struct 是值类型，先拷贝后 CalMetric 也拿不到 IGD）。
+- **Edit 工具偶发报成功但未落盘**（与 supervise_part.sh 的 EBUSY 同源）：关键编辑后必须 Grep/Read 复核；.m 文件行级插入用 sed 更稳。
+- `tmp/supervise_part.sh` 已再泛化：新增 `FUNC`/`OUTDIR`/`SCRATCHROOT` 环境变量（缺省保持旧行为）。
