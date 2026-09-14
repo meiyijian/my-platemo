@@ -7,6 +7,15 @@
 - 工作目录：`D:\PlatEMO-master\PlatEMO-master`
 - 当前主要工作：REMO_new2_AdaMaO 系列算法及其 SDE-only 变体、候选模式消融实验
 
+## 论文主实验 RunPaperWeighted30（2026-09-12 启动）
+
+- 脚本：`PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted/RunPaperWeighted30.m`；先读 README_30runs.md
+- 规格：7 算法（REMO/PIEA/CSEA/PCSAEA_N100/KRVEA_100/MCEAD/Weighted）× 16 题（DTLZ1-7/WFG1-9）× M=10/15/20 × 30 runs = 10080；N=100、D=30、maxFE=300；Weighted 参数 {3000,0.50,0.25,0.70,6}
+- 启动方式：`matlab -wait -batch "...addpath(...); RunPaperWeighted30('run',2);"`，parpool Processes 2 workers；`'check'` 只盘点、`'verify'` 验 worker、`'run',2` 断点续填缺 runs
+- 数据落盘：`C:/Users/lsx/Desktop/REMOandDREMO测试集/{10目标n30,15目标,20目标}/<算法>/<alg>_<prob>_M<m>_D<d>_<run>.mat`；日志与清单：算法目录 `diagnostics/paper_30runs/`（inventory_latest.csv、run_*.log、RUNNING.lock）
+- 健壮性设计：历史结果绝不覆盖、源码 SHA-256 manifest 校验、结果原子写入（temp→validate→movefile）、RUNNING.lock 防双开、种子公式 20260912+M*1e5+pi*1e3+ri
+- 9-12 23:05 首次启动（'run',2，2 workers），9-13 20:49 死于 896/2208（原因不明）；当晚用户侧补救：DTLZonly 定向补跑 ~420 个 + 脚本改为支持 workers='max'；9-13 22:25 起 ('run','max') 6 workers 接管剩余，实测 ~135 job/h（夜间疑似睡眠拖慢至 55/h）
+
 ## Git / 网络配置备忘
 
 - 远程仓库：`origin` → https://github.com/meiyijian/my-platemo.git（HTTPS 协议）

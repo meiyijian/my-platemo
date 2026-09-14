@@ -1,10 +1,12 @@
 # 论文七算法，每个问题补齐 30 次
 
+**2026-09-13 更新：本机 Weighted 仅跑 DTLZ1–7，M=10/15/20 的 WFG1–9 全部排除，由另一台电脑完成。六个对比算法仍跑 DTLZ1–7、WFG1–9，每题补齐 30 次。已有 Weighted WFG 文件保留，但不进入本机清单。当前本机目标为 9270 次，以下 2026-09-12 清点记录为旧范围历史快照。**
+
 双击本目录的 `StartPaperWeighted30.cmd`，或在 MATLAB 命令窗口执行：
 
 ```matlab
 addpath('D:/PlatEMO-master/PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted');
-RunPaperWeighted30('run',2);
+RunPaperWeighted30('run','max');
 ```
 
 仅清点已有结果，不开始优化：
@@ -16,7 +18,7 @@ RunPaperWeighted30('check');
 ## 固定范围与目录
 
 - 算法：REMO、PIEA、CSEA、PCSAEA_N100、KRVEA_100、MCEAD、REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted。
-- 每个算法均覆盖 M=10、15、20，DTLZ1–7 和 WFG1–9，运行编号 1–30。总计 10080 份结果，完整旧文件跳过。
+- 六个对比算法覆盖 M=10、15、20，DTLZ1–7 和 WFG1–9；Weighted 仅覆盖三档目标数的 DTLZ1–7。运行编号 1–30。本机总计 9270 份结果，完整旧文件跳过；Weighted 的 810 项 WFG 运行由另一台电脑负责。
 - 配置 N=100、maxFE=300、请求 D=30。WFG2/3 在 M=10/20 自动调整为 D=31；M=15 为 D=30。某些算法会内部调整种群大小，新增数据记录 finalN，N 字段表示输入配置。
 - PC-SAEA 和 K-RVEA 使用已经存在的 100 次初始化入口，不换回默认版本。
 - Weighted 使用 qKeep=0.70，即 `{3000,0.50,0.25,0.70,6}`，不混入 Q080 或其他 Weighted 名称的版本。
@@ -47,7 +49,7 @@ REMO/CSEA 保留原代码的末批超预算行为，接受最终 FE 在 300–39
 
 ## 并行与记录
 
-默认最多同时运行 2 个任务，可把命令末尾的 `2` 改为 `4` 或 `6`。已有进程池会复用，并限制本脚本的同时任务数；已有线程池不兼容，需要在空闲 MATLAB 会话中运行。脚本不删除用户现有进程池。
+按 2026-09-13 用户要求，默认使用 `'max'`，取 MATLAB Processes 配置 NumWorkers 与本机逻辑处理器数量的较小值。一键启动文件同步使用该设置；也可显式传入数字指定进程数。已有进程池足够大时复用；太小或为线程池时提示在新的批处理 MATLAB 会话运行，脚本不删除用户现有进程池。此次自动续跑停止了原有 2 进程批处理，保留已保存数据及交互式 MATLAB 窗口。
 
 每个工作进程显式配置本地 PlatEMO 路径，每个任务优先使用目标算法目录。参数显式传入。新增运行在直接调用 Solve 前设置独立全局种子，绕过 platemo 入口的 rng('shuffle')。Weighted 为兼容旧十/二十目标运行，模式流 run 固定为 1，全局种子随问题、目标数和运行编号变化；这不意味着跨算法已有数据是配对实验。
 
@@ -60,7 +62,7 @@ REMO/CSEA 保留原代码的末批超预算行为，接受最终 FE 在 300–39
 
 运行中不要同时启动另一个本脚本实例或修改算法。`RUNNING.lock` 防止重复启动，正常结束或 MATLAB 中断会清理。若 MATLAB 被强制结束，确认所有旧任务已停止后，手动删除本目录 `diagnostics/paper_30runs/RUNNING.lock`，再续跑。
 
-本次只准备并检查命令，不自动启动全部正式补跑。统计结果表未来仍放 `C:\Users\lsx\Desktop\AdaMao实验表`。
+2026-09-12 仅准备并检查命令；2026-09-13 按用户要求停止旧批处理，并自动启动排除 Weighted WFG 的续跑，仍使用 2 个进程。统计结果表未来仍放 `C:\Users\lsx\Desktop\AdaMao实验表`。
 
 ## 2026-09-12 清点与验证
 
