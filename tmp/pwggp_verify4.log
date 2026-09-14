@@ -1,0 +1,17 @@
+Initial equal 1; RNG equal 1; first difference 
+Equivalence case 1 PASS
+Initial equal 1; RNG equal 1; first difference 
+Equivalence case 2 PASS
+Good-group Precision profile: smoke (1 jobs)
+{错误使用 feval
+未定义与 'SOLUTION' 类型的输入参数相对应的函数 'IGD'。
+
+出错 PROBLEM/CalMetric (第 279 行)
+            score = feval(metName,Population,obj.optimum);
+
+出错 run_PrunedWeightedGoodGroupPrecision>runSingleJob (第 145 行)
+    IGD = problem.CalMetric('IGD', finalResult);
+
+出错 run_PrunedWeightedGoodGroupPrecision (第 79 行)
+                entry = runSingleJob(job, config, profile, outputFile, pathInfo, entry);
+} 
