@@ -2,8 +2,9 @@
 % ==========================================================================
 %  PACDIS -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
 %
-%  The manuscript is organised around two contributions: PBI-assisted quality
-%  classification (PAQC) and criterion-diversified infill selection (CDIS).
+%  PAQC is the primary contribution; simplified CDIS supports batch selection.
+%  Implementation: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted.
+%  Original-parameter checkpoint: paper-original-params-20260914.
 %  Established components are cited where they enter the framework.
 %
 %  Layout notes:
@@ -80,10 +81,10 @@ for Expensive Many-Objective Optimization}
 \TODO{Use the challenge--contribution structure. State the two concrete gaps:
 the binary PBI criterion provides only a coarse membership signal for
 constructing relation-learning groups,
-and a fixed relation-score rule lets the score distribution determine how many
-candidates are evaluated. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
-criterion-diversified infill selection (CDIS), addressing
-training-group construction and expensive-evaluation selection. Lead the results
+and selecting several top-ranked candidates can concentrate an expensive
+evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
+criterion-diversified infill selection (CDIS). Make PAQC the primary
+contribution and CDIS the supporting batch-selection strategy. Lead the results
 with the strongest verified algorithm-level IGD comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
@@ -102,22 +103,24 @@ infill selection
 \label{sec:intro}
 
 \TODO{Use a four-move opening: expensive many-objective relation learning; the
-coarse membership signal supplied by the binary PBI criterion and the dependence of
-fixed-cutoff batch size on the relation-score distribution; the two proposed
-mechanisms; and algorithm-level performance followed by evidence explaining
+coarse membership signal supplied by the binary PBI criterion and possible
+within-batch concentration under relation-score-only selection; PAQC as the
+primary contribution and CDIS as its supporting selection strategy; and algorithm-level performance followed by evidence explaining
 group construction and candidate selection. Present the two mechanisms as
 complementary design roles in one algorithm. Do not lead with selection-overlap
 statistics or imply that the relation network learns a within-group ordering.}
 
-The contributions are twofold. First, PBI-assisted quality classification
-(PAQC) combines a continuous PBI score with the binary representative-based
-label used in REMO.
-The resulting hybrid score prioritizes solutions before discretization,
-refining positive-group membership for relation learning. Second,
-criterion-diversified infill selection (CDIS) reduces the reliance of expensive
-evaluations on a single relation score. Relation-guided candidate generation is
-retained, while indicator-based reranking and exploration-oriented selection
-provide two alternative criteria for selecting the final evaluation batch.
+The primary contribution is PBI-assisted quality classification (PAQC),
+which combines a continuous PBI score with the representative-based binary
+label used in REMO. The hybrid score prioritizes solutions before
+discretization, refining positive-group membership while retaining the
+three-class relation-learning scheme. To support the use of these predictions,
+criterion-diversified infill selection (CDIS) provides two batch-selection
+criteria within an explicit evaluation cap. One constructs a spatially
+dispersed batch from candidates screened by relation quality; the other
+reranks a relation-screened subset using a predicted indicator. This supporting
+strategy combines quality guidance and batch diversification without adding
+a prediction-ambiguity reward or an error-dependent gate.
 
 \section{Related Work}
 \label{sec:related}
@@ -150,14 +153,15 @@ can learn and how much its predictions cost: the rule that turns the evaluated
 population into supervision labels, and the rule that turns the surrogate
 scores of a large candidate pool into a small batch of expensive evaluations.
 We propose PACDIS, a surrogate-assisted many-objective evolutionary
-algorithm that contributes one mechanism at each interface.
+algorithm centred on improving the supervision interface through PAQC,
+with CDIS providing a supporting expensive-evaluation selection strategy.
 \emph{PBI-assisted quality classification} (PAQC) combines a continuous PBI
 score with a binary representative-based label.
 The hybrid score determines which solutions enter the positive training group,
 providing quality-aware group construction before relation-pair labels are
 assigned. \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided candidate
-generation but uses either indicator-based reranking or exploration-oriented
-selection to choose the final expensive-evaluation batch. Established relation
+generation but uses either indicator-based reranking or quality-guided
+batch diversification to choose the final expensive-evaluation batch. Established relation
 learning, indicator assessment and environmental selection modules provide the
 host algorithm; the two proposed mechanisms change how its training groups are
 formed and how its surrogate scores are used.
@@ -176,7 +180,7 @@ We consider the expensive many-objective problem
 in which every evaluation of $\vf$ is expensive, so the number of real function
 evaluations is limited to a budget $FE_{\max}$. Let $FE$ be the number of
 evaluations consumed so far and $t=FE/FE_{\max}\in[0,1]$ the evaluation
-progress, which both proposed mechanisms use as their only schedule variable.
+progress, which controls the hybrid score in PAQC.
 
 PACDIS evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
 stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and then repeats five
@@ -185,7 +189,7 @@ is divided into a positive group and a non-positive group by
 PAQC, which also returns the set $\mathcal{R}$ of
 representative solutions reused later as an additional mating pool.
 (ii)~Ordered pairs are generated from the two groups and a three-class relation
-network is trained, together with a held-out pairwise error rate $e_r$.
+network is trained using the resulting ordered group labels.
 (iii)~An indicator value is computed for each solution in $\mathcal{P}$ and an
 RBF-SVR model is fitted from decision vectors to those values.
 (iv)~One of the two selection modes is drawn, a relation-guided inner search
@@ -230,10 +234,10 @@ relation-guided candidate search and criterion-dependent infill branches.
          \Call{PBIQualityClassification}{$\mathcal{P},t$}
   \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
-  \State Train $\mathcal{M}_R$ and obtain its held-out error $e_r$
+  \State Train the relation surrogate $\mathcal{M}_R$
   \State Train the indicator surrogate $\mathcal{M}_I$ on $\mathcal{P}$
   \State Draw an exploration or indicator mode $m$
-  \State $\mathcal{S}\gets$ \Call{CDIS}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m,t,e_r$}
+  \State $\mathcal{S}\gets$ \Call{CDIS}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m$}
   \State Evaluate $\mathcal{S}$ and append it to $\mathcal{A}_{\mathrm{rc}}$
   \State $FE\gets FE+|\mathcal{S}|$
   \State $\mathcal{P}\gets$ \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N$}
@@ -507,8 +511,8 @@ Its output for a pair is written
 $\bm{\pi}(\vx_a,\vx_b)=[\pi_{+1},\pi_0,\pi_{-1}]$, the predicted probabilities
 that the first solution belongs to the higher group, that both belong to the
 same group, and that the second belongs to the higher group. The held-out
-misclassification rate $e_r$ is reused by the reliability-aware acquisition
-rule for exploration-based infill.
+partition is retained by the training procedure; no held-out error is
+used to gate candidate selection in the present implementation.
 
 For an unevaluated candidate $\vx$ the trained network is queried on the four
 families of ordered comparisons $(\mathcal{C}_1,\vx)$, $(\vx,\mathcal{C}_1)$,
@@ -528,179 +532,146 @@ aggregate group-relative preference used to order unevaluated candidates.
 \subsection{Criterion-Diversified Infill Selection (CDIS)}
 \label{sec:method:cdis}
 
-The relation surrogate can rank thousands of predicted-promising candidates per
-iteration, but spending the expensive budget on the top of that single ranking
-concentrates the batch on whatever preference the current surrogate happens to
-hold. In particular, the number of candidates passing a fixed cutoff depends on
-the distribution of $R(\vx)$, which changes with the problem, search stage and
-training set. The resulting batch size, and hence the number of evaluations
-spent in an iteration, can vary even though the cutoff is unchanged.
-Moreover, $R(\vx)$ expresses only a
-candidate's predicted position relative to the two training groups.
+PAQC determines the groups learned by the relation model. CDIS provides a
+supporting rule for allocating the expensive budget among the resulting
+candidates. Selecting several candidates solely by their relation scores can
+concentrate a batch in similar decision regions. Such candidates may provide
+overlapping search information, motivating a spatially dispersed batch within
+a subset already screened for predicted quality. CDIS implements this idea
+through quality-guided batch diversification and complements it with
+indicator-based reranking. A fixed cap bounds each expensive-evaluation batch.
 
-PACDIS responds with two design decisions. First, ranking and expenditure
-control are separated: quantile rules define thresholds relative to the current
-score distribution, while an explicit cap $n_{\max}$ bounds the evaluation
-batch. Scores determine candidate priority within this bound; the retained-set
-size and remaining budget determine the feasible batch size. Second, two alternative ranking
-criteria are made available --- an exploration-oriented mode
-and an indicator-oriented mode --- and one of them is drawn per
-iteration. The two modes provide two
-alternative criteria for allocating expensive evaluations while keeping the
-per-iteration expenditure explicit and bounded.
+Both modes use the same candidate-pool construction procedure. Genetic
+variation is applied to the current population and representatives
+$\mathcal{R}$; the relation score in \eqref{eq:relscore} ranks the offspring,
+and up to $|\mathcal{R}|$ of the best are retained as parents of the next
+inner generation together with $\mathcal{R}$. The search stops once the
+cumulative number of generated candidates reaches $g_{\max}$. All generated
+candidates are accumulated and deduplicated into $\mathcal{A}$. The mode is
+drawn before this search: mode-specific aggregation of the pair predictions
+can change the inner rankings and hence the realized pool. Thus, the modes
+share a pool-construction procedure, rather than necessarily an identical pool.
 
-Both modes rank the same kind of candidate pool, produced by a relation-guided
-inner search: genetic variation is applied to the union of the current
-population and the representatives $\mathcal{R}$, the relation score
-\eqref{eq:relscore} ranks the offspring, up to $|\mathcal{R}|$ of the best are retained as
-parents of the next inner generation together with $\mathcal{R}$, and the loop
-stops once the cumulative number of generated candidates reaches the threshold
-$g_{\max}$. All candidates generated along the way are accumulated and
-deduplicated into the pool $\mathcal{A}$. Mode-specific relation aggregation
-shapes the inner search and produces a criterion-specific pool, while the common
-pool-construction rule and batch bound preserve a consistent expenditure
-interface.
-
-\subsubsection{Exploration-Based Infill}
+\subsubsection{Quality-Guided Batch Diversification}
 \label{sec:method:cdis:exp}
 
-The procedure \textsc{ExplorationBasedInfill} supplements the relation score
-with two quantities the score alone
-does not carry: how sharply the classifier separates the classes around a
-candidate, and how far the candidate lies from the rest of the batch in
-decision space. Let $\mathcal{O}(\vx)$ collect the $2N$ ordered comparisons of
-$\vx$ used in \eqref{eq:relscore}. The prediction ambiguity and the
-exploration-oriented acquisition score are
+The exploration-oriented mode first applies a quality screen and then
+constructs a dispersed evaluation batch within the retained set. Its relation
+score uses the largest softmax class probability as the weight of each ordered
+pair in the family-wise averages of \eqref{eq:relscore}. This weighting is
+retained from the relation-scoring procedure; no separate ambiguity reward is
+added. The exploration score is simply
 \begin{equation}
-\begin{aligned}
-U(\vx)&=1-\frac{1}{|\mathcal{O}(\vx)|}
-\sum_{(\vx_a,\vx_b)\in\mathcal{O}(\vx)}\;
-\max_{y}\;\pi_y(\vx_a,\vx_b),\\
-A_{\mathrm{exp}}(\vx)&=\widetilde R(\vx)+\lambda_t\,\widetilde U(\vx),
-\end{aligned}
+A_{\mathrm{exp}}(\vx)=R(\vx).
 \label{eq:expscore}
 \end{equation}
-where $\widetilde{(\cdot)}$ denotes min--max normalisation over the pool. A
-large $U(\vx)$ means the network produces flatter class distributions around
-that candidate. The resulting softmax-concentration signal supplies a relative
-acquisition order over the current pool. In this mode the same sharpness
-$\max_y\pi_y$ additionally weights the family-wise averages entering
-\eqref{eq:relscore}, so that sharper pairs contribute more to the aggregated
-score while preserving the semantics of the three relation classes.
-
-The weight of the ambiguity term is reduced according to the search stage and
-the error of the model whose ambiguity is being sampled,
+Candidates at or above its $q_{\mathrm{keep}}$ quantile form
 \begin{equation}
-\lambda_t=\lambda_0(1-t)\max\!\left(0,\;1-\frac{e_r}{e_{\max}}\right),
-\label{eq:lambda}
-\end{equation}
-with $e_r$ the relation model's held-out pairwise error
-and $e_{\max}$ a fixed threshold. The
-reliability factor automatically suppresses ambiguity guidance as the
-held-out error approaches the threshold, while the progress factor shifts the
-acquisition towards relation quality as the budget is consumed.
-
-Candidates at or above the $q_{\mathrm{keep}}$ quantile of $A_{\mathrm{exp}}$
-form the retained set
-\begin{equation}
-\mathcal{H}^{\mathrm{exp}}=\Bigl\{\vx\in\mathcal{A}\;\Bigm|\;
-A_{\mathrm{exp}}(\vx)\geq
-Q_{q_{\mathrm{keep}}}\bigl(A_{\mathrm{exp}}(\mathcal{A})\bigr)\Bigr\},
+\mathcal{H}^{\mathrm{exp}}=
+\bigl\{\vx\in\mathcal{A}: R(\vx)\geq
+Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\bigr\}.
 \label{eq:prefilter-exp}
 \end{equation}
-completed with the highest-scoring candidates if fewer than $n_{\min}$ qualify.
-The batch is then assembled greedily from $\mathcal{H}^{\mathrm{exp}}$: the
-first member maximises $A_{\mathrm{exp}}$, and each subsequent member maximises
+With $q_{\mathrm{keep}}=0.70$, this screen usually retains the highest-scoring
+30\% of the pool; ties can increase that fraction. Distance can affect selection
+only among these retained candidates, so a distant candidate below the
+relation-quality threshold cannot enter the batch through diversification.
+
+The first selected candidate maximizes $R$ within
+$\mathcal{H}^{\mathrm{exp}}$. Subsequent members maximize the joint
+quality--distance criterion
 \begin{equation}
 \begin{split}
 A_{\mathrm{batch}}(\vx\mid\mathcal{S})
-&=w\,\widehat A_{\mathrm{exp}}(\vx)
-+(1-w)\,\widehat d(\vx,\mathcal{S}),\\
+&=w\,\widehat R(\vx)+(1-w)\,\widehat d(\vx,\mathcal{S}),\\
 d(\vx,\mathcal{S})&=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2,
+\qquad w=0.75,
 \end{split}
 \label{eq:greedy}
 \end{equation}
-where $\widehat{(\cdot)}$ is renormalised over the remaining candidates at each
-step and $w>1/2$. Quality remains the primary criterion, while decision-space
-distance distributes the expensive batch across distinct candidate regions.
+where $\mathcal{S}$ is the batch selected so far. Both terms are min--max
+normalized over the remaining retained candidates at each greedy step; a
+constant term is assigned 0.5. Distances are Euclidean distances between
+decision vectors, as used by the implementation. If the retained set fits
+within the batch cap, all its members are returned in descending relation-score
+order. Otherwise, greedy selection continues until the feasible batch size is
+reached, with exact acquisition ties resolved by candidate order.
+
+The quality screen restricts the search to candidates with high predicted
+relation quality, while the distance term favors candidates separated from
+those already selected in the same batch. This quality-guided diversification
+is intended to reduce within-batch evaluation redundancy. It does not guarantee
+true objective quality, nor does distance within $\mathcal{S}$ measure novelty
+relative to the historical archive. Its final optimization benefit is an
+empirical question addressed by the component study.
 
 \subsubsection{Indicator-Based Infill}
 \label{sec:method:cdis:ind}
 
-The procedure \textsc{IndicatorBasedInfill} retains the relation model for
-coarse candidate filtering and
-introduces a different quality criterion only for final reranking. Following
+The indicator-oriented mode provides an alternative final ranking. Following
 PIEA~\cite{ref:piea}, an SDE-based fitness~\cite{ref:sde} is computed for each
-evaluated solution using the generalised $L_p$ front-shape estimate and its
-finite convergence fallback. Because this fitness is available only for
-evaluated solutions, an RBF-SVR model approximates it in the decision space,
+evaluated solution using the generalized $L_p$ front-shape estimate and its
+finite convergence fallback. An RBF-SVR model predicts this fitness from
+decision vectors,
 \begin{equation}
-\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D}),
-\qquad
-\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N},
+\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D}),\qquad
+\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}.
 \label{eq:svr}
 \end{equation}
-and reranks the pool. Selection then follows two stages. The relation score
-\eqref{eq:relscore} first retains the top fraction $q_{\mathrm{rel}}$ of
-$\mathcal{A}$, after which $\widehat I$ reranks this reduced set. Candidates at
-or above its $q_{\mathrm{ind}}$ quantile form $\mathcal{H}^{\mathrm{ind}}$ and
-are completed with the highest-ranked candidates if fewer than $n_{\min}$
-qualify. The final batch contains the best $n_b$ members under $\widehat I$.
-Thus, the contribution of this mode is the two-stage use of relation-based
-filtering followed by indicator-based reranking.
+The relation score first retains the top
+$\lceil q_{\mathrm{rel}}|\mathcal{A}|\rceil$ candidates, with
+$q_{\mathrm{rel}}=0.30$, to form $\mathcal{H}^{\mathrm{ind}}$.
+In this mode the family-wise relation probabilities are arithmetic averages.
+The screened candidates are then ranked by descending $\widehat I$, and up to
+$n_{\max}$ are selected directly. Failed or nonfinite indicator predictions
+fall back to relation-score ranking. There is no second indicator-quantile
+filter or minimum-batch completion rule. The role of this branch is the
+two-stage use of relation filtering followed by indicator reranking.
 
 \subsubsection{Selection-Criterion Switching}
 \label{sec:method:cdis:mix}
 
-Let $m\in\{\mathrm{exp},\mathrm{ind}\}$ denote the mode of the current
-iteration. With $u\sim U[0,1)$,
+Let $m\in\{\mathrm{exp},\mathrm{ind}\}$ denote the mode. With $u\sim U[0,1)$,
 \begin{equation}
-m=
-\begin{cases}
+m=\begin{cases}
 \mathrm{ind}, & \text{if the indicator surrogate is available}\\
-              & \text{and } u<p_{\mathrm{mix}},\\[2pt]
+              & \text{and }u<p_{\mathrm{mix}},\\[2pt]
 \mathrm{exp}, & \text{otherwise},
 \end{cases}
 \label{eq:mode}
 \end{equation}
-with $p_{\mathrm{mix}}=0.5$. Stochastic switching assigns one intact criterion
-to each iteration, preserving the distinct selection semantics of the two modes
-and giving them equal selection probability when the indicator surrogate is
-available, without requiring their scores to be combined into a single ranking.
-
-Whichever mode is drawn, the number of expensive evaluations is
+where $p_{\mathrm{mix}}=0.5$. One intact criterion is used per iteration;
+the two scores need not be combined into a single ranking. This is a fixed
+probability rule, with exploration as the fallback when the indicator
+surrogate is unavailable. The feasible batch size is
 \begin{equation}
-n_b=\min\bigl(n_{\max},\,|\mathcal{H}^{m}|\bigr),
+n_b=\min\bigl(n_{\max},|\mathcal{H}^{m}|,FE_{\max}-FE\bigr),
 \label{eq:batch}
 \end{equation}
-truncated further by the remaining budget $FE_{\max}-FE$. Before this cap is
-applied, the retained set is completed to $n_{\min}$ whenever the pool permits.
-Together, the quantile rules and \eqref{eq:batch} convert surrogate scores into
-a stable rank-and-budget interface. A direct variation step supplies candidates
-when the inner pool is empty. Algorithm~\ref{alg:cdis} summarises the
-module and returns the batch in selection order. For clarity, the pseudocode
-omits these routine completion and fallback steps. In
-Algorithm~\ref{alg:framework}, $\mathcal{S}$ is implicitly truncated to its first
-$\min(|\mathcal{S}|,FE_{\max}-FE)$ members before evaluation and the $FE$ update.
+with $n_{\max}=6$. A small retained set produces a smaller batch; it is not
+completed to a prescribed minimum. If the pool is empty, genetic variation
+provides fallback candidates, which are deduplicated and truncated to the same
+cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
+procedure. The framework truncates any returned batch to the remaining budget
+before its real evaluation and the corresponding $FE$ update.
 
 \begin{algorithm}[t]
 \caption{DiversifiedInfillSelection (CDIS)}
 \label{alg:cdis}
 \begin{algorithmic}[1]
-\Require population $\mathcal{P}$, representatives $\mathcal{R}$, surrogates
-         $\mathcal{M}_R,\mathcal{M}_I$, mode $m$, progress $t$, error $e_r$
+\Require population $\mathcal{P}$, representatives $\mathcal{R}$,
+         surrogates $\mathcal{M}_R,\mathcal{M}_I$, mode $m$
 \Ensure ordered candidate batch $\mathcal{S}$
 \State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
 \State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
 \If{$m=\mathrm{ind}$}
-  \State $\mathcal{B}\gets$ candidates screened by relation score $R(\vx)$
-  \State Rerank $\mathcal{B}$ by the indicator predictions $\widehat I$ of $\mathcal{M}_I$
-  \State $\mathcal{S}\gets$ the best $n_b$ candidates after indicator filtering
+  \State $\mathcal{H}^{\mathrm{ind}}\gets$ top $q_{\mathrm{rel}}$ fraction by $R$
+  \State Rerank $\mathcal{H}^{\mathrm{ind}}$ by indicator predictions $\widehat I$
+  \State $\mathcal{S}\gets$ the first $n_b$ candidates, with $n_b$ from \eqref{eq:batch}
 \Else
-  \State Compute exploration scores $A_{\mathrm{exp}}$ by \eqref{eq:expscore}--\eqref{eq:lambda}
-  \State $\mathcal{H}^{\mathrm{exp}}\gets$ candidates retained by \eqref{eq:prefilter-exp}
-  \State Seed $\mathcal{S}$ with the highest-scoring member of $\mathcal{H}^{\mathrm{exp}}$
-  \State Greedily extend $\mathcal{S}$ to $n_b$ members by \eqref{eq:greedy}
+  \State $\mathcal{H}^{\mathrm{exp}}\gets$ quality-screened candidates by \eqref{eq:prefilter-exp}
+  \State Seed $\mathcal{S}$ with the highest relation-score candidate
+  \State Extend $\mathcal{S}$ to $n_b$ by quality--distance selection \eqref{eq:greedy}
 \EndIf
 \State \Return $\mathcal{S}$
 \end{algorithmic}
@@ -728,8 +699,8 @@ prediction, which dominates the module. The indicator fitness costs $O(N^2M)$,
 the indicator-oriented mode adds one SVR fit on the $N$ evaluated solutions plus
 predictions on the screened subset, and the greedy construction \eqref{eq:greedy}
 costs $O(n_{\max}N_cD)$. The per-iteration cost is therefore $O(N_cND+N^2M)$.
-Neither module consumes expensive evaluations, so the total number of real
-evaluations remains $FE_{\max}$ regardless of the mode sequence.
+Neither module directly consumes expensive evaluations. The remaining-budget
+check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode sequence.
 
 
 \section{Experimental Studies}
@@ -767,7 +738,23 @@ within the 300-evaluation limit. These variants are recorded as
 The tables use their conventional algorithm names for brevity.
 This initialization setting is distinct from the configured population size
 $N$. The PACDIS results correspond to the implementation recorded as
-\texttt{REMO\_new2\_AdaMaO\_SDEOnly\_UniformMix\_Original}.
+\texttt{REMO\_\allowbreak new2\_\allowbreak AdaMaO\_\allowbreak SDEOnly\_\allowbreak UniformMix\_\allowbreak Pruned\_\allowbreak Weighted}.
+
+\paragraph{PACDIS parameters.}
+The same configuration is used across all three objective counts:
+$g_{\max}=3000$, $p_{\mathrm{mix}}=0.50$, $r_g=0.25$,
+$q_{\mathrm{keep}}=0.70$, and $n_{\max}=6$.
+The batch weight $w=0.75$, indicator shortlist fraction $q_{\mathrm{rel}}=0.30$,
+and continuous-PBI penalty $\theta=5$ are fixed internal constants.
+The requested representative count is
+\begin{equation}
+k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
+\label{eq:keff}
+\end{equation}
+giving 15, 23 and 30 at $M=10$, 15 and 20 with $N=100$.
+The actual returned representative count can be smaller.
+No ambiguity-reward coefficient, error-gate threshold, or minimum-batch
+parameter is used in this version.
 
 \paragraph{Performance indicator and statistical reporting.}
 Performance is measured by inverted generational distance (IGD), with
@@ -783,54 +770,163 @@ table counts these symbols in the order $+/-/=$ for each baseline across
 all problem--objective configurations in that table. These counts summarize
 the supplied pairwise outcomes and are not a separate omnibus test across problems.
 
-\TODO{Complete the number of independent runs, confirm the statistical-test
-option used for these exports, and specify the IGD reference sets and
-execution environment. The local PlatEMO rank-sum export uses a 0.05
+\TODO{Complete the number of independent runs, audit actual terminal FE for
+each baseline, confirm the statistical-test option used for these exports,
+and specify the IGD reference sets and execution environment. The local PlatEMO rank-sum export uses a 0.05
 threshold without a multiple-comparison adjustment; confirm that this option
 was used before finalizing the statistical protocol.}
 
 \subsection{Comparison with the Six Baseline Algorithms}
 \label{sec:exp:comparison}
 
-PACDIS achieves the lowest mean IGD on 3, 4 and 4 of the 16 problems at
-$M=10$, 15 and 20, respectively. Its most consistent best-mean results occur
-on WFG7 and WFG8, where it ranks first at all three objective counts.
-These results show competitive performance throughout the tested range,
-with advantages that depend on the problem and the comparator.
+Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the supplied results
+for the simplified weighted implementation. PACDIS has the lowest mean IGD
+on 3, 4 and 4 of the 16 problems at $M=10$, 15 and 20, respectively.
+These best means occur on WFG1, WFG7 and WFG8 at all three objective counts,
+and additionally on WFG6 at 15 and 20 objectives.
 
 \input{experiments/main_performance/table_dtlz}
 \input{experiments/main_performance/table_wfg}
 
-For REMO, the $+/-/=$ counts are 2/9/5, 4/9/3 and 2/8/6 at
-$M=10$, 15 and 20, respectively. The CSEA, PC-SAEA, K-RVEA and MCEA/D
-columns also contain more $-$ than $+$ entries in every objective setting.
-The comparison with PIEA is closer: its corresponding counts are 7/6/3,
-6/7/3 and 5/9/2. Thus, the improvement over the relation-learning baseline
-does not imply uniform superiority over indicator-based surrogate search.
+The REMO columns have $+/-/=$ counts of 5/10/1, 6/10/0 and 4/9/3
+at $M=10$, 15 and 20. CSEA, PC-SAEA, K-RVEA and MCEA/D also have
+more reported losses than wins against PACDIS in each objective setting.
+The comparison with PIEA is less favorable: its corresponding counts are
+7/5/4, 8/6/2 and 6/6/4. Thus, the results indicate competitive performance
+against the selected baselines, with a stronger pattern on WFG than DTLZ;
+they do not establish overall superiority to PIEA.
 
-The detailed results reveal complementary strengths among the algorithms.
-At $M=10$, K-RVEA has the lowest mean IGD on DTLZ7, WFG2, WFG5 and WFG6,
-whereas PACDIS leads on WFG1, WFG7 and WFG8. At $M=15$, PACDIS leads on
-DTLZ2, WFG6, WFG7 and WFG8. At $M=20$, its best-mean results occur on
-WFG1, WFG6, WFG7 and WFG8. In particular, WFG6 becomes a best-mean result
-for PACDIS at 15 and 20 objectives, while K-RVEA remains stronger on DTLZ7.
+PIEA has a lower mean IGD than PACDIS on DTLZ5 and DTLZ6 at all three
+objective counts, and MCEA/D has the lowest mean on DTLZ3 at 15 and 20
+objectives. WFG3 is another persistent weakness: REMO, PIEA, CSEA, PC-SAEA
+and MCEA/D all have lower means than PACDIS in the three settings.
+K-RVEA remains stronger on DTLZ7. These counterexamples delimit the
+performance claim and motivate component-level evidence rather than an
+assumption that the complete-algorithm results demonstrate PAQC's effect.
 
-Several counterexamples delimit these advantages. PIEA outperforms PACDIS
-on DTLZ5 and DTLZ6 at all three objective counts. MCEA/D obtains the lowest
-mean IGD on DTLZ3 at 15 and 20 objectives. WFG3 remains a difficult case:
-PACDIS has a larger mean IGD than REMO, PIEA, CSEA, PC-SAEA and MCEA/D in
-all three settings, although its comparison with K-RVEA is favorable.
-The results therefore support competitiveness within the tested
-10--20-objective range, rather than a monotonic increase in advantage with
-the number of objectives. They assess the complete algorithm; attributing
-the gains to PAQC and CDIS requires matched component comparisons.
+\subsection{Factorial Ablation of PAQC and CDIS}
+\label{sec:exp:ablation}
+
+The component study is designed to separate the contribution of PAQC from
+the supporting CDIS strategy. Four variants share the same implementation
+framework: $A_{00}$ uses the reference grouping and selection rules;
+$A_{10}$ replaces only grouping with PAQC; $A_{01}$ replaces only selection
+with the simplified CDIS; and $A_{11}$ uses both modules and is the complete
+PACDIS. The reference rules are controlled replacements within this common
+framework, rather than a claim to reproduce the complete original REMO.
+\begin{table}[t]
+\centering
+\caption{Planned factorial component configurations.}
+\label{tab:exp:ablation-design}
+\small
+\begin{tabular}{lll}
+\toprule
+Variant & Grouping & Selection\\
+\midrule
+$A_{00}$ & Reference & Reference\\
+$A_{10}$ & PAQC & Reference\\
+$A_{01}$ & Reference & CDIS\\
+$A_{11}$ & PAQC & CDIS\\
+\bottomrule
+\end{tabular}
+\end{table}
+All four variants will use matched initial designs, real-evaluation budgets,
+representative-count rules, relation-model training, and environmental
+selection. The exact reference-selection rule and its batch policy will be
+specified before running the controls; any change in evaluation-batch size
+must be reported as part of that treatment. The PAQC contrasts are
+$A_{10}$ versus $A_{00}$ and $A_{11}$ versus $A_{01}$, while the CDIS
+contrasts are $A_{01}$ versus $A_{00}$ and $A_{11}$ versus $A_{10}$.
+Their consistency will distinguish a PAQC benefit across selection contexts
+from a benefit conditional on CDIS.
+\TODO{Insert the fixed problem subset, run count, seeds, exact reference
+rules and batch policy, final-IGD results, effect sizes and statistical
+comparisons. No component-performance conclusion is asserted yet.}
+
+\subsection{Control for the Number of Representative Solutions}
+\label{sec:exp:kcontrol}
+
+This control tests whether an apparent PAQC benefit can instead be explained
+by using more representatives. With CDIS fixed, reference grouping and PAQC
+will each be evaluated at $k=6$ and $k=k_{\mathrm{eff}}$ from
+\eqref{eq:keff}. Grouping methods will be compared at the same $k$, and
+the effect of changing $k$ will be assessed within each grouping method.
+Representatives are reused in the mating pool, so changing $k$ can affect
+candidate generation as well as grouping; the actual returned count and
+candidate-generation accounting will therefore be recorded. Identical
+configurations shared with the factorial study can reuse the same runs.
+\TODO{Insert the four-configuration results, actual representative counts,
+matched-run details and uncertainty estimates. Assess whether PAQC retains
+a benefit at fixed $k$ before excluding representative count as an explanation.}
+
+\subsection{Good-Group Precision Analysis of PAQC}
+\label{sec:exp:ggp}
+
+The GGP study is intended to explain how PAQC changes positive-group
+membership. On matched evaluated-population checkpoints, the reference
+binary label $L$, continuous score $S$, and hybrid score $H$ will be examined
+using a common outcome definition. Ranked positive sets will use the same
+cardinality, with binary-label ties handled by a specified rule; native
+reference-group results will be identified separately if their size differs.
+For a selected positive set $\mathcal{C}_1$ and an independently defined
+outcome-positive set $\mathcal{Y}^{+}$, precision is
+\begin{equation}
+\mathrm{GGP}=\frac{|\mathcal{C}_1\cap\mathcal{Y}^{+}|}{|\mathcal{C}_1|}.
+\label{eq:ggp}
+\end{equation}
+The outcome must not be defined by the same PBI score used to construct
+the group. Coverage and stage-wise results will accompany precision so that
+missing observations and changing outcome prevalence remain visible.
+Checkpoints from one run are repeated measurements, not independent runs.
+Early, middle and late stages will be distinguished in view of the ordering
+condition in Proposition~\ref{prop:order}. If future retention or another
+trajectory-dependent outcome is used, GGP describes association under that
+search trajectory; it does not replace the final-performance ablation.
+\TODO{Specify the outcome and observation horizon, checkpoint schedule,
+tie rule, sample coverage and run-level aggregation; insert GGP results
+and uncertainty. Verify version and budget compatibility before reusing
+historical checkpoints.}
+
+\subsection{Effect of Selection-Criterion Switching}
+\label{sec:exp:pmix}
+
+With PAQC and the remaining settings fixed, the planned comparison uses
+$p_{\mathrm{mix}}\in\{0,0.5,1\}$. These settings represent diversification
+only, the default stochastic mixture, and indicator selection whenever its
+surrogate is available, respectively. Even at $p_{\mathrm{mix}}=1$, the
+specified fallback remains active. The realized frequencies of both modes
+and their real-evaluation allocations will be reported alongside final IGD.
+Because the mode is drawn before candidate generation, this study measures
+the effect of the complete mode policy, including its induced candidate pools,
+rather than a reranking-only intervention on an identical pool.
+\TODO{Insert the fixed problem subset, matched-run results and realized mode
+frequencies. Determine whether the default mixture provides a useful balance
+across problems; do not infer insensitivity over the whole interval from
+three settings alone.}
+
+\subsection{Convergence Behavior}
+\label{sec:exp:convergence}
+
+Convergence curves will report IGD against actual consumed function
+evaluations, including initialization, using saved trajectories from the
+main study and selected component controls. Representative configurations
+will include favorable, unfavorable and closely matched final outcomes.
+Each curve will summarize independent runs with a stated variability band.
+Where batches produce different checkpoint locations, alignment will use the
+most recent observed value at or before a shared FE checkpoint, without
+extrapolating beyond the last recorded evaluation. These curves will show
+when differences arise and whether they persist to the common budget.
+\TODO{Insert convergence figures, configuration identities, run counts,
+checkpoint-alignment details and the definition of the variability band.
+Use trajectories from the final implementation and the same IGD reference
+sets as the main comparison.}
 
 \FloatBarrier
 \section{Conclusion}
 \label{sec:conclusion}
-\TODO{Reinforce the two design contributions of PACDIS: PAQC refines
+\TODO{Lead with PAQC as the primary contribution: it refines
 positive-group membership through quality-aware group construction, and CDIS
-offers exploration and indicator criteria within an
+supports quality-guided batch diversification and indicator reranking within an
 explicit evaluation-batch bound. State the strongest verified algorithm-level
 result and its benchmark scope. Close by connecting the group-composition and
 candidate-batch findings to these two design roles, keeping empirical performance

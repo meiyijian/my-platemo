@@ -8,8 +8,10 @@
   bounds their accumulation. Indicator mode is drawn with probability
   $p_{\mathrm{mix}}=0.5$ when its surrogate is available; otherwise exploration
   mode is used. The selected mode determines the final filtering and selection
-  criterion. Quantile filtering includes retained-set completion before batch
-  selection; the batch is further bounded by the remaining evaluation budget.
+  criterion. Exploration uses a relation-quality screen followed by joint
+  quality--distance batch selection; the indicator branch directly reranks
+  its relation-screened subset. The batch is bounded by its cap and the
+  remaining evaluation budget, without minimum-size completion.
   Detailed safeguards are given in
   Algorithms~\ref{alg:framework} and~\ref{alg:cdis}.
   \label{fig:framework}}
