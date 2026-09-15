@@ -805,60 +805,133 @@ K-RVEA remains stronger on DTLZ7. These counterexamples delimit the
 performance claim and motivate component-level evidence rather than an
 assumption that the complete-algorithm results demonstrate PAQC's effect.
 
-\subsection{Factorial Ablation of PAQC and CDIS}
+\subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-The component study is designed to separate the contribution of PAQC from
-the supporting CDIS strategy. Four variants share the same implementation
-framework: $A_{00}$ uses the reference grouping and selection rules;
-$A_{10}$ replaces only grouping with PAQC; $A_{01}$ replaces only selection
-with the simplified CDIS; and $A_{11}$ uses both modules and is the complete
-PACDIS. The reference rules are controlled replacements within this common
-framework, rather than a claim to reproduce the complete original REMO.
+This preliminary study uses the available historical component experiments.
+Full denotes the Original implementation, whereas
+Section~\ref{sec:exp:comparison} reports the current weighted implementation.
+The historical HPC and candidate variants correspond to earlier versions of
+the PAQC grouping and CDIS selection components. Their results are retained
+here to examine component-level trends; they do not establish the effects
+of removing modules from the current implementation.
+
+The exports specify $N=100$, a configured budget of 300 evaluations and
+$M\in\{10,20\}$. The decision dimension is 30, except for WFG2 and WFG3,
+which use 31. All 16 problems are retained at $M=10$. At $M=20$, WFG4 is
+excluded because its exported objective count is 10, leaving 15 problems.
+Table~\ref{tab:exp:ablation-design} defines the available configurations.
+$K$ denotes the requested count reported in the exports: 15 for $M=10$
+and 30 for $M=20$.
 \begin{table}[t]
 \centering
-\caption{Planned factorial component configurations.}
+\caption{Historical component configurations. HPC and candidate retain
+the source-export names.}
 \label{tab:exp:ablation-design}
 \small
-\begin{tabular}{lll}
+\begin{tabular}{llcc}
 \toprule
-Variant & Grouping & Selection\\
+Label & Exported variant & $k$ & Available $M$\\
 \midrule
-$A_{00}$ & Reference & Reference\\
-$A_{10}$ & PAQC & Reference\\
-$A_{01}$ & Reference & CDIS\\
-$A_{11}$ & PAQC & CDIS\\
+R6 & REMO & 6 & 10, 20\\
+RK & REMO ($k=K$) & $K$ & 10, 20\\
+P6 & REMO+HPC & 6 & 10, 20\\
+PK & REMO+HPC ($k=K$) & $K$ & 10, 20\\
+C6 & REMO+candidate & 6 & 10, 20\\
+FK & Full (Original, $k=K$) & $K$ & 10, 20\\
+F6 & Full (Original, $k=6$) & 6 & 20\\
 \bottomrule
 \end{tabular}
 \end{table}
-All four variants will use matched initial designs, real-evaluation budgets,
-representative-count rules, relation-model training, and environmental
-selection. The exact reference-selection rule and its batch policy will be
-specified before running the controls; any change in evaluation-batch size
-must be reported as part of that treatment. The PAQC contrasts are
-$A_{10}$ versus $A_{00}$ and $A_{11}$ versus $A_{01}$, while the CDIS
-contrasts are $A_{01}$ versus $A_{00}$ and $A_{11}$ versus $A_{10}$.
-Their consistency will distinguish a PAQC benefit across selection contexts
-from a benefit conditional on CDIS.
-\TODO{Insert the fixed problem subset, run count, seeds, exact reference
-rules and batch policy, final-IGD results, effect sizes and statistical
-comparisons. No component-performance conclusion is asserted yet.}
+
+Tables~\ref{tab:exp:abl10} and~\ref{tab:exp:abl20} report the exported
+means and standard deviations. Table~\ref{tab:exp:abl-effects} separates
+comparisons of these means from the pairwise outcomes supplied in the
+exports. For a change from configuration $A$ to $B$, the geometric mean
+ratio is
+\begin{equation}
+G(A,B)=\exp\!\left[\frac{1}{J}\sum_{j=1}^{J}
+\log\frac{\overline{\mathrm{IGD}}_{A,j}}
+{\overline{\mathrm{IGD}}_{B,j}}\right].
+\label{eq:abl-ratio}
+\end{equation}
+Each problem has equal weight, and $G>1$ favors $B$. This summary uses
+the rounded exported means and is descriptive.
+
+\input{experiments/ablation_original/table_m10}
+\input{experiments/ablation_original/table_m20}
+\input{experiments/ablation_original/table_effects}
+
+At the same reported count $K$, PK improves on RK in mean IGD on 14 of
+16 problems at $M=10$ and 11 of 15 at $M=20$. The exported better/worse/
+no-difference counts are 8/1/7 and 10/2/3, respectively. The geometric
+mean ratios are 1.063 and 1.118. Thus, the historical grouping variant
+retains an advantage when the representative count is held fixed.
+Its improvement over R6 at $k=6$ is also visible on 11 problems at each
+objective count. The unfavorable cases matter: PK has a higher mean than
+RK on WFG3 at both objective counts and on DTLZ2 at $M=20$.
+
+The additional gain from PK to FK is smaller. FK has a lower mean on
+10 of 16 and 9 of 15 problems, but the exports report only three favorable
+differences and one unfavorable difference at each objective count.
+Both geometric mean ratios round to 1.028. DTLZ7 gives the clearest
+example: mean IGD decreases from 17.305 to 12.122 at $M=10$ and from
+25.637 to 18.154 at $M=20$, reductions of 30.0\% and 29.2\%.
+In contrast, FK is worse than PK on DTLZ5 at both objective counts,
+and their WFG6 means at $M=20$ are almost identical (19.109 and 19.097).
+The candidate component therefore gives a problem-dependent incremental
+gain in these historical comparisons.
+
+The $M=20$, $k=6$ data provide a second context. F6 improves on C6 in
+mean IGD on 12 of 15 problems, with exported counts of 3/1/11, and on
+P6 on 11 of 15 problems. No direct pairwise test was exported for the
+latter contrast. Taken together, the results suggest contributions from
+both components, but do not demonstrate a synergistic interaction.
+Candidate-only results at $k=K$ and Full at $M=10$, $k=6$ are absent
+from the supplied exports.
+
+\TODO{Replace the historical comparisons with controls derived from the
+final Full version. Verify run counts, seeds, actual terminal FE, runtime
+$k$ overrides, IGD reference sets and the exported test settings against
+run-level records. The supplied summaries do not verify 30 independent
+runs or permit recomputation of significance tests.}
 
 \subsection{Control for the Number of Representative Solutions}
 \label{sec:exp:kcontrol}
 
-This control tests whether an apparent PAQC benefit can instead be explained
-by using more representatives. With CDIS fixed, reference grouping and PAQC
-will each be evaluated at $k=6$ and $k=k_{\mathrm{eff}}$ from
-\eqref{eq:keff}. Grouping methods will be compared at the same $k$, and
-the effect of changing $k$ will be assessed within each grouping method.
-Representatives are reused in the mating pool, so changing $k$ can affect
-candidate generation as well as grouping; the actual returned count and
-candidate-generation accounting will therefore be recorded. Identical
-configurations shared with the factorial study can reuse the same runs.
-\TODO{Insert the four-configuration results, actual representative counts,
-matched-run details and uncertainty estimates. Assess whether PAQC retains
-a benefit at fixed $k$ before excluding representative count as an explanation.}
+Table~\ref{tab:exp:k-effects} compares $k=6$ with the larger reported
+count $K$ within the historical REMO, HPC and Full variants. The REMO
+and HPC comparisons retain their reference selection strategy; the Full
+comparison retains Original's candidate strategy and is available only
+at $M=20$. This differs from a complete grouping-by-$k$ control under
+the current CDIS implementation.
+
+\input{experiments/ablation_original/table_k}
+
+Increasing $k$ has different effects on the two problem families. At
+$M=10$, the DTLZ geometric mean ratios are 0.921 for REMO and 0.933
+for HPC, whereas the corresponding WFG ratios are 1.121 and 1.143.
+The same pattern appears at $M=20$: the DTLZ ratios remain below one
+and the WFG ratios remain above one for all three available variants.
+For example, increasing $k$ in HPC changes mean IGD on 20-objective
+DTLZ1 from 57.687 to 81.313, but improves WFG6 from 23.492 to 19.109.
+More representatives therefore do not provide a uniform improvement.
+
+The aggregate results reinforce this point. For HPC at $M=20$, the
+overall ratio is 1.001, so the gains and losses across problems nearly
+balance on the geometric-mean scale. For Full, increasing $k$ improves
+8 of 15 means but gives an overall ratio of 0.978. Counting favorable
+problems alone would miss the size of the unfavorable changes.
+
+These results help interpret Section~\ref{sec:exp:ablation}: the
+fixed-$K$ comparison between RK and PK cannot be explained simply by
+assigning more representatives to PK. They do not establish that $K$
+is optimal, or isolate the effect of reference count within current
+CDIS. Representatives also enter candidate generation, so changing
+$k$ affects more than the classification boundary. A final control
+should cross reference grouping and PAQC with $k\in\{6,K\}$ under
+the same final CDIS implementation, reusing the two $k=K$ configurations
+from the module study and recording the actual returned reference count.
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
