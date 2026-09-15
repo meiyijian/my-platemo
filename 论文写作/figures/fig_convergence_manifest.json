@@ -1,0 +1,105 @@
+{
+  "figure": "fig_convergence",
+  "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\figures\\source_data\\convergence_igd.csv",
+  "source_csv_sha256": "cbfdd622b141803c66b0184f5f0ee8007581096489217c90a0556e89b30bcb83",
+  "runs_used": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "algorithms": [
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+    "REMO",
+    "PIEA",
+    "CSEA",
+    "PCSAEA_N100",
+    "KRVEA_100",
+    "MCEAD"
+  ],
+  "problems": [
+    "WFG7",
+    "WFG8"
+  ],
+  "objectives": [
+    10,
+    15,
+    20
+  ],
+  "panel_runs": {
+    "M10|WFG7": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    },
+    "M10|WFG8": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    },
+    "M15|WFG7": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    },
+    "M15|WFG8": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    },
+    "M20|WFG7": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    },
+    "M20|WFG8": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO": 20,
+      "PIEA": 20,
+      "CSEA": 20,
+      "PCSAEA_N100": 20,
+      "KRVEA_100": 20,
+      "MCEAD": 20
+    }
+  },
+  "alignment": "zero-order hold on unit-FE grid, no extrapolation past the last snapshot",
+  "band": "25-75% interquartile range across runs, PACDIS only",
+  "minimum_pdf_glyph_pt": 7.5,
+  "text_outside_canvas": []
+}

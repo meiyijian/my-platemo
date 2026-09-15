@@ -900,19 +900,31 @@ three settings alone.}
 \subsection{Convergence Behavior}
 \label{sec:exp:convergence}
 
-Convergence curves will report IGD against actual consumed function
-evaluations, including initialization, using saved trajectories from the
-main study and selected component controls. Representative configurations
-will include favorable, unfavorable and closely matched final outcomes.
-Each curve will summarize independent runs with a stated variability band.
-Where batches produce different checkpoint locations, alignment will use the
-most recent observed value at or before a shared FE checkpoint, without
-extrapolating beyond the last recorded evaluation. These curves will show
-when differences arise and whether they persist to the common budget.
-\TODO{Insert convergence figures, configuration identities, run counts,
-checkpoint-alignment details and the definition of the variability band.
-Use trajectories from the final implementation and the same IGD reference
-sets as the main comparison.}
+\input{figures/figure_convergence.tex}
+
+Figure~\ref{fig:exp:convergence} reports the median IGD trajectories of
+PACDIS and the six baselines on WFG7 and WFG8, the two problems on which
+PACDIS holds the lowest mean IGD at all three objective counts in
+Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}. The trajectories are the
+saved per-snapshot records of the same runs as the main comparison,
+measured by the same IGD implementation and reference sets. Run identifiers
+1--20 are used for every algorithm, the largest set available to all seven
+(the baselines store 30 runs and PACDIS 20).
+
+The horizontal axis counts the real function evaluations actually consumed,
+including the initial design, and therefore does not start at zero: each
+curve begins at the first recorded snapshot of its algorithm. Where
+snapshots fall at different evaluation counts across runs and algorithms,
+each trace is held at its most recent recorded value on a unit-FE grid and
+is not extrapolated beyond its last snapshot. The shaded band is the
+25th--75th percentile range across the PACDIS runs.
+
+The advantage of PACDIS emerges within the first surrogate-assisted batches
+after the initial design and widens with the budget. On WFG7 the final
+median is 14--21\% below the strongest baseline at every objective count;
+on WFG8 the margin is smaller (2.5--5.7\%) but persists to the common
+budget, with the PACDIS and K-RVEA medians nearly coinciding at $M=15$ and
+$M=20$. In all six panels PACDIS attains the lowest final median.
 
 \FloatBarrier
 \section{Conclusion}

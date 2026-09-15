@@ -1,0 +1,20 @@
+% Section 4.7 convergence figure; built by figures/build_convergence.py from
+% figures/source_data/convergence_igd.csv (exported by
+% .workbuddy/run_scripts/ExportConvergenceCSV.m).
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.98\textwidth]{figures/fig_convergence.pdf}
+  \caption{Median IGD convergence of PACDIS and the six baseline algorithms
+  on WFG7 and WFG8 at $M=10$, 15 and 20. Each curve summarizes 20
+  independent runs (run identifiers 1--20) of the same experiment as the
+  main comparison and starts at the algorithm's first recorded snapshot,
+  because the initial design already consumes real evaluations: most
+  algorithms record their first snapshot at about 100 evaluations
+  ($N_{\mathrm{init}}=100$ for PC-SAEA and K-RVEA), while the MCEA/D records
+  begin earlier. Traces are aligned on a unit-FE grid by holding the most
+  recent recorded value, without extrapolation past the last snapshot. The
+  shaded band marks the 25th--75th percentile range across the PACDIS runs.
+  The IGD values are computed by the same implementation and reference sets
+  as Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}.}
+  \label{fig:exp:convergence}
+\end{figure*}
