@@ -1,9 +1,11 @@
 # Weighted 主性能数据与复现
 
-2026-09-14：本目录主表切换至用户指定的 `C:\Users\lsx\Desktop\AdaMao实验表\参数简化版本`。
-只读取 `pruned_weight十目标.xlsx`、`pruned_weight十五目标.xlsx`、`pruned_weight二十目标.xlsx` 的 `IGD` 工作表，不混入 Pruned、Q080 或 Original。
+2026-09-15：本目录主表切换至 lambda_t=0.30 简化版。只读取 `lambdat030十目标.xlsx`、`lambdat030十五目标.xlsx`、`lambdat030二十目标.xlsx` 的 `IGD` 工作表。
+2026-09-14：本目录主表曾切换至用户指定的 `C:\Users\lsx\Desktop\AdaMao实验表\参数简化版本`，读取 `pruned_weight*.xlsx`（旧版，可由 Git 历史复现）。
+两版均只读取 `C:\Users\lsx\Desktop\AdaMao实验表\参数简化版本` 下的对应三张表，不混入 Pruned、Q080、Original 或 Lambda020。
 
-- PACDIS对应 `REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted`。
+- PACDIS对应 `REMO_UniformMix_Pruned_Weighted_Lambdat030`（2026-09-14 版对应 `REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted`）。
+- M=20源表额外附带 `..._Pruned_Weighted` 与 `..._Original` 两列，本脚本按列名白名单忽略，不进入主表。
 - 每档DTLZ1–7、WFG1–9，M=10/15/20，共48组、7算法、336个数据格。
 - 六基线为REMO、PIEA、CSEA、PCSAEA_N100、KRVEA_100、MCEAD，全部来自同一批三张表。
 - 保留全部源均值、标准差及统计符号。`+/-/=`表示该基线相对PACDIS更优/更差/未检出差异，不从均值推断显著性。
@@ -15,11 +17,11 @@
 
 | M | 六基线汇总 +/−/= | PACDIS最低均值数 | PIEA列 +/−/= |
 |---|---|---|---|
-| 10 | 23/58/15 | 3 | 7/5/4 |
-| 15 | 26/58/12 | 4 | 8/6/2 |
-| 20 | 20/54/22 | 4 | 6/6/4 |
+| 10 | 18/60/18 | 3 | 7/5/4 |
+| 15 | 22/56/18 | 3 | 6/6/4 |
+| 20 | 19/57/20 | 4 | 6/7/3 |
 
-最低均值及底纹按显示精度比较，不代表显著优于所有算法。PACDIS在WFG1/7/8三档均为最低均值，在WFG6的15/20目标也为最低均值。主要短板和PIEA对照按新数据重写。
+最低均值及底纹按显示精度比较，不代表显著优于所有算法。PACDIS在WFG7/8三档均为最低均值，WFG1在M=10/20为最低均值，WFG6在M=15/20为最低均值。主要短板和PIEA对照按新数据重写。
 
 重建：运行 `build_tables.py` 从已提交快照生成两张TeX表及summary.json；加 `--source-dir` 读取上述三张原表。脚本检查每题每算法身份、数值格式及逐列符号总数，不修改Excel。
 

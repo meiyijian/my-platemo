@@ -1,337 +1,337 @@
 ﻿M,problem,algorithm,source_algorithm,mean,std,symbol,source_file,source_sheet,source_cell,raw
-10,DTLZ1,REMO,REMO,2.0514e+2,3.91e+1,=,pruned_weight十目标.xlsx,IGD,D2,2.0514e+2 (3.91e+1) =
-10,DTLZ1,PIEA,PIEA,2.4301e+2,6.61e+1,=,pruned_weight十目标.xlsx,IGD,E2,2.4301e+2 (6.61e+1) =
-10,DTLZ1,MCEA/D,MCEAD,2.1832e+2,5.22e+1,=,pruned_weight十目标.xlsx,IGD,F2,2.1832e+2 (5.22e+1) =
-10,DTLZ1,CSEA,CSEA,2.3385e+2,4.87e+1,=,pruned_weight十目标.xlsx,IGD,G2,2.3385e+2 (4.87e+1) =
-10,DTLZ1,PC-SAEA,PCSAEA_N100,3.5954e+2,3.38e+1,-,pruned_weight十目标.xlsx,IGD,H2,3.5954e+2 (3.38e+1) -
-10,DTLZ1,K-RVEA,KRVEA_100,2.7635e+2,3.14e+1,-,pruned_weight十目标.xlsx,IGD,I2,2.7635e+2 (3.14e+1) -
-10,DTLZ1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.1986e+2,3.82e+1,,pruned_weight十目标.xlsx,IGD,J2,2.1986e+2 (3.82e+1)
-10,DTLZ2,REMO,REMO,1.1068e+0,8.95e-2,+,pruned_weight十目标.xlsx,IGD,D3,1.1068e+0 (8.95e-2) +
-10,DTLZ2,PIEA,PIEA,9.7965e-1,5.61e-2,+,pruned_weight十目标.xlsx,IGD,E3,9.7965e-1 (5.61e-2) +
-10,DTLZ2,MCEA/D,MCEAD,1.0988e+0,5.45e-2,+,pruned_weight十目标.xlsx,IGD,F3,1.0988e+0 (5.45e-2) +
-10,DTLZ2,CSEA,CSEA,1.2996e+0,9.73e-2,-,pruned_weight十目标.xlsx,IGD,G3,1.2996e+0 (9.73e-2) -
-10,DTLZ2,PC-SAEA,PCSAEA_N100,1.5128e+0,5.88e-2,-,pruned_weight十目标.xlsx,IGD,H3,1.5128e+0 (5.88e-2) -
-10,DTLZ2,K-RVEA,KRVEA_100,1.4256e+0,1.07e-1,-,pruned_weight十目标.xlsx,IGD,I3,1.4256e+0 (1.07e-1) -
-10,DTLZ2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.1945e+0,1.00e-1,,pruned_weight十目标.xlsx,IGD,J3,1.1945e+0 (1.00e-1)
-10,DTLZ3,REMO,REMO,8.0997e+2,1.30e+2,+,pruned_weight十目标.xlsx,IGD,D4,8.0997e+2 (1.30e+2) +
-10,DTLZ3,PIEA,PIEA,5.3462e+2,8.55e+1,+,pruned_weight十目标.xlsx,IGD,E4,5.3462e+2 (8.55e+1) +
-10,DTLZ3,MCEA/D,MCEAD,5.5143e+2,1.58e+2,+,pruned_weight十目标.xlsx,IGD,F4,5.5143e+2 (1.58e+2) +
-10,DTLZ3,CSEA,CSEA,8.8395e+2,1.49e+2,=,pruned_weight十目标.xlsx,IGD,G4,8.8395e+2 (1.49e+2) =
-10,DTLZ3,PC-SAEA,PCSAEA_N100,1.2945e+3,1.26e+2,-,pruned_weight十目标.xlsx,IGD,H4,1.2945e+3 (1.26e+2) -
-10,DTLZ3,K-RVEA,KRVEA_100,1.0208e+3,1.11e+2,-,pruned_weight十目标.xlsx,IGD,I4,1.0208e+3 (1.11e+2) -
-10,DTLZ3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,9.0751e+2,1.01e+2,,pruned_weight十目标.xlsx,IGD,J4,9.0751e+2 (1.01e+2)
-10,DTLZ4,REMO,REMO,1.1272e+0,9.69e-2,+,pruned_weight十目标.xlsx,IGD,D5,1.1272e+0 (9.69e-2) +
-10,DTLZ4,PIEA,PIEA,1.2340e+0,5.33e-2,=,pruned_weight十目标.xlsx,IGD,E5,1.2340e+0 (5.33e-2) =
-10,DTLZ4,MCEA/D,MCEAD,1.2517e+0,1.69e-2,=,pruned_weight十目标.xlsx,IGD,F5,1.2517e+0 (1.69e-2) =
-10,DTLZ4,CSEA,CSEA,1.2233e+0,7.96e-2,+,pruned_weight十目标.xlsx,IGD,G5,1.2233e+0 (7.96e-2) +
-10,DTLZ4,PC-SAEA,PCSAEA_N100,1.6761e+0,7.62e-2,-,pruned_weight十目标.xlsx,IGD,H5,1.6761e+0 (7.62e-2) -
-10,DTLZ4,K-RVEA,KRVEA_100,1.6232e+0,1.10e-1,-,pruned_weight十目标.xlsx,IGD,I5,1.6232e+0 (1.10e-1) -
-10,DTLZ4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.3063e+0,1.16e-1,,pruned_weight十目标.xlsx,IGD,J5,1.3063e+0 (1.16e-1)
-10,DTLZ5,REMO,REMO,6.4924e-1,1.30e-1,+,pruned_weight十目标.xlsx,IGD,D6,6.4924e-1 (1.30e-1) +
-10,DTLZ5,PIEA,PIEA,2.9834e-1,3.72e-2,+,pruned_weight十目标.xlsx,IGD,E6,2.9834e-1 (3.72e-2) +
-10,DTLZ5,MCEA/D,MCEAD,3.5908e-1,5.92e-2,+,pruned_weight十目标.xlsx,IGD,F6,3.5908e-1 (5.92e-2) +
-10,DTLZ5,CSEA,CSEA,7.4363e-1,1.22e-1,=,pruned_weight十目标.xlsx,IGD,G6,7.4363e-1 (1.22e-1) =
-10,DTLZ5,PC-SAEA,PCSAEA_N100,9.7492e-1,8.49e-2,-,pruned_weight十目标.xlsx,IGD,H6,9.7492e-1 (8.49e-2) -
-10,DTLZ5,K-RVEA,KRVEA_100,8.9664e-1,9.34e-2,-,pruned_weight十目标.xlsx,IGD,I6,8.9664e-1 (9.34e-2) -
-10,DTLZ5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,8.0151e-1,1.15e-1,,pruned_weight十目标.xlsx,IGD,J6,8.0151e-1 (1.15e-1)
-10,DTLZ6,REMO,REMO,1.6552e+1,7.57e-1,-,pruned_weight十目标.xlsx,IGD,D7,1.6552e+1 (7.57e-1) -
-10,DTLZ6,PIEA,PIEA,5.3744e+0,1.66e+0,+,pruned_weight十目标.xlsx,IGD,E7,5.3744e+0 (1.66e+0) +
-10,DTLZ6,MCEA/D,MCEAD,9.3342e+0,2.10e+0,+,pruned_weight十目标.xlsx,IGD,F7,9.3342e+0 (2.10e+0) +
-10,DTLZ6,CSEA,CSEA,1.6013e+1,7.65e-1,-,pruned_weight十目标.xlsx,IGD,G7,1.6013e+1 (7.65e-1) -
-10,DTLZ6,PC-SAEA,PCSAEA_N100,1.7409e+1,3.33e-1,-,pruned_weight十目标.xlsx,IGD,H7,1.7409e+1 (3.33e-1) -
-10,DTLZ6,K-RVEA,KRVEA_100,1.5648e+1,9.62e-1,-,pruned_weight十目标.xlsx,IGD,I7,1.5648e+1 (9.62e-1) -
-10,DTLZ6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.3916e+1,1.16e+0,,pruned_weight十目标.xlsx,IGD,J7,1.3916e+1 (1.16e+0)
-10,DTLZ7,REMO,REMO,2.0873e+1,2.47e+0,-,pruned_weight十目标.xlsx,IGD,D8,2.0873e+1 (2.47e+0) -
-10,DTLZ7,PIEA,PIEA,2.0066e+1,5.52e+0,-,pruned_weight十目标.xlsx,IGD,E8,2.0066e+1 (5.52e+0) -
-10,DTLZ7,MCEA/D,MCEAD,2.0931e+1,5.34e+0,-,pruned_weight十目标.xlsx,IGD,F8,2.0931e+1 (5.34e+0) -
-10,DTLZ7,CSEA,CSEA,2.7355e+1,3.07e+0,-,pruned_weight十目标.xlsx,IGD,G8,2.7355e+1 (3.07e+0) -
-10,DTLZ7,PC-SAEA,PCSAEA_N100,2.8795e+1,2.03e+0,-,pruned_weight十目标.xlsx,IGD,H8,2.8795e+1 (2.03e+0) -
-10,DTLZ7,K-RVEA,KRVEA_100,1.6495e+0,2.31e-1,+,pruned_weight十目标.xlsx,IGD,I8,1.6495e+0 (2.31e-1) +
-10,DTLZ7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,8.7274e+0,1.25e+0,,pruned_weight十目标.xlsx,IGD,J8,8.7274e+0 (1.25e+0)
-10,WFG1,REMO,REMO,3.2303e+0,8.03e-2,-,pruned_weight十目标.xlsx,IGD,D9,3.2303e+0 (8.03e-2) -
-10,WFG1,PIEA,PIEA,3.3482e+0,4.81e-2,-,pruned_weight十目标.xlsx,IGD,E9,3.3482e+0 (4.81e-2) -
-10,WFG1,MCEA/D,MCEAD,3.4615e+0,3.53e-2,-,pruned_weight十目标.xlsx,IGD,F9,3.4615e+0 (3.53e-2) -
-10,WFG1,CSEA,CSEA,3.2776e+0,5.43e-2,-,pruned_weight十目标.xlsx,IGD,G9,3.2776e+0 (5.43e-2) -
-10,WFG1,PC-SAEA,PCSAEA_N100,3.3966e+0,3.65e-2,-,pruned_weight十目标.xlsx,IGD,H9,3.3966e+0 (3.65e-2) -
-10,WFG1,K-RVEA,KRVEA_100,3.2818e+0,5.30e-2,-,pruned_weight十目标.xlsx,IGD,I9,3.2818e+0 (5.30e-2) -
-10,WFG1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,3.1733e+0,5.00e-2,,pruned_weight十目标.xlsx,IGD,J9,3.1733e+0 (5.00e-2)
-10,WFG2,REMO,REMO,3.6211e+0,1.04e+0,-,pruned_weight十目标.xlsx,IGD,D10,3.6211e+0 (1.04e+0) -
-10,WFG2,PIEA,PIEA,2.3534e+0,4.64e-1,=,pruned_weight十目标.xlsx,IGD,E10,2.3534e+0 (4.64e-1) =
-10,WFG2,MCEA/D,MCEAD,3.4153e+0,8.38e-1,-,pruned_weight十目标.xlsx,IGD,F10,3.4153e+0 (8.38e-1) -
-10,WFG2,CSEA,CSEA,3.6035e+0,1.05e+0,-,pruned_weight十目标.xlsx,IGD,G10,3.6035e+0 (1.05e+0) -
-10,WFG2,PC-SAEA,PCSAEA_N100,3.4704e+0,6.34e-1,-,pruned_weight十目标.xlsx,IGD,H10,3.4704e+0 (6.34e-1) -
-10,WFG2,K-RVEA,KRVEA_100,2.0682e+0,1.69e-1,=,pruned_weight十目标.xlsx,IGD,I10,2.0682e+0 (1.69e-1) =
-10,WFG2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.2239e+0,6.17e-1,,pruned_weight十目标.xlsx,IGD,J10,2.2239e+0 (6.17e-1)
-10,WFG3,REMO,REMO,1.5060e+0,1.04e-1,+,pruned_weight十目标.xlsx,IGD,D11,1.5060e+0 (1.04e-1) +
-10,WFG3,PIEA,PIEA,1.1805e+0,1.31e-1,+,pruned_weight十目标.xlsx,IGD,E11,1.1805e+0 (1.31e-1) +
-10,WFG3,MCEA/D,MCEAD,1.2525e+0,6.31e-2,+,pruned_weight十目标.xlsx,IGD,F11,1.2525e+0 (6.31e-2) +
-10,WFG3,CSEA,CSEA,1.5637e+0,7.85e-2,+,pruned_weight十目标.xlsx,IGD,G11,1.5637e+0 (7.85e-2) +
-10,WFG3,PC-SAEA,PCSAEA_N100,1.6906e+0,4.28e-2,+,pruned_weight十目标.xlsx,IGD,H11,1.6906e+0 (4.28e-2) +
-10,WFG3,K-RVEA,KRVEA_100,1.7645e+0,6.52e-2,=,pruned_weight十目标.xlsx,IGD,I11,1.7645e+0 (6.52e-2) =
-10,WFG3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.7344e+0,6.38e-2,,pruned_weight十目标.xlsx,IGD,J11,1.7344e+0 (6.38e-2)
-10,WFG4,REMO,REMO,8.4353e+0,1.04e+0,-,pruned_weight十目标.xlsx,IGD,D12,8.4353e+0 (1.04e+0) -
-10,WFG4,PIEA,PIEA,5.8923e+0,5.86e-1,+,pruned_weight十目标.xlsx,IGD,E12,5.8923e+0 (5.86e-1) +
-10,WFG4,MCEA/D,MCEAD,6.9541e+0,8.10e-1,=,pruned_weight十目标.xlsx,IGD,F12,6.9541e+0 (8.10e-1) =
-10,WFG4,CSEA,CSEA,8.9219e+0,9.85e-1,-,pruned_weight十目标.xlsx,IGD,G12,8.9219e+0 (9.85e-1) -
-10,WFG4,PC-SAEA,PCSAEA_N100,8.9190e+0,5.65e-1,-,pruned_weight十目标.xlsx,IGD,H12,8.9190e+0 (5.65e-1) -
-10,WFG4,K-RVEA,KRVEA_100,6.4543e+0,5.95e-1,=,pruned_weight十目标.xlsx,IGD,I12,6.4543e+0 (5.95e-1) =
-10,WFG4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,6.7139e+0,8.72e-1,,pruned_weight十目标.xlsx,IGD,J12,6.7139e+0 (8.72e-1)
-10,WFG5,REMO,REMO,6.9652e+0,5.10e-1,-,pruned_weight十目标.xlsx,IGD,D13,6.9652e+0 (5.10e-1) -
-10,WFG5,PIEA,PIEA,5.6747e+0,2.94e-1,=,pruned_weight十目标.xlsx,IGD,E13,5.6747e+0 (2.94e-1) =
-10,WFG5,MCEA/D,MCEAD,6.7276e+0,4.33e-1,-,pruned_weight十目标.xlsx,IGD,F13,6.7276e+0 (4.33e-1) -
-10,WFG5,CSEA,CSEA,7.2077e+0,4.34e-1,-,pruned_weight十目标.xlsx,IGD,G13,7.2077e+0 (4.34e-1) -
-10,WFG5,PC-SAEA,PCSAEA_N100,6.9318e+0,3.48e-1,-,pruned_weight十目标.xlsx,IGD,H13,6.9318e+0 (3.48e-1) -
-10,WFG5,K-RVEA,KRVEA_100,5.1504e+0,5.38e-1,+,pruned_weight十目标.xlsx,IGD,I13,5.1504e+0 (5.38e-1) +
-10,WFG5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.7836e+0,4.12e-1,,pruned_weight十目标.xlsx,IGD,J13,5.7836e+0 (4.12e-1)
-10,WFG6,REMO,REMO,6.4495e+0,5.38e-1,-,pruned_weight十目标.xlsx,IGD,D14,6.4495e+0 (5.38e-1) -
-10,WFG6,PIEA,PIEA,5.9649e+0,3.68e-1,-,pruned_weight十目标.xlsx,IGD,E14,5.9649e+0 (3.68e-1) -
-10,WFG6,MCEA/D,MCEAD,7.4205e+0,6.74e-1,-,pruned_weight十目标.xlsx,IGD,F14,7.4205e+0 (6.74e-1) -
-10,WFG6,CSEA,CSEA,7.3759e+0,5.33e-1,-,pruned_weight十目标.xlsx,IGD,G14,7.3759e+0 (5.33e-1) -
-10,WFG6,PC-SAEA,PCSAEA_N100,7.3427e+0,3.12e-1,-,pruned_weight十目标.xlsx,IGD,H14,7.3427e+0 (3.12e-1) -
-10,WFG6,K-RVEA,KRVEA_100,5.0744e+0,3.78e-1,+,pruned_weight十目标.xlsx,IGD,I14,5.0744e+0 (3.78e-1) +
-10,WFG6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.2787e+0,2.70e-1,,pruned_weight十目标.xlsx,IGD,J14,5.2787e+0 (2.70e-1)
-10,WFG7,REMO,REMO,6.4419e+0,7.62e-1,-,pruned_weight十目标.xlsx,IGD,D15,6.4419e+0 (7.62e-1) -
-10,WFG7,PIEA,PIEA,6.8590e+0,4.98e-1,-,pruned_weight十目标.xlsx,IGD,E15,6.8590e+0 (4.98e-1) -
-10,WFG7,MCEA/D,MCEAD,8.0745e+0,6.07e-1,-,pruned_weight十目标.xlsx,IGD,F15,8.0745e+0 (6.07e-1) -
-10,WFG7,CSEA,CSEA,7.4689e+0,5.99e-1,-,pruned_weight十目标.xlsx,IGD,G15,7.4689e+0 (5.99e-1) -
-10,WFG7,PC-SAEA,PCSAEA_N100,7.4985e+0,3.78e-1,-,pruned_weight十目标.xlsx,IGD,H15,7.4985e+0 (3.78e-1) -
-10,WFG7,K-RVEA,KRVEA_100,6.3622e+0,5.84e-1,-,pruned_weight十目标.xlsx,IGD,I15,6.3622e+0 (5.84e-1) -
-10,WFG7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.3539e+0,2.57e-1,,pruned_weight十目标.xlsx,IGD,J15,5.3539e+0 (2.57e-1)
-10,WFG8,REMO,REMO,7.0262e+0,4.81e-1,-,pruned_weight十目标.xlsx,IGD,D16,7.0262e+0 (4.81e-1) -
-10,WFG8,PIEA,PIEA,6.2652e+0,4.89e-1,-,pruned_weight十目标.xlsx,IGD,E16,6.2652e+0 (4.89e-1) -
-10,WFG8,MCEA/D,MCEAD,7.4342e+0,5.26e-1,-,pruned_weight十目标.xlsx,IGD,F16,7.4342e+0 (5.26e-1) -
-10,WFG8,CSEA,CSEA,7.8226e+0,3.64e-1,-,pruned_weight十目标.xlsx,IGD,G16,7.8226e+0 (3.64e-1) -
-10,WFG8,PC-SAEA,PCSAEA_N100,7.4062e+0,3.60e-1,-,pruned_weight十目标.xlsx,IGD,H16,7.4062e+0 (3.60e-1) -
-10,WFG8,K-RVEA,KRVEA_100,6.1149e+0,4.66e-1,-,pruned_weight十目标.xlsx,IGD,I16,6.1149e+0 (4.66e-1) -
-10,WFG8,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.7019e+0,2.29e-1,,pruned_weight十目标.xlsx,IGD,J16,5.7019e+0 (2.29e-1)
-10,WFG9,REMO,REMO,7.7658e+0,6.87e-1,-,pruned_weight十目标.xlsx,IGD,D17,7.7658e+0 (6.87e-1) -
-10,WFG9,PIEA,PIEA,5.8137e+0,3.16e-1,+,pruned_weight十目标.xlsx,IGD,E17,5.8137e+0 (3.16e-1) +
-10,WFG9,MCEA/D,MCEAD,7.1981e+0,6.44e-1,-,pruned_weight十目标.xlsx,IGD,F17,7.1981e+0 (6.44e-1) -
-10,WFG9,CSEA,CSEA,8.1083e+0,3.39e-1,-,pruned_weight十目标.xlsx,IGD,G17,8.1083e+0 (3.39e-1) -
-10,WFG9,PC-SAEA,PCSAEA_N100,7.6909e+0,4.36e-1,-,pruned_weight十目标.xlsx,IGD,H17,7.6909e+0 (4.36e-1) -
-10,WFG9,K-RVEA,KRVEA_100,6.6331e+0,7.85e-1,=,pruned_weight十目标.xlsx,IGD,I17,6.6331e+0 (7.85e-1) =
-10,WFG9,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,6.5188e+0,6.00e-1,,pruned_weight十目标.xlsx,IGD,J17,6.5188e+0 (6.00e-1)
-15,DTLZ1,REMO,REMO,1.2263e+2,3.02e+1,+,pruned_weight十五目标.xlsx,IGD,D2,1.2263e+2 (3.02e+1) +
-15,DTLZ1,PIEA,PIEA,1.6643e+2,4.12e+1,=,pruned_weight十五目标.xlsx,IGD,E2,1.6643e+2 (4.12e+1) =
-15,DTLZ1,MCEA/D,MCEAD,1.3236e+2,4.16e+1,=,pruned_weight十五目标.xlsx,IGD,F2,1.3236e+2 (4.16e+1) =
-15,DTLZ1,CSEA,CSEA,1.4188e+2,2.97e+1,=,pruned_weight十五目标.xlsx,IGD,G2,1.4188e+2 (2.97e+1) =
-15,DTLZ1,K-RVEA,KRVEA_100,1.5920e+2,2.27e+1,=,pruned_weight十五目标.xlsx,IGD,H2,1.5920e+2 (2.27e+1) =
-15,DTLZ1,PC-SAEA,PCSAEA_N100,2.4672e+2,3.68e+1,-,pruned_weight十五目标.xlsx,IGD,I2,2.4672e+2 (3.68e+1) -
-15,DTLZ1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.5253e+2,2.63e+1,,pruned_weight十五目标.xlsx,IGD,J2,1.5253e+2 (2.63e+1)
-15,DTLZ2,REMO,REMO,1.0778e+0,5.59e-2,+,pruned_weight十五目标.xlsx,IGD,D3,1.0778e+0 (5.59e-2) +
-15,DTLZ2,PIEA,PIEA,1.0915e+0,3.93e-2,+,pruned_weight十五目标.xlsx,IGD,E3,1.0915e+0 (3.93e-2) +
-15,DTLZ2,MCEA/D,MCEAD,1.1535e+0,4.02e-2,=,pruned_weight十五目标.xlsx,IGD,F3,1.1535e+0 (4.02e-2) =
-15,DTLZ2,CSEA,CSEA,1.2015e+0,7.28e-2,-,pruned_weight十五目标.xlsx,IGD,G3,1.2015e+0 (7.28e-2) -
-15,DTLZ2,K-RVEA,KRVEA_100,1.2026e+0,9.08e-2,-,pruned_weight十五目标.xlsx,IGD,H3,1.2026e+0 (9.08e-2) -
-15,DTLZ2,PC-SAEA,PCSAEA_N100,1.4357e+0,5.50e-2,-,pruned_weight十五目标.xlsx,IGD,I3,1.4357e+0 (5.50e-2) -
-15,DTLZ2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.1257e+0,8.08e-2,,pruned_weight十五目标.xlsx,IGD,J3,1.1257e+0 (8.08e-2)
-15,DTLZ3,REMO,REMO,4.3830e+2,9.36e+1,+,pruned_weight十五目标.xlsx,IGD,D4,4.3830e+2 (9.36e+1) +
-15,DTLZ3,PIEA,PIEA,4.0425e+2,4.78e+1,+,pruned_weight十五目标.xlsx,IGD,E4,4.0425e+2 (4.78e+1) +
-15,DTLZ3,MCEA/D,MCEAD,2.7579e+2,1.44e+2,+,pruned_weight十五目标.xlsx,IGD,F4,2.7579e+2 (1.44e+2) +
-15,DTLZ3,CSEA,CSEA,5.5501e+2,1.16e+2,+,pruned_weight十五目标.xlsx,IGD,G4,5.5501e+2 (1.16e+2) +
-15,DTLZ3,K-RVEA,KRVEA_100,6.1456e+2,1.05e+2,=,pruned_weight十五目标.xlsx,IGD,H4,6.1456e+2 (1.05e+2) =
-15,DTLZ3,PC-SAEA,PCSAEA_N100,9.2027e+2,9.80e+1,-,pruned_weight十五目标.xlsx,IGD,I4,9.2027e+2 (9.80e+1) -
-15,DTLZ3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,6.2048e+2,8.38e+1,,pruned_weight十五目标.xlsx,IGD,J4,6.2048e+2 (8.38e+1)
-15,DTLZ4,REMO,REMO,1.0879e+0,4.50e-2,+,pruned_weight十五目标.xlsx,IGD,D5,1.0879e+0 (4.50e-2) +
-15,DTLZ4,PIEA,PIEA,1.2350e+0,6.47e-2,=,pruned_weight十五目标.xlsx,IGD,E5,1.2350e+0 (6.47e-2) =
-15,DTLZ4,MCEA/D,MCEAD,1.2870e+0,2.18e-2,-,pruned_weight十五目标.xlsx,IGD,F5,1.2870e+0 (2.18e-2) -
-15,DTLZ4,CSEA,CSEA,1.1735e+0,5.70e-2,=,pruned_weight十五目标.xlsx,IGD,G5,1.1735e+0 (5.70e-2) =
-15,DTLZ4,K-RVEA,KRVEA_100,1.5703e+0,9.84e-2,-,pruned_weight十五目标.xlsx,IGD,H5,1.5703e+0 (9.84e-2) -
-15,DTLZ4,PC-SAEA,PCSAEA_N100,1.4720e+0,5.07e-2,-,pruned_weight十五目标.xlsx,IGD,I5,1.4720e+0 (5.07e-2) -
-15,DTLZ4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.2008e+0,8.15e-2,,pruned_weight十五目标.xlsx,IGD,J5,1.2008e+0 (8.15e-2)
-15,DTLZ5,REMO,REMO,4.1976e-1,8.62e-2,+,pruned_weight十五目标.xlsx,IGD,D6,4.1976e-1 (8.62e-2) +
-15,DTLZ5,PIEA,PIEA,2.2249e-1,3.21e-2,+,pruned_weight十五目标.xlsx,IGD,E6,2.2249e-1 (3.21e-2) +
-15,DTLZ5,MCEA/D,MCEAD,3.0237e-1,5.01e-2,+,pruned_weight十五目标.xlsx,IGD,F6,3.0237e-1 (5.01e-2) +
-15,DTLZ5,CSEA,CSEA,4.7230e-1,8.39e-2,+,pruned_weight十五目标.xlsx,IGD,G6,4.7230e-1 (8.39e-2) +
-15,DTLZ5,K-RVEA,KRVEA_100,5.3602e-1,1.17e-1,=,pruned_weight十五目标.xlsx,IGD,H6,5.3602e-1 (1.17e-1) =
-15,DTLZ5,PC-SAEA,PCSAEA_N100,6.9668e-1,9.13e-2,-,pruned_weight十五目标.xlsx,IGD,I6,6.9668e-1 (9.13e-2) -
-15,DTLZ5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.6957e-1,8.08e-2,,pruned_weight十五目标.xlsx,IGD,J6,5.6957e-1 (8.08e-2)
-15,DTLZ6,REMO,REMO,1.1838e+1,8.42e-1,-,pruned_weight十五目标.xlsx,IGD,D7,1.1838e+1 (8.42e-1) -
-15,DTLZ6,PIEA,PIEA,3.6798e+0,1.64e+0,+,pruned_weight十五目标.xlsx,IGD,E7,3.6798e+0 (1.64e+0) +
-15,DTLZ6,MCEA/D,MCEAD,6.2289e+0,1.46e+0,+,pruned_weight十五目标.xlsx,IGD,F7,6.2289e+0 (1.46e+0) +
-15,DTLZ6,CSEA,CSEA,1.1811e+1,9.04e-1,-,pruned_weight十五目标.xlsx,IGD,G7,1.1811e+1 (9.04e-1) -
-15,DTLZ6,K-RVEA,KRVEA_100,1.1731e+1,8.42e-1,-,pruned_weight十五目标.xlsx,IGD,H7,1.1731e+1 (8.42e-1) -
-15,DTLZ6,PC-SAEA,PCSAEA_N100,1.3023e+1,3.95e-1,-,pruned_weight十五目标.xlsx,IGD,I7,1.3023e+1 (3.95e-1) -
-15,DTLZ6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.0311e+1,1.10e+0,,pruned_weight十五目标.xlsx,IGD,J7,1.0311e+1 (1.10e+0)
-15,DTLZ7,REMO,REMO,3.2002e+1,4.69e+0,-,pruned_weight十五目标.xlsx,IGD,D8,3.2002e+1 (4.69e+0) -
-15,DTLZ7,PIEA,PIEA,2.0981e+1,7.96e+0,-,pruned_weight十五目标.xlsx,IGD,E8,2.0981e+1 (7.96e+0) -
-15,DTLZ7,MCEA/D,MCEAD,2.7525e+1,9.12e+0,-,pruned_weight十五目标.xlsx,IGD,F8,2.7525e+1 (9.12e+0) -
-15,DTLZ7,CSEA,CSEA,4.3721e+1,4.04e+0,-,pruned_weight十五目标.xlsx,IGD,G8,4.3721e+1 (4.04e+0) -
-15,DTLZ7,K-RVEA,KRVEA_100,4.0251e+0,1.45e+0,+,pruned_weight十五目标.xlsx,IGD,H8,4.0251e+0 (1.45e+0) +
-15,DTLZ7,PC-SAEA,PCSAEA_N100,4.1544e+1,3.78e+0,-,pruned_weight十五目标.xlsx,IGD,I8,4.1544e+1 (3.78e+0) -
-15,DTLZ7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.3696e+1,1.93e+0,,pruned_weight十五目标.xlsx,IGD,J8,1.3696e+1 (1.93e+0)
-15,WFG1,REMO,REMO,4.1496e+0,9.37e-2,-,pruned_weight十五目标.xlsx,IGD,D9,4.1496e+0 (9.37e-2) -
-15,WFG1,PIEA,PIEA,4.2469e+0,3.77e-2,-,pruned_weight十五目标.xlsx,IGD,E9,4.2469e+0 (3.77e-2) -
-15,WFG1,MCEA/D,MCEAD,4.3479e+0,5.12e-2,-,pruned_weight十五目标.xlsx,IGD,F9,4.3479e+0 (5.12e-2) -
-15,WFG1,CSEA,CSEA,4.1948e+0,7.61e-2,-,pruned_weight十五目标.xlsx,IGD,G9,4.1948e+0 (7.61e-2) -
-15,WFG1,K-RVEA,KRVEA_100,4.2447e+0,3.62e-2,-,pruned_weight十五目标.xlsx,IGD,H9,4.2447e+0 (3.62e-2) -
-15,WFG1,PC-SAEA,PCSAEA_N100,4.2872e+0,2.89e-2,-,pruned_weight十五目标.xlsx,IGD,I9,4.2872e+0 (2.89e-2) -
-15,WFG1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,4.1220e+0,6.21e-2,,pruned_weight十五目标.xlsx,IGD,J9,4.1220e+0 (6.21e-2)
-15,WFG2,REMO,REMO,6.1345e+0,1.35e+0,-,pruned_weight十五目标.xlsx,IGD,D10,6.1345e+0 (1.35e+0) -
-15,WFG2,PIEA,PIEA,4.1634e+0,9.40e-1,-,pruned_weight十五目标.xlsx,IGD,E10,4.1634e+0 (9.40e-1) -
-15,WFG2,MCEA/D,MCEAD,5.7894e+0,1.58e+0,-,pruned_weight十五目标.xlsx,IGD,F10,5.7894e+0 (1.58e+0) -
-15,WFG2,CSEA,CSEA,5.7163e+0,1.10e+0,-,pruned_weight十五目标.xlsx,IGD,G10,5.7163e+0 (1.10e+0) -
-15,WFG2,K-RVEA,KRVEA_100,2.9640e+0,3.26e-1,+,pruned_weight十五目标.xlsx,IGD,H10,2.9640e+0 (3.26e-1) +
-15,WFG2,PC-SAEA,PCSAEA_N100,6.1113e+0,1.10e+0,-,pruned_weight十五目标.xlsx,IGD,I10,6.1113e+0 (1.10e+0) -
-15,WFG2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,3.3218e+0,7.78e-1,,pruned_weight十五目标.xlsx,IGD,J10,3.3218e+0 (7.78e-1)
-15,WFG3,REMO,REMO,1.9033e+0,1.87e-1,+,pruned_weight十五目标.xlsx,IGD,D11,1.9033e+0 (1.87e-1) +
-15,WFG3,PIEA,PIEA,1.4407e+0,1.27e-1,+,pruned_weight十五目标.xlsx,IGD,E11,1.4407e+0 (1.27e-1) +
-15,WFG3,MCEA/D,MCEAD,1.6670e+0,1.36e-1,+,pruned_weight十五目标.xlsx,IGD,F11,1.6670e+0 (1.36e-1) +
-15,WFG3,CSEA,CSEA,1.9347e+0,1.17e-1,+,pruned_weight十五目标.xlsx,IGD,G11,1.9347e+0 (1.17e-1) +
-15,WFG3,K-RVEA,KRVEA_100,2.3483e+0,8.87e-2,=,pruned_weight十五目标.xlsx,IGD,H11,2.3483e+0 (8.87e-2) =
-15,WFG3,PC-SAEA,PCSAEA_N100,2.1924e+0,7.43e-2,+,pruned_weight十五目标.xlsx,IGD,I11,2.1924e+0 (7.43e-2) +
-15,WFG3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.2962e+0,1.02e-1,,pruned_weight十五目标.xlsx,IGD,J11,2.2962e+0 (1.02e-1)
-15,WFG4,REMO,REMO,1.7690e+1,1.15e+0,-,pruned_weight十五目标.xlsx,IGD,D12,1.7690e+1 (1.15e+0) -
-15,WFG4,PIEA,PIEA,1.2021e+1,1.96e+0,+,pruned_weight十五目标.xlsx,IGD,E12,1.2021e+1 (1.96e+0) +
-15,WFG4,MCEA/D,MCEAD,1.1960e+1,1.67e+0,+,pruned_weight十五目标.xlsx,IGD,F12,1.1960e+1 (1.67e+0) +
-15,WFG4,CSEA,CSEA,1.8405e+1,9.24e-1,-,pruned_weight十五目标.xlsx,IGD,G12,1.8405e+1 (9.24e-1) -
-15,WFG4,K-RVEA,KRVEA_100,1.4585e+1,9.49e-1,-,pruned_weight十五目标.xlsx,IGD,H12,1.4585e+1 (9.49e-1) -
-15,WFG4,PC-SAEA,PCSAEA_N100,1.7393e+1,8.12e-1,-,pruned_weight十五目标.xlsx,IGD,I12,1.7393e+1 (8.12e-1) -
-15,WFG4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.3977e+1,1.06e+0,,pruned_weight十五目标.xlsx,IGD,J12,1.3977e+1 (1.06e+0)
-15,WFG5,REMO,REMO,1.4960e+1,8.28e-1,-,pruned_weight十五目标.xlsx,IGD,D13,1.4960e+1 (8.28e-1) -
-15,WFG5,PIEA,PIEA,1.2183e+1,7.63e-1,+,pruned_weight十五目标.xlsx,IGD,E13,1.2183e+1 (7.63e-1) +
-15,WFG5,MCEA/D,MCEAD,1.3576e+1,8.31e-1,-,pruned_weight十五目标.xlsx,IGD,F13,1.3576e+1 (8.31e-1) -
-15,WFG5,CSEA,CSEA,1.5244e+1,9.12e-1,-,pruned_weight十五目标.xlsx,IGD,G13,1.5244e+1 (9.12e-1) -
-15,WFG5,K-RVEA,KRVEA_100,1.1300e+1,1.05e+0,+,pruned_weight十五目标.xlsx,IGD,H13,1.1300e+1 (1.05e+0) +
-15,WFG5,PC-SAEA,PCSAEA_N100,1.4101e+1,5.46e-1,-,pruned_weight十五目标.xlsx,IGD,I13,1.4101e+1 (5.46e-1) -
-15,WFG5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.2765e+1,1.03e+0,,pruned_weight十五目标.xlsx,IGD,J13,1.2765e+1 (1.03e+0)
-15,WFG6,REMO,REMO,1.4168e+1,1.19e+0,-,pruned_weight十五目标.xlsx,IGD,D14,1.4168e+1 (1.19e+0) -
-15,WFG6,PIEA,PIEA,1.2912e+1,9.87e-1,-,pruned_weight十五目标.xlsx,IGD,E14,1.2912e+1 (9.87e-1) -
-15,WFG6,MCEA/D,MCEAD,1.5351e+1,1.88e+0,-,pruned_weight十五目标.xlsx,IGD,F14,1.5351e+1 (1.88e+0) -
-15,WFG6,CSEA,CSEA,1.5693e+1,6.65e-1,-,pruned_weight十五目标.xlsx,IGD,G14,1.5693e+1 (6.65e-1) -
-15,WFG6,K-RVEA,KRVEA_100,1.0714e+1,9.63e-1,=,pruned_weight十五目标.xlsx,IGD,H14,1.0714e+1 (9.63e-1) =
-15,WFG6,PC-SAEA,PCSAEA_N100,1.4549e+1,7.46e-1,-,pruned_weight十五目标.xlsx,IGD,I14,1.4549e+1 (7.46e-1) -
-15,WFG6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.0556e+1,5.78e-1,,pruned_weight十五目标.xlsx,IGD,J14,1.0556e+1 (5.78e-1)
-15,WFG7,REMO,REMO,1.4440e+1,1.09e+0,-,pruned_weight十五目标.xlsx,IGD,D15,1.4440e+1 (1.09e+0) -
-15,WFG7,PIEA,PIEA,1.4702e+1,1.20e+0,-,pruned_weight十五目标.xlsx,IGD,E15,1.4702e+1 (1.20e+0) -
-15,WFG7,MCEA/D,MCEAD,1.6702e+1,1.56e+0,-,pruned_weight十五目标.xlsx,IGD,F15,1.6702e+1 (1.56e+0) -
-15,WFG7,CSEA,CSEA,1.6243e+1,1.05e+0,-,pruned_weight十五目标.xlsx,IGD,G15,1.6243e+1 (1.05e+0) -
-15,WFG7,K-RVEA,KRVEA_100,1.5296e+1,1.52e+0,-,pruned_weight十五目标.xlsx,IGD,H15,1.5296e+1 (1.52e+0) -
-15,WFG7,PC-SAEA,PCSAEA_N100,1.5494e+1,6.43e-1,-,pruned_weight十五目标.xlsx,IGD,I15,1.5494e+1 (6.43e-1) -
-15,WFG7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.1605e+1,8.25e-1,,pruned_weight十五目标.xlsx,IGD,J15,1.1605e+1 (8.25e-1)
-15,WFG8,REMO,REMO,1.4453e+1,8.81e-1,-,pruned_weight十五目标.xlsx,IGD,D16,1.4453e+1 (8.81e-1) -
-15,WFG8,PIEA,PIEA,1.3204e+1,8.06e-1,-,pruned_weight十五目标.xlsx,IGD,E16,1.3204e+1 (8.06e-1) -
-15,WFG8,MCEA/D,MCEAD,1.5051e+1,1.32e+0,-,pruned_weight十五目标.xlsx,IGD,F16,1.5051e+1 (1.32e+0) -
-15,WFG8,CSEA,CSEA,1.5918e+1,6.66e-1,-,pruned_weight十五目标.xlsx,IGD,G16,1.5918e+1 (6.66e-1) -
-15,WFG8,K-RVEA,KRVEA_100,1.2294e+1,1.03e+0,-,pruned_weight十五目标.xlsx,IGD,H16,1.2294e+1 (1.03e+0) -
-15,WFG8,PC-SAEA,PCSAEA_N100,1.5029e+1,5.19e-1,-,pruned_weight十五目标.xlsx,IGD,I16,1.5029e+1 (5.19e-1) -
-15,WFG8,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.1687e+1,7.06e-1,,pruned_weight十五目标.xlsx,IGD,J16,1.1687e+1 (7.06e-1)
-15,WFG9,REMO,REMO,1.5789e+1,8.94e-1,-,pruned_weight十五目标.xlsx,IGD,D17,1.5789e+1 (8.94e-1) -
-15,WFG9,PIEA,PIEA,1.2490e+1,8.62e-1,+,pruned_weight十五目标.xlsx,IGD,E17,1.2490e+1 (8.62e-1) +
-15,WFG9,MCEA/D,MCEAD,1.3365e+1,1.49e+0,=,pruned_weight十五目标.xlsx,IGD,F17,1.3365e+1 (1.49e+0) =
-15,WFG9,CSEA,CSEA,1.6262e+1,5.54e-1,-,pruned_weight十五目标.xlsx,IGD,G17,1.6262e+1 (5.54e-1) -
-15,WFG9,K-RVEA,KRVEA_100,1.4903e+1,1.45e+0,-,pruned_weight十五目标.xlsx,IGD,H17,1.4903e+1 (1.45e+0) -
-15,WFG9,PC-SAEA,PCSAEA_N100,1.5188e+1,7.05e-1,-,pruned_weight十五目标.xlsx,IGD,I17,1.5188e+1 (7.05e-1) -
-15,WFG9,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.3366e+1,9.80e-1,,pruned_weight十五目标.xlsx,IGD,J17,1.3366e+1 (9.80e-1)
-20,DTLZ1,REMO,REMO,6.7408e+1,1.93e+1,+,pruned_weight二十目标.xlsx,IGD,D2,6.7408e+1 (1.93e+1) +
-20,DTLZ1,PIEA,PIEA,9.3984e+1,1.82e+1,=,pruned_weight二十目标.xlsx,IGD,E2,9.3984e+1 (1.82e+1) =
-20,DTLZ1,MCEA/D,MCEAD,7.6364e+1,3.61e+1,=,pruned_weight二十目标.xlsx,IGD,F2,7.6364e+1 (3.61e+1) =
-20,DTLZ1,CSEA,CSEA,7.9813e+1,1.99e+1,=,pruned_weight二十目标.xlsx,IGD,G2,7.9813e+1 (1.99e+1) =
-20,DTLZ1,PC-SAEA,PCSAEA_N100,1.5464e+2,1.82e+1,-,pruned_weight二十目标.xlsx,IGD,H2,1.5464e+2 (1.82e+1) -
-20,DTLZ1,K-RVEA,KRVEA_100,9.9155e+1,2.59e+1,=,pruned_weight二十目标.xlsx,IGD,I2,9.9155e+1 (2.59e+1) =
-20,DTLZ1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,8.7895e+1,1.79e+1,,pruned_weight二十目标.xlsx,IGD,J2,8.7895e+1 (1.79e+1)
-20,DTLZ2,REMO,REMO,1.1173e+0,5.45e-2,=,pruned_weight二十目标.xlsx,IGD,D3,1.1173e+0 (5.45e-2) =
-20,DTLZ2,PIEA,PIEA,1.1636e+0,2.17e-2,=,pruned_weight二十目标.xlsx,IGD,E3,1.1636e+0 (2.17e-2) =
-20,DTLZ2,MCEA/D,MCEAD,1.2196e+0,2.96e-2,-,pruned_weight二十目标.xlsx,IGD,F3,1.2196e+0 (2.96e-2) -
-20,DTLZ2,CSEA,CSEA,1.1817e+0,5.61e-2,=,pruned_weight二十目标.xlsx,IGD,G3,1.1817e+0 (5.61e-2) =
-20,DTLZ2,PC-SAEA,PCSAEA_N100,1.3343e+0,4.05e-2,-,pruned_weight二十目标.xlsx,IGD,H3,1.3343e+0 (4.05e-2) -
-20,DTLZ2,K-RVEA,KRVEA_100,1.1696e+0,5.63e-2,=,pruned_weight二十目标.xlsx,IGD,I3,1.1696e+0 (5.63e-2) =
-20,DTLZ2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.1479e+0,5.96e-2,,pruned_weight二十目标.xlsx,IGD,J3,1.1479e+0 (5.96e-2)
-20,DTLZ3,REMO,REMO,2.6646e+2,7.13e+1,+,pruned_weight二十目标.xlsx,IGD,D4,2.6646e+2 (7.13e+1) +
-20,DTLZ3,PIEA,PIEA,2.5997e+2,1.15e+1,+,pruned_weight二十目标.xlsx,IGD,E4,2.5997e+2 (1.15e+1) +
-20,DTLZ3,MCEA/D,MCEAD,1.2168e+2,1.12e+2,+,pruned_weight二十目标.xlsx,IGD,F4,1.2168e+2 (1.12e+2) +
-20,DTLZ3,CSEA,CSEA,2.5514e+2,6.82e+1,+,pruned_weight二十目标.xlsx,IGD,G4,2.5514e+2 (6.82e+1) +
-20,DTLZ3,PC-SAEA,PCSAEA_N100,5.1336e+2,7.08e+1,-,pruned_weight二十目标.xlsx,IGD,H4,5.1336e+2 (7.08e+1) -
-20,DTLZ3,K-RVEA,KRVEA_100,3.0777e+2,7.87e+1,=,pruned_weight二十目标.xlsx,IGD,I4,3.0777e+2 (7.87e+1) =
-20,DTLZ3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,3.2757e+2,6.36e+1,,pruned_weight二十目标.xlsx,IGD,J4,3.2757e+2 (6.36e+1)
-20,DTLZ4,REMO,REMO,1.0368e+0,4.26e-2,=,pruned_weight二十目标.xlsx,IGD,D5,1.0368e+0 (4.26e-2) =
-20,DTLZ4,PIEA,PIEA,1.1269e+0,6.03e-2,-,pruned_weight二十目标.xlsx,IGD,E5,1.1269e+0 (6.03e-2) -
-20,DTLZ4,MCEA/D,MCEAD,1.2852e+0,3.78e-2,-,pruned_weight二十目标.xlsx,IGD,F5,1.2852e+0 (3.78e-2) -
-20,DTLZ4,CSEA,CSEA,1.0610e+0,4.81e-2,=,pruned_weight二十目标.xlsx,IGD,G5,1.0610e+0 (4.81e-2) =
-20,DTLZ4,PC-SAEA,PCSAEA_N100,1.2290e+0,4.87e-2,-,pruned_weight二十目标.xlsx,IGD,H5,1.2290e+0 (4.87e-2) -
-20,DTLZ4,K-RVEA,KRVEA_100,1.3236e+0,7.98e-2,-,pruned_weight二十目标.xlsx,IGD,I5,1.3236e+0 (7.98e-2) -
-20,DTLZ4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.0532e+0,4.77e-2,,pruned_weight二十目标.xlsx,IGD,J5,1.0532e+0 (4.77e-2)
-20,DTLZ5,REMO,REMO,2.7068e-1,5.25e-2,+,pruned_weight二十目标.xlsx,IGD,D6,2.7068e-1 (5.25e-2) +
-20,DTLZ5,PIEA,PIEA,1.5237e-1,2.26e-2,+,pruned_weight二十目标.xlsx,IGD,E6,1.5237e-1 (2.26e-2) +
-20,DTLZ5,MCEA/D,MCEAD,1.5161e-1,4.26e-2,+,pruned_weight二十目标.xlsx,IGD,F6,1.5161e-1 (4.26e-2) +
-20,DTLZ5,CSEA,CSEA,2.9000e-1,5.36e-2,=,pruned_weight二十目标.xlsx,IGD,G6,2.9000e-1 (5.36e-2) =
-20,DTLZ5,PC-SAEA,PCSAEA_N100,4.1861e-1,5.31e-2,-,pruned_weight二十目标.xlsx,IGD,H6,4.1861e-1 (5.31e-2) -
-20,DTLZ5,K-RVEA,KRVEA_100,3.1646e-1,8.24e-2,=,pruned_weight二十目标.xlsx,IGD,I6,3.1646e-1 (8.24e-2) =
-20,DTLZ5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,3.2309e-1,4.69e-2,,pruned_weight二十目标.xlsx,IGD,J6,3.2309e-1 (4.69e-2)
-20,DTLZ6,REMO,REMO,7.3417e+0,6.33e-1,-,pruned_weight二十目标.xlsx,IGD,D7,7.3417e+0 (6.33e-1) -
-20,DTLZ6,PIEA,PIEA,2.1640e+0,1.05e+0,+,pruned_weight二十目标.xlsx,IGD,E7,2.1640e+0 (1.05e+0) +
-20,DTLZ6,MCEA/D,MCEAD,4.1169e+0,1.03e+0,+,pruned_weight二十目标.xlsx,IGD,F7,4.1169e+0 (1.03e+0) +
-20,DTLZ6,CSEA,CSEA,7.4321e+0,7.00e-1,-,pruned_weight二十目标.xlsx,IGD,G7,7.4321e+0 (7.00e-1) -
-20,DTLZ6,PC-SAEA,PCSAEA_N100,8.6800e+0,3.64e-1,-,pruned_weight二十目标.xlsx,IGD,H7,8.6800e+0 (3.64e-1) -
-20,DTLZ6,K-RVEA,KRVEA_100,7.3721e+0,7.41e-1,-,pruned_weight二十目标.xlsx,IGD,I7,7.3721e+0 (7.41e-1) -
-20,DTLZ6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,6.5624e+0,7.65e-1,,pruned_weight二十目标.xlsx,IGD,J7,6.5624e+0 (7.65e-1)
-20,DTLZ7,REMO,REMO,3.8239e+1,7.37e+0,-,pruned_weight二十目标.xlsx,IGD,D8,3.8239e+1 (7.37e+0) -
-20,DTLZ7,PIEA,PIEA,1.8728e+1,9.86e+0,=,pruned_weight二十目标.xlsx,IGD,E8,1.8728e+1 (9.86e+0) =
-20,DTLZ7,MCEA/D,MCEAD,2.8155e+1,1.25e+1,-,pruned_weight二十目标.xlsx,IGD,F8,2.8155e+1 (1.25e+1) -
-20,DTLZ7,CSEA,CSEA,4.8818e+1,9.05e+0,-,pruned_weight二十目标.xlsx,IGD,G8,4.8818e+1 (9.05e+0) -
-20,DTLZ7,PC-SAEA,PCSAEA_N100,5.0846e+1,4.69e+0,-,pruned_weight二十目标.xlsx,IGD,H8,5.0846e+1 (4.69e+0) -
-20,DTLZ7,K-RVEA,KRVEA_100,3.6587e+0,1.17e+0,+,pruned_weight二十目标.xlsx,IGD,I8,3.6587e+0 (1.17e+0) +
-20,DTLZ7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.4959e+1,2.25e+0,,pruned_weight二十目标.xlsx,IGD,J8,1.4959e+1 (2.25e+0)
-20,WFG1,REMO,REMO,5.6202e+0,8.82e-2,=,pruned_weight二十目标.xlsx,IGD,D9,5.6202e+0 (8.82e-2) =
-20,WFG1,PIEA,PIEA,5.7081e+0,5.05e-2,-,pruned_weight二十目标.xlsx,IGD,E9,5.7081e+0 (5.05e-2) -
-20,WFG1,MCEA/D,MCEAD,5.7957e+0,4.51e-2,-,pruned_weight二十目标.xlsx,IGD,F9,5.7957e+0 (4.51e-2) -
-20,WFG1,CSEA,CSEA,5.6736e+0,1.06e-1,-,pruned_weight二十目标.xlsx,IGD,G9,5.6736e+0 (1.06e-1) -
-20,WFG1,PC-SAEA,PCSAEA_N100,5.6995e+0,2.62e-2,-,pruned_weight二十目标.xlsx,IGD,H9,5.6995e+0 (2.62e-2) -
-20,WFG1,K-RVEA,KRVEA_100,5.6324e+0,6.86e-2,=,pruned_weight二十目标.xlsx,IGD,I9,5.6324e+0 (6.86e-2) =
-20,WFG1,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,5.6055e+0,6.87e-2,,pruned_weight二十目标.xlsx,IGD,J9,5.6055e+0 (6.87e-2)
-20,WFG2,REMO,REMO,7.9480e+0,1.54e+0,-,pruned_weight二十目标.xlsx,IGD,D10,7.9480e+0 (1.54e+0) -
-20,WFG2,PIEA,PIEA,6.0506e+0,1.05e+0,-,pruned_weight二十目标.xlsx,IGD,E10,6.0506e+0 (1.05e+0) -
-20,WFG2,MCEA/D,MCEAD,7.6391e+0,2.05e+0,-,pruned_weight二十目标.xlsx,IGD,F10,7.6391e+0 (2.05e+0) -
-20,WFG2,CSEA,CSEA,8.8363e+0,1.30e+0,-,pruned_weight二十目标.xlsx,IGD,G10,8.8363e+0 (1.30e+0) -
-20,WFG2,PC-SAEA,PCSAEA_N100,8.3036e+0,1.50e+0,-,pruned_weight二十目标.xlsx,IGD,H10,8.3036e+0 (1.50e+0) -
-20,WFG2,K-RVEA,KRVEA_100,4.4804e+0,2.45e-1,+,pruned_weight二十目标.xlsx,IGD,I10,4.4804e+0 (2.45e-1) +
-20,WFG2,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,4.8953e+0,5.84e-1,,pruned_weight二十目标.xlsx,IGD,J10,4.8953e+0 (5.84e-1)
-20,WFG3,REMO,REMO,2.2519e+0,2.32e-1,+,pruned_weight二十目标.xlsx,IGD,D11,2.2519e+0 (2.32e-1) +
-20,WFG3,PIEA,PIEA,1.7073e+0,1.73e-1,+,pruned_weight二十目标.xlsx,IGD,E11,1.7073e+0 (1.73e-1) +
-20,WFG3,MCEA/D,MCEAD,1.9974e+0,2.03e-1,+,pruned_weight二十目标.xlsx,IGD,F11,1.9974e+0 (2.03e-1) +
-20,WFG3,CSEA,CSEA,2.3113e+0,1.84e-1,+,pruned_weight二十目标.xlsx,IGD,G11,2.3113e+0 (1.84e-1) +
-20,WFG3,PC-SAEA,PCSAEA_N100,2.6026e+0,1.25e-1,+,pruned_weight二十目标.xlsx,IGD,H11,2.6026e+0 (1.25e-1) +
-20,WFG3,K-RVEA,KRVEA_100,2.8347e+0,1.16e-1,-,pruned_weight二十目标.xlsx,IGD,I11,2.8347e+0 (1.16e-1) -
-20,WFG3,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.7276e+0,1.59e-1,,pruned_weight二十目标.xlsx,IGD,J11,2.7276e+0 (1.59e-1)
-20,WFG4,REMO,REMO,2.9066e+1,1.21e+0,-,pruned_weight二十目标.xlsx,IGD,D12,2.9066e+1 (1.21e+0) -
-20,WFG4,PIEA,PIEA,2.0639e+1,3.25e+0,+,pruned_weight二十目标.xlsx,IGD,E12,2.0639e+1 (3.25e+0) +
-20,WFG4,MCEA/D,MCEAD,2.0456e+1,3.65e+0,+,pruned_weight二十目标.xlsx,IGD,F12,2.0456e+1 (3.65e+0) +
-20,WFG4,CSEA,CSEA,2.9600e+1,1.48e+0,-,pruned_weight二十目标.xlsx,IGD,G12,2.9600e+1 (1.48e+0) -
-20,WFG4,PC-SAEA,PCSAEA_N100,2.8901e+1,5.72e-1,-,pruned_weight二十目标.xlsx,IGD,H12,2.8901e+1 (5.72e-1) -
-20,WFG4,K-RVEA,KRVEA_100,2.5759e+1,1.43e+0,=,pruned_weight二十目标.xlsx,IGD,I12,2.5759e+1 (1.43e+0) =
-20,WFG4,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.4589e+1,1.84e+0,,pruned_weight二十目标.xlsx,IGD,J12,2.4589e+1 (1.84e+0)
-20,WFG5,REMO,REMO,2.5608e+1,1.19e+0,-,pruned_weight二十目标.xlsx,IGD,D13,2.5608e+1 (1.19e+0) -
-20,WFG5,PIEA,PIEA,2.1972e+1,9.12e-1,=,pruned_weight二十目标.xlsx,IGD,E13,2.1972e+1 (9.12e-1) =
-20,WFG5,MCEA/D,MCEAD,2.2931e+1,6.52e-1,=,pruned_weight二十目标.xlsx,IGD,F13,2.2931e+1 (6.52e-1) =
-20,WFG5,CSEA,CSEA,2.5912e+1,9.45e-1,-,pruned_weight二十目标.xlsx,IGD,G13,2.5912e+1 (9.45e-1) -
-20,WFG5,PC-SAEA,PCSAEA_N100,2.4498e+1,8.50e-1,-,pruned_weight二十目标.xlsx,IGD,H13,2.4498e+1 (8.50e-1) -
-20,WFG5,K-RVEA,KRVEA_100,2.1999e+1,1.34e+0,=,pruned_weight二十目标.xlsx,IGD,I13,2.1999e+1 (1.34e+0) =
-20,WFG5,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.2605e+1,9.57e-1,,pruned_weight二十目标.xlsx,IGD,J13,2.2605e+1 (9.57e-1)
-20,WFG6,REMO,REMO,2.4041e+1,1.66e+0,-,pruned_weight二十目标.xlsx,IGD,D14,2.4041e+1 (1.66e+0) -
-20,WFG6,PIEA,PIEA,2.2696e+1,1.82e+0,-,pruned_weight二十目标.xlsx,IGD,E14,2.2696e+1 (1.82e+0) -
-20,WFG6,MCEA/D,MCEAD,2.5327e+1,1.94e+0,-,pruned_weight二十目标.xlsx,IGD,F14,2.5327e+1 (1.94e+0) -
-20,WFG6,CSEA,CSEA,2.6268e+1,1.20e+0,-,pruned_weight二十目标.xlsx,IGD,G14,2.6268e+1 (1.20e+0) -
-20,WFG6,PC-SAEA,PCSAEA_N100,2.5249e+1,7.02e-1,-,pruned_weight二十目标.xlsx,IGD,H14,2.5249e+1 (7.02e-1) -
-20,WFG6,K-RVEA,KRVEA_100,2.2379e+1,1.83e+0,-,pruned_weight二十目标.xlsx,IGD,I14,2.2379e+1 (1.83e+0) -
-20,WFG6,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,1.8924e+1,8.01e-1,,pruned_weight二十目标.xlsx,IGD,J14,1.8924e+1 (8.01e-1)
-20,WFG7,REMO,REMO,2.4322e+1,1.10e+0,-,pruned_weight二十目标.xlsx,IGD,D15,2.4322e+1 (1.10e+0) -
-20,WFG7,PIEA,PIEA,2.4579e+1,8.74e-1,-,pruned_weight二十目标.xlsx,IGD,E15,2.4579e+1 (8.74e-1) -
-20,WFG7,MCEA/D,MCEAD,2.7355e+1,1.36e+0,-,pruned_weight二十目标.xlsx,IGD,F15,2.7355e+1 (1.36e+0) -
-20,WFG7,CSEA,CSEA,2.6430e+1,1.40e+0,-,pruned_weight二十目标.xlsx,IGD,G15,2.6430e+1 (1.40e+0) -
-20,WFG7,PC-SAEA,PCSAEA_N100,2.5851e+1,1.06e+0,-,pruned_weight二十目标.xlsx,IGD,H15,2.5851e+1 (1.06e+0) -
-20,WFG7,K-RVEA,KRVEA_100,2.6642e+1,1.97e+0,-,pruned_weight二十目标.xlsx,IGD,I15,2.6642e+1 (1.97e+0) -
-20,WFG7,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.0368e+1,1.17e+0,,pruned_weight二十目标.xlsx,IGD,J15,2.0368e+1 (1.17e+0)
-20,WFG8,REMO,REMO,2.4953e+1,1.02e+0,-,pruned_weight二十目标.xlsx,IGD,D16,2.4953e+1 (1.02e+0) -
-20,WFG8,PIEA,PIEA,2.3237e+1,1.24e+0,-,pruned_weight二十目标.xlsx,IGD,E16,2.3237e+1 (1.24e+0) -
-20,WFG8,MCEA/D,MCEAD,2.6026e+1,1.81e+0,-,pruned_weight二十目标.xlsx,IGD,F16,2.6026e+1 (1.81e+0) -
-20,WFG8,CSEA,CSEA,2.7053e+1,7.42e-1,-,pruned_weight二十目标.xlsx,IGD,G16,2.7053e+1 (7.42e-1) -
-20,WFG8,PC-SAEA,PCSAEA_N100,2.5323e+1,6.30e-1,-,pruned_weight二十目标.xlsx,IGD,H16,2.5323e+1 (6.30e-1) -
-20,WFG8,K-RVEA,KRVEA_100,2.1753e+1,1.97e+0,=,pruned_weight二十目标.xlsx,IGD,I16,2.1753e+1 (1.97e+0) =
-20,WFG8,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.0820e+1,6.71e-1,,pruned_weight二十目标.xlsx,IGD,J16,2.0820e+1 (6.71e-1)
-20,WFG9,REMO,REMO,2.6155e+1,1.38e+0,-,pruned_weight二十目标.xlsx,IGD,D17,2.6155e+1 (1.38e+0) -
-20,WFG9,PIEA,PIEA,2.2604e+1,1.32e+0,+,pruned_weight二十目标.xlsx,IGD,E17,2.2604e+1 (1.32e+0) +
-20,WFG9,MCEA/D,MCEAD,2.3089e+1,1.39e+0,=,pruned_weight二十目标.xlsx,IGD,F17,2.3089e+1 (1.39e+0) =
-20,WFG9,CSEA,CSEA,2.7847e+1,8.01e-1,-,pruned_weight二十目标.xlsx,IGD,G17,2.7847e+1 (8.01e-1) -
-20,WFG9,PC-SAEA,PCSAEA_N100,2.5599e+1,7.96e-1,-,pruned_weight二十目标.xlsx,IGD,H17,2.5599e+1 (7.96e-1) -
-20,WFG9,K-RVEA,KRVEA_100,2.6587e+1,1.19e+0,-,pruned_weight二十目标.xlsx,IGD,I17,2.6587e+1 (1.19e+0) -
-20,WFG9,PACDIS,REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted,2.3687e+1,1.58e+0,,pruned_weight二十目标.xlsx,IGD,J17,2.3687e+1 (1.58e+0)
+10,DTLZ1,REMO,REMO,2.0698e+2,4.28e+1,=,lambdat030十目标.xlsx,IGD,F2,2.0698e+2 (4.28e+1) =
+10,DTLZ1,PIEA,PIEA,2.4286e+2,7.20e+1,=,lambdat030十目标.xlsx,IGD,G2,2.4286e+2 (7.20e+1) =
+10,DTLZ1,MCEA/D,MCEAD,2.3132e+2,4.57e+1,=,lambdat030十目标.xlsx,IGD,H2,2.3132e+2 (4.57e+1) =
+10,DTLZ1,CSEA,CSEA,2.2808e+2,4.96e+1,=,lambdat030十目标.xlsx,IGD,I2,2.2808e+2 (4.96e+1) =
+10,DTLZ1,PC-SAEA,PCSAEA_N100,3.6480e+2,2.61e+1,-,lambdat030十目标.xlsx,IGD,J2,3.6480e+2 (2.61e+1) -
+10,DTLZ1,K-RVEA,KRVEA_100,2.7371e+2,3.25e+1,-,lambdat030十目标.xlsx,IGD,K2,2.7371e+2 (3.25e+1) -
+10,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.1712e+2,3.40e+1,,lambdat030十目标.xlsx,IGD,L2,2.1712e+2 (3.40e+1)
+10,DTLZ2,REMO,REMO,1.0922e+0,8.87e-2,=,lambdat030十目标.xlsx,IGD,F3,1.0922e+0 (8.87e-2) =
+10,DTLZ2,PIEA,PIEA,9.7099e-1,5.68e-2,+,lambdat030十目标.xlsx,IGD,G3,9.7099e-1 (5.68e-2) +
+10,DTLZ2,MCEA/D,MCEAD,1.0926e+0,6.00e-2,+,lambdat030十目标.xlsx,IGD,H3,1.0926e+0 (6.00e-2) +
+10,DTLZ2,CSEA,CSEA,1.3199e+0,1.04e-1,-,lambdat030十目标.xlsx,IGD,I3,1.3199e+0 (1.04e-1) -
+10,DTLZ2,PC-SAEA,PCSAEA_N100,1.5053e+0,6.46e-2,-,lambdat030十目标.xlsx,IGD,J3,1.5053e+0 (6.46e-2) -
+10,DTLZ2,K-RVEA,KRVEA_100,1.4341e+0,1.18e-1,-,lambdat030十目标.xlsx,IGD,K3,1.4341e+0 (1.18e-1) -
+10,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1400e+0,7.92e-2,,lambdat030十目标.xlsx,IGD,L3,1.1400e+0 (7.92e-2)
+10,DTLZ3,REMO,REMO,8.0869e+2,1.46e+2,+,lambdat030十目标.xlsx,IGD,F4,8.0869e+2 (1.46e+2) +
+10,DTLZ3,PIEA,PIEA,5.5096e+2,1.01e+2,+,lambdat030十目标.xlsx,IGD,G4,5.5096e+2 (1.01e+2) +
+10,DTLZ3,MCEA/D,MCEAD,5.4540e+2,1.66e+2,+,lambdat030十目标.xlsx,IGD,H4,5.4540e+2 (1.66e+2) +
+10,DTLZ3,CSEA,CSEA,8.9314e+2,1.70e+2,=,lambdat030十目标.xlsx,IGD,I4,8.9314e+2 (1.70e+2) =
+10,DTLZ3,PC-SAEA,PCSAEA_N100,1.2959e+3,1.23e+2,-,lambdat030十目标.xlsx,IGD,J4,1.2959e+3 (1.23e+2) -
+10,DTLZ3,K-RVEA,KRVEA_100,1.0446e+3,1.07e+2,-,lambdat030十目标.xlsx,IGD,K4,1.0446e+3 (1.07e+2) -
+10,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,9.5550e+2,8.30e+1,,lambdat030十目标.xlsx,IGD,L4,9.5550e+2 (8.30e+1)
+10,DTLZ4,REMO,REMO,1.1444e+0,1.02e-1,=,lambdat030十目标.xlsx,IGD,F5,1.1444e+0 (1.02e-1) =
+10,DTLZ4,PIEA,PIEA,1.2481e+0,3.95e-2,=,lambdat030十目标.xlsx,IGD,G5,1.2481e+0 (3.95e-2) =
+10,DTLZ4,MCEA/D,MCEAD,1.2495e+0,1.83e-2,=,lambdat030十目标.xlsx,IGD,H5,1.2495e+0 (1.83e-2) =
+10,DTLZ4,CSEA,CSEA,1.2181e+0,8.03e-2,=,lambdat030十目标.xlsx,IGD,I5,1.2181e+0 (8.03e-2) =
+10,DTLZ4,PC-SAEA,PCSAEA_N100,1.6533e+0,6.76e-2,-,lambdat030十目标.xlsx,IGD,J5,1.6533e+0 (6.76e-2) -
+10,DTLZ4,K-RVEA,KRVEA_100,1.6275e+0,1.20e-1,-,lambdat030十目标.xlsx,IGD,K5,1.6275e+0 (1.20e-1) -
+10,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.2149e+0,1.27e-1,,lambdat030十目标.xlsx,IGD,L5,1.2149e+0 (1.27e-1)
+10,DTLZ5,REMO,REMO,6.3578e-1,1.47e-1,=,lambdat030十目标.xlsx,IGD,F6,6.3578e-1 (1.47e-1) =
+10,DTLZ5,PIEA,PIEA,2.9309e-1,3.66e-2,+,lambdat030十目标.xlsx,IGD,G6,2.9309e-1 (3.66e-2) +
+10,DTLZ5,MCEA/D,MCEAD,3.6840e-1,6.62e-2,+,lambdat030十目标.xlsx,IGD,H6,3.6840e-1 (6.62e-2) +
+10,DTLZ5,CSEA,CSEA,7.6665e-1,1.03e-1,-,lambdat030十目标.xlsx,IGD,I6,7.6665e-1 (1.03e-1) -
+10,DTLZ5,PC-SAEA,PCSAEA_N100,9.9764e-1,7.92e-2,-,lambdat030十目标.xlsx,IGD,J6,9.9764e-1 (7.92e-2) -
+10,DTLZ5,K-RVEA,KRVEA_100,9.0384e-1,8.94e-2,-,lambdat030十目标.xlsx,IGD,K6,9.0384e-1 (8.94e-2) -
+10,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,7.0427e-1,8.05e-2,,lambdat030十目标.xlsx,IGD,L6,7.0427e-1 (8.05e-2)
+10,DTLZ6,REMO,REMO,1.6435e+1,7.13e-1,-,lambdat030十目标.xlsx,IGD,F7,1.6435e+1 (7.13e-1) -
+10,DTLZ6,PIEA,PIEA,5.4460e+0,1.75e+0,+,lambdat030十目标.xlsx,IGD,G7,5.4460e+0 (1.75e+0) +
+10,DTLZ6,MCEA/D,MCEAD,9.2265e+0,1.89e+0,+,lambdat030十目标.xlsx,IGD,H7,9.2265e+0 (1.89e+0) +
+10,DTLZ6,CSEA,CSEA,1.6024e+1,6.78e-1,-,lambdat030十目标.xlsx,IGD,I7,1.6024e+1 (6.78e-1) -
+10,DTLZ6,PC-SAEA,PCSAEA_N100,1.7422e+1,3.32e-1,-,lambdat030十目标.xlsx,IGD,J7,1.7422e+1 (3.32e-1) -
+10,DTLZ6,K-RVEA,KRVEA_100,1.5616e+1,1.09e+0,-,lambdat030十目标.xlsx,IGD,K7,1.5616e+1 (1.09e+0) -
+10,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.4551e+1,8.74e-1,,lambdat030十目标.xlsx,IGD,L7,1.4551e+1 (8.74e-1)
+10,DTLZ7,REMO,REMO,2.1047e+1,2.41e+0,-,lambdat030十目标.xlsx,IGD,F8,2.1047e+1 (2.41e+0) -
+10,DTLZ7,PIEA,PIEA,1.9222e+1,5.88e+0,-,lambdat030十目标.xlsx,IGD,G8,1.9222e+1 (5.88e+0) -
+10,DTLZ7,MCEA/D,MCEAD,2.0474e+1,4.74e+0,-,lambdat030十目标.xlsx,IGD,H8,2.0474e+1 (4.74e+0) -
+10,DTLZ7,CSEA,CSEA,2.7963e+1,2.38e+0,-,lambdat030十目标.xlsx,IGD,I8,2.7963e+1 (2.38e+0) -
+10,DTLZ7,PC-SAEA,PCSAEA_N100,2.8399e+1,2.15e+0,-,lambdat030十目标.xlsx,IGD,J8,2.8399e+1 (2.15e+0) -
+10,DTLZ7,K-RVEA,KRVEA_100,1.6535e+0,2.14e-1,+,lambdat030十目标.xlsx,IGD,K8,1.6535e+0 (2.14e-1) +
+10,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,9.8968e+0,1.64e+0,,lambdat030十目标.xlsx,IGD,L8,9.8968e+0 (1.64e+0)
+10,WFG1,REMO,REMO,3.2375e+0,8.35e-2,-,lambdat030十目标.xlsx,IGD,F9,3.2375e+0 (8.35e-2) -
+10,WFG1,PIEA,PIEA,3.3432e+0,4.70e-2,-,lambdat030十目标.xlsx,IGD,G9,3.3432e+0 (4.70e-2) -
+10,WFG1,MCEA/D,MCEAD,3.4611e+0,3.54e-2,-,lambdat030十目标.xlsx,IGD,H9,3.4611e+0 (3.54e-2) -
+10,WFG1,CSEA,CSEA,3.2736e+0,6.29e-2,-,lambdat030十目标.xlsx,IGD,I9,3.2736e+0 (6.29e-2) -
+10,WFG1,PC-SAEA,PCSAEA_N100,3.3849e+0,3.00e-2,-,lambdat030十目标.xlsx,IGD,J9,3.3849e+0 (3.00e-2) -
+10,WFG1,K-RVEA,KRVEA_100,3.2901e+0,5.24e-2,-,lambdat030十目标.xlsx,IGD,K9,3.2901e+0 (5.24e-2) -
+10,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,3.1695e+0,3.65e-2,,lambdat030十目标.xlsx,IGD,L9,3.1695e+0 (3.65e-2)
+10,WFG2,REMO,REMO,3.5723e+0,1.05e+0,-,lambdat030十目标.xlsx,IGD,F10,3.5723e+0 (1.05e+0) -
+10,WFG2,PIEA,PIEA,2.3423e+0,4.62e-1,=,lambdat030十目标.xlsx,IGD,G10,2.3423e+0 (4.62e-1) =
+10,WFG2,MCEA/D,MCEAD,3.4714e+0,9.47e-1,-,lambdat030十目标.xlsx,IGD,H10,3.4714e+0 (9.47e-1) -
+10,WFG2,CSEA,CSEA,3.5954e+0,1.08e+0,-,lambdat030十目标.xlsx,IGD,I10,3.5954e+0 (1.08e+0) -
+10,WFG2,PC-SAEA,PCSAEA_N100,3.3443e+0,6.37e-1,-,lambdat030十目标.xlsx,IGD,J10,3.3443e+0 (6.37e-1) -
+10,WFG2,K-RVEA,KRVEA_100,2.0550e+0,1.74e-1,=,lambdat030十目标.xlsx,IGD,K10,2.0550e+0 (1.74e-1) =
+10,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.3404e+0,9.14e-1,,lambdat030十目标.xlsx,IGD,L10,2.3404e+0 (9.14e-1)
+10,WFG3,REMO,REMO,1.5102e+0,9.94e-2,+,lambdat030十目标.xlsx,IGD,F11,1.5102e+0 (9.94e-2) +
+10,WFG3,PIEA,PIEA,1.1788e+0,1.42e-1,+,lambdat030十目标.xlsx,IGD,G11,1.1788e+0 (1.42e-1) +
+10,WFG3,MCEA/D,MCEAD,1.2552e+0,4.33e-2,+,lambdat030十目标.xlsx,IGD,H11,1.2552e+0 (4.33e-2) +
+10,WFG3,CSEA,CSEA,1.5718e+0,8.14e-2,+,lambdat030十目标.xlsx,IGD,I11,1.5718e+0 (8.14e-2) +
+10,WFG3,PC-SAEA,PCSAEA_N100,1.6929e+0,4.64e-2,=,lambdat030十目标.xlsx,IGD,J11,1.6929e+0 (4.64e-2) =
+10,WFG3,K-RVEA,KRVEA_100,1.7791e+0,5.65e-2,-,lambdat030十目标.xlsx,IGD,K11,1.7791e+0 (5.65e-2) -
+10,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.7129e+0,7.72e-2,,lambdat030十目标.xlsx,IGD,L11,1.7129e+0 (7.72e-2)
+10,WFG4,REMO,REMO,8.2748e+0,1.03e+0,-,lambdat030十目标.xlsx,IGD,F12,8.2748e+0 (1.03e+0) -
+10,WFG4,PIEA,PIEA,5.8082e+0,6.21e-1,+,lambdat030十目标.xlsx,IGD,G12,5.8082e+0 (6.21e-1) +
+10,WFG4,MCEA/D,MCEAD,7.0629e+0,8.79e-1,=,lambdat030十目标.xlsx,IGD,H12,7.0629e+0 (8.79e-1) =
+10,WFG4,CSEA,CSEA,9.0385e+0,8.55e-1,-,lambdat030十目标.xlsx,IGD,I12,9.0385e+0 (8.55e-1) -
+10,WFG4,PC-SAEA,PCSAEA_N100,8.9509e+0,5.60e-1,-,lambdat030十目标.xlsx,IGD,J12,8.9509e+0 (5.60e-1) -
+10,WFG4,K-RVEA,KRVEA_100,6.5668e+0,6.09e-1,=,lambdat030十目标.xlsx,IGD,K12,6.5668e+0 (6.09e-1) =
+10,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,6.7020e+0,6.81e-1,,lambdat030十目标.xlsx,IGD,L12,6.7020e+0 (6.81e-1)
+10,WFG5,REMO,REMO,7.0044e+0,5.25e-1,-,lambdat030十目标.xlsx,IGD,F13,7.0044e+0 (5.25e-1) -
+10,WFG5,PIEA,PIEA,5.7411e+0,2.52e-1,=,lambdat030十目标.xlsx,IGD,G13,5.7411e+0 (2.52e-1) =
+10,WFG5,MCEA/D,MCEAD,6.6928e+0,4.60e-1,-,lambdat030十目标.xlsx,IGD,H13,6.6928e+0 (4.60e-1) -
+10,WFG5,CSEA,CSEA,7.1386e+0,4.26e-1,-,lambdat030十目标.xlsx,IGD,I13,7.1386e+0 (4.26e-1) -
+10,WFG5,PC-SAEA,PCSAEA_N100,6.9436e+0,3.64e-1,-,lambdat030十目标.xlsx,IGD,J13,6.9436e+0 (3.64e-1) -
+10,WFG5,K-RVEA,KRVEA_100,5.0764e+0,5.39e-1,+,lambdat030十目标.xlsx,IGD,K13,5.0764e+0 (5.39e-1) +
+10,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.9998e+0,5.23e-1,,lambdat030十目标.xlsx,IGD,L13,5.9998e+0 (5.23e-1)
+10,WFG6,REMO,REMO,6.3647e+0,4.93e-1,-,lambdat030十目标.xlsx,IGD,F14,6.3647e+0 (4.93e-1) -
+10,WFG6,PIEA,PIEA,5.9400e+0,4.15e-1,-,lambdat030十目标.xlsx,IGD,G14,5.9400e+0 (4.15e-1) -
+10,WFG6,MCEA/D,MCEAD,7.3239e+0,6.90e-1,-,lambdat030十目标.xlsx,IGD,H14,7.3239e+0 (6.90e-1) -
+10,WFG6,CSEA,CSEA,7.3361e+0,6.20e-1,-,lambdat030十目标.xlsx,IGD,I14,7.3361e+0 (6.20e-1) -
+10,WFG6,PC-SAEA,PCSAEA_N100,7.2901e+0,3.06e-1,-,lambdat030十目标.xlsx,IGD,J14,7.2901e+0 (3.06e-1) -
+10,WFG6,K-RVEA,KRVEA_100,5.0590e+0,3.06e-1,+,lambdat030十目标.xlsx,IGD,K14,5.0590e+0 (3.06e-1) +
+10,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.2434e+0,2.06e-1,,lambdat030十目标.xlsx,IGD,L14,5.2434e+0 (2.06e-1)
+10,WFG7,REMO,REMO,6.2881e+0,7.45e-1,-,lambdat030十目标.xlsx,IGD,F15,6.2881e+0 (7.45e-1) -
+10,WFG7,PIEA,PIEA,6.9145e+0,4.80e-1,-,lambdat030十目标.xlsx,IGD,G15,6.9145e+0 (4.80e-1) -
+10,WFG7,MCEA/D,MCEAD,8.1060e+0,6.43e-1,-,lambdat030十目标.xlsx,IGD,H15,8.1060e+0 (6.43e-1) -
+10,WFG7,CSEA,CSEA,7.4264e+0,6.15e-1,-,lambdat030十目标.xlsx,IGD,I15,7.4264e+0 (6.15e-1) -
+10,WFG7,PC-SAEA,PCSAEA_N100,7.5489e+0,3.39e-1,-,lambdat030十目标.xlsx,IGD,J15,7.5489e+0 (3.39e-1) -
+10,WFG7,K-RVEA,KRVEA_100,6.3197e+0,5.53e-1,-,lambdat030十目标.xlsx,IGD,K15,6.3197e+0 (5.53e-1) -
+10,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.2508e+0,2.35e-1,,lambdat030十目标.xlsx,IGD,L15,5.2508e+0 (2.35e-1)
+10,WFG8,REMO,REMO,7.0770e+0,4.89e-1,-,lambdat030十目标.xlsx,IGD,F16,7.0770e+0 (4.89e-1) -
+10,WFG8,PIEA,PIEA,6.3515e+0,5.19e-1,-,lambdat030十目标.xlsx,IGD,G16,6.3515e+0 (5.19e-1) -
+10,WFG8,MCEA/D,MCEAD,7.4604e+0,4.63e-1,-,lambdat030十目标.xlsx,IGD,H16,7.4604e+0 (4.63e-1) -
+10,WFG8,CSEA,CSEA,7.7982e+0,3.35e-1,-,lambdat030十目标.xlsx,IGD,I16,7.7982e+0 (3.35e-1) -
+10,WFG8,PC-SAEA,PCSAEA_N100,7.3754e+0,3.48e-1,-,lambdat030十目标.xlsx,IGD,J16,7.3754e+0 (3.48e-1) -
+10,WFG8,K-RVEA,KRVEA_100,6.0693e+0,5.02e-1,-,lambdat030十目标.xlsx,IGD,K16,6.0693e+0 (5.02e-1) -
+10,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.7380e+0,2.71e-1,,lambdat030十目标.xlsx,IGD,L16,5.7380e+0 (2.71e-1)
+10,WFG9,REMO,REMO,7.7392e+0,7.73e-1,-,lambdat030十目标.xlsx,IGD,F17,7.7392e+0 (7.73e-1) -
+10,WFG9,PIEA,PIEA,5.7850e+0,3.55e-1,+,lambdat030十目标.xlsx,IGD,G17,5.7850e+0 (3.55e-1) +
+10,WFG9,MCEA/D,MCEAD,7.0862e+0,6.75e-1,-,lambdat030十目标.xlsx,IGD,H17,7.0862e+0 (6.75e-1) -
+10,WFG9,CSEA,CSEA,8.1551e+0,3.14e-1,-,lambdat030十目标.xlsx,IGD,I17,8.1551e+0 (3.14e-1) -
+10,WFG9,PC-SAEA,PCSAEA_N100,7.7881e+0,4.36e-1,-,lambdat030十目标.xlsx,IGD,J17,7.7881e+0 (4.36e-1) -
+10,WFG9,K-RVEA,KRVEA_100,6.4904e+0,7.62e-1,=,lambdat030十目标.xlsx,IGD,K17,6.4904e+0 (7.62e-1) =
+10,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,6.4554e+0,5.67e-1,,lambdat030十目标.xlsx,IGD,L17,6.4554e+0 (5.67e-1)
+15,DTLZ1,REMO,REMO,1.2734e+2,2.86e+1,+,lambdat030十五目标.xlsx,IGD,F2,1.2734e+2 (2.86e+1) +
+15,DTLZ1,PIEA,PIEA,1.6672e+2,4.30e+1,=,lambdat030十五目标.xlsx,IGD,G2,1.6672e+2 (4.30e+1) =
+15,DTLZ1,MCEA/D,MCEAD,1.3950e+2,3.93e+1,=,lambdat030十五目标.xlsx,IGD,H2,1.3950e+2 (3.93e+1) =
+15,DTLZ1,CSEA,CSEA,1.3791e+2,3.19e+1,=,lambdat030十五目标.xlsx,IGD,I2,1.3791e+2 (3.19e+1) =
+15,DTLZ1,K-RVEA,KRVEA_100,1.6118e+2,2.36e+1,=,lambdat030十五目标.xlsx,IGD,J2,1.6118e+2 (2.36e+1) =
+15,DTLZ1,PC-SAEA,PCSAEA_N100,2.4819e+2,3.65e+1,-,lambdat030十五目标.xlsx,IGD,K2,2.4819e+2 (3.65e+1) -
+15,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.5103e+2,2.88e+1,,lambdat030十五目标.xlsx,IGD,L2,1.5103e+2 (2.88e+1)
+15,DTLZ2,REMO,REMO,1.0889e+0,5.94e-2,=,lambdat030十五目标.xlsx,IGD,F3,1.0889e+0 (5.94e-2) =
+15,DTLZ2,PIEA,PIEA,1.0926e+0,3.81e-2,=,lambdat030十五目标.xlsx,IGD,G3,1.0926e+0 (3.81e-2) =
+15,DTLZ2,MCEA/D,MCEAD,1.1561e+0,3.75e-2,-,lambdat030十五目标.xlsx,IGD,H3,1.1561e+0 (3.75e-2) -
+15,DTLZ2,CSEA,CSEA,1.2000e+0,8.03e-2,-,lambdat030十五目标.xlsx,IGD,I3,1.2000e+0 (8.03e-2) -
+15,DTLZ2,K-RVEA,KRVEA_100,1.1970e+0,8.81e-2,-,lambdat030十五目标.xlsx,IGD,J3,1.1970e+0 (8.81e-2) -
+15,DTLZ2,PC-SAEA,PCSAEA_N100,1.4483e+0,4.90e-2,-,lambdat030十五目标.xlsx,IGD,K3,1.4483e+0 (4.90e-2) -
+15,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1220e+0,5.65e-2,,lambdat030十五目标.xlsx,IGD,L3,1.1220e+0 (5.65e-2)
+15,DTLZ3,REMO,REMO,4.0724e+2,7.54e+1,+,lambdat030十五目标.xlsx,IGD,F4,4.0724e+2 (7.54e+1) +
+15,DTLZ3,PIEA,PIEA,3.9598e+2,3.51e+1,+,lambdat030十五目标.xlsx,IGD,G4,3.9598e+2 (3.51e+1) +
+15,DTLZ3,MCEA/D,MCEAD,2.6252e+2,1.50e+2,+,lambdat030十五目标.xlsx,IGD,H4,2.6252e+2 (1.50e+2) +
+15,DTLZ3,CSEA,CSEA,5.5036e+2,1.05e+2,+,lambdat030十五目标.xlsx,IGD,I4,5.5036e+2 (1.05e+2) +
+15,DTLZ3,K-RVEA,KRVEA_100,6.1440e+2,9.10e+1,=,lambdat030十五目标.xlsx,IGD,J4,6.1440e+2 (9.10e+1) =
+15,DTLZ3,PC-SAEA,PCSAEA_N100,9.3512e+2,8.22e+1,-,lambdat030十五目标.xlsx,IGD,K4,9.3512e+2 (8.22e+1) -
+15,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,6.2827e+2,1.02e+2,,lambdat030十五目标.xlsx,IGD,L4,6.2827e+2 (1.02e+2)
+15,DTLZ4,REMO,REMO,1.0845e+0,4.93e-2,+,lambdat030十五目标.xlsx,IGD,F5,1.0845e+0 (4.93e-2) +
+15,DTLZ4,PIEA,PIEA,1.2305e+0,7.46e-2,-,lambdat030十五目标.xlsx,IGD,G5,1.2305e+0 (7.46e-2) -
+15,DTLZ4,MCEA/D,MCEAD,1.2883e+0,2.27e-2,-,lambdat030十五目标.xlsx,IGD,H5,1.2883e+0 (2.27e-2) -
+15,DTLZ4,CSEA,CSEA,1.1657e+0,6.24e-2,=,lambdat030十五目标.xlsx,IGD,I5,1.1657e+0 (6.24e-2) =
+15,DTLZ4,K-RVEA,KRVEA_100,1.5562e+0,9.07e-2,-,lambdat030十五目标.xlsx,IGD,J5,1.5562e+0 (9.07e-2) -
+15,DTLZ4,PC-SAEA,PCSAEA_N100,1.4705e+0,4.46e-2,-,lambdat030十五目标.xlsx,IGD,K5,1.4705e+0 (4.46e-2) -
+15,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1658e+0,7.67e-2,,lambdat030十五目标.xlsx,IGD,L5,1.1658e+0 (7.67e-2)
+15,DTLZ5,REMO,REMO,4.2813e-1,9.63e-2,+,lambdat030十五目标.xlsx,IGD,F6,4.2813e-1 (9.63e-2) +
+15,DTLZ5,PIEA,PIEA,2.2798e-1,2.84e-2,+,lambdat030十五目标.xlsx,IGD,G6,2.2798e-1 (2.84e-2) +
+15,DTLZ5,MCEA/D,MCEAD,2.9833e-1,5.79e-2,+,lambdat030十五目标.xlsx,IGD,H6,2.9833e-1 (5.79e-2) +
+15,DTLZ5,CSEA,CSEA,4.5079e-1,6.66e-2,=,lambdat030十五目标.xlsx,IGD,I6,4.5079e-1 (6.66e-2) =
+15,DTLZ5,K-RVEA,KRVEA_100,5.0403e-1,1.19e-1,=,lambdat030十五目标.xlsx,IGD,J6,5.0403e-1 (1.19e-1) =
+15,DTLZ5,PC-SAEA,PCSAEA_N100,6.7510e-1,9.25e-2,-,lambdat030十五目标.xlsx,IGD,K6,6.7510e-1 (9.25e-2) -
+15,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.0621e-1,9.04e-2,,lambdat030十五目标.xlsx,IGD,L6,5.0621e-1 (9.04e-2)
+15,DTLZ6,REMO,REMO,1.1735e+1,7.50e-1,-,lambdat030十五目标.xlsx,IGD,F7,1.1735e+1 (7.50e-1) -
+15,DTLZ6,PIEA,PIEA,3.6063e+0,1.56e+0,+,lambdat030十五目标.xlsx,IGD,G7,3.6063e+0 (1.56e+0) +
+15,DTLZ6,MCEA/D,MCEAD,6.0872e+0,1.66e+0,+,lambdat030十五目标.xlsx,IGD,H7,6.0872e+0 (1.66e+0) +
+15,DTLZ6,CSEA,CSEA,1.1681e+1,1.03e+0,-,lambdat030十五目标.xlsx,IGD,I7,1.1681e+1 (1.03e+0) -
+15,DTLZ6,K-RVEA,KRVEA_100,1.1710e+1,1.01e+0,-,lambdat030十五目标.xlsx,IGD,J7,1.1710e+1 (1.01e+0) -
+15,DTLZ6,PC-SAEA,PCSAEA_N100,1.3077e+1,4.41e-1,-,lambdat030十五目标.xlsx,IGD,K7,1.3077e+1 (4.41e-1) -
+15,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.0610e+1,1.01e+0,,lambdat030十五目标.xlsx,IGD,L7,1.0610e+1 (1.01e+0)
+15,DTLZ7,REMO,REMO,3.2225e+1,5.00e+0,-,lambdat030十五目标.xlsx,IGD,F8,3.2225e+1 (5.00e+0) -
+15,DTLZ7,PIEA,PIEA,2.3394e+1,7.75e+0,-,lambdat030十五目标.xlsx,IGD,G8,2.3394e+1 (7.75e+0) -
+15,DTLZ7,MCEA/D,MCEAD,2.7629e+1,8.56e+0,-,lambdat030十五目标.xlsx,IGD,H8,2.7629e+1 (8.56e+0) -
+15,DTLZ7,CSEA,CSEA,4.3073e+1,3.29e+0,-,lambdat030十五目标.xlsx,IGD,I8,4.3073e+1 (3.29e+0) -
+15,DTLZ7,K-RVEA,KRVEA_100,3.9818e+0,1.42e+0,+,lambdat030十五目标.xlsx,IGD,J8,3.9818e+0 (1.42e+0) +
+15,DTLZ7,PC-SAEA,PCSAEA_N100,4.2098e+1,3.83e+0,-,lambdat030十五目标.xlsx,IGD,K8,4.2098e+1 (3.83e+0) -
+15,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.5397e+1,1.87e+0,,lambdat030十五目标.xlsx,IGD,L8,1.5397e+1 (1.87e+0)
+15,WFG1,REMO,REMO,4.1292e+0,1.00e-1,=,lambdat030十五目标.xlsx,IGD,F9,4.1292e+0 (1.00e-1) =
+15,WFG1,PIEA,PIEA,4.2498e+0,4.38e-2,-,lambdat030十五目标.xlsx,IGD,G9,4.2498e+0 (4.38e-2) -
+15,WFG1,MCEA/D,MCEAD,4.3604e+0,3.56e-2,-,lambdat030十五目标.xlsx,IGD,H9,4.3604e+0 (3.56e-2) -
+15,WFG1,CSEA,CSEA,4.1949e+0,7.34e-2,=,lambdat030十五目标.xlsx,IGD,I9,4.1949e+0 (7.34e-2) =
+15,WFG1,K-RVEA,KRVEA_100,4.2363e+0,3.66e-2,-,lambdat030十五目标.xlsx,IGD,J9,4.2363e+0 (3.66e-2) -
+15,WFG1,PC-SAEA,PCSAEA_N100,4.2896e+0,2.56e-2,-,lambdat030十五目标.xlsx,IGD,K9,4.2896e+0 (2.56e-2) -
+15,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,4.1641e+0,3.81e-2,,lambdat030十五目标.xlsx,IGD,L9,4.1641e+0 (3.81e-2)
+15,WFG2,REMO,REMO,6.0255e+0,1.37e+0,-,lambdat030十五目标.xlsx,IGD,F10,6.0255e+0 (1.37e+0) -
+15,WFG2,PIEA,PIEA,4.1175e+0,8.18e-1,=,lambdat030十五目标.xlsx,IGD,G10,4.1175e+0 (8.18e-1) =
+15,WFG2,MCEA/D,MCEAD,5.8913e+0,1.68e+0,-,lambdat030十五目标.xlsx,IGD,H10,5.8913e+0 (1.68e+0) -
+15,WFG2,CSEA,CSEA,5.5637e+0,1.08e+0,-,lambdat030十五目标.xlsx,IGD,I10,5.5637e+0 (1.08e+0) -
+15,WFG2,K-RVEA,KRVEA_100,3.0081e+0,3.01e-1,+,lambdat030十五目标.xlsx,IGD,J10,3.0081e+0 (3.01e-1) +
+15,WFG2,PC-SAEA,PCSAEA_N100,6.1141e+0,1.24e+0,-,lambdat030十五目标.xlsx,IGD,K10,6.1141e+0 (1.24e+0) -
+15,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,4.0359e+0,1.19e+0,,lambdat030十五目标.xlsx,IGD,L10,4.0359e+0 (1.19e+0)
+15,WFG3,REMO,REMO,1.8770e+0,1.99e-1,+,lambdat030十五目标.xlsx,IGD,F11,1.8770e+0 (1.99e-1) +
+15,WFG3,PIEA,PIEA,1.4430e+0,1.13e-1,+,lambdat030十五目标.xlsx,IGD,G11,1.4430e+0 (1.13e-1) +
+15,WFG3,MCEA/D,MCEAD,1.6415e+0,1.15e-1,+,lambdat030十五目标.xlsx,IGD,H11,1.6415e+0 (1.15e-1) +
+15,WFG3,CSEA,CSEA,1.9467e+0,1.38e-1,+,lambdat030十五目标.xlsx,IGD,I11,1.9467e+0 (1.38e-1) +
+15,WFG3,K-RVEA,KRVEA_100,2.3338e+0,7.46e-2,-,lambdat030十五目标.xlsx,IGD,J11,2.3338e+0 (7.46e-2) -
+15,WFG3,PC-SAEA,PCSAEA_N100,2.1954e+0,7.61e-2,+,lambdat030十五目标.xlsx,IGD,K11,2.1954e+0 (7.61e-2) +
+15,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.2776e+0,6.92e-2,,lambdat030十五目标.xlsx,IGD,L11,2.2776e+0 (6.92e-2)
+15,WFG4,REMO,REMO,1.7618e+1,1.30e+0,-,lambdat030十五目标.xlsx,IGD,F12,1.7618e+1 (1.30e+0) -
+15,WFG4,PIEA,PIEA,1.1859e+1,1.90e+0,+,lambdat030十五目标.xlsx,IGD,G12,1.1859e+1 (1.90e+0) +
+15,WFG4,MCEA/D,MCEAD,1.1930e+1,1.46e+0,+,lambdat030十五目标.xlsx,IGD,H12,1.1930e+1 (1.46e+0) +
+15,WFG4,CSEA,CSEA,1.8295e+1,8.06e-1,-,lambdat030十五目标.xlsx,IGD,I12,1.8295e+1 (8.06e-1) -
+15,WFG4,K-RVEA,KRVEA_100,1.4602e+1,8.94e-1,=,lambdat030十五目标.xlsx,IGD,J12,1.4602e+1 (8.94e-1) =
+15,WFG4,PC-SAEA,PCSAEA_N100,1.7400e+1,9.02e-1,-,lambdat030十五目标.xlsx,IGD,K12,1.7400e+1 (9.02e-1) -
+15,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.4132e+1,1.15e+0,,lambdat030十五目标.xlsx,IGD,L12,1.4132e+1 (1.15e+0)
+15,WFG5,REMO,REMO,1.5042e+1,6.85e-1,-,lambdat030十五目标.xlsx,IGD,F13,1.5042e+1 (6.85e-1) -
+15,WFG5,PIEA,PIEA,1.2186e+1,8.00e-1,=,lambdat030十五目标.xlsx,IGD,G13,1.2186e+1 (8.00e-1) =
+15,WFG5,MCEA/D,MCEAD,1.3625e+1,9.09e-1,-,lambdat030十五目标.xlsx,IGD,H13,1.3625e+1 (9.09e-1) -
+15,WFG5,CSEA,CSEA,1.5370e+1,9.41e-1,-,lambdat030十五目标.xlsx,IGD,I13,1.5370e+1 (9.41e-1) -
+15,WFG5,K-RVEA,KRVEA_100,1.1397e+1,1.05e+0,+,lambdat030十五目标.xlsx,IGD,J13,1.1397e+1 (1.05e+0) +
+15,WFG5,PC-SAEA,PCSAEA_N100,1.4073e+1,4.83e-1,-,lambdat030十五目标.xlsx,IGD,K13,1.4073e+1 (4.83e-1) -
+15,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.2569e+1,8.08e-1,,lambdat030十五目标.xlsx,IGD,L13,1.2569e+1 (8.08e-1)
+15,WFG6,REMO,REMO,1.4054e+1,1.17e+0,-,lambdat030十五目标.xlsx,IGD,F14,1.4054e+1 (1.17e+0) -
+15,WFG6,PIEA,PIEA,1.2750e+1,8.05e-1,-,lambdat030十五目标.xlsx,IGD,G14,1.2750e+1 (8.05e-1) -
+15,WFG6,MCEA/D,MCEAD,1.5280e+1,2.07e+0,-,lambdat030十五目标.xlsx,IGD,H14,1.5280e+1 (2.07e+0) -
+15,WFG6,CSEA,CSEA,1.5756e+1,6.84e-1,-,lambdat030十五目标.xlsx,IGD,I14,1.5756e+1 (6.84e-1) -
+15,WFG6,K-RVEA,KRVEA_100,1.0670e+1,9.11e-1,=,lambdat030十五目标.xlsx,IGD,J14,1.0670e+1 (9.11e-1) =
+15,WFG6,PC-SAEA,PCSAEA_N100,1.4554e+1,7.80e-1,-,lambdat030十五目标.xlsx,IGD,K14,1.4554e+1 (7.80e-1) -
+15,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.0441e+1,5.15e-1,,lambdat030十五目标.xlsx,IGD,L14,1.0441e+1 (5.15e-1)
+15,WFG7,REMO,REMO,1.4532e+1,1.06e+0,-,lambdat030十五目标.xlsx,IGD,F15,1.4532e+1 (1.06e+0) -
+15,WFG7,PIEA,PIEA,1.4585e+1,1.29e+0,-,lambdat030十五目标.xlsx,IGD,G15,1.4585e+1 (1.29e+0) -
+15,WFG7,MCEA/D,MCEAD,1.6724e+1,1.74e+0,-,lambdat030十五目标.xlsx,IGD,H15,1.6724e+1 (1.74e+0) -
+15,WFG7,CSEA,CSEA,1.6082e+1,1.04e+0,-,lambdat030十五目标.xlsx,IGD,I15,1.6082e+1 (1.04e+0) -
+15,WFG7,K-RVEA,KRVEA_100,1.5332e+1,1.48e+0,-,lambdat030十五目标.xlsx,IGD,J15,1.5332e+1 (1.48e+0) -
+15,WFG7,PC-SAEA,PCSAEA_N100,1.5569e+1,7.03e-1,-,lambdat030十五目标.xlsx,IGD,K15,1.5569e+1 (7.03e-1) -
+15,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1361e+1,8.96e-1,,lambdat030十五目标.xlsx,IGD,L15,1.1361e+1 (8.96e-1)
+15,WFG8,REMO,REMO,1.4261e+1,8.35e-1,-,lambdat030十五目标.xlsx,IGD,F16,1.4261e+1 (8.35e-1) -
+15,WFG8,PIEA,PIEA,1.3186e+1,8.92e-1,-,lambdat030十五目标.xlsx,IGD,G16,1.3186e+1 (8.92e-1) -
+15,WFG8,MCEA/D,MCEAD,1.5046e+1,1.45e+0,-,lambdat030十五目标.xlsx,IGD,H16,1.5046e+1 (1.45e+0) -
+15,WFG8,CSEA,CSEA,1.5919e+1,5.94e-1,-,lambdat030十五目标.xlsx,IGD,I16,1.5919e+1 (5.94e-1) -
+15,WFG8,K-RVEA,KRVEA_100,1.2326e+1,1.16e+0,=,lambdat030十五目标.xlsx,IGD,J16,1.2326e+1 (1.16e+0) =
+15,WFG8,PC-SAEA,PCSAEA_N100,1.4892e+1,4.59e-1,-,lambdat030十五目标.xlsx,IGD,K16,1.4892e+1 (4.59e-1) -
+15,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1812e+1,5.65e-1,,lambdat030十五目标.xlsx,IGD,L16,1.1812e+1 (5.65e-1)
+15,WFG9,REMO,REMO,1.6073e+1,8.57e-1,-,lambdat030十五目标.xlsx,IGD,F17,1.6073e+1 (8.57e-1) -
+15,WFG9,PIEA,PIEA,1.2377e+1,7.71e-1,+,lambdat030十五目标.xlsx,IGD,G17,1.2377e+1 (7.71e-1) +
+15,WFG9,MCEA/D,MCEAD,1.3544e+1,1.62e+0,=,lambdat030十五目标.xlsx,IGD,H17,1.3544e+1 (1.62e+0) =
+15,WFG9,CSEA,CSEA,1.6369e+1,5.38e-1,-,lambdat030十五目标.xlsx,IGD,I17,1.6369e+1 (5.38e-1) -
+15,WFG9,K-RVEA,KRVEA_100,1.4873e+1,1.46e+0,-,lambdat030十五目标.xlsx,IGD,J17,1.4873e+1 (1.46e+0) -
+15,WFG9,PC-SAEA,PCSAEA_N100,1.5218e+1,6.76e-1,-,lambdat030十五目标.xlsx,IGD,K17,1.5218e+1 (6.76e-1) -
+15,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.3415e+1,1.09e+0,,lambdat030十五目标.xlsx,IGD,L17,1.3415e+1 (1.09e+0)
+20,DTLZ1,REMO,REMO,6.7408e+1,1.93e+1,=,lambdat030二十目标.xlsx,IGD,D2,6.7408e+1 (1.93e+1) =
+20,DTLZ1,PIEA,PIEA,9.3984e+1,1.82e+1,-,lambdat030二十目标.xlsx,IGD,E2,9.3984e+1 (1.82e+1) -
+20,DTLZ1,MCEA/D,MCEAD,7.6364e+1,3.61e+1,=,lambdat030二十目标.xlsx,IGD,F2,7.6364e+1 (3.61e+1) =
+20,DTLZ1,CSEA,CSEA,7.9813e+1,1.99e+1,=,lambdat030二十目标.xlsx,IGD,G2,7.9813e+1 (1.99e+1) =
+20,DTLZ1,PC-SAEA,PCSAEA_N100,1.5464e+2,1.82e+1,-,lambdat030二十目标.xlsx,IGD,H2,1.5464e+2 (1.82e+1) -
+20,DTLZ1,K-RVEA,KRVEA_100,9.9155e+1,2.59e+1,-,lambdat030二十目标.xlsx,IGD,I2,9.9155e+1 (2.59e+1) -
+20,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,7.7516e+1,9.40e+0,,lambdat030二十目标.xlsx,IGD,L2,7.7516e+1 (9.40e+0)
+20,DTLZ2,REMO,REMO,1.1173e+0,5.45e-2,=,lambdat030二十目标.xlsx,IGD,D3,1.1173e+0 (5.45e-2) =
+20,DTLZ2,PIEA,PIEA,1.1636e+0,2.17e-2,=,lambdat030二十目标.xlsx,IGD,E3,1.1636e+0 (2.17e-2) =
+20,DTLZ2,MCEA/D,MCEAD,1.2196e+0,2.96e-2,-,lambdat030二十目标.xlsx,IGD,F3,1.2196e+0 (2.96e-2) -
+20,DTLZ2,CSEA,CSEA,1.1817e+0,5.61e-2,=,lambdat030二十目标.xlsx,IGD,G3,1.1817e+0 (5.61e-2) =
+20,DTLZ2,PC-SAEA,PCSAEA_N100,1.3343e+0,4.05e-2,-,lambdat030二十目标.xlsx,IGD,H3,1.3343e+0 (4.05e-2) -
+20,DTLZ2,K-RVEA,KRVEA_100,1.1696e+0,5.63e-2,=,lambdat030二十目标.xlsx,IGD,I3,1.1696e+0 (5.63e-2) =
+20,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.1452e+0,6.13e-2,,lambdat030二十目标.xlsx,IGD,L3,1.1452e+0 (6.13e-2)
+20,DTLZ3,REMO,REMO,2.6646e+2,7.13e+1,+,lambdat030二十目标.xlsx,IGD,D4,2.6646e+2 (7.13e+1) +
+20,DTLZ3,PIEA,PIEA,2.5997e+2,1.15e+1,+,lambdat030二十目标.xlsx,IGD,E4,2.5997e+2 (1.15e+1) +
+20,DTLZ3,MCEA/D,MCEAD,1.2168e+2,1.12e+2,+,lambdat030二十目标.xlsx,IGD,F4,1.2168e+2 (1.12e+2) +
+20,DTLZ3,CSEA,CSEA,2.5514e+2,6.82e+1,+,lambdat030二十目标.xlsx,IGD,G4,2.5514e+2 (6.82e+1) +
+20,DTLZ3,PC-SAEA,PCSAEA_N100,5.1336e+2,7.08e+1,-,lambdat030二十目标.xlsx,IGD,H4,5.1336e+2 (7.08e+1) -
+20,DTLZ3,K-RVEA,KRVEA_100,3.0777e+2,7.87e+1,=,lambdat030二十目标.xlsx,IGD,I4,3.0777e+2 (7.87e+1) =
+20,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,3.1754e+2,6.18e+1,,lambdat030二十目标.xlsx,IGD,L4,3.1754e+2 (6.18e+1)
+20,DTLZ4,REMO,REMO,1.0368e+0,4.26e-2,=,lambdat030二十目标.xlsx,IGD,D5,1.0368e+0 (4.26e-2) =
+20,DTLZ4,PIEA,PIEA,1.1269e+0,6.03e-2,-,lambdat030二十目标.xlsx,IGD,E5,1.1269e+0 (6.03e-2) -
+20,DTLZ4,MCEA/D,MCEAD,1.2852e+0,3.78e-2,-,lambdat030二十目标.xlsx,IGD,F5,1.2852e+0 (3.78e-2) -
+20,DTLZ4,CSEA,CSEA,1.0610e+0,4.81e-2,=,lambdat030二十目标.xlsx,IGD,G5,1.0610e+0 (4.81e-2) =
+20,DTLZ4,PC-SAEA,PCSAEA_N100,1.2290e+0,4.87e-2,-,lambdat030二十目标.xlsx,IGD,H5,1.2290e+0 (4.87e-2) -
+20,DTLZ4,K-RVEA,KRVEA_100,1.3236e+0,7.98e-2,-,lambdat030二十目标.xlsx,IGD,I5,1.3236e+0 (7.98e-2) -
+20,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.0626e+0,4.63e-2,,lambdat030二十目标.xlsx,IGD,L5,1.0626e+0 (4.63e-2)
+20,DTLZ5,REMO,REMO,2.7068e-1,5.25e-2,+,lambdat030二十目标.xlsx,IGD,D6,2.7068e-1 (5.25e-2) +
+20,DTLZ5,PIEA,PIEA,1.5237e-1,2.26e-2,+,lambdat030二十目标.xlsx,IGD,E6,1.5237e-1 (2.26e-2) +
+20,DTLZ5,MCEA/D,MCEAD,1.5161e-1,4.26e-2,+,lambdat030二十目标.xlsx,IGD,F6,1.5161e-1 (4.26e-2) +
+20,DTLZ5,CSEA,CSEA,2.9000e-1,5.36e-2,=,lambdat030二十目标.xlsx,IGD,G6,2.9000e-1 (5.36e-2) =
+20,DTLZ5,PC-SAEA,PCSAEA_N100,4.1861e-1,5.31e-2,-,lambdat030二十目标.xlsx,IGD,H6,4.1861e-1 (5.31e-2) -
+20,DTLZ5,K-RVEA,KRVEA_100,3.1646e-1,8.24e-2,=,lambdat030二十目标.xlsx,IGD,I6,3.1646e-1 (8.24e-2) =
+20,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,3.0755e-1,4.50e-2,,lambdat030二十目标.xlsx,IGD,L6,3.0755e-1 (4.50e-2)
+20,DTLZ6,REMO,REMO,7.3417e+0,6.33e-1,-,lambdat030二十目标.xlsx,IGD,D7,7.3417e+0 (6.33e-1) -
+20,DTLZ6,PIEA,PIEA,2.1640e+0,1.05e+0,+,lambdat030二十目标.xlsx,IGD,E7,2.1640e+0 (1.05e+0) +
+20,DTLZ6,MCEA/D,MCEAD,4.1169e+0,1.03e+0,+,lambdat030二十目标.xlsx,IGD,F7,4.1169e+0 (1.03e+0) +
+20,DTLZ6,CSEA,CSEA,7.4321e+0,7.00e-1,-,lambdat030二十目标.xlsx,IGD,G7,7.4321e+0 (7.00e-1) -
+20,DTLZ6,PC-SAEA,PCSAEA_N100,8.6800e+0,3.64e-1,-,lambdat030二十目标.xlsx,IGD,H7,8.6800e+0 (3.64e-1) -
+20,DTLZ6,K-RVEA,KRVEA_100,7.3721e+0,7.41e-1,-,lambdat030二十目标.xlsx,IGD,I7,7.3721e+0 (7.41e-1) -
+20,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,6.6024e+0,5.49e-1,,lambdat030二十目标.xlsx,IGD,L7,6.6024e+0 (5.49e-1)
+20,DTLZ7,REMO,REMO,3.8239e+1,7.37e+0,-,lambdat030二十目标.xlsx,IGD,D8,3.8239e+1 (7.37e+0) -
+20,DTLZ7,PIEA,PIEA,1.8728e+1,9.86e+0,+,lambdat030二十目标.xlsx,IGD,E8,1.8728e+1 (9.86e+0) +
+20,DTLZ7,MCEA/D,MCEAD,2.8155e+1,1.25e+1,-,lambdat030二十目标.xlsx,IGD,F8,2.8155e+1 (1.25e+1) -
+20,DTLZ7,CSEA,CSEA,4.8818e+1,9.05e+0,-,lambdat030二十目标.xlsx,IGD,G8,4.8818e+1 (9.05e+0) -
+20,DTLZ7,PC-SAEA,PCSAEA_N100,5.0846e+1,4.69e+0,-,lambdat030二十目标.xlsx,IGD,H8,5.0846e+1 (4.69e+0) -
+20,DTLZ7,K-RVEA,KRVEA_100,3.6587e+0,1.17e+0,+,lambdat030二十目标.xlsx,IGD,I8,3.6587e+0 (1.17e+0) +
+20,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.8855e+1,3.18e+0,,lambdat030二十目标.xlsx,IGD,L8,1.8855e+1 (3.18e+0)
+20,WFG1,REMO,REMO,5.6202e+0,8.82e-2,=,lambdat030二十目标.xlsx,IGD,D9,5.6202e+0 (8.82e-2) =
+20,WFG1,PIEA,PIEA,5.7081e+0,5.05e-2,-,lambdat030二十目标.xlsx,IGD,E9,5.7081e+0 (5.05e-2) -
+20,WFG1,MCEA/D,MCEAD,5.7957e+0,4.51e-2,-,lambdat030二十目标.xlsx,IGD,F9,5.7957e+0 (4.51e-2) -
+20,WFG1,CSEA,CSEA,5.6736e+0,1.06e-1,-,lambdat030二十目标.xlsx,IGD,G9,5.6736e+0 (1.06e-1) -
+20,WFG1,PC-SAEA,PCSAEA_N100,5.6995e+0,2.62e-2,-,lambdat030二十目标.xlsx,IGD,H9,5.6995e+0 (2.62e-2) -
+20,WFG1,K-RVEA,KRVEA_100,5.6324e+0,6.86e-2,=,lambdat030二十目标.xlsx,IGD,I9,5.6324e+0 (6.86e-2) =
+20,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.5822e+0,7.14e-2,,lambdat030二十目标.xlsx,IGD,L9,5.5822e+0 (7.14e-2)
+20,WFG2,REMO,REMO,7.9480e+0,1.54e+0,-,lambdat030二十目标.xlsx,IGD,D10,7.9480e+0 (1.54e+0) -
+20,WFG2,PIEA,PIEA,6.0506e+0,1.05e+0,-,lambdat030二十目标.xlsx,IGD,E10,6.0506e+0 (1.05e+0) -
+20,WFG2,MCEA/D,MCEAD,7.6391e+0,2.05e+0,-,lambdat030二十目标.xlsx,IGD,F10,7.6391e+0 (2.05e+0) -
+20,WFG2,CSEA,CSEA,8.8363e+0,1.30e+0,-,lambdat030二十目标.xlsx,IGD,G10,8.8363e+0 (1.30e+0) -
+20,WFG2,PC-SAEA,PCSAEA_N100,8.3036e+0,1.50e+0,-,lambdat030二十目标.xlsx,IGD,H10,8.3036e+0 (1.50e+0) -
+20,WFG2,K-RVEA,KRVEA_100,4.4804e+0,2.45e-1,+,lambdat030二十目标.xlsx,IGD,I10,4.4804e+0 (2.45e-1) +
+20,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,5.0670e+0,5.79e-1,,lambdat030二十目标.xlsx,IGD,L10,5.0670e+0 (5.79e-1)
+20,WFG3,REMO,REMO,2.2519e+0,2.32e-1,+,lambdat030二十目标.xlsx,IGD,D11,2.2519e+0 (2.32e-1) +
+20,WFG3,PIEA,PIEA,1.7073e+0,1.73e-1,+,lambdat030二十目标.xlsx,IGD,E11,1.7073e+0 (1.73e-1) +
+20,WFG3,MCEA/D,MCEAD,1.9974e+0,2.03e-1,+,lambdat030二十目标.xlsx,IGD,F11,1.9974e+0 (2.03e-1) +
+20,WFG3,CSEA,CSEA,2.3113e+0,1.84e-1,+,lambdat030二十目标.xlsx,IGD,G11,2.3113e+0 (1.84e-1) +
+20,WFG3,PC-SAEA,PCSAEA_N100,2.6026e+0,1.25e-1,+,lambdat030二十目标.xlsx,IGD,H11,2.6026e+0 (1.25e-1) +
+20,WFG3,K-RVEA,KRVEA_100,2.8347e+0,1.16e-1,-,lambdat030二十目标.xlsx,IGD,I11,2.8347e+0 (1.16e-1) -
+20,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.7603e+0,9.00e-2,,lambdat030二十目标.xlsx,IGD,L11,2.7603e+0 (9.00e-2)
+20,WFG4,REMO,REMO,2.9066e+1,1.21e+0,-,lambdat030二十目标.xlsx,IGD,D12,2.9066e+1 (1.21e+0) -
+20,WFG4,PIEA,PIEA,2.0639e+1,3.25e+0,+,lambdat030二十目标.xlsx,IGD,E12,2.0639e+1 (3.25e+0) +
+20,WFG4,MCEA/D,MCEAD,2.0456e+1,3.65e+0,+,lambdat030二十目标.xlsx,IGD,F12,2.0456e+1 (3.65e+0) +
+20,WFG4,CSEA,CSEA,2.9600e+1,1.48e+0,-,lambdat030二十目标.xlsx,IGD,G12,2.9600e+1 (1.48e+0) -
+20,WFG4,PC-SAEA,PCSAEA_N100,2.8901e+1,5.72e-1,-,lambdat030二十目标.xlsx,IGD,H12,2.8901e+1 (5.72e-1) -
+20,WFG4,K-RVEA,KRVEA_100,2.5759e+1,1.43e+0,-,lambdat030二十目标.xlsx,IGD,I12,2.5759e+1 (1.43e+0) -
+20,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.4246e+1,1.32e+0,,lambdat030二十目标.xlsx,IGD,L12,2.4246e+1 (1.32e+0)
+20,WFG5,REMO,REMO,2.5608e+1,1.19e+0,-,lambdat030二十目标.xlsx,IGD,D13,2.5608e+1 (1.19e+0) -
+20,WFG5,PIEA,PIEA,2.1972e+1,9.12e-1,=,lambdat030二十目标.xlsx,IGD,E13,2.1972e+1 (9.12e-1) =
+20,WFG5,MCEA/D,MCEAD,2.2931e+1,6.52e-1,=,lambdat030二十目标.xlsx,IGD,F13,2.2931e+1 (6.52e-1) =
+20,WFG5,CSEA,CSEA,2.5912e+1,9.45e-1,-,lambdat030二十目标.xlsx,IGD,G13,2.5912e+1 (9.45e-1) -
+20,WFG5,PC-SAEA,PCSAEA_N100,2.4498e+1,8.50e-1,-,lambdat030二十目标.xlsx,IGD,H13,2.4498e+1 (8.50e-1) -
+20,WFG5,K-RVEA,KRVEA_100,2.1999e+1,1.34e+0,=,lambdat030二十目标.xlsx,IGD,I13,2.1999e+1 (1.34e+0) =
+20,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.2696e+1,1.09e+0,,lambdat030二十目标.xlsx,IGD,L13,2.2696e+1 (1.09e+0)
+20,WFG6,REMO,REMO,2.4041e+1,1.66e+0,-,lambdat030二十目标.xlsx,IGD,D14,2.4041e+1 (1.66e+0) -
+20,WFG6,PIEA,PIEA,2.2696e+1,1.82e+0,-,lambdat030二十目标.xlsx,IGD,E14,2.2696e+1 (1.82e+0) -
+20,WFG6,MCEA/D,MCEAD,2.5327e+1,1.94e+0,-,lambdat030二十目标.xlsx,IGD,F14,2.5327e+1 (1.94e+0) -
+20,WFG6,CSEA,CSEA,2.6268e+1,1.20e+0,-,lambdat030二十目标.xlsx,IGD,G14,2.6268e+1 (1.20e+0) -
+20,WFG6,PC-SAEA,PCSAEA_N100,2.5249e+1,7.02e-1,-,lambdat030二十目标.xlsx,IGD,H14,2.5249e+1 (7.02e-1) -
+20,WFG6,K-RVEA,KRVEA_100,2.2379e+1,1.83e+0,-,lambdat030二十目标.xlsx,IGD,I14,2.2379e+1 (1.83e+0) -
+20,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,1.9385e+1,1.14e+0,,lambdat030二十目标.xlsx,IGD,L14,1.9385e+1 (1.14e+0)
+20,WFG7,REMO,REMO,2.4322e+1,1.10e+0,-,lambdat030二十目标.xlsx,IGD,D15,2.4322e+1 (1.10e+0) -
+20,WFG7,PIEA,PIEA,2.4579e+1,8.74e-1,-,lambdat030二十目标.xlsx,IGD,E15,2.4579e+1 (8.74e-1) -
+20,WFG7,MCEA/D,MCEAD,2.7355e+1,1.36e+0,-,lambdat030二十目标.xlsx,IGD,F15,2.7355e+1 (1.36e+0) -
+20,WFG7,CSEA,CSEA,2.6430e+1,1.40e+0,-,lambdat030二十目标.xlsx,IGD,G15,2.6430e+1 (1.40e+0) -
+20,WFG7,PC-SAEA,PCSAEA_N100,2.5851e+1,1.06e+0,-,lambdat030二十目标.xlsx,IGD,H15,2.5851e+1 (1.06e+0) -
+20,WFG7,K-RVEA,KRVEA_100,2.6642e+1,1.97e+0,-,lambdat030二十目标.xlsx,IGD,I15,2.6642e+1 (1.97e+0) -
+20,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.0818e+1,1.05e+0,,lambdat030二十目标.xlsx,IGD,L15,2.0818e+1 (1.05e+0)
+20,WFG8,REMO,REMO,2.4953e+1,1.02e+0,-,lambdat030二十目标.xlsx,IGD,D16,2.4953e+1 (1.02e+0) -
+20,WFG8,PIEA,PIEA,2.3237e+1,1.24e+0,-,lambdat030二十目标.xlsx,IGD,E16,2.3237e+1 (1.24e+0) -
+20,WFG8,MCEA/D,MCEAD,2.6026e+1,1.81e+0,-,lambdat030二十目标.xlsx,IGD,F16,2.6026e+1 (1.81e+0) -
+20,WFG8,CSEA,CSEA,2.7053e+1,7.42e-1,-,lambdat030二十目标.xlsx,IGD,G16,2.7053e+1 (7.42e-1) -
+20,WFG8,PC-SAEA,PCSAEA_N100,2.5323e+1,6.30e-1,-,lambdat030二十目标.xlsx,IGD,H16,2.5323e+1 (6.30e-1) -
+20,WFG8,K-RVEA,KRVEA_100,2.1753e+1,1.97e+0,=,lambdat030二十目标.xlsx,IGD,I16,2.1753e+1 (1.97e+0) =
+20,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.0711e+1,8.06e-1,,lambdat030二十目标.xlsx,IGD,L16,2.0711e+1 (8.06e-1)
+20,WFG9,REMO,REMO,2.6155e+1,1.38e+0,-,lambdat030二十目标.xlsx,IGD,D17,2.6155e+1 (1.38e+0) -
+20,WFG9,PIEA,PIEA,2.2604e+1,1.32e+0,=,lambdat030二十目标.xlsx,IGD,E17,2.2604e+1 (1.32e+0) =
+20,WFG9,MCEA/D,MCEAD,2.3089e+1,1.39e+0,=,lambdat030二十目标.xlsx,IGD,F17,2.3089e+1 (1.39e+0) =
+20,WFG9,CSEA,CSEA,2.7847e+1,8.01e-1,-,lambdat030二十目标.xlsx,IGD,G17,2.7847e+1 (8.01e-1) -
+20,WFG9,PC-SAEA,PCSAEA_N100,2.5599e+1,7.96e-1,-,lambdat030二十目标.xlsx,IGD,H17,2.5599e+1 (7.96e-1) -
+20,WFG9,K-RVEA,KRVEA_100,2.6587e+1,1.19e+0,-,lambdat030二十目标.xlsx,IGD,I17,2.6587e+1 (1.19e+0) -
+20,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030,2.3568e+1,1.58e+0,,lambdat030二十目标.xlsx,IGD,L17,2.3568e+1 (1.58e+0)

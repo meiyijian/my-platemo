@@ -3,7 +3,7 @@
 %  PACDIS -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
 %
 %  PAQC is the primary contribution; simplified CDIS supports batch selection.
-%  Implementation: REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted.
+%  Implementation: REMO_UniformMix_Pruned_Weighted_Lambdat030.
 %  Original-parameter checkpoint: paper-original-params-20260914.
 %  Established components are cited where they enter the framework.
 %
@@ -738,7 +738,7 @@ within the 300-evaluation limit. These variants are recorded as
 The tables use their conventional algorithm names for brevity.
 This initialization setting is distinct from the configured population size
 $N$. The PACDIS results correspond to the implementation recorded as
-\texttt{REMO\_\allowbreak new2\_\allowbreak AdaMaO\_\allowbreak SDEOnly\_\allowbreak UniformMix\_\allowbreak Pruned\_\allowbreak Weighted}.
+\texttt{REMO\_\allowbreak UniformMix\_\allowbreak Pruned\_\allowbreak Weighted\_\allowbreak Lambdat030}.
 
 \paragraph{PACDIS parameters.}
 The same configuration is used across all three objective counts:
@@ -781,18 +781,19 @@ was used before finalizing the statistical protocol.}
 
 Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the supplied results
 for the simplified weighted implementation. PACDIS has the lowest mean IGD
-on 3, 4 and 4 of the 16 problems at $M=10$, 15 and 20, respectively.
-These best means occur on WFG1, WFG7 and WFG8 at all three objective counts,
-and additionally on WFG6 at 15 and 20 objectives.
+on 3, 3 and 4 of the 16 problems at $M=10$, 15 and 20, respectively.
+These best means occur on WFG7 and WFG8 at all three objective counts,
+additionally on WFG1 at 10 and 20 objectives and on WFG6 at 15 and 20
+objectives.
 
 \input{experiments/main_performance/table_dtlz}
 \input{experiments/main_performance/table_wfg}
 
-The REMO columns have $+/-/=$ counts of 5/10/1, 6/10/0 and 4/9/3
+The REMO columns have $+/-/=$ counts of 2/10/4, 5/9/2 and 3/9/4
 at $M=10$, 15 and 20. CSEA, PC-SAEA, K-RVEA and MCEA/D also have
 more reported losses than wins against PACDIS in each objective setting.
 The comparison with PIEA is less favorable: its corresponding counts are
-7/5/4, 8/6/2 and 6/6/4. Thus, the results indicate competitive performance
+7/5/4, 6/6/4 and 6/7/3. Thus, the results indicate competitive performance
 against the selected baselines, with a stronger pattern on WFG than DTLZ;
 they do not establish overall superiority to PIEA.
 

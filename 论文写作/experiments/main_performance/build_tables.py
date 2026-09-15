@@ -14,8 +14,8 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OURS = "REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted"
-FILES = {10: "pruned_weight十目标.xlsx", 15: "pruned_weight十五目标.xlsx", 20: "pruned_weight二十目标.xlsx"}
+OURS = "REMO_UniformMix_Pruned_Weighted_Lambdat030"
+FILES = {10: "lambdat030十目标.xlsx", 15: "lambdat030十五目标.xlsx", 20: "lambdat030二十目标.xlsx"}
 ORDER = ["REMO", "PIEA", "CSEA", "PC-SAEA", "K-RVEA", "MCEA/D", "PACDIS"]
 ALIASES = {"REMO": "REMO", "PIEA": "PIEA", "CSEA": "CSEA",
            "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",

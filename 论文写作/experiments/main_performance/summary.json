@@ -4,9 +4,9 @@
     "10": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          5,
+          2,
           10,
-          1
+          4
         ],
         "PIEA": [
           7,
@@ -14,19 +14,19 @@
           4
         ],
         "CSEA": [
-          2,
-          11,
+          1,
+          12,
           3
         ],
         "PC-SAEA": [
-          1,
+          0,
           15,
-          0
+          1
         ],
         "K-RVEA": [
           3,
-          9,
-          4
+          10,
+          3
         ],
         "MCEA/D": [
           5,
@@ -36,17 +36,18 @@
       },
       "best_mean_counts": {
         "REMO": 2,
-        "PIEA": 7,
+        "PIEA": 6,
+        "MCEA/D": 1,
         "K-RVEA": 4,
         "PACDIS": 3
       },
       "lower_mean_counts": {
         "REMO": 10,
-        "PIEA": 7,
-        "CSEA": 12,
+        "PIEA": 8,
+        "CSEA": 14,
         "PC-SAEA": 15,
         "K-RVEA": 11,
-        "MCEA/D": 9
+        "MCEA/D": 11
       },
       "best_mean_problems_PACDIS": [
         "WFG1",
@@ -57,19 +58,19 @@
     "15": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          6,
-          10,
-          0
+          5,
+          9,
+          2
         ],
         "PIEA": [
-          8,
           6,
-          2
+          6,
+          4
         ],
         "CSEA": [
-          3,
-          11,
-          2
+          2,
+          10,
+          4
         ],
         "PC-SAEA": [
           1,
@@ -78,32 +79,31 @@
         ],
         "K-RVEA": [
           3,
-          8,
-          5
+          7,
+          6
         ],
         "MCEA/D": [
           5,
-          8,
-          3
+          9,
+          2
         ]
       },
       "best_mean_counts": {
-        "REMO": 3,
-        "MCEA/D": 2,
-        "PIEA": 4,
+        "REMO": 4,
+        "MCEA/D": 1,
+        "PIEA": 5,
         "K-RVEA": 3,
-        "PACDIS": 4
+        "PACDIS": 3
       },
       "lower_mean_counts": {
-        "REMO": 10,
+        "REMO": 9,
         "PIEA": 8,
         "CSEA": 11,
         "PC-SAEA": 15,
         "K-RVEA": 11,
-        "MCEA/D": 9
+        "MCEA/D": 10
       },
       "best_mean_problems_PACDIS": [
-        "WFG1",
         "WFG6",
         "WFG7",
         "WFG8"
@@ -112,14 +112,14 @@
     "20": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          4,
+          3,
           9,
-          3
+          4
         ],
         "PIEA": [
           6,
-          6,
-          4
+          7,
+          3
         ],
         "CSEA": [
           2,
@@ -133,8 +133,8 @@
         ],
         "K-RVEA": [
           2,
-          6,
-          8
+          8,
+          6
         ],
         "MCEA/D": [
           5,
@@ -151,10 +151,10 @@
       },
       "lower_mean_counts": {
         "REMO": 10,
-        "PIEA": 9,
+        "PIEA": 8,
         "CSEA": 12,
         "PC-SAEA": 15,
-        "K-RVEA": 11,
+        "K-RVEA": 12,
         "MCEA/D": 9
       },
       "best_mean_problems_PACDIS": [
@@ -169,19 +169,19 @@
     "DTLZ": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          12,
+          7,
           6,
-          3
+          8
         ],
         "PIEA": [
           11,
-          3,
-          7
+          5,
+          5
         ],
         "CSEA": [
-          4,
-          8,
-          9
+          2,
+          9,
+          10
         ],
         "PC-SAEA": [
           0,
@@ -190,13 +190,13 @@
         ],
         "K-RVEA": [
           3,
-          11,
-          7
+          12,
+          6
         ],
         "MCEA/D": [
           10,
-          6,
-          5
+          7,
+          4
         ]
       }
     },
@@ -204,28 +204,28 @@
       "baseline_plus_minus_equal": {
         "REMO": [
           3,
-          23,
-          1
+          22,
+          2
         ],
         "PIEA": [
-          10,
-          14,
-          3
+          8,
+          13,
+          6
         ],
         "CSEA": [
           3,
-          24,
-          0
+          23,
+          1
         ],
         "PC-SAEA": [
-          3,
+          2,
           24,
-          0
+          1
         ],
         "K-RVEA": [
           5,
-          12,
-          10
+          13,
+          9
         ],
         "MCEA/D": [
           5,
