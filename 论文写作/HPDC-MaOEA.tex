@@ -808,126 +808,49 @@ assumption that the complete-algorithm results demonstrate PAQC's effect.
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-This study examines PAQC and CDIS through the available component
-comparisons. PAQC changes quality classification, CDIS changes infill
-selection, and Full combines both modules. The configuration names follow
-the terminology in the method section.
+The ablation considers four configurations with the representative count
+fixed at $k=1.5M$: REMO, REMO+PAQC, REMO+CDIS, and Full (PACDIS).
+REMO provides the reference grouping and selection rules. REMO+PAQC
+changes quality classification, REMO+CDIS changes infill selection, and
+Full combines both modules. Thus, the requested representative count is
+15 at $M=10$ and 30 at $M=20$ for every configuration.
 
-The exports specify $N=100$, a configured budget of 300 evaluations and
-$M\in\{10,20\}$. The decision dimension is 30, except for WFG2 and WFG3,
-which use 31. All 16 problems are retained at $M=10$. At $M=20$, WFG4 is
-excluded because its exported objective count is 10, leaving 15 problems.
-Table~\ref{tab:exp:ablation-design} defines the available configurations.
-$K$ denotes the requested count reported in the exports: 15 for $M=10$
-and 30 for $M=20$.
-\begin{table}[t]
-\centering
-\caption{Component configurations for the PAQC and CDIS study.}
-\label{tab:exp:ablation-design}
-\small
-\begin{tabular}{llcc}
-\toprule
-Label & Configuration & $k$ & Available $M$\\
-\midrule
-R6 & REMO & 6 & 10, 20\\
-RK & REMO ($k=K$) & $K$ & 10, 20\\
-P6 & PAQC only & 6 & 10, 20\\
-PK & PAQC only ($k=K$) & $K$ & 10, 20\\
-C6 & CDIS only & 6 & 10, 20\\
-FK & Full ($k=K$) & $K$ & 10, 20\\
-F6 & Full ($k=6$) & 6 & 20\\
-\bottomrule
-\end{tabular}
-\end{table}
+The available results appear in Table~\ref{tab:exp:ablation}.
+REMO+CDIS remains to be completed. The exports specify
+$N=100$ and a configured budget of 300 evaluations. The decision dimension
+is 30, except for WFG2 and WFG3, which use 31. All 16 problems are retained
+at $M=10$. At $M=20$, WFG4 is excluded because its exported objective
+count is 10, leaving 15 problems.
 
-Tables~\ref{tab:exp:abl10} and~\ref{tab:exp:abl20} report the exported
-means and standard deviations. Table~\ref{tab:exp:abl-effects} separates
-comparisons of these means from the pairwise outcomes supplied in the
-exports. For a change from configuration $A$ to $B$, the geometric mean
-ratio is
-\begin{equation}
-G(A,B)=\exp\!\left[\frac{1}{J}\sum_{j=1}^{J}
-\log\frac{\overline{\mathrm{IGD}}_{A,j}}
-{\overline{\mathrm{IGD}}_{B,j}}\right].
-\label{eq:abl-ratio}
-\end{equation}
-Each problem has equal weight, and $G>1$ favors $B$. This summary uses
-the rounded exported means and is descriptive.
+\input{experiments/ablation_original/table_fixed_k}
 
-\input{experiments/ablation_original/table_m10}
-\input{experiments/ablation_original/table_m20}
-\input{experiments/ablation_original/table_effects}
+With the same reported $k$, REMO+PAQC achieves lower mean IGD than REMO
+on 14 of 16 problems at $M=10$ and 11 of 15 at $M=20$. The corresponding
+pairwise outcomes in the source exports are 8/1/7 and 10/2/3
+(better/worse/no detected difference). These comparisons suggest a benefit
+from PAQC when the representative count is fixed. The benefit is not
+uniform: REMO+PAQC has a higher mean than REMO on WFG3 at both objective
+counts and on DTLZ2 at $M=20$.
 
-At the same reported count $K$, PK improves on RK in mean IGD on 14 of
-16 problems at $M=10$ and 11 of 15 at $M=20$. The exported better/worse/
-no-difference counts are 8/1/7 and 10/2/3, respectively. The geometric
-mean ratios are 1.063 and 1.118. Thus, the PAQC-only configuration
-retains an advantage when the representative count is held fixed.
-Its improvement over R6 at $k=6$ is also visible on 11 problems at each
-objective count. The unfavorable cases matter: PK has a higher mean than
-RK on WFG3 at both objective counts and on DTLZ2 at $M=20$.
+Adding CDIS to REMO+PAQC produces a smaller, problem-dependent gain.
+Full improves mean IGD on 10 of 16 and 9 of 15 problems, with three
+favorable and one unfavorable exported pairwise outcome at each objective
+count. DTLZ7 shows the largest relative improvement in this comparison:
+mean IGD decreases from 17.305 to 12.122 at $M=10$ and from 25.637 to
+18.154 at $M=20$, reductions of 30.0\% and 29.2\%. In contrast, Full
+performs worse on DTLZ5 at both objective counts, while the WFG6 means
+at $M=20$ are nearly unchanged (19.109 and 19.097).
 
-The additional gain from PK to FK is smaller. FK has a lower mean on
-10 of 16 and 9 of 15 problems, but the exports report only three favorable
-differences and one unfavorable difference at each objective count.
-Both geometric mean ratios round to 1.028. DTLZ7 gives the clearest
-example: mean IGD decreases from 17.305 to 12.122 at $M=10$ and from
-25.637 to 18.154 at $M=20$, reductions of 30.0\% and 29.2\%.
-In contrast, FK is worse than PK on DTLZ5 at both objective counts,
-and their WFG6 means at $M=20$ are almost identical (19.109 and 19.097).
-CDIS therefore gives a problem-dependent incremental gain in these
-comparisons.
+The available comparisons therefore support PAQC under the reference
+selection rule and a conditional gain from CDIS when PAQC is present.
+The REMO+CDIS configuration is needed to examine CDIS without PAQC and
+PAQC with CDIS. These results do not yet establish an interaction between
+the two modules.
 
-The $M=20$, $k=6$ data provide a second context. F6 improves on C6 in
-mean IGD on 12 of 15 problems, with exported counts of 3/1/11, and on
-P6 on 11 of 15 problems. No direct pairwise test was exported for the
-latter contrast. Taken together, the results suggest contributions from
-both components, but do not demonstrate a synergistic interaction.
-CDIS-only results at $k=K$ and Full at $M=10$, $k=6$ are absent
-from the supplied exports.
-
-\TODO{Confirm implementation and parameter alignment across configurations
-before attributing these results to the current method. Verify run counts,
-seeds, actual terminal FE, runtime
-$k$ overrides, IGD reference sets and the exported test settings against
-run-level records. The supplied summaries do not verify 30 independent
-runs or permit recomputation of significance tests.}
-
-\subsection{Control for the Number of Representative Solutions}
-\label{sec:exp:kcontrol}
-
-Table~\ref{tab:exp:k-effects} compares $k=6$ with the larger reported
-count $K$ within REMO, PAQC-only and Full configurations. REMO and
-PAQC-only use the reference selection strategy, while Full includes CDIS.
-The Full comparison is available only at $M=20$. These configurations
-do not yet provide the complete grouping-by-$k$ control with CDIS fixed.
-
-\input{experiments/ablation_original/table_k}
-
-Increasing $k$ has different effects on the two problem families. At
-$M=10$, the DTLZ geometric mean ratios are 0.921 for REMO and 0.933
-for PAQC only, whereas the corresponding WFG ratios are 1.121 and 1.143.
-The same pattern appears at $M=20$: the DTLZ ratios remain below one
-and the WFG ratios remain above one for all three available variants.
-For example, increasing $k$ in PAQC only changes mean IGD on 20-objective
-DTLZ1 from 57.687 to 81.313, but improves WFG6 from 23.492 to 19.109.
-More representatives therefore do not provide a uniform improvement.
-
-The aggregate results reinforce this point. For PAQC only at $M=20$, the
-overall ratio is 1.001, so the gains and losses across problems nearly
-balance on the geometric-mean scale. For Full, increasing $k$ improves
-8 of 15 means but gives an overall ratio of 0.978. Counting favorable
-problems alone would miss the size of the unfavorable changes.
-
-These results help interpret Section~\ref{sec:exp:ablation}: the
-fixed-$K$ comparison between RK and PK cannot be explained simply by
-assigning more representatives to PK. They do not establish that $K$
-is optimal, or isolate the effect of reference count within current
-CDIS. Representatives also enter candidate generation, so changing
-$k$ affects more than the classification boundary. A final control
-should cross reference grouping and PAQC with $k\in\{6,K\}$ under
-the same final CDIS implementation, reusing the two $k=K$ configurations
-from the module study and recording the actual returned reference count.
+\TODO{Complete REMO+CDIS at $k=1.5M$. Confirm implementation and parameter
+alignment, run counts, actual terminal FE, IGD reference sets and the
+statistical-test settings from individual-run records before finalizing
+the component conclusions.}
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
