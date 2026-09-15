@@ -808,49 +808,59 @@ assumption that the complete-algorithm results demonstrate PAQC's effect.
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-The ablation considers four configurations with the representative count
-fixed at $k=1.5M$: REMO, REMO+PAQC, REMO+CDIS, and Full (PACDIS).
-REMO provides the reference grouping and selection rules. REMO+PAQC
-changes quality classification, REMO+CDIS changes infill selection, and
-Full combines both modules. Thus, the requested representative count is
-15 at $M=10$ and 30 at $M=20$ for every configuration.
+The ablation compares four configurations at a representative count fixed at
+$k=1.5M$, which is 15 at $M=10$ and 30 at $M=20$: REMO under the same
+representative count, which provides the reference grouping and selection
+rules; the complete framework with CDIS removed (Full-CDIS); the complete
+framework with PAQC removed (Full-PAQC); and the complete framework (Full,
+i.e.\ PACDIS). Expressing the ablation as removals from the complete framework
+keeps the shared grouping, selection and representative rules identical, so
+that only the component under test changes. The significance symbols in the
+table are the exported comparisons of each variant against REMO.
 
-The available results appear in Table~\ref{tab:exp:ablation}.
-REMO+CDIS remains to be completed. The exports specify
-$N=100$ and a configured budget of 300 evaluations. The decision dimension
-is 30, except for WFG2 and WFG3, which use 31. All 16 problems are retained
-at $M=10$. At $M=20$, WFG4 is excluded because its exported objective
-count is 10, leaving 15 problems.
+Table~\ref{tab:exp:ablation} reports the results at both objective counts.
+The decision dimension is 30, except for WFG3, which uses 31.
 
-\input{experiments/ablation_original/table_fixed_k}
+\input{experiments/ablation_original/table_combined_remo}
 
-With the same reported $k$, REMO+PAQC achieves lower mean IGD than REMO
-on 14 of 16 problems at $M=10$ and 11 of 15 at $M=20$. The corresponding
-pairwise outcomes in the source exports are 8/1/7 and 10/2/3
-(better/worse/no detected difference). These comparisons suggest a benefit
-from PAQC when the representative count is fixed. The benefit is not
-uniform: REMO+PAQC has a higher mean than REMO on WFG3 at both objective
-counts and on DTLZ2 at $M=20$.
+Full has the lowest mean of the four variants on 3 of the eight problems at
+$M=10$ and 4 of the eight at $M=20$; Full-CDIS on 2 and 2, Full-PAQC on 2
+and 1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
+Full are 5/1/2 at both $M=10$ and $M=20$ (better/worse/no detected
+difference), for Full-CDIS 4/1/3 and 5/2/1, and for Full-PAQC 3/1/4 and
+4/1/3. The complete framework is therefore better than the reference on five
+of the eight problems in each objective setting, with a single loss.
 
-Adding CDIS to REMO+PAQC produces a smaller, problem-dependent gain.
-Full improves mean IGD on 10 of 16 and 9 of 15 problems, with three
-favorable and one unfavorable exported pairwise outcome at each objective
-count. DTLZ7 shows the largest relative improvement in this comparison:
-mean IGD decreases from 17.305 to 12.122 at $M=10$ and from 25.637 to
-18.154 at $M=20$, reductions of 30.0\% and 29.2\%. In contrast, Full
-performs worse on DTLZ5 at both objective counts, while the WFG6 means
-at $M=20$ are nearly unchanged (19.109 and 19.097).
+Full-CDIS has the lowest mean on DTLZ5 at both objective counts and on WFG8
+at $M=10$ and WFG6 at $M=20$; all four of these outcomes are marked $+$
+against REMO. DTLZ7 shows the largest improvement associated with the
+complete framework: relative to REMO, its mean IGD decreases from
+$2.1381e+1$ to $1.0120e+1$ at $M=10$ and from $4.2108e+1$ to $1.8855e+1$ at
+$M=20$, reductions of 52.7\% and 55.2\%. Most of the change at $M=10$ is
+associated with CDIS: relative to Full-CDIS, Full lowers the mean by 41.5\%,
+and relative to Full-PAQC by 29.8\%. At $M=20$ the two single-module means
+are nearly equal ($2.5637e+1$ and $2.5967e+1$), and Full lowers them by
+26.5\% and 27.4\%.
 
-The available comparisons therefore support PAQC under the reference
-selection rule and a conditional gain from CDIS when PAQC is present.
-The REMO+CDIS configuration is needed to examine CDIS without PAQC and
-PAQC with CDIS. These results do not yet establish an interaction between
-the two modules.
+The pattern is not uniform. REMO has the lowest mean on WFG3 at both
+objective counts, where all three variants are marked $-$. Removal of PAQC
+also degrades DTLZ5 at both objective counts: Full-PAQC is the worst variant
+on that problem at $M=10$ ($7.0299e-1$ against $6.0132e-1$ for Full-CDIS and
+$6.5860e-1$ for REMO) and the only variant marked $-$ against REMO at $M=20$.
 
-\TODO{Complete REMO+CDIS at $k=1.5M$. Confirm implementation and parameter
-alignment, run counts, actual terminal FE, IGD reference sets and the
-statistical-test settings from individual-run records before finalizing
-the component conclusions.}
+Both modules therefore contribute under the reference grouping and selection
+rules, and the contribution of each is conditional on the problem. The four
+configurations compare every variant with the same reference; they do not
+separate an interaction between the two modules from their individual
+contributions, and the counts are per-problem comparisons rather than an
+omnibus test across problems.
+
+\TODO{Confirm the number of independent runs, the actual terminal FE, the IGD
+reference sets and the statistical-test settings from the individual-run
+records, and document the selection criterion for the eight reported
+problems. The exports specify $N=100$ and a configured budget of 300
+evaluations; these are configuration values that have not been verified
+against the individual runs.}
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
