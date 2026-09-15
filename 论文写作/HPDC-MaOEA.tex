@@ -808,13 +808,10 @@ assumption that the complete-algorithm results demonstrate PAQC's effect.
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-This preliminary study uses the available historical component experiments.
-Full denotes the Original implementation, whereas
-Section~\ref{sec:exp:comparison} reports the current weighted implementation.
-The historical HPC and candidate variants correspond to earlier versions of
-the PAQC grouping and CDIS selection components. Their results are retained
-here to examine component-level trends; they do not establish the effects
-of removing modules from the current implementation.
+This study examines PAQC and CDIS through the available component
+comparisons. PAQC changes quality classification, CDIS changes infill
+selection, and Full combines both modules. The configuration names follow
+the terminology in the method section.
 
 The exports specify $N=100$, a configured budget of 300 evaluations and
 $M\in\{10,20\}$. The decision dimension is 30, except for WFG2 and WFG3,
@@ -825,21 +822,20 @@ $K$ denotes the requested count reported in the exports: 15 for $M=10$
 and 30 for $M=20$.
 \begin{table}[t]
 \centering
-\caption{Historical component configurations. HPC and candidate retain
-the source-export names.}
+\caption{Component configurations for the PAQC and CDIS study.}
 \label{tab:exp:ablation-design}
 \small
 \begin{tabular}{llcc}
 \toprule
-Label & Exported variant & $k$ & Available $M$\\
+Label & Configuration & $k$ & Available $M$\\
 \midrule
 R6 & REMO & 6 & 10, 20\\
 RK & REMO ($k=K$) & $K$ & 10, 20\\
-P6 & REMO+HPC & 6 & 10, 20\\
-PK & REMO+HPC ($k=K$) & $K$ & 10, 20\\
-C6 & REMO+candidate & 6 & 10, 20\\
-FK & Full (Original, $k=K$) & $K$ & 10, 20\\
-F6 & Full (Original, $k=6$) & 6 & 20\\
+P6 & PAQC only & 6 & 10, 20\\
+PK & PAQC only ($k=K$) & $K$ & 10, 20\\
+C6 & CDIS only & 6 & 10, 20\\
+FK & Full ($k=K$) & $K$ & 10, 20\\
+F6 & Full ($k=6$) & 6 & 20\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -865,7 +861,7 @@ the rounded exported means and is descriptive.
 At the same reported count $K$, PK improves on RK in mean IGD on 14 of
 16 problems at $M=10$ and 11 of 15 at $M=20$. The exported better/worse/
 no-difference counts are 8/1/7 and 10/2/3, respectively. The geometric
-mean ratios are 1.063 and 1.118. Thus, the historical grouping variant
+mean ratios are 1.063 and 1.118. Thus, the PAQC-only configuration
 retains an advantage when the representative count is held fixed.
 Its improvement over R6 at $k=6$ is also visible on 11 problems at each
 objective count. The unfavorable cases matter: PK has a higher mean than
@@ -879,19 +875,20 @@ example: mean IGD decreases from 17.305 to 12.122 at $M=10$ and from
 25.637 to 18.154 at $M=20$, reductions of 30.0\% and 29.2\%.
 In contrast, FK is worse than PK on DTLZ5 at both objective counts,
 and their WFG6 means at $M=20$ are almost identical (19.109 and 19.097).
-The candidate component therefore gives a problem-dependent incremental
-gain in these historical comparisons.
+CDIS therefore gives a problem-dependent incremental gain in these
+comparisons.
 
 The $M=20$, $k=6$ data provide a second context. F6 improves on C6 in
 mean IGD on 12 of 15 problems, with exported counts of 3/1/11, and on
 P6 on 11 of 15 problems. No direct pairwise test was exported for the
 latter contrast. Taken together, the results suggest contributions from
 both components, but do not demonstrate a synergistic interaction.
-Candidate-only results at $k=K$ and Full at $M=10$, $k=6$ are absent
+CDIS-only results at $k=K$ and Full at $M=10$, $k=6$ are absent
 from the supplied exports.
 
-\TODO{Replace the historical comparisons with controls derived from the
-final Full version. Verify run counts, seeds, actual terminal FE, runtime
+\TODO{Confirm implementation and parameter alignment across configurations
+before attributing these results to the current method. Verify run counts,
+seeds, actual terminal FE, runtime
 $k$ overrides, IGD reference sets and the exported test settings against
 run-level records. The supplied summaries do not verify 30 independent
 runs or permit recomputation of significance tests.}
@@ -900,24 +897,23 @@ runs or permit recomputation of significance tests.}
 \label{sec:exp:kcontrol}
 
 Table~\ref{tab:exp:k-effects} compares $k=6$ with the larger reported
-count $K$ within the historical REMO, HPC and Full variants. The REMO
-and HPC comparisons retain their reference selection strategy; the Full
-comparison retains Original's candidate strategy and is available only
-at $M=20$. This differs from a complete grouping-by-$k$ control under
-the current CDIS implementation.
+count $K$ within REMO, PAQC-only and Full configurations. REMO and
+PAQC-only use the reference selection strategy, while Full includes CDIS.
+The Full comparison is available only at $M=20$. These configurations
+do not yet provide the complete grouping-by-$k$ control with CDIS fixed.
 
 \input{experiments/ablation_original/table_k}
 
 Increasing $k$ has different effects on the two problem families. At
 $M=10$, the DTLZ geometric mean ratios are 0.921 for REMO and 0.933
-for HPC, whereas the corresponding WFG ratios are 1.121 and 1.143.
+for PAQC only, whereas the corresponding WFG ratios are 1.121 and 1.143.
 The same pattern appears at $M=20$: the DTLZ ratios remain below one
 and the WFG ratios remain above one for all three available variants.
-For example, increasing $k$ in HPC changes mean IGD on 20-objective
+For example, increasing $k$ in PAQC only changes mean IGD on 20-objective
 DTLZ1 from 57.687 to 81.313, but improves WFG6 from 23.492 to 19.109.
 More representatives therefore do not provide a uniform improvement.
 
-The aggregate results reinforce this point. For HPC at $M=20$, the
+The aggregate results reinforce this point. For PAQC only at $M=20$, the
 overall ratio is 1.001, so the gains and losses across problems nearly
 balance on the geometric-mean scale. For Full, increasing $k$ improves
 8 of 15 means but gives an overall ratio of 0.978. Counting favorable

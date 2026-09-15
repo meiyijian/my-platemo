@@ -67,7 +67,7 @@ for m in [10,20]:
     ns=names(m)
     ids=['R6','RK','P6','PK','C6','FK']+(['F6'] if m==20 else [])
     lines=[r'\begin{table*}[p]',r'\centering',
-           rf'\caption{{Historical component results for $M={m}$. Entries give mean IGD above standard deviation; the lowest mean in each row is bold. Configuration labels are defined in Table~\ref{{tab:exp:ablation-design}}. Full denotes Original.}}',
+           rf'\caption{{PAQC and CDIS component results for $M={m}$. Entries give mean IGD above standard deviation; the lowest mean in each row is bold. Configuration labels are defined in Table~\ref{{tab:exp:ablation-design}}.}}',
            rf'\label{{tab:exp:abl{m}}}',r'\footnotesize',r'\setlength{\tabcolsep}{5pt}',r'\renewcommand{\arraystretch}{1.12}',
            r'\begin{tabular}{l'+('c'*len(ns))+'}',r'\toprule','Problem & '+' & '.join(ids)+r' \\',r'\midrule']
     bests=[0]*len(ns)
@@ -98,11 +98,11 @@ for m in [10,20]:
 def triplet(x):
     return '/'.join(map(str,x)) if x is not None else '---'
 lines=[r'\begin{table*}[t]',r'\centering',
-       r'\caption{Historical component contrasts. Each arrow is evaluated from the second configuration against the first. Mean B/W counts problems with a lower/higher mean IGD. Export B/W/N counts reported better/worse/no-difference outcomes; a dash indicates that the direct comparison was not exported. These annotations have not been recomputed from run-level data. $G$ is defined in \eqref{eq:abl-ratio}.}',
+       r'\caption{PAQC and CDIS component contrasts. Each arrow is evaluated from the second configuration against the first. Mean B/W counts problems with a lower/higher mean IGD. Export B/W/N counts reported better/worse/no-difference outcomes; a dash indicates that the direct comparison was not exported. These annotations have not been recomputed from run-level data. $G$ is defined in \eqref{eq:abl-ratio}.}',
        r'\label{tab:exp:abl-effects}',r'\small',r'\begin{tabular}{llcccccc}',r'\toprule',
        r'Component & Contrast & \multicolumn{3}{c}{$M=10$} & \multicolumn{3}{c}{$M=20$} \\',
        r'\cmidrule(lr){3-5}\cmidrule(lr){6-8}',r' & & Mean B/W & Export B/W/N & $G$ & Mean B/W & Export B/W/N & $G$ \\',r'\midrule']
-for factor,pair in [('Grouping','R6->P6'),('Grouping','RK->PK'),('Candidate','R6->C6'),('Candidate','PK->FK'),('Both','RK->FK'),('Grouping','C6->F6'),('Candidate','P6->F6')]:
+for factor,pair in [('PAQC','R6->P6'),('PAQC','RK->PK'),('CDIS','R6->C6'),('CDIS','PK->FK'),('Both','RK->FK'),('PAQC','C6->F6'),('CDIS','P6->F6')]:
     a,b=pair.split('->')
     cells=[]
     for m in [10,20]:
@@ -112,7 +112,7 @@ for factor,pair in [('Grouping','R6->P6'),('Grouping','RK->PK'),('Candidate','R6
 lines += [r'\bottomrule',r'\end{tabular}',r'\end{table*}']
 (ROOT/'table_effects.tex').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 lines=[r'\begin{table*}[t]',r'\centering',
-       r'\caption{Effect of increasing the reported representative count from 6 to $K$ in historical variants. Mean B/W and Export B/W/N follow Table~\ref{tab:exp:abl-effects}. Ratios above one favor the larger count. DTLZ and WFG are summarized separately using \eqref{eq:abl-ratio}.}',
+       r'\caption{Effect of increasing the reported representative count from 6 to $K$. Mean B/W and Export B/W/N follow Table~\ref{tab:exp:abl-effects}. Ratios above one favor the larger count. DTLZ and WFG are summarized separately using \eqref{eq:abl-ratio}.}',
        r'\label{tab:exp:k-effects}',r'\small',r'\begin{tabular}{clccccc}',r'\toprule',
        r'$M$ & Contrast & Mean B/W & Export B/W/N & $G$ (all) & $G$ (DTLZ) & $G$ (WFG) \\',r'\midrule']
 for m in [10,20]:
