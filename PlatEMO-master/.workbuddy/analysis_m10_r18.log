@@ -1,0 +1,108 @@
+===== RMEO_k_CDIS, M=10, run IDs 1..18 (18 runs per problem) =====
+All arms are restricted to the same run ID set.
+
+-- own IGD --
+DTLZ1  n=18 mean=244.43 sd=49.3
+DTLZ2  n=18 mean=1.12052 sd=0.09618
+DTLZ5  n=18 mean=0.702994 sd=0.09346
+DTLZ7  n=18 mean=14.4152 sd=1.839
+WFG1   n=18 mean=3.166 sd=0.05545
+WFG3   n=18 mean=1.62422 sd=0.09566
+WFG6   n=18 mean=5.37908 sd=0.261
+WFG8   n=18 mean=5.78499 sd=0.2646
+
+-- vs REMO --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     207.48    -17.81%     0.045     0.089          ns
+DTLZ2      1.1205     1.0902     -2.78%      0.52      0.52          ns
+DTLZ5     0.70299    0.62052    -13.29%     0.017     0.068          ns
+DTLZ7      14.415     21.252    +32.17%   7.4e-07   5.2e-06  own-better
+WFG1        3.166     3.2354     +2.14%     0.017     0.068          ns
+WFG3       1.6242     1.5188     -6.94%    0.0056     0.028   own-worse
+WFG6       5.3791     6.4255    +16.29%   2.2e-06   1.3e-05  own-better
+WFG8        5.785     7.0559    +18.01%   4.5e-07   3.6e-06  own-better
+mean delta = +3.47%; significant better 3, worse 1, not-significant 4
+  better on: DTLZ7, WFG6, WFG8
+  worse  on: WFG3
+
+-- vs REMO_k15 --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     255.72     +4.41%      0.48         1          ns
+DTLZ2      1.1205     1.1321     +1.02%      0.62         1          ns
+DTLZ5     0.70299     0.6586     -6.74%       0.2       0.8          ns
+DTLZ7      14.415     21.381    +32.58%   4.5e-07   3.6e-06  own-better
+WFG1        3.166     3.2346     +2.12%    0.0042     0.029  own-better
+WFG3       1.6242     1.5502     -4.77%     0.028      0.14          ns
+WFG6       5.3791     5.4737     +1.73%       0.4         1          ns
+WFG8        5.785      6.042     +4.25%     0.017       0.1          ns
+mean delta = +4.33%; significant better 2, worse 0, not-significant 6
+  better on: DTLZ7, WFG1
+
+-- vs REMO_k --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     274.53    +10.97%     0.052     0.052          ns
+DTLZ2      1.1205     1.2433     +9.88%    0.0006    0.0024  own-better
+DTLZ5     0.70299    0.78804    +10.79%     0.009     0.027  own-better
+DTLZ7      14.415     24.841    +41.97%   3.2e-07   2.6e-06  own-better
+WFG1        3.166     3.2766     +3.38%   1.2e-06   8.4e-06  own-better
+WFG3       1.6242     1.5455     -5.10%     0.013     0.027   own-worse
+WFG6       5.3791     5.7871     +7.05%   5.5e-05   0.00027  own-better
+WFG8        5.785     6.3835     +9.38%   1.4e-05   8.2e-05  own-better
+mean delta = +11.04%; significant better 6, worse 1, not-significant 1
+  better on: DTLZ2, DTLZ5, DTLZ7, WFG1, WFG6, WFG8
+  worse  on: WFG3
+
+-- vs REMO_UniformMixCandidate --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     213.27    -14.61%     0.079      0.32          ns
+DTLZ2      1.1205     1.0434     -7.39%     0.013     0.065          ns
+DTLZ5     0.70299    0.58917    -19.32%    0.0025     0.015   own-worse
+DTLZ7      14.415     14.917     +3.36%      0.37         1          ns
+WFG1        3.166     3.1734     +0.23%      0.84         1          ns
+WFG3       1.6242     1.6296     +0.33%      0.86         1          ns
+WFG6       5.3791     5.7033     +5.69%   0.00095    0.0066  own-better
+WFG8        5.785     6.3053     +8.25%   8.2e-05   0.00065  own-better
+mean delta = -2.93%; significant better 2, worse 1, not-significant 5
+  better on: WFG6, WFG8
+  worse  on: DTLZ5
+
+-- vs REMO_UniformMix_Pruned_Weighted_Lambdat030 --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     216.75    -12.77%     0.085      0.42          ns
+DTLZ2      1.1205     1.1384     +1.57%      0.33         1          ns
+DTLZ5     0.70299    0.69825     -0.68%      0.65         1          ns
+DTLZ7      14.415      10.12    -42.44%   1.6e-06   1.3e-05   own-worse
+WFG1        3.166     3.1698     +0.12%      0.84         1          ns
+WFG3       1.6242      1.718     +5.46%    0.0056     0.039  own-better
+WFG6       5.3791     5.2253     -2.94%     0.064      0.39          ns
+WFG8        5.785     5.7525     -0.56%      0.46         1          ns
+mean delta = -6.53%; significant better 1, worse 1, not-significant 6
+  better on: WFG3
+  worse  on: DTLZ7
+
+-- vs REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted --
+baseline n per problem: [18 18 18 18 18 18 18 18]
+Problem   own-mean  base-mean     delta%         p    p_holm    decision
+DTLZ1      244.43     217.73    -12.26%     0.097      0.39          ns
+DTLZ2      1.1205      1.206     +7.09%     0.014     0.071          ns
+DTLZ5     0.70299    0.82939    +15.24%    0.0018     0.011  own-better
+DTLZ7      14.415     8.7971    -63.86%   3.2e-07   2.6e-06   own-worse
+WFG1        3.166     3.1668     +0.03%      0.91         1          ns
+WFG3       1.6242     1.7319     +6.22%    0.0011    0.0074  own-better
+WFG6       5.3791     5.2506     -2.45%       0.2       0.6          ns
+WFG8        5.785     5.7711     -0.24%      0.81         1          ns
+mean delta = -6.28%; significant better 2, worse 1, not-significant 5
+  better on: DTLZ5, WFG3
+  worse  on: DTLZ7
+
+===== M=20 (still running) =====
+own DTLZ1 M20: n=18 mean=91.993 sd=21.26
+REMO                                           n=18 mean=67.4081  delta= -26.72%
+REMO_k15                                       n=18 mean=57.1551  delta= -37.87%
+REMO_UniformMixCandidate                       n=18 mean=60.7474  delta= -33.97%
+REMO_UniformMix_Pruned_Weighted_Lambdat030     n=18 mean=77.5158  delta= -15.74%

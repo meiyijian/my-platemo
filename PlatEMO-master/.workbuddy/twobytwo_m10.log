@@ -1,0 +1,31 @@
+M=10, k=15 in all four arms, run IDs 1..18.
+Cell means:
+Problem    noPAQC/no     +PAQC/no  noPAQC/cand   +PAQC/cand
+DTLZ1        255.72       222.65       244.43       216.75
+DTLZ2        1.1321       1.1325       1.1205       1.1384
+DTLZ5        0.6586      0.60132      0.70299      0.69825
+DTLZ7        21.381       17.305       14.415        10.12
+WFG1         3.2346          3.2        3.166       3.1698
+WFG3         1.5502       1.6399       1.6242        1.718
+WFG6         5.4737       5.3355       5.3791       5.2253
+WFG8          6.042       5.6556        5.785       5.7525
+
+Effects (% , positive = the module helps), * = Holm<0.05
+Problem     PAQC|noCand     PAQC|withCand     Cand|noPAQC     Cand|withPAQC
+DTLZ1          +12.93%+         +11.32%           +4.41%           +2.65% 
+DTLZ2           -0.04%           -1.60%           +1.02%           -0.52% 
+DTLZ5           +8.70%           +0.67%           -6.74%          -16.12% 
+DTLZ7          +19.06%+         +29.79%+         +32.58%+         +41.52%+
+WFG1            +1.07%           -0.12%           +2.12%+          +0.95% 
+WFG3            -5.78%-          -5.77%-          -4.77%           -4.76%-
+WFG6            +2.52%           +2.86%           +1.73%           +2.07% 
+WFG8            +6.39%+          +0.56%           +4.25%           -1.71% 
+
+Summary (mean effect, significant counts, family split)
+effect                mean%     sig+       sig- DTLZ mean%  WFG mean%
+PAQC|noCand           +5.61        3          1      10.16       1.05
+PAQC|withCand         +4.72        1          1      10.05      -0.62
+Cand|noPAQC           +4.33        2          0       7.82       0.83
+Cand|withPAQC         +3.01        1          1       6.88      -0.87
+
+per-arm n: REMO_k15=18 REMO_new2_k15=18 RMEO_k_CDIS=18 REMO_UniformMix_Pruned_Weighted_Lambdat030=18 
