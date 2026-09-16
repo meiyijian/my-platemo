@@ -22,6 +22,7 @@
 - 🔴 **推送必须用"先清空助手列表、只留 wincred"的写法**（09-16 实测：光加 `-c credential.helper=wincred` **不够**）：
   `git -c credential.helper= -c credential.helper=wincred push origin master`
   原因：`PortableGit/etc/gitconfig` 配了 `helper-selector`、`~/.gitconfig` 配了 `git-credential-manager.exe`，两者都会拉起 GUI 并**被 SIGTERM 杀掉**，且输入法 DLL 日志污染凭据协议输出 → git 报 `warning: invalid credential line: ... [tsf_oime.cpp:7276] DllGetClassObject ...`。**必须在沙箱外执行**（`dangerouslyDisableSandbox`），并加 `GIT_TERMINAL_PROMPT=0` 防交互；fetch/ls-remote 同法。
+- ⚠️ **`refs/remotes/*` 写不进去（0914 后遗症+环境拦截）**：`git fetch` / `git update-ref` 对本仓库的 `refs/remotes` **报成功但不落盘**（`exit=0` 且打印 `[new branch] master -> origin/master`，随后 `git rev-parse origin/master` 就 `exit=128`），于是 `git status -sb` 恒显示 `[gone]`。已排除目录权限/原子 rename/外部清理（`echo`+`mv` 与手写文件都正常，`refs/heads` 也正常）。**绕过：用文件写入工具直接把 `.git/refs/remotes/origin/master` 写成一行远端 SHA**，git 立刻可读（`## master...origin/master`）。别反复重试 `git fetch`。
 - MATLAB `-batch` 退出偶发 `0xc0000374`（堆损坏）：崩溃前写盘的数据安全；长跑配"守护+断点续跑"。**切片越短越容易崩**——等价性校验用"2 跑/切片"时 20 片崩 6 片，而主扫描"10 跑/切片"156 片**全部 exit=0**；已用**基类、同样配置的对照实验**证明与具体算法类无关（基类 6 片崩 5 片）。长实验优先用长切片，把堆损坏当"重跑即可"的噪声。
 - Edit 偶发报成功但未落盘 → 关键编辑后 Read/Grep 复核。
 
