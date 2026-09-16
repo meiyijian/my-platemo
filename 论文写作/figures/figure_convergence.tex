@@ -14,12 +14,13 @@
   \caption{Median IGD convergence of PACDIS and the six baseline algorithms
   on WFG7 and WFG8 at $M=10$, 15 and 20. Each curve summarizes 20
   independent runs (run identifiers 1--20) of the same experiment as the
-  main comparison and starts at the algorithm's first recorded snapshot,
-  because the initial design already consumes real evaluations. Traces are
-  aligned on a unit-FE grid by holding the most recent recorded value,
-  without extrapolation past the last snapshot, and one vertex is drawn
-  every 25 evaluations. The IGD values are computed by the same
-  implementation and reference sets as
+  main comparison. Traces are aligned on a unit-FE grid by holding the most
+  recent recorded value, without extrapolation past the last snapshot, and
+  one vertex is drawn every 25 evaluations. Because the initial design
+  already consumes real evaluations, every algorithm except MCEA/D records
+  its first snapshot at 100 or later; the axis therefore starts at 95 and
+  the earlier MCEA/D points are omitted. The IGD values are computed by the
+  same implementation and reference sets as
   Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}.}
   \label{fig:exp:convergence}
 \end{figure*}

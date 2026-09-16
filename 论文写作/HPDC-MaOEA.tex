@@ -1028,13 +1028,13 @@ measured by the same IGD implementation and reference sets. Run identifiers
 (the baselines store 30 runs and PACDIS 20).
 
 The horizontal axis counts the real function evaluations actually consumed,
-including the initial design, and therefore does not start at zero: each
-curve begins at the first recorded snapshot of its algorithm. Where
-snapshots fall at different evaluation counts across runs and algorithms,
-each trace is held at its most recent recorded value on a unit-FE grid and
-is not extrapolated beyond its last snapshot. For readability the polylines
-are drawn from vertices placed every 25 evaluations, a subsampling of those
-traces.
+including the initial design, so it does not start at zero: every algorithm
+except MCEA/D records its first snapshot at 100 or later, and the axis
+begins at 95. Where snapshots fall at different evaluation counts across
+runs and algorithms, each trace is held at its most recent recorded value on
+a unit-FE grid and is not extrapolated beyond its last snapshot. For
+readability the polylines are drawn from vertices placed every 25
+evaluations, a subsampling of those traces.
 
 The advantage of PACDIS emerges within the first surrogate-assisted batches
 after the initial design and widens with the budget. On WFG7 the final

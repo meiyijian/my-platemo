@@ -65,12 +65,12 @@ COLORS = {
     'MCEAD': '#414B54',
 }
 STYLES = {a: '-' for a in ORDER}   # paper style: solid lines, identity comes from colour + marker
-MARKERS = {
+MARKERS = {                         # must match ConvergencePlot/PlotConvergencePaperStyle.m
     PACDIS: 'D',
-    'REMO': 'o',
-    'PIEA': '^',
-    'CSEA': 's',
-    'PCSAEA_N100': 'v',
+    'REMO': '^',
+    'PIEA': 'o',
+    'CSEA': '*',
+    'PCSAEA_N100': 's',
     'KRVEA_100': 'x',
     'MCEAD': '+',
 }
@@ -80,7 +80,10 @@ SHOW_BAND = False   # paper style: no shaded interquartile band
 MS = [10, 15, 20]
 PROBLEMS = ['WFG7', 'WFG8']
 RUNS = list(range(1, 21))          # matched subset: run ids 1-20
-XMIN, XMAX = 20, 305
+# The initial design consumes real evaluations (most algorithms record their
+# first snapshot at FE=100, CSEA at 109, MCEA/D earlier), so the axis starts
+# just left of 100 and the initial-design phase stays out of the picture.
+XMIN, XMAX = 95, 305
 GRID = np.arange(XMIN, XMAX + 1)
 LETTERS = 'abcdef'
 
@@ -207,7 +210,7 @@ def build_single(stats, m, prob, letter):
     ax.set_title(f'({letter}) {prob}, $M={m}$', loc='left', pad=4)
     ax.set_xlim(XMIN, XMAX)
     ax.set_ylim(ylo, yhi)
-    ax.set_xticks([50, 100, 150, 200, 250, 300])
+    ax.set_xticks([100, 150, 200, 250, 300])
     ax.yaxis.set_major_locator(MaxNLocator(nbins=4, steps=[1, 2, 5, 10]))
     ax.set_xlabel('Number of real function evaluations')
     ax.set_ylabel('IGD')
@@ -239,7 +242,7 @@ def build_combined(stats):
             ax.set_title(f'({letter}) {prob}, $M={m}$', loc='left', pad=4)
             ax.set_xlim(XMIN, XMAX)
             ax.set_ylim(ylo, yhi)
-            ax.set_xticks([50, 100, 150, 200, 250, 300])
+            ax.set_xticks([100, 150, 200, 250, 300])
             ax.yaxis.set_major_locator(MaxNLocator(nbins=5, steps=[1, 2, 5, 10]))
             if i == len(MS) - 1:
                 ax.set_xlabel('Number of real function evaluations')

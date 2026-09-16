@@ -55,10 +55,10 @@
   "band": "none (paper style)",
   "markers": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030": "D",
-    "REMO": "o",
-    "PIEA": "^",
-    "CSEA": "s",
-    "PCSAEA_N100": "v",
+    "REMO": "^",
+    "PIEA": "o",
+    "CSEA": "*",
+    "PCSAEA_N100": "s",
     "KRVEA_100": "x",
     "MCEAD": "+"
   },
