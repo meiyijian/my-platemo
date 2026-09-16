@@ -79,12 +79,16 @@ for Expensive Many-Objective Optimization}
 
 \begin{abstract}
 \TODO{Use the challenge--contribution structure. State the two concrete gaps:
-the binary PBI criterion provides only a coarse membership signal for
-constructing relation-learning groups,
+representative-based grouping relies on a small set of selected reference
+solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set,
 and selecting several top-ranked candidates can concentrate an expensive
-evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
-criterion-diversified infill selection (CDIS). Make PAQC the primary
-contribution and CDIS the supporting batch-selection strategy. Lead the results
+evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted
+quality classification (PAQC) and criterion-diversified infill selection (CDIS).
+PAQC complements representative-based grouping by introducing a
+population-adaptive directional assessment and converting it into a quality
+priority for positive-group construction. CDIS provides a supporting
+batch-selection strategy. Lead the results
 with the strongest verified algorithm-level IGD comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
@@ -110,11 +114,15 @@ group construction and candidate selection. Present the two mechanisms as
 complementary design roles in one algorithm. Do not lead with selection-overlap
 statistics or imply that the relation network learns a within-group ordering.}
 
-The primary contribution is PBI-assisted quality classification (PAQC),
-which combines a continuous PBI score with the representative-based binary
-label used in REMO. The hybrid score prioritizes solutions before
-discretization, refining positive-group membership while retaining the
-three-class relation-learning scheme. To support the use of these predictions,
+The primary contribution is PBI-assisted quality classification (PAQC).
+Representative-based grouping in REMO relies on a small set of selected
+reference solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set. PAQC complements this
+representative-based information by introducing a population-adaptive
+directional assessment derived from the current nondominated set and converting
+it into a quality priority for positive-group construction. The two signals are
+fused to determine training-group membership, retaining the three-class
+relation-learning scheme. To support the use of these predictions,
 criterion-diversified infill selection (CDIS) provides two batch-selection
 criteria within an explicit evaluation cap. One constructs a spatially
 dispersed batch from candidates screened by relation quality; the other
@@ -155,16 +163,16 @@ scores of a large candidate pool into a small batch of expensive evaluations.
 We propose PACDIS, a surrogate-assisted many-objective evolutionary
 algorithm centred on improving the supervision interface through PAQC,
 with CDIS providing a supporting expensive-evaluation selection strategy.
-\emph{PBI-assisted quality classification} (PAQC) combines a continuous PBI
-score with a binary representative-based label.
-The hybrid score determines which solutions enter the positive training group,
-providing quality-aware group construction before relation-pair labels are
-assigned. \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided candidate
-generation but uses either indicator-based reranking or quality-guided
-batch diversification to choose the final expensive-evaluation batch. Established relation
-learning, indicator assessment and environmental selection modules provide the
-host algorithm; the two proposed mechanisms change how its training groups are
-formed and how its surrogate scores are used.
+\emph{PBI-assisted quality classification} (PAQC) augments the
+representative-based binary grouping signal with a continuous direction-aware
+quality priority derived from population-adaptive directions. The two signals
+are fused to determine which solutions enter the positive training group.
+\emph{Criterion-diversified infill selection} (CDIS) retains relation-guided
+candidate generation but uses either indicator-based reranking or
+quality-guided batch diversification to choose the final expensive-evaluation
+batch. Established relation learning, indicator assessment and environmental
+selection modules provide the host algorithm; the two proposed mechanisms
+change how its training groups are formed and how its surrogate scores are used.
 
 \subsection{Overall Framework}
 \label{sec:method:framework}
@@ -251,14 +259,18 @@ relation-guided candidate search and criterion-dependent infill branches.
 
 Relation learning first needs to divide the evaluated population into groups
 from which pairwise labels can be generated. The binary PBI criterion of
-REMO~\cite{ref:remo} provides only a coarse membership signal for constructing
-relation-learning groups. PAQC introduces a continuous quality score before
-discretization to prioritize solutions when forming the positive training group.
-A stage-dependent combination of this score and the representative-based binary
+REMO~\cite{ref:remo} provides a coarse membership signal, but
+representative-based grouping relies on a small set of selected reference
+solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set. PAQC complements this
+representative-based information by constructing population-adaptive directions,
+where applicable, from the current nondominated set and converting the resulting
+directional assessment into a quality priority for positive-group construction.
+A stage-dependent fusion of this priority and the representative-based binary
 label selects a prescribed fraction of the population as the positive group;
-the remaining solutions form its complement. This quality-aware group
-construction refines positive-group membership while retaining the same
-three-class relation-label scheme.
+the remaining solutions form its complement. This construction refines
+positive-group membership while retaining the same three-class relation-label
+scheme.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -331,9 +343,10 @@ $\vz^{*}$. All experiments in this paper use this single convention.
 \subsubsection{Representative-Based Classification}
 \label{sec:method:paqc:coarse}
 
-The continuous score supplies a selection priority for group construction, while the binary label
-produced by \textsc{RepresentativeBasedClassification} adds a
-representative-relative quality boundary. This boundary is derived from a small set
+The binary label produced by \textsc{RepresentativeBasedClassification}
+provides a coarse membership signal induced by a small set of representative
+solutions, while the adaptive-direction score supplies an additional continuous
+quality priority. This signal is derived from a small set
 $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
 the current population by the radial-grid representative selection of
 RSEA~\cite{ref:rsea}, which is also the rule used by REMO~\cite{ref:remo}. The
@@ -363,9 +376,11 @@ occupancy on both sides across changing population states.
 \subsubsection{Hybrid Score and Positive-Group Construction}
 \label{sec:method:paqc:hybrid}
 
-The two signals are combined by a weight that follows the consumption of the
-expensive budget. With $t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality
-score of solution $i$ is
+The representative-based label provides a coarse membership signal within
+reference-associated regions, while the adaptive-direction score provides a
+continuous direction-aware quality priority. The two signals are combined by a
+weight that follows the consumption of the expensive budget. With
+$t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality score of solution $i$ is
 \begin{equation}
 H_i=\alpha_t S_i+(1-\alpha_t)L_i ,
 \qquad
@@ -389,8 +404,9 @@ Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
 signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
 thresholds used to obtain $L_i$. In panel~(b), the nondominated solutions
 $P_1$ and $P_2$ supply the adaptive directions $\vv_1$ and $\vv_2$ through
-\eqref{eq:direction}; these directions determine $S_i$, rather than directly
-assigning group membership. The reassignment of $A$ and $B$ to the positive
+\eqref{eq:direction}; these directions provide an additional directional
+assessment through $S_i$, rather than directly defining a new classification
+boundary. The reassignment of $A$ and $B$ to the positive
 group and of $C$ to its complement schematically depicts how the additional
 directional information can change selection priorities through
 \eqref{eq:fuse}--\eqref{eq:group}. Such a reversal of the ordering between
@@ -468,9 +484,9 @@ while $H_j=\alpha_tS_j\leq\alpha_t$ because $S_j\leq1$; for
 $\alpha_t\leq1/2$ we have $1-\alpha_t\geq\alpha_t$, hence $H_i>H_j$.
 \end{proof}
 
-Part~(i) explains how the continuous score affects positive-group membership:
-for $\alpha_t>0$, solutions sharing an original label $L_i$ are prioritized by
-$S_i$ when the positive-group cutoff falls inside that label class.
+Part~(i) shows that, within the same representative-based label class, the
+direction-aware quality priority $S_i$ refines the ordering used to fill the
+positive-group quota when the cutoff falls inside that label class.
 Part~(ii) gives the schedule a concrete interpretation. For $t<1/2$, the
 continuous score can affect selection priority across the original binary
 boundary; for $1/2\leq t<1$, binary-positive solutions take priority and $S_i$
