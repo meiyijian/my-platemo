@@ -49,6 +49,7 @@
 \newcommand{\vf}{\mathbf{f}}
 \newcommand{\vx}{\mathbf{x}}
 \newcommand{\vv}{\mathbf{v}}
+\newcommand{\vu}{\mathbf{u}}
 \newcommand{\vw}{\mathbf{w}}
 \newcommand{\vr}{\mathbf{r}}
 \newcommand{\vz}{\mathbf{z}}
@@ -127,8 +128,8 @@ criterion-diversified infill selection (CDIS) provides two batch-selection
 criteria within an explicit evaluation cap. One constructs a spatially
 dispersed batch from candidates screened by relation quality; the other
 reranks a relation-screened subset using a predicted indicator. This supporting
-strategy combines quality guidance and batch diversification without adding
-a prediction-ambiguity reward or an error-dependent gate.
+strategy combines relation-quality screening, a fixed prediction-ambiguity
+reward, and batch diversification without introducing an error-dependent gate.
 
 \section{Related Work}
 \label{sec:related}
@@ -571,17 +572,16 @@ share a pool-construction procedure, rather than necessarily an identical pool.
 \subsubsection{Quality-Guided Batch Diversification}
 \label{sec:method:cdis:exp}
 
-The exploration-oriented mode first applies a quality screen and then
-constructs a dispersed evaluation batch within the retained set. Its relation
-score uses the largest softmax class probability as the weight of each ordered
-pair in the family-wise averages of \eqref{eq:relscore}. This weighting is
-retained from the relation-scoring procedure; no separate ambiguity reward is
-added. The exploration score is simply
-\begin{equation}
-A_{\mathrm{exp}}(\vx)=R(\vx).
-\label{eq:expscore}
-\end{equation}
-Candidates at or above its $q_{\mathrm{keep}}$ quantile form
+The exploration-oriented mode first applies a relation-quality screen and then
+balances predicted quality, classification ambiguity, and decision-space
+diversity within the retained candidate set. Its relation score uses the
+largest softmax class probability as the weight of each ordered pair in the
+family-wise averages of \eqref{eq:relscore}. This pair-level confidence
+weighting reduces the influence of unreliable relation predictions when
+estimating candidate quality.
+
+Candidates at or above the $q_{\mathrm{keep}}$ quantile of the relation score
+form
 \begin{equation}
 \mathcal{H}^{\mathrm{exp}}=
 \bigl\{\vx\in\mathcal{A}: R(\vx)\geq
@@ -589,37 +589,85 @@ Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\bigr\}.
 \label{eq:prefilter-exp}
 \end{equation}
 With $q_{\mathrm{keep}}=0.70$, this screen usually retains the highest-scoring
-30\% of the pool; ties can increase that fraction. Distance can affect selection
-only among these retained candidates, so a distant candidate below the
-relation-quality threshold cannot enter the batch through diversification.
+30\% of the pool; ties can increase that fraction. Importantly, ambiguity is
+considered only after this quality screen, so a candidate with poor predicted
+relation quality cannot enter the evaluation batch solely because of high
+prediction uncertainty.
 
-The first selected candidate maximizes $R$ within
-$\mathcal{H}^{\mathrm{exp}}$. Subsequent members maximize the joint
-quality--distance criterion
+To distinguish candidates within the retained set, we additionally measure the
+ambiguity of the relation predictions. Let $\mathcal{O}(\vx)$ denote all ordered
+comparisons constructed between candidate $\vx$ and the positive and
+non-positive training groups, and let $\pi_k(\vu,\vv)$ be the predicted
+probability of relation class $k\in\{-1,0,+1\}$ for an ordered pair
+$(\vu,\vv)$. The candidate-level ambiguity is defined as
+\begin{equation}
+U(\vx)=
+1-\frac{1}{|\mathcal{O}(\vx)|}
+\sum_{(\vu,\vv)\in\mathcal{O}(\vx)}
+\max_{k\in\{-1,0,+1\}}\pi_k(\vu,\vv).
+\label{eq:ambiguity}
+\end{equation}
+Hence, $U(\vx)$ becomes large when the relation network is less decisive over
+the comparisons associated with $\vx$.
+
+Within $\mathcal{H}^{\mathrm{exp}}$, the relation score and ambiguity are
+min--max normalized and combined as
+\begin{equation}
+A_{\mathrm{exp}}(\vx)
+=\widetilde{R}(\vx)+\lambda\,\widetilde{U}(\vx),
+\qquad \lambda=0.30,
+\label{eq:expscore}
+\end{equation}
+where a constant quantity is assigned the normalized value $0.5$. The fixed
+ambiguity weight $\lambda$ provides a moderate preference for candidates whose
+predicted relations remain uncertain while preserving relation quality as the
+dominant component of the exploration acquisition. Unlike an
+error-adaptive exploration rule, $\lambda$ remains constant throughout the
+optimization process.
+
+The confidence weighting used in $R(\vx)$ and the ambiguity reward in
+\eqref{eq:expscore} serve complementary purposes. The former stabilizes the
+quality estimate by reducing the contribution of uncertain pairwise
+predictions, whereas the latter uses the remaining candidate-level ambiguity as
+an exploration signal after the quality requirement has already been
+satisfied. Thus, uncertainty does not replace the relation-quality criterion
+but refines the choice among candidates that have passed the quality screen.
+
+The first member of the evaluation batch maximizes
+$A_{\mathrm{exp}}$ within $\mathcal{H}^{\mathrm{exp}}$. For each subsequent
+member, the exploration acquisition is combined with its minimum distance from
+the candidates already selected:
 \begin{equation}
 \begin{split}
 A_{\mathrm{batch}}(\vx\mid\mathcal{S})
-&=w\,\widehat R(\vx)+(1-w)\,\widehat d(\vx,\mathcal{S}),\\
-d(\vx,\mathcal{S})&=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2,
+&=w\,\widehat{A}_{\mathrm{exp}}(\vx)
++(1-w)\,\widehat d(\vx,\mathcal{S}),\\
+d(\vx,\mathcal{S})
+&=\min_{\vz\in\mathcal{S}}\|\vx-\vz\|_2,
 \qquad w=0.75,
 \end{split}
 \label{eq:greedy}
 \end{equation}
-where $\mathcal{S}$ is the batch selected so far. Both terms are min--max
-normalized over the remaining retained candidates at each greedy step; a
-constant term is assigned 0.5. Distances are Euclidean distances between
-decision vectors, as used by the implementation. If the retained set fits
-within the batch cap, all its members are returned in descending relation-score
-order. Otherwise, greedy selection continues until the feasible batch size is
-reached, with exact acquisition ties resolved by candidate order.
+where $\mathcal{S}$ is the batch selected so far.
+$\widehat{A}_{\mathrm{exp}}$ and $\widehat d$ are min--max normalized over the
+remaining retained candidates at each greedy step, with a constant term
+assigned the value $0.5$. Distances are Euclidean distances between decision
+vectors, as used by the implementation. If the retained set fits within the
+batch cap, all its members are returned in descending
+$A_{\mathrm{exp}}$ order. Otherwise, greedy selection continues until the
+feasible batch size is reached, with exact acquisition ties resolved by
+candidate order.
 
-The quality screen restricts the search to candidates with high predicted
-relation quality, while the distance term favors candidates separated from
-those already selected in the same batch. This quality-guided diversification
-is intended to reduce within-batch evaluation redundancy. It does not guarantee
-true objective quality, nor does distance within $\mathcal{S}$ measure novelty
-relative to the historical archive. Its final optimization benefit is an
-empirical question addressed by the component study.
+This construction separates three roles in the exploration branch. The
+relation-score quantile first restricts expensive evaluations to candidates
+with sufficiently high predicted quality; the ambiguity reward then favors
+potentially informative candidates within this quality-controlled subset; and
+the distance term discourages repeatedly evaluating candidates from similar
+decision regions in the same batch. The mechanism is therefore intended to
+balance candidate quality, information acquisition, and within-batch diversity.
+It does not guarantee true objective quality, nor does batch distance measure
+novelty relative to the historical archive. Its final optimization benefit is
+an empirical question addressed by the component study.
 
 \subsubsection{Indicator-Based Infill}
 \label{sec:method:cdis:ind}
@@ -769,7 +817,7 @@ k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
 \end{equation}
 giving 15, 23 and 30 at $M=10$, 15 and 20 with $N=100$.
 The actual returned representative count can be smaller.
-No ambiguity-reward coefficient, error-gate threshold, or minimum-batch
+No error-gate threshold or minimum-batch
 parameter is used in this version.
 
 \paragraph{Performance indicator and statistical reporting.}
