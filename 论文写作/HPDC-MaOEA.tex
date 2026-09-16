@@ -818,23 +818,23 @@ keeps the shared grouping, selection and representative rules identical, so
 that only the component under test changes. The significance symbols in the
 table are the exported comparisons of each variant against REMO.
 
-Table~\ref{tab:exp:ablation} reports the results at both objective counts.
-The decision dimension is 30, except for WFG3, which uses 31.
+Table~\ref{tab:exp:ablation} reports the results on all DTLZ and WFG
+problems at both objective counts. The decision dimension is 30, except for
+WFG2 and WFG3, which use 31.
 
-\input{experiments/ablation_original/table_combined_remo}
+\input{experiments/ablation_original/table_full_dtlz_wfg}
 
-Full has the lowest mean of the four variants on 3 of the eight problems at
-$M=10$ and 4 of the eight at $M=20$; Full-CDIS on 2 and 2, Full-PAQC on 2
-and 1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
-Full are 5/1/2 at both $M=10$ and $M=20$ (better/worse/no detected
-difference), for Full-CDIS 4/1/3 and 5/2/1, and for Full-PAQC 3/1/4 and
-4/1/3. The complete framework is therefore better than the reference on five
-of the eight problems in each objective setting, with a single loss.
+Full has the lowest mean of the four variants on 7 of the 16 problems at
+$M=10$ and 9 of the 16 at $M=20$; Full-CDIS on 6 and 5, Full-PAQC on 2 and
+1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
+Full are 8/1/7 at $M=10$ and 10/1/5 at $M=20$ (better/worse/no detected
+difference), for Full-CDIS 8/1/7 and 10/2/4, and for Full-PAQC 4/1/11 and
+7/2/7. The complete framework is therefore better than the reference on
+eight of the sixteen problems at $M=10$ and ten at $M=20$, with a single
+loss at each objective count.
 
-Full-CDIS has the lowest mean on DTLZ5 at both objective counts and on WFG8
-at $M=10$ and WFG6 at $M=20$; all four of these outcomes are marked $+$
-against REMO. DTLZ7 shows the largest improvement associated with the
-complete framework: relative to REMO, its mean IGD decreases from
+DTLZ7 shows the largest improvement associated with the complete framework:
+relative to REMO, its mean IGD decreases from
 $2.1381e+1$ to $1.0120e+1$ at $M=10$ and from $4.2108e+1$ to $1.8855e+1$ at
 $M=20$, reductions of 52.7\% and 55.2\%. Most of the change at $M=10$ is
 associated with CDIS: relative to Full-CDIS, Full lowers the mean by 41.5\%,
@@ -845,8 +845,8 @@ are nearly equal ($2.5637e+1$ and $2.5967e+1$), and Full lowers them by
 The pattern is not uniform. REMO has the lowest mean on WFG3 at both
 objective counts, where all three variants are marked $-$. Removal of PAQC
 also degrades DTLZ5 at both objective counts: Full-PAQC is the worst variant
-on that problem at $M=10$ ($7.0299e-1$ against $6.0132e-1$ for Full-CDIS and
-$6.5860e-1$ for REMO) and the only variant marked $-$ against REMO at $M=20$.
+on that problem, with $7.0299e-1$ at $M=10$ and $3.4665e-1$ at $M=20$,
+against $6.0132e-1$ and $2.6667e-1$ for Full-CDIS.
 
 Both modules therefore contribute under the reference grouping and selection
 rules, and the contribution of each is conditional on the problem. The four
@@ -857,7 +857,7 @@ omnibus test across problems.
 
 \TODO{Confirm the number of independent runs, the actual terminal FE, the IGD
 reference sets and the statistical-test settings from the individual-run
-records, and document the selection criterion for the eight reported
+records, and document the selection criterion for the sixteen reported
 problems. The exports specify $N=100$ and a configured budget of 300
 evaluations; these are configuration values that have not been verified
 against the individual runs.}
