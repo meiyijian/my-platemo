@@ -1,0 +1,16 @@
+Algorithm : RMEO_k_CDIS
+Parameters: [3000 0.5 0.7 6]
+Problems  : DTLZ3, DTLZ4, DTLZ6, WFG2, WFG4, WFG5, WFG7, WFG9
+Budget    : M=10 and M=20, requested D=30, N=100, maxFE=300, save=30
+Run IDs   : 1..18 (18 per problem and objective count)
+Seed mode : paper
+Workers   : 6
+Planned 288 jobs; present 0; to run 288.
+Data      : C:\Users\lsx\Desktop\REMOandDREMO测试集\10目标\n30\RMEO_k_CDIS
+Data      : C:\Users\lsx\Desktop\REMOandDREMO测试集\20目标\RMEO_k_CDIS
+CHECK PASSED. No optimization started.
+
+ans =
+
+     []
+

@@ -1,0 +1,104 @@
+All arms restricted to run IDs 1..18 (n=18 per problem).
+delta% = 100*(mean(off)-mean(on))/mean(off); POSITIVE = the module helps.
+
+================ P1  k=6  : REMO -> +candidate(old)   
+   off = REMO                                           on = REMO_UniformMixCandidate
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        207.48       213.27     -2.79%      0.74      0.99 ns
+   DTLZ2        1.0902       1.0434     +4.29%       0.1      0.31 ns
+   DTLZ5       0.62052      0.58917     +5.05%       0.5      0.99 ns
+   DTLZ7        21.252       14.917    +29.81%   5.3e-07   4.2e-06 MODULE HELPS
+   WFG1         3.2354       3.1734     +1.92%      0.02      0.08 ns
+   WFG3         1.5188       1.6296     -7.30%   0.00042    0.0021 module hurts
+   WFG6         6.4255       5.7033    +11.24%   3.6e-05   0.00026 MODULE HELPS
+   WFG8         7.0559       6.3053    +10.64%   4.8e-05   0.00029 MODULE HELPS
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 3, hurts 1, ns 4, mean delta +6.61%
+   DTLZ : helps 1, hurts 0, ns 3, mean delta +9.09%
+   WFG  : helps 2, hurts 1, ns 1, mean delta +4.12%
+   problems with delta>0 (descriptive, no test): 6/8  [DTLZ2, DTLZ5, DTLZ7, WFG1, WFG6, WFG8]
+
+================ P2  k=1.5: k15  -> +CDIS(new)        
+   off = REMO_k15                                       on = RMEO_k_CDIS
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        255.72       244.43     +4.41%      0.48         1 ns
+   DTLZ2        1.1321       1.1205     +1.02%      0.62         1 ns
+   DTLZ5        0.6586      0.70299     -6.74%       0.2       0.8 ns
+   DTLZ7        21.381       14.415    +32.58%   4.5e-07   3.6e-06 MODULE HELPS
+   WFG1         3.2346        3.166     +2.12%    0.0042     0.029 MODULE HELPS
+   WFG3         1.5502       1.6242     -4.77%     0.028      0.14 ns
+   WFG6         5.4737       5.3791     +1.73%       0.4         1 ns
+   WFG8          6.042        5.785     +4.25%     0.017       0.1 ns
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 2, hurts 0, ns 6, mean delta +4.33%
+   DTLZ : helps 1, hurts 0, ns 3, mean delta +7.82%
+   WFG  : helps 1, hurts 0, ns 3, mean delta +0.83%
+   problems with delta>0 (descriptive, no test): 6/8  [DTLZ1, DTLZ2, DTLZ7, WFG1, WFG6, WFG8]
+
+================ P3  k=1.5: k15  -> +CDIS+PAQC (F)    
+   off = REMO_k15                                       on = REMO_UniformMix_Pruned_Weighted_Lambdat030
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        255.72       216.75    +15.24%    0.0034     0.017 MODULE HELPS
+   DTLZ2        1.1321       1.1384     -0.56%      0.84      0.84 ns
+   DTLZ5        0.6586      0.69825     -6.02%      0.38      0.77 ns
+   DTLZ7        21.381        10.12    +52.67%   3.2e-07   2.6e-06 MODULE HELPS
+   WFG1         3.2346       3.1698     +2.00%    0.0011    0.0063 MODULE HELPS
+   WFG3         1.5502        1.718    -10.82%   8.8e-06   6.1e-05 module hurts
+   WFG6         5.4737       5.2253     +4.54%    0.0082      0.03 MODULE HELPS
+   WFG8          6.042       5.7525     +4.79%    0.0075      0.03 MODULE HELPS
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 5, hurts 1, ns 2, mean delta +7.73%
+   DTLZ : helps 2, hurts 0, ns 2, mean delta +15.33%
+   WFG  : helps 3, hurts 1, ns 0, mean delta +0.13%
+   problems with delta>0 (descriptive, no test): 5/8  [DTLZ1, DTLZ7, WFG1, WFG6, WFG8]
+
+================ P4  k=6  : REMO -> +HPC (not cand.)  
+   off = REMO                                           on = REMO_new2
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        207.48        192.1     +7.41%       0.2       0.6 ns
+   DTLZ2        1.0902       1.1179     -2.54%      0.48      0.95 ns
+   DTLZ5       0.62052      0.52409    +15.54%     0.035      0.25 ns
+   DTLZ7        21.252       17.953    +15.52%    0.0025      0.02 MODULE HELPS
+   WFG1         3.2354       3.1879     +1.47%     0.056      0.33 ns
+   WFG3         1.5188        1.576     -3.77%     0.079       0.4 ns
+   WFG6         6.4255       6.4196     +0.09%      0.96      0.96 ns
+   WFG8         7.0559       6.7588     +4.21%      0.13      0.53 ns
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 1, hurts 0, ns 7, mean delta +4.74%
+   DTLZ : helps 1, hurts 0, ns 3, mean delta +8.99%
+   WFG  : helps 0, hurts 0, ns 4, mean delta +0.50%
+   problems with delta>0 (descriptive, no test): 6/8  [DTLZ1, DTLZ5, DTLZ7, WFG1, WFG6, WFG8]
+
+================ P5  k=1.5: k15  -> full architecture 
+   off = REMO_k15                                       on = REMO_new2_AdaMaO_SDEOnly_UniformMix_Pruned_Weighted
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        255.72       217.73    +14.86%    0.0056     0.023 MODULE HELPS
+   DTLZ2        1.1321        1.206     -6.53%     0.028     0.056 ns
+   DTLZ5        0.6586      0.82939    -25.93%   0.00047    0.0028 module hurts
+   DTLZ7        21.381       8.7971    +58.86%   3.2e-07   2.6e-06 MODULE HELPS
+   WFG1         3.2346       3.1668     +2.09%   0.00047    0.0028 MODULE HELPS
+   WFG3         1.5502       1.7319    -11.72%   3.1e-06   2.1e-05 module hurts
+   WFG6         5.4737       5.2506     +4.08%     0.041     0.056 ns
+   WFG8          6.042       5.7711     +4.48%    0.0082     0.025 MODULE HELPS
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 4, hurts 2, ns 2, mean delta +5.02%
+   DTLZ : helps 2, hurts 1, ns 1, mean delta +10.31%
+   WFG  : helps 2, hurts 1, ns 1, mean delta -0.27%
+   problems with delta>0 (descriptive, no test): 5/8  [DTLZ1, DTLZ7, WFG1, WFG6, WFG8]
+
+================ P6  k=1.5: k15  -> +HPC               
+   off = REMO_k15                                       on = REMO_new2_k15
+   Problem     off-mean      on-mean     delta%         p    p_holm decision
+   DTLZ1        255.72       222.65    +12.93%     0.002      0.01 MODULE HELPS
+   DTLZ2        1.1321       1.1325     -0.04%      0.84      0.84 ns
+   DTLZ5        0.6586      0.60132     +8.70%      0.21      0.63 ns
+   DTLZ7        21.381       17.305    +19.06%   1.6e-05   0.00013 MODULE HELPS
+   WFG1         3.2346          3.2     +1.07%     0.045      0.18 ns
+   WFG3         1.5502       1.6399     -5.78%    0.0016    0.0099 module hurts
+   WFG6         5.4737       5.3355     +2.52%      0.35       0.7 ns
+   WFG8          6.042       5.6556     +6.39%   9.3e-05   0.00065 MODULE HELPS
+   n(into test) = [18 18 18 18 18 18 18 18]
+   ALL  : helps 3, hurts 1, ns 4, mean delta +5.61%
+   DTLZ : helps 2, hurts 0, ns 2, mean delta +10.16%
+   WFG  : helps 1, hurts 1, ns 2, mean delta +1.05%
+   problems with delta>0 (descriptive, no test): 6/8  [DTLZ1, DTLZ5, DTLZ7, WFG1, WFG6, WFG8]

@@ -1,0 +1,86 @@
+===== integrity: 576 files scanned, 0 anomalies =====
+
+-- own mean IGD (n=18 per problem) --
+Problem         M=10         M=20
+DTLZ1        244.43       91.993
+DTLZ2        1.1205       1.1445
+DTLZ3        1010.7       382.93
+DTLZ4        1.2488        1.113
+DTLZ5       0.70299      0.34665
+DTLZ6        16.175       7.4297
+DTLZ7        14.415       25.967
+WFG1          3.166       5.5954
+WFG2         2.7797       6.0665
+WFG3         1.6242       2.6447
+WFG4         6.8829       24.509
+WFG5         5.9358       23.214
+WFG6         5.3791       20.258
+WFG7         5.6608       21.328
+WFG8          5.785       21.352
+WFG9         6.5815        23.91
+
+===== M=10 : delta% vs each arm (positive = ours better; +/- = Holm<0.05) =====
+Problem    REMO(k6)    REMO_k15    REMO_k30  UniMixCand     F(L030)
+DTLZ1     -17.81%       +4.41%      +10.97%      -14.61%      -12.77%  
+DTLZ2      -2.78%       +1.02%       +9.88%+      -7.39%       +1.57%  
+DTLZ3     -25.07%-      -2.97%       +6.67%      -21.06%-      -5.79%  
+DTLZ4      -8.71%       +0.39%       +7.72%+      -5.57%       -3.50%  
+DTLZ5     -13.29%       -6.74%      +10.79%      -19.32%-      -0.68%  
+DTLZ6      +1.24%       -0.46%       -1.38%       +0.13%      -10.74%- 
+DTLZ7     +32.17%+     +32.58%+     +41.97%+      +3.36%      -42.44%- 
+WFG1       +2.14%       +2.12%       +3.38%+      +0.23%       +0.12%  
+WFG2      +20.82%       -2.88%       -3.31%       +9.30%      -15.54%  
+WFG3       -6.94%       -4.77%       -5.10%       +0.33%       +5.46%  
+WFG4      +15.83%+      +4.57%       +8.35%+      +9.28%       -1.13%  
+WFG5      +14.52%+      +0.00%       +3.11%       +7.78%       +1.55%  
+WFG6      +16.29%+      +1.73%       +7.05%+      +5.69%+      -2.94%  
+WFG7       +9.88%       +0.89%       +7.49%+      +2.31%       -7.60%- 
+WFG8      +18.01%+      +4.25%       +9.38%+      +8.25%+      -0.56%  
+WFG9      +13.94%+      +5.30%       +5.65%       +7.76%+      -1.43%  
+MEAN       +4.39%       +2.47%       +7.66%       -0.85%       -6.03%  
+  REMO                                           sig+ 6  sig- 1  ns 9   | better: DTLZ7,WFG4,WFG5,WFG6,WFG8,WFG9   | worse: DTLZ3
+  REMO_k15                                       sig+ 1  sig- 0  ns 15   | better: DTLZ7
+  REMO_k                                         sig+ 8  sig- 0  ns 8   | better: DTLZ2,DTLZ4,DTLZ7,WFG1,WFG4,WFG6,WFG7,WFG8
+  REMO_UniformMixCandidate                       sig+ 3  sig- 2  ns 11   | better: WFG6,WFG8,WFG9   | worse: DTLZ3,DTLZ5
+  REMO_UniformMix_Pruned_Weighted_Lambdat030     sig+ 0  sig- 3  ns 13   | worse: DTLZ6,DTLZ7,WFG7
+
+===== M=20 : delta% vs each arm (positive = ours better; +/- = Holm<0.05) =====
+Problem    REMO(k6)    REMO_k15    REMO_k30  UniMixCand     F(L030)
+DTLZ1     -36.47%-     -60.95%-      +9.76%      -51.44%-     -18.68%  
+DTLZ2      -2.44%       -4.68%-      +0.34%       -5.42%       +0.06%  
+DTLZ3     -43.71%-     -81.31%-      -1.21%      -50.36%-     -20.59%  
+DTLZ4      -7.35%-      -6.12%-      -4.92%-      -4.66%       -4.75%  
+DTLZ5     -28.07%-     -27.49%-      -4.70%      -22.02%-     -12.72%  
+DTLZ6      -1.20%       -2.87%       +2.05%       +0.71%      -12.53%- 
+DTLZ7     +32.09%+     +22.91%+     +38.33%+     -14.22%      -37.72%- 
+WFG1       +0.44%       +0.27%       +0.93%       -0.45%       -0.24%  
+WFG2      +23.67%+     +20.13%+     +13.73%      +11.06%      -19.73%  
+WFG3      -17.44%-     -21.16%-     -13.73%-      -6.55%       +4.19%  
+WFG4      +15.68%+     +15.18%+      +5.37%         NaN%       -1.09%  
+WFG5       +9.35%+      +9.43%+      -0.14%       +4.69%+      -2.28%  
+WFG6      +15.74%+     +16.12%+      +5.75%+      +2.77%       -4.50%  
+WFG7      +12.31%+     +13.60%+      +4.96%       +5.09%       -2.45%  
+WFG8      +14.43%+     +15.72%+      +6.01%+      +4.78%       -3.09%  
+WFG9       +8.59%+      +8.22%+      +2.77%       +4.17%       -1.45%  
+MEAN       -0.27%       -5.19%       +4.08%       -8.12%       -8.60%  
+  REMO                                           sig+ 8  sig- 5  ns 3   | better: DTLZ7,WFG2,WFG4,WFG5,WFG6,WFG7,WFG8,WFG9   | worse: DTLZ1,DTLZ3,DTLZ4,DTLZ5,WFG3
+  REMO_k15                                       sig+ 8  sig- 6  ns 2   | better: DTLZ7,WFG2,WFG4,WFG5,WFG6,WFG7,WFG8,WFG9   | worse: DTLZ1,DTLZ2,DTLZ3,DTLZ4,DTLZ5,WFG3
+  REMO_k                                         sig+ 3  sig- 2  ns 11   | better: DTLZ7,WFG6,WFG8   | worse: DTLZ4,WFG3
+  REMO_UniformMixCandidate                       sig+ 1  sig- 3  ns 12   | better: WFG5   | worse: DTLZ1,DTLZ3,DTLZ5
+  REMO_UniformMix_Pruned_Weighted_Lambdat030     sig+ 0  sig- 2  ns 14   | worse: DTLZ6,DTLZ7
+
+===== two-by-two module design (16 problems) =====
+
+-- M=10  corners: REMO_k15 / REMO_new2_k15 / ours / F --
+effect               mean%  sig+  sig-   DTLZmean%    WFGmean%
+PAQC|noCand          +5.68     4     1        8.31        3.63  | +: DTLZ1,DTLZ6,DTLZ7,WFG8  | -: WFG3
+PAQC|withCand        +4.86     3     0        8.39        2.11  | +: DTLZ6,DTLZ7,WFG7
+Cand|noPAQC          +2.47     1     0        4.03        1.25  | +: DTLZ7
+Cand|withPAQC        +1.33     1     1        3.66       -0.49  | +: DTLZ7  | -: WFG3
+
+-- M=20  corners: REMO_k / REMO_new2_k / ours / F --
+effect               mean%  sig+  sig-   DTLZmean%    WFGmean%
+PAQC|noCand          +9.06     7     2       15.09        4.37  | +: DTLZ5,DTLZ6,DTLZ7,WFG2,WFG6,WFG7,WFG8  | -: DTLZ2,WFG3
+PAQC|withCand        +7.12     2     0       12.44        2.98  | +: DTLZ6,DTLZ7
+Cand|noPAQC          +4.08     3     2        5.66        2.85  | +: DTLZ7,WFG6,WFG8  | -: DTLZ4,WFG3
+Cand|withPAQC        +1.75     1     0        2.57        1.12  | +: DTLZ7
