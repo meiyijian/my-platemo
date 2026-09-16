@@ -1,5 +1,5 @@
 {
-  "figure": "fig_convergence",
+  "figure": "fig_convergence_wfg8_m15",
   "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\figures\\source_data\\convergence_igd.csv",
   "source_csv_sha256": "cbfdd622b141803c66b0184f5f0ee8007581096489217c90a0556e89b30bcb83",
   "runs_used": [
@@ -34,61 +34,13 @@
     "MCEAD"
   ],
   "problems": [
-    "WFG7",
     "WFG8"
   ],
   "objectives": [
-    10,
-    15,
-    20
+    15
   ],
   "panel_runs": {
-    "M10|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
-      "REMO": 20,
-      "PIEA": 20,
-      "CSEA": 20,
-      "PCSAEA_N100": 20,
-      "KRVEA_100": 20,
-      "MCEAD": 20
-    },
-    "M10|WFG8": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
-      "REMO": 20,
-      "PIEA": 20,
-      "CSEA": 20,
-      "PCSAEA_N100": 20,
-      "KRVEA_100": 20,
-      "MCEAD": 20
-    },
-    "M15|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
-      "REMO": 20,
-      "PIEA": 20,
-      "CSEA": 20,
-      "PCSAEA_N100": 20,
-      "KRVEA_100": 20,
-      "MCEAD": 20
-    },
     "M15|WFG8": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
-      "REMO": 20,
-      "PIEA": 20,
-      "CSEA": 20,
-      "PCSAEA_N100": 20,
-      "KRVEA_100": 20,
-      "MCEAD": 20
-    },
-    "M20|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
-      "REMO": 20,
-      "PIEA": 20,
-      "CSEA": 20,
-      "PCSAEA_N100": 20,
-      "KRVEA_100": 20,
-      "MCEAD": 20
-    },
-    "M20|WFG8": {
       "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
       "REMO": 20,
       "PIEA": 20,
@@ -113,9 +65,9 @@
   "marker_every_fe": 25,
   "line_styles": "all solid; identity carried by colour + marker shape",
   "page_size_mm": [
-    180.0,
-    185.0
+    88.0,
+    66.0
   ],
-  "minimum_pdf_glyph_pt": 7.5,
+  "minimum_pdf_glyph_pt": 6.5,
   "text_outside_canvas": []
 }

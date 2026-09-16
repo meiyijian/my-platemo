@@ -1,9 +1,16 @@
 % Section 4.7 convergence figure; built by figures/build_convergence.py from
 % figures/source_data/convergence_igd.csv (exported by
 % .workbuddy/run_scripts/ExportConvergenceCSV.m).
+% Six standalone panels are included rather than one combined bitmap, so each
+% panel is placed at its native size and nothing is shrunk by the layout.
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.98\textwidth]{figures/fig_convergence.pdf}
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg7_m10.pdf}\hfill
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg8_m10.pdf}\\[3pt]
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg7_m15.pdf}\hfill
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg8_m15.pdf}\\[3pt]
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg7_m20.pdf}\hfill
+  \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg8_m20.pdf}
   \caption{Median IGD convergence of PACDIS and the six baseline algorithms
   on WFG7 and WFG8 at $M=10$, 15 and 20. Each curve summarizes 20
   independent runs (run identifiers 1--20) of the same experiment as the
