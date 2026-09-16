@@ -1,0 +1,56 @@
+function PlotConvergenceWFG7_7Algs()
+%PLOTCONVERGENCEWFG7_7ALGS Method A demo: one problem, seven algorithms, no re-run.
+%   Reads the stored IGD traces of six baselines and PACDIS on 10-objective
+%   WFG7 and draws the median convergence curves with IQR bands. Run ids are
+%   restricted to 1-20, the subset every algorithm has (baselines store 30
+%   runs, PACDIS 20), so the comparison uses matched runs.
+%
+%   Run with: PlotConvergenceWFG7_7Algs
+
+    platemoRoot = 'D:\PlatEMO-master\PlatEMO-master';
+    addpath(genpath(fullfile(platemoRoot,'PlatEMO')));
+    addpath(fullfile(platemoRoot,'ConvergencePlot'));
+
+    dataRoot = 'C:\Users\lsx\Desktop\REMOandDREMO测试集\10目标\n30';
+    outDir   = fullfile(platemoRoot,'ConvergencePlot','output');
+    if ~isfolder(outDir), mkdir(outDir); end
+
+    algorithms = {'REMO','PIEA','CSEA','PCSAEA_N100','KRVEA_100','MCEAD', ...
+                  'REMO_UniformMix_Pruned_Weighted_Lambdat030'};
+    labels = {'REMO','PIEA','CSEA','PC-SAEA','K-RVEA','MCEA/D','PACDIS (ours)'};
+    colors = [0.14 0.40 0.55; ...
+              0.68 0.37 0.15; ...
+              0.16 0.46 0.42; ...
+              0.36 0.32 0.53; ...
+              0.49 0.51 0.55; ...
+              0.25 0.29 0.33; ...
+              0.70 0.23 0.28];
+
+    PlotConvergenceCurves('WFG7', ...
+        'dataRoot',   dataRoot, ...
+        'algorithms', algorithms, ...
+        'labels',     labels, ...
+        'colors',     colors, ...
+        'metric',     'IGD', ...
+        'M',          10, ...
+        'runs',       1:20, ...
+        'maxFE',      300, ...
+        'logY',       true, ...
+        'showFinal',  true);
+
+    fig = gcf;
+    set(fig,'Color','w','Position',[80 60 900 620]);
+    ax = gca;
+    ax.Toolbar.Visible = 'off';      % keep the axes toolbar out of the export
+    xlim(ax,[100 300]);              % first snapshot is at FE=100, no dead space
+    lg = findobj(fig,'Type','legend');
+    if ~isempty(lg)
+        set(lg,'Location','eastoutside');   % never cover MCEA/D mid-curve
+        set(fig,'Position',[60 60 1180 620]);
+    end
+    pngFile = fullfile(outDir,'convergence_IGD_WFG7_M10_7algs.png');
+    pdfFile = fullfile(outDir,'convergence_IGD_WFG7_M10_7algs.pdf');
+    exportgraphics(fig,pngFile,'Resolution',300);
+    exportgraphics(fig,pdfFile,'ContentType','vector');
+    fprintf('\nSaved:\n  %s\n  %s\n',pngFile,pdfFile);
+end

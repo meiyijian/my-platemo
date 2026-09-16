@@ -1,16 +1,21 @@
-"""Build the Section 4.7 convergence figure (fig_convergence) for the PACDIS
-manuscript.
+"""Build the Section 4.6 convergence figures for the PACDIS manuscript.
 
 Source: figures/source_data/convergence_igd.csv, exported by
 .workbuddy/run_scripts/ExportConvergenceCSV.m from the saved PlatEMO result
 files of the main study (IGD stored per snapshot, run with 'save',30).
 
-Figure: median IGD trajectories of PACDIS and the six baselines on WFG7 and
-WFG8 at M = 10, 15, 20. Runs 1-20 are used for every algorithm (the matched
+Two sets of deliverables come out of the same drawing code:
+
+* six single-panel figures, fig_convergence_<problem>_m<M>.{pdf,svg,png},
+  each sized for one column. These are the files included in the paper, so
+  that no panel is scaled down by a combined layout.
+* one combined figure, fig_convergence.{pdf,svg,png}, kept as an overview.
+
+Style: median IGD traces of PACDIS and the six baselines on WFG7 and WFG8 at
+M = 10, 15 and 20. Runs 1-20 are used for every algorithm (the matched
 subset; the baselines have 30 stored runs, PACDIS 20). Traces are aligned on
-a unit-FE grid by zero-order hold; the band around PACDIS is the 25-75%
-interquartile range across runs. The x-axis starts at the first recorded
-snapshot because the initial design already consumes evaluations.
+a unit-FE grid by zero-order hold and drawn as straight polylines with one
+vertex every 25 evaluations, which is the layout used by most EMTO papers.
 
 Run:
     C:\\Users\\lsx\\.workbuddy\\binaries\\python\\envs\\default\\Scripts\\python.exe build_convergence.py
@@ -59,29 +64,41 @@ COLORS = {
     'KRVEA_100': '#7C828B',
     'MCEAD': '#414B54',
 }
-STYLES = {
-    PACDIS: '-',
-    'REMO': (0, (5, 1.5)),
-    'PIEA': (0, (4, 1, 1, 1)),
-    'CSEA': '-.',
-    'PCSAEA_N100': (0, (1, 1.4)),
-    'KRVEA_100': (0, (3, 1, 1.2, 1, 1.2, 1)),
-    'MCEAD': (0, (5, 1.5, 1, 1.5)),
+STYLES = {a: '-' for a in ORDER}   # paper style: solid lines, identity comes from colour + marker
+MARKERS = {                         # must match ConvergencePlot/PlotConvergencePaperStyle.m
+    PACDIS: 'D',
+    'REMO': '^',
+    'PIEA': 'o',
+    'CSEA': '*',
+    'PCSAEA_N100': 's',
+    'KRVEA_100': 'x',
+    'MCEAD': '+',
 }
+MARK_EVERY = 25     # place a vertex marker every 25 real evaluations
+SHOW_BAND = False   # paper style: no shaded interquartile band
 
 MS = [10, 15, 20]
 PROBLEMS = ['WFG7', 'WFG8']
 RUNS = list(range(1, 21))          # matched subset: run ids 1-20
-XMIN, XMAX = 20, 305
+# The initial design consumes real evaluations (most algorithms record their
+# first snapshot at FE=100, CSEA at 109, MCEA/D earlier), so the axis starts
+# just left of 100 and the initial-design phase stays out of the picture.
+XMIN, XMAX = 95, 305
 GRID = np.arange(XMIN, XMAX + 1)
+LETTERS = 'abcdef'
+
+COMBINED_FIGSIZE = (180 / 25.4, 185 / 25.4)
+SINGLE_FIGSIZE = (88 / 25.4, 66 / 25.4)
 
 plt.rcParams.update({
-    'font.family': 'sans-serif', 'font.sans-serif': ['Arial', 'DejaVu Sans'],
+    'font.family': 'serif',
+    'font.serif': ['Times New Roman', 'Times', 'DejaVu Serif'],
+    'mathtext.fontset': 'stix',
     'font.size': 8, 'axes.titlesize': 8.5, 'axes.labelsize': 8,
     'xtick.labelsize': 7.5, 'ytick.labelsize': 7.5,
     'legend.fontsize': 7.5, 'text.color': INK, 'axes.labelcolor': INK,
-    'axes.edgecolor': GRAY, 'xtick.color': INK, 'ytick.color': INK,
-    'axes.spines.top': False, 'axes.spines.right': False,
+    'axes.edgecolor': INK, 'xtick.color': INK, 'ytick.color': INK,
+    'axes.spines.top': True, 'axes.spines.right': True,
     'axes.linewidth': .65, 'lines.linewidth': 1.2,
     'pdf.fonttype': 42, 'ps.fonttype': 42, 'svg.fonttype': 'none',
     'savefig.facecolor': 'white', 'figure.facecolor': 'white',
@@ -131,86 +148,131 @@ def load_traces():
     return csv, df, traces
 
 
-def build():
-    csv, df, traces = load_traces()
-    fig, axes = plt.subplots(
-        len(MS), len(PROBLEMS),
-        figsize=(180 / 25.4, 148 / 25.4),
-        sharex=True,
-    )
-    letters = 'abcdef'
-    handles = None
+def percentiles(trace):
+    """25/50/75 percentiles per grid point, ignoring not-yet-started runs."""
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore', category=RuntimeWarning)
+        return np.nanpercentile(trace, [25, 50, 75], axis=0)
+
+
+def legend_handles():
+    return [Line2D([0], [0], color=COLORS[a], linestyle='-',
+                   linewidth=1.9 if a == PACDIS else 1.3,
+                   marker=MARKERS[a], markersize=3.6,
+                   markerfacecolor=COLORS[a] if a == PACDIS else 'none',
+                   markeredgecolor=COLORS[a], markeredgewidth=0.9)
+            for a in ORDER]
+
+
+def draw_curves(ax, curves, mark_idx, mark_x):
+    """Draw the seven median traces of one panel."""
+    if SHOW_BAND:
+        for alg in ORDER:
+            q25, q50, q75 = curves[alg]
+            if alg == PACDIS:
+                ax.fill_between(GRID, q25, q75, color=COLORS[alg],
+                                alpha=0.15, linewidth=0, zorder=2)
+    for alg in ORDER:
+        q25, q50, q75 = curves[alg]
+        if alg == PACDIS:
+            ax.plot(mark_x, q50[mark_idx], color=COLORS[alg],
+                    linewidth=1.6, marker=MARKERS[alg], markersize=3.0,
+                    markerfacecolor=COLORS[alg],
+                    markeredgecolor=COLORS[alg], zorder=6)
+        else:
+            ax.plot(mark_x, q50[mark_idx], color=COLORS[alg],
+                    linewidth=1.0, marker=MARKERS[alg], markersize=2.8,
+                    markerfacecolor='none',
+                    markeredgecolor=COLORS[alg],
+                    markeredgewidth=0.8, zorder=4)
+
+
+def panel_limits(curves, pad=0.05, pad_top=None):
+    lo = min(np.nanmin(v[0]) for v in curves.values())
+    hi = max(np.nanmax(v[2]) for v in curves.values())
+    span = hi - lo
+    if span <= 0:
+        span = max(abs(hi), 1.0)
+    return lo - pad * span, hi + (pad if pad_top is None else pad_top) * span
+
+
+def build_single(stats, m, prob, letter):
+    """One problem at one objective count, sized for a single column."""
+    mark_idx = np.where(GRID % MARK_EVERY == 0)[0]
+    mark_x = GRID[mark_idx]
+    curves = {alg: stats[(m, prob, alg)] for alg in ORDER}
+    # extra headroom on top: the seven traces fill the panel, so the legend
+    # needs a clean band of its own instead of sitting on a curve
+    ylo, yhi = panel_limits(curves, pad=0.05, pad_top=0.42)
+
+    fig, ax = plt.subplots(figsize=SINGLE_FIGSIZE)
+    draw_curves(ax, curves, mark_idx, mark_x)
+    ax.set_title(f'({letter}) {prob}, $M={m}$', loc='left', pad=4)
+    ax.set_xlim(XMIN, XMAX)
+    ax.set_ylim(ylo, yhi)
+    ax.set_xticks([100, 150, 200, 250, 300])
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=4, steps=[1, 2, 5, 10]))
+    ax.set_xlabel('Number of real function evaluations')
+    ax.set_ylabel('IGD')
+    ax.legend(legend_handles(), [LABELS[a] for a in ORDER],
+              loc='upper right', ncol=2, fontsize=6.5,
+              columnspacing=0.9, handlelength=1.8, handletextpad=0.5,
+              borderaxespad=0.4, labelspacing=0.32)
+    fig.subplots_adjust(left=0.155, right=0.985, top=0.905, bottom=0.155)
+    return fig
+
+
+def build_combined(stats):
+    """All six panels in one 3x2 layout, kept as an overview."""
+    mark_idx = np.where(GRID % MARK_EVERY == 0)[0]
+    mark_x = GRID[mark_idx]
+    fig, axes = plt.subplots(len(MS), len(PROBLEMS),
+                             figsize=COMBINED_FIGSIZE, sharex=True)
     for i, m in enumerate(MS):
-        # shared y-limits across the two problems of one row
-        row_min, row_max = np.inf, -np.inf
-        curves = {}
+        curves_row = {}
         for j, prob in enumerate(PROBLEMS):
             for alg in ORDER:
-                t = traces[(m, prob, alg)]
-                with warnings.catch_warnings():
-                    warnings.simplefilter('ignore', category=RuntimeWarning)
-                    q25, q50, q75 = np.nanpercentile(t, [25, 50, 75], axis=0)
-                curves[(j, alg)] = (q25, q50, q75)
-                row_min = min(row_min, np.nanmin(q25))
-                row_max = max(row_max, np.nanmax(q75))
-        span = row_max - row_min
-        ylo, yhi = row_min - 0.05 * span, row_max + 0.05 * span
+                curves_row[(j, alg)] = stats[(m, prob, alg)]
+        ylo, yhi = panel_limits(curves_row)
         for j, prob in enumerate(PROBLEMS):
             ax = axes[i, j]
-            for alg in ORDER:
-                q25, q50, q75 = curves[(j, alg)]
-                if alg == PACDIS:
-                    ax.fill_between(GRID, q25, q75, color=COLORS[alg],
-                                    alpha=0.15, linewidth=0, zorder=2)
-            for alg in ORDER:
-                q25, q50, q75 = curves[(j, alg)]
-                if alg == PACDIS:
-                    ax.plot(GRID, q50, color=COLORS[alg], zorder=6)
-                else:
-                    ax.plot(GRID, q50, color=COLORS[alg],
-                            linestyle=STYLES[alg], linewidth=1.05, zorder=4)
-            letter = letters[i * len(PROBLEMS) + j]
+            draw_curves(ax, {alg: curves_row[(j, alg)] for alg in ORDER},
+                        mark_idx, mark_x)
+            letter = LETTERS[i * len(PROBLEMS) + j]
             ax.set_title(f'({letter}) {prob}, $M={m}$', loc='left', pad=4)
             ax.set_xlim(XMIN, XMAX)
             ax.set_ylim(ylo, yhi)
-            ax.set_xticks([50, 100, 150, 200, 250, 300])
-            ax.yaxis.set_major_locator(
-                MaxNLocator(nbins=5, steps=[1, 2, 5, 10]))
+            ax.set_xticks([100, 150, 200, 250, 300])
+            ax.yaxis.set_major_locator(MaxNLocator(nbins=5, steps=[1, 2, 5, 10]))
             if i == len(MS) - 1:
                 ax.set_xlabel('Number of real function evaluations')
             if j == 0:
                 ax.set_ylabel('IGD')
-    # shared legend below the panels
-    handles = [Line2D([0], [0], color=COLORS[a], linestyle=STYLES[a],
-                      linewidth=1.9 if a == PACDIS else 1.3)
-               for a in ORDER]
-    labels = [LABELS[a] for a in ORDER]
-    fig.legend(handles, labels, loc='lower center', ncol=7,
-               bbox_to_anchor=(0.5, 0.005), columnspacing=1.6,
-               handlelength=2.6)
-    fig.subplots_adjust(left=0.075, right=0.995, top=0.97, bottom=0.115,
-                        hspace=0.32, wspace=0.16)
-    return fig, csv, df, traces
+    fig.legend(legend_handles(), [LABELS[a] for a in ORDER],
+               loc='lower center', ncol=7, bbox_to_anchor=(0.5, 0.008),
+               columnspacing=1.6, handlelength=2.6)
+    fig.subplots_adjust(left=0.075, right=0.995, top=0.975, bottom=0.105,
+                        hspace=0.34, wspace=0.16)
+    return fig
 
 
-def save(fig, name, csv, df, traces):
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    outside = []
-    for txt in fig.findobj(matplotlib.text.Text):
-        if not txt.get_visible() or not txt.get_text():
-            continue
-        box = txt.get_window_extent(renderer)
-        if box.x0 < -1 or box.y0 < -1 or box.x1 > fig.bbox.x1 + 1 or box.y1 > fig.bbox.y1 + 1:
-            outside.append(txt.get_text())
-    if outside:
-        raise ValueError(f'{name}: text outside canvas: {outside}')
+def save(fig, name, csv, panel_runs, problems, objectives):
     for ext in ('pdf', 'svg', 'png'):
         fig.savefig(OUT / f'{name}.{ext}', dpi=600, facecolor='white')
     import pymupdf
     doc = pymupdf.open(OUT / f'{name}.pdf')
-    spans = [s for b in doc[0].get_text('dict')['blocks'] if 'lines' in b
+    page = doc[0]
+    spans = [s for b in page.get_text('dict')['blocks'] if 'lines' in b
              for l in b['lines'] for s in l['spans'] if s['text'].strip()]
+    # Overflow is tested on the rendered PDF. matplotlib keeps off-range tick
+    # labels in the artist tree with coordinates outside the axes even though
+    # they are never painted, so an artist-level test reports false positives.
+    page_w, page_h = page.rect.width, page.rect.height
+    outside = [s['text'] for s in spans
+               if s['bbox'][0] < -0.5 or s['bbox'][1] < -0.5
+               or s['bbox'][2] > page_w + 0.5 or s['bbox'][3] > page_h + 0.5]
+    if outside:
+        raise ValueError(f'{name}: text outside canvas: {outside}')
     minimum = min(s['size'] for s in spans)
     if minimum < 4.99:
         raise ValueError(f'{name}: glyph below 5 pt: {minimum}')
@@ -222,24 +284,42 @@ def save(fig, name, csv, df, traces):
         'source_csv_sha256': hashlib.sha256(csv.read_bytes()).hexdigest(),
         'runs_used': RUNS,
         'algorithms': ORDER,
-        'problems': PROBLEMS,
-        'objectives': MS,
-        'panel_runs': {f'M{m}|{p}': {a: int(traces[(m, p, a)].shape[0])
-                                     for a in ORDER}
-                       for m in MS for p in PROBLEMS},
+        'problems': problems,
+        'objectives': objectives,
+        'panel_runs': panel_runs,
         'alignment': 'zero-order hold on unit-FE grid, no extrapolation past the last snapshot',
-        'band': '25-75% interquartile range across runs, PACDIS only',
+        'drawing': f'vertices every {MARK_EVERY} real evaluations, straight-line joins',
+        'band': ('none (paper style)' if not SHOW_BAND else
+                 '25-75% interquartile range across runs, PACDIS only'),
+        'markers': {a: MARKERS[a] for a in ORDER},
+        'marker_every_fe': MARK_EVERY,
+        'line_styles': 'all solid; identity carried by colour + marker shape',
+        'page_size_mm': [round(fig.get_size_inches()[0] * 25.4, 1),
+                         round(fig.get_size_inches()[1] * 25.4, 1)],
         'minimum_pdf_glyph_pt': round(minimum, 2),
         'text_outside_canvas': outside,
     }
     (OUT / f'{name}_manifest.json').write_text(
         json.dumps(manifest, indent=2), encoding='utf-8')
-    print(f'saved {name}.pdf/svg/png, min glyph {minimum:.2f} pt, '
-          f'{len(spans)} text spans')
+    print(f'saved {name}  [{manifest["page_size_mm"][0]}x'
+          f'{manifest["page_size_mm"][1]} mm, min glyph {minimum:.2f} pt]')
     plt.close(fig)
 
 
 if __name__ == '__main__':
     QA.mkdir(exist_ok=True)
-    fig, csv, df, traces = build()
-    save(fig, 'fig_convergence', csv, df, traces)
+    csv, df, traces = load_traces()
+    stats = {k: percentiles(v) for k, v in traces.items()}
+    runs_for = lambda ms, ps: {f'M{m}|{p}':                       # noqa: E731
+                               {a: int(traces[(m, p, a)].shape[0]) for a in ORDER}
+                               for m in ms for p in ps}
+
+    for i, m in enumerate(MS):
+        for j, prob in enumerate(PROBLEMS):
+            letter = LETTERS[i * len(PROBLEMS) + j]
+            fig = build_single(stats, m, prob, letter)
+            save(fig, f'fig_convergence_{prob.lower()}_m{m}', csv,
+                 runs_for([m], [prob]), [prob], [m])
+
+    fig = build_combined(stats)
+    save(fig, 'fig_convergence', csv, runs_for(MS, PROBLEMS), PROBLEMS, MS)

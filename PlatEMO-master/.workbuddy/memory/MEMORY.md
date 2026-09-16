@@ -19,6 +19,7 @@
 4. 抓 git 报错用 `2> $errfile`（`2>&1|Out-String` 在 push 场景拿空串）；`%H%n` 格式串会触发沙箱 `%VAR%` 误判 → 用 `--format=full`
 5. 中文 commit message 不能用 `-m`（PS 5.1 按 GBK 传参 → 乱码）→ 写 UTF-8 文件 + `git commit -F`
 6. `论文写作\AGENTS.md`：改 `HPDC-MaOEA.tex` 后必须编译（交叉引用改了两遍）+ 自动提交推送 + 报告提交号与回退方式
+7. **`git pull <remote> <branch>`（带参形式）只写 FETCH_HEAD，不更新 `origin/master`** → `git status -sb` 会长期显示 `ahead N` 假象（实测 ahead 192）。核实远程真收到没：`git ls-remote origin master` 对比本地 HEAD，或查 GitHub API。`git push` 用 extraheader 绕法**无输出 + rc=0 即成功**（别当成失败）
 
 ## 跑实验约定
 - 「跑实验」= 只产结果 `.mat`，数据目录不留日志/清单/README/图；统计与图表只在用户说「分析」时做，归档到 `AdaMao实验表\<实验名>\`
@@ -59,6 +60,9 @@
 - 主性能表不内联（`\input{experiments/main_performance/table_dtlz|table_wfg}`），数据只能由 `build_tables.py --source-dir <xlsx>` 生成（换源只改脚本 `OURS`/`FILES`）；正文数字全部派生自同目录 `summary.json`，必须一起改并重验定性断言 → skill `paper-main-table-refresh`
 - 中文对照稿 `HPDC-MaOEA_中文版.md`（跟 tex 走，整篇覆盖；48 行表格一律脚本转）→ skill `paper-cn-mirror`
 - §4.6 收敛图：`figures/build_convergence.py` ← `figures/source_data/convergence_igd.csv`（由 `ExportConvergenceCSV.m` 只读导出）
+- 通用收敛曲线工具（不重跑）：`ConvergencePlot\{PlotConvergenceCurves,PlotConvergenceGrid,demo_Convergence_10obj}.m` + `README.md`；曲线 = `metric.IGD`，横轴 = `cellfun(@(v)v(1),result(:,1))`。**前提是跑实验时 `save=K>0`**（`ALGORITHM.m:122-124` 存快照、`:191-206` 才落盘；默认 `save=-10` 只弹 GUI 单条曲线、不写文件）
+- 曲线图两种版式：默认（log 轴 + IQR 带）与**论文风格**（线性轴 + 稀疏 marker 折线 + Times + 左下图例 + 无标题，靠 `gridStep=20` + `markers` + `showBand=false` + `fontName` + `legendLocation` 实现，见 `README.md`「论文风格版式」）；范例 `.workbuddy\run_scripts\PlotConvergencePaperStyle.m`。导出前必须 `ax.Toolbar.Visible='off'`（否则工具栏入图）
+- **论文 §4.6 收敛图正式版**：`figures/build_convergence.py` 一次产出 **6 张单面板图** `fig_convergence_<prob>_m<M>.{pdf,svg,png}`（88×66mm，论文用 `\includegraphics[width=0.485\textwidth]` 排 3×2）＋合并总览 `fig_convergence.*`（论文不引用）；横轴 `XMIN=95`（各算法首个快照：CSEA 109 / MCEA-D 30–65 / 其余 100）；marker 必须与 MATLAB 版一致 `REMO ^ / PIEA o / CSEA * / PC-SAEA s / K-RVEA x / MCEA-D + / PACDIS 实心 D`；**图例靠纵轴上方预留空白带（`pad_top=0.42`）承载**，四角都会被曲线压住。tex 侧浮动阈值 `topfraction/bottomfraction/textfraction/floatpagefraction` 必须在 `\begin{document}` **之后**设置（elsarticle 会重置），否则 Table 4 与图会被拆成两张半空浮动页
 - 表格宽度：7 列 + 5 个数值列在 522pt 下必然超宽 → `\footnotesize` + 缩短 `\multicolumn` 标签 → skill `paper-tex-section-edit`
 - 算法目录：`Lambdat030`（= 论文里的 PACDIS）、`Lambdat050`、`Lambda020`、`RMEO_k_CDIS`（原版 REMO 框架 + CDIS，`k=min(N,max(6,ceil(1.5M)))`，16 题 × M=10/20 × 18 跑已齐）
 - 文档：`REMO_DiRel_汇报文档.md`；设计文档 `PlatEMO/docs/superpowers/{specs,plans}/`

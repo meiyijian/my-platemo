@@ -74,6 +74,39 @@ PlotConvergenceCurves('DTLZ1', ...
    `finalSnapshotMedian` 是各 run 自己最后一次快照值的中位数，与论文表格口径一致。
    REMO 末次快照有时落在 FE=303，两者会略有差别，报告时注意统一。
 
+## 论文风格版式（线性轴 + 稀疏 marker 折线）
+
+多数 EMTO 论文用的是「线性纵轴 + 稀疏 marker 折线 + 衬线字体 + 左下角图例 + 无阴影带」。用这几个参数组合即可复现：
+
+| 参数 | 论文风格取值 | 作用 |
+| --- | --- | --- |
+| `gridStep` | `20`（配合 `maxFE=300`）| 每 20 FE 才取一个顶点，曲线成为可读折线而非密集阶梯 |
+| `markers` | `{'^','o','*','s','x','+','D'}` | 每个算法一个 marker 符号 |
+| `markerFilled` | 标量，或逐算法向量 | 主算法设 `true` 变实心，视觉上突出 |
+| `showBand` | `false` | 去掉 IQR 阴影带 |
+| `logY` | `false` | 线性纵轴 |
+| `fontName` | `'Times New Roman'` | 坐标轴 / 标签 / 图例统一衬线字体 |
+| `legendLocation` | `'southwest'` | 图例移到左下角 |
+| `titleMode` | `'none'` | 论文图题交给 LaTeX 的 `\subfloat`，MATLAB 里不加标题 |
+
+现成范例：`.workbuddy\run_scripts\PlotConvergencePaperStyle.m`（WFG7/M=10，7 算法）。
+**注意**：左下角图例要同时压低纵轴下限（如 `ylim(ax,[4.6 9.5])`），否则图例框会咬住中段曲线。
+
+## 导出成图前必须补的三件事
+
+`PlotConvergenceCurves` 只管画，导出由调用方负责。实测（2026-09-16，WFG7 / M=10 / 7 算法）有三处不补就不能直接交图：
+
+```matlab
+ax = gca;
+ax.Toolbar.Visible = 'off';        % 否则 exportgraphics 把坐标区工具栏画进图里（只给 warning，不报错）
+xlim(ax,[100 300]);                % 首个快照在 FE=100，默认 [0,maxFE] 会让左侧 1/3 全空
+lg = findobj(gcf,'Type','legend');
+set(lg,'Location','eastoutside');  % 默认 northeast 会盖住 MCEA/D 这类中段平缓的曲线
+set(gcf,'Position',[60 60 1180 620]);
+```
+
+现成范例：`.workbuddy\run_scripts\PlotConvergenceWFG7_7Algs.m`（六基线 + PACDIS，WFG7/M=10，`runs=1:20` 匹配子集，输出 PNG + PDF 到 `ConvergencePlot\output\`）。
+
 ## 注意
 
 - 结果文件里 `metric.HV` 在部分算法下全是 0（参考点未适配高维），**别用 HV，用 IGD**。
