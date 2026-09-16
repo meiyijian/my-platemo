@@ -25,6 +25,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import matplotlib.text
 from matplotlib.lines import Line2D
 from matplotlib.ticker import MaxNLocator
 
@@ -59,15 +60,18 @@ COLORS = {
     'KRVEA_100': '#7C828B',
     'MCEAD': '#414B54',
 }
-STYLES = {
-    PACDIS: '-',
-    'REMO': (0, (5, 1.5)),
-    'PIEA': (0, (4, 1, 1, 1)),
-    'CSEA': '-.',
-    'PCSAEA_N100': (0, (1, 1.4)),
-    'KRVEA_100': (0, (3, 1, 1.2, 1, 1.2, 1)),
-    'MCEAD': (0, (5, 1.5, 1, 1.5)),
+STYLES = {a: '-' for a in ORDER}   # paper style: solid lines, identity comes from colour + marker
+MARKERS = {
+    PACDIS: 'D',
+    'REMO': 'o',
+    'PIEA': '^',
+    'CSEA': 's',
+    'PCSAEA_N100': 'v',
+    'KRVEA_100': 'x',
+    'MCEAD': '+',
 }
+MARK_EVERY = 25     # place a vertex marker every 25 real evaluations
+SHOW_BAND = False   # paper style: no shaded interquartile band
 
 MS = [10, 15, 20]
 PROBLEMS = ['WFG7', 'WFG8']
@@ -76,12 +80,14 @@ XMIN, XMAX = 20, 305
 GRID = np.arange(XMIN, XMAX + 1)
 
 plt.rcParams.update({
-    'font.family': 'sans-serif', 'font.sans-serif': ['Arial', 'DejaVu Sans'],
+    'font.family': 'serif',
+    'font.serif': ['Times New Roman', 'Times', 'DejaVu Serif'],
+    'mathtext.fontset': 'stix',
     'font.size': 8, 'axes.titlesize': 8.5, 'axes.labelsize': 8,
     'xtick.labelsize': 7.5, 'ytick.labelsize': 7.5,
     'legend.fontsize': 7.5, 'text.color': INK, 'axes.labelcolor': INK,
-    'axes.edgecolor': GRAY, 'xtick.color': INK, 'ytick.color': INK,
-    'axes.spines.top': False, 'axes.spines.right': False,
+    'axes.edgecolor': INK, 'xtick.color': INK, 'ytick.color': INK,
+    'axes.spines.top': True, 'axes.spines.right': True,
     'axes.linewidth': .65, 'lines.linewidth': 1.2,
     'pdf.fonttype': 42, 'ps.fonttype': 42, 'svg.fonttype': 'none',
     'savefig.facecolor': 'white', 'figure.facecolor': 'white',
@@ -133,9 +139,11 @@ def load_traces():
 
 def build():
     csv, df, traces = load_traces()
+    mark_idx = np.where(GRID % MARK_EVERY == 0)[0]
+    mark_x = GRID[mark_idx]
     fig, axes = plt.subplots(
         len(MS), len(PROBLEMS),
-        figsize=(180 / 25.4, 148 / 25.4),
+        figsize=(180 / 25.4, 185 / 25.4),
         sharex=True,
     )
     letters = 'abcdef'
@@ -157,18 +165,25 @@ def build():
         ylo, yhi = row_min - 0.05 * span, row_max + 0.05 * span
         for j, prob in enumerate(PROBLEMS):
             ax = axes[i, j]
+            if SHOW_BAND:
+                for alg in ORDER:
+                    q25, q50, q75 = curves[(j, alg)]
+                    if alg == PACDIS:
+                        ax.fill_between(GRID, q25, q75, color=COLORS[alg],
+                                        alpha=0.15, linewidth=0, zorder=2)
             for alg in ORDER:
                 q25, q50, q75 = curves[(j, alg)]
                 if alg == PACDIS:
-                    ax.fill_between(GRID, q25, q75, color=COLORS[alg],
-                                    alpha=0.15, linewidth=0, zorder=2)
-            for alg in ORDER:
-                q25, q50, q75 = curves[(j, alg)]
-                if alg == PACDIS:
-                    ax.plot(GRID, q50, color=COLORS[alg], zorder=6)
+                    ax.plot(mark_x, q50[mark_idx], color=COLORS[alg],
+                            linewidth=1.6, marker=MARKERS[alg], markersize=3.0,
+                            markerfacecolor=COLORS[alg],
+                            markeredgecolor=COLORS[alg], zorder=6)
                 else:
-                    ax.plot(GRID, q50, color=COLORS[alg],
-                            linestyle=STYLES[alg], linewidth=1.05, zorder=4)
+                    ax.plot(mark_x, q50[mark_idx], color=COLORS[alg],
+                            linewidth=1.0, marker=MARKERS[alg], markersize=2.8,
+                            markerfacecolor='none',
+                            markeredgecolor=COLORS[alg],
+                            markeredgewidth=0.8, zorder=4)
             letter = letters[i * len(PROBLEMS) + j]
             ax.set_title(f'({letter}) {prob}, $M={m}$', loc='left', pad=4)
             ax.set_xlim(XMIN, XMAX)
@@ -181,36 +196,38 @@ def build():
             if j == 0:
                 ax.set_ylabel('IGD')
     # shared legend below the panels
-    handles = [Line2D([0], [0], color=COLORS[a], linestyle=STYLES[a],
-                      linewidth=1.9 if a == PACDIS else 1.3)
+    handles = [Line2D([0], [0], color=COLORS[a], linestyle='-',
+                      linewidth=1.9 if a == PACDIS else 1.3,
+                      marker=MARKERS[a], markersize=3.6,
+                      markerfacecolor=COLORS[a] if a == PACDIS else 'none',
+                      markeredgecolor=COLORS[a], markeredgewidth=0.9)
                for a in ORDER]
     labels = [LABELS[a] for a in ORDER]
     fig.legend(handles, labels, loc='lower center', ncol=7,
-               bbox_to_anchor=(0.5, 0.005), columnspacing=1.6,
+               bbox_to_anchor=(0.5, 0.008), columnspacing=1.6,
                handlelength=2.6)
-    fig.subplots_adjust(left=0.075, right=0.995, top=0.97, bottom=0.115,
-                        hspace=0.32, wspace=0.16)
+    fig.subplots_adjust(left=0.075, right=0.995, top=0.975, bottom=0.105,
+                        hspace=0.34, wspace=0.16)
     return fig, csv, df, traces
 
 
 def save(fig, name, csv, df, traces):
-    fig.canvas.draw()
-    renderer = fig.canvas.get_renderer()
-    outside = []
-    for txt in fig.findobj(matplotlib.text.Text):
-        if not txt.get_visible() or not txt.get_text():
-            continue
-        box = txt.get_window_extent(renderer)
-        if box.x0 < -1 or box.y0 < -1 or box.x1 > fig.bbox.x1 + 1 or box.y1 > fig.bbox.y1 + 1:
-            outside.append(txt.get_text())
-    if outside:
-        raise ValueError(f'{name}: text outside canvas: {outside}')
     for ext in ('pdf', 'svg', 'png'):
         fig.savefig(OUT / f'{name}.{ext}', dpi=600, facecolor='white')
     import pymupdf
     doc = pymupdf.open(OUT / f'{name}.pdf')
-    spans = [s for b in doc[0].get_text('dict')['blocks'] if 'lines' in b
+    page = doc[0]
+    spans = [s for b in page.get_text('dict')['blocks'] if 'lines' in b
              for l in b['lines'] for s in l['spans'] if s['text'].strip()]
+    # Overflow is tested on the rendered PDF. matplotlib keeps off-range tick
+    # labels in the artist tree with coordinates outside the axes even though
+    # they are never painted, so an artist-level test reports false positives.
+    page_w, page_h = page.rect.width, page.rect.height
+    outside = [s['text'] for s in spans
+               if s['bbox'][0] < -0.5 or s['bbox'][1] < -0.5
+               or s['bbox'][2] > page_w + 0.5 or s['bbox'][3] > page_h + 0.5]
+    if outside:
+        raise ValueError(f'{name}: text outside canvas: {outside}')
     minimum = min(s['size'] for s in spans)
     if minimum < 4.99:
         raise ValueError(f'{name}: glyph below 5 pt: {minimum}')
@@ -228,7 +245,12 @@ def save(fig, name, csv, df, traces):
                                      for a in ORDER}
                        for m in MS for p in PROBLEMS},
         'alignment': 'zero-order hold on unit-FE grid, no extrapolation past the last snapshot',
-        'band': '25-75% interquartile range across runs, PACDIS only',
+        'drawing': f'vertices every {MARK_EVERY} real evaluations, straight-line joins',
+        'band': ('none (paper style)' if not SHOW_BAND else
+                 '25-75% interquartile range across runs, PACDIS only'),
+        'markers': {a: MARKERS[a] for a in ORDER},
+        'marker_every_fe': MARK_EVERY,
+        'line_styles': 'all solid; identity carried by colour + marker shape',
         'minimum_pdf_glyph_pt': round(minimum, 2),
         'text_outside_canvas': outside,
     }

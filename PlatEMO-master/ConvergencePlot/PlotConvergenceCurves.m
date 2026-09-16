@@ -25,6 +25,18 @@ function out = PlotConvergenceCurves(problem,varargin)
 %     'colors'      N-by-3 RGB matrix, default a fixed palette
 %     'lineStyles'  cell of LineSpec strings, default solid/dashed cycle
 %     'showFinal'   append median final metric to the legend, default true
+%     'markers'     cell of marker symbols, one per algorithm; empty (default)
+%                   draws plain lines. Combining a marker with a coarse
+%                   'gridStep' reproduces the sparse marker-line style used by
+%                   most papers.
+%     'markerSize'  default 5
+%     'markerFilled'  logical (all algorithms) or per-algorithm vector; fills the
+%                   markers with the line colour, default false (hollow)
+%     'showBand'    draw the IQR band, default true; set false for the paper style
+%     'fontName'    font for axes, labels and legend, e.g. 'Times New Roman';
+%                   '' (default) keeps the MATLAB default
+%     'legendLocation'  legend position, default 'northeast'
+%     'yLabel'      override the y-axis label, default is the metric name
 %     'lineWidth'   default 1.8
 %     'fontSize'    default 10
 %     'titleText'   axes title, default derived from problem/M/D/metric
@@ -63,6 +75,13 @@ function out = PlotConvergenceCurves(problem,varargin)
     parser.addParameter('maxD',[],@(x)isempty(x)||isnumeric(x));
     parser.addParameter('verbose',true,@islogical);
     parser.addParameter('axes',[],@(x)isempty(x)||isa(x,'matlab.graphics.axis.Axes')||isnumeric(x));
+    parser.addParameter('markers',{},@iscell);
+    parser.addParameter('markerSize',5,@isnumeric);
+    parser.addParameter('markerFilled',false,@(x)islogical(x)||isnumeric(x));
+    parser.addParameter('showBand',true,@islogical);
+    parser.addParameter('fontName','',@(x)ischar(x)||isstring(x));
+    parser.addParameter('legendLocation','northeast',@(x)ischar(x)||isstring(x));
+    parser.addParameter('yLabel','',@(x)ischar(x)||isstring(x));
     parser.parse(problem,varargin{:});
     c = parser.Results;
 
@@ -91,6 +110,18 @@ function out = PlotConvergenceCurves(problem,varargin)
         lineStyles = pool(1+mod(0:nAlg-1,numel(pool)));
     else
         lineStyles = c.lineStyles;
+    end
+    if isempty(c.markers)
+        markers = repmat({''},1,nAlg);
+    else
+        assert(numel(c.markers) == nAlg,'markers must match algorithms.');
+        markers = c.markers;
+    end
+    if isscalar(c.markerFilled)
+        filled = repmat(logical(c.markerFilled),1,nAlg);
+    else
+        assert(numel(c.markerFilled) == nAlg,'markerFilled must match algorithms.');
+        filled = c.markerFilled;
     end
 
     grid  = 0 : c.gridStep : c.maxFE;
@@ -146,11 +177,21 @@ function out = PlotConvergenceCurves(problem,varargin)
     h = gobjects(1,nAlg);
     for a = 1 : nAlg
         x = curves{a}.x; y50 = curves{a}.q50; y25 = curves{a}.q25; y75 = curves{a}.q75;
-        band = fill(ax,[x,fliplr(x)],[y25,fliplr(y75)],colors(a,:), ...
-            'FaceAlpha',0.16,'EdgeColor','none');
-        set(band,'HandleVisibility','off');
-        h(a) = plot(ax,x,y50,lineStyles{a},'Color',colors(a,:), ...
-            'LineWidth',c.lineWidth);
+        if c.showBand
+            band = fill(ax,[x,fliplr(x)],[y25,fliplr(y75)],colors(a,:), ...
+                'FaceAlpha',0.16,'EdgeColor','none');
+            set(band,'HandleVisibility','off');
+        end
+        if isempty(markers{a})
+            h(a) = plot(ax,x,y50,lineStyles{a},'Color',colors(a,:), ...
+                'LineWidth',c.lineWidth);
+        else
+            faceColor = 'none';
+            if filled(a), faceColor = colors(a,:); end
+            h(a) = plot(ax,x,y50,lineStyles{a},'Color',colors(a,:), ...
+                'LineWidth',c.lineWidth,'Marker',markers{a}, ...
+                'MarkerSize',c.markerSize,'MarkerFaceColor',faceColor);
+        end
     end
     hold(ax,'off');
 
@@ -159,12 +200,16 @@ function out = PlotConvergenceCurves(problem,varargin)
             labels{a} = sprintf('%s (%s=%.4g)',labels{a},metric,curves{a}.finalMedian);
         end
     end
-    lg = legend(ax,h,labels,'Location','northeast','Interpreter','none', ...
+    lg = legend(ax,h,labels,'Location',char(c.legendLocation),'Interpreter','none', ...
         'FontSize',c.fontSize-1);
     set(lg,'Box','on');
     if c.showAxisLabels
         xlabel(ax,'Number of function evaluations','FontSize',c.fontSize);
-        ylabel(ax,strrep(metric,'_',' '),'FontSize',c.fontSize);
+        if isempty(c.yLabel)
+            ylabel(ax,strrep(metric,'_',' '),'FontSize',c.fontSize);
+        else
+            ylabel(ax,char(c.yLabel),'FontSize',c.fontSize);
+        end
     end
     if ~isempty(c.titleText)
         title(ax,c.titleText,'Interpreter','none','FontSize',c.fontSize+1);
@@ -196,6 +241,11 @@ function out = PlotConvergenceCurves(problem,varargin)
     end
     box(ax,'on');
     set(ax,'FontSize',c.fontSize,'LineWidth',0.8,'TickDir','out');
+    if ~isempty(c.fontName)
+        set(ax,'FontName',char(c.fontName));
+        set([ax.Title,ax.XLabel,ax.YLabel],'FontName',char(c.fontName));
+        set(lg,'FontName',char(c.fontName));
+    end
 
     out = struct('curves',{curves},'legendLabels',{labels}, ...
         'colors',colors,'summary',{summary},'problem',problem,'metric',metric, ...

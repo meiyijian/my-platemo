@@ -99,7 +99,19 @@
     }
   },
   "alignment": "zero-order hold on unit-FE grid, no extrapolation past the last snapshot",
-  "band": "25-75% interquartile range across runs, PACDIS only",
+  "drawing": "vertices every 25 real evaluations, straight-line joins",
+  "band": "none (paper style)",
+  "markers": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030": "D",
+    "REMO": "o",
+    "PIEA": "^",
+    "CSEA": "s",
+    "PCSAEA_N100": "v",
+    "KRVEA_100": "x",
+    "MCEAD": "+"
+  },
+  "marker_every_fe": 25,
+  "line_styles": "all solid; identity carried by colour + marker shape",
   "minimum_pdf_glyph_pt": 7.5,
   "text_outside_canvas": []
 }
