@@ -2,8 +2,9 @@
 
 ## 正式消融表（2026-09-16 更新，正文以本节为准）
 
-正文 4.3（`sec:exp:ablation`）已改用 `table_combined_remo.tex`（label 仍为 `tab:exp:ablation`），
-替换原 `table_fixed_k.tex`。设计要求 —— 从完整框架同一份源码派生、四个配置共用代表解预算 k=1.5M：
+正文 4.3（`sec:exp:ablation`）已改用 `table_full_dtlz_wfg.tex`（label 仍为 `tab:exp:ablation`，
+16 题全表 DTLZ1–7 + WFG1–9 × M=10/20），替换原 `table_combined_remo.tex`（8 题子集）与更早的
+`table_fixed_k.tex`。设计要求 —— 从完整框架同一份源码派生、四个配置共用代表解预算 k=1.5M：
 
 | 表列 | 含义 | 数据来源列（xlsx） |
 | --- | --- | --- |
@@ -12,10 +13,10 @@
 | Full-PAQC | 完整框架去掉 PAQC | `RMEO_k_CDIS`（原表拼写如此） |
 | Full | 完整框架（即 PACDIS） | `REMO_UniformMix_Pruned_Weighted_Lambdat030` |
 
-- 数据源：`C:\Users\lsx\Desktop\AdaMao实验表\消融实验\两个模块消融实验\{full十目标.xlsx, full二十目标.xlsx}`（2026-09-15 更新），sheet `IGD`，每个目标数 8 题（DTLZ1/2/5/7、WFG1/3/6/8），文件第 10/9 行是原表的 `+/-/=` 汇总行，不进入正文表格。
+- 数据源：16 题全表由用户直接提供 `ablation_full_all_DTLZ_WFG.tex`（即 `table_full_dtlz_wfg.tex`），其对应 xlsx 来源（每个目标数 16 题：DTLZ1–7、WFG1–9）**待确认落位**。上一版 8 题表数据源为 `C:\Users\lsx\Desktop\AdaMao实验表\消融实验\两个模块消融实验\{full十目标.xlsx, full二十目标.xlsx}`（sheet `IGD`，8 题）。
 - **符号基准变了**：旧表符号是各配置对 Full 的导出比较；新表符号是各配置对 **REMO** 的导出比较（已按同 k 的 REMO 重新计算，不由均值与标准差推算 p 值）。因此不能把旧表的 8/1/7、10/2/3 与新表的 4/1/3、3/1/4、5/1/2 混用。
-- 已核对：表中四列的数值与上面四列 xlsx 单元格逐格一致（M10/M20 各 8 行）。正文由这些数值直接读出的结论（各变体取得最低均值的题数、`+/-/=` 计数、DTLZ7 的降幅、WFG3 与 DTLZ5 的例外）均可逐格复核。
-- **仍未核实**：独立运行次数、实际终止 FE、IGD 参考集、检验设置，以及这 8 个问题的选取依据。正文保留 `\TODO` 说明这些是配置值而非已核实事实。
+- 已核对：8 题版四列数值与 xlsx 单元格逐格一致；16 题版直接采用用户提供的 tex，新增 8 题的逐格复核**待做**。正文由这些数值读出的结论（各变体取得最低均值的题数、`+/-/=` 计数、DTLZ7 的降幅、WFG3 与 DTLZ5 的例外）均可逐格复核。
+- **仍未核实**：独立运行次数、实际终止 FE、IGD 参考集、检验设置。正文保留 `\TODO` 说明这些是配置值而非已核实事实。
 - `table_fixed_k.tex`（原 31 行表）保留为上一轮存档，不再被正文引用；其构建脚本 `build_fixed_k.py` 仍生成该存档文件。
 
 ## 当前论文方案（以本节为准）

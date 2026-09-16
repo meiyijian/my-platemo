@@ -79,12 +79,16 @@ for Expensive Many-Objective Optimization}
 
 \begin{abstract}
 \TODO{Use the challenge--contribution structure. State the two concrete gaps:
-the binary PBI criterion provides only a coarse membership signal for
-constructing relation-learning groups,
+representative-based grouping relies on a small set of selected reference
+solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set,
 and selecting several top-ranked candidates can concentrate an expensive
-evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
-criterion-diversified infill selection (CDIS). Make PAQC the primary
-contribution and CDIS the supporting batch-selection strategy. Lead the results
+evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted
+quality classification (PAQC) and criterion-diversified infill selection (CDIS).
+PAQC complements representative-based grouping by introducing a
+population-adaptive directional assessment and converting it into a quality
+priority for positive-group construction. CDIS provides a supporting
+batch-selection strategy. Lead the results
 with the strongest verified algorithm-level IGD comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
@@ -110,11 +114,15 @@ group construction and candidate selection. Present the two mechanisms as
 complementary design roles in one algorithm. Do not lead with selection-overlap
 statistics or imply that the relation network learns a within-group ordering.}
 
-The primary contribution is PBI-assisted quality classification (PAQC),
-which combines a continuous PBI score with the representative-based binary
-label used in REMO. The hybrid score prioritizes solutions before
-discretization, refining positive-group membership while retaining the
-three-class relation-learning scheme. To support the use of these predictions,
+The primary contribution is PBI-assisted quality classification (PAQC).
+Representative-based grouping in REMO relies on a small set of selected
+reference solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set. PAQC complements this
+representative-based information by introducing a population-adaptive
+directional assessment derived from the current nondominated set and converting
+it into a quality priority for positive-group construction. The two signals are
+fused to determine training-group membership, retaining the three-class
+relation-learning scheme. To support the use of these predictions,
 criterion-diversified infill selection (CDIS) provides two batch-selection
 criteria within an explicit evaluation cap. One constructs a spatially
 dispersed batch from candidates screened by relation quality; the other
@@ -155,16 +163,16 @@ scores of a large candidate pool into a small batch of expensive evaluations.
 We propose PACDIS, a surrogate-assisted many-objective evolutionary
 algorithm centred on improving the supervision interface through PAQC,
 with CDIS providing a supporting expensive-evaluation selection strategy.
-\emph{PBI-assisted quality classification} (PAQC) combines a continuous PBI
-score with a binary representative-based label.
-The hybrid score determines which solutions enter the positive training group,
-providing quality-aware group construction before relation-pair labels are
-assigned. \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided candidate
-generation but uses either indicator-based reranking or quality-guided
-batch diversification to choose the final expensive-evaluation batch. Established relation
-learning, indicator assessment and environmental selection modules provide the
-host algorithm; the two proposed mechanisms change how its training groups are
-formed and how its surrogate scores are used.
+\emph{PBI-assisted quality classification} (PAQC) augments the
+representative-based binary grouping signal with a continuous direction-aware
+quality priority derived from population-adaptive directions. The two signals
+are fused to determine which solutions enter the positive training group.
+\emph{Criterion-diversified infill selection} (CDIS) retains relation-guided
+candidate generation but uses either indicator-based reranking or
+quality-guided batch diversification to choose the final expensive-evaluation
+batch. Established relation learning, indicator assessment and environmental
+selection modules provide the host algorithm; the two proposed mechanisms
+change how its training groups are formed and how its surrogate scores are used.
 
 \subsection{Overall Framework}
 \label{sec:method:framework}
@@ -251,14 +259,18 @@ relation-guided candidate search and criterion-dependent infill branches.
 
 Relation learning first needs to divide the evaluated population into groups
 from which pairwise labels can be generated. The binary PBI criterion of
-REMO~\cite{ref:remo} provides only a coarse membership signal for constructing
-relation-learning groups. PAQC introduces a continuous quality score before
-discretization to prioritize solutions when forming the positive training group.
-A stage-dependent combination of this score and the representative-based binary
+REMO~\cite{ref:remo} provides a coarse membership signal, but
+representative-based grouping relies on a small set of selected reference
+solutions and does not explicitly exploit the directional distribution
+represented by the current nondominated set. PAQC complements this
+representative-based information by constructing population-adaptive directions,
+where applicable, from the current nondominated set and converting the resulting
+directional assessment into a quality priority for positive-group construction.
+A stage-dependent fusion of this priority and the representative-based binary
 label selects a prescribed fraction of the population as the positive group;
-the remaining solutions form its complement. This quality-aware group
-construction refines positive-group membership while retaining the same
-three-class relation-label scheme.
+the remaining solutions form its complement. This construction refines
+positive-group membership while retaining the same three-class relation-label
+scheme.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -331,9 +343,10 @@ $\vz^{*}$. All experiments in this paper use this single convention.
 \subsubsection{Representative-Based Classification}
 \label{sec:method:paqc:coarse}
 
-The continuous score supplies a selection priority for group construction, while the binary label
-produced by \textsc{RepresentativeBasedClassification} adds a
-representative-relative quality boundary. This boundary is derived from a small set
+The binary label produced by \textsc{RepresentativeBasedClassification}
+provides a coarse membership signal induced by a small set of representative
+solutions, while the adaptive-direction score supplies an additional continuous
+quality priority. This signal is derived from a small set
 $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
 the current population by the radial-grid representative selection of
 RSEA~\cite{ref:rsea}, which is also the rule used by REMO~\cite{ref:remo}. The
@@ -363,9 +376,11 @@ occupancy on both sides across changing population states.
 \subsubsection{Hybrid Score and Positive-Group Construction}
 \label{sec:method:paqc:hybrid}
 
-The two signals are combined by a weight that follows the consumption of the
-expensive budget. With $t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality
-score of solution $i$ is
+The representative-based label provides a coarse membership signal within
+reference-associated regions, while the adaptive-direction score provides a
+continuous direction-aware quality priority. The two signals are combined by a
+weight that follows the consumption of the expensive budget. With
+$t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality score of solution $i$ is
 \begin{equation}
 H_i=\alpha_t S_i+(1-\alpha_t)L_i ,
 \qquad
@@ -389,8 +404,9 @@ Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
 signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
 thresholds used to obtain $L_i$. In panel~(b), the nondominated solutions
 $P_1$ and $P_2$ supply the adaptive directions $\vv_1$ and $\vv_2$ through
-\eqref{eq:direction}; these directions determine $S_i$, rather than directly
-assigning group membership. The reassignment of $A$ and $B$ to the positive
+\eqref{eq:direction}; these directions provide an additional directional
+assessment through $S_i$, rather than directly defining a new classification
+boundary. The reassignment of $A$ and $B$ to the positive
 group and of $C$ to its complement schematically depicts how the additional
 directional information can change selection priorities through
 \eqref{eq:fuse}--\eqref{eq:group}. Such a reversal of the ordering between
@@ -468,9 +484,9 @@ while $H_j=\alpha_tS_j\leq\alpha_t$ because $S_j\leq1$; for
 $\alpha_t\leq1/2$ we have $1-\alpha_t\geq\alpha_t$, hence $H_i>H_j$.
 \end{proof}
 
-Part~(i) explains how the continuous score affects positive-group membership:
-for $\alpha_t>0$, solutions sharing an original label $L_i$ are prioritized by
-$S_i$ when the positive-group cutoff falls inside that label class.
+Part~(i) shows that, within the same representative-based label class, the
+direction-aware quality priority $S_i$ refines the ordering used to fill the
+positive-group quota when the cutoff falls inside that label class.
 Part~(ii) gives the schedule a concrete interpretation. For $t<1/2$, the
 continuous score can affect selection priority across the original binary
 boundary; for $1/2\leq t<1$, binary-positive solutions take priority and $S_i$
@@ -818,23 +834,23 @@ keeps the shared grouping, selection and representative rules identical, so
 that only the component under test changes. The significance symbols in the
 table are the exported comparisons of each variant against REMO.
 
-Table~\ref{tab:exp:ablation} reports the results at both objective counts.
-The decision dimension is 30, except for WFG3, which uses 31.
+Table~\ref{tab:exp:ablation} reports the results on all DTLZ and WFG
+problems at both objective counts. The decision dimension is 30, except for
+WFG2 and WFG3, which use 31.
 
-\input{experiments/ablation_original/table_combined_remo}
+\input{experiments/ablation_original/table_full_dtlz_wfg}
 
-Full has the lowest mean of the four variants on 3 of the eight problems at
-$M=10$ and 4 of the eight at $M=20$; Full-CDIS on 2 and 2, Full-PAQC on 2
-and 1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
-Full are 5/1/2 at both $M=10$ and $M=20$ (better/worse/no detected
-difference), for Full-CDIS 4/1/3 and 5/2/1, and for Full-PAQC 3/1/4 and
-4/1/3. The complete framework is therefore better than the reference on five
-of the eight problems in each objective setting, with a single loss.
+Full has the lowest mean of the four variants on 7 of the 16 problems at
+$M=10$ and 9 of the 16 at $M=20$; Full-CDIS on 6 and 5, Full-PAQC on 2 and
+1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
+Full are 8/1/7 at $M=10$ and 10/1/5 at $M=20$ (better/worse/no detected
+difference), for Full-CDIS 8/1/7 and 10/2/4, and for Full-PAQC 4/1/11 and
+7/2/7. The complete framework is therefore better than the reference on
+eight of the sixteen problems at $M=10$ and ten at $M=20$, with a single
+loss at each objective count.
 
-Full-CDIS has the lowest mean on DTLZ5 at both objective counts and on WFG8
-at $M=10$ and WFG6 at $M=20$; all four of these outcomes are marked $+$
-against REMO. DTLZ7 shows the largest improvement associated with the
-complete framework: relative to REMO, its mean IGD decreases from
+DTLZ7 shows the largest improvement associated with the complete framework:
+relative to REMO, its mean IGD decreases from
 $2.1381e+1$ to $1.0120e+1$ at $M=10$ and from $4.2108e+1$ to $1.8855e+1$ at
 $M=20$, reductions of 52.7\% and 55.2\%. Most of the change at $M=10$ is
 associated with CDIS: relative to Full-CDIS, Full lowers the mean by 41.5\%,
@@ -845,8 +861,8 @@ are nearly equal ($2.5637e+1$ and $2.5967e+1$), and Full lowers them by
 The pattern is not uniform. REMO has the lowest mean on WFG3 at both
 objective counts, where all three variants are marked $-$. Removal of PAQC
 also degrades DTLZ5 at both objective counts: Full-PAQC is the worst variant
-on that problem at $M=10$ ($7.0299e-1$ against $6.0132e-1$ for Full-CDIS and
-$6.5860e-1$ for REMO) and the only variant marked $-$ against REMO at $M=20$.
+on that problem, with $7.0299e-1$ at $M=10$ and $3.4665e-1$ at $M=20$,
+against $6.0132e-1$ and $2.6667e-1$ for Full-CDIS.
 
 Both modules therefore contribute under the reference grouping and selection
 rules, and the contribution of each is conditional on the problem. The four
@@ -857,7 +873,7 @@ omnibus test across problems.
 
 \TODO{Confirm the number of independent runs, the actual terminal FE, the IGD
 reference sets and the statistical-test settings from the individual-run
-records, and document the selection criterion for the eight reported
+records, and document the selection criterion for the sixteen reported
 problems. The exports specify $N=100$ and a configured budget of 300
 evaluations; these are configuration values that have not been verified
 against the individual runs.}
@@ -893,19 +909,51 @@ historical checkpoints.}
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
 
-With PAQC and the remaining settings fixed, the planned comparison uses
-$p_{\mathrm{mix}}\in\{0,0.5,1\}$. These settings represent diversification
-only, the default stochastic mixture, and indicator selection whenever its
-surrogate is available, respectively. Even at $p_{\mathrm{mix}}=1$, the
-specified fallback remains active. The realized frequencies of both modes
-and their real-evaluation allocations will be reported alongside final IGD.
-Because the mode is drawn before candidate generation, this study measures
-the effect of the complete mode policy, including its induced candidate pools,
-rather than a reranking-only intervention on an identical pool.
-\TODO{Insert the fixed problem subset, matched-run results and realized mode
-frequencies. Determine whether the default mixture provides a useful balance
-across problems; do not infer insensitivity over the whole interval from
-three settings alone.}
+To examine whether the default switching probability is a reasonable choice, $p_{\mathrm{mix}}$ was varied over $\{0,0.25,0.5,0.75,1\}$. According to \eqref{eq:mode}, $p_{\mathrm{mix}}=0$ always uses the diversification-oriented criterion when candidate selection is performed, whereas $p_{\mathrm{mix}}=1$ uses the indicator-oriented criterion whenever its surrogate is available; intermediate values stochastically alternate between the two criteria. The exported parameter study contains six benchmark problems at both $M=10$ and $M=20$.
+
+\begin{table*}[t]
+\centering
+\caption{Sensitivity of PACDIS to the switching probability $p_{\mathrm{mix}}$ on the available 10- and 20-objective parameter-study instances. Smaller IGD is better, and the lowest mean in each row is highlighted in bold. Symbols $+$, $-$, and $=$ indicate that the corresponding non-default setting is reported as better than, worse than, or not detectably different from $p_{\mathrm{mix}}=0.5$, respectively, following the supplied PlatEMO export. The average-rank rows are computed from the mean IGD values within each objective setting.}
+\label{tab:exp:pmix}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{lcccccc}
+\toprule
+Problem & $D$ & $p_{\mathrm{mix}}=0$ & $0.25$ & $0.50$ & $0.75$ & $1.00$ \\
+\midrule
+\multicolumn{7}{c}{\textit{10-objective problems}} \\
+\midrule
+DTLZ2 & 30 & $1.4673e+0\;(1.04e-1)^{-}$ & $1.1980e+0\;(9.10e-2)^{-}$ & $1.1101e+0\;(1.23e-1)$ & $1.1174e+0\;(1.01e-1)^{=}$ & $\mathbf{1.0575e+0}\;(1.27e-1)^{=}$ \\
+DTLZ4 & 30 & $1.4452e+0\;(9.75e-2)^{-}$ & $1.2556e+0\;(8.69e-2)^{=}$ & $1.2554e+0\;(1.06e-1)$ & $\mathbf{1.2135e+0}\;(7.44e-2)^{=}$ & $1.2491e+0\;(1.11e-1)^{=}$ \\
+DTLZ7 & 30 & $\mathbf{7.1374e+0}\;(1.16e+0)^{+}$ & $8.6532e+0\;(1.65e+0)^{+}$ & $1.0613e+1\;(1.51e+0)$ & $1.2275e+1\;(2.38e+0)^{-}$ & $1.9427e+1\;(2.99e+0)^{-}$ \\
+WFG1 & 30 & $3.2195e+0\;(3.59e-2)^{=}$ & $3.1908e+0\;(3.58e-2)^{=}$ & $3.1888e+0\;(5.33e-2)$ & $3.1902e+0\;(6.01e-2)^{=}$ & $\mathbf{3.1852e+0}\;(5.40e-2)^{=}$ \\
+WFG3 & 31 & $1.7658e+0\;(5.63e-2)^{-}$ & $1.7316e+0\;(5.24e-2)^{=}$ & $\mathbf{1.6872e+0}\;(7.88e-2)$ & $1.6955e+0\;(6.56e-2)^{=}$ & $1.6929e+0\;(7.01e-2)^{=}$ \\
+WFG8 & 30 & $\mathbf{5.5866e+0}\;(2.28e-1)^{=}$ & $5.7157e+0\;(1.98e-1)^{=}$ & $5.7532e+0\;(2.64e-1)$ & $5.8423e+0\;(2.77e-1)^{=}$ & $5.7964e+0\;(3.59e-1)^{=}$ \\
+\midrule
+\multicolumn{2}{l}{Average rank} & $3.67$ & $3.33$ & $\mathbf{2.33}$ & $3.17$ & $2.50$ \\
+\multicolumn{2}{l}{$+/-/=$ vs. $0.50$} & $1/3/2$ & $1/1/4$ & -- & $0/1/5$ & $0/1/5$ \\
+\midrule
+\multicolumn{7}{c}{\textit{20-objective problems}} \\
+\midrule
+DTLZ2 & 30 & $1.2616e+0\;(5.18e-2)^{-}$ & $1.1619e+0\;(6.89e-2)^{=}$ & $1.1415e+0\;(6.26e-2)$ & $1.1292e+0\;(5.42e-2)^{=}$ & $\mathbf{1.1111e+0}\;(3.51e-2)^{=}$ \\
+DTLZ4 & 30 & $1.0742e+0\;(4.16e-2)^{=}$ & $1.0558e+0\;(5.35e-2)^{=}$ & $\mathbf{1.0506e+0}\;(5.17e-2)$ & $1.0661e+0\;(4.34e-2)^{=}$ & $1.1148e+0\;(5.15e-2)^{-}$ \\
+DTLZ7 & 30 & $2.1062e+1\;(8.87e+0)^{=}$ & $\mathbf{1.6810e+1}\;(4.17e+0)^{=}$ & $1.8298e+1\;(3.42e+0)$ & $2.3106e+1\;(4.24e+0)^{-}$ & $3.2237e+1\;(7.51e+0)^{-}$ \\
+WFG1 & 30 & $5.6088e+0\;(4.12e-2)^{=}$ & $5.6173e+0\;(6.19e-2)^{=}$ & $\mathbf{5.5870e+0}\;(5.53e-2)$ & $5.5998e+0\;(5.47e-2)^{=}$ & $5.6154e+0\;(8.21e-2)^{=}$ \\
+WFG3 & 31 & $2.8724e+0\;(9.74e-2)^{-}$ & $2.7862e+0\;(1.34e-1)^{=}$ & $2.7794e+0\;(9.92e-2)$ & $2.7655e+0\;(9.01e-2)^{=}$ & $\mathbf{2.7013e+0}\;(1.39e-1)^{=}$ \\
+WFG8 & 30 & $2.0465e+1\;(9.21e-1)^{=}$ & $\mathbf{2.0362e+1}\;(8.23e-1)^{=}$ & $2.0926e+1\;(8.66e-1)$ & $2.1141e+1\;(1.17e+0)^{=}$ & $2.1744e+1\;(1.34e+0)^{=}$ \\
+\midrule
+\multicolumn{2}{l}{Average rank} & $3.67$ & $2.83$ & $\mathbf{2.17}$ & $2.83$ & $3.50$ \\
+\multicolumn{2}{l}{$+/-/=$ vs. $0.50$} & $0/2/4$ & $0/0/6$ & -- & $0/1/5$ & $0/2/4$ \\
+\midrule
+\multicolumn{2}{l}{Overall average rank} & $3.67$ & $3.08$ & $\mathbf{2.25}$ & $3.00$ & $3.00$ \\
+\multicolumn{2}{l}{Overall $+/-/=$ vs. $0.50$} & $1/5/6$ & $1/1/10$ & -- & $0/2/10$ & $0/3/9$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The default $p_{\mathrm{mix}}=0.5$ gives the best overall average rank, $2.25$, compared with $3.67$, $3.08$, $3.00$, and $3.00$ for $p_{\mathrm{mix}}=0$, $0.25$, $0.75$, and $1$, respectively. The same pattern is observed separately at both objective counts: the average rank of the default setting is $2.33$ at $M=10$ and $2.17$ at $M=20$, the lowest among the five settings in each case. This advantage does not arise from uniformly winning every problem. For example, the diversification-only setting performs best on DTLZ7 and WFG8 at $M=10$, while $p_{\mathrm{mix}}=0.25$ obtains the lowest mean on DTLZ7 and WFG8 at $M=20$.
+
+The pairwise annotations nevertheless show a more stable pattern for the equal-probability mixture. Across the 12 problem--objective configurations, $p_{\mathrm{mix}}=0.75$ and $1$ are never reported as better than $p_{\mathrm{mix}}=0.5$, while being worse on two and three configurations, respectively. The $p_{\mathrm{mix}}=0.25$ setting is better once, worse once, and indistinguishable on the remaining ten configurations. The diversification-only setting is better once but worse five times. These results support $p_{\mathrm{mix}}=0.5$ as a robust compromise between the two selection criteria rather than as a universally optimal value on every benchmark instance.
 
 \subsection{Convergence Behavior}
 \label{sec:exp:convergence}
