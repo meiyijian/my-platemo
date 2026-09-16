@@ -2,10 +2,10 @@
 
 > 本文件只留最高频、最致命的条目；完整细节（环境、坑位、实验框架、数据集、论文）已归档到同目录 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-15 23:58）
-- 主线：**pMix 敏感性扫描** —— 判定指标分支概率是否真有贡献，支撑论文创新性论证。
-- 数据目录族 `D:\REMOandDREMO测试集\<M>目标\n30\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix{000,025,050,075,100}`；框架在 `PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMixSweep\`。
-- 进度 **439/1200（全在 M=20），用户已要求暂停**；续跑命令+进度表+坑说明见该目录 `RESUME_STATUS.md`；对应巡检自动化已置 PAUSED，续跑时改回 ACTIVE。剩 761 跑 ≈ 7 h。
+## 现在在哪（截至 2026-09-16 08:30）
+- 主线：**pMix 敏感性扫描 —— ✅ 已完成 1200/1200**（09-15 16:28 起两轮，累计约 10 h 50 min；第二轮 09-16 01:24→08:19 补完 761 跑）。全量校验通过（缺失 0 / 失败 0 / MAT-only / 无待机污染），IGD 已导出 `PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMixSweep\logs\pMix_finalIGD.csv`（1200 行）。
+- **pMix 扫描的结论（可直接引用）**：pMix=0.50 是**最稳健的默认值**——12 个 (M,问题) 格中平均秩最低（2.621）、最差秩最小（3.00），合并 240 配对块 Friedman p<1e-6，且**显著优于 pMix=0.75（Holm p=0.030）与 pMix=1.00（Holm p=0.00036）**。**但不能说"处处最优"**：只在 2/12 格夺冠，且**与 pMix=0.25 无统计差异（Holm p=1.0）**。效应方向随问题翻转：DTLZ2/WFG3 偏好高 pMix，DTLZ7/WFG8 偏好低 pMix，**DTLZ7 最敏感（pMix=1 相对 0.5 差 +81%/+74%）**；pMix0 vs pMix1 合并 p=1.0（极端臂互补，故折中值平均秩占优）；**pMix=0 最危险**（DTLZ2 差 +30.9%）。完整表见该目录 `RESUME_STATUS.md` 第 9 节。
+- 数据目录族 `D:\REMOandDREMO测试集\<M>目标\n30\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix{000,025,050,075,100}`（M=20 无 n30 层）；巡检自动化 `87c95710-...` 已置 PAUSED（实验结束）。
 - 固定参数序 `{gmax,pMix,rGood,qKeep,nMax}` = `{3000, 0.50, 0.25, 0.70, 6}`；默认 N=100、D=30、maxFE=300。
 - 已完成：M=20 基线 320/320；Weighted WFG sweep M=15、M=8(D=10) 各 270/270。待办：Weighted M=5(D=10) 停在 159/270。
 - 分工：**用户亲自跑重活，AI 负责开发/归档/自动化**；长任务先预估时长与排程间隔。
