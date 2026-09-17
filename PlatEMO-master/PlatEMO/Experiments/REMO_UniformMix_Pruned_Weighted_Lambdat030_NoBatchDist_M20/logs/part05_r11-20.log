@@ -1,0 +1,18 @@
+==== part 5/16 start 2026-09-18 04:18:20 ====
+[2026-09-18 04:18:20] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 04:18:28] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 04:18:28] SaveCount 30 | Runs 10 | M 20 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=22260912)
+[2026-09-18 04:18:28] Slice 5/16 -> 1 problems: DTLZ5
+[2026-09-18 04:18:28] --- DTLZ5 (global #5): M=20 D=30 maxFE=300 ---
+[2026-09-18 04:24:46] [done] DTLZ5 run 11 | IGD first 0.507305 -> final 0.271616 | runtime 376.1s | wall 377.9s | ok
+[2026-09-18 04:30:36] [done] DTLZ5 run 12 | IGD first 0.600156 -> final 0.250011 | runtime 347.6s | wall 349.6s | ok
+[2026-09-18 04:36:25] [done] DTLZ5 run 13 | IGD first 0.516447 -> final 0.286093 | runtime 347.0s | wall 348.6s | ok
+[2026-09-18 04:42:30] [done] DTLZ5 run 14 | IGD first 0.40099 -> final 0.306408 | runtime 363.6s | wall 365.1s | ok
+[2026-09-18 04:48:25] [done] DTLZ5 run 15 | IGD first 0.572013 -> final 0.389237 | runtime 353.2s | wall 355.0s | ok
+[2026-09-18 04:54:16] [done] DTLZ5 run 16 | IGD first 0.5615 -> final 0.390325 | runtime 349.6s | wall 351.8s | ok
+[2026-09-18 05:00:22] [done] DTLZ5 run 17 | IGD first 0.509156 -> final 0.170195 | runtime 364.2s | wall 365.9s | ok
+[2026-09-18 05:06:46] [done] DTLZ5 run 18 | IGD first 0.444479 -> final 0.341004 | runtime 381.6s | wall 383.6s | ok
+[2026-09-18 05:12:51] [done] DTLZ5 run 19 | IGD first 0.566232 -> final 0.353706 | runtime 362.8s | wall 364.9s | ok
+[2026-09-18 05:19:21] [done] DTLZ5 run 20 | IGD first 0.476835 -> final 0.202586 | runtime 388.6s | wall 390.5s | ok
+[2026-09-18 05:19:21] ==== part 5/16 done: 10 runs (0 skipped) in 3652.9 s (1.0 h) ====
+[2026-09-18 05:19:22] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M20\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part5of16.csv
