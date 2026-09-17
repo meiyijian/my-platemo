@@ -54,4 +54,6 @@ analyze_Lambdat030GoodGroupPrecision('smoke');
 
 ## 状态
 
-- 2026-09-16：框架搭建完成；等价验证 **3/3 PASS**（生产/审计最终档案与 RNG 状态逐位一致：WFG3 M2、DTLZ2 M10、DTLZ2 M20），WFG3 M2 冒烟运行 + 写后校验 + 分析通过（`equivalence_passed.txt` = PASS）。正式 150 跑尚未启动，等用户确认后跑 `Start-GGP-Lambdat030.ps1`。
+- 2026-09-16→17：框架搭建完成、等价验证 **3/3 PASS**（生产/审计最终档案与 RNG 状态逐位一致：WFG3 M2、DTLZ2 M10、DTLZ2 M20），WFG3 M2 冒烟通过。
+- **正式 150 跑已完成**（09-17 00:32）：`results/FORMAL_COMPLETE.txt`（150/150 校验通过、6/6 配置齐），分析产物在 `results/analysis/formal/`，跨臂（λ0.30 vs λ0.50）种子配对表在 `results/analysis/crossArm/LTGGP_vs_PWGGP_Paired.csv`。
+- ⚠️ **运行环境警告（当晚实测）**：MATLAB R2021b 在 09-16 夜间出现高发 `0xc0000374` 堆损坏（事件日志故障模块 ntdll.dll、固定偏移），每进程约 10–12 分钟必崩，与并发数、沙箱、启动方式均无关，**崩前已完成的跑次落盘有效**。补救路径：`run_LTGGPRemaining.m`（只切缺失 job）+ 循环重启（"磨盘"）直至缺口归零；若机器重启后环境恢复，直接 `Start-GGP-Lambdat030.ps1` 一次跑齐即可。
