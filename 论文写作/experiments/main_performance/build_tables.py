@@ -110,12 +110,12 @@ def main():
             counts = Counter(lookup[p, m, algorithm]["symbol"] for p in problems for m in [10, 15, 20])
             totals[algorithm] = [counts["+"], counts["-"], counts["="]]
         lines = ["% Generated from igd_snapshot.csv by build_tables.py.",
-                 r"\begin{table*}[p]", r"\centering",
+                 r"\begin{table*}[tp]", r"\centering",
                  rf"\caption{{Comparison of IGD values on {suite}1--{len(problems)}.}}",
                  rf"\label{{tab:exp:{suite.lower()}}}", r"\footnotesize",
                  r"\setlength{\tabcolsep}{4pt}", r"\renewcommand{\arraystretch}{1.08}",
                  r"\begin{tabular}{@{}>{\centering\arraybackslash}m{32pt}>{\centering\arraybackslash}m{14pt}*{7}{>{\centering\arraybackslash}m{\dimexpr(\textwidth-110pt)/7\relax}}@{}}",
-                 r"\toprule[1.2pt]", "Problem & $M$ & " + " & ".join(ORDER) + r" \\", r"\midrule"]
+                 r"\toprule", "Problem & $M$ & " + " & ".join(ORDER) + r" \\", r"\midrule"]
         for i, p in enumerate(problems):
             if i:
                 lines.append(r"\midrule")
@@ -128,16 +128,16 @@ def main():
                     line1, line2 = r["mean"], "(" + r["std"] + ")" + sign
                     prefix = ""
                     if Decimal(r["mean"]) == lowest:
-                        prefix = r"\cellcolor{black!25}"
+                        prefix = ""
                         line1 = r"\textbf{" + line1 + "}"
                         line2 = r"\textbf{" + line2 + "}"
                     cells.append(prefix + r"\shortstack{" + line1 + r"\\" + line2 + "}")
                 group = p if j == 1 else ""
                 lines.append(group + " & " + str(m) + " & " + " & ".join(cells) + r" \\")
         lines += [r"\midrule", r"\multicolumn{2}{c}{$+/-/=$} & " + " & ".join("/".join(map(str, totals[a])) for a in ORDER[:-1]) + r" & --- \\",
-                  r"\bottomrule[1.2pt]", r"\end{tabular}", r"\par\smallskip",
-                  r"\begin{minipage}{\textwidth}\scriptsize",
-                  r"Each entry shows the mean above the standard deviation in parentheses. Shaded bold cells have the lowest mean in their row. Symbols $+$, $-$ and $=$ indicate that the baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order."]
+                  r"\bottomrule", r"\end{tabular}", r"\par\smallskip",
+                  r"\begin{minipage}{\textwidth}\footnotesize",
+                  r"Each entry shows the mean above the standard deviation in parentheses. Bold cells have the lowest mean in their row. Symbols $+$, $-$ and $=$ indicate that the baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order."]
         lines += [r"\end{minipage}", r"\end{table*}", ""]
         (HERE / f"table_{suite.lower()}.tex").write_text("\n".join(lines), encoding="utf-8")
         summary["by_suite"][suite] = {"baseline_plus_minus_equal": totals}
