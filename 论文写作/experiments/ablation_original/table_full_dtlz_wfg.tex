@@ -1,11 +1,11 @@
-\begin{table*}[t]
+\begin{table*}[tp]
 \centering
-\caption{Ablation study of PAQC and CDIS on all DTLZ and WFG test problems with 10 and 20 objectives. All variants use the same representative count $k=\lceil1.5M\rceil$. \textit{Full-CDIS} denotes the complete framework without CDIS, whereas \textit{Full-PAQC} denotes the complete framework without PAQC. REMO with the same representative count is used as the reference baseline. Each entry reports the mean IGD with the standard deviation in parentheses, and smaller values are better. The best mean among the four variants is highlighted in bold. Symbols $+$, $-$, and $=$ indicate that the corresponding variant is significantly better than, significantly worse than, or statistically indistinguishable from REMO, respectively.}
+\caption{Ablation study of PAQC and CDIS on all DTLZ and WFG test problems with 10 and 20 objectives.}
 \label{tab:exp:ablation}
-\scriptsize
+\footnotesize
 \setlength{\tabcolsep}{3.5pt}
-\renewcommand{\arraystretch}{0.96}
-\begin{tabular}{lccccc}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lccccc@{}}
 \toprule
 Problem & $D$ & Full-CDIS & Full-PAQC & Full & REMO \\
 \midrule
@@ -51,5 +51,9 @@ WFG9 & 30 & $2.4763e+1\;(1.35e+0)^{=}$ & $2.3910e+1\;(1.49e+0)^{=}$ & $\mathbf{2
 \midrule
 \multicolumn{2}{l}{$+/-/=$ vs. REMO} & $10/2/4$ & $7/2/7$ & $10/1/5$ & -- \\
 \bottomrule
-\end{tabular}
+\end{tabular*}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize
+All variants use the same representative count $k=\lceil1.5M\rceil$. \textit{Full-CDIS} denotes the complete framework without CDIS, whereas \textit{Full-PAQC} denotes the complete framework without PAQC. REMO with the same representative count is used as the reference baseline. Each entry reports the mean IGD with the standard deviation in parentheses, and smaller values are better. The best mean among the four variants is highlighted in bold. Symbols $+$, $-$, and $=$ indicate that the corresponding variant is significantly better than, significantly worse than, or statistically indistinguishable from REMO, respectively.
+\end{minipage}
 \end{table*}
