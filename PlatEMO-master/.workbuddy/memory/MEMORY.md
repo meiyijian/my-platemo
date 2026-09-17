@@ -58,7 +58,7 @@
 ## 论文资产
 - 主文 `论文写作\HPDC-MaOEA.tex`（`elsarticle [final,5p,times,twocolumn]`，**textwidth = 522pt**）；`HPDC-MaOEA_1param.tex` 与主文**共用**主性能表两张 tex
 - 主性能表不内联（`\input{experiments/main_performance/table_dtlz|table_wfg}`），数据只能由 `build_tables.py --source-dir <xlsx>` 生成（换源只改脚本 `OURS`/`FILES`）；正文数字全部派生自同目录 `summary.json`，必须一起改并重验定性断言 → skill `paper-main-table-refresh`
-- 中文对照稿 `HPDC-MaOEA_中文版.md`（跟 tex 走，整篇覆盖；48 行表格一律脚本转）→ skill `paper-cn-mirror`
+- 中文对照稿 `HPDC-MaOEA_中文版.md`（跟 tex 走，整篇覆盖；全部表格一律脚本转：主性能表用 `run_scripts/tex_table_to_md.py`，消融表与内联 p_mix 表用 `run_scripts/tex_ablation_pmix_to_md.py`）→ skill `paper-cn-mirror`
 - §4.6 收敛图：`figures/build_convergence.py` ← `figures/source_data/convergence_igd.csv`（由 `ExportConvergenceCSV.m` 只读导出）
 - 通用收敛曲线工具（不重跑）：`ConvergencePlot\{PlotConvergenceCurves,PlotConvergenceGrid,demo_Convergence_10obj}.m` + `README.md`；曲线 = `metric.IGD`，横轴 = `cellfun(@(v)v(1),result(:,1))`。**前提是跑实验时 `save=K>0`**（`ALGORITHM.m:122-124` 存快照、`:191-206` 才落盘；默认 `save=-10` 只弹 GUI 单条曲线、不写文件）
 - 曲线图两种版式：默认（log 轴 + IQR 带）与**论文风格**（线性轴 + 稀疏 marker 折线 + Times + 左下图例 + 无标题，靠 `gridStep=20` + `markers` + `showBand=false` + `fontName` + `legendLocation` 实现，见 `README.md`「论文风格版式」）；范例 `.workbuddy\run_scripts\PlotConvergencePaperStyle.m`。导出前必须 `ax.Toolbar.Visible='off'`（否则工具栏入图）
