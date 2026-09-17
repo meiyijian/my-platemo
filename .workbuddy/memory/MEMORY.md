@@ -2,7 +2,12 @@
 
 > 本文件只留最高频、最致命的条目；完整细节（环境、坑位、实验框架、数据集、论文）已归档到同目录 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-16 12:00）
+## 现在在哪（截至 2026-09-17 11:00）
+- **RWMOP11 真实问题实验（新增主线）：✅ 完成 140/140**。七个算法 = PACDIS + 论文六基线（REMO/PIEA/CSEA/PC-SAEA/K-RVEA/MCEA-D），**全部统一注入标准 feasibility-first 规则（CDP）**；M=5、D=3、N=100、maxFE=300、20 跑、threads=1。数据 `D:\REMOandDREMO测试集\5目标\n3\<算法>_CDP\`（`result`+`metric{HV,Feasible_rate,runtime}`）；框架在 `PlatEMO/Experiments/RWMOP11_WaterResource/`（**该目录在 .gitignore 内、不受版本控制**，与 pMixSweep 同例；含 README/VERIFICATION/RESULTS/LaTeX 表）。
+  - **结果（20 跑均值）**：HV = CSEA 0.0986 > REMO 0.0973 > K-RVEA 0.0954 > PIEA 0.0952 > MCEA/D 0.0919 > PC-SAEA 0.0888 > **PACDIS 0.0878（垫底，与各基线秩和 p≤1e-5 或 0.29）**；可行率 = REMO 0.933 > MCEA/D 0.914 > PC-SAEA 0.904 > **PACDIS 0.864** > K-RVEA 0.846 > CSEA 0.816 > PIEA 0.670。
+  - 🔴 **必须与初始规模一起读**：D=3 时 REMO 族（含 PACDIS）初始只有 32 点（`11D-1`），其余算法 100 点 → 初始 HV 起点差 27%（0.0578 vs 0.0730）；两组终态 HV 均值几乎相同（0.0946 vs 0.0928），但 32 点组搜索增益近两倍（+0.0368 vs +0.0198）。同起点组内 PACDIS 增益（+0.0300）仍低于 REMO（+0.0395）/CSEA（+0.0409）。
+  - CDP 补丁**已证明零改动**：无约束 DTLZ2 上跨进程同槽位原版 vs CDP **逐位一致**（IGD 轨迹 max|Δ|=0、终态目标矩阵相同）；`NDSort(F,[],k)≡NDSort(F,k)` 160 组零差异。
+
 - 主线：**pMix 敏感性扫描 —— ✅ 已完成 1200/1200**（09-15 16:28 起两轮，累计约 10 h 50 min；第二轮 09-16 01:24→08:19 补完 761 跑）。全量校验通过（缺失 0 / 失败 0 / MAT-only / 无待机污染），IGD 已导出 CSV。
 - ✅ **已改为"一档一类"并归档推送**（commit `56dddd9`，已 push origin/master）：新增 5 个专用算法类 `REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix{000,025,050,075,100}`（各 = 1 类文件 + 自带 `private/` 14 个文件，与 `_Lambdat050` 房规一致），**pMix 在类里写死，参数表由 5 个变 4 个** `{gmax,rGood,qKeep,nMax}` = `{3000,0.25,0.70,6}`。等价性**已逐位证明**（40/40，max|ΔIGD|=0，比对完整 30 快照 IGD 向量）→ 因此**没有重跑**，直接把 1200 个 `.mat` 改名归并（**文件夹名 = 文件名前缀 = 类名**，每组 240 = M10 120 + M20 120）。结论文档 `docs/2026-09-16-Lambdat030-pMix敏感性扫描结论.md`（**受 git 管理**）。
 - **pMix 扫描的结论（可直接引用）**：pMix=0.50 是**最稳健的默认值**——12 个 (M,问题) 格中平均秩最低（2.621）、最差秩最小（3.00），合并 240 配对块 Friedman p<1e-6，且**显著优于 pMix=0.75（Holm p=0.030）与 pMix=1.00（Holm p=0.00036）**。**但不能说"处处最优"**：只在 2/12 格夺冠，且**与 pMix=0.25 无统计差异（Holm p=1.0）**。效应方向随问题翻转：DTLZ2/WFG3 偏好高 pMix，DTLZ7/WFG8 偏好低 pMix，**DTLZ7 最敏感（pMix=1 相对 0.5 差 +81%/+74%）**；pMix0 vs pMix1 合并 p=1.0（极端臂互补，故折中值平均秩占优）；**pMix=0 最危险**（DTLZ2 差 +30.9%）。完整表见该目录 `RESUME_STATUS.md` 第 9 节。
@@ -25,6 +30,11 @@
 - ⚠️ **`refs/remotes/*` 写不进去（0914 后遗症+环境拦截）**：`git fetch` / `git update-ref` 对本仓库的 `refs/remotes` **报成功但不落盘**（`exit=0` 且打印 `[new branch] master -> origin/master`，随后 `git rev-parse origin/master` 就 `exit=128`），于是 `git status -sb` 恒显示 `[gone]`。已排除目录权限/原子 rename/外部清理（`echo`+`mv` 与手写文件都正常，`refs/heads` 也正常）。**绕过：用文件写入工具直接把 `.git/refs/remotes/origin/master` 写成一行远端 SHA**，git 立刻可读（`## master...origin/master`）。别反复重试 `git fetch`。
 - MATLAB `-batch` 退出偶发 `0xc0000374`（堆损坏）：崩溃前写盘的数据安全；长跑配"守护+断点续跑"。**切片越短越容易崩**——等价性校验用"2 跑/切片"时 20 片崩 6 片，而主扫描"10 跑/切片"156 片**全部 exit=0**；已用**基类、同样配置的对照实验**证明与具体算法类无关（基类 6 片崩 5 片）。长实验优先用长切片，把堆损坏当"重跑即可"的噪声。
 - Edit 偶发报成功但未落盘 → 关键编辑后 Read/Grep 复核。
+- 🔴 **绝不编辑正在运行的 bash 脚本**（本次因此废掉 5 个等价性进程）：bash 按字节偏移增量读取脚本，中途改文件会让它从错位处继续解析（`line N: eep: command not found` + `syntax error near 'done'`）。要改就先停脚本。
+- 🔴 **切片表格式**：字段用 **tab 分隔 + `IFS=$'\t'` read**，run 列表用 MATLAB 冒号语法（`1:4`）；用空格分隔的 `[1 2 3 4]` 会被 `read` 拆散成 `[1` + `2 3 4]`（本次空转 30 s）。长跑前先干跑一遍解析循环核对字段。
+- 🔴 **Git Bash → MATLAB 传路径必须 `pwd -W`**（`pwd` 给 `/d/...`，MATLAB 静默失效或建到 `D:\d\...`）。
+- `ALG` 的 outputFcn 只能传 `@(varargin)[]`（`@(v)[]` 会报 `MATLAB:TooManyInputs`，NotTerminated 传 2 参）。
+- ⚠️ **patternnet 算法（REMO / PACDIS）不受"同种子 + 同线程"的逐位复现保证**：同一进程内第 1 次 Solve 与第 2 次 Solve 会分岔（实测同算法自身对照 max|ΔIGD| = 1.1e-1 / 1.4e-1，与"补丁 vs 原版"完全相同），而**跨进程同槽位逐位一致**。→ 凡"逐位复现/等价性"断言必须固定槽位（每进程一跑）；20–30 跑的统计比较不受影响。其余五算法（CSEA/PC-SAEA/K-RVEA/PIEA/MCEA-D）在本次对照中逐位可复现。
 
 ## 记忆文件自动提交推送（09-16 用户授权，长期有效）
 - 只要本轮改动了 `.workbuddy/memory/**`（`MEMORY.md` / `REFERENCE.md` / `YYYY-MM-DD.md` / `automations/*/memory.md`），**收尾时自动提交并推送，不再询问用户**：

@@ -55,6 +55,15 @@ MEMORY.md 只留高频/致命条目，本文件保存完整细节。
 - `论文写作/HPDC-MaOEA_1param.tex`：探索分支 `A_k=R̃+β·E_k`，β→0 对应被否定的纯关系排序格，β 敏感性是必做 \TODO。
 - 09-11 曾发生 论文写作/ 227 文件批量进回收站（非会话所为），已 git restore 恢复；origin/master 是离线安全网。
 
+## RWMOP11 真实问题实验（2026-09-17 建，140/140 完成）
+- 框架目录 `PlatEMO/Experiments/RWMOP11_WaterResource/`（**在 .gitignore 内，不受版本控制**）。主线算法目录改动 **0 处**：七个算法是 `algorithms/` 下的完整副本（类名后缀 `_CDP`，含 `private/`），`tools/apply_cdp_patches.py` 是补丁的唯一来源（幂等 + 断言 + 逐字符 diff 可核对）。
+- CDP 落点（都是"对真实评价解做保留/替换决策"处）：`RefSelect` 的 `NDSort(PopObj,Population.cons,k)`（PACDIS/REMO/CSEA）；`ESCalFitness` 显式 CDP 支配比较（PC-SAEA）；`UpdataArchive` 训练档案可行优先填满 `NI-mu`（K-RVEA）；切比雪夫替换改字典序 `(CV,g)`（MCEA/D）；层次评价 `NDSort(A.objs,A.cons,1)`（PIEA，它没有定规模保留集）。
+- 问题：`Problems/Multi-objective optimization/RWMOPs/RWMOP11.m`（M=5、D=3、7 约束、`GetOptimum` 给 HV 参考点）。**六个基线原本都不读 `.cons`**（全库 grep 可证），所以必须显式注入。
+- 数据 `D:\REMOandDREMO测试集\5目标\n3\<算法>_CDP\`；种子 `20777912 + run`（= 论文式 `20260912+5*100000+17*1000+run`，RWMOP11 记为第 17 题）。切片表 `slices.txt`（20 片、重活优先）+ 驱动 `driver_RWMOP11.sh`（MAXPROC=12、错峰 25 s）。
+- 关键口径：HV 用 PlatEMO 内置（`SOLUTION.best`=可行非支配，参考点 `GetOptimum`）；M=5 走 1e6 次 MC → **每次算指标前 `rng(987654321)`** 让所有跑共享随机数。Feasible_rate（PlatEMO 内置）= 算法报告的**整个档案**的可行比例（PACDIS/REMO/CSEA 末档 300、CSEA 303.5），初始设计可行比例 ~0.91 会稀释该项且稀释权重随初始规模不同。`runtime` 在 12 路池下比单跑口径膨胀约 2 倍（PACDIS 单跑 113 s → 池内 227.6 s），**不要跨口径比较耗时**。
+- 复现：`matlab -batch "verify_RWMOP11WaterResource"` → `logs/RWMOP11_{runs,summary,pvalues_vs_reference}.csv`；`diagnose_rmwop11_init` → 初始化规模诊断（把"初始设计"与"搜索增益"拆开）；`python make_rmwop11_table.py` → `RESULTS.md` + `table_rmwop11.tex`（列序 = 六基线 + PACDIS，与主表一致）。等价性四重证据与诊断全文见框架目录 `VERIFICATION.md`。
+- 初始化规模事实（D=3）：REMO/PACDIS 32（`11D-1`）、CSEA 32（`min(11D-1,109)`）、PIEA 100（`Problem.N`）、PC-SAEA `_100` 100、K-RVEA `_100` 100、MCEA/D 85–100。→ 真实问题上若要与论文主表口径一致，需要对齐初始样本数（待定，用户未点头前不要动）。
+
 ## 归档约定
 - 算法级笔记/报告放对应算法目录 `notes/`，诊断放 `diagnostics/<主题>_<日期>/`；项目级周报告放 `D:\PlatEMO-master\docs\`；实验 xlsx 在 Desktop `AdaMao实验表/`。
 
