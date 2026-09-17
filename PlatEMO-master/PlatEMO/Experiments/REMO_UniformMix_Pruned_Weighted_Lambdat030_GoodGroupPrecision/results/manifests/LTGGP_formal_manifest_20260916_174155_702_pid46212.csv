@@ -1,0 +1,2 @@
+Profile,Problem,M,Run,Seed,PairedKey,File,Status,Message
+formal,DTLZ5,20,6,72006,DTLZ5_M20_run006,D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_GoodGroupPrecision\results\raw\formal\DTLZ5\M20\run_006.mat,completed,IGD=2.936990e-01; IGD+=2.151676e-01; checkpoints=67
