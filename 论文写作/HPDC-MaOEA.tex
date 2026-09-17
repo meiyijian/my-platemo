@@ -33,8 +33,6 @@
 
 % graphicx is already loaded by elsarticle.cls
 
-\newtheorem{proposition}{Proposition}
-\newtheorem{remark}{Remark}
 
 % Narrow columns: allow slightly looser lines before an overfull box.
 \tolerance=1200
@@ -276,8 +274,8 @@ REMO~\cite{ref:remo} provides a coarse membership signal, but
 representative-based grouping relies on a small set of selected reference
 solutions and does not explicitly exploit the directional distribution
 represented by the current nondominated set. PAQC complements this
-representative-based information by constructing population-adaptive directions,
-where applicable, from the current nondominated set and converting the resulting
+representative-based information by constructing population-adaptive directions
+from the current nondominated set and converting the resulting
 directional assessment into a quality priority for positive-group construction.
 A stage-dependent fusion of this priority and the representative-based binary
 label selects a prescribed fraction of the population as the positive group;
@@ -313,10 +311,9 @@ minimum, taken as the ideal point.
 
 The procedure \textsc{ContinuousPBIQualityAssessment} assesses each solution
 by a PBI value measured along a
-direction set $\mathcal{V}=\{\vv_j\}$. For low-dimensional or small-population
-cases, $\mathcal{V}$ consists of uniform reference vectors normalised to unit
-length. In the many-objective regime, the directions adapt to the current
-nondominated distribution and are formed from its radial unit vectors,
+direction set $\mathcal{V}=\{\vv_j\}$. In the considered many-objective
+setting, directions are constructed from the current nondominated solutions
+as radial unit vectors,
 \begin{equation}
 \mathcal{V}=\Bigl\{\vf^{(j)}\big/\bigl\|\vf^{(j)}\bigr\|_2
 \;\Bigm|\;j=1,\ldots,n_{\mathrm{ND}}\Bigr\},
@@ -324,8 +321,7 @@ nondominated distribution and are formed from its radial unit vectors,
 \end{equation}
 which are used directly as the adaptive direction set. Equation
 \eqref{eq:direction} makes both the number and positions of these directions
-follow the current nondominated distribution. Uniform vectors are used when the
-adaptive construction is not activated or its fallback condition is met.
+follow the current nondominated distribution.
 
 Each objective vector is associated with the direction of largest cosine
 similarity, $a(i)=\arg\max_j
@@ -348,10 +344,6 @@ S_i=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 so a larger $S_i$ indicates a smaller PBI value along the associated direction.
 The score supplies a quality-based selection priority that is combined with
 the representative-based label before training groups are assigned.
-Equations \eqref{eq:pbi}--\eqref{eq:score-cont} also fix the coordinate
-convention of the implementation: the association is computed from the original
-objective vectors, whereas the two distances are computed after translation by
-$\vz^{*}$. All experiments in this paper use this single convention.
 
 \subsubsection{Representative-Based Classification}
 \label{sec:method:paqc:coarse}
@@ -364,8 +356,9 @@ $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
 the current population by the radial-grid representative selection of
 RSEA~\cite{ref:rsea}, which is also the rule used by REMO~\cite{ref:remo}. The
 representatives are evaluated solutions that act as dynamic, population-derived
-reference points. Their number increases with the objective dimension to provide
-finer regional coverage as the many-objective geometry becomes richer.
+reference points. We set the requested representative count to
+$k=\lceil1.5M\rceil$ in the considered experiments; the implementation bounds
+are given in Section~\ref{sec:exp:settings}.
 
 Given $\mathcal{R}$, the binary group label applies the PBI partition of
 REMO~\cite{ref:remo} with the representatives as reference points. Every
@@ -422,15 +415,11 @@ assessment through $S_i$, rather than directly defining a new classification
 boundary. The reassignment of $A$ and $B$ to the positive
 group and of $C$ to its complement schematically depicts how the additional
 directional information can change selection priorities through
-\eqref{eq:fuse}--\eqref{eq:group}. Such a reversal of the ordering between
-binary-negative and binary-positive solutions requires $t<1/2$ and a
-sufficient continuous-score difference, as characterised by
-Proposition~\ref{prop:order}. PAQC therefore modifies the ranking used to form
+\eqref{eq:fuse}--\eqref{eq:group}. PAQC therefore modifies the ranking used to form
 the groups, without replacing the representative-based boundary with a new
 geometric boundary.
 
-The diagram uses two objectives to visualise the adaptive branch of the
-many-objective method; low-dimensional runs instead use uniform directions.
+The diagram uses two objectives to visualise the many-objective method.
 Setting $O=Z$ makes the radial
 construction in \eqref{eq:direction} visible as rays through $P_1$ and $P_2$.
 These two solutions are placed on the PF for illustration, whereas the
@@ -469,43 +458,10 @@ chain
 \end{equation*}
 so a change in the ranking matters insofar as it changes
 which solutions enter $\mathcal{C}_1$ and therefore which ordered pairs the
-relation model is trained on. The budget-dependent weighting connects
-fine-grained quality ranking with representative-based group priority. As the
-evaluation budget is consumed, the binary label receives increasing weight,
-while $S_i$ contributes to the selection priority used to fill the positive-group
-quota at each training step with $FE<FE_{\max}$.
-Proposition~\ref{prop:order} characterises this ordering before discretization.
-
-\begin{proposition}[Ordering induced by the hybrid score]
-\label{prop:order}
-Let $S_i\in(0,1]$ as guaranteed by \eqref{eq:score-cont} whenever
-$\vv_j\succeq\bm{0}$ and $\vf_i\succeq\vz^{*}$, so that
-$g_i^{\mathrm{PBI}}\geq0$. Then
-\begin{enumerate}[label=(\roman*),leftmargin=*,itemsep=1pt]
-\item for any pair with $L_i=L_j$,
-      $\;H_i-H_j=\alpha_t\,(S_i-S_j)$;
-\item for any pair with $L_i=1$ and $L_j=0$,
-      $\;\alpha_t\leq1/2\;\Rightarrow\;H_i>H_j$.
-\end{enumerate}
-\end{proposition}
-
-\begin{proof}
-(i) is immediate from \eqref{eq:fuse} because the term $(1-\alpha_t)L_i$
-cancels. For (ii), if $\alpha_t=0$, then $H_i=1>0=H_j$.
-For $0<\alpha_t\leq1/2$, $H_i=(1-\alpha_t)+\alpha_tS_i>1-\alpha_t$ because $S_i>0$,
-while $H_j=\alpha_tS_j\leq\alpha_t$ because $S_j\leq1$; for
-$\alpha_t\leq1/2$ we have $1-\alpha_t\geq\alpha_t$, hence $H_i>H_j$.
-\end{proof}
-
-Part~(i) shows that, within the same representative-based label class, the
-direction-aware quality priority $S_i$ refines the ordering used to fill the
-positive-group quota when the cutoff falls inside that label class.
-Part~(ii) gives the schedule a concrete interpretation. For $t<1/2$, the
-continuous score can affect selection priority across the original binary
-boundary; for $1/2\leq t<1$, binary-positive solutions take priority and $S_i$
-determines which members of the label class intersected by the cutoff are
-selected. Thus the schedule controls how continuous quality and the
-representative-based label contribute to constructing $\mathcal{C}_1$.
+relation model is trained on. Early in the search, continuous quality receives more weight in group
+construction; as the budget is consumed, representative-based membership
+becomes dominant. Whether this weighting produces better positive groups
+is to be evaluated by the group-quality analysis in Section~\ref{sec:exp:ggp}.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -844,6 +800,13 @@ The actual returned representative count can be smaller.
 No error-gate threshold or minimum-batch
 parameter is used in this version.
 
+\paragraph{Implementation details.}
+The implementation retains uniform reference vectors for low-dimensional or
+small-population cases and when adaptive direction construction is unavailable.
+For reproducibility, cosine association uses the original objective vectors,
+whereas PBI distances use vectors translated by $\vz^{*}$, as specified in
+\eqref{eq:pbi}.
+
 \paragraph{Performance indicator and statistical reporting.}
 Performance is measured by inverted generational distance (IGD), with
 smaller values indicating a better approximation to the reference Pareto
@@ -1015,8 +978,8 @@ The outcome must not be defined by the same PBI score used to construct
 the group. Coverage and stage-wise results will accompany precision so that
 missing observations and changing outcome prevalence remain visible.
 Checkpoints from one run are repeated measurements, not independent runs.
-Early, middle and late stages will be distinguished in view of the ordering
-condition in Proposition~\ref{prop:order}. If future retention or another
+Early, middle and late stages will be distinguished to examine how group
+quality changes as the weights of the two signals vary. If future retention or another
 trajectory-dependent outcome is used, GGP describes association under that
 search trajectory; it does not replace the final-performance ablation.
 \TODO{Specify the outcome and observation horizon, checkpoint schedule,
@@ -1069,8 +1032,7 @@ budget, with the PACDIS and K-RVEA medians nearly coinciding at $M=15$ and
 $M=20$. In all six panels PACDIS attains the lowest final median.
 
 
-% Keep experimental floats out of the conclusion and bibliography.
-\FloatBarrier
+% Experimental floats are queued early enough to precede the conclusion.
 \section{Conclusion}
 \label{sec:conclusion}
 \TODO{Lead with PAQC as the primary contribution: it refines
