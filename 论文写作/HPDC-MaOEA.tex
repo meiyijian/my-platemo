@@ -97,7 +97,7 @@ and selecting several top-ranked candidates can concentrate an expensive
 evaluation batch in similar decision regions. Introduce PACDIS with PBI-assisted
 quality classification (PAQC) and criterion-diversified infill selection (CDIS).
 PAQC constructs adaptive directions directly from the current nondominated
-objective vectors and uses their continuous PBI scores to supplement
+objective vectors and uses PBI-based directional quality information to supplement
 representative-based positive-group construction. CDIS provides a supporting
 batch-selection strategy. Lead the results
 with the strongest verified algorithm-level IGD comparison in the tested
@@ -137,14 +137,13 @@ directions induced by the selected representatives sufficiently reflect the
 current nondominated distribution in the original objective space?
 
 The primary contribution is PBI-assisted quality classification (PAQC).
-PAQC supplements the representative-based grouping signal with adaptive
-directions constructed directly from current nondominated objective vectors.
-Continuous PBI assessment along these directions introduces distribution
-information that does not pass through the two-dimensional radial grid.
-The resulting quality scores are fused with the original binary labels to
-construct the positive training group while retaining REMO's three-class
-relation-learning scheme. This design aims to complement the information
-supplied by the representatives; it does not reconstruct the projected geometry.
+PAQC supplements REMO's representative-based grouping with PBI-based quality
+information from directions constructed directly from current nondominated
+objective vectors. These directions supply distribution information from the
+original objective space without passing through the two-dimensional radial grid.
+PAQC combines this directional quality information with the original binary
+labels to construct the positive training group, retaining REMO's three-class
+relation-learning scheme~\cite{ref:remo}.
 To support the use of these predictions,
 criterion-diversified infill selection (CDIS) provides two batch-selection
 criteria within an explicit evaluation cap. One constructs a spatially
@@ -167,7 +166,7 @@ regression on every objective becomes unattractive when $M$ grows.}
 training groups or pairwise labels, then position the present work as
 group construction that supplements directions induced by radially selected
 representatives with directions obtained directly from the current nondominated
-set. Explain how continuous PBI scores and the original binary labels jointly
+set. Explain how directional quality information and the original binary labels jointly
 determine training-group membership.}
 
 \subsection{Quality Assessment and Candidate Selection}
@@ -195,10 +194,11 @@ We propose PACDIS, a surrogate-assisted many-objective evolutionary
 algorithm centred on improving the supervision interface through PAQC,
 with CDIS providing a supporting expensive-evaluation selection strategy.
 \emph{PBI-assisted quality classification} (PAQC) augments the
-grouping signal induced by radially selected representatives with continuous
-PBI quality information from directions constructed directly from the current
-nondominated set in the original objective space. The two signals
-are fused to determine which solutions enter the positive training group.
+representative-based grouping of REMO~\cite{ref:remo} with PBI-based quality
+information from directions constructed directly from the current nondominated
+set. This additional source enriches the distribution information available for
+relation-group construction. PAQC fuses the two signals to determine which
+solutions enter the positive training group.
 \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided
 candidate generation but uses either indicator-based reranking or
 quality-guided batch diversification to choose the final expensive-evaluation
@@ -289,22 +289,23 @@ relation-guided candidate search and criterion-dependent infill branches.
 \subsection{PBI-Assisted Quality Classification (PAQC)}
 \label{sec:method:paqc}
 
-Relation learning requires training groups constructed from evaluated solutions.
-In REMO~\cite{ref:remo}, these groups are induced by representatives selected
-through RSEA's two-dimensional radial grid~\cite{ref:rsea}. Although the
-selected representatives retain their original objective vectors, their
-selection is guided by the projected distribution. Their induced directions
-may therefore leave some structure of the current high-dimensional
-nondominated distribution insufficiently represented.
+Relation learning requires training groups that reflect the quality of evaluated
+solutions. REMO~\cite{ref:remo} derives its grouping signal from a small set of
+representatives selected through RSEA's two-dimensional radial grid~\cite{ref:rsea}.
+These representatives retain their original objective vectors, but the projected
+distribution guides their selection. This sparse summary may not fully reflect
+the directional distribution of the current nondominated solutions in the
+original many-objective space.
 
-PAQC complements this information by constructing adaptive directions directly
-from the current nondominated objective vectors and assessing the evaluated
-population with continuous PBI scores along those directions. This additional
-assessment bypasses the two-dimensional selection grid. A stage-dependent
-fusion of these scores and the representative-based binary labels selects a
-prescribed fraction of the population as the positive group; the remaining
-solutions form its complement. The representative-based grouping signal and
-the three-class relation-label scheme are retained.
+PAQC supplements this representative-based grouping signal with quality
+information derived directly from the current nondominated solutions.
+It constructs reference directions from their original objective vectors,
+bypassing radial-grid representative selection, and uses PBI to assess evaluated
+solutions along these directions. A stage-dependent fusion combines the
+directional quality information with the original representative-based labels.
+The highest-ranked fraction forms the positive training group, and the remaining
+solutions form its complement. PAQC thus retains REMO's representative-based
+signal while adding another information source for relation-group construction.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -329,22 +330,24 @@ For PAQC, $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$ is the
 current population, with $N=|\mathcal{P}|$, and $\vz^{*}=\min_i\vf_i$ the component-wise population
 minimum, taken as the ideal point.
 
-\subsubsection{Continuous PBI Quality Assessment}
+\subsubsection{Quality Assessment Using Nondominated-Derived Directions}
 \label{sec:method:paqc:cont}
 
-The procedure \textsc{ContinuousPBIQualityAssessment} assesses each solution
-by a PBI value measured along a
-direction set $\mathcal{V}=\{\vv_j\}$. In the considered many-objective
-setting, directions are constructed from the current nondominated solutions
-as radial unit vectors,
+The current nondominated solutions provide the additional directional information.
+Let $\{\vf^{(j)}\}_{j=1}^{n_{\mathrm{ND}}}$ denote the objective vectors of
+the first nondominated front. PAQC normalises these original objective vectors
+to construct the reference-direction set $\mathcal{V}=\{\vv_j\}$:
 \begin{equation}
 \mathcal{V}=\Bigl\{\vf^{(j)}\big/\bigl\|\vf^{(j)}\bigr\|_2
-\;\Bigm|\;j=1,\ldots,n_{\mathrm{ND}}\Bigr\},
+\;\Bigm|\;j=1,\ldots,n_{\mathrm{ND}}\Bigr\}.
 \label{eq:direction}
 \end{equation}
-which are used directly as the adaptive direction set. Equation
-\eqref{eq:direction} makes both the number and positions of these directions
-follow the current nondominated distribution.
+The number and orientations of these directions follow the current nondominated
+distribution in the original objective space. This construction uses the
+nondominated vectors directly, without radial-grid representative selection.
+When the adaptive construction is not applicable, PAQC uses uniformly distributed
+reference directions as a fallback. This includes $M\leq3$, $N<50$, too few
+nondominated solutions, or a degenerate objective range in the nondominated set.
 
 Each objective vector is associated with the direction of largest cosine
 similarity, $a(i)=\arg\max_j
@@ -359,25 +362,22 @@ g_i^{\mathrm{PBI}}&=d_{1,i}+\theta\,d_{2,i},
 \end{aligned}
 \label{eq:pbi}
 \end{equation}
-with penalty $\theta$. The continuous quality score is the decreasing transform
+with penalty $\theta$. PAQC maps this PBI value to a bounded quality signal:
 \begin{equation}
 S_i=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 \label{eq:score-cont}
 \end{equation}
 so a larger $S_i$ indicates a smaller PBI value along the associated direction.
-The score supplies a quality-based selection priority that is combined with
-the representative-based label before training groups are assigned.
+This transformation expresses the directional assessment as a bounded signal
+for fusion with the representative-based label during group construction.
 
-\subsubsection{Representative-Based Classification}
+\subsubsection{Representative-Based Grouping Signal}
 \label{sec:method:paqc:coarse}
 
-The binary label produced by \textsc{RepresentativeBasedClassification}
-provides the grouping signal induced by the radially selected representatives,
-while the adaptive-direction score adds quality information from the current
-nondominated distribution in the original objective space. This signal is derived from a small set
-$\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions, selected from
-the current population by the radial-grid representative selection of
-RSEA~\cite{ref:rsea}, which is also the rule used by REMO~\cite{ref:remo}. The
+PAQC retains the representative-based grouping signal used in REMO~\cite{ref:remo}.
+RSEA's radial-grid selection~\cite{ref:rsea} supplies a small set
+$\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions from the current
+population. These representatives induce the original binary grouping signal. The
 representatives are evaluated solutions that act as dynamic, population-derived
 reference points. We set the requested representative count to
 $k=\lceil1.5M\rceil$ in the considered experiments; the implementation bounds
@@ -402,13 +402,13 @@ representative a solution lies. Following REMO, the class-balance variable
 $\delta$ is adjusted by bounded bisection so that the boundary maintains useful
 occupancy on both sides across changing population states.
 
-\subsubsection{Hybrid Score and Positive-Group Construction}
+\subsubsection{Complementary-Signal Fusion for Positive-Group Construction}
 \label{sec:method:paqc:hybrid}
 
 The representative-based label describes membership relative to the selected
-reference solutions, while the adaptive-direction score adds a continuous
-quality assessment based directly on the current nondominated distribution. The two signals are combined by a
-weight that follows the consumption of the expensive budget. With
+reference solutions, while the nondominated-derived directions supply additional
+quality information from the original objective space. PAQC combines these two
+information sources with a weight that follows consumption of the expensive budget. With
 $t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality score of solution $i$ is
 \begin{equation}
 H_i=\alpha_t S_i+(1-\alpha_t)L_i ,
@@ -462,7 +462,7 @@ $\lceil r_gN\rceil$ members.
 \Require evaluated population $\mathcal{P}$, progress $t$
 \Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
 \State Construct $\mathcal{V}$ and associate solutions by cosine similarity
-\State Compute continuous PBI quality $S_i$ by \eqref{eq:pbi}--\eqref{eq:score-cont}
+\State Compute directional quality signal $S_i$ by \eqref{eq:pbi}--\eqref{eq:score-cont}
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
 \State Obtain representative-based labels $L_i$ by \eqref{eq:label-bin}
 \State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
@@ -472,20 +472,20 @@ $\lceil r_gN\rceil$ members.
 \end{algorithmic}
 \end{algorithm}
 
-The hybrid score connects quality assessment to relation learning through the
+The fusion connects the two information sources to relation learning through the
 chain
 \begin{equation*}
 \begin{aligned}
-&\text{quality score}\;\rightarrow\;\text{positive-group construction}\\
+&\text{signals }(S,L)\;\rightarrow\;\text{positive-group construction}\\
 &\qquad\rightarrow\;\text{relation-pair construction},
 \end{aligned}
 \end{equation*}
 so a change in the ranking matters insofar as it changes
 which solutions enter $\mathcal{C}_1$ and therefore which ordered pairs the
-relation model is trained on. Early in the search, continuous quality receives more weight in group
-construction; as the budget is consumed, representative-based membership
-becomes dominant. Whether this weighting produces better positive groups
-is to be evaluated by the group-quality analysis in Section~\ref{sec:exp:ggp}.
+relation model uses for training. Early in the search, directional quality
+receives more weight in group construction; as the search consumes the budget,
+representative-based membership becomes dominant. The group-quality analysis in
+Section~\ref{sec:exp:ggp} will examine whether this weighting improves positive-group quality.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -1062,11 +1062,11 @@ $M=20$. In all six panels PACDIS attains the lowest final median.
 % Experimental floats are queued early enough to precede the conclusion.
 \section{Conclusion}
 \label{sec:conclusion}
-PAQC supplements representative-based grouping with continuous PBI information
+PAQC supplements REMO's representative-based grouping with PBI-based quality information
 from directions constructed directly from the current nondominated set.
 The motivation is that representatives selected through a two-dimensional
 radial grid may not fully reflect the distribution in the original
-high-dimensional objective space. The additional information is used to form
+high-dimensional objective space. PAQC combines the two information sources to form
 the positive training group, while CDIS supports batch selection under a limited
 evaluation budget.
 
