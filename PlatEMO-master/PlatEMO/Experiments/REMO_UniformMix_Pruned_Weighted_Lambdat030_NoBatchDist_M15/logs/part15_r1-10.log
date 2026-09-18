@@ -1,0 +1,18 @@
+==== part 15/16 start 2026-09-18 15:20:49 ====
+[2026-09-18 15:20:49] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 15:20:58] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 15:20:58] SaveCount 30 | Runs 10 | M 15 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=21760912)
+[2026-09-18 15:20:58] Slice 15/16 -> 1 problems: WFG8
+[2026-09-18 15:20:58] --- WFG8 (global #15): M=15 D=30 maxFE=300 ---
+[2026-09-18 15:26:32] [done] WFG8 run 1 | IGD first 16.328 -> final 12.3666 | runtime 331.9s | wall 333.5s | ok
+[2026-09-18 15:31:32] [done] WFG8 run 2 | IGD first 15.693 -> final 10.1813 | runtime 298.9s | wall 300.3s | ok
+[2026-09-18 15:36:54] [done] WFG8 run 3 | IGD first 16.3811 -> final 11.146 | runtime 321.0s | wall 322.2s | ok
+[2026-09-18 15:42:37] [done] WFG8 run 4 | IGD first 16.9689 -> final 11.651 | runtime 340.9s | wall 342.2s | ok
+[2026-09-18 15:48:07] [done] WFG8 run 5 | IGD first 17.2525 -> final 12.1437 | runtime 329.5s | wall 330.9s | ok
+[2026-09-18 15:53:13] [done] WFG8 run 6 | IGD first 17.1073 -> final 10.3433 | runtime 304.4s | wall 305.6s | ok
+[2026-09-18 15:58:10] [done] WFG8 run 7 | IGD first 16.8745 -> final 11.5831 | runtime 295.4s | wall 296.7s | ok
+[2026-09-18 16:02:48] [done] WFG8 run 8 | IGD first 16.1054 -> final 12.1373 | runtime 277.2s | wall 278.4s | ok
+[2026-09-18 16:07:30] [done] WFG8 run 9 | IGD first 15.6624 -> final 10.2402 | runtime 280.7s | wall 281.9s | ok
+[2026-09-18 16:11:50] [done] WFG8 run 10 | IGD first 16.1998 -> final 11.5887 | runtime 258.4s | wall 259.4s | ok
+[2026-09-18 16:11:50] ==== part 15/16 done: 10 runs (0 skipped) in 3051.4 s (0.8 h) ====
+[2026-09-18 16:11:50] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M15\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part15of16.csv
