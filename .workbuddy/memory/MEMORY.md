@@ -2,7 +2,11 @@
 
 > 本文件只留最高频、最致命的条目；完整细节（环境、坑位、实验框架、数据集、论文）已归档到同目录 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-17 11:00）
+## 现在在哪（截至 2026-09-18 24:00）
+- **M=20 新消融：REMO_noBatchDict_noCDIS / _noPAQC —— 🔄 进行中（2026-09-18 23:57 启动，640 跑）**。两算法 × 16 题（DTLZ1-7+WFG1-9）× 20 跑，M=20/D=30/N=100/maxFE=300/SaveCount=30，种子同既有 20 目标数据集（SeedBase=22260912，`base+1000*题号+run`，**逐跑配对**）。数据 `D:\REMOandDREMO测试集\20目标\REMO_noBatchDict_{noCDIS,noPAQC}\`（各 320）。框架 `PlatEMO/Experiments/REMO_noBatchDict_Ablation_M20/`（driver/missing_runs/verify/probe_k/smoke）。参数：noCDIS `{gmax,rGood,qKeep,nMax}`=`{3000,0.25,0.70,6}`；noPAQC `{gmax,pMix,qKeep,nMax}`=`{3000,0.50,0.70,6}`。
+  - 🔴 **`k` 已经是 1.5M，源码未改**：两者都是 `k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)))`，M=20 → k=30（`probe_M20_k.m` 在真实 Problem 上实测 16/16 精确 1.5×M）。WFG2/WFG3 在 M=20 时**真实 D=31**。
+  - 🔴 **harness `'Runs'` 标量会被展开成 `1:Runs`**：要跑单个 run 必须传向量（如 `[99]`）。冒烟实测单跑 wall：noCDIS ≈ 318 s、noPAQC ≈ 355 s（4 路并行）→ 12 路并行下 640 跑预计 ~6.5–7.5 h。
+
 - **RWMOP11 真实问题实验（新增主线）：✅ 完成 140/140**。七个算法 = PACDIS + 论文六基线（REMO/PIEA/CSEA/PC-SAEA/K-RVEA/MCEA-D），**全部统一注入标准 feasibility-first 规则（CDP）**；M=5、D=3、N=100、maxFE=300、20 跑、threads=1。数据 `D:\REMOandDREMO测试集\5目标\n3\<算法>_CDP\`（`result`+`metric{HV,Feasible_rate,runtime}`）；框架在 `PlatEMO/Experiments/RWMOP11_WaterResource/`（**该目录在 .gitignore 内、不受版本控制**，与 pMixSweep 同例；含 README/VERIFICATION/RESULTS/LaTeX 表）。
   - **结果（20 跑均值）**：HV = CSEA 0.0986 > REMO 0.0973 > K-RVEA 0.0954 > PIEA 0.0952 > MCEA/D 0.0919 > PC-SAEA 0.0888 > **PACDIS 0.0878（垫底，与各基线秩和 p≤1e-5 或 0.29）**；可行率 = REMO 0.933 > MCEA/D 0.914 > PC-SAEA 0.904 > **PACDIS 0.864** > K-RVEA 0.846 > CSEA 0.816 > PIEA 0.670。
   - 🔴 **必须与初始规模一起读**：D=3 时 REMO 族（含 PACDIS）初始只有 32 点（`11D-1`），其余算法 100 点 → 初始 HV 起点差 27%（0.0578 vs 0.0730）；两组终态 HV 均值几乎相同（0.0946 vs 0.0928），但 32 点组搜索增益近两倍（+0.0368 vs +0.0198）。同起点组内 PACDIS 增益（+0.0300）仍低于 REMO（+0.0395）/CSEA（+0.0409）。
