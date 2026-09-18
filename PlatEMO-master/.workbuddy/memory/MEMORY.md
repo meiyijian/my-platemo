@@ -55,6 +55,16 @@
 - **λ 不是有效旋钮**（2026-09-15 配对实验，DTLZ2/4/5/7 全不显著）：λ 增大只放大既有差异（DTLZ7 优势与 DTLZ4 劣势同时被放大），别再调 λ，除非先上 n≥25
 - 跨臂比较**先统一 runId 集合再算**（混用 18/20/30 跑会改结论）
 
+## GoodGroupPrecision（GGP）实验坐标
+- 三臂同协议（N=100、请求 D=30、maxFE=500、25 跑、种子 `problemIndex*10000 + M*100 + run`、视图 {`score_hybrid`,`score_v`,`anchor_margin`} × 真值 {`population_h1/h3/final`,`front_h1/h3/final`} × 4 阶段 × top25 配额）：
+  - A `Experiments\REMO_new2_AdaMaO_GoodGroupPrecision`：10 题 × M10/20 = 500 跑（qKeep 0.80、lambda0 0.35）；结论文档在 `results\analysis\formal\expansion_audit_20260906\`（「新增数据集分析」「复算补充」两篇）
+  - B `Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_GoodGroupPrecision`：DTLZ2/4/5 × M10/20 = 150 跑（qKeep 0.70、λ_t=0.30）；跨臂脚本 `compare_LTGGP_vs_PWGGP.m`
+  - C PWGGP（λ_t=0.50）**原始目录已丢失**，只剩 B 的 `results\analysis\crossArm\LTGGP_vs_PWGGP_Paired.csv`（40 行，无逐 run 值）
+- 核心结论（写论文用）：hybrid 相对 `score_v` 的优势**只在 `population_*` 真值上为正**，`front_*` 上为负 → 聚合口径胜格率只有 42–43%，与主口径逐阶段表（hybrid−v 在 S1 最强后单调衰减）看似矛盾，必须显式交代真值族
+- A 反例：WFG 四题 excess −10.46 pp（池化 10 问题 −1.43 pp），B 未覆盖 → B 的「结论类似」不能给 A 的 WFG 反例背书
+- λ 维度：λ0.30 的 IGD 更好但 hybrid Precision 全面更低 → 「标签质量」与「最终 IGD」反向，与「视图排序质量与最终 IGD+ 无显著关联」同源
+- 对拍报告归档：`AdaMao实验表\GoodGroupPrecision_跨版本对拍\`；脚本 `.workbuddy\run_scripts\ggp_cross_version_compare{,2}.py`
+
 ## 论文资产
 - 主文 `论文写作\HPDC-MaOEA.tex`（`elsarticle [final,5p,times,twocolumn]`，**textwidth = 522pt**）；`HPDC-MaOEA_1param.tex` 与主文**共用**主性能表两张 tex
 - 主性能表不内联（`\input{experiments/main_performance/table_dtlz|table_wfg}`），数据只能由 `build_tables.py --source-dir <xlsx>` 生成（换源只改脚本 `OURS`/`FILES`）；正文数字全部派生自同目录 `summary.json`，必须一起改并重验定性断言 → skill `paper-main-table-refresh`
