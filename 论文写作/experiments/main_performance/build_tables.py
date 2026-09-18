@@ -14,9 +14,15 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OURS = "REMO_UniformMix_Pruned_Weighted_Lambdat030"
-FILES = {10: "lambdat030十目标.xlsx", 15: "lambdat030十五目标.xlsx", 20: "lambdat030二十目标.xlsx"}
+OURS = "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+FILES = {10: "lambdat030nobatch十目标IGDp.xlsx", 15: "lambdat030nobatch十五目标IGDp.xlsx",
+         20: "lambdat030nobatch二十目标IGDp.xlsx"}
+SHEET = "IGDp"
 ORDER = ["REMO", "PIEA", "CSEA", "PC-SAEA", "K-RVEA", "MCEA/D", "PACDIS"]
+# The source workbooks carry both the original Lambdat030 column and the
+# NoBatchDist variant; only the latter is the proposed method of this version.
+# Lambdat030 is deliberately absent here so that it is ignored, exactly as the
+# Pruned_Weighted and Original columns were ignored before.
 ALIASES = {"REMO": "REMO", "PIEA": "PIEA", "CSEA": "CSEA",
            "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",
            "KRVEA": "K-RVEA", "KRVEA_100": "K-RVEA",
@@ -27,16 +33,17 @@ CELL = re.compile(r"^\s*([\d.]+e[+-]\d+)\s*\(([\d.]+e[+-]\d+)\)\s*([+=-])?\s*$",
 
 def extract(source):
     from openpyxl import load_workbook
-    records, manifest = [], {"excluded_algorithm": "R2AEA", "sources": []}
+    records, manifest = [], {"excluded_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+                             "sources": []}
     for m in [10, 15, 20]:
         path = source / FILES[m]
         content = path.read_bytes()
         wb = load_workbook(path, data_only=True)
-        ws = wb["IGD"]
+        ws = wb[SHEET]
         headers = {str(c.value): c.column for c in ws[1] if c.value is not None}
         assert set(ALIASES[h] for h in headers if h in ALIASES) == set(ORDER)
         info = {"filename": path.name, "source_path": str(path.resolve()), "sha256": hashlib.sha256(content).hexdigest(),
-                "sheet": "IGD", "M": m, "reference_algorithm": OURS,
+                "sheet": SHEET, "M": m, "reference_algorithm": OURS,
                 "headers": list(headers), "metadata": [], "exported_summary": {}}
         for row in range(2, 18):
             problem = ws.cell(row, headers["Problem"]).value
@@ -56,7 +63,7 @@ def extract(source):
                 records.append({"M": m, "problem": problem, "algorithm": ALIASES[header],
                                 "source_algorithm": header, "mean": mean, "std": std,
                                 "symbol": symbol or "", "source_file": path.name,
-                                "source_sheet": "IGD", "source_cell": cell.coordinate,
+                                "source_sheet": SHEET, "source_cell": cell.coordinate,
                                 "raw": cell.value})
         for header, col in headers.items():
             if header in ALIASES and header != OURS:
@@ -111,7 +118,7 @@ def main():
             totals[algorithm] = [counts["+"], counts["-"], counts["="]]
         lines = ["% Generated from igd_snapshot.csv by build_tables.py.",
                  r"\begin{table*}[tp]", r"\centering",
-                 rf"\caption{{Comparison of IGD values on {suite}1--{len(problems)}.}}",
+                 rf"\caption{{Comparison of IGD$+$ values on {suite}1--{len(problems)}.}}",
                  rf"\label{{tab:exp:{suite.lower()}}}", r"\footnotesize",
                  r"\setlength{\tabcolsep}{4pt}", r"\renewcommand{\arraystretch}{1.08}",
                  r"\begin{tabular}{@{}>{\centering\arraybackslash}m{32pt}>{\centering\arraybackslash}m{14pt}*{7}{>{\centering\arraybackslash}m{\dimexpr(\textwidth-110pt)/7\relax}}@{}}",
