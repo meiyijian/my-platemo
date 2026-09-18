@@ -42,3 +42,8 @@ agent-skills/
 # 论文写作临时目录：编译产物与核对截图
 # （tmp/pseudocode_audit/ 已入库，不受此规则影响）
 论文写作/tmp/
+
+# Python cache
+__pycache__/
+*.pyc
+
