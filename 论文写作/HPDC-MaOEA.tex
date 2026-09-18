@@ -117,40 +117,80 @@ infill selection
 \section{Introduction}
 \label{sec:intro}
 
-\TODO{Use a four-move opening: expensive many-objective relation learning; the
-potential loss of high-dimensional distribution information when grouping relies
-on representatives selected through two-dimensional radial projection, and
-possible within-batch concentration under relation-score-only selection; PAQC as the
-primary contribution and CDIS as its supporting selection strategy; and algorithm-level performance followed by evidence explaining
-group construction and candidate selection. Present the two mechanisms as
-complementary design roles in one algorithm. Do not lead with selection-overlap
-statistics or imply that the relation network learns a within-group ordering.}
+Expensive many-objective optimization problems (MaOPs) arise in many real-world
+applications where each objective evaluation is computationally or economically
+prohibitive, limiting the number of real function evaluations to a small budget.
+Conventional many-objective evolutionary algorithms (MaOEAs) typically require
+tens of thousands of evaluations, making them impractical in such scenarios.
+Surrogate-assisted evolutionary algorithms (SAEAs) alleviate this burden by
+approximating objective functions or other performance
+indicators~\cite{ref:krvea,ref:csea,ref:pcsaea}. However, building and
+maintaining accurate objective-wise regression models becomes increasingly
+challenging as the number of objectives grows, especially when only a limited
+number of expensive samples are available. Relation learning offers an
+alternative: instead of recovering absolute objective values, it learns the
+relative quality of pairs of solutions~\cite{ref:remo}. This paradigm has shown
+promise in expensive multi-objective optimization. However, its effectiveness is
+influenced not only by the relation model itself, but also by how supervision is
+constructed and how its predictions are converted into expensive evaluations.
 
 REMO~\cite{ref:remo} constructs its training groups from a small set of
-representative solutions selected using the radial-space mechanism of
+representative solutions selected by the radial-space mechanism of
 RSEA~\cite{ref:rsea}. RSEA projects high-dimensional objective vectors into a
-two-dimensional radial space, where grid division supports efficient selection.
-Its authors acknowledge that this reduction loses curvature information and
-design a selection strategy to mitigate its impact~\cite{ref:rsea}.
-For representative-based grouping, this motivates a further question: do the
-directions induced by the selected representatives sufficiently reflect the
-current nondominated distribution in the original objective space?
+two-dimensional radial space and uses grid division for efficient selection.
+Although this reduction enables efficient representative selection, the
+resulting representative set is a sparse summary of the population.
+Consequently, relying exclusively on these representatives to form training
+groups may underuse the directional information provided by the current
+nondominated solutions in the original objective space. To address this
+limitation, we propose PBI-assisted quality classification (PAQC). PAQC derives
+nondominated-derived directional quality information directly from the current
+nondominated objective vectors using PBI, without relying on radial-grid
+representative selection. It then fuses this directional quality information
+with representative-based binary labels to enrich the information used to
+construct the positive training group. In this way, PAQC enriches the
+supervision signal for relation learning while retaining REMO's three-class
+relation-learning scheme. A stage-dependent fusion strategy is further used to
+adjust the influence of the two signals over the course of optimization.
 
-The primary contribution is PBI-assisted quality classification (PAQC).
-PAQC supplements REMO's representative-based grouping with PBI-based quality
-information from directions constructed directly from current nondominated
-objective vectors. These directions supply distribution information from the
-original objective space without passing through the two-dimensional radial grid.
-PAQC combines this directional quality information with the original binary
-labels to construct the positive training group, retaining REMO's three-class
-relation-learning scheme~\cite{ref:remo}.
-To support the use of these predictions,
-criterion-diversified infill selection (CDIS) provides two batch-selection
-criteria within an explicit evaluation cap. One constructs a spatially
-dispersed batch from candidates screened by relation quality; the other
-reranks a relation-screened subset using a predicted indicator. This supporting
-strategy combines relation-quality screening, a fixed prediction-ambiguity
-reward, and batch diversification without introducing an error-dependent gate.
+Once a relation model is trained, its predictions must be converted into a small
+batch of candidates for real evaluation. Selecting multiple candidates solely by
+their relation scores may concentrate the batch in similar decision regions,
+reducing within-batch diversity and potentially resulting in redundant expensive
+evaluations. To support the relation-learning framework, we propose
+criterion-diversified infill selection (CDIS). CDIS first screens candidates
+using relation quality and then applies either a diversified exploration
+criterion or an indicator-based reranking criterion to select the final batch.
+The exploration-oriented criterion encourages decision-space dispersion within
+the selected batch, while the indicator-oriented criterion reranks a
+relation-screened subset using a predicted indicator. Both criteria operate
+under a limited evaluation budget. CDIS is designed as a supporting selection
+mechanism rather than a replacement for the relation-learning framework.
+
+Integrating PAQC and CDIS into a relation-learning host algorithm yields PACDIS,
+a surrogate-assisted many-objective evolutionary algorithm for expensive
+optimization. The main contributions of this work are threefold. First, we
+propose PAQC, which supplements representative-based grouping with
+nondominated-derived directional quality information, enriching the supervision
+used to construct positive training groups for relation learning. Second, we
+propose CDIS, a supporting batch-selection strategy that balances predicted
+quality, prediction ambiguity, and within-batch diversity under a limited
+evaluation budget. Third, we conduct extensive experiments on DTLZ and WFG
+benchmarks with 10, 15, and 20 objectives, comparing PACDIS with six
+representative surrogate-assisted algorithms. The results show competitive
+overall performance on the tested settings, with particularly consistent
+advantages on WFG7 and WFG8 across all three objective counts, while PIEA
+remains stronger on several DTLZ instances. Ablation studies show that both PAQC
+and CDIS contribute to the overall performance, and diagnostic analyses provide
+insight into group composition and candidate-batch behavior.
+
+The remainder of this paper is organized as follows.
+Section~\ref{sec:related} reviews related work on surrogate-assisted expensive
+optimization, relation learning, and candidate selection.
+Section~\ref{sec:method} details the proposed PACDIS, including PAQC, relation
+learning on the constructed groups, and CDIS. Section~\ref{sec:exp} presents the
+experimental studies and discussion. Section~\ref{sec:conclusion} concludes the
+paper and outlines future work.
 
 \section{Related Work}
 \label{sec:related}
