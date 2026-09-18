@@ -36,11 +36,17 @@ function ComputeAndMergeIGDp_SingleAlg(alg, M, workers)
     assert(isfolder(rawDir), 'Missing algorithm folder: %s', rawDir);
     if ~isfolder(outDir), mkdir(outDir); end
 
-    pool = gcp('nocreate');
-    if isempty(pool), pool = parpool('Processes', workers); end
-    fprintf('Algorithm : %s\nM = %d\nUsing %d workers.\n', alg, M, pool.NumWorkers);
-    setup = parfevalOnAll(pool, @() addpath(genpath(platform)), 0);
-    fetchOutputs(setup);
+    fprintf('Algorithm : %s\nM = %d\n', alg, M);
+    pool = [];
+    if workers > 1
+        pool = gcp('nocreate');
+        if isempty(pool), pool = parpool('Processes', workers); end
+        fprintf('Using %d process workers.\n', pool.NumWorkers);
+        setup = parfevalOnAll(pool, @() addpath(genpath(platform)), 0);
+        fetchOutputs(setup);
+    else
+        fprintf('Serial mode (no pool).\n');
+    end
 
     nWritten = 0; nSkipped = 0; nChecked = 0; nFile = 0;
     tAll = tic;
@@ -89,20 +95,14 @@ function ComputeAndMergeIGDp_SingleAlg(alg, M, workers)
         % Shipping that as a broadcast variable to every worker is what killed
         % the pool there, so each worker builds its own problem instead: the
         % construction costs ~0.3 s and needs no transfer at all.
-        parfor i = 1:nRuns
-            S = load(files{i});
-            proW = feval(prob, 'M', M, 'D', D, 'N', 100, 'maxFE', 300);
-            optW = proW.optimum;
-            r = S.result; n = size(r, 1);
-            gp = nan(1, n); fe = nan(1, n);
-            for k = 1:n
-                % IGDpFast is block-wise but numerically identical to the stock
-                % metric (verified relDiff = 0). The stock version allocates a
-                % temporary per reference point, which is hopeless at 524288.
-                gp(k) = IGDpFast(r{k,2}, optW);
-                fe(k) = r{k,1};
+        if workers > 1
+            parfor i = 1:nRuns
+                [IGDpCell{i}, FECell{i}] = ComputeOneRun(files{i}, prob, M, D);
             end
-            IGDpCell{i} = gp; FECell{i} = fe;
+        else
+            for i = 1:nRuns
+                [IGDpCell{i}, FECell{i}] = ComputeOneRun(files{i}, prob, M, D);
+            end
         end
         IGDpFinal = cellfun(@(v) v(end), IGDpCell);
 
@@ -138,4 +138,27 @@ function ComputeAndMergeIGDp_SingleAlg(alg, M, workers)
     end
     fprintf('\nDONE: products %d, raw written %d, skipped %d, verified %d, %.1f min\n', ...
         nFile, nWritten, nSkipped, nChecked, toc(tAll)/60);
+end
+
+function [gp, fe] = ComputeOneRun(file, prob, M, D)
+%ComputeOneRun IGD+ trace of a single run, reusing the stored one when valid.
+    S = load(file);
+    r = S.result;
+    n = size(r, 1);
+    fe = cell2mat(r(:, 1))';
+    if isfield(S.metric, 'IGDp') && numel(S.metric.IGDp) == n
+        % A run that already carries a trace of the right length is reused:
+        % recomputing it is pure risk, and on DTLZ7 (524288 reference points)
+        % that risk is what killed the pool six times.
+        gp = S.metric.IGDp(:)';
+        return;
+    end
+    proW = feval(prob, 'M', M, 'D', D, 'N', 100, 'maxFE', 300);
+    optW = proW.optimum;
+    gp = nan(1, n);
+    for k = 1:n
+        % IGDpFast is block-wise but numerically identical to the stock metric
+        % (verified relDiff = 0).
+        gp(k) = IGDpFast(r{k,2}, optW);
+    end
 end

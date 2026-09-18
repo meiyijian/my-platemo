@@ -100,7 +100,7 @@ PAQC constructs adaptive directions directly from the current nondominated
 objective vectors and uses PBI-based directional quality information to supplement
 representative-based positive-group construction. CDIS provides a supporting
 batch-selection strategy. Lead the results
-with the strongest verified algorithm-level IGD comparison in the tested
+with the strongest verified algorithm-level IGD$^+$ comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
 componentwise tests in the experimental section.}
@@ -832,7 +832,7 @@ whereas PBI distances use vectors translated by $\vz^{*}$, as specified in
 \eqref{eq:pbi}.
 
 \paragraph{Performance indicator and statistical reporting.}
-Performance is measured by inverted generational distance (IGD), with
+Performance is measured by inverted generational distance plus (IGD$^+$), with
 smaller values indicating a better approximation to the reference Pareto
 front. Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} group the results by
 problem, with three rows for $M=10$, 15 and 20. Each entry reports the mean
@@ -855,27 +855,27 @@ was used before finalizing the statistical protocol.}
 \label{sec:exp:comparison}
 
 Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the supplied results
-for the simplified weighted implementation. PACDIS has the lowest mean IGD
-on 3, 3 and 4 of the 16 problems at $M=10$, 15 and 20, respectively.
+for the simplified weighted implementation. PACDIS has the lowest mean IGD$^+$
+on 4, 2 and 3 of the 16 problems at $M=10$, 15 and 20, respectively.
 These best means occur on WFG7 and WFG8 at all three objective counts,
-additionally on WFG1 at 10 and 20 objectives and on WFG6 at 15 and 20
+additionally on WFG1 and WFG2 at 10 objectives and on WFG6 at 20
 objectives.
 
 \input{experiments/main_performance/table_dtlz}
 \input{experiments/main_performance/table_wfg}
 
-The REMO columns have $+/-/=$ counts of 2/10/4, 5/9/2 and 3/9/4
+The REMO columns have $+/-/=$ counts of 1/10/5, 2/9/5 and 3/8/5
 at $M=10$, 15 and 20. CSEA, PC-SAEA, K-RVEA and MCEA/D also have
 more reported losses than wins against PACDIS in each objective setting.
 The comparison with PIEA is less favorable: its corresponding counts are
-7/5/4, 6/6/4 and 6/7/3. Thus, the results indicate competitive performance
+7/6/3, 7/6/3 and 5/7/4. Thus, the results indicate competitive performance
 against the selected baselines, with a stronger pattern on WFG than DTLZ;
 they do not establish overall superiority to PIEA.
 
-PIEA has a lower mean IGD than PACDIS on DTLZ5 and DTLZ6 at all three
+PIEA has a lower mean IGD$^+$ than PACDIS on DTLZ5 and DTLZ6 at all three
 objective counts, and MCEA/D has the lowest mean on DTLZ3 at 15 and 20
-objectives. WFG3 is another persistent weakness: REMO, PIEA, CSEA, PC-SAEA
-and MCEA/D all have lower means than PACDIS in the three settings.
+objectives. WFG3 is another persistent weakness: REMO, PIEA, CSEA and MCEA/D
+all have lower means than PACDIS in the three settings.
 K-RVEA remains stronger on DTLZ7. These counterexamples delimit the
 performance claim and motivate component-level evidence rather than an
 assumption that the complete-algorithm results demonstrate PAQC's effect.
@@ -1033,7 +1033,7 @@ The pairwise annotations nevertheless show a more stable pattern for the equal-p
 
 Figure~\ref{fig:exp:convergence} reports the median IGD trajectories of
 PACDIS and the six baselines on WFG7 and WFG8, the two problems on which
-PACDIS holds the lowest mean IGD at all three objective counts in
+PACDIS holds the lowest mean IGD$^+$ at all three objective counts in
 Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}. The trajectories are the
 saved per-snapshot records of the same runs as the main comparison,
 measured by the same IGD implementation and reference sets. Run identifiers
