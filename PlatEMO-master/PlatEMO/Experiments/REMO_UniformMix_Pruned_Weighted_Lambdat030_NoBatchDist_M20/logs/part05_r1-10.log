@@ -1,0 +1,18 @@
+==== part 5/16 start 2026-09-18 04:17:51 ====
+[2026-09-18 04:17:51] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 04:17:58] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 04:17:58] SaveCount 30 | Runs 10 | M 20 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=22260912)
+[2026-09-18 04:17:58] Slice 5/16 -> 1 problems: DTLZ5
+[2026-09-18 04:17:58] --- DTLZ5 (global #5): M=20 D=30 maxFE=300 ---
+[2026-09-18 04:24:06] [done] DTLZ5 run 1 | IGD first 0.501594 -> final 0.429931 | runtime 366.2s | wall 368.0s | ok
+[2026-09-18 04:30:15] [done] DTLZ5 run 2 | IGD first 0.463004 -> final 0.201957 | runtime 367.5s | wall 369.3s | ok
+[2026-09-18 04:36:12] [done] DTLZ5 run 3 | IGD first 0.532031 -> final 0.363229 | runtime 354.3s | wall 356.2s | ok
+[2026-09-18 04:42:02] [done] DTLZ5 run 4 | IGD first 0.573771 -> final 0.296915 | runtime 349.3s | wall 350.9s | ok
+[2026-09-18 04:48:05] [done] DTLZ5 run 5 | IGD first 0.483456 -> final 0.283635 | runtime 361.2s | wall 362.8s | ok
+[2026-09-18 04:54:04] [done] DTLZ5 run 6 | IGD first 0.442001 -> final 0.237398 | runtime 357.4s | wall 359.1s | ok
+[2026-09-18 04:59:58] [done] DTLZ5 run 7 | IGD first 0.498426 -> final 0.387221 | runtime 351.8s | wall 353.4s | ok
+[2026-09-18 05:06:18] [done] DTLZ5 run 8 | IGD first 0.462728 -> final 0.253536 | runtime 378.2s | wall 379.8s | ok
+[2026-09-18 05:12:31] [done] DTLZ5 run 9 | IGD first 0.422203 -> final 0.34033 | runtime 370.9s | wall 373.1s | ok
+[2026-09-18 05:18:47] [done] DTLZ5 run 10 | IGD first 0.484954 -> final 0.226875 | runtime 374.0s | wall 376.1s | ok
+[2026-09-18 05:18:47] ==== part 5/16 done: 10 runs (0 skipped) in 3648.8 s (1.0 h) ====
+[2026-09-18 05:18:48] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M20\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part5of16.csv

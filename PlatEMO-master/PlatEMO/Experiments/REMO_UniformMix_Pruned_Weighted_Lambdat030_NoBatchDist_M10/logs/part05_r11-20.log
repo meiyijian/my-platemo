@@ -1,0 +1,18 @@
+==== part 5/16 start 2026-09-18 01:06:39 ====
+[2026-09-18 01:06:40] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 01:06:48] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 01:06:48] SaveCount 30 | Runs 10 | M 10 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=21260912)
+[2026-09-18 01:06:48] Slice 5/16 -> 1 problems: DTLZ5
+[2026-09-18 01:06:48] --- DTLZ5 (global #5): M=10 D=30 maxFE=300 ---
+[2026-09-18 01:13:39] [done] DTLZ5 run 11 | IGD first 1.08687 -> final 0.43752 | runtime 409.2s | wall 410.8s | ok
+[2026-09-18 01:20:11] [done] DTLZ5 run 12 | IGD first 1.25749 -> final 0.588915 | runtime 390.1s | wall 391.7s | ok
+[2026-09-18 01:27:26] [done] DTLZ5 run 13 | IGD first 1.10932 -> final 0.670511 | runtime 434.0s | wall 435.7s | ok
+[2026-09-18 01:34:55] [done] DTLZ5 run 14 | IGD first 0.956793 -> final 0.550449 | runtime 447.0s | wall 448.6s | ok
+[2026-09-18 01:42:14] [done] DTLZ5 run 15 | IGD first 1.03257 -> final 0.460313 | runtime 437.7s | wall 439.3s | ok
+[2026-09-18 01:49:29] [done] DTLZ5 run 16 | IGD first 1.05642 -> final 0.629704 | runtime 433.1s | wall 434.7s | ok
+[2026-09-18 01:56:28] [done] DTLZ5 run 17 | IGD first 1.06241 -> final 0.520653 | runtime 417.5s | wall 419.0s | ok
+[2026-09-18 02:02:57] [done] DTLZ5 run 18 | IGD first 0.960501 -> final 0.668513 | runtime 387.3s | wall 388.6s | ok
+[2026-09-18 02:09:29] [done] DTLZ5 run 19 | IGD first 1.06705 -> final 0.622271 | runtime 390.8s | wall 392.4s | ok
+[2026-09-18 02:16:05] [done] DTLZ5 run 20 | IGD first 1.18332 -> final 0.659891 | runtime 394.3s | wall 395.8s | ok
+[2026-09-18 02:16:05] ==== part 5/16 done: 10 runs (0 skipped) in 4156.7 s (1.2 h) ====
+[2026-09-18 02:16:06] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M10\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part5of16.csv
