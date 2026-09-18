@@ -1,0 +1,25 @@
+DTLZ1  ....................  final IGD mean 140.7549
+DTLZ2  ....................  final IGD mean 1.0694
+DTLZ3  ....................  final IGD mean 592.5373
+DTLZ4  ....................  final IGD mean 1.1068
+DTLZ5  ....................  final IGD mean 0.4482
+DTLZ6  ....................  final IGD mean 11.0738
+DTLZ7  ....................  final IGD mean 18.6240
+WFG1   ....................  final IGD mean 4.1429
+WFG2   ....................  final IGD mean 3.4985
+WFG3   ....................  final IGD mean 2.2501
+WFG4   ....................  final IGD mean 13.6777
+WFG5   ....................  final IGD mean 12.8277
+WFG6   ....................  final IGD mean 10.3211
+WFG7   ....................  final IGD mean 11.5131
+WFG8   ....................  final IGD mean 11.6779
+WFG9   ....................  final IGD mean 13.3353
+=== OK=320  BAD=0  TOTAL=320
+=== ALL 320 FILES VALID (result + metric, final FE=300)
+Summary written: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M15\summary_Lambdat030_NoBatchDist_M15.csv
+{错误使用 exit
+函数或变量 'Settings' 无法识别。
+} 
+{错误使用 exit
+函数或变量 'Settings' 无法识别。
+} 

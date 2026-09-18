@@ -1,0 +1,18 @@
+==== part 5/16 start 2026-09-18 13:17:05 ====
+[2026-09-18 13:17:05] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 13:17:12] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 13:17:12] SaveCount 30 | Runs 10 | M 15 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=21760912)
+[2026-09-18 13:17:12] Slice 5/16 -> 1 problems: DTLZ5
+[2026-09-18 13:17:13] --- DTLZ5 (global #5): M=15 D=30 maxFE=300 ---
+[2026-09-18 13:23:35] [done] DTLZ5 run 11 | IGD first 0.694355 -> final 0.377381 | runtime 380.6s | wall 382.6s | ok
+[2026-09-18 13:29:47] [done] DTLZ5 run 12 | IGD first 0.838893 -> final 0.588137 | runtime 370.1s | wall 371.9s | ok
+[2026-09-18 13:36:16] [done] DTLZ5 run 13 | IGD first 0.741466 -> final 0.485217 | runtime 387.0s | wall 388.6s | ok
+[2026-09-18 13:42:19] [done] DTLZ5 run 14 | IGD first 0.691584 -> final 0.449293 | runtime 361.9s | wall 363.4s | ok
+[2026-09-18 13:48:27] [done] DTLZ5 run 15 | IGD first 0.780842 -> final 0.420374 | runtime 366.4s | wall 368.2s | ok
+[2026-09-18 13:54:30] [done] DTLZ5 run 16 | IGD first 0.851232 -> final 0.356798 | runtime 361.5s | wall 362.9s | ok
+[2026-09-18 14:00:37] [done] DTLZ5 run 17 | IGD first 0.900629 -> final 0.595278 | runtime 365.6s | wall 367.2s | ok
+[2026-09-18 14:06:59] [done] DTLZ5 run 18 | IGD first 0.886351 -> final 0.500925 | runtime 379.6s | wall 381.2s | ok
+[2026-09-18 14:13:31] [done] DTLZ5 run 19 | IGD first 0.693046 -> final 0.345102 | runtime 390.7s | wall 392.4s | ok
+[2026-09-18 14:19:55] [done] DTLZ5 run 20 | IGD first 0.830753 -> final 0.648971 | runtime 382.6s | wall 384.1s | ok
+[2026-09-18 14:19:55] ==== part 5/16 done: 10 runs (0 skipped) in 3762.7 s (1.0 h) ====
+[2026-09-18 14:19:57] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M15\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part5of16.csv

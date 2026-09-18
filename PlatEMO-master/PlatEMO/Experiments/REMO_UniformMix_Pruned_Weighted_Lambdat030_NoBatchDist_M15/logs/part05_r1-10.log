@@ -1,0 +1,18 @@
+==== part 5/16 start 2026-09-18 13:16:36 ====
+[2026-09-18 13:16:36] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 13:16:43] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 13:16:43] SaveCount 30 | Runs 10 | M 15 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=21760912)
+[2026-09-18 13:16:43] Slice 5/16 -> 1 problems: DTLZ5
+[2026-09-18 13:16:43] --- DTLZ5 (global #5): M=15 D=30 maxFE=300 ---
+[2026-09-18 13:22:52] [done] DTLZ5 run 1 | IGD first 0.727802 -> final 0.34824 | runtime 367.9s | wall 369.4s | ok
+[2026-09-18 13:29:14] [done] DTLZ5 run 2 | IGD first 0.851851 -> final 0.437173 | runtime 380.4s | wall 382.1s | ok
+[2026-09-18 13:35:27] [done] DTLZ5 run 3 | IGD first 0.888064 -> final 0.425526 | runtime 371.5s | wall 373.0s | ok
+[2026-09-18 13:41:38] [done] DTLZ5 run 4 | IGD first 0.699106 -> final 0.435072 | runtime 369.1s | wall 370.7s | ok
+[2026-09-18 13:47:38] [done] DTLZ5 run 5 | IGD first 0.808567 -> final 0.446629 | runtime 358.3s | wall 359.9s | ok
+[2026-09-18 13:53:33] [done] DTLZ5 run 6 | IGD first 0.814172 -> final 0.409059 | runtime 353.5s | wall 354.8s | ok
+[2026-09-18 13:59:27] [done] DTLZ5 run 7 | IGD first 0.764245 -> final 0.527586 | runtime 352.3s | wall 353.9s | ok
+[2026-09-18 14:05:48] [done] DTLZ5 run 8 | IGD first 0.724143 -> final 0.403986 | runtime 380.2s | wall 381.6s | ok
+[2026-09-18 14:12:26] [done] DTLZ5 run 9 | IGD first 0.869801 -> final 0.376032 | runtime 395.8s | wall 397.4s | ok
+[2026-09-18 14:18:58] [done] DTLZ5 run 10 | IGD first 0.89687 -> final 0.388185 | runtime 390.2s | wall 391.9s | ok
+[2026-09-18 14:18:58] ==== part 5/16 done: 10 runs (0 skipped) in 3734.8 s (1.0 h) ====
+[2026-09-18 14:18:59] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M15\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part5of16.csv

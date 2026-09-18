@@ -1,0 +1,18 @@
+==== part 7/16 start 2026-09-18 14:13:25 ====
+[2026-09-18 14:13:25] PlatEMO root: D:\PlatEMO-master\PlatEMO-master\PlatEMO
+[2026-09-18 14:13:33] Algorithm REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist | parameters [3000            0.5           0.25            0.7              6]
+[2026-09-18 14:13:33] SaveCount 30 | Runs 10 | M 15 | requested D 30 | N 100 | maxFE 300 | Seeds deterministic(base=21760912)
+[2026-09-18 14:13:33] Slice 7/16 -> 1 problems: DTLZ7
+[2026-09-18 14:13:33] --- DTLZ7 (global #7): M=15 D=30 maxFE=300 ---
+[2026-09-18 14:20:19] [done] DTLZ7 run 1 | IGD first 48.9358 -> final 22.4288 | runtime 402.7s | wall 405.3s | ok
+[2026-09-18 14:27:06] [done] DTLZ7 run 2 | IGD first 47.0281 -> final 20.628 | runtime 404.5s | wall 407.1s | ok
+[2026-09-18 14:33:42] [done] DTLZ7 run 3 | IGD first 39.6168 -> final 18.5772 | runtime 394.0s | wall 396.2s | ok
+[2026-09-18 14:39:48] [done] DTLZ7 run 4 | IGD first 48.5055 -> final 16.4463 | runtime 363.2s | wall 365.5s | ok
+[2026-09-18 14:45:49] [done] DTLZ7 run 5 | IGD first 49.0347 -> final 19.3701 | runtime 359.3s | wall 361.7s | ok
+[2026-09-18 14:51:55] [done] DTLZ7 run 6 | IGD first 42.1621 -> final 18.7231 | runtime 363.7s | wall 365.9s | ok
+[2026-09-18 14:58:09] [done] DTLZ7 run 7 | IGD first 41.1725 -> final 19.3182 | runtime 372.0s | wall 374.2s | ok
+[2026-09-18 15:04:35] [done] DTLZ7 run 8 | IGD first 45.1628 -> final 20.5621 | runtime 383.4s | wall 385.6s | ok
+[2026-09-18 15:10:36] [done] DTLZ7 run 9 | IGD first 44.1044 -> final 24.523 | runtime 358.6s | wall 360.6s | ok
+[2026-09-18 15:16:57] [done] DTLZ7 run 10 | IGD first 44.0636 -> final 18.6458 | runtime 379.2s | wall 381.5s | ok
+[2026-09-18 15:16:57] ==== part 7/16 done: 10 runs (0 skipped) in 3803.8 s (1.1 h) ====
+[2026-09-18 15:16:59] Summary CSV: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_M15\logs\_REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_runlog_part7of16.csv
