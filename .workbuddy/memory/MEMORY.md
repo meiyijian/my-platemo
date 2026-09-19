@@ -9,7 +9,7 @@
   - 🔴 `k` 已经是 1.5M，源码未改：`k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)))`，M=20 → k=30（实测 16/16 精确 1.5×M）。WFG2/WFG3 在 M=20 时**真实 D=31**。
   - 🔴 **harness `'Runs'` 只做 `isscalar` 判断，而 MATLAB 里 `isscalar([99])` 就是 `true`** → 单元素向量也会被展开成 `1:Runs`。**该 harness 无法只跑一个 run**，最短请求是两元素向量。单跑 runtime 实测：noCDIS ≈ 389 s、noPAQC ≈ 438 s（12 路并行）。
 
-- **HES_EA_N100 @ M=10 —— ⏸ 暂停中（2026-09-19 10:15 用户要求暂停，8/320 已落盘且有效）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（runner/driver/missing_runs/verify/smoke）。实测单跑 12 路满负荷 ≈ **318 s**（DTLZ1），全量预计 2.5–3 h。
+- **HES_EA_N100 @ M=10 —— 🔄 本机续跑中（2026-09-19 11:10 重启，19/320 起步）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（已入库 commit `b8dbafd`）。实测单跑 12 路满负荷 ≈ **318 s**（DTLZ1），全量预计 2.5–3 h。框架可移植：driver.sh 自定位（BASH_SOURCE+`pwd -W`），`MP/PY/DATADIR/MAXJOBS/ROUNDS` 可覆盖；`missing_runs.py` 用 `HESEA_M10_DATA_DIR`；runner 用 `HESEA_M10_OUTPUT_ROOT`。
   - ✅ **框架已入库推送（commit `b8dbafd`）**：`.gitignore:8` 忽略整个 `Experiments/`，需 `git add -f` 按文件加入（别加目录，会带进 logs/）。同 commit 把**共享 harness** `Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/run_UniformMixPrunedFullSeries.m`（含 ExtraMetrics）也入库了 —— 另一台机器必需。算法 `HES-EA/` 本就在库内。
   - 🔧 已可移植：driver.sh 自定位（BASH_SOURCE+`pwd -W`），`MP/PY/DATADIR/MAXJOBS/ROUNDS` 环境变量可覆盖；`missing_runs.py` 用 `HESEA_M10_DATA_DIR`；runner 用 `HESEA_M10_OUTPUT_ROOT`。**先停 driver 再杀 MATLAB**（反序会让补缺循环再拉起切片）。续跑 = `git pull` → `cd Experiments/HES_EA_N100_M10` → 防待机 powercfg → `bash driver.sh`（只补缺）。
   - 🔴 超参必须传 `'Parameters',{}` 走论文默认 `{wmax,WN,KMeans}`=`{20,190,4}`；传 harness 默认 5 元组会把 KMeans 设成 0.25 直接报错。
@@ -37,6 +37,7 @@
 - 固定种子不能 `rng()`+`platemo()`（本地 platemo.m 会 `rng('shuffle')`）→ 直接构造 problem/algorithm，Solve 前 `rng(seed,'twister')`，模式流传 `'run',r`。
 - **同一张对比表绝不能混用 maxNumCompThreads**（对 patternnet/fitrsvm 类算法非中性，会被模型驱动选择混沌放大）。
 - Git：**严禁 `pull --rebase`**（0914 事故清空 refs/objects）；两台机器别并发操作同一 .git。
+- 🔴 **长实验运行期间禁止在本机做 git merge / pull**（2026-09-19 事故：merge 被 SIGTERM 留下陈旧 `index.lock`，并把工作区 905 个文件删掉，实验源码一度缺失）。恢复口诀：查 `tasklist` 无 git 进程 → `rm .git/index.lock` → `git reset --hard HEAD`；然后**先 TaskStop driver 再杀 MATLAB**，最后用后台任务方式（不是前台 `nohup &`，会被工具调用结束连带杀掉）重启 driver。
 - 🔴 **推送必须用"先清空助手列表、只留 wincred"的写法**（09-16 实测：光加 `-c credential.helper=wincred` **不够**）：
   `git -c credential.helper= -c credential.helper=wincred push origin master`
   原因：`PortableGit/etc/gitconfig` 配了 `helper-selector`、`~/.gitconfig` 配了 `git-credential-manager.exe`，两者都会拉起 GUI 并**被 SIGTERM 杀掉**，且输入法 DLL 日志污染凭据协议输出 → git 报 `warning: invalid credential line: ... [tsf_oime.cpp:7276] DllGetClassObject ...`。**必须在沙箱外执行**（`dangerouslyDisableSandbox`），并加 `GIT_TERMINAL_PROMPT=0` 防交互；fetch/ls-remote 同法。
