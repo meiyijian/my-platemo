@@ -94,7 +94,7 @@ def draw_framework():
         box(128, 61, 65, 8, 'Deduplicate the candidate pool')
         diamond(128, 45, 35, 14, r'$m=\mathrm{ind}$?')
         box(102, 27, 43, 15, 'Top 30% by relation\nIndicator reranking\nSelect top candidates', fs=8.4)
-        box(153, 27, 43, 15, 'Relation quality screen\nQuality + batch distance\nGreedy batch selection', fs=8.4)
+        box(153, 27, 43, 15, 'Relation quality screen\nQuality + ambiguity reward\nTop-ranked candidates', fs=8.4)
         box(128, 8.5, 87, 10, 'Bound the evaluation batch\n'+
             r'$|\mathcal{S}|\leq\min(n_{\max},\,FE_{\max}-FE)$', fill='#F6E8D9', fs=8.4)
         arrow([(128, 104.5), (128, 102)])
@@ -145,7 +145,7 @@ def main():
             'width_mm': 180, 'height_mm': 157, 'png_dpi': 600,
             'minimum_pdf_glyph_pt': min_font, 'embedded_raster_count': len(page.get_images()),
             'semantics': 'Method-level flow; c counts generated candidates, not generations.',
-            'simplifications': 'Empty-pool safeguards and detailed score formulas remain in the method. Mode is drawn before candidate search. Exploration uses relation-quality screening and quality-distance batch diversification; indicator mode directly reranks its relation shortlist. No minimum-batch completion is used.',
+            'simplifications': 'NoBatchDist: exploration uses relation-quality screening and ranks R_norm + 0.30*U_norm, without batch distance. Indicator mode directly reranks its relation shortlist. Mode is drawn before candidate search. Empty-pool safeguards remain in the method; no minimum-batch completion.',
             'alt_text': 'PACDIS starts with an evaluated Latin hypercube design, checks the evaluation budget, constructs PAQC groups, trains relation and indicator models, runs CDIS, evaluates the selected batch, and updates the population from the archive. CDIS draws one mode, loops over relation-guided candidate generation, and branches into indicator or exploration selection before applying the batch bound.',
         }
     (OUT/'qa/fig_framework_flowchart.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')

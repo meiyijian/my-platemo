@@ -1,7 +1,8 @@
 {
   "figure": "fig_convergence",
-  "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\figures\\source_data\\convergence_igd.csv",
-  "source_csv_sha256": "cbfdd622b141803c66b0184f5f0ee8007581096489217c90a0556e89b30bcb83",
+  "metric": "IGDp (IGD+)",
+  "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\experiments\\nobatchdist_version_audit\\convergence_igdp.csv",
+  "source_csv_sha256": "9e08ead6779227c88689194b9d1d3fd6e83726b37baf6e168845f09e8a2ce04c",
   "runs_used": [
     1,
     2,
@@ -25,7 +26,7 @@
     20
   ],
   "algorithms": [
-    "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
     "REMO",
     "PIEA",
     "CSEA",
@@ -44,7 +45,7 @@
   ],
   "panel_runs": {
     "M10|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -53,7 +54,7 @@
       "MCEAD": 20
     },
     "M10|WFG8": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -62,7 +63,7 @@
       "MCEAD": 20
     },
     "M15|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -71,7 +72,7 @@
       "MCEAD": 20
     },
     "M15|WFG8": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -80,7 +81,7 @@
       "MCEAD": 20
     },
     "M20|WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -89,7 +90,7 @@
       "MCEAD": 20
     },
     "M20|WFG8": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030": 20,
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
       "REMO": 20,
       "PIEA": 20,
       "CSEA": 20,
@@ -102,7 +103,7 @@
   "drawing": "vertices every 25 real evaluations, straight-line joins",
   "band": "none (paper style)",
   "markers": {
-    "REMO_UniformMix_Pruned_Weighted_Lambdat030": "D",
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "D",
     "REMO": "^",
     "PIEA": "o",
     "CSEA": "*",
@@ -116,6 +117,6 @@
     180.0,
     185.0
   ],
-  "minimum_pdf_glyph_pt": 7.5,
+  "minimum_pdf_glyph_pt": 5.6,
   "text_outside_canvas": []
 }

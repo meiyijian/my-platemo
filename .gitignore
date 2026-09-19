@@ -47,3 +47,9 @@ agent-skills/
 __pycache__/
 *.pyc
 
+
+# Local repository recovery copies and disposable probes
+/.git.corrupt.bak/
+/_clone_new/
+/PlatEMO-master/.workbuddy/_*.txt
+/PlatEMO-master/.workbuddy/ablation_logs/

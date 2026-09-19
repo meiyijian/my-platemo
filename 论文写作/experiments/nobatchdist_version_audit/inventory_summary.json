@@ -1,0 +1,2786 @@
+{
+  "data_root": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集",
+  "scope": "Existing run IDs 1-20; no optimization executed; current source hashes do not prove historical execution identity",
+  "groups": [
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_new2_k15",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_new2_k15",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "301": 70,
+        "303": 49,
+        "306": 15,
+        "312": 2,
+        "302": 61,
+        "308": 7,
+        "309": 3,
+        "300": 68,
+        "307": 6,
+        "304": 11,
+        "315": 3,
+        "316": 2,
+        "305": 12,
+        "311": 3,
+        "322": 1,
+        "310": 4,
+        "314": 2,
+        "313": 1
+      },
+      "snapshots": {
+        "30": 223,
+        "26": 12,
+        "23": 6,
+        "21": 7,
+        "29": 5,
+        "20": 5,
+        "27": 8,
+        "19": 2,
+        "25": 7,
+        "22": 6,
+        "24": 8,
+        "28": 9,
+        "18": 2,
+        "17": 3,
+        "15": 5,
+        "16": 2,
+        "12": 4,
+        "14": 3,
+        "13": 2,
+        "11": 1
+      },
+      "metrics": {
+        "IGD;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_new2_k",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_new2_k",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "301": 47,
+        "307": 9,
+        "308": 11,
+        "302": 38,
+        "305": 16,
+        "310": 6,
+        "306": 10,
+        "311": 9,
+        "309": 4,
+        "304": 18,
+        "324": 1,
+        "318": 2,
+        "312": 3,
+        "300": 53,
+        "317": 3,
+        "316": 8,
+        "315": 5,
+        "303": 35,
+        "313": 4,
+        "319": 1,
+        "320": 1,
+        "314": 3,
+        "323": 1
+      },
+      "snapshots": {
+        "18": 193,
+        "17": 11,
+        "15": 11,
+        "14": 14,
+        "12": 10,
+        "11": 10,
+        "16": 11,
+        "13": 11,
+        "9": 9,
+        "10": 7,
+        "8": 1
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "RMEO_k_CDIS",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\RMEO_k_CDIS",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "300": 288
+      },
+      "snapshots": {
+        "30": 288
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_UniformMixCandidate",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_UniformMixCandidate",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "304": 288
+      },
+      "snapshots": {
+        "18": 288
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_k15",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_k15",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "310": 7,
+        "304": 17,
+        "300": 38,
+        "308": 12,
+        "303": 44,
+        "301": 52,
+        "305": 13,
+        "313": 10,
+        "306": 12,
+        "309": 8,
+        "311": 9,
+        "319": 6,
+        "302": 46,
+        "314": 7,
+        "307": 13,
+        "312": 5,
+        "317": 4,
+        "315": 5,
+        "316": 6,
+        "318": 2,
+        "320": 1,
+        "321": 2,
+        "322": 1
+      },
+      "snapshots": {
+        "15": 20,
+        "17": 20,
+        "13": 29,
+        "14": 28,
+        "12": 28,
+        "16": 15,
+        "18": 10,
+        "30": 127,
+        "11": 19,
+        "20": 4,
+        "19": 1,
+        "29": 3,
+        "28": 3,
+        "10": 6,
+        "26": 1,
+        "22": 1,
+        "25": 2,
+        "27": 3
+      },
+      "metrics": {
+        "IGD;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_k",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_k",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "313": 6,
+        "305": 7,
+        "327": 7,
+        "301": 30,
+        "307": 2,
+        "302": 37,
+        "315": 4,
+        "334": 3,
+        "328": 8,
+        "300": 27,
+        "326": 6,
+        "306": 4,
+        "325": 3,
+        "333": 4,
+        "322": 6,
+        "317": 3,
+        "338": 2,
+        "308": 3,
+        "329": 5,
+        "339": 3,
+        "314": 5,
+        "321": 2,
+        "323": 5,
+        "304": 12,
+        "309": 5,
+        "318": 4,
+        "337": 6,
+        "335": 4,
+        "324": 3,
+        "331": 3,
+        "310": 3,
+        "316": 4,
+        "312": 4,
+        "330": 2,
+        "311": 6,
+        "320": 6,
+        "343": 1,
+        "303": 32,
+        "342": 3,
+        "340": 2,
+        "348": 2,
+        "349": 1,
+        "319": 1,
+        "332": 1,
+        "353": 1
+      },
+      "snapshots": {
+        "7": 65,
+        "8": 37,
+        "6": 41,
+        "9": 11,
+        "10": 4,
+        "12": 2,
+        "15": 2,
+        "18": 117,
+        "17": 7,
+        "16": 2
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "300": 288
+      },
+      "snapshots": {
+        "18": 288
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "REMO",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\REMO",
+      "files_total": 492,
+      "run_1_20": 332,
+      "final_fe": {
+        "303": 51,
+        "300": 116,
+        "301": 67,
+        "306": 9,
+        "304": 15,
+        "302": 49,
+        "307": 5,
+        "305": 14,
+        "308": 5,
+        "310": 1
+      },
+      "snapshots": {
+        "30": 288,
+        "18": 12,
+        "28": 7,
+        "29": 2,
+        "26": 3,
+        "25": 4,
+        "27": 5,
+        "24": 5,
+        "23": 3,
+        "21": 2,
+        "22": 1
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32,
+        "runtime": 12
+      },
+      "problems": {
+        "DTLZ1": 32,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": [
+        "REMO_DTLZ1_M20_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_DTLZ1_M20_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 10,
+      "algorithm": "PIEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\PIEA",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "CSEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\CSEA",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "306": 27,
+        "307": 26,
+        "309": 28,
+        "303": 26,
+        "310": 23,
+        "302": 34,
+        "308": 30,
+        "305": 28,
+        "304": 24,
+        "300": 25,
+        "301": 33,
+        "311": 16
+      },
+      "snapshots": {
+        "19": 136,
+        "20": 100,
+        "21": 31,
+        "18": 27,
+        "22": 10,
+        "24": 3,
+        "23": 4,
+        "26": 3,
+        "30": 3,
+        "28": 2,
+        "25": 1
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "PCSAEA_N100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\PCSAEA_N100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 314,
+        "19": 3,
+        "20": 1,
+        "22": 1,
+        "23": 1
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "KRVEA_100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\KRVEA_100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 288,
+        "30": 32
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 10,
+      "algorithm": "MCEAD",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\10目标\\n30\\MCEAD",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "HV;IGD;IGDp;runtime": 288,
+        "IGD;IGDp;runtime": 32
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "REMO_k15",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\REMO_k15",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "308": 16,
+        "303": 49,
+        "312": 9,
+        "315": 5,
+        "313": 8,
+        "306": 12,
+        "309": 8,
+        "310": 10,
+        "301": 45,
+        "302": 46,
+        "311": 5,
+        "316": 4,
+        "319": 7,
+        "304": 17,
+        "320": 2,
+        "305": 6,
+        "300": 44,
+        "307": 5,
+        "314": 12,
+        "317": 3,
+        "318": 3,
+        "322": 2,
+        "325": 1,
+        "321": 1
+      },
+      "snapshots": {
+        "17": 8,
+        "14": 33,
+        "16": 16,
+        "18": 9,
+        "13": 18,
+        "15": 14,
+        "19": 3,
+        "20": 8,
+        "12": 30,
+        "11": 26,
+        "22": 4,
+        "21": 4,
+        "25": 1,
+        "28": 4,
+        "30": 134,
+        "29": 2,
+        "10": 6
+      },
+      "metrics": {
+        "IGD;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "300": 288
+      },
+      "snapshots": {
+        "18": 288
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "REMO",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\REMO",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 99,
+        "301": 81,
+        "302": 59,
+        "304": 10,
+        "303": 49,
+        "305": 9,
+        "306": 5,
+        "307": 4,
+        "308": 2,
+        "310": 1,
+        "309": 1
+      },
+      "snapshots": {
+        "30": 298,
+        "22": 1,
+        "25": 6,
+        "29": 3,
+        "26": 4,
+        "23": 1,
+        "24": 2,
+        "21": 2,
+        "27": 2,
+        "28": 1
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "PIEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\PIEA",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "CSEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\CSEA",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "307": 30,
+        "308": 25,
+        "302": 31,
+        "300": 32,
+        "305": 30,
+        "304": 32,
+        "301": 31,
+        "311": 10,
+        "306": 19,
+        "303": 30,
+        "310": 27,
+        "309": 23
+      },
+      "snapshots": {
+        "20": 80,
+        "18": 36,
+        "19": 151,
+        "21": 25,
+        "22": 12,
+        "24": 3,
+        "25": 3,
+        "23": 4,
+        "26": 2,
+        "30": 3,
+        "28": 1
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "PCSAEA_N100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\PCSAEA_N100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 316,
+        "28": 1,
+        "20": 3
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "KRVEA_100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\KRVEA_100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 288,
+        "30": 32
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 15,
+      "algorithm": "MCEAD",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\15目标\\MCEAD",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030",
+      "files_total": 320,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "30": 320
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100",
+      "files_total": 120,
+      "run_1_20": 120,
+      "final_fe": {
+        "300": 120
+      },
+      "snapshots": {
+        "30": 120
+      },
+      "metrics": {
+        "IGD;runtime": 120
+      },
+      "problems": {
+        "DTLZ2": 20,
+        "DTLZ4": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG3": 20,
+        "WFG8": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_new2_k15",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_new2_k15",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "303": 57,
+        "304": 10,
+        "302": 71,
+        "300": 75,
+        "311": 2,
+        "301": 63,
+        "309": 3,
+        "305": 9,
+        "307": 7,
+        "314": 2,
+        "306": 6,
+        "316": 2,
+        "308": 6,
+        "310": 4,
+        "319": 2,
+        "312": 1
+      },
+      "snapshots": {
+        "30": 251,
+        "27": 4,
+        "29": 6,
+        "28": 10,
+        "26": 11,
+        "22": 1,
+        "25": 7,
+        "19": 5,
+        "23": 5,
+        "21": 4,
+        "24": 3,
+        "20": 3,
+        "17": 2,
+        "18": 4,
+        "16": 3,
+        "15": 1
+      },
+      "metrics": {
+        "IGD;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_new2_k",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_new2_k",
+      "files_total": 498,
+      "run_1_20": 338,
+      "final_fe": {
+        "302": 63,
+        "303": 61,
+        "310": 8,
+        "308": 8,
+        "307": 11,
+        "301": 52,
+        "306": 11,
+        "300": 51,
+        "315": 6,
+        "305": 11,
+        "317": 5,
+        "311": 6,
+        "314": 4,
+        "321": 3,
+        "319": 2,
+        "304": 12,
+        "318": 5,
+        "312": 4,
+        "324": 1,
+        "316": 3,
+        "309": 6,
+        "325": 2,
+        "313": 1,
+        "320": 1,
+        "326": 1
+      },
+      "snapshots": {
+        "19": 9,
+        "22": 11,
+        "18": 32,
+        "20": 11,
+        "13": 6,
+        "28": 6,
+        "30": 146,
+        "23": 15,
+        "25": 10,
+        "14": 7,
+        "27": 9,
+        "16": 7,
+        "17": 10,
+        "21": 7,
+        "29": 5,
+        "15": 9,
+        "11": 9,
+        "26": 6,
+        "24": 12,
+        "10": 6,
+        "12": 5
+      },
+      "metrics": {
+        "IGD;runtime": 338
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 38,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": [
+        "REMO_new2_k_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_k_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "RMEO_k_CDIS",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\RMEO_k_CDIS",
+      "files_total": 288,
+      "run_1_20": 288,
+      "final_fe": {
+        "300": 288
+      },
+      "snapshots": {
+        "30": 288
+      },
+      "metrics": {
+        "IGD;runtime": 288
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 18,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_UniformMixCandidate",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_UniformMixCandidate",
+      "files_total": 294,
+      "run_1_20": 294,
+      "final_fe": {
+        "304": 294
+      },
+      "snapshots": {
+        "18": 294
+      },
+      "metrics": {
+        "IGD;runtime": 294
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 24,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": [
+        "REMO_UniformMixCandidate_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_UniformMixCandidate_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_k15",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_k15",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 111,
+        "305": 13,
+        "302": 49,
+        "301": 65,
+        "303": 48,
+        "306": 7,
+        "304": 13,
+        "311": 1,
+        "309": 1,
+        "307": 6,
+        "308": 6
+      },
+      "snapshots": {
+        "30": 296,
+        "28": 3,
+        "29": 1,
+        "23": 3,
+        "26": 5,
+        "24": 4,
+        "22": 5,
+        "21": 1,
+        "27": 2
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 192,
+        "IGD;runtime": 128
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_k",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_k",
+      "files_total": 498,
+      "run_1_20": 338,
+      "final_fe": {
+        "304": 15,
+        "305": 13,
+        "325": 3,
+        "306": 6,
+        "302": 34,
+        "309": 4,
+        "301": 42,
+        "310": 6,
+        "316": 5,
+        "311": 8,
+        "317": 4,
+        "320": 4,
+        "326": 3,
+        "323": 6,
+        "327": 8,
+        "300": 45,
+        "318": 6,
+        "321": 2,
+        "329": 3,
+        "344": 1,
+        "345": 2,
+        "328": 2,
+        "343": 3,
+        "338": 5,
+        "322": 3,
+        "315": 5,
+        "303": 31,
+        "331": 5,
+        "313": 4,
+        "308": 12,
+        "307": 4,
+        "349": 1,
+        "330": 3,
+        "314": 4,
+        "324": 5,
+        "332": 5,
+        "319": 2,
+        "334": 3,
+        "312": 5,
+        "341": 4,
+        "350": 1,
+        "339": 1,
+        "337": 3,
+        "336": 1,
+        "335": 4,
+        "333": 1,
+        "340": 1
+      },
+      "snapshots": {
+        "7": 61,
+        "9": 16,
+        "8": 37,
+        "6": 34,
+        "17": 4,
+        "10": 3,
+        "11": 5,
+        "24": 3,
+        "22": 4,
+        "29": 3,
+        "30": 127,
+        "25": 3,
+        "20": 2,
+        "14": 3,
+        "13": 2,
+        "26": 1,
+        "5": 1,
+        "27": 2,
+        "15": 3,
+        "12": 3,
+        "19": 1,
+        "23": 1,
+        "18": 17,
+        "16": 1,
+        "28": 1
+      },
+      "metrics": {
+        "IGD;runtime": 338
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 38,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": [
+        "REMO_k_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_k_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO_new2_AdaMaO_SDEOnly_UniformMix_Original",
+      "files_total": 306,
+      "run_1_20": 306,
+      "final_fe": {
+        "300": 306
+      },
+      "snapshots": {
+        "12": 192,
+        "18": 114
+      },
+      "metrics": {
+        "IGD;runtime": 306
+      },
+      "problems": {
+        "DTLZ1": 18,
+        "DTLZ2": 18,
+        "DTLZ3": 18,
+        "DTLZ4": 18,
+        "DTLZ5": 18,
+        "DTLZ6": 18,
+        "DTLZ7": 18,
+        "WFG1": 18,
+        "WFG2": 18,
+        "WFG3": 18,
+        "WFG4": 36,
+        "WFG5": 18,
+        "WFG6": 18,
+        "WFG7": 18,
+        "WFG8": 18,
+        "WFG9": 18
+      },
+      "issues": [
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_new2_AdaMaO_SDEOnly_UniformMix_Original_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "REMO",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\REMO",
+      "files_total": 498,
+      "run_1_20": 338,
+      "final_fe": {
+        "305": 11,
+        "303": 40,
+        "301": 70,
+        "304": 10,
+        "302": 53,
+        "300": 122,
+        "306": 17,
+        "308": 4,
+        "307": 9,
+        "311": 1,
+        "309": 1
+      },
+      "snapshots": {
+        "30": 297,
+        "29": 3,
+        "25": 2,
+        "26": 2,
+        "22": 3,
+        "24": 6,
+        "20": 1,
+        "23": 2,
+        "27": 2,
+        "28": 2,
+        "18": 18
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320,
+        "IGD;runtime": 18
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 38,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": [
+        "REMO_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "REMO_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "PIEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\PIEA",
+      "files_total": 498,
+      "run_1_20": 338,
+      "final_fe": {
+        "300": 338
+      },
+      "snapshots": {
+        "30": 320,
+        "18": 18
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320,
+        "IGD;runtime": 18
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 38,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": [
+        "PIEA_WFG4_M10_D30_1.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_10.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_11.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_12.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_13.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_14.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_15.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_16.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_17.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_18.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_2.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_3.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_4.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_5.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_6.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_7.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_8.mat: filename M differs from directory M; excluded from main-table matching",
+        "PIEA_WFG4_M10_D30_9.mat: filename M differs from directory M; excluded from main-table matching"
+      ]
+    },
+    {
+      "M": 20,
+      "algorithm": "CSEA",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\CSEA",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "301": 30,
+        "309": 33,
+        "304": 28,
+        "307": 32,
+        "308": 21,
+        "305": 26,
+        "300": 31,
+        "311": 14,
+        "306": 14,
+        "310": 17,
+        "303": 34,
+        "302": 40
+      },
+      "snapshots": {
+        "19": 154,
+        "21": 23,
+        "18": 40,
+        "20": 84,
+        "27": 3,
+        "22": 8,
+        "24": 3,
+        "23": 1,
+        "25": 2,
+        "29": 1,
+        "26": 1
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "PCSAEA_N100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\PCSAEA_N100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 314,
+        "20": 1,
+        "19": 2,
+        "21": 1,
+        "28": 1,
+        "22": 1
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "KRVEA_100",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\KRVEA_100",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 288,
+        "30": 32
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    },
+    {
+      "M": 20,
+      "algorithm": "MCEAD",
+      "path": "C:\\Users\\lsx\\Desktop\\REMOandDREMO测试集\\20目标\\MCEAD",
+      "files_total": 480,
+      "run_1_20": 320,
+      "final_fe": {
+        "300": 320
+      },
+      "snapshots": {
+        "18": 288,
+        "30": 32
+      },
+      "metrics": {
+        "IGD;IGDp;runtime": 320
+      },
+      "problems": {
+        "DTLZ1": 20,
+        "DTLZ2": 20,
+        "DTLZ3": 20,
+        "DTLZ4": 20,
+        "DTLZ5": 20,
+        "DTLZ6": 20,
+        "DTLZ7": 20,
+        "WFG1": 20,
+        "WFG2": 20,
+        "WFG3": 20,
+        "WFG4": 20,
+        "WFG5": 20,
+        "WFG6": 20,
+        "WFG7": 20,
+        "WFG8": 20,
+        "WFG9": 20
+      },
+      "issues": []
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\analyze_lambdat030.m",
+      "sha256": "6c87f5c5d8f7ebaa8f2453874d037316d01eec88cb1cde54fc8fed4cab69ac34"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "fcc9214d461c130882cba08e10ab66c0c90c8de03935df4f3b39ee4228c914a0"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\calFitness_SDE.m",
+      "sha256": "6442e399ebd4ffac8f01d2d3564cc76ec9a84e0e80f20fe30986fa8c2d938640"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "57566540ad78dba1819049d865c9cbfd02899cfe2393367847b2667a4ed66d8c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\DataProcess.m",
+      "sha256": "d6cb7a56dd4763b3b4442827e01266ba7556771d46ded83f6ecc686f00b5627e"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\DiversifiedInfillSelection.m",
+      "sha256": "8eba76926cc07a4502315575b01699b43d752a4870461db89cb1000a56314817"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\GetRelationPairs.m",
+      "sha256": "7bd10b5e2e19cd4bc410a33a2c292747b11411239fc59c5e1bf43932e5b18a77"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "e538b3559d211f7e6041795ba51b780137dc4a7d94b2af17dde01ecb49318a74"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\onehotconv.m",
+      "sha256": "e44d6e8e58ade9e5c48347ac164d8b733f3216dbda4fb31ae29d219ba526b5fa"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\private\\Shape_Estimate.m",
+      "sha256": "acb9a2a53745283e67abf1bb763b4aee240a9dd7a8a1169eee25de58119279d7"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\PrunedWeightedBatchSelection.m",
+      "sha256": "bb3e028f903eb0c25afba444906bc15d6699b1b8cca1b21a82b765e7ec8766b0"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\REMO_UniformMix_Pruned_Weighted_Lambdat030.m",
+      "sha256": "b900fb20924b17d93fb73a115f7e88f714efad70ae2fa9925af550ebc4fff8c8"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\ResolveUniformMixMode.m",
+      "sha256": "c8cd08539b06171da02e2deb54669d9875d3cebce8e2a678ae64e05f0f721fe6"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\RunLambdat030_10.m",
+      "sha256": "d3f5b959cc6e02935d106e07a99566165b37c3ff5527fda2ec043e7c8b8a583c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030\\tests\\Lambdat030Test.m",
+      "sha256": "541ec91b175dde43facfdf5d0ac9988b4c7a3347addcc482bcb28e1e6ddeb581"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\NoBatchDistWeightedBatchSelection.m",
+      "sha256": "72590cd029a5090e269eb363e106c61975b55b1f112a4006b11f15ad8bb71b93"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\DiversifiedInfillSelection.m",
+      "sha256": "14cc6b83121b23e09c2b12d7e7152374b2f58dcd8072aefb9cab36ed4f9eadfb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m",
+      "sha256": "e6d9b7cf25b797ecabd2d877b99c715e991aaf48c81dd1c82ade7d1d2b9d3fa3"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\calFitness_SDE.m",
+      "sha256": "6442e399ebd4ffac8f01d2d3564cc76ec9a84e0e80f20fe30986fa8c2d938640"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "57566540ad78dba1819049d865c9cbfd02899cfe2393367847b2667a4ed66d8c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\DataProcess.m",
+      "sha256": "d6cb7a56dd4763b3b4442827e01266ba7556771d46ded83f6ecc686f00b5627e"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\DiversifiedInfillSelection.m",
+      "sha256": "8eba76926cc07a4502315575b01699b43d752a4870461db89cb1000a56314817"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\GetOutput_PBI.m",
+      "sha256": "6c002978642b3034e81618056a3da2a866904e43ab953dd37694ef4e477f133d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\GetRelationPairs.m",
+      "sha256": "7bd10b5e2e19cd4bc410a33a2c292747b11411239fc59c5e1bf43932e5b18a77"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "e538b3559d211f7e6041795ba51b780137dc4a7d94b2af17dde01ecb49318a74"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "fcc9214d461c130882cba08e10ab66c0c90c8de03935df4f3b39ee4228c914a0"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\onehotconv.m",
+      "sha256": "e44d6e8e58ade9e5c48347ac164d8b733f3216dbda4fb31ae29d219ba526b5fa"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\ResolveUniformMixMode.m",
+      "sha256": "c8cd08539b06171da02e2deb54669d9875d3cebce8e2a678ae64e05f0f721fe6"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\private\\Shape_Estimate.m",
+      "sha256": "acb9a2a53745283e67abf1bb763b4aee240a9dd7a8a1169eee25de58119279d7"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\RMEO_k_CDIS\\RMEO_k_CDIS.m",
+      "sha256": "6becae353771275b503f669de7df8e73a0e534e76415edfb65e7e27b03064c87"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\DiversifiedInfillSelection.m",
+      "sha256": "0c230ef5e373c785d6ac1bb2534b2cd7725ae60c3fa1758a52836a04eaa46d81"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "770ed793f06863e5f2898b0fa61701d45488e31ec0c0e9747466d8164775efdc"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix000.m",
+      "sha256": "0959b4afb760e7927d45f77693ef78a850b6317ca9e7537017f17d672a1610a2"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\DiversifiedInfillSelection.m",
+      "sha256": "0c230ef5e373c785d6ac1bb2534b2cd7725ae60c3fa1758a52836a04eaa46d81"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "770ed793f06863e5f2898b0fa61701d45488e31ec0c0e9747466d8164775efdc"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix025.m",
+      "sha256": "74581fe683462db08f6f0d5d3d2c50c1beb1bf5af5fad4b525655f9e4246442c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\DiversifiedInfillSelection.m",
+      "sha256": "0c230ef5e373c785d6ac1bb2534b2cd7725ae60c3fa1758a52836a04eaa46d81"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "770ed793f06863e5f2898b0fa61701d45488e31ec0c0e9747466d8164775efdc"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix050.m",
+      "sha256": "83dd7a9468208db46b7d553f0b1f4e8cae82b430e1fb760725024745cf8f0ae4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\DiversifiedInfillSelection.m",
+      "sha256": "0c230ef5e373c785d6ac1bb2534b2cd7725ae60c3fa1758a52836a04eaa46d81"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "770ed793f06863e5f2898b0fa61701d45488e31ec0c0e9747466d8164775efdc"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix075.m",
+      "sha256": "e159e9e909957feeffa3879b51e41218841cfd39474da9671e3ccd30b0291d78"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\calFitness_SDE.m",
+      "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\CreateSDECandidateModeStream.m",
+      "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\DataProcess.m",
+      "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\DiversifiedInfillSelection.m",
+      "sha256": "0c230ef5e373c785d6ac1bb2534b2cd7725ae60c3fa1758a52836a04eaa46d81"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\GetRelationPairs.m",
+      "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\IndicatorSelectorSDEOnly.m",
+      "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\Lambdat030WeightedBatchSelection.m",
+      "sha256": "770ed793f06863e5f2898b0fa61701d45488e31ec0c0e9747466d8164775efdc"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\onehotconv.m",
+      "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\PBIQualityClassification.m",
+      "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\PrunedIndicatorSelection.m",
+      "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\RefSelect.m",
+      "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\ResolveUniformMixMode.m",
+      "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\private\\Shape_Estimate.m",
+      "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9"
+    },
+    {
+      "path": "PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100\\REMO_UniformMix_Pruned_Weighted_Lambdat030_pMix100.m",
+      "sha256": "0d76a6a253483432e2452017ef2d5c855fb6e77a87e8f9b5bb166e068f9d6a7d"
+    }
+  ]
+}
