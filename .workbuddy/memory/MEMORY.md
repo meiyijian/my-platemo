@@ -9,7 +9,9 @@
   - 🔴 `k` 已经是 1.5M，源码未改：`k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)))`，M=20 → k=30（实测 16/16 精确 1.5×M）。WFG2/WFG3 在 M=20 时**真实 D=31**。
   - 🔴 **harness `'Runs'` 只做 `isscalar` 判断，而 MATLAB 里 `isscalar([99])` 就是 `true`** → 单元素向量也会被展开成 `1:Runs`。**该 harness 无法只跑一个 run**，最短请求是两元素向量。单跑 runtime 实测：noCDIS ≈ 389 s、noPAQC ≈ 438 s（12 路并行）。
 
-- **HES_EA_N100 @ M=10 —— 🔄 进行中（2026-09-19 10:03 启动，320 跑）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（runner/driver/missing_runs/verify/smoke）。预计 2–3 h（单跑 ≈166 s）。
+- **HES_EA_N100 @ M=10 —— ⏸ 暂停中（2026-09-19 10:15 用户要求暂停，8/320 已落盘且有效）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（runner/driver/missing_runs/verify/smoke）。实测单跑 12 路满负荷 ≈ **318 s**（DTLZ1），全量预计 2.5–3 h。
+  - ✅ **框架已入库推送（commit `b8dbafd`）**：`.gitignore:8` 忽略整个 `Experiments/`，需 `git add -f` 按文件加入（别加目录，会带进 logs/）。同 commit 把**共享 harness** `Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/run_UniformMixPrunedFullSeries.m`（含 ExtraMetrics）也入库了 —— 另一台机器必需。算法 `HES-EA/` 本就在库内。
+  - 🔧 已可移植：driver.sh 自定位（BASH_SOURCE+`pwd -W`），`MP/PY/DATADIR/MAXJOBS/ROUNDS` 环境变量可覆盖；`missing_runs.py` 用 `HESEA_M10_DATA_DIR`；runner 用 `HESEA_M10_OUTPUT_ROOT`。**先停 driver 再杀 MATLAB**（反序会让补缺循环再拉起切片）。续跑 = `git pull` → `cd Experiments/HES_EA_N100_M10` → 防待机 powercfg → `bash driver.sh`（只补缺）。
   - 🔴 超参必须传 `'Parameters',{}` 走论文默认 `{wmax,WN,KMeans}`=`{20,190,4}`；传 harness 默认 5 元组会把 KMeans 设成 0.25 直接报错。
   - 🔧 已给共享 harness 增加**可选**参数 `ExtraMetrics`（默认 `{}`，对既有实验零影响），用于把 IGDp 等附加指标在跑的同时写进 MAT（替代事后 merge 重算）。
   - ⚠️ HES_EA_N100 第 75 行 `pdist2(...,'cosine')` 在 WFG3 这类问题上会刷 `stats:pdist2:ZeroPoints` 警告，需在 runner 里压制（算法本身已有 clamp，警告无副作用）。
