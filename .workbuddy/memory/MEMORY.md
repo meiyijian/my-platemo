@@ -2,10 +2,10 @@
 
 > 本文件只留最高频、最致命的条目；完整细节（环境、坑位、实验框架、数据集、论文）在 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-19 15:00）
-- 🔴 **HES_EA_N100 @ M=10 —— 停滞（94/320，需人工介入）**。12 个切片进程自 11:10–12:18 启动后**从未退出**，CPU 满载空转 2.7–3.8 h、零产出（健康切片 ≈38–47 min/10 跑）。卡住的题：DTLZ2/3/5/6、WFG1/2/3。**连带 M15 被卡死**：`chain_to_M15.sh` 要求 `matlab_procs==0` 才拉起，M15 smoke 的 WFG3 也从 13:42 卡到现在。详见 REFERENCE.md「HES_EA_N100 扫描」。
-- **HES_EA_N100 @ M=15 —— 0/320，未启动**（框架/驱动/smoke 已就绪；DTLZ2 smoke 正常 285 s/跑）。数据 `D:\REMOandDREMO测试集\15目标\HES_EA_N100`（目录尚未创建）。
-- M=10 框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（已入库 commit `b8dbafd`）。两阶段口径：16 题 × 20 跑 = 320，M=10或15/D=30/N=100/maxFE=300/SaveCount=30，MAT 含 `result`+`metric{runtime,IGD,IGDp}`，SeedBase M10=21260912 / M15=21760912（`base+1000*题号+run`）。
+## 现在在哪（截至 2026-09-19 16:05）
+- 🔴 **HES_EA_N100 @ M=10 —— 已全部停止（16:02 用户要求），94/320 数据有效，等修 bug 后续跑**。死因：**算法死循环**——`HES_EA_N100.m` 外层 `while NotTerminated` 在候选批 `NewArc` 为空时 FE 停滞 → 无限重复（CPU 满载空转、永不落盘）。卡死率 ≈12% 的 run（快速收敛题 DTLZ2/3/4/6 高发），12 槽全堵。**修复方案（待用户确认）**：NewArc 空则 GA 兜底耗完预算——对正常完成的 run 可证明无操作，已落盘 94 个 MAT 不受影响。修复后续跑：`cd Experiments/HES_EA_N100_M10 && bash driver.sh`（只补缺）→ `chain_to_M15.sh` 自动接 M15。
+- **HES_EA_N100 @ M=15 —— 0/320，未启动**（框架/驱动/smoke 已就绪；DTLZ2 smoke 正常 285 s/跑，WFG3 smoke 同样卡死=再次佐证 bug）。数据 `D:\REMOandDREMO测试集\15目标\HES_EA_N100`。M15 口径：OutputRoot=`15目标`（无 n30 层）、SeedBase=**21760912**、16 题全 D=30。
+- M=10 框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（已入库 commit `b8dbafd`）。两阶段口径：16 题 × 20 跑 = 320，M=10或15/D=30/N=100/maxFE=300/SaveCount=30，MAT 含 `result`+`metric{runtime,IGD,IGDp}`，SeedBase M10=21260912 / M15=21760912（`base+1000*题号+run`）。巡检自动化 `80de3726` 已 PAUSED。git：本机领先 3 个记忆提交未推，远端领先对方 2 个提交（5687a4e），合并推迟到实验结束后。
 - ✅ **M=20 消融 REMO_noBatchDict_{noCDIS,noPAQC}：完成 640/640**（各 320，OK=320/BAD=0）。结论：PAQC 与 CDIS 都不冗余（去 PAQC 平均 gap +6.27、p=1.4e-8；去 CDIS +3.91、p=4.3e-9；PAQC 更关键 p=9.2e-15）；去掉批次距离项反而略好（−1.45，p=0.026）。`k_eff=min(N,max(6,ceil(1.5M)))`，M=20→k=30。
 - ✅ **RWMOP11 真实问题实验：完成 140/140**（七算法全注入 CDP；HV 垫底 PACDIS 0.0878，但 D=3 时 REMO 族初始仅 32 点 vs 基线 100 点，必须与初始规模一起读）。
 - ✅ **pMix 敏感性扫描：完成 1200/1200**，已"一档一类"归档推送（commit `56dddd9`）。结论：**pMix=0.50 最稳健**（平均秩最低、显著优于 0.75/1.00），但非处处最优、与 0.25 无统计差异；pMix=0 最危险。
