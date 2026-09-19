@@ -2,7 +2,20 @@
 
 > 本文件只留最高频、最致命的条目；完整细节（环境、坑位、实验框架、数据集、论文）已归档到同目录 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-17 11:00）
+## 现在在哪（截至 2026-09-19 06:55）
+- **M=20 新消融：REMO_noBatchDict_noCDIS / _noPAQC —— ✅ 完成 640/640**。两算法 × 16 题（DTLZ1-7+WFG1-9）× 20 跑，M=20/D=30/N=100/maxFE=300/SaveCount=30，种子同既有 20 目标数据集（SeedBase=22260912，`base+1000*题号+run`，**逐跑配对**）。数据 `D:\REMOandDREMO测试集\20目标\REMO_noBatchDict_{noCDIS,noPAQC}\`（各 320，全量校验 OK=320/BAD=0）。耗时 6 h 55 min 一次跑完。框架 `PlatEMO/Experiments/REMO_noBatchDict_Ablation_M20/`（driver/missing_runs/verify/probe_k/smoke/compare）。
+  - **四臂配对结论（`compare_M20_ablation.csv`）**：**PAQC 与 CDIS 都不冗余** —— 去 PAQC 平均 gap +6.27（Fisher p=1.4e-8，142/320 胜）、去 CDIS +3.91（p=4.3e-9，132/320 胜），且 PAQC 比 CDIS 更关键（p=9.2e-15）；**去掉批次距离项反而略好**（−1.45，p=0.026）。逐题主输点：去 PAQC 输 DTLZ3/DTLZ7/WFG2，去 CDIS 输 DTLZ3/WFG9/WFG4/WFG5。
+  - ⚠️ 报告口径：16 题平均被 DTLZ1/DTLZ3 主导，**主口径用逐题均值 + 配对胜负比 + 逐题 p**。
+  - 🔴 `k` 已经是 1.5M，源码未改：`k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)))`，M=20 → k=30（实测 16/16 精确 1.5×M）。WFG2/WFG3 在 M=20 时**真实 D=31**。
+  - 🔴 **harness `'Runs'` 只做 `isscalar` 判断，而 MATLAB 里 `isscalar([99])` 就是 `true`** → 单元素向量也会被展开成 `1:Runs`。**该 harness 无法只跑一个 run**，最短请求是两元素向量。单跑 runtime 实测：noCDIS ≈ 389 s、noPAQC ≈ 438 s（12 路并行）。
+
+- **HES_EA_N100 @ M=10 —— ⏸ 暂停中（2026-09-19 10:15 用户要求暂停，8/320 已落盘且有效）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（runner/driver/missing_runs/verify/smoke）。实测单跑 12 路满负荷 ≈ **318 s**（DTLZ1），全量预计 2.5–3 h。
+  - ✅ **框架已入库推送（commit `b8dbafd`）**：`.gitignore:8` 忽略整个 `Experiments/`，需 `git add -f` 按文件加入（别加目录，会带进 logs/）。同 commit 把**共享 harness** `Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/run_UniformMixPrunedFullSeries.m`（含 ExtraMetrics）也入库了 —— 另一台机器必需。算法 `HES-EA/` 本就在库内。
+  - 🔧 已可移植：driver.sh 自定位（BASH_SOURCE+`pwd -W`），`MP/PY/DATADIR/MAXJOBS/ROUNDS` 环境变量可覆盖；`missing_runs.py` 用 `HESEA_M10_DATA_DIR`；runner 用 `HESEA_M10_OUTPUT_ROOT`。**先停 driver 再杀 MATLAB**（反序会让补缺循环再拉起切片）。续跑 = `git pull` → `cd Experiments/HES_EA_N100_M10` → 防待机 powercfg → `bash driver.sh`（只补缺）。
+  - 🔴 超参必须传 `'Parameters',{}` 走论文默认 `{wmax,WN,KMeans}`=`{20,190,4}`；传 harness 默认 5 元组会把 KMeans 设成 0.25 直接报错。
+  - 🔧 已给共享 harness 增加**可选**参数 `ExtraMetrics`（默认 `{}`，对既有实验零影响），用于把 IGDp 等附加指标在跑的同时写进 MAT（替代事后 merge 重算）。
+  - ⚠️ HES_EA_N100 第 75 行 `pdist2(...,'cosine')` 在 WFG3 这类问题上会刷 `stats:pdist2:ZeroPoints` 警告，需在 runner 里压制（算法本身已有 clamp，警告无副作用）。
+
 - **RWMOP11 真实问题实验（新增主线）：✅ 完成 140/140**。七个算法 = PACDIS + 论文六基线（REMO/PIEA/CSEA/PC-SAEA/K-RVEA/MCEA-D），**全部统一注入标准 feasibility-first 规则（CDP）**；M=5、D=3、N=100、maxFE=300、20 跑、threads=1。数据 `D:\REMOandDREMO测试集\5目标\n3\<算法>_CDP\`（`result`+`metric{HV,Feasible_rate,runtime}`）；框架在 `PlatEMO/Experiments/RWMOP11_WaterResource/`（**该目录在 .gitignore 内、不受版本控制**，与 pMixSweep 同例；含 README/VERIFICATION/RESULTS/LaTeX 表）。
   - **结果（20 跑均值）**：HV = CSEA 0.0986 > REMO 0.0973 > K-RVEA 0.0954 > PIEA 0.0952 > MCEA/D 0.0919 > PC-SAEA 0.0888 > **PACDIS 0.0878（垫底，与各基线秩和 p≤1e-5 或 0.29）**；可行率 = REMO 0.933 > MCEA/D 0.914 > PC-SAEA 0.904 > **PACDIS 0.864** > K-RVEA 0.846 > CSEA 0.816 > PIEA 0.670。
   - 🔴 **必须与初始规模一起读**：D=3 时 REMO 族（含 PACDIS）初始只有 32 点（`11D-1`），其余算法 100 点 → 初始 HV 起点差 27%（0.0578 vs 0.0730）；两组终态 HV 均值几乎相同（0.0946 vs 0.0928），但 32 点组搜索增益近两倍（+0.0368 vs +0.0198）。同起点组内 PACDIS 增益（+0.0300）仍低于 REMO（+0.0395）/CSEA（+0.0409）。
