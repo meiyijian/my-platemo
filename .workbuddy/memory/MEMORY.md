@@ -7,7 +7,12 @@
   - **四臂配对结论（`compare_M20_ablation.csv`）**：**PAQC 与 CDIS 都不冗余** —— 去 PAQC 平均 gap +6.27（Fisher p=1.4e-8，142/320 胜）、去 CDIS +3.91（p=4.3e-9，132/320 胜），且 PAQC 比 CDIS 更关键（p=9.2e-15）；**去掉批次距离项反而略好**（−1.45，p=0.026）。逐题主输点：去 PAQC 输 DTLZ3/DTLZ7/WFG2，去 CDIS 输 DTLZ3/WFG9/WFG4/WFG5。
   - ⚠️ 报告口径：16 题平均被 DTLZ1/DTLZ3 主导，**主口径用逐题均值 + 配对胜负比 + 逐题 p**。
   - 🔴 `k` 已经是 1.5M，源码未改：`k_eff = min(Problem.N,max(6,ceil(1.5*Problem.M)))`，M=20 → k=30（实测 16/16 精确 1.5×M）。WFG2/WFG3 在 M=20 时**真实 D=31**。
-  - 🔴 **harness `'Runs'` 标量会被展开成 `1:Runs`**：要跑单个 run 必须传向量（如 `[99]`）。单跑 runtime 实测：noCDIS ≈ 389 s、noPAQC ≈ 438 s（12 路并行）。
+  - 🔴 **harness `'Runs'` 只做 `isscalar` 判断，而 MATLAB 里 `isscalar([99])` 就是 `true`** → 单元素向量也会被展开成 `1:Runs`。**该 harness 无法只跑一个 run**，最短请求是两元素向量。单跑 runtime 实测：noCDIS ≈ 389 s、noPAQC ≈ 438 s（12 路并行）。
+
+- **HES_EA_N100 @ M=10 —— 🔄 进行中（2026-09-19 10:03 启动，320 跑）**。用户要求只跑十目标（20 目标暂不跑），16 题 × 20 跑，M=10/D=30/N=100/maxFE=300/SaveCount=30，SeedBase=**21260912**（与 10 目标数据集逐跑配对）。数据 `D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100\`，每个 MAT 含 `result` + `metric{runtime, IGD, IGDp}`（**IGDp 边跑边存**）。框架 `PlatEMO/Experiments/HES_EA_N100_M10/`（runner/driver/missing_runs/verify/smoke）。预计 2–3 h（单跑 ≈166 s）。
+  - 🔴 超参必须传 `'Parameters',{}` 走论文默认 `{wmax,WN,KMeans}`=`{20,190,4}`；传 harness 默认 5 元组会把 KMeans 设成 0.25 直接报错。
+  - 🔧 已给共享 harness 增加**可选**参数 `ExtraMetrics`（默认 `{}`，对既有实验零影响），用于把 IGDp 等附加指标在跑的同时写进 MAT（替代事后 merge 重算）。
+  - ⚠️ HES_EA_N100 第 75 行 `pdist2(...,'cosine')` 在 WFG3 这类问题上会刷 `stats:pdist2:ZeroPoints` 警告，需在 runner 里压制（算法本身已有 clamp，警告无副作用）。
 
 - **RWMOP11 真实问题实验（新增主线）：✅ 完成 140/140**。七个算法 = PACDIS + 论文六基线（REMO/PIEA/CSEA/PC-SAEA/K-RVEA/MCEA-D），**全部统一注入标准 feasibility-first 规则（CDP）**；M=5、D=3、N=100、maxFE=300、20 跑、threads=1。数据 `D:\REMOandDREMO测试集\5目标\n3\<算法>_CDP\`（`result`+`metric{HV,Feasible_rate,runtime}`）；框架在 `PlatEMO/Experiments/RWMOP11_WaterResource/`（**该目录在 .gitignore 内、不受版本控制**，与 pMixSweep 同例；含 README/VERIFICATION/RESULTS/LaTeX 表）。
   - **结果（20 跑均值）**：HV = CSEA 0.0986 > REMO 0.0973 > K-RVEA 0.0954 > PIEA 0.0952 > MCEA/D 0.0919 > PC-SAEA 0.0888 > **PACDIS 0.0878（垫底，与各基线秩和 p≤1e-5 或 0.29）**；可行率 = REMO 0.933 > MCEA/D 0.914 > PC-SAEA 0.904 > **PACDIS 0.864** > K-RVEA 0.846 > CSEA 0.816 > PIEA 0.670。
