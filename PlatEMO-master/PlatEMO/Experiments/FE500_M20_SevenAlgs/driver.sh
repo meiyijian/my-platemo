@@ -70,6 +70,25 @@ SLICE_TIMEOUT=${SLICE_TIMEOUT:-14400}
 # (problem, run), so a run that hangs hangs again on every re-drive; without
 # poisoning, one stuck run would burn SLICE_TIMEOUT on a slot once per round.
 MAX_SLICE_FAILS=${MAX_SLICE_FAILS:-2}
+# Launch pacing. This box dies with ntdll heap corruption when many MATLAB
+# processes COLD-start at the same moment, so launches are always spaced out --
+# but the hazard is the cold start, not the steady state. A single fixed gap of
+# 20 s also throttled fast algorithms to a crawl: an SSDE slice finishes in ~25 s
+# while launches were 22 s apart, so the pool never got past 2-3 of 14 processes
+# and the CPU sat at ~12%. Hence: the first COLD_STARTS launches of each pass pay
+# the full LAUNCH_GAP, everything after that only pays LAUNCH_GAP_WARM.
+LAUNCH_GAP=${LAUNCH_GAP:-20}
+COLD_STARTS=${COLD_STARTS:-4}
+LAUNCH_GAP_WARM=${LAUNCH_GAP_WARM:-5}
+# Memory gate. Measured on this box: 31.3 GB total, ~16 GB already taken by the OS
+# and apps, one MATLAB worker 0.6 GB (SSDE) to ~1.2 GB (patternnet/dacefit
+# algorithms). 14 workers therefore leave only a few GB and the heavy algorithms
+# (REMO, PACDIS, HES_EA) could start paging -- a swap storm costs far more than
+# the two extra slots are worth. Before each launch the driver now waits while
+# free memory is below MIN_FREE_MB, so the pool self-throttles exactly when it
+# has to and stays at MAXJOBS the rest of the time.
+MIN_FREE_MB=${MIN_FREE_MB:-3500}
+memfree_mb() { awk '/MemFree/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 999999; }
 RUN_TOTAL=$(echo "$FE500_RUNS" | awk -F'[-]' '{if (NF==2) print $2-$1+1; else {n=split($0,a,","); print n}}')
 
 mkdir -p "$LOGDIR"
@@ -84,6 +103,7 @@ log "matlab  : $MP"
 log "python  : $PY"
 log "algs    : $ALGS"
 log "runs    : $FE500_RUNS ($RUN_TOTAL per problem)  chunk=$FE500_CHUNK  maxjobs=$MAXJOBS  rounds=$ROUNDS  slice_timeout=${SLICE_TIMEOUT}s  max_slice_fails=$MAX_SLICE_FAILS  cores=$(nproc 2>/dev/null || echo '?')"
+log "pacing  : gap=${LAUNCH_GAP}s for the first $COLD_STARTS launches, then ${LAUNCH_GAP_WARM}s ; memory gate ${MIN_FREE_MB} MB free"
 log "data    : ${FE500_M20_OUTPUT_ROOT:-D:\\REMOandDREMO测试集\\20目标\\FE500}"
 log "========================================="
 
@@ -128,11 +148,16 @@ for key in $ALGS; do
             break
         fi
         alog "attempt $attempt: present=$present/$TOTAL, ${#SLICES[@]} slices to go"
+        launched=0
         for slice in "${SLICES[@]}"; do
             part=${slice%%|*}
             runs=${slice##*|}
             while [ "$(jobs -rp | wc -l)" -ge "$MAXJOBS" ]; do
                 wait -n 2>/dev/null || sleep 10
+            done
+            while [ "$(memfree_mb)" -lt "$MIN_FREE_MB" ]; do
+                alog "  [mem] $(memfree_mb) MB free < ${MIN_FREE_MB} MB -> holding next launch"
+                wait -n 2>/dev/null || sleep 15
             done
             alog "  start part $part runs [$runs]"
             # rc journal: one "<runs>|<exit code>" line per launch, so the poison
@@ -146,7 +171,12 @@ for key in $ALGS; do
                 ( "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
                     -logfile "$ADIR_ML\\p${part}_a${attempt}.log" ; echo "$runs|$?" >> "$RCF" ) &
             fi
-            sleep 20
+            launched=$((launched + 1))
+            if [ "$launched" -le "$COLD_STARTS" ]; then
+                sleep "$LAUNCH_GAP"
+            else
+                sleep "$LAUNCH_GAP_WARM"
+            fi
         done
         wait
         present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
