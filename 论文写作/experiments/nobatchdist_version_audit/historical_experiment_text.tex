@@ -1,0 +1,116 @@
+% Historical pre-NoBatchDist text. Excluded from the active manuscript.
+% Values retain their old IGD metric and original version identity.
+\subsection{Component Ablation of PAQC and CDIS}
+\label{sec:exp:ablation}
+
+The ablation compares four configurations at a representative count fixed at
+$k=1.5M$, which is 15 at $M=10$ and 30 at $M=20$: REMO under the same
+representative count, which provides the reference grouping and selection
+rules; the complete framework with CDIS removed (Full-CDIS); the complete
+framework with PAQC removed (Full-PAQC); and the complete framework (Full,
+i.e.\ PACDIS). Expressing the ablation as removals from the complete framework
+keeps the shared grouping, selection and representative rules identical, so
+that only the component under test changes. The significance symbols in the
+table are the exported comparisons of each variant against REMO.
+
+Table~\ref{tab:exp:ablation} reports the results on all DTLZ and WFG
+problems at both objective counts. The decision dimension is 30, except for
+WFG2 and WFG3, which use 31.
+
+\input{experiments/ablation_original/table_full_dtlz_wfg}
+
+Full has the lowest mean of the four variants on 7 of the 16 problems at
+$M=10$ and 9 of the 16 at $M=20$; Full-CDIS on 6 and 5, Full-PAQC on 2 and
+1, and REMO on 1 and 1. Measured against REMO, the exported outcomes for
+Full are 8/1/7 at $M=10$ and 10/1/5 at $M=20$ (better/worse/no detected
+difference), for Full-CDIS 8/1/7 and 10/2/4, and for Full-PAQC 4/1/11 and
+7/2/7. The complete framework is therefore better than the reference on
+eight of the sixteen problems at $M=10$ and ten at $M=20$, with a single
+loss at each objective count.
+
+DTLZ7 shows the largest improvement associated with the complete framework:
+relative to REMO, its mean IGD decreases from
+$2.1381e+1$ to $1.0120e+1$ at $M=10$ and from $4.2108e+1$ to $1.8855e+1$ at
+$M=20$, reductions of 52.7\% and 55.2\%. Most of the change at $M=10$ is
+associated with CDIS: relative to Full-CDIS, Full lowers the mean by 41.5\%,
+and relative to Full-PAQC by 29.8\%. At $M=20$ the two single-module means
+are nearly equal ($2.5637e+1$ and $2.5967e+1$), and Full lowers them by
+26.5\% and 27.4\%.
+
+The pattern is not uniform. REMO has the lowest mean on WFG3 at both
+objective counts, where all three variants are marked $-$. Removal of PAQC
+also degrades DTLZ5 at both objective counts: Full-PAQC is the worst variant
+on that problem, with $7.0299e-1$ at $M=10$ and $3.4665e-1$ at $M=20$,
+against $6.0132e-1$ and $2.6667e-1$ for Full-CDIS.
+
+% Queue the wide sensitivity table ahead of its discussion for top placement.
+\begin{table*}[tp]
+\centering
+\caption{Sensitivity to the switching probability $p_{\mathrm{mix}}$ at $M=10$ and $M=20$.}
+\label{tab:exp:pmix}
+\footnotesize
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
+\toprule
+Problem & $D$ & $p_{\mathrm{mix}}=0$ & $0.25$ & $0.50$ & $0.75$ & $1.00$ \\
+\midrule
+\multicolumn{7}{c}{\textit{10-objective problems}} \\
+\midrule
+DTLZ2 & 30 & $1.4673e+0\;(1.04e-1)^{-}$ & $1.1980e+0\;(9.10e-2)^{-}$ & $1.1101e+0\;(1.23e-1)$ & $1.1174e+0\;(1.01e-1)^{=}$ & $\mathbf{1.0575e+0}\;(1.27e-1)^{=}$ \\
+DTLZ4 & 30 & $1.4452e+0\;(9.75e-2)^{-}$ & $1.2556e+0\;(8.69e-2)^{=}$ & $1.2554e+0\;(1.06e-1)$ & $\mathbf{1.2135e+0}\;(7.44e-2)^{=}$ & $1.2491e+0\;(1.11e-1)^{=}$ \\
+DTLZ7 & 30 & $\mathbf{7.1374e+0}\;(1.16e+0)^{+}$ & $8.6532e+0\;(1.65e+0)^{+}$ & $1.0613e+1\;(1.51e+0)$ & $1.2275e+1\;(2.38e+0)^{-}$ & $1.9427e+1\;(2.99e+0)^{-}$ \\
+WFG1 & 30 & $3.2195e+0\;(3.59e-2)^{=}$ & $3.1908e+0\;(3.58e-2)^{=}$ & $3.1888e+0\;(5.33e-2)$ & $3.1902e+0\;(6.01e-2)^{=}$ & $\mathbf{3.1852e+0}\;(5.40e-2)^{=}$ \\
+WFG3 & 31 & $1.7658e+0\;(5.63e-2)^{-}$ & $1.7316e+0\;(5.24e-2)^{=}$ & $\mathbf{1.6872e+0}\;(7.88e-2)$ & $1.6955e+0\;(6.56e-2)^{=}$ & $1.6929e+0\;(7.01e-2)^{=}$ \\
+WFG8 & 30 & $\mathbf{5.5866e+0}\;(2.28e-1)^{=}$ & $5.7157e+0\;(1.98e-1)^{=}$ & $5.7532e+0\;(2.64e-1)$ & $5.8423e+0\;(2.77e-1)^{=}$ & $5.7964e+0\;(3.59e-1)^{=}$ \\
+\midrule
+\multicolumn{2}{l}{Average rank} & $3.67$ & $3.33$ & $\mathbf{2.33}$ & $3.17$ & $2.50$ \\
+\multicolumn{2}{l}{$+/-/=$ vs. $0.50$} & $1/3/2$ & $1/1/4$ & -- & $0/1/5$ & $0/1/5$ \\
+\midrule
+\multicolumn{7}{c}{\textit{20-objective problems}} \\
+\midrule
+DTLZ2 & 30 & $1.2616e+0\;(5.18e-2)^{-}$ & $1.1619e+0\;(6.89e-2)^{=}$ & $1.1415e+0\;(6.26e-2)$ & $1.1292e+0\;(5.42e-2)^{=}$ & $\mathbf{1.1111e+0}\;(3.51e-2)^{=}$ \\
+DTLZ4 & 30 & $1.0742e+0\;(4.16e-2)^{=}$ & $1.0558e+0\;(5.35e-2)^{=}$ & $\mathbf{1.0506e+0}\;(5.17e-2)$ & $1.0661e+0\;(4.34e-2)^{=}$ & $1.1148e+0\;(5.15e-2)^{-}$ \\
+DTLZ7 & 30 & $2.1062e+1\;(8.87e+0)^{=}$ & $\mathbf{1.6810e+1}\;(4.17e+0)^{=}$ & $1.8298e+1\;(3.42e+0)$ & $2.3106e+1\;(4.24e+0)^{-}$ & $3.2237e+1\;(7.51e+0)^{-}$ \\
+WFG1 & 30 & $5.6088e+0\;(4.12e-2)^{=}$ & $5.6173e+0\;(6.19e-2)^{=}$ & $\mathbf{5.5870e+0}\;(5.53e-2)$ & $5.5998e+0\;(5.47e-2)^{=}$ & $5.6154e+0\;(8.21e-2)^{=}$ \\
+WFG3 & 31 & $2.8724e+0\;(9.74e-2)^{-}$ & $2.7862e+0\;(1.34e-1)^{=}$ & $2.7794e+0\;(9.92e-2)$ & $2.7655e+0\;(9.01e-2)^{=}$ & $\mathbf{2.7013e+0}\;(1.39e-1)^{=}$ \\
+WFG8 & 30 & $2.0465e+1\;(9.21e-1)^{=}$ & $\mathbf{2.0362e+1}\;(8.23e-1)^{=}$ & $2.0926e+1\;(8.66e-1)$ & $2.1141e+1\;(1.17e+0)^{=}$ & $2.1744e+1\;(1.34e+0)^{=}$ \\
+\midrule
+\multicolumn{2}{l}{Average rank} & $3.67$ & $2.83$ & $\mathbf{2.17}$ & $2.83$ & $3.50$ \\
+\multicolumn{2}{l}{$+/-/=$ vs. $0.50$} & $0/2/4$ & $0/0/6$ & -- & $0/1/5$ & $0/2/4$ \\
+\midrule
+\multicolumn{2}{l}{Overall average rank} & $3.67$ & $3.08$ & $\mathbf{2.25}$ & $3.00$ & $3.00$ \\
+\multicolumn{2}{l}{Overall $+/-/=$ vs. $0.50$} & $1/5/6$ & $1/1/10$ & -- & $0/2/10$ & $0/3/9$ \\
+\bottomrule
+\end{tabular*}
+\par\smallskip
+\begin{minipage}{\textwidth}\footnotesize
+Smaller IGD is better, and the lowest mean in each row is highlighted in bold. Symbols $+$, $-$, and $=$ indicate that the corresponding non-default setting is reported as better than, worse than, or not detectably different from $p_{\mathrm{mix}}=0.5$, respectively, following the supplied PlatEMO export. The average-rank rows are computed from the mean IGD values within each objective setting.
+\end{minipage}
+\end{table*}
+
+Both modules therefore contribute under the reference grouping and selection
+rules, and the contribution of each is conditional on the problem. The four
+configurations compare every variant with the same reference; they do not
+separate an interaction between the two modules from their individual
+contributions, and the counts are per-problem comparisons rather than an
+omnibus test across problems.
+
+\TODO{Confirm the number of independent runs, the actual terminal FE, the IGD
+reference sets and the statistical-test settings from the individual-run
+records, and document the selection criterion for the sixteen reported
+problems. The exports specify $N=100$ and a configured budget of 300
+evaluations; these are configuration values that have not been verified
+against the individual runs.}
+
+
+\subsection{Effect of Selection-Criterion Switching}
+\label{sec:exp:pmix}
+
+Table~\ref{tab:exp:pmix} examines whether the default switching probability is a reasonable choice: $p_{\mathrm{mix}}$ was varied over $\{0,0.25,0.5,0.75,1\}$. According to \eqref{eq:mode}, $p_{\mathrm{mix}}=0$ always uses the diversification-oriented criterion when candidate selection is performed, whereas $p_{\mathrm{mix}}=1$ uses the indicator-oriented criterion whenever its surrogate is available; intermediate values stochastically alternate between the two criteria. The exported parameter study contains six benchmark problems at both $M=10$ and $M=20$.
+
+
+
+The default $p_{\mathrm{mix}}=0.5$ gives the best overall average rank, $2.25$, compared with $3.67$, $3.08$, $3.00$, and $3.00$ for $p_{\mathrm{mix}}=0$, $0.25$, $0.75$, and $1$, respectively. The same pattern is observed separately at both objective counts: the average rank of the default setting is $2.33$ at $M=10$ and $2.17$ at $M=20$, the lowest among the five settings in each case. This advantage does not arise from uniformly winning every problem. For example, the diversification-only setting performs best on DTLZ7 and WFG8 at $M=10$, while $p_{\mathrm{mix}}=0.25$ obtains the lowest mean on DTLZ7 and WFG8 at $M=20$.
+
+The pairwise annotations nevertheless show a more stable pattern for the equal-probability mixture. Across the 12 problem--objective configurations, $p_{\mathrm{mix}}=0.75$ and $1$ are never reported as better than $p_{\mathrm{mix}}=0.5$, while being worse on two and three configurations, respectively. The $p_{\mathrm{mix}}=0.25$ setting is better once, worse once, and indistinguishable on the remaining ten configurations. The diversification-only setting is better once but worse five times. These results support $p_{\mathrm{mix}}=0.5$ as a robust compromise between the two selection criteria rather than as a universally optimal value on every benchmark instance.

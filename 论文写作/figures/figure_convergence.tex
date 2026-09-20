@@ -1,6 +1,6 @@
 % Section 4.7 convergence figure; built by figures/build_convergence.py from
-% figures/source_data/convergence_igd.csv (exported by
-% .workbuddy/run_scripts/ExportConvergenceCSV.m).
+% experiments/nobatchdist_version_audit/convergence_igdp.csv (exported by
+% experiments/nobatchdist_version_audit/audit_existing.py).
 % Six standalone panels are included rather than one combined bitmap, so each
 % panel is placed at its native size and nothing is shrunk by the layout.
 \begin{figure*}[tp]
@@ -11,16 +11,14 @@
   \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg8_m15.pdf}\\[3pt]
   \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg7_m20.pdf}\hfill
   \includegraphics[width=0.485\textwidth]{figures/fig_convergence_wfg8_m20.pdf}
-  \caption{Median IGD convergence of PACDIS and the six baseline algorithms
+  \caption{Median IGD$^+$ convergence of PACDIS (NoBatchDist) and the six baseline algorithms
   on WFG7 and WFG8 at $M=10$, 15 and 20. Each curve summarizes 20
-  independent runs (run identifiers 1--20) of the same experiment as the
-  main comparison. Traces are aligned on a unit-FE grid by holding the most
-  recent recorded value, without extrapolation past the last snapshot, and
-  one vertex is drawn every 25 evaluations. Because the initial design
-  already consumes real evaluations, every algorithm except MCEA/D records
-  its first snapshot at 100 or later; the axis therefore starts at 95 and
-  the earlier MCEA/D points are omitted. The IGD values are computed by the
-  same implementation and reference sets as
-  Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}.}
+  runs (identifiers 1--20) from the main comparison. We align traces on a
+  unit-FE grid using the latest snapshot at or before each grid point,
+  restrict the display to $FE\leq300$, and draw vertices every 25 evaluations.
+  The plot does not extend a trace beyond its last snapshot. Initialization
+  consumes real evaluations; the axis starts at 95 and omits earlier
+  MCEA/D snapshots. The curves use cached IGD$^+$ values from the source MAT
+  files; reference-set provenance remains under audit.}
   \label{fig:exp:convergence}
 \end{figure*}

@@ -8,8 +8,8 @@
   bounds their accumulation. Indicator mode is drawn with probability
   $p_{\mathrm{mix}}=0.5$ when its surrogate is available; otherwise exploration
   mode is used. The selected mode determines the final filtering and selection
-  criterion. Exploration uses a relation-quality screen followed by joint
-  quality--distance batch selection; the indicator branch directly reranks
+  criterion. Exploration uses a relation-quality screen followed by
+  ambiguity-rewarded ranking; the indicator branch directly reranks
   its relation-screened subset. The batch is bounded by its cap and the
   remaining evaluation budget, without minimum-size completion.
   Detailed safeguards are given in

@@ -1,8 +1,8 @@
 """Build the Section 4.6 convergence figures for the PACDIS manuscript.
 
-Source: figures/source_data/convergence_igd.csv, exported by
-.workbuddy/run_scripts/ExportConvergenceCSV.m from the saved PlatEMO result
-files of the main study (IGD stored per snapshot, run with 'save',30).
+Source: experiments/nobatchdist_version_audit/convergence_igdp.csv, exported
+by audit_existing.py from the saved NoBatchDist and baseline MAT snapshots.
+The original IGD source CSV remains an unused historical artifact.
 
 Two sets of deliverables come out of the same drawing code:
 
@@ -11,7 +11,7 @@ Two sets of deliverables come out of the same drawing code:
   that no panel is scaled down by a combined layout.
 * one combined figure, fig_convergence.{pdf,svg,png}, kept as an overview.
 
-Style: median IGD traces of PACDIS and the six baselines on WFG7 and WFG8 at
+Style: median IGD+ traces of PACDIS and the six baselines on WFG7 and WFG8 at
 M = 10, 15 and 20. Runs 1-20 are used for every algorithm (the matched
 subset; the baselines have 30 stored runs, PACDIS 20). Traces are aligned on
 a unit-FE grid by zero-order hold and drawn as straight polylines with one
@@ -44,7 +44,7 @@ ORANGE = '#AD5F25'
 PURPLE = '#776193'
 TEAL = '#28756B'
 
-PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030'
+PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist'
 ORDER = [PACDIS, 'REMO', 'PIEA', 'CSEA', 'PCSAEA_N100', 'KRVEA_100', 'MCEAD']
 LABELS = {
     PACDIS: 'PACDIS (ours)',
@@ -84,7 +84,7 @@ RUNS = list(range(1, 21))          # matched subset: run ids 1-20
 # first snapshot at FE=100, CSEA at 109, MCEA/D earlier), so the axis starts
 # just left of 100 and the initial-design phase stays out of the picture.
 XMIN, XMAX = 95, 305
-GRID = np.arange(XMIN, XMAX + 1)
+GRID = np.arange(XMIN, 301)  # leave axis padding, but never plot FE > 300
 LETTERS = 'abcdef'
 
 COMBINED_FIGSIZE = (180 / 25.4, 185 / 25.4)
@@ -130,21 +130,24 @@ def resample(fe, igd, grid):
     igd_u = np.asarray(igd_u)
     g = np.full(grid.shape, np.nan)
     idx = np.searchsorted(fe_u, grid, side='right') - 1
-    ok = idx >= 0
+    ok = (idx >= 0) & (grid <= fe_u[-1])
     g[ok] = igd_u[idx[ok]]
     return g
 
 
 def load_traces():
-    csv = DATA / 'convergence_igd.csv'
+    csv = OUT.parent / 'experiments/nobatchdist_version_audit/convergence_igdp.csv'
     df = pd.read_csv(csv)
     df = df[df['Run'].isin(RUNS)]
     traces = {}
     for (m, prob, alg), grp in df.groupby(['M', 'Problem', 'Algorithm']):
+        assert sorted(grp['Run'].unique()) == RUNS, (m, prob, alg, 'incomplete runs')
+        assert not grp.duplicated(['Run','Step']).any(), (m, prob, alg, 'duplicate snapshots')
         runs = []
         for _, r in grp.groupby('Run'):
-            runs.append(resample(r['FE'].to_numpy(), r['IGD'].to_numpy(), GRID))
+            runs.append(resample(r['FE'].to_numpy(), r['IGDp'].to_numpy(), GRID))
         traces[(m, prob, alg)] = np.vstack(runs)
+    assert set(traces) == {(m,p,a) for m in MS for p in PROBLEMS for a in ORDER}
     return csv, df, traces
 
 
@@ -213,7 +216,7 @@ def build_single(stats, m, prob, letter):
     ax.set_xticks([100, 150, 200, 250, 300])
     ax.yaxis.set_major_locator(MaxNLocator(nbins=4, steps=[1, 2, 5, 10]))
     ax.set_xlabel('Number of real function evaluations')
-    ax.set_ylabel('IGD')
+    ax.set_ylabel(r'IGD$^+$')
     ax.legend(legend_handles(), [LABELS[a] for a in ORDER],
               loc='upper right', ncol=2, fontsize=6.5,
               columnspacing=0.9, handlelength=1.8, handletextpad=0.5,
@@ -247,7 +250,7 @@ def build_combined(stats):
             if i == len(MS) - 1:
                 ax.set_xlabel('Number of real function evaluations')
             if j == 0:
-                ax.set_ylabel('IGD')
+                ax.set_ylabel(r'IGD$^+$')
     fig.legend(legend_handles(), [LABELS[a] for a in ORDER],
                loc='lower center', ncol=7, bbox_to_anchor=(0.5, 0.008),
                columnspacing=1.6, handlelength=2.6)
@@ -280,6 +283,7 @@ def save(fig, name, csv, panel_runs, problems, objectives):
         QA / f'{name}_render.png')
     manifest = {
         'figure': name,
+        'metric': 'IGDp (IGD+)',
         'source_csv': str(csv),
         'source_csv_sha256': hashlib.sha256(csv.read_bytes()).hexdigest(),
         'runs_used': RUNS,
@@ -310,6 +314,14 @@ if __name__ == '__main__':
     QA.mkdir(exist_ok=True)
     csv, df, traces = load_traces()
     stats = {k: percentiles(v) for k, v in traces.items()}
+    endpoint_report = []
+    for m in MS:
+        for prob in PROBLEMS:
+            values = {a: float(stats[(m, prob, a)][1][-1]) for a in ORDER}
+            endpoint_report.append({'M': m, 'problem': prob, 'FE': 300,
+                                    'medians': values, 'best': min(values, key=values.get)})
+    (csv.parent / 'convergence_at_300.json').write_text(
+        json.dumps(endpoint_report, indent=2), encoding='utf-8')
     runs_for = lambda ms, ps: {f'M{m}|{p}':                       # noqa: E731
                                {a: int(traces[(m, p, a)].shape[0]) for a in ORDER}
                                for m in ms for p in ps}

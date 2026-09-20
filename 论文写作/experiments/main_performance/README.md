@@ -12,7 +12,7 @@
 - 三个目标数一律取 **run 1–20**。10 目标源表由用户制作；15/20 目标源表由 `.workbuddy/run_scripts/BuildTable15Data.m` 与 `BuildTableM20Data.m` 生成，符号用 PlatEMO 的 ranksum（p<0.05），基准为末列 NoBatchDist，与 10 目标表口径一致。
 - `igd_snapshot.csv`记录源工作簿、工作表、单元格、原字符串及解析值；`source_manifest.json`记录SHA-256、列身份、元数据及源表汇总。
 - 源表不含N、FE、独立运行次数等完整元数据。N=100、maxFE=300延续用户确认的设置。清单中缺失字段保留null，不伪装成Excel记录。
-- 配置：gmax=3000、pMix=0.50、rGood=0.25、qKeep=0.70、nMax=6；内部常数w=0.75、qRel=0.30、theta=5；k_eff=min(N,max(6,ceil(1.5*M)))。
+- 配置：gmax=3000、pMix=0.50、rGood=0.25、qKeep=0.70、nMax=6；内部常数lambda=0.30、qRel=0.30、theta=5；k_eff=min(N,max(6,ceil(1.5*M)))。NoBatchDist 不再使用批次距离权重 w。
 - D取自源表：WFG2/3在M=10/20为31，M=15全部为30。N_init=100与目标种群配置N=100分开说明。
 - 独立运行次数、导出统计选项、IGD$^+$参考集、执行环境和基线逐次实际FE尚需补充核实。源表标记不是本次重新执行的检验；不声称所有基线均严格终止于300 FE。
 

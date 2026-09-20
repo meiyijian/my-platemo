@@ -1,0 +1,92 @@
+[
+  {
+    "M": 10,
+    "problem": "WFG7",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 3.984650817742244,
+      "REMO": 5.3850337627519735,
+      "PIEA": 6.0725916075715425,
+      "CSEA": 6.466168867989312,
+      "PCSAEA_N100": 6.785393902928461,
+      "KRVEA_100": 5.078375252854892,
+      "MCEAD": 7.3517447260387625
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 10,
+    "problem": "WFG8",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 4.5404977189645095,
+      "REMO": 6.440866865947186,
+      "PIEA": 5.178164015340272,
+      "CSEA": 7.0928601543544865,
+      "PCSAEA_N100": 6.8102720485083434,
+      "KRVEA_100": 4.8344513114130265,
+      "MCEAD": 6.59348114986703
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 15,
+    "problem": "WFG7",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 9.569312511988496,
+      "REMO": 12.885912922967771,
+      "PIEA": 12.61370373152435,
+      "CSEA": 14.133260561102968,
+      "PCSAEA_N100": 13.900593846591672,
+      "KRVEA_100": 13.223542880699467,
+      "MCEAD": 15.149413324235915
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 15,
+    "problem": "WFG8",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 10.263079564437533,
+      "REMO": 12.912531294579303,
+      "PIEA": 11.140662263274022,
+      "CSEA": 14.308966515108981,
+      "PCSAEA_N100": 13.378992620723057,
+      "KRVEA_100": 10.42191810163864,
+      "MCEAD": 13.0739973223369
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 20,
+    "problem": "WFG7",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 17.401939069506746,
+      "REMO": 21.049009697520425,
+      "PIEA": 21.44237123749641,
+      "CSEA": 23.353737367497885,
+      "PCSAEA_N100": 22.720310469598104,
+      "KRVEA_100": 23.20029796207305,
+      "MCEAD": 23.820369999165337
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 20,
+    "problem": "WFG8",
+    "FE": 300,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 17.98076553354483,
+      "REMO": 22.34139977499241,
+      "PIEA": 19.889327079557624,
+      "CSEA": 23.941200862503937,
+      "PCSAEA_N100": 22.53253229821169,
+      "KRVEA_100": 17.735860775422793,
+      "MCEAD": 23.094311832860832
+    },
+    "best": "KRVEA_100"
+  }
+]
