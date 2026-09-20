@@ -26,8 +26,38 @@ FOLDERS = {
     "HES_EA": "HES_EA",
     "SSDE":   "SSDE",
     "SAMOEA": "SAMOEATL2M",
+    # Alias: the CLASS name is SAMOEATL2M while the registry key is SAMOEA. Both
+    # are accepted so that a key typed as the class name cannot silently run to
+    # nothing (it already cost one full pass once -- see driver.sh).
+    "SAMOEATL2M": "SAMOEATL2M",
     "PACDIS": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
 }
+
+# MAT files are named after the CLASS, not after the key. For six of the seven
+# algorithms the two are identical; SAMOEA is the exception (key SAMOEA, class
+# SAMOEATL2M). Building the filename from the key would make every file look
+# missing and re-launch a fully stored algorithm, so the class is kept here
+# explicitly. Keep in sync with fe500_m20_registry.m.
+CLASSES = {
+    "REMO":   "REMO",
+    "PCSAEA": "PCSAEA",
+    "CSEA":   "CSEA",
+    "HES_EA": "HES_EA",
+    "SSDE":   "SSDE",
+    "SAMOEA": "SAMOEATL2M",
+    "SAMOEATL2M": "SAMOEATL2M",
+    "PACDIS": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+}
+
+
+def resolve(key):
+    """(class name used in file names, folder used for output, class-name list)"""
+    key = (key or "").strip().upper()
+    if key not in FOLDERS:
+        return None
+    cls = CLASSES[key]
+    folder = os.environ.get("FE500_FOLDER") or FOLDERS[key]
+    return cls, folder, key
 PROBS = ["DTLZ1", "DTLZ2", "DTLZ3", "DTLZ4", "DTLZ5", "DTLZ6", "DTLZ7",
          "WFG1", "WFG2", "WFG3", "WFG4", "WFG5", "WFG6", "WFG7", "WFG8", "WFG9"]
 
@@ -80,8 +110,9 @@ def main():
     if key not in FOLDERS:
         sys.stderr.write("unknown FE500_ALG=%r; known: %s\n" % (key, ", ".join(FOLDERS)))
         return 2
+    cls, folderName, key = resolve(key)
     root = os.environ.get("FE500_M20_OUTPUT_ROOT", DEFAULT_ROOT)
-    outdir = os.path.join(root, FOLDERS[key])
+    outdir = os.path.join(root, folderName)
     runs = parse_runs(os.environ.get("FE500_RUNS", "1-20"))
     chunk = int(os.environ.get("FE500_CHUNK", "10"))
     poison = read_poison(os.environ.get("FE500_POISON", ""))
@@ -95,7 +126,7 @@ def main():
                 nSkipped += 1
                 continue
             found = any(os.path.isfile(os.path.join(
-                outdir, "%s_%s_M20_D%d_%d.mat" % (key, problem, d, run)))
+                outdir, "%s_%s_M20_D%d_%d.mat" % (cls, problem, d, run)))
                 for d in (30, 31))
             if not found:
                 missing.append(run)

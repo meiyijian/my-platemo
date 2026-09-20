@@ -38,9 +38,14 @@ function run_FE500_M20(algKey,part,runs,threads)
     maxNumCompThreads(threads);
 
     reg = fe500_m20_registry();
-    k = find(strcmpi({reg.key},char(string(algKey))),1);
+    algKey = char(string(algKey));
+    % Accept the class name as a key too: the registry key is SAMOEA while the
+    % class (and the file prefix) is SAMOEATL2M, which is far too easy to mix up
+    % -- typing the class name once silently skipped the algorithm entirely.
+    if strcmpi(algKey,'SAMOEATL2M'), algKey = 'SAMOEA'; end
+    k = find(strcmpi({reg.key},algKey),1);
     assert(~isempty(k),'FE500_M20:UnknownAlgorithm', ...
-        'Unknown algorithm key "%s". Known: %s',char(string(algKey)),strjoin({reg.key},', '));
+        'Unknown algorithm key "%s". Known: %s',algKey,strjoin({reg.key},', '));
     R = reg(k);
     if ~iscell(R.params), R.params = cell(0,0); end   % guard against an [] field
 

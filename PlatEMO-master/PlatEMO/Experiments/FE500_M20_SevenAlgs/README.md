@@ -41,6 +41,12 @@
 | SAMOEA | `SAMOEATL2M` | `SAMOEATL2M` | 类默认 `{G,KE,alpha}={20,5,0.4}` |
 | PACDIS | `REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist` | 同名 | `{3000,0.50,0.25,0.70,6}` |
 
+🔴 **`ALGS` 里必须写 KEY，不要写类名**。七个里只有 `SAMOEA` 两者不同（类名/目录是
+`SAMOEATL2M`），而 MAT 文件名用的是**类名**（harness 用 `R.cls`）——
+所以 `missing_runs.py` / `mark_poison.py` 都走 `CLASSES` 表按类名拼文件名。
+`driver.sh` 与 `run_FE500_M20.m` 现在都接受 `SAMOEATL2M` 作为 `SAMOEA` 的别名，
+且**未知键只跳过 + 收尾汇总，不会终止整轮扫描**（这条是踩过坑加的，见下）。
+
 **基线一律传空参数 `{}`**（走类的 published 默认）。把本项目的五元组
 `{3000,0.50,...}` 传给它们会静默把 `k`/`delta`/`wmax` 等设成 3000，必须避免。
 

@@ -110,20 +110,29 @@ log "pacing  : gap=${LAUNCH_GAP}s for the first $COLD_STARTS launches, then ${LA
 log "data    : ${FE500_M20_OUTPUT_ROOT:-D:\\REMOandDREMO测试集\\20目标\\FE500}"
 log "========================================="
 
+BADKEY=""
 for key in $ALGS; do
-    export FE500_ALG="$key"
     # Output sub-folder per algorithm. MUST stay in sync with
     # fe500_m20_registry.m / missing_runs.py FOLDERS.
+    # Canonical keys come from fe500_m20_registry.m. SAMOEATL2M is accepted as an
+    # alias for SAMOEA because it is also the CLASS name and therefore very easy
+    # to type by accident -- getting this wrong once already killed a whole pass.
     case "$key" in
         REMO)   KEYDIR="REMO" ;;
         PCSAEA) KEYDIR="PCSAEA" ;;
         CSEA)   KEYDIR="CSEA" ;;
         HES_EA) KEYDIR="HES_EA" ;;
         SSDE)   KEYDIR="SSDE" ;;
-        SAMOEA) KEYDIR="SAMOEATL2M" ;;
+        SAMOEA|SAMOEATL2M) key="SAMOEA"; KEYDIR="SAMOEATL2M" ;;
         PACDIS) KEYDIR="REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist" ;;
-        *)      echo "unknown algorithm key '$key'"; exit 2 ;;
+        *)
+            # A typo must not take the whole 16 h pass down with it: shout, skip,
+            # remember, and report at the end.
+            echo "[$(date '+%Y-%m-%d %H:%M:%S')] !! unknown algorithm key '$key' -> SKIPPED" | tee -a "$LOGDIR/driver.log"
+            BADKEY="$BADKEY $key"
+            continue ;;
     esac
+    export FE500_ALG="$key"
     # A class override (run_FE500_M20 reads FE500_CLS_<KEY>) also moves the
     # output folder, so mirror that here by pointing at the overridden name.
     CLS_OVR=$(printenv "FE500_CLS_$key")
@@ -132,6 +141,10 @@ for key in $ALGS; do
     ADIR_ML="$LOGDIR_ML\\$key"
     mkdir -p "$ADIR"
     alog() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$ADIR/driver.log"; }
+    # The python helpers build MAT file names from the CLASS, not from the key, and
+    # look the output folder up in their own table; FE500_FOLDER keeps them in
+    # step when a class override (FE500_CLS_<KEY>) has moved the folder.
+    export FE500_FOLDER="$KEYDIR"
     # Poison list: (problem,run) pairs that hang deterministically and are skipped.
     export FE500_POISON="$ADIR_ML\\poison.txt"
     if [ -s "$ADIR/poison.txt" ]; then
@@ -205,7 +218,11 @@ for key in $ALGS; do
     done
 
     present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
-    poisoned=$(wc -l < "$ADIR/poison.txt" 2>/dev/null || echo 0)
+    if [ -f "$ADIR/poison.txt" ]; then
+        poisoned=$(wc -l < "$ADIR/poison.txt" 2>/dev/null || echo 0)
+    else
+        poisoned=0
+    fi
     alog "---------- $key done: present=$present/$TOTAL  poisoned=$poisoned ----------"
 done
 
@@ -217,5 +234,8 @@ if [ "$SKIP_VERIFY" != "1" ]; then
         sleep 5
     done
     wait
+fi
+if [ -n "$BADKEY" ]; then
+    log "!! UNKNOWN ALGORITHM KEY(S) SKIPPED:$BADKEY -- nothing was run for them"
 fi
 log "DRIVER_DONE algs=[$ALGS]"

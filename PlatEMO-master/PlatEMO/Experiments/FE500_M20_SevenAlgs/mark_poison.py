@@ -35,8 +35,9 @@ def main():
     if key not in mr.FOLDERS:
         sys.stderr.write("unknown key %r\n" % key)
         return 2
+    cls, folderName, key = mr.resolve(key)
     root = os.environ.get("FE500_M20_OUTPUT_ROOT", mr.DEFAULT_ROOT)
-    outdir = os.path.join(root, mr.FOLDERS[key])
+    outdir = os.path.join(root, folderName)
     if not (1 <= part <= len(mr.PROBS)):
         sys.stderr.write("part %d out of range\n" % part)
         return 2
@@ -45,7 +46,7 @@ def main():
     culprit = None
     for run in runs:
         found = any(os.path.isfile(os.path.join(
-            outdir, "%s_%s_M20_D%d_%d.mat" % (key, problem, d, run)))
+            outdir, "%s_%s_M20_D%d_%d.mat" % (cls, problem, d, run)))
             for d in (30, 31))
         if not found:
             culprit = run
