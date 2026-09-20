@@ -22,6 +22,7 @@
 - 固定种子不能 `rng()`+`platemo()`（本地 platemo.m 会 `rng('shuffle')`）→ 直接构造 problem/algorithm，Solve 前 `rng(seed,'twister')`，模式流传 `'run',r`。
 - **同一张对比表绝不能混用 maxNumCompThreads**（对 patternnet/fitrsvm 类非中性，会被模型驱动选择混沌放大）。
 - Git：**严禁 `pull --rebase`**；两台机器别并发操作同一 .git；🔴 **长实验运行期间禁止在本机做 git merge / pull**（09-19 事故删掉工作区 905 文件）。恢复：确认无 git 进程 → `rm .git/index.lock` → `git reset --hard HEAD`；然后**先停 driver 再杀 MATLAB**，重启 driver 必须用后台任务方式（前台 `nohup &` 会被工具调用结束连带杀掉）。
+- 🔴 **git commit 的 message 别手写中文引号**：`git commit -m "…"…"…"` 里的中文引号 `"…"` 不会截断（只有 ASCII `"` 会），但**半角双引号**出现在 `-m "…"` 里会提前闭合字符串、把后面当成 pathspec → commit 失败/错收文件。**改用 `git commit -F - <<'EOF'`（stdin heredoc）最稳**；注意 **`-F /tmp/xx.txt` 会报 `could not read log file`**（git.exe 走 Windows 路径翻译，读不到 MSYS 的 `/tmp`），所以 heredoc 用 stdin（`-F -`）而不是临时文件。
 - 🔴 推送必须"先清空助手列表、只留 wincred"且在**沙箱外**执行：`GIT_TERMINAL_PROMPT=0 git -c credential.helper= -c credential.helper=wincred push origin master`。
 - ⚠️ **`refs/remotes/*` 写不进去**：fetch/update-ref 报成功但不落盘（`git status -sb` 恒 `[gone]`）。绕过 = 用文件写入工具把 `.git/refs/remotes/origin/master` 写一行远端 SHA，别反复重试 fetch。
 - MATLAB `-batch` 退出偶发 `0xc0000374`（堆损坏）：崩前写盘的数据安全。**切片越短越容易崩**（2 跑/切片 20 片崩 6 片 vs 10 跑/切片 156 片全 exit=0）→ 长实验用长切片，当"重跑即可"的噪声。
