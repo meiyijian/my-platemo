@@ -45,7 +45,6 @@
 `{3000,0.50,...}` 传给它们会静默把 `k`/`delta`/`wmax` 等设成 3000，必须避免。
 
 ## 三、⚠️ 预算分配不等 —— 报数时必须交代
-
 `PCSAEA` / `HES_EA` / `SAMOEATL2M` 的初始设计是 `NI = 11*D-1 = 329`，
 在 maxFE=500 下**吃掉 66% 的预算**，只剩 ~171 次真评估给搜索主循环；
 而 `REMO` / `CSEA` / `SSDE` / `PACDIS` 从 100–109 起步，有 ~400 次给搜索。
@@ -58,6 +57,17 @@
 > 存下来的 run 是**纯初始种群**（本机 `20目标\PCSAEA`、`20目标\KRVEA` 就有 480 个
 > 这样的文件，只有 1 个快照、FE=329）。FE500 下它们才真正跑起来。
 
+### ⚠️ DTLZ7 单跑 wall 被指标计算主导（约 100 s/跑）
+实测 SSDE（算法本身 **1.5 s**）：DTLZ2/DTLZ1/WFG9 的单跑 wall 是 2.5–5 s，
+而 **DTLZ7 是 86–130 s**。差别不在算法，在 `metric`：
+DTLZ7 的 `GetOptimum` 用的是 `UniformPoint(N, M-1, 'grid')`，
+M=20 时给出 **2¹⁹ = 524288 个参考点**（其它题是 `UniformPoint(10000, M-1)` 的 10000 点）。
+于是每个快照的 IGD/IGDp 都要算 `524288 × |存档|` 的距离，30 个快照 × 2 个指标 ≈ 100 s。
+⇒ 这是"要 IGDp 全轨迹"的必然代价（旧笔记里"DTLZ7/M=20 参考集 524288 点、进池会崩"
+就是同一件事）。对 REMO/PACDIS/HES 这种单跑几百秒的算法可以忽略；
+对 SSDE 这种秒级算法，DTLZ7 会明显拖尾（20 跑 ≈ 33 min）。
+**注意 `metric.runtime` 是不含指标计算的**，看单跑成本要看日志里的 `wall`。
+
 ## 四、⚠️ `HES_EA` 可能死循环
 
 `HES_EA`（以及 `HES_EA_N100`、guard 版）共有一段聚类赋值代码。当随机投影出的两个
@@ -68,8 +78,14 @@
 
 因此：
 
-- `driver.sh` 带 **`SLICE_TIMEOUT`**（默认 10800 s），任何切片超时会被杀掉，
+- `driver.sh` 带 **`SLICE_TIMEOUT`**（默认 14400 s = 4 h），任何切片超时会被杀掉，
   进程池不会被永久堵住；被杀的切片会在下一轮被重新驱动。
+- **投毒（`mark_poison.py`）**：种子固定 ⇒ **卡死的 run 重驱必定再卡**，一个卡死 run
+  会在一轮轮重驱里反复烧满 `SLICE_TIMEOUT`，扫描永不收敛。所以同一片被 `timeout` 杀
+  （退出码 124）**≥ `MAX_SLICE_FAILS`（默认 2）次**后，把该切片 run 列表里
+  **第一个磁盘上没有 `.mat` 的 run**（切片按序执行且完成的 run 都原子落盘，所以第一个
+  缺的就是卡死的那个，其后只是没轮到）写进 `logs/<KEY>/poison.txt`，以后不再重驱。
+  要求"2 次"是为了不把**只是慢**的 run 误判成卡死；被跳过的缺口验收脚本会报成 MISSING。
 - 逃生口：`ALGS="HES_EA" FE500_CLS_HES_EA=HES_EA_N100_guard bash driver.sh`
   切到「原版 + 唯一的孤儿簇兜底」的 guard 副本（它也是本项目**唯一**跑完过
   M=20 全系列的版本）。用了哪个版本**必须在论文里写明**。
@@ -93,7 +109,21 @@ matlab -batch "addpath('<本目录>'); verify_FE500_M20"
 ```
 
 常用环境变量：`ALGS` / `RUNS` / `CHUNK` / `MAXJOBS` / `ROUNDS` / `SLICE_TIMEOUT` /
+`MAX_SLICE_FAILS` / `LAUNCH_GAP` / `COLD_STARTS` / `LAUNCH_GAP_WARM` / `MIN_FREE_MB` /
 `SKIP_VERIFY` / `MP` / `PY` / `FE500_M20_OUTPUT_ROOT` / `FE500_CLS_<KEY>`。
+
+### 并发与启动节流（都是实测调出来的，别随便改）
+- **`MAXJOBS` 默认 12**。本机 16 逻辑核 / 31.3 GB 内存，但 OS+应用已占约 16 GB、
+  **基线空闲仅 ~16.5 GB**；12 路是这台机器一直在用的值（CPU ≈98% 利用率、内存有余量）。
+  14 路虽然能把 CPU 再压一点，但只剩 ~2 GB，REMO/PACDIS/HES 这类
+  patternnet/dacefit 算法（单 worker 0.6–1.2 GB）有换页风险。
+- **`LAUNCH_GAP=20` 只用在每轮的前 `COLD_STARTS=4` 次启动，之后用 `LAUNCH_GAP_WARM=5`**。
+  本机多进程**同时冷启动**会触发 ntdll 堆损坏，所以启动必须错峰；但危险的是冷启动而不是稳态。
+  早期版本用一个固定 `sleep 20`，结果**切片比 20 s 短的算法（SSDE 一片约 25 s）被卡到
+  只有 2–3 路在跑、CPU 仅 12%**。改成冷/热分段后启动间隔 22 s → ~8 s。
+- **`MIN_FREE_MB` 默认 0 = 内存闸关闭**（12 路不需要）。它的历史作用是在
+  `MAXJOBS=14` 那种紧配置下，每次启动前查空闲内存、不够就等一个切片结束，
+  让池子自动缩容。若哪天想开更多 worker，把它设成正数（如 3000）即可。
 
 进度看 `logs/driver.log` 与 `logs/<KEY>/p<NN>_a<N>.log`
 （行格式 `[done] <题> run k | IGD a -> b | runtime Xs | wall Ys | ok`）。

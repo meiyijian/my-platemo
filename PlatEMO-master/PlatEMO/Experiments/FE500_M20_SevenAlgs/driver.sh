@@ -56,7 +56,7 @@ MISSING_PY_ML="$WORKDIR_ML\\missing_runs.py"
 ALGS=${ALGS:-"REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"}
 export FE500_RUNS=${RUNS:-1-20}
 export FE500_CHUNK=${CHUNK:-10}
-MAXJOBS=${MAXJOBS:-14}
+MAXJOBS=${MAXJOBS:-12}
 THREADS=${THREADS:-1}
 ROUNDS=${ROUNDS:-8}
 SKIP_VERIFY=${SKIP_VERIFY:-0}
@@ -80,14 +80,17 @@ MAX_SLICE_FAILS=${MAX_SLICE_FAILS:-2}
 LAUNCH_GAP=${LAUNCH_GAP:-20}
 COLD_STARTS=${COLD_STARTS:-4}
 LAUNCH_GAP_WARM=${LAUNCH_GAP_WARM:-5}
-# Memory gate. Measured on this box: 31.3 GB total, ~16 GB already taken by the OS
-# and apps, one MATLAB worker 0.6 GB (SSDE) to ~1.2 GB (patternnet/dacefit
-# algorithms). 14 workers therefore leave only a few GB and the heavy algorithms
-# (REMO, PACDIS, HES_EA) could start paging -- a swap storm costs far more than
-# the two extra slots are worth. Before each launch the driver now waits while
-# free memory is below MIN_FREE_MB, so the pool self-throttles exactly when it
-# has to and stays at MAXJOBS the rest of the time.
-MIN_FREE_MB=${MIN_FREE_MB:-3500}
+# Optional memory gate, DISABLED by default (MIN_FREE_MB=0).
+#
+# History: at MAXJOBS=14 this box got tight -- 31.3 GB total, ~16 GB already taken
+# by the OS and apps, one MATLAB worker 0.6 GB (SSDE) to ~1.2 GB (patternnet /
+# dacefit algorithms), so 14 workers would have left only ~2 GB and the heavy
+# algorithms (REMO, PACDIS, HES_EA) could start paging. MAXJOBS is 12 now, the
+# value this machine has always run at (~98% CPU utilisation, comfortable
+# headroom), so the gate is off. Set MIN_FREE_MB to a positive number (e.g. 3000)
+# if there is ever a reason to run more workers than the memory can safely hold:
+# before each launch the driver then waits until free memory recovers.
+MIN_FREE_MB=${MIN_FREE_MB:-0}
 memfree_mb() { awk '/MemFree/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 999999; }
 RUN_TOTAL=$(echo "$FE500_RUNS" | awk -F'[-]' '{if (NF==2) print $2-$1+1; else {n=split($0,a,","); print n}}')
 
@@ -103,7 +106,7 @@ log "matlab  : $MP"
 log "python  : $PY"
 log "algs    : $ALGS"
 log "runs    : $FE500_RUNS ($RUN_TOTAL per problem)  chunk=$FE500_CHUNK  maxjobs=$MAXJOBS  rounds=$ROUNDS  slice_timeout=${SLICE_TIMEOUT}s  max_slice_fails=$MAX_SLICE_FAILS  cores=$(nproc 2>/dev/null || echo '?')"
-log "pacing  : gap=${LAUNCH_GAP}s for the first $COLD_STARTS launches, then ${LAUNCH_GAP_WARM}s ; memory gate ${MIN_FREE_MB} MB free"
+log "pacing  : gap=${LAUNCH_GAP}s for the first $COLD_STARTS launches, then ${LAUNCH_GAP_WARM}s ; memory gate $( [ "${MIN_FREE_MB:-0}" -gt 0 ] && echo "on, floor ${MIN_FREE_MB} MB" || echo off )"
 log "data    : ${FE500_M20_OUTPUT_ROOT:-D:\\REMOandDREMO测试集\\20目标\\FE500}"
 log "========================================="
 
@@ -155,10 +158,12 @@ for key in $ALGS; do
             while [ "$(jobs -rp | wc -l)" -ge "$MAXJOBS" ]; do
                 wait -n 2>/dev/null || sleep 10
             done
-            while [ "$(memfree_mb)" -lt "$MIN_FREE_MB" ]; do
-                alog "  [mem] $(memfree_mb) MB free < ${MIN_FREE_MB} MB -> holding next launch"
-                wait -n 2>/dev/null || sleep 15
-            done
+            if [ "${MIN_FREE_MB:-0}" -gt 0 ]; then
+                while [ "$(memfree_mb)" -lt "$MIN_FREE_MB" ]; do
+                    alog "  [mem] $(memfree_mb) MB free < ${MIN_FREE_MB} MB -> holding next launch"
+                    wait -n 2>/dev/null || sleep 15
+                done
+            fi
             alog "  start part $part runs [$runs]"
             # rc journal: one "<runs>|<exit code>" line per launch, so the poison
             # pass can count how often THIS exact slice has been killed.
