@@ -52,6 +52,18 @@ function summary = run_UniformMixPrunedFullSeries(part,nParts,varargin)
     % Optional extra metrics to store alongside IGD (e.g. {'IGDp'}). Empty by
     % default, so every existing caller keeps its exact previous behaviour.
     parser.addParameter('ExtraMetrics',{}, @iscell);
+    % Tolerance on the final FE count, in true evaluations.
+    %
+    %   Some PlatEMO algorithms consume the budget in BATCHES, so their last
+    %   NotTerminated call happens ABOVE maxFE (measured on the 20-objective
+    %   dataset: REMO 301-305, CSEA 301, SSDE up to 336, KRVEA/PCSAEA 340 on
+    %   D=31). With the historical exact test (feList(end) == MaxFE) every such
+    %   file is judged invalid, so a re-driven driver recomputes it on every
+    %   pass and never converges. FESlack accepts
+    %       MaxFE <= final FE <= MaxFE + FESlack
+    %   which is the usual "nominal budget" convention. Default 0 keeps the
+    %   behaviour byte-identical for every pre-existing caller.
+    parser.addParameter('FESlack',0, @(v)isnumeric(v)&&isscalar(v)&&v>=0);
     parser.parse(varargin{:});
     o = parser.Results;
 
@@ -131,7 +143,7 @@ function summary = run_UniformMixPrunedFullSeries(part,nParts,varargin)
             fname = fullfile(outDir,sprintf('%s_%s_M%d_D%d_%d.mat',o.Algorithm,problemName,PRO.M,actualD,r));
 
             if isfile(fname)
-                chk = localValidateRunFile(fname,o.SaveCount,actualFE);
+                chk = localValidateRunFile(fname,o.SaveCount,actualFE,o.FESlack);
                 if chk.Valid
                     skippedRuns = skippedRuns + 1;
                     logMsg('[skip] %s (valid, final IGD %.6f)',fname,chk.FinalIGD);
@@ -163,7 +175,8 @@ function summary = run_UniformMixPrunedFullSeries(part,nParts,varargin)
             metric = ALG.metric; %#ok<NASGU>
 
             feList = cellfun(@(x)x,result(:,1));
-            bOK    = ~isempty(metric.IGD) && all(isfinite(metric.IGD)) && feList(end) == actualFE;
+            bOK    = ~isempty(metric.IGD) && all(isfinite(metric.IGD)) && ...
+                     feList(end) >= actualFE && feList(end) <= actualFE + o.FESlack;
             if ~bOK
                 logMsg('[warn] %s final FE=%s IGD tail=%s',fname,mat2str(feList(end)),mat2str(metric.IGD(end)));
             end
@@ -172,7 +185,7 @@ function summary = run_UniformMixPrunedFullSeries(part,nParts,varargin)
             save(tmpName,'result','metric');
             movefile(tmpName,fname,'f');
 
-            chk = localValidateRunFile(fname,o.SaveCount,actualFE);
+            chk = localValidateRunFile(fname,o.SaveCount,actualFE,o.FESlack);
             elapsed = toc(t0);
             logMsg('[done] %s run %d | IGD first %g -> final %g | runtime %.1fs | wall %.1fs | %s', ...
                 problemName,r,metric.IGD(1),metric.IGD(end),metric.runtime,elapsed,chk.Detail);
@@ -216,7 +229,13 @@ function localLog(logFile,varargin)
     end
 end
 
-function chk = localValidateRunFile(fname,expectCount,expectFE)
+function chk = localValidateRunFile(fname,expectCount,expectFE,slack)
+%localValidateRunFile Read a stored run back and judge it usable.
+%   A run is valid when the payload is present, the IGD trace is finite and no
+%   longer than SAVECOUNT, its length matches the FE column, and the final FE
+%   lands in [expectFE, expectFE+slack] (slack defaults to 0 = exact, the
+%   historical behaviour).
+    if nargin < 4 || isempty(slack), slack = 0; end
     chk = struct('Valid',false,'Detail','','FinalIGD',NaN,'Runtime',NaN,'FE',NaN);
     try
         info = whos('-file',fname);
@@ -239,8 +258,8 @@ function chk = localValidateRunFile(fname,expectCount,expectFE)
         if numel(feList) ~= numel(igd)
             chk.Detail = sprintf('result rows %d ~= IGD length %d',numel(feList),numel(igd)); return;
         end
-        if feList(end) ~= expectFE
-            chk.Detail = sprintf('final FE %g ~= %g',feList(end),expectFE); return;
+        if feList(end) < expectFE || feList(end) > expectFE + slack
+            chk.Detail = sprintf('final FE %g outside [%g, %g]',feList(end),expectFE,expectFE+slack); return;
         end
         chk.Valid    = true;
         chk.FinalIGD = igd(end);

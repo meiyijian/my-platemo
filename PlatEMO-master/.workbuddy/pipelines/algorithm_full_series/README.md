@@ -117,6 +117,9 @@ python check_blue_marking.py         # 每行蓝标恰好 1 个
 1. **helper 重名**：PlatEMO 用 `addpath(genpath(cd))`，全库同名 `.m` 按路径顺序解析。
    外部算法目录里的 `EnvironmentalSelection` / `predictor` / `dacefit` 极易被别的算法抢占；
    靠 `ALGORITHM.Solve` 的置顶纠正，但**必须验证**（阶段 1）。
+   **2026-09-20 实测**（FE500/M=20 七算法体检）：`REMO` 7 个、`PC-SAEA` 2 个、`CSEA` 2 个、
+   `SSDE` 1 个、PACDIS 2 个自带 helper 在 `Solve` **前**被抢占，`Solve` 后全部纠正回本目录，
+   0 个残留 ⇒ 探针以「`Solve` 后是否仍在别处」为判据是对的。
 2. **`sha256` 不是本仓库的函数**。自实现：
    `java.security.MessageDigest` + `typecast(md.digest(),'uint8')` + `sprintf('%02x',...)`。
 3. **worker 的 `fprintf` 不回传客户端**：进度必须让 job 写文件（本包写在
@@ -137,3 +140,21 @@ python check_blue_marking.py         # 每行蓝标恰好 1 个
    （多个快照）而不是标量，取 `IGD(end)`。
 9. 环境：**Bash 工具链不可用**，一律 PowerShell；工具回显常为空，命令
    `| Out-File -Encoding utf8 <临时文件>` 后用 `Read` 读；删文件用 `[System.IO.File]::Delete()`。
+10. 🔴 **末次 FE 严禁严格判等 maxFE**（2026-09-20 新增）。按批发评估的算法末次
+    `NotTerminated` 落在 maxFE**之上**，实测（M=20）：`REMO` 301–305、`CSEA` 301、
+    `SSDE` **500–543**（FE500 档）、`11D-1` 型在 D=31 是 340。
+    旧判据 `feList(end) == maxFE` 会把这些文件一律判无效 ⇒ 可重驱的 driver
+    **每一轮都重算同一批 run、永不收敛**（ROUNDS 用尽后才停，且验收报 BAD）。
+    正确判据：`maxFE <= 末次 FE <= maxFE + slack`。harness 已加 `FESlack` 参数
+    （**默认 0 = 旧行为逐字不变**），FE500 实验取 100。
+    ⚠️ 同时别忘了：**末次 FE 超过 maxFE 意味着该算法实际多花了几十次评估**，
+    跨算法比末值 IGD 时若差异很小，这几十次是有意义的，要在文中交代。
+11. **「原版 vs `_N100` 变体」要按 maxFE 档重新判断**（2026-09-20 新增）。
+    同一个原版类在 maxFE=300 下"主循环零次执行"（`11D-1 = 329 > 300`，
+    存下来的是**纯初始种群**、只有 1 个快照、FE=329），**在 maxFE=500 下却能正常跑**
+    （329 < 500，只是只剩 ~171 次给搜索）。
+    ⇒ 不要照抄旧档的结论：本机 `20目标\PCSAEA`、`20目标\KRVEA` 各 480 个文件就是
+    "FE=329、单快照"的废数据，而 FE500 档用原版是有意义的。
+    另外 `HES_EA` 的聚类死锁在**原版与 `_N100` 版里是同一段代码**（两文件只差 `InitN` 一行）
+    ⇒ 原版同样会卡死，给原版跑长任务必须配 `SLICE_TIMEOUT`（或换 guard 版）。
+
