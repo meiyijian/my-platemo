@@ -7,6 +7,7 @@
 - **git 仓库根 = `D:\PlatEMO-master`**，工作区是其子目录 `PlatEMO-master\`，论文在 `D:\PlatEMO-master\论文写作\`
 - 主线：REMO_new2_AdaMaO / PACDIS 系列 + 变体，目标 Q1（SWEVO）
 - 原始数据 `C:\Users\lsx\Desktop\REMOandDREMO测试集`（`10目标\n30` 为主；20目标扁平无 n30 层）；表格/记录 `C:\Users\lsx\Desktop\AdaMao实验表`（按实验名建子目录，不覆盖历史）
+- **两台机器路径不同（2026-09-20 用户明确）**：以上是**工位电脑**（当前这台，用户名 `lsx`）；**个人电脑**的数据根是 `D:\REMOandDREMO测试集`，且**没有表格存放路径**（个人电脑上不会要求出表格）。用户说「工位电脑」即指工位那组路径。runner / 出表脚本里的路径是硬编码的，换机器要改。
 
 ## Git 提交 / 推送（沙箱套路，2026-09-16 复核）
 1. 不用 `git add -A`（会被中断、留 0 字节 `index.lock`）→ 显式 `git add -- <path>`；清锁 `[System.IO.File]::Delete('<repo>\.git\index.lock')`

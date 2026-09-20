@@ -1,0 +1,271 @@
+classdef HES_EA_N100_guard < ALGORITHM
+% <multi> <real> <expensive>
+% Qi-Te Yang, Jian-Yu Li, Zhi-Hui Zhan, Yunliang Jiang, Yaochu Jin, and Jun Zhang, "A Hierarchical
+% and Ensemble Surrogate-Assisted Evolutionary Algorithm with Model Reduction for Expensive
+% Many-objective Optimization," IEEE Transactions on Evolutionary Computation, 2024, DOI: 10.1109/TEVC.2024.3440354.
+% wmax --- 20 --- The maximum number of internal evluation
+% WN --- 190 --- The number of reference vectors
+% KMeans --- 4 --- The number of cluster number
+
+% This file is a byte-faithful copy of HES-EA\HES_EA_N100.m with ONE change:
+% a deadlock guard after the clustering loop.  The original can leave rows
+% unassigned (Cluster == 0) when the two randomly projected objectives share
+% the same minimiser - on DTLZ2/DTLZ4 the solution that attains the minimum of
+% objective 1 attains the minimum of objective 2 as well, so its normalised
+% pair is exactly zero, pdist2(...,'cosine') returns NaN and the row is never
+% picked.  CSS is asked for searchN rows but can never select an unassigned
+% row, so its "while counter < N" spins forever (Pr becomes NaN once every
+% cluster is empty).  On DTLZ2/M=20 this reproduces in the very first
+% iteration and burns CPU indefinitely.
+%
+% The guard force-assigns every orphan to the cluster of its nearest assigned
+% neighbour in the same projected 2-D space.  Rounds without orphans, and
+% rounds where CSS would terminate anyway, are untouched, so the algorithm is
+% identical to the original except that it can no longer deadlock.
+
+%------------------------------- Copyright --------------------------------
+% Copyright (c) 2021 BIMK Group. You are free to use the PlatEMO for
+% research purposes. All publications which use this platform or any code
+% in the platform should acknowledge the use of "PlatEMO" and reference "Ye
+% Tian, Ran Cheng, Xingyi Zhang, and Yaochu Jin, PlatEMO: A MATLAB platform
+% for evolutionary multi-objective optimization [educational forum], IEEE
+% Computational Intelligence Magazine, 2017, 12(4): 73-87".
+%--------------------------------------------------------------------------
+
+% This function is written by Qi-Te Yang
+
+    methods
+        function main(Algorithm,Problem)
+            % Fixed initialization requires at least 100 true evaluations.
+            assert(Problem.maxFE >= 100,'PlatEMO:InsufficientBudget', ...
+                'The _100 variant requires maxFE >= 100.');
+            %% Add the path of the GP model (DACE toolbox) subfolder so that
+            %% dsmerge/dacefit/predictor can be found.  This guarded copy lives
+            %% in its own folder, so the DACE subfolder of the original one is
+            %% used instead.
+            gpFolder = fullfile(fileparts(mfilename('fullpath')),'..','HES-EA','GP model');
+            if isfolder(gpFolder)
+                addpath(gpFolder);
+            end
+
+            %% Parameter setting
+            [wmax,WN,KMeans] = Algorithm.ParameterSet(20,190,4);
+            Model_c = cell(1,KMeans+1);
+            Model_d = cell(1,KMeans+1);
+            THETA_c = 5.*ones(KMeans+1,Problem.D);
+            THETA_d = 5.*ones(KMeans+1,Problem.D);
+
+            %% Generate initial population based on Latin hypercube sampling
+            InitN          = 100;
+
+            P          = UniformPoint(InitN,Problem.D,'Latin');
+            PopDec    = repmat(Problem.upper-Problem.lower,InitN,1).*P+repmat(Problem.lower,InitN,1);
+            Population = Problem.Evaluation(PopDec);
+
+            %% Generate the weight vectors for convergence indicator
+            [W,~] = UniformPoint(WN,Problem.M);
+             %% initialize vectors for clustering
+            [ClW,~] = UniformPoint(KMeans,2);
+
+            %% Optimization
+            while Algorithm.NotTerminated(Population)
+                %% database
+                [~,index]  = unique(Population.decs,'rows');
+                Population = Population(index);
+                PopDec = Population.decs;
+
+                % update Zmin
+                Zmin = min(Population.objs,[],1);
+
+                [N,~] = size(PopDec);
+                PopObj = Population.objs;
+                NormObj = (Population.objs - Zmin);
+
+                %% clustering
+                Cluster = zeros(N,1);
+                % randomly select two objectives
+                ObjK = randperm(Problem.M,2);
+                ClObj = NormObj(:,ObjK);
+                temp = N;
+                while temp > 0
+                    for i = 1 : KMeans
+                        % Angle (via cosine) between each solution and cluster
+                        % center i in the 2-D projected objective space. Clamp
+                        % to [-1,1] to avoid complex values from round-off.
+                        ang = acos(min(1,max(-1,1-pdist2(ClObj,ClW(i,:),'cosine'))));
+                        % Solutions at the ideal point (zero in the 2 selected
+                        % objectives) yield NaN cosine angle and would never be
+                        % picked by min, leaving their Cluster unassigned (0)
+                        % and corrupting the KNN model. Treat them as maximally
+                        % distant (pi) so they are still assigned to a valid
+                        % cluster. Already-assigned rows are set to Inf below,
+                        % so their angle stays NaN and is skipped by min.
+                        ang(isnan(ang) & ~isinf(ClObj(:,1))) = pi;
+                        [~,loc] = min(ang);
+                        Cluster(loc) = i;
+                        ClObj(loc,:) = inf;
+                        temp = temp - 1;
+                        if temp == 0
+                            break;
+                        end
+                    end
+                end
+
+                %% DEADLOCK GUARD (the only functional change) ---------------
+                %  Assign rows the loop above never picked.  Without this,
+                %  CSS is asked for searchN rows but can never select an
+                %  unassigned one and spins forever once every cluster is
+                %  empty (Pr = 0/0 = NaN).
+                if any(Cluster == 0)
+                    zeroIdx = find(Cluster == 0);
+                    restIdx = find(Cluster ~= 0);
+                    if isempty(restIdx)
+                        Cluster(zeroIdx) = 1;
+                    else
+                        D2 = pdist2(NormObj(zeroIdx,ObjK),NormObj(restIdx,ObjK));
+                        [~,jmin] = min(D2,[],2);
+                        Cluster(zeroIdx) = Cluster(restIdx(jmin));
+                    end
+                end
+                %% ------------------------------------------------------------
+
+                %% calculate Ic and Id
+                Dis = pdist2(NormObj,W);
+                [~,Loc] = min(Dis,[],2);
+                Ic = sum(NormObj.*W(Loc,:),2);
+                Id = DiversityIndi(PopObj);
+
+
+                %% Train cluster model
+                model_rg = fitcknn(PopDec,Cluster,'NumNeighbors',5);
+                %% use KMeans model to train different local model
+                for i = 1:KMeans
+                    X_train_c = PopDec(Cluster==i,:); Y_train_c = Ic(Cluster==i);
+                    X_train_d = PopDec(Cluster==i,:); Y_train_d = Id(Cluster==i);
+                    [X_train_c, Y_train_c]   = dsmerge(X_train_c, Y_train_c);
+                    [X_train_d, Y_train_d]   = dsmerge(X_train_d, Y_train_d);
+                    model_c = dacefit(X_train_c,Y_train_c,'regpoly0','corrgauss',THETA_c(i,:),1e-5.*ones(1,Problem.D),100.*ones(1,Problem.D));
+                    model_d = dacefit(X_train_d,Y_train_d,'regpoly0','corrgauss',THETA_d(i,:),1e-5.*ones(1,Problem.D),100.*ones(1,Problem.D));
+                    THETA_c(i,:) = model_c.theta;
+                    THETA_d(i,:) = model_d.theta;
+                    Model_c{i} = model_c;
+                    Model_d{i} = model_d;
+                end
+                %% global model
+                [X_train_c,Y_train_c] = dsmerge(PopDec,Ic);
+                [X_train_d,Y_train_d] = dsmerge(PopDec,Id);
+                model_c = dacefit(X_train_c,Y_train_c,'regpoly0','corrgauss',THETA_c(KMeans+1,:),1e-5.*ones(1,Problem.D),100.*ones(1,Problem.D));
+                model_d = dacefit(X_train_d,Y_train_d,'regpoly0','corrgauss',THETA_d(KMeans+1,:),1e-5.*ones(1,Problem.D),100.*ones(1,Problem.D));
+                THETA_c(KMeans+1,:) = model_c.theta;
+                THETA_d(KMeans+1,:) = model_d.theta;
+                Model_c{KMeans+1} = model_c;
+                Model_d{KMeans+1} = model_d;
+
+                %% Optimization by CSS
+                % CSS samples without replacement from the available archive.
+                searchN = min(Problem.N,size(PopDec,1));
+                [ArcDec,ArcIc,ArcId,ArcClus] = CSS(PopDec,Ic,Id,Cluster,KMeans,searchN);
+                ArcMSE = zeros(searchN,2);
+
+                w = 0;
+                while w < wmax
+                    drawnow();
+                    OffDec = OperatorGA(Problem, ArcDec);
+                    w = w + 1;
+                    [n,~] = size(OffDec);
+                    OffClus = predict(model_rg,OffDec);  % prediction of cluster
+
+                    OffIc = zeros(n,1);
+                    OffId = OffIc;
+                    OffMSE = zeros(n,2);
+
+                    for i = 1 : n
+                        loc = double(OffClus(i));
+                        % Defensive: guarantee a valid local-cluster index for
+                        % Model_c{loc}/Model_d{loc}. If the KNN ever returns an
+                        % out-of-range/non-integer label, fall back to the
+                        % global model (KMeans+1) instead of crashing with
+                        % "Array indices must be positive integers...".
+                        if ~(loc>=1 && loc<=KMeans && loc==floor(loc))
+                            loc = KMeans+1;
+                        end
+                        %% prediction of Id and Ic
+                        [Yc_local,~,mse_local] = predictor(OffDec(i,:),Model_c{loc});
+                        [Yc_global,~,mse_global] = predictor(OffDec(i,:),Model_c{KMeans+1});
+
+                        if mse_local < mse_global
+                            OffIc(i) = Yc_local;
+                            OffMSE(i,1) = mse_local;
+                        else
+                            OffIc(i) = Yc_global;
+                            OffMSE(i,1) = mse_global;
+                        end
+
+                        [Yd_local,~,mse_local] = predictor(OffDec(i,:),Model_d{loc});
+                        [Yd_global,~,mse_global] = predictor(OffDec(i,:),Model_d{KMeans+1});
+                        if mse_local < mse_global
+                            OffId(i) = Yd_local;
+                            OffMSE(i,2) = mse_local;
+                        else
+                            OffId(i) = Yd_global;
+                            OffMSE(i,2) = mse_global;
+                        end
+                    end
+                    ArcDec = [ArcDec;OffDec];
+                    ArcIc = [ArcIc;OffIc];
+                    ArcId = [ArcId;OffId];
+                    ArcClus = [ArcClus;OffClus];
+                    ArcMSE = [ArcMSE;OffMSE];
+                    %% clustering based sequential selection
+                    ArcIc = ArcIc-min(ArcIc);
+                    [ArcDec,ArcIc,ArcId,ArcClus,ArcMSE] = ModiCSS(ArcDec,ArcIc,ArcId,ArcClus,ArcMSE,KMeans,searchN);
+                end
+
+              %% infill criterion
+              OldDec = Population.decs;
+              Loc = [];
+              for i = 1 : size(ArcDec,1)
+                  for j = 1 : N
+                      if isequal(ArcDec(i,:),OldDec(j,:))
+                          Loc = [Loc,i];
+                          break;
+                      end
+                  end
+              end
+              ArcDec(Loc,:) = [];
+              ArcIc(Loc) = [];
+              ArcId(Loc) = [];
+              ArcClus(Loc) = [];
+              ArcMSE(Loc,:) = [];
+
+              [n,~] = size(ArcDec);
+              if n <= 5
+                  NewArc = ArcDec;
+              else
+                  NewArc = [];
+                  % 'EmptyAction','singleton' prevents kmeans from erroring
+                  % when ArcDec is concentrated and a cluster becomes empty.
+                  clus = kmeans(ArcDec,5,'EmptyAction','singleton');
+                  for i = 1 : 5
+                      Ci = find(clus==i);
+                      if isempty(Ci), continue; end
+                      [fr,~] = NDSort(-ArcMSE(Ci,:),inf);
+                      uncertain = find(fr==1);
+                      if isempty(uncertain), continue; end
+                      % choose uncertain solution
+                      choose = Ci(uncertain(randperm(numel(uncertain),1)));
+                      NewArc = [NewArc;ArcDec(choose,:)];
+                  end
+              end
+
+              if ~isempty(NewArc)
+                  % Limit the final batch to the remaining true evaluations.
+                  NewArc = NewArc(1:min(size(NewArc,1),max(0,floor(Problem.maxFE-Problem.FE))),:);
+                  PopNew = Problem.Evaluation(NewArc);
+                  Population = [Population,PopNew];
+              end
+
+            end
+        end
+    end
+end

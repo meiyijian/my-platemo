@@ -91,16 +91,17 @@ function FinishNBD_Ablation(Ms)
     fclose(fid);
 
     % ---- 2 + 3. fill in the missing IGD+ traces -------------------------
-    %   MergeIGDpForDir keeps DTLZ7 at M=20 on the client (its 524288-point
-    %   reference set has crashed the pool six times), so a pool is safe for
-    %   the other 15 problems and saves most of the wall time.
+    %   Every arm that does not already carry IGD+ gets it here.  A pool is
+    %   safe for the 15 cheap problems because MergeIGDpForDir keeps DTLZ7 at
+    %   M=20 on the client (its 524288-point reference set has crashed the
+    %   pool six times on this machine).
     for M = Ms
         if M == 10
             MergeIGDpForDir('REMO_k15',10,1);
         else
             MergeIGDpForDir('REMO_k',20,5);
-            RunNBD_Ablation('post','noCDIS',20,1);
-            RunNBD_Ablation('post','noPAQC',20,1);
+            MergeIGDpForDir('REMO_noBatchDict_noCDIS',20,5);
+            MergeIGDpForDir('REMO_noBatchDict_noPAQC',20,5);
         end
     end
 
