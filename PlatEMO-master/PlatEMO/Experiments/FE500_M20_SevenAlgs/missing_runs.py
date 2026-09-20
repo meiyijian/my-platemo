@@ -151,11 +151,19 @@ def main():
     # split_starved); over-splitting is harmless, an idle core is not.
     maxjobs = int(os.environ.get("FE500_MAXJOBS", "16"))
     minchunk = int(os.environ.get("FE500_MINCHUNK", "3"))
+    # Problem indices (1..16, DTLZ1..DTLZ7 then WFG1..WFG9) to leave untouched for
+    # now. Used to run the BULK first and defer the slow tail: DTLZ7 (index 7) is
+    # the long pole of every algorithm because its IGDp reference set has 2^19
+    # points, so FE500_SKIP_PARTS=7 defers all of DTLZ7 to a later pass.
+    skipparts = {int(x) for x in os.environ.get("FE500_SKIP_PARTS", "").split(",")
+                 if x.strip()}
     lo, hi = runs[0], runs[-1]
 
     nSkipped = 0
     work = []                                   # [(problemIndex, [run, ...]), ...]
     for index, problem in enumerate(PROBS, 1):
+        if index in skipparts:
+            continue
         missing = []
         for run in runs:
             if (index, run) in poison:
