@@ -74,3 +74,22 @@ MEMORY.md 只留高频/致命条目，本文件保存完整细节。
 - 🔴 **推送（2026-09-16 实测可用路径）**：① 沙箱内无网络 → `git push`/`fetch` 被 SIGTERM **静默杀掉（连 echo 都不执行、无任何输出）**，必须在沙箱外（`dangerouslyDisableSandbox`）执行；② 默认助手 `helper-selector` 会拉起 GCM GUI 挂起（同上被 SIGTERM），且其 stdout 被 `tsf_oime.cpp`（输入法 DLL）日志污染 → git 报 `invalid credential line` + `could not read Username`；③ **可用助手是 `wincred`**（凭据已在 Windows 凭据管理器）：
   `git -c credential.helper=wincred push origin master`（配 `GIT_TERMINAL_PROMPT=0` 防挂起）。
 - ⚠️ **`refs/remotes/**` 可能是空的**（`git status` 显示 `[gone]`，`git show-ref` 只剩 heads+tags）：此时 fetch 打印 `* [new branch] origin/master` 也**留不下引用**。恢复办法是 shell 直接写文件 `.git/refs/remotes/origin/<branch>`（内容为 40 位 sha）；**`git update-ref` 在沙箱内报 exit=0 但不落盘**，别被它骗了。
+
+## HES_EA_N100 全系列扫描（2026-09-19 起）
+- 目标：HES_EA_N100 在 DTLZ1-7 + WFG1-9（16 题）× 20 跑 = 320/阶段；**用户只跑 M=10 与 M=15**（M=20 暂不跑）。口径 M=10或15 / D=30 / N=100 / maxFE=300 / SaveCount=30；MAT 含 `result` + `metric{runtime, IGD, IGDp}`（IGDp 边跑边存，靠共享 harness 新增的可选参数 `ExtraMetrics`）。SeedBase：M10=21260912、M15=21760912（`base+1000*题号+run`，与既有 10 目标数据集逐跑配对）。
+- 数据：`D:\REMOandDREMO测试集\10目标\n30\HES_EA_N100`、`D:\REMOandDREMO测试集\15目标\HES_EA_N100`。框架：`PlatEMO/Experiments/HES_EA_N100_M10/`（入库 commit `b8dbafd`）、`.../HES_EA_N100_M15/`。
+- 框架可移植：`driver.sh` 自定位（BASH_SOURCE + `pwd -W`），`MP/PY/DATADIR/MAXJOBS/ROUNDS` 可覆盖；`missing_runs.py` 用 `HESEA_M10_DATA_DIR`；runner 用 `HESEA_M10_OUTPUT_ROOT`。**先停 driver 再杀 MATLAB**（反序会让补缺循环再拉起切片）。续跑 = `git pull` → `cd Experiments/HES_EA_N100_M10` → 防待机 powercfg → `bash driver.sh`（只补缺）。
+- `.gitignore:8` 忽略整个 `Experiments/` → 需 `git add -f` 按文件加入（别加目录，会带进 logs/）。同 commit 把**共享 harness** `Experiments/REMO_new2_AdaMaO_UniformMix_Pruned_FullSeries/run_UniformMixPrunedFullSeries.m`（含 ExtraMetrics）也入库了 —— 另一台机器必需。算法 `HES-EA/` 本就在库内。
+- 🔴 超参必须传 `'Parameters',{}` 走论文默认 `{wmax,WN,KMeans}`=`{20,190,4}`；传 harness 默认 5 元组会把 KMeans 设成 0.25 直接报错。
+- ⚠️ HES_EA_N100 第 75 行 `pdist2(...,'cosine')` 在 WFG3 这类问题上刷 `stats:pdist2:ZeroPoints` 警告，需在 runner 里压制（算法本身已有 clamp，警告本身无副作用）。
+- 🔴 **harness `'Runs'` 只做 `isscalar` 判断，而 MATLAB 里 `isscalar([99])` 就是 `true`** → 单元素向量也会被展开成 `1:Runs`。**无法只跑一个 run**，最短请求是两元素向量（smoke 都用 `[7 8]` 之类）。
+- **两阶段链式看门狗** `HES_EA_N100_M15/chain_to_M15.sh`：要求 `tasklist` 里 MATLAB.exe 计数 == 0，且（M10 driver.log 出现 `DRIVER_DONE` 或数据 320 个）**连续两次**才拉起 M15 driver。→ **任何 MATLAB 常驻进程都会永久阻塞链条**（2026-09-19 实证）。
+- **实测节奏（健康时）**：单跑 wall 180–290 s（DTLZ1 M10 ≈ 264 s、DTLZ7 ≈ 180–280 s、WFG1 ≈ 190–225 s）；一个"10 跑/切片"约 2295–2787 s（38–47 min）；12 路并行。
+
+### 🔴 2026-09-19 停滞事件（M10 94/320 卡死，未解决）
+- 现象：`driver.log` 停在 12:18:46；数据目录最后一个 .mat 是 12:18:38；此后 2.5 h+ 零产出。12 个 worker 持续占满 12 个核。
+- **判定为"卡死"而非"慢"**：采样 30 s 得每个 worker 进程 CPU 增量 ≈28.8–29.2 s（满核空转）；进程 CPU 总量 ≈13,200 s 与其 11:10–11:14 的启动时刻吻合（占空比 97%，**排除待机冻结**——若中途 S0 冻结，CPU 会明显小于墙钟）。对比健康切片 38–47 min，已超时 5–8 倍。
+- 12 个卡死切片（`-logfile p{N}_a1.log`，命令行含 part 号与 run 列表）：part2 [4–15]、part2 [16–20]、part3 [3–14]、part5 [1–10]、part5 [11–20]、part6 [1–10]、part6 [11–20]、part8 [1–10]、part8 [11–20]、part9 [1–10]、part9 [11–20]、part10 [1–10]。涉及题：DTLZ2/3/5/6、WFG1/2/3；其中 **DTLZ5 与 WFG3 自启动起连一个 run 都没完成**（DTLZ5 卡 3h45m，WFG3 卡 2h39m）。
+- 同一病理在 M15 复现：`smoke_HES_EA_N100_M15(10,[7 8],1)`（= WFG3）13:42 启动后无输出；而同批的 DTLZ2 smoke 正常（285 s + 264 s）。→ 疑似**运行级病态**（DTLZ3 slice [15–20] 正常完成、slice [3–14] 卡死），像是某些 run 触发死循环/超慢，而不是整题不可跑。嫌疑点：`HES_EA_N100` 第 75 行 `pdist2(...,'cosine')` 在退化种群上产生 NaN → KMeans 迭代不终止。
+- 未采取的恢复动作（按巡检约定只读，未执行）：停 `chain_to_M15.sh`（PID 44472）与 M10 `driver.sh` → 杀 12 个卡死 MATLAB → 后台重启 M10 driver 补缺 → 再启链式看门狗。**在诊断出死循环根因前，盲跑会再次卡在同一批 run 上。**
+- 诊断手法（只读，可复用）：本机 PowerShell 工具 stdout 不回显 → 把 `Get-Process`/`Get-CimInstance Win32_Process`（含 `CommandLine`）的采样结果 `Set-Content` 到临时文件，再用 Read 读；`CommandLine` 能直接暴露每个 worker 的 part 号与 run 列表。
