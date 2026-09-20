@@ -56,15 +56,20 @@ MISSING_PY_ML="$WORKDIR_ML\\missing_runs.py"
 ALGS=${ALGS:-"REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"}
 export FE500_RUNS=${RUNS:-1-20}
 export FE500_CHUNK=${CHUNK:-10}
-MAXJOBS=${MAXJOBS:-12}
+MAXJOBS=${MAXJOBS:-14}
 THREADS=${THREADS:-1}
 ROUNDS=${ROUNDS:-8}
 SKIP_VERIFY=${SKIP_VERIFY:-0}
 # Per-slice wall-clock cap in seconds (0 disables). The published HES_EA can hang
 # forever on a stranded cluster (see fe500_m20_registry.m); without a cap one
-# such process would block a pool slot indefinitely. 3 h is well above the
-# slowest expected slice (10 runs of the slowest algorithm on DTLZ7).
-SLICE_TIMEOUT=${SLICE_TIMEOUT:-10800}
+# such process would block a pool slot indefinitely. 4 h covers the slowest
+# healthy slice (10 runs of the slowest algorithm, under full pool contention).
+SLICE_TIMEOUT=${SLICE_TIMEOUT:-14400}
+# How many times the SAME slice may be killed by SLICE_TIMEOUT before its first
+# still-missing run is declared poisoned and dropped. The seed is fixed per
+# (problem, run), so a run that hangs hangs again on every re-drive; without
+# poisoning, one stuck run would burn SLICE_TIMEOUT on a slot once per round.
+MAX_SLICE_FAILS=${MAX_SLICE_FAILS:-2}
 RUN_TOTAL=$(echo "$FE500_RUNS" | awk -F'[-]' '{if (NF==2) print $2-$1+1; else {n=split($0,a,","); print n}}')
 
 mkdir -p "$LOGDIR"
@@ -78,7 +83,7 @@ log "workdir : $WORKDIR_ML"
 log "matlab  : $MP"
 log "python  : $PY"
 log "algs    : $ALGS"
-log "runs    : $FE500_RUNS ($RUN_TOTAL per problem)  chunk=$FE500_CHUNK  maxjobs=$MAXJOBS  rounds=$ROUNDS  slice_timeout=${SLICE_TIMEOUT}s"
+log "runs    : $FE500_RUNS ($RUN_TOTAL per problem)  chunk=$FE500_CHUNK  maxjobs=$MAXJOBS  rounds=$ROUNDS  slice_timeout=${SLICE_TIMEOUT}s  max_slice_fails=$MAX_SLICE_FAILS  cores=$(nproc 2>/dev/null || echo '?')"
 log "data    : ${FE500_M20_OUTPUT_ROOT:-D:\\REMOandDREMO测试集\\20目标\\FE500}"
 log "========================================="
 
@@ -104,6 +109,12 @@ for key in $ALGS; do
     ADIR_ML="$LOGDIR_ML\\$key"
     mkdir -p "$ADIR"
     alog() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$ADIR/driver.log"; }
+    # Poison list: (problem,run) pairs that hang deterministically and are skipped.
+    export FE500_POISON="$ADIR_ML\\poison.txt"
+    if [ -s "$ADIR/poison.txt" ]; then
+        alog "  WARNING: $(wc -l < "$ADIR/poison.txt") previously poisoned (problem,run) pair(s) will be skipped:"
+        sed 's/^/    poisoned /' "$ADIR/poison.txt" | while IFS= read -r l; do alog "$l"; done
+    fi
 
     alog "---------- $key start (folder $KEYDIR) ----------"
     DATA_SUB="${FE500_DATA_PREFIX:-/d/REMOandDREMO测试集/20目标/FE500}/$KEYDIR"
@@ -124,23 +135,43 @@ for key in $ALGS; do
                 wait -n 2>/dev/null || sleep 10
             done
             alog "  start part $part runs [$runs]"
+            # rc journal: one "<runs>|<exit code>" line per launch, so the poison
+            # pass can count how often THIS exact slice has been killed.
+            RCF="$ADIR/rc_part${part}.txt"
             if [ "$SLICE_TIMEOUT" -gt 0 ] && command -v timeout >/dev/null 2>&1; then
-                timeout -k 60 "$SLICE_TIMEOUT" \
+                ( timeout -k 60 "$SLICE_TIMEOUT" \
                     "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
-                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" &
+                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" ; echo "$runs|$?" >> "$RCF" ) &
             else
-                "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
-                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" &
+                ( "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
+                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" ; echo "$runs|$?" >> "$RCF" ) &
             fi
             sleep 20
         done
         wait
         present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
         alog "attempt $attempt: pool finished; present=$present/$TOTAL"
+
+        # --- poison pass: a slice killed by SLICE_TIMEOUT MAX_SLICE_FAILS times
+        #     cannot be rescued by re-driving it (fixed seed) -> drop the culprit.
+        for slice in "${SLICES[@]}"; do
+            part=${slice%%|*}
+            runs=${slice##*|}
+            RCF="$ADIR/rc_part${part}.txt"
+            [ -f "$RCF" ] || continue
+            nSig=$(grep -c "^${runs}|" "$RCF" 2>/dev/null || true)
+            lastRc=$(grep "^${runs}|" "$RCF" 2>/dev/null | tail -1 | cut -d'|' -f2)
+            if [ "${lastRc:-0}" = "124" ] && [ "${nSig:-0}" -ge "$MAX_SLICE_FAILS" ]; then
+                alog "  [timeout] part $part runs [$runs] killed ${nSig}x -> lookup culprit"
+                "$PY" "$WORKDIR_ML\\mark_poison.py" "$key" "$part" "$runs" "$ADIR_ML\\poison.txt" \
+                    2>&1 | while IFS= read -r l; do alog "  $l"; done
+            fi
+        done
     done
 
     present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
-    alog "---------- $key done: present=$present/$TOTAL ----------"
+    poisoned=$(wc -l < "$ADIR/poison.txt" 2>/dev/null || echo 0)
+    alog "---------- $key done: present=$present/$TOTAL  poisoned=$poisoned ----------"
 done
 
 if [ "$SKIP_VERIFY" != "1" ]; then

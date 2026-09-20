@@ -58,6 +58,23 @@ def balanced_chunks(items, chunk):
     return [items[i:i + size] for i in range(0, n, size)]
 
 
+def read_poison(path):
+    """<part>|<run> pairs that must never be re-driven (they hang; see mark_poison.py)."""
+    out = set()
+    if path and os.path.isfile(path):
+        with open(path) as fh:
+            for line in fh:
+                line = line.strip()
+                if not line or "|" not in line:
+                    continue
+                a, b = line.split("|", 1)
+                try:
+                    out.add((int(a), int(b)))
+                except ValueError:
+                    continue
+    return out
+
+
 def main():
     key = os.environ.get("FE500_ALG", "REMO").strip().upper()
     if key not in FOLDERS:
@@ -67,11 +84,16 @@ def main():
     outdir = os.path.join(root, FOLDERS[key])
     runs = parse_runs(os.environ.get("FE500_RUNS", "1-20"))
     chunk = int(os.environ.get("FE500_CHUNK", "10"))
+    poison = read_poison(os.environ.get("FE500_POISON", ""))
     lo, hi = runs[0], runs[-1]
 
+    nSkipped = 0
     for index, problem in enumerate(PROBS, 1):
         missing = []
         for run in runs:
+            if (index, run) in poison:
+                nSkipped += 1
+                continue
             found = any(os.path.isfile(os.path.join(
                 outdir, "%s_%s_M20_D%d_%d.mat" % (key, problem, d, run)))
                 for d in (30, 31))
@@ -85,9 +107,12 @@ def main():
                 mate = lone + 1 if lone < hi else lone - 1
                 if mate == lone:
                     mate = lone - 1
-                if lo <= mate <= hi:
+                if lo <= mate <= hi and (index, mate) not in poison:
                     piece = sorted({lone, mate})
             print("%d|%s" % (index, ",".join(str(c) for c in piece)))
+    if nSkipped:
+        sys.stderr.write("[missing_runs] %s: %d (problem,run) poisoned and skipped\n"
+                         % (key, nSkipped))
     return 0
 
 
