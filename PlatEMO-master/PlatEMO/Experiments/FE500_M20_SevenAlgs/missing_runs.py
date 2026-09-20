@@ -88,6 +88,36 @@ def balanced_chunks(items, chunk):
     return [items[i:i + size] for i in range(0, n, size)]
 
 
+def split_starved(work, target, minchunk):
+    """Subdivide the biggest pieces until there are >= TARGET pieces.
+
+    WORK is a list of (problemIndex, [run, ...]). Returns the same shape.
+
+    Why: a slice list shorter than the worker pool leaves cores idle for no
+    reason. With 74 runs left and 16 workers, 8 slices of ~9 runs keep only 8
+    cores busy, while 15 slices of ~5 runs keep 15 busy -- identical total work,
+    roughly half the wall clock. The problem index travels with each piece, so
+    the seed of every run is untouched by the split.
+
+    Stops when no piece can be halved while keeping both halves >= MINCHUNK:
+    very short slices are the configuration that makes MATLAB -batch crash on
+    this machine, so MINCHUNK is a floor, not a suggestion.
+    """
+    out = [(i, list(p)) for i, p in work]
+    while len(out) < target:
+        cand = None
+        for k, (_, p) in enumerate(out):
+            if len(p) >= 2 * minchunk and (cand is None or len(p) > len(out[cand][1])):
+                cand = k
+        if cand is None:
+            break
+        i, p = out.pop(cand)
+        half = len(p) // 2
+        out.append((i, p[:half]))
+        out.append((i, p[half:]))
+    return out
+
+
 def read_poison(path):
     """<part>|<run> pairs that must never be re-driven (they hang; see mark_poison.py)."""
     out = set()
@@ -116,9 +146,15 @@ def main():
     runs = parse_runs(os.environ.get("FE500_RUNS", "1-20"))
     chunk = int(os.environ.get("FE500_CHUNK", "10"))
     poison = read_poison(os.environ.get("FE500_POISON", ""))
+    # Worker pool size and the shortest slice we are willing to create. Used only
+    # to subdivide when the remaining work is smaller than the pool (see
+    # split_starved); over-splitting is harmless, an idle core is not.
+    maxjobs = int(os.environ.get("FE500_MAXJOBS", "16"))
+    minchunk = int(os.environ.get("FE500_MINCHUNK", "3"))
     lo, hi = runs[0], runs[-1]
 
     nSkipped = 0
+    work = []                                   # [(problemIndex, [run, ...]), ...]
     for index, problem in enumerate(PROBS, 1):
         missing = []
         for run in runs:
@@ -134,13 +170,20 @@ def main():
             continue
         for piece in balanced_chunks(missing, chunk):
             if len(piece) == 1:
+                # A one-element run list is read as a SCALAR by the shared harness
+                # and silently expanded to 1:<run>; pair the lone run with an
+                # already-stored neighbour instead (the harness then skips it).
                 lone = piece[0]
                 mate = lone + 1 if lone < hi else lone - 1
-                if mate == lone:
-                    mate = lone - 1
                 if lo <= mate <= hi and (index, mate) not in poison:
                     piece = sorted({lone, mate})
-            print("%d|%s" % (index, ",".join(str(c) for c in piece)))
+            work.append((index, piece))
+
+    if len(work) < maxjobs:
+        work = split_starved(work, maxjobs, minchunk)
+
+    for index, piece in work:
+        print("%d|%s" % (index, ",".join(str(c) for c in piece)))
     if nSkipped:
         sys.stderr.write("[missing_runs] %s: %d (problem,run) poisoned and skipped\n"
                          % (key, nSkipped))
