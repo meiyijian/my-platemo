@@ -9,7 +9,7 @@
       "height_mm": 157,
       "minimum_pdf_glyph_pt": 5.88,
       "pdf_text_spans": 68,
-      "notes": "Empty-pool safeguards and detailed score formulas remain in the method. Mode is drawn before candidate search. Exploration uses relation-quality screening and quality-distance batch diversification; indicator mode directly reranks its relation shortlist. No minimum-batch completion is used.",
+      "notes": "NoBatchDist: exploration uses relation-quality screening and ranks R_norm + 0.30*U_norm, without batch distance. Indicator mode directly reranks its relation shortlist. Mode is drawn before candidate search. Empty-pool safeguards remain in the method; no minimum-batch completion.",
       "text_outside_canvas": []
     },
     {
