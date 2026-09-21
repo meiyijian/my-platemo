@@ -902,6 +902,7 @@ K-RVEA remains stronger on DTLZ7. These counterexamples delimit the
 performance claim and motivate component-level evidence rather than an
 assumption that the complete-algorithm results demonstrate PAQC's effect.
 
+\clearpage
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
@@ -912,13 +913,24 @@ cap. The PAQC control replaces group construction while retaining the
 NoBatchDist selection rule. The CDIS control retains PAQC and uses a
 predefined relation-only candidate rule under the same batch cap.
 
-Earlier exports contain Lambdat030 and other historical implementations.
-Their candidate rules and actual evaluation counts differ from this
-protocol, so those exports provide historical comparisons only.
-\TODO{Complete the two deletion controls at $M=10$ and 20, using 20 runs
-per problem and IGD$^+$. Audit the existing Full runs before reuse and test
-both controls directly against Full. Record the replacement boundaries,
-source hashes, seeds, thread settings, and actual terminal FE.}
+Tables~\ref{tab:ablation_igdplus_m10} and~\ref{tab:ablation_igdplus_m20}
+report the supplied IGD$^+$ results for the two deletion controls and REMO
+with $k=15$ and 30 at $M=10$ and 20, respectively.
+The tables retain the reported means, standard deviations, and significance
+labels, with Full as the reference. Across both objective counts, the labels
+favor Full over the CDIS control on 12 of 32 instances and over the PAQC
+control on 10 of 32 instances. The reverse comparisons favor the controls
+on three and two instances, respectively. Removing CDIS improves the reported
+results on DTLZ6 at both objective counts and DTLZ7 at $M=10$; removing PAQC
+improves WFG3 at both objective counts. The component comparisons therefore
+show problem-dependent benefits.
+
+\input{experiments/ablation/table_ablation_igdp}
+
+\TODO{Complete the provenance audit for the supplied ablation tables:
+confirm the mapping to the deletion controls above, run counts, replacement
+boundaries, source hashes, seeds, thread settings, actual terminal FE,
+and the statistical test and significance threshold.}
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
