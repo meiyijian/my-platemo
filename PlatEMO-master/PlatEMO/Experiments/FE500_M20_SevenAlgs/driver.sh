@@ -22,7 +22,7 @@
 #   ALGS      space separated keys, default "REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"
 #   RUNS      run set to complete, default 1-20
 #   CHUNK     runs per slice, default 10
-#   MAXJOBS   concurrent MATLAB processes, default 12
+#   MAXJOBS   concurrent MATLAB processes, default 14
 #   ROUNDS    outer re-drive passes per algorithm, default 8
 #   MP        MATLAB executable,   default /d/software/mathlab/bin/matlab.exe
 #   PY        python executable,   default <managed venv>
@@ -56,7 +56,7 @@ MISSING_PY_ML="$WORKDIR_ML\\missing_runs.py"
 ALGS=${ALGS:-"REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"}
 export FE500_RUNS=${RUNS:-1-20}
 export FE500_CHUNK=${CHUNK:-10}
-MAXJOBS=${MAXJOBS:-12}
+MAXJOBS=${MAXJOBS:-14}
 THREADS=${THREADS:-1}
 ROUNDS=${ROUNDS:-8}
 SKIP_VERIFY=${SKIP_VERIFY:-0}
@@ -82,14 +82,13 @@ COLD_STARTS=${COLD_STARTS:-4}
 LAUNCH_GAP_WARM=${LAUNCH_GAP_WARM:-5}
 # Optional memory gate, DISABLED by default (MIN_FREE_MB=0).
 #
-# History: at MAXJOBS=14 this box got tight -- 31.3 GB total, ~16 GB already taken
-# by the OS and apps, one MATLAB worker 0.6 GB (SSDE) to ~1.2 GB (patternnet /
-# dacefit algorithms), so 14 workers would have left only ~2 GB and the heavy
-# algorithms (REMO, PACDIS, HES_EA) could start paging. MAXJOBS is 12 now, the
-# value this machine has always run at (~98% CPU utilisation, comfortable
-# headroom), so the gate is off. Set MIN_FREE_MB to a positive number (e.g. 3000)
-# if there is ever a reason to run more workers than the memory can safely hold:
-# before each launch the driver then waits until free memory recovers.
+# History: at MAXJOBS=14-16 this box gets tight for the memory-HUNGRY algorithms --
+# 31.3 GB total, ~16 GB already taken by the OS and apps, one MATLAB worker 0.6 GB
+# (SSDE) to ~1.2 GB (SAMOEATL2M), so the heavy algorithms (REMO, PACDIS, HES_EA)
+# could start paging. MAXJOBS is 14 now (the user's chosen sweet spot between the
+# proven 12 and the memory-bound 16). Set MIN_FREE_MB to a positive number (e.g.
+# 2000) if there is ever a reason to run more workers than the memory can safely
+# hold: before each launch the driver then waits until free memory recovers.
 MIN_FREE_MB=${MIN_FREE_MB:-0}
 memfree_mb() { awk '/MemFree/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 999999; }
 RUN_TOTAL=$(echo "$FE500_RUNS" | awk -F'[-]' '{if (NF==2) print $2-$1+1; else {n=split($0,a,","); print n}}')
