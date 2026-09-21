@@ -11,31 +11,29 @@
 #
 #   Data: D:\REMOandDREMO测试集\20目标\FE500\<folder>\
 #
-# Design is the same as the other drivers of this project: per-problem run
-# chunks as slices, up to MAXJOBS staggered MATLAB processes (this machine dies
-# with ntdll heap corruption on simultaneous cold starts), and an outer loop that
-# re-computes the missing (problem, run) pairs after every pass so crashed slices
-# are simply re-driven until the dataset is complete. The full integrity check
-# runs at the end. Everything is RESUMABLE: valid MAT files are skipped.
+#   GLOBAL QUEUE design (2026-09-21): the missing slices of ALL algorithms are
+#   pooled into ONE queue per attempt, fed into MAXJOBS staggered MATLAB
+#   processes. This lets a freed slot pick up the NEXT algorithm's work the
+#   moment the current one's tail starts draining -- no more "fragmented tail"
+#   where one algorithm's last few slices leave 14 cores idle. Everything is
+#   RESUMABLE: valid MAT files are skipped; a crashed or timed-out slice is
+#   re-driven on the next attempt, and a run killed by SLICE_TIMEOUT
+#   MAX_SLICE_FAILS times is poisoned (deterministic hang, see mark_poison.py).
 #
 # ---- Environment overrides -------------------------------------------------
-#   ALGS      space separated keys, default "REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"
+#   ALGS      space separated keys, default "REMO PACDIS HES_EA CSEA PCSAEA SAMOEA SSDE"
 #   RUNS      run set to complete, default 1-20
 #   CHUNK     runs per slice, default 10
-#   MAXJOBS   concurrent MATLAB processes, default 14
-#   ROUNDS    outer re-drive passes per algorithm, default 8
+#   MAXJOBS   concurrent MATLAB processes, default 16
+#   ROUNDS    re-drive passes over the global queue, default 8
+#   SKIP_PARTS  comma-separated problem indices to defer (e.g. 7 = DTLZ7)
 #   MP        MATLAB executable,   default /d/software/mathlab/bin/matlab.exe
 #   PY        python executable,   default <managed venv>
 #   FE500_M20_OUTPUT_ROOT  output root override, read by the runner as well
 #
-# Examples
-#   bash driver.sh                                  # full run, all seven
-#   ALGS="SAMOEA SSDE" RUNS=19,20 bash driver.sh    # stage-2 timing probe
-#   ALGS="PACDIS" ROUNDS=3 bash driver.sh           # one algorithm only
-#
 # Progress:  logs/driver.log                (one line per slice start/finish)
-#            logs/<KEY>/driver.log          (per-algorithm journal)
-#            logs/<KEY>/p<NN>_a<N>.log      (per-slice MATLAB log;
+#            logs/<KEY>/driver.log          (per-algorithm journal, poison notes)
+#            logs/<KEY>/p<NN>.log           (per-slice MATLAB log;
 #                                            "[done] <prob> run k | IGD a -> b |
 #                                             runtime Xs | wall Ys | ok")
 # ---------------------------------------------------------------------------
@@ -52,11 +50,15 @@ WORKDIR=${WORKDIR:-$SELFDIR_POSIX}
 WORKDIR_ML=${WORKDIR_ML:-$SELFDIR_WIN}
 LOGDIR=$WORKDIR/logs
 LOGDIR_ML="$WORKDIR_ML\\logs"
-MISSING_PY_ML="$WORKDIR_ML\\missing_runs.py"
-ALGS=${ALGS:-"REMO PCSAEA CSEA HES_EA SSDE SAMOEA PACDIS"}
+MISSING_ALL_PY_ML="$WORKDIR_ML\\missing_all.py"
+MARK_POISON_PY_ML="$WORKDIR_ML\\mark_poison.py"
+ALGS=${ALGS:-"REMO PACDIS HES_EA CSEA PCSAEA SAMOEA SSDE"}
+export FE500_ALGS="$ALGS"
 export FE500_RUNS=${RUNS:-1-20}
 export FE500_CHUNK=${CHUNK:-10}
-MAXJOBS=${MAXJOBS:-14}
+export FE500_MAXJOBS=${MAXJOBS:-16}
+export FE500_SKIP_PARTS=${SKIP_PARTS:-}
+MAXJOBS=${MAXJOBS:-16}
 THREADS=${THREADS:-1}
 ROUNDS=${ROUNDS:-8}
 SKIP_VERIFY=${SKIP_VERIFY:-0}
@@ -65,30 +67,16 @@ SKIP_VERIFY=${SKIP_VERIFY:-0}
 # such process would block a pool slot indefinitely. 4 h covers the slowest
 # healthy slice (10 runs of the slowest algorithm, under full pool contention).
 SLICE_TIMEOUT=${SLICE_TIMEOUT:-14400}
-# How many times the SAME slice may be killed by SLICE_TIMEOUT before its first
-# still-missing run is declared poisoned and dropped. The seed is fixed per
-# (problem, run), so a run that hangs hangs again on every re-drive; without
-# poisoning, one stuck run would burn SLICE_TIMEOUT on a slot once per round.
 MAX_SLICE_FAILS=${MAX_SLICE_FAILS:-2}
-# Launch pacing. This box dies with ntdll heap corruption when many MATLAB
-# processes COLD-start at the same moment, so launches are always spaced out --
-# but the hazard is the cold start, not the steady state. A single fixed gap of
-# 20 s also throttled fast algorithms to a crawl: an SSDE slice finishes in ~25 s
-# while launches were 22 s apart, so the pool never got past 2-3 of 14 processes
-# and the CPU sat at ~12%. Hence: the first COLD_STARTS launches of each pass pay
-# the full LAUNCH_GAP, everything after that only pays LAUNCH_GAP_WARM.
+# Launch pacing: this box dies with ntdll heap corruption when many MATLAB
+# processes COLD-start at the same moment, so the first COLD_STARTS launches of a
+# run pay LAUNCH_GAP, everything after that only LAUNCH_GAP_WARM.
 LAUNCH_GAP=${LAUNCH_GAP:-20}
 COLD_STARTS=${COLD_STARTS:-4}
 LAUNCH_GAP_WARM=${LAUNCH_GAP_WARM:-5}
-# Optional memory gate, DISABLED by default (MIN_FREE_MB=0).
-#
-# History: at MAXJOBS=14-16 this box gets tight for the memory-HUNGRY algorithms --
-# 31.3 GB total, ~16 GB already taken by the OS and apps, one MATLAB worker 0.6 GB
-# (SSDE) to ~1.2 GB (SAMOEATL2M), so the heavy algorithms (REMO, PACDIS, HES_EA)
-# could start paging. MAXJOBS is 14 now (the user's chosen sweet spot between the
-# proven 12 and the memory-bound 16). Set MIN_FREE_MB to a positive number (e.g.
-# 2000) if there is ever a reason to run more workers than the memory can safely
-# hold: before each launch the driver then waits until free memory recovers.
+# Optional memory gate, DISABLED by default (MIN_FREE_MB=0). 14-16 workers leave
+# only a few GB for the memory-hungry algorithms; set a positive floor to make the
+# driver hold launches until free memory recovers.
 MIN_FREE_MB=${MIN_FREE_MB:-0}
 memfree_mb() { awk '/MemFree/{print int($2/1024)}' /proc/meminfo 2>/dev/null || echo 999999; }
 RUN_TOTAL=$(echo "$FE500_RUNS" | awk -F'[-]' '{if (NF==2) print $2-$1+1; else {n=split($0,a,","); print n}}')
@@ -99,130 +87,121 @@ powercfg /change standby-timeout-ac 0
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOGDIR/driver.log"; }
 
-log "=========== FE500 M=20 driver ==========="
+log "=========== FE500 M=20 driver (global queue) ==========="
 log "workdir : $WORKDIR_ML"
 log "matlab  : $MP"
 log "python  : $PY"
 log "algs    : $ALGS"
 log "runs    : $FE500_RUNS ($RUN_TOTAL per problem)  chunk=$FE500_CHUNK  maxjobs=$MAXJOBS  rounds=$ROUNDS  slice_timeout=${SLICE_TIMEOUT}s  max_slice_fails=$MAX_SLICE_FAILS  cores=$(nproc 2>/dev/null || echo '?')"
+log "skip    : problems [${FE500_SKIP_PARTS:-none}]"
 log "pacing  : gap=${LAUNCH_GAP}s for the first $COLD_STARTS launches, then ${LAUNCH_GAP_WARM}s ; memory gate $( [ "${MIN_FREE_MB:-0}" -gt 0 ] && echo "on, floor ${MIN_FREE_MB} MB" || echo off )"
 log "data    : ${FE500_M20_OUTPUT_ROOT:-D:\\REMOandDREMO测试集\\20目标\\FE500}"
 log "========================================="
 
-BADKEY=""
-for key in $ALGS; do
-    # Output sub-folder per algorithm. MUST stay in sync with
-    # fe500_m20_registry.m / missing_runs.py FOLDERS.
-    # Canonical keys come from fe500_m20_registry.m. SAMOEATL2M is accepted as an
-    # alias for SAMOEA because it is also the CLASS name and therefore very easy
-    # to type by accident -- getting this wrong once already killed a whole pass.
-    case "$key" in
-        REMO)   KEYDIR="REMO" ;;
-        PCSAEA) KEYDIR="PCSAEA" ;;
-        CSEA)   KEYDIR="CSEA" ;;
-        HES_EA) KEYDIR="HES_EA" ;;
-        SSDE)   KEYDIR="SSDE" ;;
-        SAMOEA|SAMOEATL2M) key="SAMOEA"; KEYDIR="SAMOEATL2M" ;;
-        PACDIS) KEYDIR="REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist" ;;
-        *)
-            # A typo must not take the whole 16 h pass down with it: shout, skip,
-            # remember, and report at the end.
-            echo "[$(date '+%Y-%m-%d %H:%M:%S')] !! unknown algorithm key '$key' -> SKIPPED" | tee -a "$LOGDIR/driver.log"
-            BADKEY="$BADKEY $key"
-            continue ;;
+# Output sub-folder per algorithm. MUST stay in sync with
+# fe500_m20_registry.m / missing_runs.py FOLDERS.
+keydir() {
+    case "$1" in
+        REMO)   echo "REMO" ;;
+        PCSAEA) echo "PCSAEA" ;;
+        CSEA)   echo "CSEA" ;;
+        HES_EA) echo "HES_EA" ;;
+        SSDE)   echo "SSDE" ;;
+        SAMOEA|SAMOEATL2M) echo "SAMOEATL2M" ;;
+        PACDIS) echo "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist" ;;
+        *)      echo "" ;;
     esac
-    export FE500_ALG="$key"
-    # A class override (run_FE500_M20 reads FE500_CLS_<KEY>) also moves the
-    # output folder, so mirror that here by pointing at the overridden name.
-    CLS_OVR=$(printenv "FE500_CLS_$key")
-    if [ -n "$CLS_OVR" ]; then KEYDIR="$CLS_OVR"; fi
-    ADIR="$LOGDIR/$key"
-    ADIR_ML="$LOGDIR_ML\\$key"
-    mkdir -p "$ADIR"
-    alog() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$ADIR/driver.log"; }
-    # The python helpers build MAT file names from the CLASS, not from the key, and
-    # look the output folder up in their own table; FE500_FOLDER keeps them in
-    # step when a class override (FE500_CLS_<KEY>) has moved the folder.
+}
+
+# Canonicalize the key and set every per-algorithm variable the launch needs.
+# Returns 0 on success, 1 for an unknown key.
+setup_alg() {
+    local k="$1"
+    case "$k" in SAMOEA|SAMOEATL2M) k="SAMOEA" ;; esac
+    KEYDIR="$(keydir "$k")"
+    [ -n "$KEYDIR" ] || return 1
+    local ovr; ovr=$(printenv "FE500_CLS_$k")
+    [ -n "$ovr" ] && KEYDIR="$ovr"
+    export FE500_ALG="$k"
     export FE500_FOLDER="$KEYDIR"
-    # Poison list: (problem,run) pairs that hang deterministically and are skipped.
+    ADIR="$LOGDIR/$k"
+    ADIR_ML="$LOGDIR_ML\\$k"
+    mkdir -p "$ADIR"
     export FE500_POISON="$ADIR_ML\\poison.txt"
-    if [ -s "$ADIR/poison.txt" ]; then
-        alog "  WARNING: $(wc -l < "$ADIR/poison.txt") previously poisoned (problem,run) pair(s) will be skipped:"
-        sed 's/^/    poisoned /' "$ADIR/poison.txt" | while IFS= read -r l; do alog "$l"; done
+    export FE500_POISON_DIR="$LOGDIR_ML"
+    return 0
+}
+
+BADKEY=""
+launched=0
+for attempt in $(seq 1 $ROUNDS); do
+    mapfile -t ALL_SLICES < <("$PY" "$MISSING_ALL_PY_ML" 2>/tmp/missing_all.err)
+    if [ ${#ALL_SLICES[@]} -eq 0 ]; then
+        present=$(ls /d/REMOandDREMO测试集/20目标/FE500/*/*.mat 2>/dev/null | wc -l)
+        log "attempt $attempt: no missing slices (present=$present) -> done"
+        break
     fi
+    log "attempt $attempt: ${#ALL_SLICES[@]} slices to launch"
 
-    alog "---------- $key start (folder $KEYDIR) ----------"
-    DATA_SUB="${FE500_DATA_PREFIX:-/d/REMOandDREMO测试集/20目标/FE500}/$KEYDIR"
-    TOTAL=$((16 * RUN_TOTAL))
+    for slice in "${ALL_SLICES[@]}"; do
+        key="${slice%%|*}"; rest="${slice#*|}"; part="${rest%%|*}"; runs="${rest#*|}"
+        setup_alg "$key" || { log "  !! unknown key '$key' -> skip"; BADKEY="$BADKEY $key"; continue; }
 
-    for attempt in $(seq 1 $ROUNDS); do
-        mapfile -t SLICES < <("$PY" "$MISSING_PY_ML")
-        present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
-        if [ ${#SLICES[@]} -eq 0 ]; then
-            alog "attempt $attempt: no missing runs (present=$present/$TOTAL) -> done"
-            break
-        fi
-        alog "attempt $attempt: present=$present/$TOTAL, ${#SLICES[@]} slices to go"
-        launched=0
-        for slice in "${SLICES[@]}"; do
-            part=${slice%%|*}
-            runs=${slice##*|}
-            while [ "$(jobs -rp | wc -l)" -ge "$MAXJOBS" ]; do
-                wait -n 2>/dev/null || sleep 10
+        # Refill a free slot.
+        while [ "$(jobs -rp | wc -l)" -ge "$MAXJOBS" ]; do
+            wait -n 2>/dev/null || sleep 10
+        done
+        if [ "${MIN_FREE_MB:-0}" -gt 0 ]; then
+            while [ "$(memfree_mb)" -lt "$MIN_FREE_MB" ]; do
+                log "  [mem] $(memfree_mb) MB free < ${MIN_FREE_MB} MB -> holding"
+                wait -n 2>/dev/null || sleep 15
             done
-            if [ "${MIN_FREE_MB:-0}" -gt 0 ]; then
-                while [ "$(memfree_mb)" -lt "$MIN_FREE_MB" ]; do
-                    alog "  [mem] $(memfree_mb) MB free < ${MIN_FREE_MB} MB -> holding next launch"
-                    wait -n 2>/dev/null || sleep 15
-                done
-            fi
-            alog "  start part $part runs [$runs]"
-            # rc journal: one "<runs>|<exit code>" line per launch, so the poison
-            # pass can count how often THIS exact slice has been killed.
-            RCF="$ADIR/rc_part${part}.txt"
-            if [ "$SLICE_TIMEOUT" -gt 0 ] && command -v timeout >/dev/null 2>&1; then
-                ( timeout -k 60 "$SLICE_TIMEOUT" \
-                    "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
-                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" ; echo "$runs|$?" >> "$RCF" ) &
-            else
-                ( "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$key',$part,[$runs],$THREADS);" \
-                    -logfile "$ADIR_ML\\p${part}_a${attempt}.log" ; echo "$runs|$?" >> "$RCF" ) &
-            fi
-            launched=$((launched + 1))
-            if [ "$launched" -le "$COLD_STARTS" ]; then
-                sleep "$LAUNCH_GAP"
-            else
-                sleep "$LAUNCH_GAP_WARM"
-            fi
-        done
-        wait
-        present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
-        alog "attempt $attempt: pool finished; present=$present/$TOTAL"
+        fi
 
-        # --- poison pass: a slice killed by SLICE_TIMEOUT MAX_SLICE_FAILS times
-        #     cannot be rescued by re-driving it (fixed seed) -> drop the culprit.
-        for slice in "${SLICES[@]}"; do
-            part=${slice%%|*}
-            runs=${slice##*|}
-            RCF="$ADIR/rc_part${part}.txt"
-            [ -f "$RCF" ] || continue
-            nSig=$(grep -c "^${runs}|" "$RCF" 2>/dev/null || true)
-            lastRc=$(grep "^${runs}|" "$RCF" 2>/dev/null | tail -1 | cut -d'|' -f2)
-            if [ "${lastRc:-0}" = "124" ] && [ "${nSig:-0}" -ge "$MAX_SLICE_FAILS" ]; then
-                alog "  [timeout] part $part runs [$runs] killed ${nSig}x -> lookup culprit"
-                "$PY" "$WORKDIR_ML\\mark_poison.py" "$key" "$part" "$runs" "$ADIR_ML\\poison.txt" \
-                    2>&1 | while IFS= read -r l; do alog "  $l"; done
-            fi
-        done
+        log "  [$key] start part $part runs [$runs]"
+        RCF="$ADIR/rc_part${part}.txt"
+        if [ "$SLICE_TIMEOUT" -gt 0 ] && command -v timeout >/dev/null 2>&1; then
+            ( timeout -k 60 "$SLICE_TIMEOUT" \
+                "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$FE500_ALG',$part,[$runs],$THREADS);" \
+                -logfile "$ADIR_ML\\p${part}.log" ; echo "$runs|$?" >> "$RCF" ) &
+        else
+            ( "$MP" -batch "addpath('$WORKDIR_ML'); run_FE500_M20('$FE500_ALG',$part,[$runs],$THREADS);" \
+                -logfile "$ADIR_ML\\p${part}.log" ; echo "$runs|$?" >> "$RCF" ) &
+        fi
+        launched=$((launched + 1))
+        if [ "$launched" -le "$COLD_STARTS" ]; then
+            sleep "$LAUNCH_GAP"
+        else
+            sleep "$LAUNCH_GAP_WARM"
+        fi
     done
+    wait
 
-    present=$(ls "$DATA_SUB"/*.mat 2>/dev/null | wc -l)
-    if [ -f "$ADIR/poison.txt" ]; then
-        poisoned=$(wc -l < "$ADIR/poison.txt" 2>/dev/null || echo 0)
-    else
-        poisoned=0
-    fi
-    alog "---------- $key done: present=$present/$TOTAL  poisoned=$poisoned ----------"
+    # Poison pass: a slice killed by SLICE_TIMEOUT MAX_SLICE_FAILS times cannot be
+    # rescued (fixed seed); drop its first still-missing run.
+    for slice in "${ALL_SLICES[@]}"; do
+        key="${slice%%|*}"; rest="${slice#*|}"; part="${rest%%|*}"; runs="${rest#*|}"
+        setup_alg "$key" || continue
+        RCF="$ADIR/rc_part${part}.txt"
+        [ -f "$RCF" ] || continue
+        nSig=$(grep -c "^${runs}|" "$RCF" 2>/dev/null || true)
+        lastRc=$(grep "^${runs}|" "$RCF" 2>/dev/null | tail -1 | cut -d'|' -f2)
+        if [ "${lastRc:-0}" = "124" ] && [ "${nSig:-0}" -ge "$MAX_SLICE_FAILS" ]; then
+            log "  [timeout] $key part $part runs [$runs] killed ${nSig}x -> poison"
+            "$PY" "$MARK_POISON_PY_ML" "$FE500_ALG" "$part" "$runs" "$FE500_POISON" \
+                2>&1 | while IFS= read -r l; do log "  $l"; done
+        fi
+    done
+done
+
+# Per-algorithm closing summary.
+for key in $ALGS; do
+    setup_alg "$key" || continue
+    k="$(keydir "$key")"
+    d="${FE500_DATA_PREFIX:-/d/REMOandDREMO测试集/20目标/FE500}/$k"
+    present=$(ls "$d"/*.mat 2>/dev/null | wc -l)
+    poisoned=$( [ -f "$ADIR/poison.txt" ] && wc -l < "$ADIR/poison.txt" || echo 0 )
+    log "SUMMARY $key: present=$present  poisoned=$poisoned"
 done
 
 if [ "$SKIP_VERIFY" != "1" ]; then
@@ -235,6 +214,6 @@ if [ "$SKIP_VERIFY" != "1" ]; then
     wait
 fi
 if [ -n "$BADKEY" ]; then
-    log "!! UNKNOWN ALGORITHM KEY(S) SKIPPED:$BADKEY -- nothing was run for them"
+    log "!! UNKNOWN ALGORITHM KEY(S) SKIPPED:$BADKEY"
 fi
 log "DRIVER_DONE algs=[$ALGS]"

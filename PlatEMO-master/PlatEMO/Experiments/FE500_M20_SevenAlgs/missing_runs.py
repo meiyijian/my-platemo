@@ -135,31 +135,31 @@ def read_poison(path):
     return out
 
 
-def main():
-    key = os.environ.get("FE500_ALG", "REMO").strip().upper()
+def poison_path_for(key):
+    """Per-algorithm poison file, derived from FE500_POISON_DIR (logs/ in Windows form)."""
+    d = os.environ.get("FE500_POISON_DIR", "")
+    if d:
+        return os.path.join(d, key, "poison.txt")
+    return os.environ.get("FE500_POISON", "")
+
+
+def collect_slices(key):
+    """[(problemIndex, [run, ...]), ...] of still-missing runs of ONE algorithm."""
+    key = key.strip().upper()
     if key not in FOLDERS:
-        sys.stderr.write("unknown FE500_ALG=%r; known: %s\n" % (key, ", ".join(FOLDERS)))
-        return 2
+        return None
     cls, folderName, key = resolve(key)
     root = os.environ.get("FE500_M20_OUTPUT_ROOT", DEFAULT_ROOT)
     outdir = os.path.join(root, folderName)
     runs = parse_runs(os.environ.get("FE500_RUNS", "1-20"))
     chunk = int(os.environ.get("FE500_CHUNK", "10"))
-    poison = read_poison(os.environ.get("FE500_POISON", ""))
-    # Worker pool size and the shortest slice we are willing to create. Used only
-    # to subdivide when the remaining work is smaller than the pool (see
-    # split_starved); over-splitting is harmless, an idle core is not.
+    poison = read_poison(poison_path_for(key))
     maxjobs = int(os.environ.get("FE500_MAXJOBS", "16"))
     minchunk = int(os.environ.get("FE500_MINCHUNK", "3"))
-    # Problem indices (1..16, DTLZ1..DTLZ7 then WFG1..WFG9) to leave untouched for
-    # now. Used to run the BULK first and defer the slow tail: DTLZ7 (index 7) is
-    # the long pole of every algorithm because its IGDp reference set has 2^19
-    # points, so FE500_SKIP_PARTS=7 defers all of DTLZ7 to a later pass.
     skipparts = {int(x) for x in os.environ.get("FE500_SKIP_PARTS", "").split(",")
                  if x.strip()}
     lo, hi = runs[0], runs[-1]
 
-    nSkipped = 0
     work = []                                   # [(problemIndex, [run, ...]), ...]
     for index, problem in enumerate(PROBS, 1):
         if index in skipparts:
@@ -167,7 +167,6 @@ def main():
         missing = []
         for run in runs:
             if (index, run) in poison:
-                nSkipped += 1
                 continue
             found = any(os.path.isfile(os.path.join(
                 outdir, "%s_%s_M20_D%d_%d.mat" % (cls, problem, d, run)))
@@ -190,11 +189,17 @@ def main():
     if len(work) < maxjobs:
         work = split_starved(work, maxjobs, minchunk)
 
+    return work
+
+
+def main():
+    key = os.environ.get("FE500_ALG", "REMO").strip().upper()
+    if key not in FOLDERS:
+        sys.stderr.write("unknown FE500_ALG=%r; known: %s\n" % (key, ", ".join(FOLDERS)))
+        return 2
+    work = collect_slices(key)
     for index, piece in work:
         print("%d|%s" % (index, ",".join(str(c) for c in piece)))
-    if nSkipped:
-        sys.stderr.write("[missing_runs] %s: %d (problem,run) poisoned and skipped\n"
-                         % (key, nSkipped))
     return 0
 
 
