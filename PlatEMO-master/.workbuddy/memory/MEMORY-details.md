@@ -43,7 +43,13 @@
 
 ## 论文资产
 - 主文 `论文写作\HPDC-MaOEA.tex`（`elsarticle [final,5p,times,twocolumn]`，**textwidth = 522pt**）；`HPDC-MaOEA_1param.tex` 与主文**共用**主性能表两张 tex
-- 主性能表不内联（`\input{experiments/main_performance/table_dtlz|table_wfg}`），数据只能由 `build_tables.py --source-dir <xlsx>` 生成（换源只改脚本 `OURS`/`FILES`）；正文数字全部派生自同目录 `summary.json`，必须一起改并重验定性断言 → skill `paper-main-table-refresh`
+- 主性能表不内联（`\input{experiments/main_performance/table_dtlz|table_wfg}`），数据只能由 `build_tables.py --source-dir <xlsx>` 生成；正文数字全部派生自同目录 `summary.json`，必须一起改并重验定性断言 → skill `paper-main-table-refresh`
+- **主表当前源（2026-09-22 起）**：`AdaMao实验表\nobatchdict版本\nobatchdict以PACDIS为基准{十,十五,二十}目标IGDp.xlsx`，
+  **FE=500 / runs 1–10**，七列 = REMO/SSDE/PC-SAEA/SAMOEA-TL2M/CSEA/HES-EA + PACDIS。
+  ⚠️ 与 2026-09-18 版（FE300/runs 1–20/REMO,PIEA,CSEA,PCSAEA_N100,KRVEA_100,MCEAD）**预算与算法集都不同**；
+  **表已换、`HPDC-MaOEA.tex` 的正文（FE 预算、run 标识、基线名单+引用、派生数字、§4.6 收敛图）尚未跟着改**（等用户拍板）。
+  换源时 `build_tables.py` 要改的不止 `OURS`/`FILES`，`ORDER`/`ALIASES` 与旧算法集专属断言也要动。
+  跑数覆盖度用 `run_scripts/audit_fe500_coverage.py` 核（2026-09-22 实测 336 格全 n=10）
 - 中文对照稿 `HPDC-MaOEA_中文版.md`（跟 tex 走，整篇覆盖；全部表格一律脚本转：主性能表用 `run_scripts/tex_table_to_md.py`，消融表与内联 p_mix 表用 `run_scripts/tex_ablation_pmix_to_md.py`）→ skill `paper-cn-mirror`
 - §4.6 收敛图：`figures/build_convergence.py` ← `figures/source_data/convergence_igd.csv`（由 `ExportConvergenceCSV.m` 只读导出）
 - 通用收敛曲线工具（不重跑）：`ConvergencePlot\{PlotConvergenceCurves,PlotConvergenceGrid,demo_Convergence_10obj}.m` + `README.md`；曲线 = `metric.IGD`，横轴 = `cellfun(@(v)v(1),result(:,1))`。**前提是跑实验时 `save=K>0`**（`ALGORITHM.m:122-124` 存快照、`:191-206` 才落盘；默认 `save=-10` 只弹 GUI 单条曲线、不写文件）

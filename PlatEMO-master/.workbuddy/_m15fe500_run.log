@@ -1,0 +1,222 @@
+﻿===== RESTART 2026-09-21 01:14:34  workers=10  runs=1..10 =====
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..10
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 1120; already present: 324; to run: 796
+Raising the pool cap from 6 to 10 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 10 workers.
+Using 10 process workers (NumThreads=1).
+[   1/ 796] DTLZ1   run 09 FE=504 IGD=228.55989 | 1.6 min, 97.4 s/run, eta 1290.1 min
+[   2/ 796] DTLZ1   run 06 FE=504 IGD=294.08931 | 1.6 min, 49.4 s/run, eta 653.2 min
+[   3/ 796] DTLZ2   run 04 FE=504 IGD=1.0731197 | 1.7 min, 33.7 s/run, eta 445.1 min
+[   4/ 796] DTLZ1   run 07 FE=504 IGD=180.8197 | 1.7 min, 25.4 s/run, eta 335.1 min
+[   5/ 796] DTLZ2   run 02 FE=504 IGD=1.0384763 | 1.7 min, 20.5 s/run, eta 270.4 min
+[   6/ 796] DTLZ2   run 03 FE=504 IGD=1.0468446 | 1.7 min, 17.1 s/run, eta 225.5 min
+[   7/ 796] DTLZ2   run 01 FE=504 IGD=1.074761 | 1.7 min, 14.9 s/run, eta 195.9 min
+[   8/ 796] DTLZ1   run 10 FE=504 IGD=203.60591 | 1.7 min, 13.1 s/run, eta 172.3 min
+[   9/ 796] DTLZ1   run 05 FE=504 IGD=196.23775 | 1.8 min, 11.9 s/run, eta 156.6 min
+[  10/ 796] DTLZ1   run 08 FE=504 IGD=243.05253 | 1.9 min, 11.2 s/run, eta 147.3 min
+[  11/ 796] DTLZ2   run 06 FE=504 IGD=1.0543541 | 3.2 min, 17.4 s/run, eta 227.5 min
+[  12/ 796] DTLZ3   run 01 FE=504 IGD=776.95566 | 3.2 min, 16.2 s/run, eta 211.7 min
+[  13/ 796] DTLZ2   run 05 FE=504 IGD=1.0411878 | 3.3 min, 15.0 s/run, eta 196.1 min
+[  14/ 796] DTLZ2   run 09 FE=504 IGD=1.0446894 | 3.3 min, 14.0 s/run, eta 182.1 min
+[  15/ 796] DTLZ2   run 07 FE=504 IGD=1.029219 | 3.3 min, 13.0 s/run, eta 169.8 min
+[  16/ 796] DTLZ3   run 02 FE=504 IGD=816.61528 | 3.3 min, 12.3 s/run, eta 160.0 min
+[  17/ 796] DTLZ2   run 10 FE=504 IGD=1.0418777 | 3.4 min, 11.9 s/run, eta 153.9 min
+[  18/ 796] DTLZ2   run 08 FE=504 IGD=1.0350095 | 3.4 min, 11.2 s/run, eta 145.2 min
+[  19/ 796] DTLZ3   run 04 FE=504 IGD=801.33383 | 3.4 min, 10.6 s/run, eta 137.7 min
+[  20/ 796] DTLZ3   run 03 FE=504 IGD=832.996 | 3.5 min, 10.4 s/run, eta 134.8 min
+[  30/ 796] DTLZ4   run 04 FE=504 IGD=1.2559361 | 5.3 min, 10.5 s/run, eta 134.5 min
+[  40/ 796] DTLZ5   run 04 FE=504 IGD=0.28317736 | 6.8 min, 10.2 s/run, eta 128.7 min
+[  50/ 796] DTLZ6   run 03 FE=504 IGD=13.686614 | 8.3 min, 10.0 s/run, eta 124.1 min
+[  60/ 796] DTLZ7   run 01 FE=504 IGD=29.799475 | 10.0 min, 10.0 s/run, eta 123.2 min
+[  70/ 796] WFG1    run 02 FE=504 IGD=4.2813643 | 11.7 min, 10.0 s/run, eta 120.9 min
+[  80/ 796] WFG2    run 03 FE=504 IGD=6.8353352 | 13.4 min, 10.0 s/run, eta 119.8 min
+[  90/ 796] WFG3    run 03 FE=504 IGD=1.0561613 | 15.0 min, 10.0 s/run, eta 117.6 min
+[ 100/ 796] WFG4    run 04 FE=504 IGD=16.970752 | 16.7 min, 10.0 s/run, eta 116.4 min
+[ 110/ 796] WFG5    run 02 FE=504 IGD=14.190646 | 18.4 min, 10.0 s/run, eta 114.8 min
+[ 120/ 796] WFG6    run 02 FE=504 IGD=14.102458 | 20.2 min, 10.1 s/run, eta 114.0 min
+END 2026-09-21 01:36:52 rc=-1
+===== RESTART 2026-09-21 01:37:11  workers=12  runs=1..10 =====
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..10
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 1120; already present: 447; to run: 673
+Raising the pool cap from 6 to 12 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+Using 12 process workers (NumThreads=1).
+[   1/ 673] WFG6    run 10 FE=504 IGD=14.519142 | 1.7 min, 101.8 s/run, eta 1139.7 min
+[   2/ 673] WFG7    run 06 FE=504 IGD=15.527478 | 1.7 min, 52.4 s/run, eta 586.1 min
+[   3/ 673] WFG7    run 01 FE=504 IGD=14.946041 | 1.8 min, 36.0 s/run, eta 401.8 min
+[   4/ 673] WFG7    run 02 FE=504 IGD=16.347327 | 1.8 min, 27.3 s/run, eta 304.7 min
+[   5/ 673] WFG6    run 09 FE=504 IGD=14.225179 | 1.8 min, 21.9 s/run, eta 244.2 min
+[   6/ 673] WFG6    run 08 FE=504 IGD=15.060774 | 1.8 min, 18.3 s/run, eta 203.7 min
+[   7/ 673] WFG7    run 09 FE=504 IGD=15.20998 | 1.8 min, 15.7 s/run, eta 174.4 min
+[   8/ 673] WFG7    run 05 FE=504 IGD=15.096878 | 1.9 min, 13.9 s/run, eta 154.3 min
+[   9/ 673] WFG7    run 07 FE=504 IGD=15.226023 | 1.9 min, 12.7 s/run, eta 140.8 min
+[  10/ 673] WFG7    run 04 FE=504 IGD=16.098436 | 2.0 min, 12.2 s/run, eta 134.3 min
+[  11/ 673] WFG7    run 03 FE=504 IGD=16.286042 | 2.0 min, 11.1 s/run, eta 122.2 min
+[  12/ 673] WFG7    run 08 FE=504 IGD=15.660133 | 2.0 min, 10.2 s/run, eta 112.5 min
+[  13/ 673] WFG7    run 10 FE=504 IGD=14.61245 | 3.5 min, 16.1 s/run, eta 177.5 min
+[  14/ 673] WFG8    run 01 FE=504 IGD=14.83509 | 3.6 min, 15.6 s/run, eta 171.4 min
+[  15/ 673] WFG8    run 04 FE=504 IGD=14.99775 | 3.7 min, 14.8 s/run, eta 162.5 min
+[  16/ 673] WFG8    run 07 FE=504 IGD=14.993096 | 3.7 min, 14.0 s/run, eta 153.8 min
+[  17/ 673] WFG8    run 05 FE=504 IGD=14.341335 | 3.8 min, 13.4 s/run, eta 146.0 min
+[  18/ 673] WFG8    run 02 FE=504 IGD=14.557988 | 3.8 min, 12.6 s/run, eta 137.9 min
+[  19/ 673] WFG8    run 03 FE=504 IGD=15.202701 | 3.8 min, 12.0 s/run, eta 131.1 min
+[  20/ 673] WFG9    run 01 FE=504 IGD=14.79901 | 3.8 min, 11.5 s/run, eta 125.4 min
+[  30/ 673] WFG9    run 08 FE=504 IGD=14.211148 | 5.7 min, 11.4 s/run, eta 122.6 min
+[  40/ 673] DTLZ1   run 08 FE=504 IGD=92.638211 | 9.6 min, 14.5 s/run, eta 152.7 min
+[  50/ 673] DTLZ2   run 08 FE=503 IGD=1.1307118 | 12.7 min, 15.2 s/run, eta 157.9 min
+[  60/ 673] DTLZ3   run 07 FE=500 IGD=352.85146 | 14.1 min, 14.1 s/run, eta 143.9 min
+[  70/ 673] DTLZ4   run 07 FE=505 IGD=1.0278337 | 16.9 min, 14.5 s/run, eta 145.4 min
+[  80/ 673] DTLZ5   run 06 FE=509 IGD=0.45621182 | 18.8 min, 14.1 s/run, eta 139.2 min
+[  90/ 673] DTLZ6   run 05 FE=504 IGD=7.9158749 | 21.4 min, 14.3 s/run, eta 138.9 min
+[ 100/ 673] DTLZ7   run 07 FE=505 IGD=32.093993 | 24.1 min, 14.5 s/run, eta 138.1 min
+[ 110/ 673] WFG1    run 08 FE=501 IGD=3.8404907 | 27.0 min, 14.7 s/run, eta 137.9 min
+[ 120/ 673] WFG2    run 07 FE=504 IGD=6.1016431 | 28.6 min, 14.3 s/run, eta 131.9 min
+[ 130/ 673] WFG3    run 07 FE=504 IGD=1.7109805 | 31.2 min, 14.4 s/run, eta 130.2 min
+[ 140/ 673] WFG4    run 07 FE=505 IGD=17.679258 | 33.0 min, 14.2 s/run, eta 125.8 min
+[ 150/ 673] WFG5    run 07 FE=504 IGD=14.930632 | 35.7 min, 14.3 s/run, eta 124.4 min
+[ 160/ 673] WFG6    run 07 FE=503 IGD=14.180176 | 38.4 min, 14.4 s/run, eta 123.1 min
+[ 170/ 673] WFG7    run 07 FE=500 IGD=16.250755 | 40.9 min, 14.4 s/run, eta 121.0 min
+[ 180/ 673] WFG8    run 07 FE=505 IGD=14.220136 | 42.5 min, 14.2 s/run, eta 116.5 min
+[ 190/ 673] WFG9    run 07 FE=501 IGD=16.83741 | 45.5 min, 14.4 s/run, eta 115.5 min
+[ 200/ 673] DTLZ1   run 04 FE=500 IGD=76.743507 | 61.3 min, 18.4 s/run, eta 145.1 min
+[ 210/ 673] DTLZ2   run 09 FE=500 IGD=1.0525847 | 76.9 min, 22.0 s/run, eta 169.6 min
+[ 220/ 673] DTLZ3   run 06 FE=500 IGD=333.36268 | 91.9 min, 25.1 s/run, eta 189.2 min
+[ 230/ 673] DTLZ4   run 07 FE=500 IGD=0.84864823 | 107.0 min, 27.9 s/run, eta 206.1 min
+[ 240/ 673] DTLZ5   run 06 FE=500 IGD=0.340723 | 109.8 min, 27.5 s/run, eta 198.1 min
+[ 250/ 673] DTLZ6   run 07 FE=500 IGD=8.6533247 | 124.4 min, 29.9 s/run, eta 210.5 min
+[ 260/ 673] DTLZ7   run 06 FE=500 IGD=12.621732 | 138.7 min, 32.0 s/run, eta 220.4 min
+[ 270/ 673] WFG1    run 09 FE=500 IGD=4.0708512 | 154.3 min, 34.3 s/run, eta 230.3 min
+[ 280/ 673] WFG3    run 02 FE=500 IGD=2.110027 | 170.0 min, 36.4 s/run, eta 238.6 min
+[ 290/ 673] WFG3    run 10 FE=500 IGD=2.1676119 | 184.4 min, 38.1 s/run, eta 243.5 min
+[ 300/ 673] WFG4    run 07 FE=500 IGD=11.709551 | 186.9 min, 37.4 s/run, eta 232.4 min
+[ 310/ 673] WFG5    run 08 FE=500 IGD=12.158952 | 201.6 min, 39.0 s/run, eta 236.0 min
+[ 320/ 673] WFG6    run 07 FE=500 IGD=10.095274 | 216.0 min, 40.5 s/run, eta 238.2 min
+[ 330/ 673] WFG7    run 08 FE=500 IGD=9.2798996 | 231.1 min, 42.0 s/run, eta 240.3 min
+[ 340/ 673] WFG8    run 07 FE=500 IGD=11.139671 | 245.6 min, 43.3 s/run, eta 240.6 min
+[ 350/ 673] WFG9    run 07 FE=500 IGD=10.066426 | 264.6 min, 45.4 s/run, eta 244.2 min
+[ 360/ 673] DTLZ1   run 08 FE=504 IGD=176.72802 | 284.3 min, 47.4 s/run, eta 247.2 min
+[ 370/ 673] DTLZ2   run 08 FE=504 IGD=0.84762915 | 323.7 min, 52.5 s/run, eta 265.1 min
+[ 380/ 673] DTLZ3   run 08 FE=504 IGD=446.97225 | 360.3 min, 56.9 s/run, eta 277.8 min
+[ 390/ 673] DTLZ4   run 07 FE=504 IGD=1.0991339 | 398.6 min, 61.3 s/run, eta 289.2 min
+[ 400/ 673] DTLZ5   run 07 FE=504 IGD=0.20952879 | 422.6 min, 63.4 s/run, eta 288.4 min
+[ 410/ 673] DTLZ6   run 07 FE=504 IGD=11.034007 | 458.3 min, 67.1 s/run, eta 294.0 min
+[ 420/ 673] DTLZ7   run 07 FE=504 IGD=1.9105859 | 485.2 min, 69.3 s/run, eta 292.3 min
+[ 430/ 673] WFG1    run 07 FE=504 IGD=4.108845 | 524.0 min, 73.1 s/run, eta 296.1 min
+[ 440/ 673] WFG2    run 07 FE=504 IGD=3.3787261 | 564.4 min, 77.0 s/run, eta 298.9 min
+[ 450/ 673] WFG3    run 07 FE=504 IGD=2.040185 | 604.2 min, 80.6 s/run, eta 299.4 min
+[ 460/ 673] WFG4    run 07 FE=504 IGD=12.960036 | 624.5 min, 81.5 s/run, eta 289.2 min
+[ 470/ 673] WFG5    run 07 FE=504 IGD=10.130833 | 660.4 min, 84.3 s/run, eta 285.2 min
+[ 480/ 673] WFG6    run 08 FE=504 IGD=10.221512 | 687.3 min, 85.9 s/run, eta 276.3 min
+END 2026-09-21 13:36:31 rc=-1
+===== RESUME 2026-09-21 13:44:07  workers=12  runs=1..10 =====
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..10
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 1120; already present: 932; to run: 188
+Raising the pool cap from 6 to 12 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+Using 12 process workers (NumThreads=1).
+END 2026-09-21 14:09:57 rc=-1
+===== RESUME 2026-09-21 16:32:28  workers=12  runs=1..10 =====
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..10
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 1120; already present: 932; to run: 188
+Raising the pool cap from 6 to 12 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+Using 12 process workers (NumThreads=1).
+[   1/ 188] WFG8    run 01 FE=504 IGD=10.795494 | 38.3 min, 2298.3 s/run, eta 7163.0 min
+[   2/ 188] WFG8    run 03 FE=504 IGD=10.423202 | 38.6 min, 1158.0 s/run, eta 3589.7 min
+[   3/ 188] WFG8    run 02 FE=504 IGD=9.5291883 | 38.7 min, 774.3 s/run, eta 2387.6 min
+[   4/ 188] WFG8    run 04 FE=504 IGD=10.676719 | 38.8 min, 581.5 s/run, eta 1783.4 min
+[   5/ 188] WFG7    run 07 FE=504 IGD=13.219474 | 38.8 min, 465.9 s/run, eta 1421.1 min
+[   6/ 188] WFG7    run 06 FE=504 IGD=13.065144 | 39.5 min, 395.1 s/run, eta 1198.6 min
+[   7/ 188] WFG7    run 05 FE=504 IGD=12.628296 | 40.4 min, 346.5 s/run, eta 1045.2 min
+[   8/ 188] WFG7    run 09 FE=504 IGD=12.995163 | 40.7 min, 305.2 s/run, eta 915.7 min
+[   9/ 188] WFG7    run 10 FE=504 IGD=12.206198 | 40.9 min, 272.9 s/run, eta 814.1 min
+[  10/ 188] WFG7    run 04 FE=504 IGD=11.964522 | 41.2 min, 247.5 s/run, eta 734.2 min
+[  11/ 188] WFG7    run 08 FE=504 IGD=13.624349 | 41.3 min, 225.2 s/run, eta 664.3 min
+[  12/ 188] WFG7    run 03 FE=504 IGD=12.539963 | 41.9 min, 209.7 s/run, eta 615.3 min
+[  13/ 188] WFG8    run 05 FE=504 IGD=8.9752664 | 77.1 min, 355.7 s/run, eta 1037.4 min
+[  14/ 188] WFG8    run 06 FE=504 IGD=9.4101644 | 77.9 min, 334.0 s/run, eta 968.5 min
+[  15/ 188] WFG8    run 07 FE=504 IGD=9.4836784 | 78.0 min, 311.8 s/run, eta 899.1 min
+[  16/ 188] WFG8    run 09 FE=504 IGD=9.8890398 | 78.3 min, 293.7 s/run, eta 842.1 min
+[  17/ 188] WFG8    run 08 FE=504 IGD=9.2097398 | 78.5 min, 277.0 s/run, eta 789.4 min
+[  18/ 188] WFG8    run 10 FE=504 IGD=9.326823 | 78.5 min, 261.8 s/run, eta 741.6 min
+[  19/ 188] WFG9    run 02 FE=504 IGD=11.188851 | 79.6 min, 251.3 s/run, eta 707.7 min
+[  20/ 188] WFG9    run 04 FE=504 IGD=10.264965 | 79.9 min, 239.6 s/run, eta 671.0 min
+[  30/ 188] DTLZ1   run 02 FE=500 IGD=120.09156 | 109.2 min, 218.5 s/run, eta 575.3 min
+[  40/ 188] DTLZ2   run 02 FE=500 IGD=1.0541008 | 131.8 min, 197.7 s/run, eta 487.7 min
+[  50/ 188] DTLZ3   run 01 FE=501 IGD=225.80008 | 156.6 min, 187.9 s/run, eta 432.2 min
+[  60/ 188] DTLZ4   run 02 FE=500 IGD=0.91748041 | 167.6 min, 167.6 s/run, eta 357.6 min
+[  70/ 188] DTLZ5   run 02 FE=500 IGD=0.40961739 | 190.4 min, 163.2 s/run, eta 321.0 min
+[  80/ 188] DTLZ6   run 02 FE=500 IGD=11.06483 | 214.6 min, 160.9 s/run, eta 289.7 min
+[  90/ 188] DTLZ7   run 04 FE=500 IGD=15.819306 | 240.7 min, 160.4 s/run, eta 262.1 min
+[ 100/ 188] WFG1    run 02 FE=500 IGD=3.8543226 | 265.5 min, 159.3 s/run, eta 233.6 min
+[ 110/ 188] WFG2    run 01 FE=502 IGD=6.2001569 | 290.3 min, 158.4 s/run, eta 205.9 min
+[ 120/ 188] WFG3    run 02 FE=500 IGD=1.64419 | 301.6 min, 150.8 s/run, eta 170.9 min
+[ 130/ 188] WFG4    run 01 FE=500 IGD=17.404236 | 324.2 min, 149.6 s/run, eta 144.7 min
+[ 140/ 188] WFG5    run 01 FE=500 IGD=12.491117 | 348.7 min, 149.4 s/run, eta 119.5 min
+[ 150/ 188] WFG5    run 10 FE=500 IGD=15.060779 | 373.3 min, 149.3 s/run, eta 94.6 min
+[ 160/ 188] WFG7    run 03 FE=500 IGD=13.905532 | 398.8 min, 149.5 s/run, eta 69.8 min
+[ 170/ 188] WFG8    run 02 FE=500 IGD=14.350471 | 420.4 min, 148.4 s/run, eta 44.5 min
+[ 180/ 188] WFG9    run 02 FE=500 IGD=15.937625 | 433.6 min, 144.5 s/run, eta 19.3 min
+[ 188/ 188] WFG9    run 09 FE=500 IGD=15.893964 | 445.9 min, 142.3 s/run, eta 0.0 min
+COMPLETE: 188 run(s) in 445.9 min, 0 failure(s).
+
+ans = 
+
+  包含以下字段的 1x188 struct 数组:
+
+    ok
+    algorithm
+    problem
+    runId
+    IGD
+    FE
+    message
+    file
+    runtimeSeconds
+
+Parallel pool using the 'Processes' profile is shutting down.
+END 2026-09-22 00:01:31 rc=0

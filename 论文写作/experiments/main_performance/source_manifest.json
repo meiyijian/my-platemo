@@ -1,25 +1,25 @@
 {
-  "excluded_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+  "excluded_algorithm": null,
+  "excluded_algorithm_note": "The FE500 workbooks carry only the seven table columns; earlier exports additionally carried the Lambdat030 column.",
   "sources": [
     {
-      "filename": "lambdat030nobatch十目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\lambdat030版本\\lambdat030nobatch十目标IGDp.xlsx",
-      "sha256": "7a346ac0f07e6e8209a47e6e580b3ef1b5a2c912db67cb745757b7567c774f0c",
+      "filename": "nobatchdict以PACDIS为基准十目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十目标IGDp.xlsx",
+      "sha256": "1e0858143d2c8dfd569150a29520fd470c7571329f857231df0141ad1f774a61",
       "sheet": "IGDp",
       "M": 10,
-      "reference_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "reference_algorithm": "PACDIS",
       "headers": [
         "Problem",
         "M",
         "D",
         "REMO",
-        "PIEA",
-        "MCEAD",
+        "SSDE",
+        "PC-SAEA",
+        "SAMOEA-TL2M",
         "CSEA",
-        "PCSAEA_N100",
-        "KRVEA_100",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+        "HES-EA",
+        "PACDIS"
       ],
       "metadata": [
         {
@@ -136,33 +136,32 @@
         }
       ],
       "exported_summary": {
-        "REMO": "1/10/5",
-        "PIEA": "7/6/3",
-        "MCEAD": "4/9/3",
-        "CSEA": "1/13/2",
-        "PCSAEA_N100": "0/16/0",
-        "KRVEA_100": "3/9/4"
+        "REMO": "1/9/6",
+        "SSDE": "0/14/2",
+        "PC-SAEA": "0/16/0",
+        "SAMOEA-TL2M": "2/13/1",
+        "CSEA": "0/10/6",
+        "HES-EA": "6/7/3"
       }
     },
     {
-      "filename": "lambdat030nobatch十五目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\lambdat030版本\\lambdat030nobatch十五目标IGDp.xlsx",
-      "sha256": "5c2b2d8a9f3bc5929490ebfa587d4e822d5ab4aa65ad3fdf5919ddbe6fbe2e61",
+      "filename": "nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
+      "sha256": "692129a801c3c4a088e6716a174ec4277d061ed1f08590d723cde026d96bca22",
       "sheet": "IGDp",
       "M": 15,
-      "reference_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+      "reference_algorithm": "PACDIS",
       "headers": [
         "Problem",
         "M",
         "D",
         "REMO",
-        "PIEA",
-        "MCEAD",
+        "SSDE",
+        "PC-SAEA",
+        "SAMOEA-TL2M",
         "CSEA",
-        "PCSAEA_N100",
-        "KRVEA_100",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+        "HES-EA",
+        "PACDIS"
       ],
       "metadata": [
         {
@@ -274,160 +273,159 @@
           "problem": "WFG9",
           "N": null,
           "M": 15,
+          "D": 30,
+          "FE": null
+        }
+      ],
+      "exported_summary": {
+        "REMO": "1/8/7",
+        "SSDE": "0/15/1",
+        "PC-SAEA": "0/15/1",
+        "SAMOEA-TL2M": "1/14/1",
+        "CSEA": "1/9/6",
+        "HES-EA": "4/7/5"
+      }
+    },
+    {
+      "filename": "nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
+      "sha256": "daffa10395171cb6631a8025b7045087ffa9775a74e98dfd17ccf3c783d2a7bc",
+      "sheet": "IGDp",
+      "M": 20,
+      "reference_algorithm": "PACDIS",
+      "headers": [
+        "Problem",
+        "M",
+        "D",
+        "REMO",
+        "SSDE",
+        "PC-SAEA",
+        "SAMOEA-TL2M",
+        "CSEA",
+        "HES-EA",
+        "PACDIS"
+      ],
+      "metadata": [
+        {
+          "problem": "DTLZ1",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ2",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ3",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ4",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ5",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ6",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "DTLZ7",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG1",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG2",
+          "N": null,
+          "M": 20,
+          "D": 31,
+          "FE": null
+        },
+        {
+          "problem": "WFG3",
+          "N": null,
+          "M": 20,
+          "D": 31,
+          "FE": null
+        },
+        {
+          "problem": "WFG4",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG5",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG6",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG7",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG8",
+          "N": null,
+          "M": 20,
+          "D": 30,
+          "FE": null
+        },
+        {
+          "problem": "WFG9",
+          "N": null,
+          "M": 20,
           "D": 30,
           "FE": null
         }
       ],
       "exported_summary": {
         "REMO": "2/9/5",
-        "PIEA": "7/6/3",
-        "MCEAD": "5/9/2",
-        "CSEA": "1/12/3",
-        "PCSAEA_N100": "0/16/0",
-        "KRVEA_100": "2/8/6"
-      }
-    },
-    {
-      "filename": "lambdat030nobatch二十目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\lambdat030版本\\lambdat030nobatch二十目标IGDp.xlsx",
-      "sha256": "2f852069fbac68fed01f8b59b0d31480f3761ecf246c758b5a9663ec5516a674",
-      "sheet": "IGDp",
-      "M": 20,
-      "reference_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
-      "headers": [
-        "Problem",
-        "M",
-        "D",
-        "REMO",
-        "PIEA",
-        "MCEAD",
-        "CSEA",
-        "PCSAEA_N100",
-        "KRVEA_100",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030",
-        "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
-      ],
-      "metadata": [
-        {
-          "problem": "DTLZ1",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ2",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ3",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ4",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ5",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ6",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "DTLZ7",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG1",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG2",
-          "N": null,
-          "M": 20,
-          "D": 31,
-          "FE": null
-        },
-        {
-          "problem": "WFG3",
-          "N": null,
-          "M": 20,
-          "D": 31,
-          "FE": null
-        },
-        {
-          "problem": "WFG4",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG5",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG6",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG7",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG8",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        },
-        {
-          "problem": "WFG9",
-          "N": null,
-          "M": 20,
-          "D": 30,
-          "FE": null
-        }
-      ],
-      "exported_summary": {
-        "REMO": "3/8/5",
-        "PIEA": "5/7/4",
-        "MCEAD": "5/8/3",
-        "CSEA": "2/9/5",
-        "PCSAEA_N100": "0/15/1",
-        "KRVEA_100": "2/9/5"
+        "SSDE": "1/15/0",
+        "PC-SAEA": "0/15/1",
+        "SAMOEA-TL2M": "1/15/0",
+        "CSEA": "1/8/7",
+        "HES-EA": "2/7/7"
       }
     }
   ]

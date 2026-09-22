@@ -1,0 +1,28 @@
+﻿===== IGDp M15 RETRY 2026-09-22 05:05:50 =====
+
+########## SSDE (M=15) ##########
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+MergeIGDpForDir SSDE M=15 : written 320, reused 0, 3.1 min
+
+########## PCSAEA (M=15) ##########
+MergeIGDpForDir PCSAEA M=15 : written 320, reused 0, 4.9 min
+
+########## SAMOEATL2M (M=15) ##########
+MergeIGDpForDir SAMOEATL2M M=15 : written 160, reused 0, 4.9 min
+
+########## CSEA (M=15) ##########
+MergeIGDpForDir CSEA M=15 : written 160, reused 0, 3.0 min
+
+########## REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist (M=15) ##########
+MergeIGDpForDir REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist M=15 : written 160, reused 0, 3.3 min
+
+########## HES_EA (M=15) ##########
+MergeIGDpForDir HES_EA M=15 : written 160, reused 0, 5.4 min
+
+########## REMO (M=15) ##########
+MergeIGDpForDir REMO M=15 : written 160, reused 0, 3.3 min
+
+MergeAllFE500IGDp M=15 DONE
+Parallel pool using the 'Processes' profile is shutting down.
+===== END 2026-09-22 05:34:52 rc=0 =====

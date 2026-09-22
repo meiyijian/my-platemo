@@ -14,26 +14,37 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-OURS = "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
-FILES = {10: "lambdat030nobatch十目标IGDp.xlsx", 15: "lambdat030nobatch十五目标IGDp.xlsx",
-         20: "lambdat030nobatch二十目标IGDp.xlsx"}
+# Source set as of 2026-09-22: the FE500 / runs 1-10 seven-algorithm export.
+# Previous source set (git history, commit e8387bf and earlier): the FE300 /
+# runs 1-20 export lambdat030nobatch{十,十五,二十}目标IGDp.xlsx, whose baseline
+# columns were REMO / PIEA / CSEA / PCSAEA_N100 / KRVEA_100 / MCEAD.
+OURS = "PACDIS"
+FILES = {10: "nobatchdict以PACDIS为基准十目标IGDp.xlsx",
+         15: "nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
+         20: "nobatchdict以PACDIS为基准二十目标IGDp.xlsx"}
 SHEET = "IGDp"
-ORDER = ["REMO", "PIEA", "CSEA", "PC-SAEA", "K-RVEA", "MCEA/D", "PACDIS"]
-# The source workbooks carry both the original Lambdat030 column and the
-# NoBatchDist variant; only the latter is the proposed method of this version.
-# Lambdat030 is deliberately absent here so that it is ignored, exactly as the
-# Pruned_Weighted and Original columns were ignored before.
-ALIASES = {"REMO": "REMO", "PIEA": "PIEA", "CSEA": "CSEA",
-           "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",
-           "KRVEA": "K-RVEA", "KRVEA_100": "K-RVEA",
-           "MCEAD": "MCEA/D", OURS: "PACDIS"}
+ORDER = ["REMO", "SSDE", "PC-SAEA", "SAMOEA-TL2M", "CSEA", "HES-EA", "PACDIS"]
+# The six baselines are already labelled with their paper names in these
+# workbooks; the legacy suffixed spellings are kept so the same script still
+# reads the older exports. PACDIS is the proposed method (the NoBatchDist
+# variant); any column absent from this map is ignored.
+ALIASES = {"REMO": "REMO", "SSDE": "SSDE",
+           "PC-SAEA": "PC-SAEA", "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",
+           "SAMOEA-TL2M": "SAMOEA-TL2M", "SAMOEATL2M": "SAMOEA-TL2M",
+           "CSEA": "CSEA", "HES-EA": "HES-EA", "HES_EA": "HES-EA",
+           "PIEA": "PIEA", "K-RVEA": "K-RVEA", "KRVEA": "K-RVEA",
+           "KRVEA_100": "K-RVEA", "MCEA/D": "MCEA/D", "MCEAD": "MCEA/D",
+           OURS: OURS}
 PROBLEMS = [f"DTLZ{i}" for i in range(1, 8)] + [f"WFG{i}" for i in range(1, 10)]
 CELL = re.compile(r"^\s*([\d.]+e[+-]\d+)\s*\(([\d.]+e[+-]\d+)\)\s*([+=-])?\s*$", re.I)
 
 
 def extract(source):
     from openpyxl import load_workbook
-    records, manifest = [], {"excluded_algorithm": "REMO_UniformMix_Pruned_Weighted_Lambdat030",
+    records, manifest = [], {"excluded_algorithm": None,
+                             "excluded_algorithm_note":
+                                 "The FE500 workbooks carry only the seven table columns; "
+                                 "earlier exports additionally carried the Lambdat030 column.",
                              "sources": []}
     for m in [10, 15, 20]:
         path = source / FILES[m]
@@ -106,7 +117,8 @@ def main():
         for p in PROBLEMS:
             lowest = min(Decimal(lookup[p, a]["mean"]) for a in ORDER)
             best.update(a for a in ORDER if Decimal(lookup[p, a]["mean"]) == lowest)
-        assert {r["source_algorithm"] for r in data if r["algorithm"] in ["PC-SAEA", "K-RVEA"]} == {"PCSAEA_N100", "KRVEA_100"}
+        assert {r["algorithm"] for r in data} == set(ORDER)
+        assert {r["source_algorithm"] for r in data if r["algorithm"] == "PC-SAEA"} <= {"PC-SAEA", "PCSAEA", "PCSAEA_N100"}
         summary["by_objectives"][str(m)] = {"baseline_plus_minus_equal": totals,
             "best_mean_counts": dict(best), "lower_mean_counts": mean_comparisons,
             "best_mean_problems_PACDIS": [p for p in PROBLEMS if Decimal(lookup[p, "PACDIS"]["mean"]) == min(Decimal(lookup[p, a]["mean"]) for a in ORDER)]}

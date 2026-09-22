@@ -1,13 +1,16 @@
-function MergeIGDpForDir(alg, M, workers, dtlz7FinalOnly, runsOverride)
+function MergeIGDpForDir(alg, M, workers, dtlz7FinalOnly, runsOverride, subDir)
 %MergeIGDpForDir  Compute IGD+ for every run of one algorithm folder and merge
 %   the trace into the raw .mat file's 'metric' struct.
 %
 %   MergeIGDpForDir(ALG,M,WORKERS)                      full 30-snapshot trace
 %   MergeIGDpForDir(ALG,M,WORKERS,DTLZ7FINALONLY)       DTLZ7 at M=20: last snapshot only
+%   MergeIGDpForDir(ALG,M,WORKERS,[],[],SUBDIR)         extra folder level, e.g. 'FE500'
 %
 %   The folder layout follows the rest of the dataset:
-%     M == 10  ->  <TESTROOT>\10目标\n30\<ALG>
-%     otherwise->  <TESTROOT>\<M>目标\<ALG>
+%     M == 10  ->  <TESTROOT>\10目标\n30\[SUBDIR\]<ALG>
+%     otherwise->  <TESTROOT>\<M>目标\[SUBDIR\]<ALG>
+%   SUBDIR is empty for every batch that sits directly under the objective
+%   folder, and 'FE500' for the maxFE=500 batches.
 %
 %   Every run file is loaded, the IGD+ trace of all saved snapshots is computed
 %   with IGDpFast (block-wise, numerically identical to the stock IGDp.m), the
@@ -28,14 +31,15 @@ function MergeIGDpForDir(alg, M, workers, dtlz7FinalOnly, runsOverride)
     if nargin < 3 || isempty(workers), workers = 1; end
     if nargin < 4 || isempty(dtlz7FinalOnly), dtlz7FinalOnly = false; end
     if nargin < 5 || isempty(runsOverride),   runsOverride   = [];    end
+    if nargin < 6 || isempty(subDir),         subDir         = '';    end
 
     platform = 'D:\PlatEMO-master\PlatEMO-master\PlatEMO';
     testRoot = 'C:\Users\lsx\Desktop\REMOandDREMO测试集';
     logDir   = 'D:\PlatEMO-master\PlatEMO-master\.workbuddy\ablation_logs';
     if M == 10
-        rawDir = fullfile(testRoot,'10目标','n30',alg);
+        rawDir = fullfile(testRoot,'10目标','n30',subDir,alg);
     else
-        rawDir = fullfile(testRoot,sprintf('%d目标',M),alg);
+        rawDir = fullfile(testRoot,sprintf('%d目标',M),subDir,alg);
     end
     assert(isfolder(rawDir),'Missing folder: %s',rawDir);
     if ~isfolder(logDir), mkdir(logDir); end
@@ -54,7 +58,15 @@ function MergeIGDpForDir(alg, M, workers, dtlz7FinalOnly, runsOverride)
 
     if workers > 1
         pool = gcp('nocreate');
-        if isempty(pool), pool = parpool('Processes',workers); end
+        if isempty(pool)
+            % The stored 'Processes' profile caps NumWorkers at 6; raise it on a
+            % session-local cluster object only, exactly like the run scripts do.
+            c = parcluster('Processes');
+            if workers > c.NumWorkers
+                c.NumWorkers = workers;
+            end
+            pool = parpool(c,workers);
+        end
         pctRunOnAll(['addpath(genpath(''' platform '''));' ...
                      'addpath(''D:\PlatEMO-master\PlatEMO-master\.workbuddy\run_scripts'');' ...
                      'maxNumCompThreads(1);']);
