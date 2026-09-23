@@ -891,35 +891,38 @@ budget. They do not attribute the differences to PAQC or CDIS individually.
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-The component ablation uses the complete PACDIS as Full and compares it with
-Full without PAQC and Full without CDIS. Each control retains the shared
-initialization, relation training, environmental selection, and evaluation
-cap. The PAQC control replaces group construction while retaining the
-CDIS selection rule. The CDIS control retains PAQC and uses a
-predefined relation-only candidate rule under the same batch cap.
-These supplied ablations use a 300-evaluation budget and are separate from
-the 500-evaluation main comparison.
+We assess PAQC and CDIS through two controls of the current PACDIS
+implementation (Full). The w/o PAQC control uses REMO's
+representative-based grouping to form relation-training labels and retains
+CDIS. The control labeled w/o CDIS retains PAQC and fixes selection to the
+ambiguity-rewarded relation criterion. It removes the indicator branch and
+criterion switching while retaining CDIS's ambiguity criterion. Full and both
+controls retain the same relation model,
+environmental selection, batch-size cap, and absence of within-batch distance.
+
+We evaluate DTLZ1--7 and WFG1--9 at $M=10$ and 20, with $N=100$ and a
+300-evaluation cap that includes initialization. Each configuration has 20
+independent runs. Full and the two controls end at 300 evaluations.
+We measure the final populations with IGD$^+$ and compare each control with
+Full using a two-sided, unpaired Wilcoxon rank-sum test at $p<0.05$. We make
+no multiple-comparison adjustment to the reported symbols. We also show REMO
+with $k=15$ and 30 at $M=10$ and 20 as a contextual baseline. Its archived
+runs can exceed 300 evaluations, so we exclude REMO from module attribution.
+This study uses a separate budget from the 500-evaluation main comparison.
 
 Tables~\ref{tab:ablation_igdplus_dtlz} and~\ref{tab:ablation_igdplus_wfg}
-report the supplied IGD$^+$ results for the two deletion controls and REMO
-with $k=15$ and 30 at $M=10$ and 20, respectively.
-The tables retain the reported means, standard deviations, and significance
-labels, with Full as the reference. Across both objective counts, the labels
-favor Full over the CDIS control on 12 of 32 instances and over the PAQC
-control on 10 of 32 instances. The reverse comparisons favor the controls
-on three and two instances, respectively. Removing CDIS improves the reported
-results on DTLZ6 at both objective counts and DTLZ7 at $M=10$; removing PAQC
-improves WFG3 at both objective counts. The component comparisons therefore
-suggest complementary, problem-dependent benefits at the two interfaces.
-The similar counts of favorable comparisons do not establish equal effect
-sizes or a statistical interaction between the components.
+report the results. The tests favor Full over w/o CDIS on 12 of 32
+configurations and over w/o PAQC on 10 of 32 configurations. They favor the
+controls on three and two configurations, respectively; the others carry
+no reported difference. Fixed ambiguity-only selection improves IGD$^+$ on
+DTLZ6 at both objective counts and DTLZ7 at $M=10$. Replacing PAQC grouping
+improves it on WFG3 at both objective counts. PAQC grouping and CDIS's added
+indicator and switching path therefore have problem-dependent effects on final
+IGD$^+$. The w/o CDIS control retains the ambiguity criterion, so this
+comparison does not measure the removal of all CDIS selection logic. These
+results neither establish equal effect sizes nor a statistical interaction.
 
 \input{experiments/ablation/table_ablation_igdp}
-
-\TODO{Complete the provenance audit for the supplied ablation tables:
-confirm the mapping to the deletion controls above, run counts, replacement
-boundaries, source hashes, seeds, thread settings, actual terminal FE,
-and the statistical test and significance threshold.}
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
