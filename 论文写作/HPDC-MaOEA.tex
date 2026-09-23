@@ -984,6 +984,8 @@ This fixed-pool comparison isolates final selection; the performance ablation
 also includes mode-dependent candidate generation. No CDIS mechanism results
 are available in this draft.}
 
+% Queue the historical sensitivity table before the full-page panel figure.
+\input{experiments/pmix_historical_table}
 % Queue the full-page panel figure before the next page is composed.
 \input{figures/figure_convergence.tex}
 
@@ -991,6 +993,9 @@ are available in this draft.}
 \label{sec:exp:pmix}
 
 Equation~\eqref{eq:mode} sets $p_{\mathrm{mix}}=0.5$ as the default.
+Table~\ref{tab:exp:pmix} restores the earlier five-setting IGD experiment
+for Lambdat030 with batch distance. These historical results do not establish
+the sensitivity of the current NoBatchDist configuration under IGD$^+$.
 \TODO{Evaluate $p_{\mathrm{mix}}=0$, 0.5, and 1 with the current PACDIS
 configuration and IGD$^+$ under matched problems, seeds, initialization,
 and evaluation budgets at $M=10$ and 20. Specify the problem subset before
