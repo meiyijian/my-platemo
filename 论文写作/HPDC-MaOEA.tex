@@ -52,6 +52,7 @@
 \newcommand{\vr}{\mathbf{r}}
 \newcommand{\vz}{\mathbf{z}}
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\bestcell}{\cellcolor{black!15}}
 
 %% Uncomment and fill in for a preprint that names its target journal.
 %% \journal{Information Sciences}
@@ -846,13 +847,14 @@ smaller values indicating a better approximation to the reference Pareto
 front. Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} group the results by
 problem, with three rows for $M=10$, 15 and 20. Each entry reports the mean
 above the standard deviation in parentheses. The cell with the lowest mean
-among the seven retained algorithms is bold. The pairwise statistical annotations
-come from the supplied workbooks. A $+$ indicates that the baseline
-was reported as better than PACDIS, a $-$ indicates that it was reported as
-worse, and an $=$ indicates no detected difference. The bottom row of each
-table counts these symbols in the order $+/-/=$ for each baseline across
-all problem--objective configurations in that table. These counts summarize
-the supplied pairwise outcomes and are not a separate omnibus test across problems.
+among the seven retained algorithms has a light gray background. The pairwise
+statistical annotations come from the supplied workbooks. A $+$ indicates
+that the baseline was reported as better than PACDIS, a $-$ indicates that it
+was reported as worse, and an $=$ indicates no detected difference. The bottom
+row of each table counts these symbols in the order $+/-/=$ for each baseline
+across all problem--objective configurations in that table. These counts
+summarize the supplied pairwise outcomes and are not a separate omnibus test
+across problems.
 
 The tables use available runs with identifiers 1--20. All 48 PACDIS cells
 contain 20 runs. At $M=15$, REMO cells contain 10--20 runs; at $M=20$, the

@@ -148,16 +148,14 @@ def main():
                     line1, line2 = r["mean"], "(" + r["std"] + ")" + sign
                     prefix = ""
                     if Decimal(r["mean"]) == lowest:
-                        prefix = ""
-                        line1 = r"\textbf{" + line1 + "}"
-                        line2 = r"\textbf{" + line2 + "}"
+                        prefix = r"\bestcell"
                     cells.append(prefix + r"\shortstack{" + line1 + r"\\" + line2 + "}")
                 group = p if j == 1 else ""
                 lines.append(group + " & " + str(m) + " & " + " & ".join(cells) + r" \\")
         lines += [r"\midrule", r"\multicolumn{2}{c}{$+/-/=$} & " + " & ".join("/".join(map(str, totals[a])) for a in ORDER[:-1]) + r" & --- \\",
                   r"\bottomrule", r"\end{tabular}", r"\par\smallskip",
                   r"\begin{minipage}{\textwidth}\footnotesize",
-                  r"Each entry shows the mean above the standard deviation in parentheses. Bold cells have the lowest mean in their row. Symbols $+$, $-$ and $=$ indicate that the baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order."]
+                  r"Each entry shows the mean above the standard deviation in parentheses. Light gray cells have the lowest mean in their row. Symbols $+$, $-$ and $=$ indicate that the baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order."]
         lines += [r"\end{minipage}", r"\end{table*}", ""]
         (HERE / f"table_{suite.lower()}.tex").write_text("\n".join(lines), encoding="utf-8")
         summary["by_suite"][suite] = {"baseline_plus_minus_equal": totals}
