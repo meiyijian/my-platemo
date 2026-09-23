@@ -40,3 +40,16 @@
   补充经验：`ls -lt` 只能看 mtime；判断"能否有产出"要看 `driver.log` 的最后一条 `start`
   与最新切片日志 mtime 之差（本机每 ~30 s 启动 1 片，14 槽满则停发新 start）。
   同轮顺带把 MEMORY.md 从 14.1 kB 压到 7.5 kB（超注入上限被截断），FE500 六坑迁入 REFERENCE.md。
+
+- **2026-09-24 04:00** — 进度 **280/960（29.2%）**：**PMix000 M10 120/120、PMix025 M10 120/120
+  （03:58:17 收尾）**、PMix075 M10 39（DTLZ2 18 / DTLZ4 18 / DTLZ7 3）、PMix100 M10 0
+  （03:57:48 刚发片）、M20 仅 PMix000 1（预热 smoke，有效）。近 66 min +110 ⇒ 吞吐 100 跑/h。
+  健康：最新 .mat 03:58:58（1.5 min 前）；MATLAB 14 活跃（687 MB–2.38 GB）+ 14 个 ~10 MB stub；
+  `[done]` 560 行 = 280 跑 ×2 镜像（与文件数互证）；无 .tmp.mat / not ok / error / timeout /
+  poison / rc_part* / DRIVER_DONE；`[skip]` 仍为 2（历史遗留）。driver.log 末行 03:58:29
+  `start PMix100 M10 part 2 runs 11-20` ⇒ driver 存活、仍在派片。
+  **在飞 14 片**＝PMix075 M10 全部 12 片（parts 2/4 已 18/20，parts 7/8/10/15 刚起步）＋
+  PMix100 M10 part 2 两片 ⇒ 已满槽，新片须等空位。
+  **ETA ≈ 09-24 10:30–11:30**（剩 680 跑 ÷100 跑/h ≈ 6.8 h ⇒ 中位 ~10:50）。速度与 02:54 巡检持平，
+  无需调整 MAXJOBS。经验：`find` 在本机非 ASCII 路径下 `-name` 匹配会静默返回 0，统计一律走
+  `ls -1 ... | wc -l`（本轮两次踩到，勿信 find 结果）。
