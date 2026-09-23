@@ -5,55 +5,58 @@
       "baseline_plus_minus_equal": {
         "REMO": [
           1,
-          10,
-          5
+          9,
+          6
         ],
-        "PIEA": [
-          7,
-          6,
-          3
-        ],
-        "CSEA": [
+        "SSDE": [
           1,
-          13,
-          2
+          15,
+          0
         ],
         "PC-SAEA": [
           0,
           16,
           0
         ],
-        "K-RVEA": [
-          3,
-          9,
-          4
+        "SAMOEA-TL2M": [
+          2,
+          14,
+          0
         ],
-        "MCEA/D": [
-          4,
-          9,
-          3
+        "CSEA": [
+          0,
+          14,
+          2
+        ],
+        "HES-EA": [
+          6,
+          8,
+          2
         ]
       },
       "best_mean_counts": {
-        "REMO": 1,
-        "PIEA": 6,
-        "MCEA/D": 2,
-        "K-RVEA": 3,
-        "PACDIS": 4
+        "PACDIS": 7,
+        "CSEA": 1,
+        "HES-EA": 6,
+        "SAMOEA-TL2M": 1,
+        "SSDE": 1
       },
       "lower_mean_counts": {
-        "REMO": 13,
-        "PIEA": 7,
-        "CSEA": 15,
+        "REMO": 14,
+        "SSDE": 15,
         "PC-SAEA": 16,
-        "K-RVEA": 12,
-        "MCEA/D": 9
+        "SAMOEA-TL2M": 14,
+        "CSEA": 14,
+        "HES-EA": 10
       },
       "best_mean_problems_PACDIS": [
+        "DTLZ1",
+        "DTLZ2",
+        "DTLZ4",
+        "DTLZ6",
         "WFG1",
         "WFG2",
-        "WFG7",
-        "WFG8"
+        "WFG7"
       ]
     },
     "15": {
@@ -63,104 +66,107 @@
           9,
           5
         ],
-        "PIEA": [
-          7,
-          6,
-          3
-        ],
-        "CSEA": [
+        "SSDE": [
           1,
-          12,
-          3
+          15,
+          0
         ],
         "PC-SAEA": [
           0,
           16,
           0
         ],
-        "K-RVEA": [
-          2,
-          8,
-          6
-        ],
-        "MCEA/D": [
-          5,
-          9,
-          2
-        ]
-      },
-      "best_mean_counts": {
-        "REMO": 3,
-        "PIEA": 5,
-        "MCEA/D": 2,
-        "K-RVEA": 4,
-        "PACDIS": 2
-      },
-      "lower_mean_counts": {
-        "REMO": 9,
-        "PIEA": 8,
-        "CSEA": 13,
-        "PC-SAEA": 16,
-        "K-RVEA": 12,
-        "MCEA/D": 10
-      },
-      "best_mean_problems_PACDIS": [
-        "WFG7",
-        "WFG8"
-      ]
-    },
-    "20": {
-      "baseline_plus_minus_equal": {
-        "REMO": [
-          3,
-          8,
-          5
-        ],
-        "PIEA": [
-          5,
-          7,
-          4
+        "SAMOEA-TL2M": [
+          1,
+          14,
+          1
         ],
         "CSEA": [
           2,
-          9,
-          5
+          11,
+          3
         ],
-        "PC-SAEA": [
-          0,
-          15,
-          1
-        ],
-        "K-RVEA": [
-          2,
-          9,
-          5
-        ],
-        "MCEA/D": [
+        "HES-EA": [
           5,
           8,
           3
         ]
       },
       "best_mean_counts": {
-        "REMO": 4,
-        "MCEA/D": 2,
-        "PIEA": 4,
-        "K-RVEA": 3,
-        "PACDIS": 3
+        "REMO": 3,
+        "PACDIS": 5,
+        "HES-EA": 6,
+        "SAMOEA-TL2M": 1,
+        "SSDE": 1
       },
       "lower_mean_counts": {
-        "REMO": 9,
-        "PIEA": 8,
-        "CSEA": 11,
+        "REMO": 12,
+        "SSDE": 15,
         "PC-SAEA": 16,
-        "K-RVEA": 13,
-        "MCEA/D": 10
+        "SAMOEA-TL2M": 15,
+        "CSEA": 14,
+        "HES-EA": 10
       },
       "best_mean_problems_PACDIS": [
-        "WFG6",
-        "WFG7",
-        "WFG8"
+        "DTLZ2",
+        "DTLZ4",
+        "DTLZ6",
+        "WFG2",
+        "WFG7"
+      ]
+    },
+    "20": {
+      "baseline_plus_minus_equal": {
+        "REMO": [
+          3,
+          9,
+          4
+        ],
+        "SSDE": [
+          1,
+          15,
+          0
+        ],
+        "PC-SAEA": [
+          0,
+          15,
+          1
+        ],
+        "SAMOEA-TL2M": [
+          1,
+          15,
+          0
+        ],
+        "CSEA": [
+          2,
+          10,
+          4
+        ],
+        "HES-EA": [
+          5,
+          7,
+          4
+        ]
+      },
+      "best_mean_counts": {
+        "REMO": 4,
+        "HES-EA": 7,
+        "PACDIS": 4,
+        "SSDE": 1
+      },
+      "lower_mean_counts": {
+        "REMO": 11,
+        "SSDE": 15,
+        "PC-SAEA": 16,
+        "SAMOEA-TL2M": 15,
+        "CSEA": 12,
+        "HES-EA": 9
+      },
+      "best_mean_problems_PACDIS": [
+        "DTLZ4",
+        "DTLZ6",
+        "WFG2",
+        "WFG7"
       ]
     }
   },
@@ -168,68 +174,68 @@
     "DTLZ": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          2,
-          5,
-          14
+          3,
+          6,
+          12
         ],
-        "PIEA": [
-          11,
-          4,
-          6
-        ],
-        "CSEA": [
-          1,
-          11,
-          9
+        "SSDE": [
+          0,
+          21,
+          0
         ],
         "PC-SAEA": [
           0,
           21,
           0
         ],
-        "K-RVEA": [
-          3,
-          12,
+        "SAMOEA-TL2M": [
+          1,
+          19,
+          1
+        ],
+        "CSEA": [
+          2,
+          13,
           6
         ],
-        "MCEA/D": [
-          9,
-          8,
-          4
+        "HES-EA": [
+          6,
+          12,
+          3
         ]
       }
     },
     "WFG": {
       "baseline_plus_minus_equal": {
         "REMO": [
-          4,
-          22,
-          1
-        ],
-        "PIEA": [
-          8,
-          15,
-          4
-        ],
-        "CSEA": [
           3,
-          23,
-          1
+          21,
+          3
+        ],
+        "SSDE": [
+          3,
+          24,
+          0
         ],
         "PC-SAEA": [
           0,
           26,
           1
         ],
-        "K-RVEA": [
-          4,
-          14,
-          9
+        "SAMOEA-TL2M": [
+          3,
+          24,
+          0
         ],
-        "MCEA/D": [
-          5,
-          18,
-          4
+        "CSEA": [
+          2,
+          22,
+          3
+        ],
+        "HES-EA": [
+          10,
+          11,
+          6
         ]
       }
     }

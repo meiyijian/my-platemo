@@ -1,337 +1,337 @@
 ﻿M,problem,algorithm,source_algorithm,mean,std,symbol,source_file,source_sheet,source_cell,raw
-10,DTLZ1,REMO,REMO,2.0698e+2,4.28e+1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,D2,2.0698e+2 (4.28e+1) =
-10,DTLZ1,PIEA,PIEA,2.4286e+2,7.20e+1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,E2,2.4286e+2 (7.20e+1) =
-10,DTLZ1,MCEA/D,MCEAD,2.3132e+2,4.57e+1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F2,2.3132e+2 (4.57e+1) -
-10,DTLZ1,CSEA,CSEA,2.2808e+2,4.96e+1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,G2,2.2808e+2 (4.96e+1) =
-10,DTLZ1,PC-SAEA,PCSAEA_N100,3.6480e+2,2.61e+1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H2,3.6480e+2 (2.61e+1) -
-10,DTLZ1,K-RVEA,KRVEA_100,2.7371e+2,3.25e+1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I2,2.7371e+2 (3.25e+1) -
-10,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.0865e+2,3.22e+1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K2,2.0865e+2 (3.22e+1)
-10,DTLZ2,REMO,REMO,9.3620e-1,1.04e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,D3,9.3620e-1 (1.04e-1) =
-10,DTLZ2,PIEA,PIEA,7.6566e-1,4.38e-2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E3,7.6566e-1 (4.38e-2) +
-10,DTLZ2,MCEA/D,MCEAD,9.1379e-1,6.23e-2,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,F3,9.1379e-1 (6.23e-2) =
-10,DTLZ2,CSEA,CSEA,1.1568e+0,1.18e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G3,1.1568e+0 (1.18e-1) -
-10,DTLZ2,PC-SAEA,PCSAEA_N100,1.3865e+0,8.23e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H3,1.3865e+0 (8.23e-2) -
-10,DTLZ2,K-RVEA,KRVEA_100,1.3121e+0,1.27e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I3,1.3121e+0 (1.27e-1) -
-10,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,9.1663e-1,1.13e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K3,9.1663e-1 (1.13e-1)
-10,DTLZ3,REMO,REMO,8.0869e+2,1.46e+2,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,D4,8.0869e+2 (1.46e+2) =
-10,DTLZ3,PIEA,PIEA,5.5096e+2,1.01e+2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E4,5.5096e+2 (1.01e+2) +
-10,DTLZ3,MCEA/D,MCEAD,5.4540e+2,1.66e+2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,F4,5.4540e+2 (1.66e+2) +
-10,DTLZ3,CSEA,CSEA,8.9314e+2,1.70e+2,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,G4,8.9314e+2 (1.70e+2) =
-10,DTLZ3,PC-SAEA,PCSAEA_N100,1.2959e+3,1.23e+2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H4,1.2959e+3 (1.23e+2) -
-10,DTLZ3,K-RVEA,KRVEA_100,1.0446e+3,1.07e+2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I4,1.0446e+3 (1.07e+2) -
-10,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,8.8342e+2,1.19e+2,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K4,8.8342e+2 (1.19e+2)
-10,DTLZ4,REMO,REMO,8.8276e-1,1.23e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,D5,8.8276e-1 (1.23e-1) =
-10,DTLZ4,PIEA,PIEA,8.4462e-1,4.36e-2,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,E5,8.4462e-1 (4.36e-2) =
-10,DTLZ4,MCEA/D,MCEAD,8.2509e-1,1.35e-2,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,F5,8.2509e-1 (1.35e-2) =
-10,DTLZ4,CSEA,CSEA,9.6969e-1,9.96e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G5,9.6969e-1 (9.96e-2) -
-10,DTLZ4,PC-SAEA,PCSAEA_N100,1.4797e+0,7.78e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H5,1.4797e+0 (7.78e-2) -
-10,DTLZ4,K-RVEA,KRVEA_100,1.4744e+0,1.26e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I5,1.4744e+0 (1.26e-1) -
-10,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,8.6629e-1,1.21e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K5,8.6629e-1 (1.21e-1)
-10,DTLZ5,REMO,REMO,6.2150e-1,1.50e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,D6,6.2150e-1 (1.50e-1) =
-10,DTLZ5,PIEA,PIEA,2.8320e-1,4.13e-2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E6,2.8320e-1 (4.13e-2) +
-10,DTLZ5,MCEA/D,MCEAD,3.6400e-1,6.68e-2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,F6,3.6400e-1 (6.68e-2) +
-10,DTLZ5,CSEA,CSEA,7.3785e-1,1.03e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G6,7.3785e-1 (1.03e-1) -
-10,DTLZ5,PC-SAEA,PCSAEA_N100,9.9426e-1,7.95e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H6,9.9426e-1 (7.95e-2) -
-10,DTLZ5,K-RVEA,KRVEA_100,8.9537e-1,9.03e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I6,8.9537e-1 (9.03e-2) -
-10,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,5.6802e-1,7.89e-2,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K6,5.6802e-1 (7.89e-2)
-10,DTLZ6,REMO,REMO,1.6433e+1,7.13e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D7,1.6433e+1 (7.13e-1) -
-10,DTLZ6,PIEA,PIEA,5.4216e+0,1.76e+0,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E7,5.4216e+0 (1.76e+0) +
-10,DTLZ6,MCEA/D,MCEAD,9.2012e+0,1.89e+0,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,F7,9.2012e+0 (1.89e+0) +
-10,DTLZ6,CSEA,CSEA,1.6018e+1,6.80e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G7,1.6018e+1 (6.80e-1) -
-10,DTLZ6,PC-SAEA,PCSAEA_N100,1.7422e+1,3.32e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H7,1.7422e+1 (3.32e-1) -
-10,DTLZ6,K-RVEA,KRVEA_100,1.5615e+1,1.09e+0,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,I7,1.5615e+1 (1.09e+0) =
-10,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.5206e+1,8.52e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K7,1.5206e+1 (8.52e-1)
-10,DTLZ7,REMO,REMO,2.1008e+1,2.41e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D8,2.1008e+1 (2.41e+0) -
-10,DTLZ7,PIEA,PIEA,1.9171e+1,5.89e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E8,1.9171e+1 (5.89e+0) -
-10,DTLZ7,MCEA/D,MCEAD,2.0457e+1,4.74e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F8,2.0457e+1 (4.74e+0) -
-10,DTLZ7,CSEA,CSEA,2.7941e+1,2.39e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G8,2.7941e+1 (2.39e+0) -
-10,DTLZ7,PC-SAEA,PCSAEA_N100,2.8391e+1,2.15e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H8,2.8391e+1 (2.15e+0) -
-10,DTLZ7,K-RVEA,KRVEA_100,1.4634e+0,2.09e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,I8,1.4634e+0 (2.09e-1) +
-10,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.2138e+1,1.75e+0,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K8,1.2138e+1 (1.75e+0)
-10,WFG1,REMO,REMO,2.9598e+0,8.22e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D9,2.9598e+0 (8.22e-2) -
-10,WFG1,PIEA,PIEA,3.0595e+0,4.01e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E9,3.0595e+0 (4.01e-2) -
-10,WFG1,MCEA/D,MCEAD,3.1798e+0,3.77e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F9,3.1798e+0 (3.77e-2) -
-10,WFG1,CSEA,CSEA,2.9776e+0,7.80e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G9,2.9776e+0 (7.80e-2) -
-10,WFG1,PC-SAEA,PCSAEA_N100,3.1225e+0,3.15e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H9,3.1225e+0 (3.15e-2) -
-10,WFG1,K-RVEA,KRVEA_100,3.0430e+0,4.81e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I9,3.0430e+0 (4.81e-2) -
-10,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.9009e+0,4.89e-2,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K9,2.9009e+0 (4.89e-2)
-10,WFG2,REMO,REMO,3.3582e+0,1.12e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D10,3.3582e+0 (1.12e+0) -
-10,WFG2,PIEA,PIEA,2.1110e+0,5.00e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E10,2.1110e+0 (5.00e-1) -
-10,WFG2,MCEA/D,MCEAD,3.2864e+0,9.87e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F10,3.2864e+0 (9.87e-1) -
-10,WFG2,CSEA,CSEA,3.3893e+0,1.14e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G10,3.3893e+0 (1.14e+0) -
-10,WFG2,PC-SAEA,PCSAEA_N100,3.1684e+0,6.94e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H10,3.1684e+0 (6.94e-1) -
-10,WFG2,K-RVEA,KRVEA_100,1.8624e+0,2.11e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I10,1.8624e+0 (2.11e-1) -
-10,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.6939e+0,6.00e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K10,1.6939e+0 (6.00e-1)
-10,WFG3,REMO,REMO,1.4263e+0,1.06e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,D11,1.4263e+0 (1.06e-1) +
-10,WFG3,PIEA,PIEA,1.1411e+0,1.27e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E11,1.1411e+0 (1.27e-1) +
-10,WFG3,MCEA/D,MCEAD,1.2165e+0,4.56e-2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,F11,1.2165e+0 (4.56e-2) +
-10,WFG3,CSEA,CSEA,1.5162e+0,7.82e-2,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,G11,1.5162e+0 (7.82e-2) +
-10,WFG3,PC-SAEA,PCSAEA_N100,1.6653e+0,4.76e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H11,1.6653e+0 (4.76e-2) -
-10,WFG3,K-RVEA,KRVEA_100,1.7196e+0,5.80e-2,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I11,1.7196e+0 (5.80e-2) -
-10,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.5847e+0,8.28e-2,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K11,1.5847e+0 (8.28e-2)
-10,WFG4,REMO,REMO,7.2956e+0,1.08e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D12,7.2956e+0 (1.08e+0) -
-10,WFG4,PIEA,PIEA,3.7523e+0,1.26e+0,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E12,3.7523e+0 (1.26e+0) +
-10,WFG4,MCEA/D,MCEAD,4.9158e+0,1.71e+0,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,F12,4.9158e+0 (1.71e+0) =
-10,WFG4,CSEA,CSEA,8.0394e+0,8.11e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G12,8.0394e+0 (8.11e-1) -
-10,WFG4,PC-SAEA,PCSAEA_N100,8.0371e+0,4.97e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H12,8.0371e+0 (4.97e-1) -
-10,WFG4,K-RVEA,KRVEA_100,5.5188e+0,7.18e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,I12,5.5188e+0 (7.18e-1) =
-10,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,5.5410e+0,6.19e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K12,5.5410e+0 (6.19e-1)
-10,WFG5,REMO,REMO,6.2867e+0,6.04e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D13,6.2867e+0 (6.04e-1) -
-10,WFG5,PIEA,PIEA,4.9471e+0,3.95e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,E13,4.9471e+0 (3.95e-1) =
-10,WFG5,MCEA/D,MCEAD,5.9247e+0,5.85e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F13,5.9247e+0 (5.85e-1) -
-10,WFG5,CSEA,CSEA,6.3511e+0,4.97e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G13,6.3511e+0 (4.97e-1) -
-10,WFG5,PC-SAEA,PCSAEA_N100,6.3262e+0,3.99e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H13,6.3262e+0 (3.99e-1) -
-10,WFG5,K-RVEA,KRVEA_100,3.7096e+0,8.44e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,I13,3.7096e+0 (8.44e-1) +
-10,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,5.0006e+0,6.46e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K13,5.0006e+0 (6.46e-1)
-10,WFG6,REMO,REMO,5.5982e+0,6.29e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D14,5.5982e+0 (6.29e-1) -
-10,WFG6,PIEA,PIEA,4.6484e+0,7.08e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E14,4.6484e+0 (7.08e-1) -
-10,WFG6,MCEA/D,MCEAD,6.1789e+0,1.09e+0,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F14,6.1789e+0 (1.09e+0) -
-10,WFG6,CSEA,CSEA,6.5462e+0,7.96e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G14,6.5462e+0 (7.96e-1) -
-10,WFG6,PC-SAEA,PCSAEA_N100,6.7341e+0,3.69e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H14,6.7341e+0 (3.69e-1) -
-10,WFG6,K-RVEA,KRVEA_100,3.0510e+0,7.44e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,I14,3.0510e+0 (7.44e-1) +
-10,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,3.8208e+0,3.81e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K14,3.8208e+0 (3.81e-1)
-10,WFG7,REMO,REMO,5.3572e+0,8.92e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D15,5.3572e+0 (8.92e-1) -
-10,WFG7,PIEA,PIEA,5.9808e+0,5.35e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E15,5.9808e+0 (5.35e-1) -
-10,WFG7,MCEA/D,MCEAD,7.1373e+0,8.98e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F15,7.1373e+0 (8.98e-1) -
-10,WFG7,CSEA,CSEA,6.5334e+0,7.17e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G15,6.5334e+0 (7.17e-1) -
-10,WFG7,PC-SAEA,PCSAEA_N100,6.8349e+0,3.59e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H15,6.8349e+0 (3.59e-1) -
-10,WFG7,K-RVEA,KRVEA_100,5.0623e+0,7.90e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,I15,5.0623e+0 (7.90e-1) -
-10,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,3.9411e+0,5.21e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K15,3.9411e+0 (5.21e-1)
-10,WFG8,REMO,REMO,6.3998e+0,5.26e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D16,6.3998e+0 (5.26e-1) -
-10,WFG8,PIEA,PIEA,5.3190e+0,6.28e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,E16,5.3190e+0 (6.28e-1) -
-10,WFG8,MCEA/D,MCEAD,6.5711e+0,5.63e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F16,6.5711e+0 (5.63e-1) -
-10,WFG8,CSEA,CSEA,7.1169e+0,3.55e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G16,7.1169e+0 (3.55e-1) -
-10,WFG8,PC-SAEA,PCSAEA_N100,6.8092e+0,3.74e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H16,6.8092e+0 (3.74e-1) -
-10,WFG8,K-RVEA,KRVEA_100,4.9192e+0,7.25e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,I16,4.9192e+0 (7.25e-1) =
-10,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,4.5513e+0,5.02e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K16,4.5513e+0 (5.02e-1)
-10,WFG9,REMO,REMO,7.0465e+0,8.09e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,D17,7.0465e+0 (8.09e-1) -
-10,WFG9,PIEA,PIEA,4.7665e+0,5.92e-1,+,lambdat030nobatch十目标IGDp.xlsx,IGDp,E17,4.7665e+0 (5.92e-1) +
-10,WFG9,MCEA/D,MCEAD,6.2385e+0,8.36e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,F17,6.2385e+0 (8.36e-1) -
-10,WFG9,CSEA,CSEA,7.4941e+0,3.20e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,G17,7.4941e+0 (3.20e-1) -
-10,WFG9,PC-SAEA,PCSAEA_N100,7.2304e+0,4.72e-1,-,lambdat030nobatch十目标IGDp.xlsx,IGDp,H17,7.2304e+0 (4.72e-1) -
-10,WFG9,K-RVEA,KRVEA_100,5.6277e+0,9.30e-1,=,lambdat030nobatch十目标IGDp.xlsx,IGDp,I17,5.6277e+0 (9.30e-1) =
-10,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,5.4815e+0,6.37e-1,,lambdat030nobatch十目标IGDp.xlsx,IGDp,K17,5.4815e+0 (6.37e-1)
-15,DTLZ1,REMO,REMO,1.2734e+2,2.86e+1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D2,1.2734e+2 (2.86e+1) =
-15,DTLZ1,PIEA,PIEA,1.6672e+2,4.30e+1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E2,1.6672e+2 (4.30e+1) -
-15,DTLZ1,MCEA/D,MCEAD,1.3950e+2,3.93e+1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F2,1.3950e+2 (3.93e+1) =
-15,DTLZ1,CSEA,CSEA,1.3791e+2,3.19e+1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G2,1.3791e+2 (3.19e+1) =
-15,DTLZ1,PC-SAEA,PCSAEA_N100,2.4819e+2,3.65e+1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H2,2.4819e+2 (3.65e+1) -
-15,DTLZ1,K-RVEA,KRVEA_100,1.6118e+2,2.36e+1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I2,1.6118e+2 (2.36e+1) -
-15,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.4075e+2,2.42e+1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K2,1.4075e+2 (2.42e+1)
-15,DTLZ2,REMO,REMO,8.1212e-1,7.82e-2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D3,8.1212e-1 (7.82e-2) =
-15,DTLZ2,PIEA,PIEA,7.9732e-1,3.07e-2,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E3,7.9732e-1 (3.07e-2) +
-15,DTLZ2,MCEA/D,MCEAD,8.9718e-1,4.93e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F3,8.9718e-1 (4.93e-2) -
-15,DTLZ2,CSEA,CSEA,9.3383e-1,9.90e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G3,9.3383e-1 (9.90e-2) -
-15,DTLZ2,PC-SAEA,PCSAEA_N100,1.2519e+0,5.83e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H3,1.2519e+0 (5.83e-2) -
-15,DTLZ2,K-RVEA,KRVEA_100,9.6693e-1,9.76e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I3,9.6693e-1 (9.76e-2) -
-15,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,8.1773e-1,4.43e-2,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K3,8.1773e-1 (4.43e-2)
-15,DTLZ3,REMO,REMO,4.0724e+2,7.54e+1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D4,4.0724e+2 (7.54e+1) +
-15,DTLZ3,PIEA,PIEA,3.9598e+2,3.51e+1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E4,3.9598e+2 (3.51e+1) +
-15,DTLZ3,MCEA/D,MCEAD,2.6250e+2,1.50e+2,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F4,2.6250e+2 (1.50e+2) +
-15,DTLZ3,CSEA,CSEA,5.5036e+2,1.05e+2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G4,5.5036e+2 (1.05e+2) =
-15,DTLZ3,PC-SAEA,PCSAEA_N100,9.3512e+2,8.22e+1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H4,9.3512e+2 (8.22e+1) -
-15,DTLZ3,K-RVEA,KRVEA_100,6.1440e+2,9.10e+1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I4,6.1440e+2 (9.10e+1) =
-15,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,5.9254e+2,9.41e+1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K4,5.9254e+2 (9.41e+1)
-15,DTLZ4,REMO,REMO,7.4303e-1,7.13e-2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D5,7.4303e-1 (7.13e-2) =
-15,DTLZ4,PIEA,PIEA,8.3942e-1,7.11e-2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E5,8.3942e-1 (7.11e-2) =
-15,DTLZ4,MCEA/D,MCEAD,8.5405e-1,2.27e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F5,8.5405e-1 (2.27e-2) -
-15,DTLZ4,CSEA,CSEA,8.5407e-1,7.93e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G5,8.5407e-1 (7.93e-2) -
-15,DTLZ4,PC-SAEA,PCSAEA_N100,1.2593e+0,4.94e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H5,1.2593e+0 (4.94e-2) -
-15,DTLZ4,K-RVEA,KRVEA_100,1.3342e+0,9.78e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I5,1.3342e+0 (9.78e-2) -
-15,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,7.9215e-1,1.02e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K5,7.9215e-1 (1.02e-1)
-15,DTLZ5,REMO,REMO,4.0723e-1,9.86e-2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D6,4.0723e-1 (9.86e-2) =
-15,DTLZ5,PIEA,PIEA,2.1966e-1,2.75e-2,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E6,2.1966e-1 (2.75e-2) +
-15,DTLZ5,MCEA/D,MCEAD,2.9756e-1,5.79e-2,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F6,2.9756e-1 (5.79e-2) +
-15,DTLZ5,CSEA,CSEA,4.2264e-1,7.00e-2,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G6,4.2264e-1 (7.00e-2) =
-15,DTLZ5,PC-SAEA,PCSAEA_N100,6.7162e-1,9.54e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H6,6.7162e-1 (9.54e-2) -
-15,DTLZ5,K-RVEA,KRVEA_100,4.8465e-1,1.26e-1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I6,4.8465e-1 (1.26e-1) =
-15,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,4.1753e-1,8.98e-2,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K6,4.1753e-1 (8.98e-2)
-15,DTLZ6,REMO,REMO,1.1729e+1,7.51e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D7,1.1729e+1 (7.51e-1) -
-15,DTLZ6,PIEA,PIEA,3.5746e+0,1.56e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E7,3.5746e+0 (1.56e+0) +
-15,DTLZ6,MCEA/D,MCEAD,6.0487e+0,1.68e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F7,6.0487e+0 (1.68e+0) +
-15,DTLZ6,CSEA,CSEA,1.1674e+1,1.03e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G7,1.1674e+1 (1.03e+0) -
-15,DTLZ6,PC-SAEA,PCSAEA_N100,1.3077e+1,4.41e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H7,1.3077e+1 (4.41e-1) -
-15,DTLZ6,K-RVEA,KRVEA_100,1.1707e+1,1.01e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I7,1.1707e+1 (1.01e+0) -
-15,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.1066e+1,6.52e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K7,1.1066e+1 (6.52e-1)
-15,DTLZ7,REMO,REMO,3.2167e+1,5.01e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D8,3.2167e+1 (5.01e+0) -
-15,DTLZ7,PIEA,PIEA,2.3298e+1,7.77e+0,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E8,2.3298e+1 (7.77e+0) =
-15,DTLZ7,MCEA/D,MCEAD,2.7591e+1,8.57e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F8,2.7591e+1 (8.57e+0) -
-15,DTLZ7,CSEA,CSEA,4.3045e+1,3.30e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G8,4.3045e+1 (3.30e+0) -
-15,DTLZ7,PC-SAEA,PCSAEA_N100,4.2082e+1,3.83e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H8,4.2082e+1 (3.83e+0) -
-15,DTLZ7,K-RVEA,KRVEA_100,3.6888e+0,1.46e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I8,3.6888e+0 (1.46e+0) +
-15,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.8511e+1,2.77e+0,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K8,1.8511e+1 (2.77e+0)
-15,WFG1,REMO,REMO,3.4994e+0,1.31e-1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D9,3.4994e+0 (1.31e-1) =
-15,WFG1,PIEA,PIEA,3.6918e+0,4.89e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E9,3.6918e+0 (4.89e-2) -
-15,WFG1,MCEA/D,MCEAD,3.7788e+0,4.83e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F9,3.7788e+0 (4.83e-2) -
-15,WFG1,CSEA,CSEA,3.6313e+0,9.92e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G9,3.6313e+0 (9.92e-2) -
-15,WFG1,PC-SAEA,PCSAEA_N100,3.7447e+0,3.40e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H9,3.7447e+0 (3.40e-2) -
-15,WFG1,K-RVEA,KRVEA_100,3.7222e+0,4.24e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I9,3.7222e+0 (4.24e-2) -
-15,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,3.5753e+0,8.31e-2,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K9,3.5753e+0 (8.31e-2)
-15,WFG2,REMO,REMO,5.6207e+0,1.44e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D10,5.6207e+0 (1.44e+0) -
-15,WFG2,PIEA,PIEA,3.6887e+0,8.64e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E10,3.6887e+0 (8.64e-1) -
-15,WFG2,MCEA/D,MCEAD,5.5042e+0,1.75e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F10,5.5042e+0 (1.75e+0) -
-15,WFG2,CSEA,CSEA,5.1480e+0,1.15e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G10,5.1480e+0 (1.15e+0) -
-15,WFG2,PC-SAEA,PCSAEA_N100,5.7920e+0,1.29e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H10,5.7920e+0 (1.29e+0) -
-15,WFG2,K-RVEA,KRVEA_100,2.5953e+0,3.55e-1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I10,2.5953e+0 (3.55e-1) =
-15,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,3.0194e+0,1.09e+0,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K10,3.0194e+0 (1.09e+0)
-15,WFG3,REMO,REMO,1.6615e+0,2.28e-1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D11,1.6615e+0 (2.28e-1) +
-15,WFG3,PIEA,PIEA,1.3739e+0,1.02e-1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E11,1.3739e+0 (1.02e-1) +
-15,WFG3,MCEA/D,MCEAD,1.5772e+0,1.22e-1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F11,1.5772e+0 (1.22e-1) +
-15,WFG3,CSEA,CSEA,1.8210e+0,1.33e-1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G11,1.8210e+0 (1.33e-1) +
-15,WFG3,PC-SAEA,PCSAEA_N100,2.1230e+0,7.10e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H11,2.1230e+0 (7.10e-2) -
-15,WFG3,K-RVEA,KRVEA_100,2.2251e+0,6.93e-2,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I11,2.2251e+0 (6.93e-2) -
-15,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.0573e+0,1.05e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K11,2.0573e+0 (1.05e-1)
-15,WFG4,REMO,REMO,1.5328e+1,1.28e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D12,1.5328e+1 (1.28e+0) -
-15,WFG4,PIEA,PIEA,8.1743e+0,3.08e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E12,8.1743e+0 (3.08e+0) +
-15,WFG4,MCEA/D,MCEAD,6.8598e+0,3.49e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F12,6.8598e+0 (3.49e+0) +
-15,WFG4,CSEA,CSEA,1.6126e+1,7.55e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G12,1.6126e+1 (7.55e-1) -
-15,WFG4,PC-SAEA,PCSAEA_N100,1.5308e+1,8.45e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H12,1.5308e+1 (8.45e-1) -
-15,WFG4,K-RVEA,KRVEA_100,1.2408e+1,8.58e-1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I12,1.2408e+1 (8.58e-1) =
-15,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.1832e+1,1.44e+0,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K12,1.1832e+1 (1.44e+0)
-15,WFG5,REMO,REMO,1.3470e+1,7.06e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D13,1.3470e+1 (7.06e-1) -
-15,WFG5,PIEA,PIEA,1.0881e+1,7.97e-1,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E13,1.0881e+1 (7.97e-1) =
-15,WFG5,MCEA/D,MCEAD,1.2201e+1,9.97e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F13,1.2201e+1 (9.97e-1) -
-15,WFG5,CSEA,CSEA,1.3774e+1,9.89e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G13,1.3774e+1 (9.89e-1) -
-15,WFG5,PC-SAEA,PCSAEA_N100,1.2663e+1,4.32e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H13,1.2663e+1 (4.32e-1) -
-15,WFG5,K-RVEA,KRVEA_100,9.5590e+0,1.17e+0,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I13,9.5590e+0 (1.17e+0) +
-15,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.1287e+1,9.70e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K13,1.1287e+1 (9.70e-1)
-15,WFG6,REMO,REMO,1.2515e+1,1.19e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D14,1.2515e+1 (1.19e+0) -
-15,WFG6,PIEA,PIEA,1.0915e+1,1.09e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E14,1.0915e+1 (1.09e+0) -
-15,WFG6,MCEA/D,MCEAD,1.2900e+1,2.64e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F14,1.2900e+1 (2.64e+0) -
-15,WFG6,CSEA,CSEA,1.4141e+1,7.26e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G14,1.4141e+1 (7.26e-1) -
-15,WFG6,PC-SAEA,PCSAEA_N100,1.3131e+1,9.10e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H14,1.3131e+1 (9.10e-1) -
-15,WFG6,K-RVEA,KRVEA_100,7.6684e+0,1.73e+0,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I14,7.6684e+0 (1.73e+0) =
-15,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,8.0913e+0,9.06e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K14,8.0913e+0 (9.06e-1)
-15,WFG7,REMO,REMO,1.2735e+1,9.62e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D15,1.2735e+1 (9.62e-1) -
-15,WFG7,PIEA,PIEA,1.2788e+1,1.18e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E15,1.2788e+1 (1.18e+0) -
-15,WFG7,MCEA/D,MCEAD,1.4553e+1,1.77e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F15,1.4553e+1 (1.77e+0) -
-15,WFG7,CSEA,CSEA,1.4206e+1,1.01e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G15,1.4206e+1 (1.01e+0) -
-15,WFG7,PC-SAEA,PCSAEA_N100,1.3874e+1,6.35e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H15,1.3874e+1 (6.35e-1) -
-15,WFG7,K-RVEA,KRVEA_100,1.3459e+1,1.43e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I15,1.3459e+1 (1.43e+0) -
-15,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,9.6878e+0,5.49e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K15,9.6878e+0 (5.49e-1)
-15,WFG8,REMO,REMO,1.2725e+1,8.01e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D16,1.2725e+1 (8.01e-1) -
-15,WFG8,PIEA,PIEA,1.1212e+1,8.15e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E16,1.1212e+1 (8.15e-1) -
-15,WFG8,MCEA/D,MCEAD,1.3007e+1,1.70e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F16,1.3007e+1 (1.70e+0) -
-15,WFG8,CSEA,CSEA,1.4259e+1,6.04e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G16,1.4259e+1 (6.04e-1) -
-15,WFG8,PC-SAEA,PCSAEA_N100,1.3490e+1,4.10e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H16,1.3490e+1 (4.10e-1) -
-15,WFG8,K-RVEA,KRVEA_100,1.0203e+1,1.38e+0,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I16,1.0203e+1 (1.38e+0) =
-15,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,9.9794e+0,9.06e-1,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K16,9.9794e+0 (9.06e-1)
-15,WFG9,REMO,REMO,1.4487e+1,8.18e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,D17,1.4487e+1 (8.18e-1) -
-15,WFG9,PIEA,PIEA,1.0983e+1,7.99e-1,+,lambdat030nobatch十五目标IGDp.xlsx,IGDp,E17,1.0983e+1 (7.99e-1) +
-15,WFG9,MCEA/D,MCEAD,1.1973e+1,1.77e+0,=,lambdat030nobatch十五目标IGDp.xlsx,IGDp,F17,1.1973e+1 (1.77e+0) =
-15,WFG9,CSEA,CSEA,1.4742e+1,5.02e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,G17,1.4742e+1 (5.02e-1) -
-15,WFG9,PC-SAEA,PCSAEA_N100,1.3787e+1,6.69e-1,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,H17,1.3787e+1 (6.69e-1) -
-15,WFG9,K-RVEA,KRVEA_100,1.3296e+1,1.43e+0,-,lambdat030nobatch十五目标IGDp.xlsx,IGDp,I17,1.3296e+1 (1.43e+0) -
-15,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.1844e+1,1.25e+0,,lambdat030nobatch十五目标IGDp.xlsx,IGDp,K17,1.1844e+1 (1.25e+0)
-20,DTLZ1,REMO,REMO,6.6733e+1,1.87e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D2,6.6733e+1 (1.87e+1) =
-20,DTLZ1,PIEA,PIEA,9.4346e+1,1.97e+1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E2,9.4346e+1 (1.97e+1) -
-20,DTLZ1,MCEA/D,MCEAD,7.5110e+1,3.43e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F2,7.5110e+1 (3.43e+1) =
-20,DTLZ1,CSEA,CSEA,7.8882e+1,1.98e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G2,7.8882e+1 (1.98e+1) =
-20,DTLZ1,PC-SAEA,PCSAEA_N100,1.5126e+2,2.37e+1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H2,1.5126e+2 (2.37e+1) -
-20,DTLZ1,K-RVEA,KRVEA_100,9.6850e+1,2.56e+1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I2,9.6850e+1 (2.56e+1) -
-20,DTLZ1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,7.1581e+1,1.41e+1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K2,7.1581e+1 (1.41e+1)
-20,DTLZ2,REMO,REMO,8.0785e-1,5.53e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D3,8.0785e-1 (5.53e-2) =
-20,DTLZ2,PIEA,PIEA,8.1953e-1,2.48e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E3,8.1953e-1 (2.48e-2) =
-20,DTLZ2,MCEA/D,MCEAD,9.1111e-1,2.25e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F3,9.1111e-1 (2.25e-2) -
-20,DTLZ2,CSEA,CSEA,8.5508e-1,6.60e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G3,8.5508e-1 (6.60e-2) -
-20,DTLZ2,PC-SAEA,PCSAEA_N100,1.0695e+0,5.43e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H3,1.0695e+0 (5.43e-2) -
-20,DTLZ2,K-RVEA,KRVEA_100,8.6335e-1,7.13e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I3,8.6335e-1 (7.13e-2) -
-20,DTLZ2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,8.0861e-1,3.54e-2,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K3,8.0861e-1 (3.54e-2)
-20,DTLZ3,REMO,REMO,2.6250e+2,7.05e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D4,2.6250e+2 (7.05e+1) =
-20,DTLZ3,PIEA,PIEA,2.6022e+2,1.11e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E4,2.6022e+2 (1.11e+1) =
-20,DTLZ3,MCEA/D,MCEAD,1.1975e+2,1.10e+2,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F4,1.1975e+2 (1.10e+2) +
-20,DTLZ3,CSEA,CSEA,2.5151e+2,6.70e+1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G4,2.5151e+2 (6.70e+1) +
-20,DTLZ3,PC-SAEA,PCSAEA_N100,5.1166e+2,6.72e+1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H4,5.1166e+2 (6.72e+1) -
-20,DTLZ3,K-RVEA,KRVEA_100,3.1265e+2,7.78e+1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I4,3.1265e+2 (7.78e+1) =
-20,DTLZ3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.9643e+2,7.29e+1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K4,2.9643e+2 (7.29e+1)
-20,DTLZ4,REMO,REMO,6.7329e-1,4.75e-2,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D5,6.7329e-1 (4.75e-2) +
-20,DTLZ4,PIEA,PIEA,7.6963e-1,7.06e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E5,7.6963e-1 (7.06e-2) -
-20,DTLZ4,MCEA/D,MCEAD,8.9185e-1,2.46e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F5,8.9185e-1 (2.46e-2) -
-20,DTLZ4,CSEA,CSEA,7.0617e-1,6.25e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G5,7.0617e-1 (6.25e-2) =
-20,DTLZ4,PC-SAEA,PCSAEA_N100,9.7936e-1,6.76e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H5,9.7936e-1 (6.76e-2) -
-20,DTLZ4,K-RVEA,KRVEA_100,1.0585e+0,1.05e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I5,1.0585e+0 (1.05e-1) -
-20,DTLZ4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,7.1116e-1,6.37e-2,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K5,7.1116e-1 (6.37e-2)
-20,DTLZ5,REMO,REMO,2.4250e-1,5.65e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D6,2.4250e-1 (5.65e-2) =
-20,DTLZ5,PIEA,PIEA,1.3582e-1,2.33e-2,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E6,1.3582e-1 (2.33e-2) +
-20,DTLZ5,MCEA/D,MCEAD,1.4980e-1,4.02e-2,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F6,1.4980e-1 (4.02e-2) +
-20,DTLZ5,CSEA,CSEA,2.6538e-1,5.27e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G6,2.6538e-1 (5.27e-2) =
-20,DTLZ5,PC-SAEA,PCSAEA_N100,4.0897e-1,5.68e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H6,4.0897e-1 (5.68e-2) -
-20,DTLZ5,K-RVEA,KRVEA_100,2.7891e-1,9.13e-2,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I6,2.7891e-1 (9.13e-2) =
-20,DTLZ5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.7779e-1,7.46e-2,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K6,2.7779e-1 (7.46e-2)
-20,DTLZ6,REMO,REMO,7.2322e+0,6.79e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D7,7.2322e+0 (6.79e-1) =
-20,DTLZ6,PIEA,PIEA,2.1534e+0,1.12e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E7,2.1534e+0 (1.12e+0) +
-20,DTLZ6,MCEA/D,MCEAD,4.0594e+0,9.98e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F7,4.0594e+0 (9.98e-1) +
-20,DTLZ6,CSEA,CSEA,7.4467e+0,6.95e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G7,7.4467e+0 (6.95e-1) =
-20,DTLZ6,PC-SAEA,PCSAEA_N100,8.7048e+0,3.58e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H7,8.7048e+0 (3.58e-1) -
-20,DTLZ6,K-RVEA,KRVEA_100,7.3823e+0,7.67e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I7,7.3823e+0 (7.67e-1) =
-20,DTLZ6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,7.0517e+0,7.40e-1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K7,7.0517e+0 (7.40e-1)
-20,DTLZ7,REMO,REMO,3.8479e+1,7.06e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D8,3.8479e+1 (7.06e+0) -
-20,DTLZ7,PIEA,PIEA,1.7793e+1,9.70e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E8,1.7793e+1 (9.70e+0) +
-20,DTLZ7,MCEA/D,MCEAD,2.9171e+1,1.24e+1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F8,2.9171e+1 (1.24e+1) -
-20,DTLZ7,CSEA,CSEA,4.9260e+1,8.70e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G8,4.9260e+1 (8.70e+0) -
-20,DTLZ7,PC-SAEA,PCSAEA_N100,5.0744e+1,4.67e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H8,5.0744e+1 (4.67e+0) -
-20,DTLZ7,K-RVEA,KRVEA_100,3.2924e+0,1.16e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I8,3.2924e+0 (1.16e+0) +
-20,DTLZ7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.2885e+1,4.26e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K8,2.2885e+1 (4.26e+0)
-20,WFG1,REMO,REMO,4.0329e+0,2.07e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D9,4.0329e+0 (2.07e-1) +
-20,WFG1,PIEA,PIEA,4.2450e+0,5.78e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E9,4.2450e+0 (5.78e-2) -
-20,WFG1,MCEA/D,MCEAD,4.2791e+0,9.38e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F9,4.2791e+0 (9.38e-2) -
-20,WFG1,CSEA,CSEA,4.0775e+0,1.78e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G9,4.0775e+0 (1.78e-1) =
-20,WFG1,PC-SAEA,PCSAEA_N100,4.2877e+0,6.26e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H9,4.2877e+0 (6.26e-2) -
-20,WFG1,K-RVEA,KRVEA_100,4.2695e+0,6.94e-2,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I9,4.2695e+0 (6.94e-2) -
-20,WFG1,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,4.0996e+0,1.43e-1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K9,4.0996e+0 (1.43e-1)
-20,WFG2,REMO,REMO,6.8989e+0,2.11e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D10,6.8989e+0 (2.11e+0) -
-20,WFG2,PIEA,PIEA,4.9352e+0,1.13e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E10,4.9352e+0 (1.13e+0) -
-20,WFG2,MCEA/D,MCEAD,6.5917e+0,2.08e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F10,6.5917e+0 (2.08e+0) -
-20,WFG2,CSEA,CSEA,7.8618e+0,1.40e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G10,7.8618e+0 (1.40e+0) -
-20,WFG2,PC-SAEA,PCSAEA_N100,7.4829e+0,1.63e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H10,7.4829e+0 (1.63e+0) -
-20,WFG2,K-RVEA,KRVEA_100,3.4111e+0,4.20e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I10,3.4111e+0 (4.20e-1) =
-20,WFG2,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,3.5109e+0,8.96e-1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K10,3.5109e+0 (8.96e-1)
-20,WFG3,REMO,REMO,1.9399e+0,2.16e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D11,1.9399e+0 (2.16e-1) +
-20,WFG3,PIEA,PIEA,1.5820e+0,1.60e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E11,1.5820e+0 (1.60e-1) +
-20,WFG3,MCEA/D,MCEAD,1.8535e+0,1.73e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F11,1.8535e+0 (1.73e-1) +
-20,WFG3,CSEA,CSEA,2.0800e+0,1.73e-1,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G11,2.0800e+0 (1.73e-1) +
-20,WFG3,PC-SAEA,PCSAEA_N100,2.4830e+0,1.30e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H11,2.4830e+0 (1.30e-1) =
-20,WFG3,K-RVEA,KRVEA_100,2.6221e+0,1.46e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I11,2.6221e+0 (1.46e-1) -
-20,WFG3,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.4608e+0,1.25e-1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K11,2.4608e+0 (1.25e-1)
-20,WFG4,REMO,REMO,2.5600e+1,1.29e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D12,2.5600e+1 (1.29e+0) -
-20,WFG4,PIEA,PIEA,1.5396e+1,4.80e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E12,1.5396e+1 (4.80e+0) +
-20,WFG4,MCEA/D,MCEAD,1.3757e+1,6.51e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F12,1.3757e+1 (6.51e+0) +
-20,WFG4,CSEA,CSEA,2.6011e+1,1.27e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G12,2.6011e+1 (1.27e+0) -
-20,WFG4,PC-SAEA,PCSAEA_N100,2.5333e+1,5.85e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H12,2.5333e+1 (5.85e-1) -
-20,WFG4,K-RVEA,KRVEA_100,2.1877e+1,1.33e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I12,2.1877e+1 (1.33e+0) -
-20,WFG4,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.0734e+1,1.79e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K12,2.0734e+1 (1.79e+0)
-20,WFG5,REMO,REMO,2.2885e+1,1.17e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D13,2.2885e+1 (1.17e+0) -
-20,WFG5,PIEA,PIEA,1.9714e+1,7.86e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E13,1.9714e+1 (7.86e-1) =
-20,WFG5,MCEA/D,MCEAD,2.0662e+1,6.44e-1,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F13,2.0662e+1 (6.44e-1) =
-20,WFG5,CSEA,CSEA,2.2942e+1,1.01e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G13,2.2942e+1 (1.01e+0) -
-20,WFG5,PC-SAEA,PCSAEA_N100,2.1891e+1,7.36e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H13,2.1891e+1 (7.36e-1) -
-20,WFG5,K-RVEA,KRVEA_100,1.8923e+1,1.22e+0,+,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I13,1.8923e+1 (1.22e+0) +
-20,WFG5,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.0143e+1,1.41e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K13,2.0143e+1 (1.41e+0)
-20,WFG6,REMO,REMO,2.1267e+1,1.58e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D14,2.1267e+1 (1.58e+0) -
-20,WFG6,PIEA,PIEA,1.9506e+1,1.57e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E14,1.9506e+1 (1.57e+0) -
-20,WFG6,MCEA/D,MCEAD,2.2134e+1,1.84e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F14,2.2134e+1 (1.84e+0) -
-20,WFG6,CSEA,CSEA,2.3321e+1,1.32e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G14,2.3321e+1 (1.32e+0) -
-20,WFG6,PC-SAEA,PCSAEA_N100,2.2547e+1,6.99e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H14,2.2547e+1 (6.99e-1) -
-20,WFG6,K-RVEA,KRVEA_100,1.8677e+1,1.75e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I14,1.8677e+1 (1.75e+0) -
-20,WFG6,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.6738e+1,1.03e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K14,1.6738e+1 (1.03e+0)
-20,WFG7,REMO,REMO,2.1359e+1,9.79e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D15,2.1359e+1 (9.79e-1) -
-20,WFG7,PIEA,PIEA,2.1437e+1,8.59e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E15,2.1437e+1 (8.59e-1) -
-20,WFG7,MCEA/D,MCEAD,2.3811e+1,1.39e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F15,2.3811e+1 (1.39e+0) -
-20,WFG7,CSEA,CSEA,2.3369e+1,1.34e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G15,2.3369e+1 (1.34e+0) -
-20,WFG7,PC-SAEA,PCSAEA_N100,2.2751e+1,1.00e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H15,2.2751e+1 (1.00e+0) -
-20,WFG7,K-RVEA,KRVEA_100,2.3221e+1,1.88e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I15,2.3221e+1 (1.88e+0) -
-20,WFG7,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.7584e+1,1.36e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K15,1.7584e+1 (1.36e+0)
-20,WFG8,REMO,REMO,2.2174e+1,9.38e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D16,2.2174e+1 (9.38e-1) -
-20,WFG8,PIEA,PIEA,1.9977e+1,9.68e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E16,1.9977e+1 (9.68e-1) -
-20,WFG8,MCEA/D,MCEAD,2.2814e+1,1.78e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F16,2.2814e+1 (1.78e+0) -
-20,WFG8,CSEA,CSEA,2.3985e+1,7.59e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G16,2.3985e+1 (7.59e-1) -
-20,WFG8,PC-SAEA,PCSAEA_N100,2.2581e+1,6.12e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H16,2.2581e+1 (6.12e-1) -
-20,WFG8,K-RVEA,KRVEA_100,1.8289e+1,2.15e+0,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I16,1.8289e+1 (2.15e+0) =
-20,WFG8,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,1.8019e+1,8.20e-1,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K16,1.8019e+1 (8.20e-1)
-20,WFG9,REMO,REMO,2.3258e+1,1.24e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,D17,2.3258e+1 (1.24e+0) -
-20,WFG9,PIEA,PIEA,2.0251e+1,1.16e+0,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,E17,2.0251e+1 (1.16e+0) =
-20,WFG9,MCEA/D,MCEAD,2.0858e+1,1.41e+0,=,lambdat030nobatch二十目标IGDp.xlsx,IGDp,F17,2.0858e+1 (1.41e+0) =
-20,WFG9,CSEA,CSEA,2.4915e+1,7.61e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,G17,2.4915e+1 (7.61e-1) -
-20,WFG9,PC-SAEA,PCSAEA_N100,2.2906e+1,7.67e-1,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,H17,2.2906e+1 (7.67e-1) -
-20,WFG9,K-RVEA,KRVEA_100,2.3661e+1,1.21e+0,-,lambdat030nobatch二十目标IGDp.xlsx,IGDp,I17,2.3661e+1 (1.21e+0) -
-20,WFG9,PACDIS,REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist,2.0978e+1,1.54e+0,,lambdat030nobatch二十目标IGDp.xlsx,IGDp,K17,2.0978e+1 (1.54e+0)
+10,DTLZ1,REMO,REMO,1.5590e+2,3.66e+1,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D2,1.5590e+2 (3.66e+1) =
+10,DTLZ1,SSDE,SSDE,3.0125e+2,2.19e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E2,3.0125e+2 (2.19e+1) -
+10,DTLZ1,PC-SAEA,PC-SAEA,3.4691e+2,2.78e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F2,3.4691e+2 (2.78e+1) -
+10,DTLZ1,SAMOEA-TL2M,SAMOEA-TL2M,2.9606e+2,4.62e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G2,2.9606e+2 (4.62e+1) -
+10,DTLZ1,CSEA,CSEA,1.5453e+2,2.45e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H2,1.5453e+2 (2.45e+1) -
+10,DTLZ1,HES-EA,HES-EA,2.4889e+2,2.64e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I2,2.4889e+2 (2.64e+1) -
+10,DTLZ1,PACDIS,PACDIS,1.3723e+2,3.28e+1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J2,1.3723e+2 (3.28e+1)
+10,DTLZ2,REMO,REMO,7.2496e-1,5.65e-2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D3,7.2496e-1 (5.65e-2) =
+10,DTLZ2,SSDE,SSDE,1.9521e+0,1.78e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E3,1.9521e+0 (1.78e-1) -
+10,DTLZ2,PC-SAEA,PC-SAEA,1.3575e+0,6.73e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F3,1.3575e+0 (6.73e-2) -
+10,DTLZ2,SAMOEA-TL2M,SAMOEA-TL2M,7.3399e-1,3.11e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G3,7.3399e-1 (3.11e-2) -
+10,DTLZ2,CSEA,CSEA,8.5517e-1,9.41e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H3,8.5517e-1 (9.41e-2) -
+10,DTLZ2,HES-EA,HES-EA,7.6084e-1,1.35e-1,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I3,7.6084e-1 (1.35e-1) =
+10,DTLZ2,PACDIS,PACDIS,6.8787e-1,5.43e-2,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J3,6.8787e-1 (5.43e-2)
+10,DTLZ3,REMO,REMO,5.7372e+2,8.87e+1,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D4,5.7372e+2 (8.87e+1) =
+10,DTLZ3,SSDE,SSDE,1.2148e+3,1.27e+2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E4,1.2148e+3 (1.27e+2) -
+10,DTLZ3,PC-SAEA,PC-SAEA,1.2800e+3,8.89e+1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F4,1.2800e+3 (8.89e+1) -
+10,DTLZ3,SAMOEA-TL2M,SAMOEA-TL2M,1.2202e+3,1.08e+2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G4,1.2202e+3 (1.08e+2) -
+10,DTLZ3,CSEA,CSEA,5.7177e+2,1.18e+2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H4,5.7177e+2 (1.18e+2) =
+10,DTLZ3,HES-EA,HES-EA,1.1258e+3,1.11e+2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I4,1.1258e+3 (1.11e+2) -
+10,DTLZ3,PACDIS,PACDIS,5.8860e+2,1.13e+2,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J4,5.8860e+2 (1.13e+2)
+10,DTLZ4,REMO,REMO,6.3471e-1,5.89e-2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D5,6.3471e-1 (5.89e-2) =
+10,DTLZ4,SSDE,SSDE,1.5893e+0,1.47e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E5,1.5893e+0 (1.47e-1) -
+10,DTLZ4,PC-SAEA,PC-SAEA,1.4030e+0,9.50e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F5,1.4030e+0 (9.50e-2) -
+10,DTLZ4,SAMOEA-TL2M,SAMOEA-TL2M,9.2105e-1,4.45e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G5,9.2105e-1 (4.45e-2) -
+10,DTLZ4,CSEA,CSEA,7.3973e-1,1.05e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H5,7.3973e-1 (1.05e-1) -
+10,DTLZ4,HES-EA,HES-EA,9.9872e-1,1.52e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I5,9.9872e-1 (1.52e-1) -
+10,DTLZ4,PACDIS,PACDIS,6.1326e-1,8.90e-2,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J5,6.1326e-1 (8.90e-2)
+10,DTLZ5,REMO,REMO,4.3586e-1,9.56e-2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D6,4.3586e-1 (9.56e-2) =
+10,DTLZ5,SSDE,SSDE,1.3563e+0,1.50e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E6,1.3563e+0 (1.50e-1) -
+10,DTLZ5,PC-SAEA,PC-SAEA,9.4074e-1,7.33e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F6,9.4074e-1 (7.33e-2) -
+10,DTLZ5,SAMOEA-TL2M,SAMOEA-TL2M,2.7219e-1,5.45e-2,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G6,2.7219e-1 (5.45e-2) +
+10,DTLZ5,CSEA,CSEA,4.9025e-1,1.31e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H6,4.9025e-1 (1.31e-1) -
+10,DTLZ5,HES-EA,HES-EA,2.2805e-1,5.46e-2,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I6,2.2805e-1 (5.46e-2) +
+10,DTLZ5,PACDIS,PACDIS,3.8688e-1,8.54e-2,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J6,3.8688e-1 (8.54e-2)
+10,DTLZ6,REMO,REMO,1.5572e+1,1.12e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D7,1.5572e+1 (1.12e+0) -
+10,DTLZ6,SSDE,SSDE,1.4179e+1,1.14e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E7,1.4179e+1 (1.14e+0) -
+10,DTLZ6,PC-SAEA,PC-SAEA,1.7332e+1,4.82e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F7,1.7332e+1 (4.82e-1) -
+10,DTLZ6,SAMOEA-TL2M,SAMOEA-TL2M,1.7944e+1,1.68e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G7,1.7944e+1 (1.68e-1) -
+10,DTLZ6,CSEA,CSEA,1.4488e+1,1.07e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H7,1.4488e+1 (1.07e+0) -
+10,DTLZ6,HES-EA,HES-EA,1.5852e+1,1.08e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I7,1.5852e+1 (1.08e+0) -
+10,DTLZ6,PACDIS,PACDIS,1.3321e+1,1.03e+0,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J7,1.3321e+1 (1.03e+0)
+10,DTLZ7,REMO,REMO,1.0878e+1,1.65e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D8,1.0878e+1 (1.65e+0) -
+10,DTLZ7,SSDE,SSDE,2.2413e+1,3.67e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E8,2.2413e+1 (3.67e+0) -
+10,DTLZ7,PC-SAEA,PC-SAEA,2.7442e+1,1.66e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F8,2.7442e+1 (1.66e+0) -
+10,DTLZ7,SAMOEA-TL2M,SAMOEA-TL2M,2.8888e+1,1.53e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G8,2.8888e+1 (1.53e+0) -
+10,DTLZ7,CSEA,CSEA,1.8333e+1,3.04e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H8,1.8333e+1 (3.04e+0) -
+10,DTLZ7,HES-EA,HES-EA,1.3833e+0,7.34e-2,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I8,1.3833e+0 (7.34e-2) +
+10,DTLZ7,PACDIS,PACDIS,7.7784e+0,9.46e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J8,7.7784e+0 (9.46e-1)
+10,WFG1,REMO,REMO,2.8264e+0,9.88e-2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D9,2.8264e+0 (9.88e-2) =
+10,WFG1,SSDE,SSDE,3.2223e+0,5.23e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E9,3.2223e+0 (5.23e-2) -
+10,WFG1,PC-SAEA,PC-SAEA,3.1097e+0,1.78e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F9,3.1097e+0 (1.78e-2) -
+10,WFG1,SAMOEA-TL2M,SAMOEA-TL2M,3.1355e+0,2.70e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G9,3.1355e+0 (2.70e-2) -
+10,WFG1,CSEA,CSEA,2.8733e+0,1.18e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H9,2.8733e+0 (1.18e-1) -
+10,WFG1,HES-EA,HES-EA,2.9750e+0,3.86e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I9,2.9750e+0 (3.86e-2) -
+10,WFG1,PACDIS,PACDIS,2.7994e+0,5.68e-2,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J9,2.7994e+0 (5.68e-2)
+10,WFG2,REMO,REMO,2.3808e+0,1.01e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D10,2.3808e+0 (1.01e+0) -
+10,WFG2,SSDE,SSDE,2.6744e+0,3.88e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E10,2.6744e+0 (3.88e-1) -
+10,WFG2,PC-SAEA,PC-SAEA,2.9604e+0,5.00e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F10,2.9604e+0 (5.00e-1) -
+10,WFG2,SAMOEA-TL2M,SAMOEA-TL2M,3.1734e+0,8.72e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G10,3.1734e+0 (8.72e-1) -
+10,WFG2,CSEA,CSEA,3.0505e+0,1.21e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H10,3.0505e+0 (1.21e+0) -
+10,WFG2,HES-EA,HES-EA,1.5975e+0,3.12e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I10,1.5975e+0 (3.12e-1) -
+10,WFG2,PACDIS,PACDIS,1.3686e+0,7.70e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J10,1.3686e+0 (7.70e-1)
+10,WFG3,REMO,REMO,1.2630e+0,1.31e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D11,1.2630e+0 (1.31e-1) +
+10,WFG3,SSDE,SSDE,1.8001e+0,1.51e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E11,1.8001e+0 (1.51e-1) -
+10,WFG3,PC-SAEA,PC-SAEA,1.6116e+0,2.35e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F11,1.6116e+0 (2.35e-2) -
+10,WFG3,SAMOEA-TL2M,SAMOEA-TL2M,8.9820e-1,6.90e-2,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G11,8.9820e-1 (6.90e-2) +
+10,WFG3,CSEA,CSEA,1.4058e+0,9.47e-2,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H11,1.4058e+0 (9.47e-2) =
+10,WFG3,HES-EA,HES-EA,1.6331e+0,3.30e-2,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I11,1.6331e+0 (3.30e-2) -
+10,WFG3,PACDIS,PACDIS,1.4387e+0,1.28e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J11,1.4387e+0 (1.28e-1)
+10,WFG4,REMO,REMO,6.6068e+0,8.10e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D12,6.6068e+0 (8.10e-1) -
+10,WFG4,SSDE,SSDE,3.4760e+0,6.78e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E12,3.4760e+0 (6.78e-1) +
+10,WFG4,PC-SAEA,PC-SAEA,7.6144e+0,3.22e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F12,7.6144e+0 (3.22e-1) -
+10,WFG4,SAMOEA-TL2M,SAMOEA-TL2M,8.2162e+0,3.72e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G12,8.2162e+0 (3.72e-1) -
+10,WFG4,CSEA,CSEA,7.3546e+0,8.78e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H12,7.3546e+0 (8.78e-1) -
+10,WFG4,HES-EA,HES-EA,4.1869e+0,1.36e+0,=,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I12,4.1869e+0 (1.36e+0) =
+10,WFG4,PACDIS,PACDIS,3.9797e+0,6.63e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J12,3.9797e+0 (6.63e-1)
+10,WFG5,REMO,REMO,5.7069e+0,5.37e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D13,5.7069e+0 (5.37e-1) -
+10,WFG5,SSDE,SSDE,5.5435e+0,3.77e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E13,5.5435e+0 (3.77e-1) -
+10,WFG5,PC-SAEA,PC-SAEA,5.7216e+0,2.45e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F13,5.7216e+0 (2.45e-1) -
+10,WFG5,SAMOEA-TL2M,SAMOEA-TL2M,5.7181e+0,4.60e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G13,5.7181e+0 (4.60e-1) -
+10,WFG5,CSEA,CSEA,5.9489e+0,3.98e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H13,5.9489e+0 (3.98e-1) -
+10,WFG5,HES-EA,HES-EA,3.2092e+0,4.99e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I13,3.2092e+0 (4.99e-1) +
+10,WFG5,PACDIS,PACDIS,4.1091e+0,5.37e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J13,4.1091e+0 (5.37e-1)
+10,WFG6,REMO,REMO,5.0640e+0,6.99e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D14,5.0640e+0 (6.99e-1) -
+10,WFG6,SSDE,SSDE,5.0029e+0,5.00e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E14,5.0029e+0 (5.00e-1) -
+10,WFG6,PC-SAEA,PC-SAEA,6.2082e+0,2.85e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F14,6.2082e+0 (2.85e-1) -
+10,WFG6,SAMOEA-TL2M,SAMOEA-TL2M,6.7279e+0,2.97e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G14,6.7279e+0 (2.97e-1) -
+10,WFG6,CSEA,CSEA,6.3834e+0,6.46e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H14,6.3834e+0 (6.46e-1) -
+10,WFG6,HES-EA,HES-EA,2.5016e+0,3.15e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I14,2.5016e+0 (3.15e-1) +
+10,WFG6,PACDIS,PACDIS,2.8635e+0,3.47e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J14,2.8635e+0 (3.47e-1)
+10,WFG7,REMO,REMO,5.3178e+0,6.97e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D15,5.3178e+0 (6.97e-1) -
+10,WFG7,SSDE,SSDE,5.3766e+0,7.74e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E15,5.3766e+0 (7.74e-1) -
+10,WFG7,PC-SAEA,PC-SAEA,6.3804e+0,3.96e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F15,6.3804e+0 (3.96e-1) -
+10,WFG7,SAMOEA-TL2M,SAMOEA-TL2M,6.7710e+0,3.67e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G15,6.7710e+0 (3.67e-1) -
+10,WFG7,CSEA,CSEA,5.8886e+0,1.03e+0,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H15,5.8886e+0 (1.03e+0) -
+10,WFG7,HES-EA,HES-EA,4.0867e+0,8.70e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I15,4.0867e+0 (8.70e-1) -
+10,WFG7,PACDIS,PACDIS,3.1272e+0,3.66e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J15,3.1272e+0 (3.66e-1)
+10,WFG8,REMO,REMO,6.1180e+0,4.76e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D16,6.1180e+0 (4.76e-1) -
+10,WFG8,SSDE,SSDE,5.3806e+0,5.15e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E16,5.3806e+0 (5.15e-1) -
+10,WFG8,PC-SAEA,PC-SAEA,6.4204e+0,4.10e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F16,6.4204e+0 (4.10e-1) -
+10,WFG8,SAMOEA-TL2M,SAMOEA-TL2M,6.7476e+0,3.65e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G16,6.7476e+0 (3.65e-1) -
+10,WFG8,CSEA,CSEA,6.5476e+0,5.23e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H16,6.5476e+0 (5.23e-1) -
+10,WFG8,HES-EA,HES-EA,3.1960e+0,5.48e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I16,3.1960e+0 (5.48e-1) +
+10,WFG8,PACDIS,PACDIS,4.1347e+0,4.06e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J16,4.1347e+0 (4.06e-1)
+10,WFG9,REMO,REMO,6.3795e+0,7.59e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,D17,6.3795e+0 (7.59e-1) -
+10,WFG9,SSDE,SSDE,6.4126e+0,4.50e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,E17,6.4126e+0 (4.50e-1) -
+10,WFG9,PC-SAEA,PC-SAEA,6.6634e+0,2.97e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,F17,6.6634e+0 (2.97e-1) -
+10,WFG9,SAMOEA-TL2M,SAMOEA-TL2M,5.2242e+0,7.56e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,G17,5.2242e+0 (7.56e-1) -
+10,WFG9,CSEA,CSEA,7.0544e+0,7.88e-1,-,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,H17,7.0544e+0 (7.88e-1) -
+10,WFG9,HES-EA,HES-EA,3.9947e+0,5.77e-1,+,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,I17,3.9947e+0 (5.77e-1) +
+10,WFG9,PACDIS,PACDIS,4.5897e+0,4.61e-1,,nobatchdict以PACDIS为基准十目标IGDp.xlsx,IGDp,J17,4.5897e+0 (4.61e-1)
+15,DTLZ1,REMO,REMO,8.4392e+1,2.49e+1,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D2,8.4392e+1 (2.49e+1) =
+15,DTLZ1,SSDE,SSDE,1.9393e+2,3.10e+1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E2,1.9393e+2 (3.10e+1) -
+15,DTLZ1,PC-SAEA,PC-SAEA,2.3930e+2,3.42e+1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F2,2.3930e+2 (3.42e+1) -
+15,DTLZ1,SAMOEA-TL2M,SAMOEA-TL2M,2.0313e+2,3.17e+1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G2,2.0313e+2 (3.17e+1) -
+15,DTLZ1,CSEA,CSEA,9.6883e+1,2.07e+1,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H2,9.6883e+1 (2.07e+1) =
+15,DTLZ1,HES-EA,HES-EA,1.6956e+2,3.01e+1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I2,1.6956e+2 (3.01e+1) -
+15,DTLZ1,PACDIS,PACDIS,8.8886e+1,2.40e+1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J2,8.8886e+1 (2.40e+1)
+15,DTLZ2,REMO,REMO,6.8640e-1,5.91e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D3,6.8640e-1 (5.91e-2) =
+15,DTLZ2,SSDE,SSDE,1.5363e+0,2.00e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E3,1.5363e+0 (2.00e-1) -
+15,DTLZ2,PC-SAEA,PC-SAEA,1.1974e+0,5.64e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F3,1.1974e+0 (5.64e-2) -
+15,DTLZ2,SAMOEA-TL2M,SAMOEA-TL2M,7.8171e-1,1.81e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G3,7.8171e-1 (1.81e-2) -
+15,DTLZ2,CSEA,CSEA,7.7488e-1,5.06e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H3,7.7488e-1 (5.06e-2) -
+15,DTLZ2,HES-EA,HES-EA,6.8679e-1,5.28e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I3,6.8679e-1 (5.28e-2) =
+15,DTLZ2,PACDIS,PACDIS,6.8015e-1,3.63e-2,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J3,6.8015e-1 (3.63e-2)
+15,DTLZ3,REMO,REMO,3.1110e+2,8.82e+1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D4,3.1110e+2 (8.82e+1) +
+15,DTLZ3,SSDE,SSDE,8.6963e+2,1.04e+2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E4,8.6963e+2 (1.04e+2) -
+15,DTLZ3,PC-SAEA,PC-SAEA,8.6289e+2,1.07e+2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F4,8.6289e+2 (1.07e+2) -
+15,DTLZ3,SAMOEA-TL2M,SAMOEA-TL2M,8.1760e+2,5.68e+1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G4,8.1760e+2 (5.68e+1) -
+15,DTLZ3,CSEA,CSEA,3.2313e+2,4.93e+1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H4,3.2313e+2 (4.93e+1) +
+15,DTLZ3,HES-EA,HES-EA,6.9556e+2,1.06e+2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I4,6.9556e+2 (1.06e+2) -
+15,DTLZ3,PACDIS,PACDIS,3.6359e+2,4.70e+1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J4,3.6359e+2 (4.70e+1)
+15,DTLZ4,REMO,REMO,6.2645e-1,5.52e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D5,6.2645e-1 (5.52e-2) =
+15,DTLZ4,SSDE,SSDE,1.3889e+0,1.27e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E5,1.3889e+0 (1.27e-1) -
+15,DTLZ4,PC-SAEA,PC-SAEA,1.2075e+0,4.95e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F5,1.2075e+0 (4.95e-2) -
+15,DTLZ4,SAMOEA-TL2M,SAMOEA-TL2M,9.7789e-1,7.82e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G5,9.7789e-1 (7.82e-2) -
+15,DTLZ4,CSEA,CSEA,6.7266e-1,6.36e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H5,6.7266e-1 (6.36e-2) -
+15,DTLZ4,HES-EA,HES-EA,8.7470e-1,1.04e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I5,8.7470e-1 (1.04e-1) -
+15,DTLZ4,PACDIS,PACDIS,6.1464e-1,5.05e-2,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J5,6.1464e-1 (5.05e-2)
+15,DTLZ5,REMO,REMO,3.4354e-1,7.96e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D6,3.4354e-1 (7.96e-2) =
+15,DTLZ5,SSDE,SSDE,1.0122e+0,1.10e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E6,1.0122e+0 (1.10e-1) -
+15,DTLZ5,PC-SAEA,PC-SAEA,6.5774e-1,5.77e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F6,6.5774e-1 (5.77e-2) -
+15,DTLZ5,SAMOEA-TL2M,SAMOEA-TL2M,3.0819e-1,6.61e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G6,3.0819e-1 (6.61e-2) =
+15,DTLZ5,CSEA,CSEA,3.2306e-1,8.29e-2,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H6,3.2306e-1 (8.29e-2) =
+15,DTLZ5,HES-EA,HES-EA,1.3526e-1,3.51e-2,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I6,1.3526e-1 (3.51e-2) +
+15,DTLZ5,PACDIS,PACDIS,2.8290e-1,7.01e-2,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J6,2.8290e-1 (7.01e-2)
+15,DTLZ6,REMO,REMO,1.0259e+1,1.22e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D7,1.0259e+1 (1.22e+0) -
+15,DTLZ6,SSDE,SSDE,1.0941e+1,8.36e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E7,1.0941e+1 (8.36e-1) -
+15,DTLZ6,PC-SAEA,PC-SAEA,1.3096e+1,3.74e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F7,1.3096e+1 (3.74e-1) -
+15,DTLZ6,SAMOEA-TL2M,SAMOEA-TL2M,1.3659e+1,8.80e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G7,1.3659e+1 (8.80e-2) -
+15,DTLZ6,CSEA,CSEA,1.0248e+1,1.39e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H7,1.0248e+1 (1.39e+0) -
+15,DTLZ6,HES-EA,HES-EA,1.1823e+1,7.84e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I7,1.1823e+1 (7.84e-1) -
+15,DTLZ6,PACDIS,PACDIS,9.1612e+0,1.01e+0,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J7,9.1612e+0 (1.01e+0)
+15,DTLZ7,REMO,REMO,1.6202e+1,1.86e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D8,1.6202e+1 (1.86e+0) -
+15,DTLZ7,SSDE,SSDE,3.1420e+1,7.06e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E8,3.1420e+1 (7.06e+0) -
+15,DTLZ7,PC-SAEA,PC-SAEA,3.9735e+1,5.56e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F8,3.9735e+1 (5.56e+0) -
+15,DTLZ7,SAMOEA-TL2M,SAMOEA-TL2M,4.0298e+1,5.32e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G8,4.0298e+1 (5.32e+0) -
+15,DTLZ7,CSEA,CSEA,3.3877e+1,4.03e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H8,3.3877e+1 (4.03e+0) -
+15,DTLZ7,HES-EA,HES-EA,1.8045e+0,8.05e-2,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I8,1.8045e+0 (8.05e-2) +
+15,DTLZ7,PACDIS,PACDIS,1.3195e+1,9.62e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J8,1.3195e+1 (9.62e-1)
+15,WFG1,REMO,REMO,3.3090e+0,1.87e-1,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D9,3.3090e+0 (1.87e-1) =
+15,WFG1,SSDE,SSDE,3.8604e+0,5.06e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E9,3.8604e+0 (5.06e-2) -
+15,WFG1,PC-SAEA,PC-SAEA,3.7391e+0,3.70e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F9,3.7391e+0 (3.70e-2) -
+15,WFG1,SAMOEA-TL2M,SAMOEA-TL2M,3.7415e+0,4.17e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G9,3.7415e+0 (4.17e-2) -
+15,WFG1,CSEA,CSEA,3.4373e+0,1.32e-1,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H9,3.4373e+0 (1.32e-1) =
+15,WFG1,HES-EA,HES-EA,3.6709e+0,4.34e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I9,3.6709e+0 (4.34e-2) -
+15,WFG1,PACDIS,PACDIS,3.4259e+0,1.44e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J9,3.4259e+0 (1.44e-1)
+15,WFG2,REMO,REMO,4.4823e+0,1.18e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D10,4.4823e+0 (1.18e+0) -
+15,WFG2,SSDE,SSDE,4.0334e+0,6.17e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E10,4.0334e+0 (6.17e-1) -
+15,WFG2,PC-SAEA,PC-SAEA,5.2645e+0,8.98e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F10,5.2645e+0 (8.98e-1) -
+15,WFG2,SAMOEA-TL2M,SAMOEA-TL2M,5.5333e+0,1.05e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G10,5.5333e+0 (1.05e+0) -
+15,WFG2,CSEA,CSEA,5.2313e+0,1.54e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H10,5.2313e+0 (1.54e+0) -
+15,WFG2,HES-EA,HES-EA,2.4646e+0,4.56e-1,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I10,2.4646e+0 (4.56e-1) =
+15,WFG2,PACDIS,PACDIS,2.3440e+0,9.08e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J10,2.3440e+0 (9.08e-1)
+15,WFG3,REMO,REMO,1.4559e+0,1.80e-1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D11,1.4559e+0 (1.80e-1) +
+15,WFG3,SSDE,SSDE,2.2556e+0,2.19e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E11,2.2556e+0 (2.19e-1) -
+15,WFG3,PC-SAEA,PC-SAEA,2.0168e+0,4.26e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F11,2.0168e+0 (4.26e-2) -
+15,WFG3,SAMOEA-TL2M,SAMOEA-TL2M,1.2058e+0,1.26e-1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G11,1.2058e+0 (1.26e-1) +
+15,WFG3,CSEA,CSEA,1.5768e+0,1.51e-1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H11,1.5768e+0 (1.51e-1) +
+15,WFG3,HES-EA,HES-EA,2.0479e+0,4.64e-2,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I11,2.0479e+0 (4.64e-2) -
+15,WFG3,PACDIS,PACDIS,1.9549e+0,9.35e-2,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J11,1.9549e+0 (9.35e-2)
+15,WFG4,REMO,REMO,1.4189e+1,1.12e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D12,1.4189e+1 (1.12e+0) -
+15,WFG4,SSDE,SSDE,8.6492e+0,1.02e+0,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E12,8.6492e+0 (1.02e+0) +
+15,WFG4,PC-SAEA,PC-SAEA,1.4706e+1,6.33e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F12,1.4706e+1 (6.33e-1) -
+15,WFG4,SAMOEA-TL2M,SAMOEA-TL2M,1.5548e+1,5.25e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G12,1.5548e+1 (5.25e-1) -
+15,WFG4,CSEA,CSEA,1.5555e+1,1.36e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H12,1.5555e+1 (1.36e+0) -
+15,WFG4,HES-EA,HES-EA,1.0537e+1,1.11e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I12,1.0537e+1 (1.11e+0) -
+15,WFG4,PACDIS,PACDIS,9.7411e+0,1.03e+0,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J12,9.7411e+0 (1.03e+0)
+15,WFG5,REMO,REMO,1.2756e+1,8.39e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D13,1.2756e+1 (8.39e-1) -
+15,WFG5,SSDE,SSDE,1.1703e+1,5.71e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E13,1.1703e+1 (5.71e-1) -
+15,WFG5,PC-SAEA,PC-SAEA,1.1932e+1,5.71e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F13,1.1932e+1 (5.71e-1) -
+15,WFG5,SAMOEA-TL2M,SAMOEA-TL2M,1.2040e+1,9.74e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G13,1.2040e+1 (9.74e-1) -
+15,WFG5,CSEA,CSEA,1.3349e+1,1.16e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H13,1.3349e+1 (1.16e+0) -
+15,WFG5,HES-EA,HES-EA,8.2389e+0,7.23e-1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I13,8.2389e+0 (7.23e-1) +
+15,WFG5,PACDIS,PACDIS,9.1940e+0,1.07e+0,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J13,9.1940e+0 (1.07e+0)
+15,WFG6,REMO,REMO,1.1759e+1,9.07e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D14,1.1759e+1 (9.07e-1) -
+15,WFG6,SSDE,SSDE,1.0898e+1,1.12e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E14,1.0898e+1 (1.12e+0) -
+15,WFG6,PC-SAEA,PC-SAEA,1.2419e+1,4.04e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F14,1.2419e+1 (4.04e-1) -
+15,WFG6,SAMOEA-TL2M,SAMOEA-TL2M,1.3164e+1,4.78e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G14,1.3164e+1 (4.78e-1) -
+15,WFG6,CSEA,CSEA,1.3317e+1,1.08e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H14,1.3317e+1 (1.08e+0) -
+15,WFG6,HES-EA,HES-EA,5.7338e+0,1.77e+0,=,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I14,5.7338e+0 (1.77e+0) =
+15,WFG6,PACDIS,PACDIS,6.6398e+0,9.28e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J14,6.6398e+0 (9.28e-1)
+15,WFG7,REMO,REMO,1.1619e+1,1.12e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D15,1.1619e+1 (1.12e+0) -
+15,WFG7,SSDE,SSDE,1.1610e+1,1.28e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E15,1.1610e+1 (1.28e+0) -
+15,WFG7,PC-SAEA,PC-SAEA,1.2920e+1,3.75e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F15,1.2920e+1 (3.75e-1) -
+15,WFG7,SAMOEA-TL2M,SAMOEA-TL2M,1.3704e+1,5.16e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G15,1.3704e+1 (5.16e-1) -
+15,WFG7,CSEA,CSEA,1.4066e+1,1.16e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H15,1.4066e+1 (1.16e+0) -
+15,WFG7,HES-EA,HES-EA,1.1182e+1,6.26e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I15,1.1182e+1 (6.26e-1) -
+15,WFG7,PACDIS,PACDIS,7.3747e+0,7.24e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J15,7.3747e+0 (7.24e-1)
+15,WFG8,REMO,REMO,1.2729e+1,5.38e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D16,1.2729e+1 (5.38e-1) -
+15,WFG8,SSDE,SSDE,1.0721e+1,1.39e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E16,1.0721e+1 (1.39e+0) -
+15,WFG8,PC-SAEA,PC-SAEA,1.2772e+1,4.89e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F16,1.2772e+1 (4.89e-1) -
+15,WFG8,SAMOEA-TL2M,SAMOEA-TL2M,1.3719e+1,3.99e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G16,1.3719e+1 (3.99e-1) -
+15,WFG8,CSEA,CSEA,1.4182e+1,8.81e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H16,1.4182e+1 (8.81e-1) -
+15,WFG8,HES-EA,HES-EA,7.3139e+0,1.56e+0,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I16,7.3139e+0 (1.56e+0) +
+15,WFG8,PACDIS,PACDIS,8.8951e+0,9.43e-1,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J16,8.8951e+0 (9.43e-1)
+15,WFG9,REMO,REMO,1.4029e+1,8.92e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,D17,1.4029e+1 (8.92e-1) -
+15,WFG9,SSDE,SSDE,1.2630e+1,6.13e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,E17,1.2630e+1 (6.13e-1) -
+15,WFG9,PC-SAEA,PC-SAEA,1.2901e+1,5.93e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,F17,1.2901e+1 (5.93e-1) -
+15,WFG9,SAMOEA-TL2M,SAMOEA-TL2M,1.1310e+1,1.36e+0,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,G17,1.1310e+1 (1.36e+0) -
+15,WFG9,CSEA,CSEA,1.4428e+1,7.02e-1,-,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,H17,1.4428e+1 (7.02e-1) -
+15,WFG9,HES-EA,HES-EA,9.4436e+0,8.76e-1,+,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,I17,9.4436e+0 (8.76e-1) +
+15,WFG9,PACDIS,PACDIS,1.0386e+1,1.45e+0,,nobatchdict以PACDIS为基准十五目标IGDp.xlsx,IGDp,J17,1.0386e+1 (1.45e+0)
+20,DTLZ1,REMO,REMO,4.0685e+1,1.50e+1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D2,4.0685e+1 (1.50e+1) +
+20,DTLZ1,SSDE,SSDE,1.1019e+2,2.33e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E2,1.1019e+2 (2.33e+1) -
+20,DTLZ1,PC-SAEA,PC-SAEA,1.3841e+2,2.33e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F2,1.3841e+2 (2.33e+1) -
+20,DTLZ1,SAMOEA-TL2M,SAMOEA-TL2M,1.2115e+2,2.25e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G2,1.2115e+2 (2.25e+1) -
+20,DTLZ1,CSEA,CSEA,4.2737e+1,1.23e+1,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H2,4.2737e+1 (1.23e+1) =
+20,DTLZ1,HES-EA,HES-EA,8.0751e+1,1.29e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I2,8.0751e+1 (1.29e+1) -
+20,DTLZ1,PACDIS,PACDIS,4.7041e+1,9.78e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J2,4.7041e+1 (9.78e+0)
+20,DTLZ2,REMO,REMO,7.1476e-1,5.59e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D3,7.1476e-1 (5.59e-2) =
+20,DTLZ2,SSDE,SSDE,1.2435e+0,9.02e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E3,1.2435e+0 (9.02e-2) -
+20,DTLZ2,PC-SAEA,PC-SAEA,1.0366e+0,3.52e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F3,1.0366e+0 (3.52e-2) -
+20,DTLZ2,SAMOEA-TL2M,SAMOEA-TL2M,8.4644e-1,2.52e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G3,8.4644e-1 (2.52e-2) -
+20,DTLZ2,CSEA,CSEA,7.6517e-1,5.85e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H3,7.6517e-1 (5.85e-2) -
+20,DTLZ2,HES-EA,HES-EA,6.8671e-1,3.34e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I3,6.8671e-1 (3.34e-2) =
+20,DTLZ2,PACDIS,PACDIS,7.0057e-1,2.72e-2,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J3,7.0057e-1 (2.72e-2)
+20,DTLZ3,REMO,REMO,1.3530e+2,3.52e+1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D4,1.3530e+2 (3.52e+1) +
+20,DTLZ3,SSDE,SSDE,5.2801e+2,6.89e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E4,5.2801e+2 (6.89e+1) -
+20,DTLZ3,PC-SAEA,PC-SAEA,4.9694e+2,6.87e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F4,4.9694e+2 (6.87e+1) -
+20,DTLZ3,SAMOEA-TL2M,SAMOEA-TL2M,4.3707e+2,1.14e+2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G4,4.3707e+2 (1.14e+2) -
+20,DTLZ3,CSEA,CSEA,1.5265e+2,4.15e+1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H4,1.5265e+2 (4.15e+1) +
+20,DTLZ3,HES-EA,HES-EA,3.9014e+2,7.51e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I4,3.9014e+2 (7.51e+1) -
+20,DTLZ3,PACDIS,PACDIS,1.8445e+2,3.73e+1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J4,1.8445e+2 (3.73e+1)
+20,DTLZ4,REMO,REMO,5.7162e-1,4.92e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D5,5.7162e-1 (4.92e-2) =
+20,DTLZ4,SSDE,SSDE,1.0861e+0,6.11e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E5,1.0861e+0 (6.11e-2) -
+20,DTLZ4,PC-SAEA,PC-SAEA,9.2705e-1,2.77e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F5,9.2705e-1 (2.77e-2) -
+20,DTLZ4,SAMOEA-TL2M,SAMOEA-TL2M,8.6698e-1,6.23e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G5,8.6698e-1 (6.23e-2) -
+20,DTLZ4,CSEA,CSEA,5.7127e-1,4.17e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H5,5.7127e-1 (4.17e-2) =
+20,DTLZ4,HES-EA,HES-EA,6.7142e-1,6.50e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I5,6.7142e-1 (6.50e-2) -
+20,DTLZ4,PACDIS,PACDIS,5.7121e-1,4.25e-2,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J5,5.7121e-1 (4.25e-2)
+20,DTLZ5,REMO,REMO,1.5795e-1,5.31e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D6,1.5795e-1 (5.31e-2) =
+20,DTLZ5,SSDE,SSDE,6.2211e-1,1.06e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E6,6.2211e-1 (1.06e-1) -
+20,DTLZ5,PC-SAEA,PC-SAEA,3.7681e-1,3.29e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F6,3.7681e-1 (3.29e-2) -
+20,DTLZ5,SAMOEA-TL2M,SAMOEA-TL2M,2.3709e-1,3.21e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G6,2.3709e-1 (3.21e-2) -
+20,DTLZ5,CSEA,CSEA,1.9278e-1,5.77e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H6,1.9278e-1 (5.77e-2) =
+20,DTLZ5,HES-EA,HES-EA,7.6285e-2,1.86e-2,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I6,7.6285e-2 (1.86e-2) +
+20,DTLZ5,PACDIS,PACDIS,1.8301e-1,6.25e-2,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J6,1.8301e-1 (6.25e-2)
+20,DTLZ6,REMO,REMO,6.5759e+0,1.12e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D7,6.5759e+0 (1.12e+0) -
+20,DTLZ6,SSDE,SSDE,6.9243e+0,8.45e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E7,6.9243e+0 (8.45e-1) -
+20,DTLZ6,PC-SAEA,PC-SAEA,8.7917e+0,3.49e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F7,8.7917e+0 (3.49e-1) -
+20,DTLZ6,SAMOEA-TL2M,SAMOEA-TL2M,9.1041e+0,2.47e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G7,9.1041e+0 (2.47e-1) -
+20,DTLZ6,CSEA,CSEA,6.0725e+0,1.11e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H7,6.0725e+0 (1.11e+0) -
+20,DTLZ6,HES-EA,HES-EA,7.2056e+0,5.33e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I7,7.2056e+0 (5.33e-1) -
+20,DTLZ6,PACDIS,PACDIS,5.3861e+0,9.92e-1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J7,5.3861e+0 (9.92e-1)
+20,DTLZ7,REMO,REMO,1.8492e+1,2.09e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D8,1.8492e+1 (2.09e+0) -
+20,DTLZ7,SSDE,SSDE,3.5717e+1,6.79e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E8,3.5717e+1 (6.79e+0) -
+20,DTLZ7,PC-SAEA,PC-SAEA,4.6790e+1,5.79e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F8,4.6790e+1 (5.79e+0) -
+20,DTLZ7,SAMOEA-TL2M,SAMOEA-TL2M,3.7550e+1,1.17e+1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G8,3.7550e+1 (1.17e+1) -
+20,DTLZ7,CSEA,CSEA,4.2512e+1,8.23e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H8,4.2512e+1 (8.23e+0) -
+20,DTLZ7,HES-EA,HES-EA,2.0150e+0,5.37e-2,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I8,2.0150e+0 (5.37e-2) +
+20,DTLZ7,PACDIS,PACDIS,1.6368e+1,1.28e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J8,1.6368e+1 (1.28e+0)
+20,WFG1,REMO,REMO,3.7799e+0,2.49e-1,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D9,3.7799e+0 (2.49e-1) =
+20,WFG1,SSDE,SSDE,4.3574e+0,1.04e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E9,4.3574e+0 (1.04e-1) -
+20,WFG1,PC-SAEA,PC-SAEA,4.2664e+0,9.91e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F9,4.2664e+0 (9.91e-2) -
+20,WFG1,SAMOEA-TL2M,SAMOEA-TL2M,4.2675e+0,9.95e-2,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G9,4.2675e+0 (9.95e-2) -
+20,WFG1,CSEA,CSEA,3.8317e+0,1.49e-1,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H9,3.8317e+0 (1.49e-1) =
+20,WFG1,HES-EA,HES-EA,4.1899e+0,1.02e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I9,4.1899e+0 (1.02e-1) -
+20,WFG1,PACDIS,PACDIS,3.8483e+0,1.72e-1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J9,3.8483e+0 (1.72e-1)
+20,WFG2,REMO,REMO,7.1411e+0,1.64e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D10,7.1411e+0 (1.64e+0) -
+20,WFG2,SSDE,SSDE,5.1419e+0,8.63e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E10,5.1419e+0 (8.63e-1) -
+20,WFG2,PC-SAEA,PC-SAEA,6.8322e+0,1.32e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F10,6.8322e+0 (1.32e+0) -
+20,WFG2,SAMOEA-TL2M,SAMOEA-TL2M,7.0516e+0,1.52e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G10,7.0516e+0 (1.52e+0) -
+20,WFG2,CSEA,CSEA,7.3820e+0,1.28e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H10,7.3820e+0 (1.28e+0) -
+20,WFG2,HES-EA,HES-EA,3.6120e+0,5.32e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I10,3.6120e+0 (5.32e-1) -
+20,WFG2,PACDIS,PACDIS,2.5149e+0,7.52e-1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J10,2.5149e+0 (7.52e-1)
+20,WFG3,REMO,REMO,1.5755e+0,3.13e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D11,1.5755e+0 (3.13e-1) +
+20,WFG3,SSDE,SSDE,2.5881e+0,2.04e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E11,2.5881e+0 (2.04e-1) -
+20,WFG3,PC-SAEA,PC-SAEA,2.3300e+0,8.52e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F11,2.3300e+0 (8.52e-2) =
+20,WFG3,SAMOEA-TL2M,SAMOEA-TL2M,1.6188e+0,1.29e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G11,1.6188e+0 (1.29e-1) +
+20,WFG3,CSEA,CSEA,1.7364e+0,2.09e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H11,1.7364e+0 (2.09e-1) +
+20,WFG3,HES-EA,HES-EA,2.3852e+0,8.27e-2,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I11,2.3852e+0 (8.27e-2) =
+20,WFG3,PACDIS,PACDIS,2.3140e+0,1.35e-1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J11,2.3140e+0 (1.35e-1)
+20,WFG4,REMO,REMO,2.4120e+1,2.01e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D12,2.4120e+1 (2.01e+0) -
+20,WFG4,SSDE,SSDE,1.5417e+1,1.68e+0,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E12,1.5417e+1 (1.68e+0) +
+20,WFG4,PC-SAEA,PC-SAEA,2.4259e+1,8.49e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F12,2.4259e+1 (8.49e-1) -
+20,WFG4,SAMOEA-TL2M,SAMOEA-TL2M,2.5472e+1,7.35e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G12,2.5472e+1 (7.35e-1) -
+20,WFG4,CSEA,CSEA,2.5530e+1,1.21e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H12,2.5530e+1 (1.21e+0) -
+20,WFG4,HES-EA,HES-EA,1.9043e+1,1.95e+0,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I12,1.9043e+1 (1.95e+0) =
+20,WFG4,PACDIS,PACDIS,1.7744e+1,2.02e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J12,1.7744e+1 (2.02e+0)
+20,WFG5,REMO,REMO,2.2009e+1,1.22e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D13,2.2009e+1 (1.22e+0) -
+20,WFG5,SSDE,SSDE,2.0304e+1,8.32e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E13,2.0304e+1 (8.32e-1) -
+20,WFG5,PC-SAEA,PC-SAEA,2.0644e+1,6.67e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F13,2.0644e+1 (6.67e-1) -
+20,WFG5,SAMOEA-TL2M,SAMOEA-TL2M,2.0564e+1,8.84e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G13,2.0564e+1 (8.84e-1) -
+20,WFG5,CSEA,CSEA,2.2993e+1,1.35e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H13,2.2993e+1 (1.35e+0) -
+20,WFG5,HES-EA,HES-EA,1.6319e+1,7.44e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I13,1.6319e+1 (7.44e-1) +
+20,WFG5,PACDIS,PACDIS,1.8122e+1,1.66e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J13,1.8122e+1 (1.66e+0)
+20,WFG6,REMO,REMO,1.9801e+1,1.36e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D14,1.9801e+1 (1.36e+0) -
+20,WFG6,SSDE,SSDE,1.8692e+1,1.62e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E14,1.8692e+1 (1.62e+0) -
+20,WFG6,PC-SAEA,PC-SAEA,2.1220e+1,7.58e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F14,2.1220e+1 (7.58e-1) -
+20,WFG6,SAMOEA-TL2M,SAMOEA-TL2M,2.2372e+1,8.50e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G14,2.2372e+1 (8.50e-1) -
+20,WFG6,CSEA,CSEA,2.3291e+1,1.13e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H14,2.3291e+1 (1.13e+0) -
+20,WFG6,HES-EA,HES-EA,1.3703e+1,1.95e+0,=,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I14,1.3703e+1 (1.95e+0) =
+20,WFG6,PACDIS,PACDIS,1.4066e+1,1.05e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J14,1.4066e+1 (1.05e+0)
+20,WFG7,REMO,REMO,2.0149e+1,1.58e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D15,2.0149e+1 (1.58e+0) -
+20,WFG7,SSDE,SSDE,2.0229e+1,1.40e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E15,2.0229e+1 (1.40e+0) -
+20,WFG7,PC-SAEA,PC-SAEA,2.1899e+1,7.30e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F15,2.1899e+1 (7.30e-1) -
+20,WFG7,SAMOEA-TL2M,SAMOEA-TL2M,2.3204e+1,7.10e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G15,2.3204e+1 (7.10e-1) -
+20,WFG7,CSEA,CSEA,2.2966e+1,1.95e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H15,2.2966e+1 (1.95e+0) -
+20,WFG7,HES-EA,HES-EA,2.0260e+1,6.29e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I15,2.0260e+1 (6.29e-1) -
+20,WFG7,PACDIS,PACDIS,1.5167e+1,1.32e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J15,1.5167e+1 (1.32e+0)
+20,WFG8,REMO,REMO,2.0979e+1,1.48e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D16,2.0979e+1 (1.48e+0) -
+20,WFG8,SSDE,SSDE,1.8572e+1,1.18e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E16,1.8572e+1 (1.18e+0) -
+20,WFG8,PC-SAEA,PC-SAEA,2.1410e+1,8.03e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F16,2.1410e+1 (8.03e-1) -
+20,WFG8,SAMOEA-TL2M,SAMOEA-TL2M,2.2670e+1,5.53e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G16,2.2670e+1 (5.53e-1) -
+20,WFG8,CSEA,CSEA,2.3598e+1,1.16e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H16,2.3598e+1 (1.16e+0) -
+20,WFG8,HES-EA,HES-EA,1.5495e+1,8.59e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I16,1.5495e+1 (8.59e-1) +
+20,WFG8,PACDIS,PACDIS,1.6080e+1,5.87e-1,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J16,1.6080e+1 (5.87e-1)
+20,WFG9,REMO,REMO,2.2439e+1,1.36e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,D17,2.2439e+1 (1.36e+0) -
+20,WFG9,SSDE,SSDE,2.1862e+1,8.86e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,E17,2.1862e+1 (8.86e-1) -
+20,WFG9,PC-SAEA,PC-SAEA,2.2096e+1,7.32e-1,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,F17,2.2096e+1 (7.32e-1) -
+20,WFG9,SAMOEA-TL2M,SAMOEA-TL2M,2.0911e+1,1.30e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,G17,2.0911e+1 (1.30e+0) -
+20,WFG9,CSEA,CSEA,2.3468e+1,1.58e+0,-,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,H17,2.3468e+1 (1.58e+0) -
+20,WFG9,HES-EA,HES-EA,1.8036e+1,8.98e-1,+,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,I17,1.8036e+1 (8.98e-1) +
+20,WFG9,PACDIS,PACDIS,1.9220e+1,1.67e+0,,nobatchdict以PACDIS为基准二十目标IGDp.xlsx,IGDp,J17,1.9220e+1 (1.67e+0)

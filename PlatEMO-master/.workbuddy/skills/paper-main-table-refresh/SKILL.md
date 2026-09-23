@@ -33,12 +33,37 @@ build_tables.py                                # 只从已提交的 igd_snapshot
 - 第 18 行导出的 `+/-/=` 汇总必须等于逐格符号计数 → 反向校验源表没被手改过；
 - 总记录数 = 3×16×7 = 336。
 
-## 2. 换源只改两个常量
+## 1.5 先查「预算 / 跑数 / 算法集」是否也变了（这一步最容易漏）
+
+**换源往往不只换数值。** 2026-09-22 那次源表从 FE300/20 跑/6 个老基线换成
+**FE500/10 跑/6 个新基线**，一换就牵动正文多处，光重建表是不够的。开跑前先把这三项对出来：
+
+- **FE 预算**：正文 `\paragraph{Test problems and evaluation budget.}` 写死 $FE_{\max}$；
+  `\paragraph{Performance indicator and statistical reporting.}` 还写死了 run 标识区间、
+  总跑数、"所有算法终止于 X 次评估"。
+- **跑数**：源表 runs 决定正文的 "run identifiers 1--N"。
+- **算法集**：决定 `\paragraph{Compared algorithms.}` 的基线名单与**引用条目**。
+  新基线若不在 `HPDC-MaOEA.tex` 的 `thebibliography` 里，必须补 bib，且要问用户用哪篇文献
+  （PlatEMO 算法目录的 `Algorithms/.../<Alg>.m` 头部注释里有规范引用，可直接取）。
+  另外 §Convergence Behavior 也写着"PACDIS 与六个基线在 WFG7/WFG8 的轨迹、run 1--N、到 X 次评估为止"，
+  基线集或预算一变它就不自洽了 —— 但收敛图重画需要对应预算的 `save=K` 快照，**属用户拍板项，别自作主张**。
+
+数据侧的机械核查（廉价且值钱）：每格跑数是否真等于 runs 的个数 ——
+`run_scripts/audit_fe500_coverage.py` 按 (M, 算法, 题) 数 1..N 的 `.mat`，
+能抓出"某算法某题少跑几跑 → 均值口径悄悄变窄且 ranksum 变成 n≠n"这类静默错误。2026-09-22 实测 336 格全 n=10。
+
+## 2. 换源要改的是常量 + 算法集
 
 ```python
-OURS  = "<xlsx 里我们自己那列的表头全名>"
-FILES = {10: "xxx十目标.xlsx", 15: "xxx十五目标.xlsx", 20: "xxx二十目标.xlsx"}
+OURS    = "<xlsx 里我们自己那列的表头全名>"
+FILES   = {10: "xxx十目标.xlsx", 15: "xxx十五目标.xlsx", 20: "xxx二十目标.xlsx"}
+ORDER   = ["<六基线按源表列序>", "<我们那列>"]
+ALIASES = {<源表表头>: <论文显示名>, ...}   # 白名单，映射不到的表头一律忽略
 ```
+
+**"只改两个常量"只在算法集不变时成立。** 算法集一变，`ORDER`、`ALIASES` 都要重写；
+`main()` 里还有一处旧算法集专属的断言
+（`assert {source_algorithm} == {"PCSAEA_N100", "KRVEA_100"}`）必须一并换掉，否则直接 AssertionError。
 
 - **先读表头再改**：三张表的列顺序**互不相同**（M=15 的 `KRVEA_100`/`PCSAEA_N100` 与 M=10 反序），
   脚本按列名匹配所以无所谓，但你核对时要按名字对。
@@ -90,6 +115,20 @@ FILES = {10: "xxx十目标.xlsx", 15: "xxx十五目标.xlsx", 20: "xxx二十目�
 - 跑 Python 前设 `$env:PYTHONIOENCODING="utf-8"` 和 `[Console]::OutputEncoding=[Text.Encoding]::UTF8`。
 - 临时文件别落在 `论文写作/experiments/` 里；要落就落 `.workbuddy/`，收尾用
   `[System.IO.File]::Delete()` 删（`Remove-Item` 被 safe-delete 拦）。
+
+## 5.5 验收：编译 + 肉眼过一张表页
+
+表格宽度是这篇论文的老问题（522pt 放 7 算法列），**必须真编译一遍看页**，别只看源码：
+
+```
+Set-Location "D:\PlatEMO-master\论文写作"
+& "C:\Users\lsx\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe" -interaction=nonstopmode HPDC-MaOEA.tex   # 跑两遍
+```
+
+- 判据：log 里**没有 `Overfull \hbox`**（表头变长，如 `SAMOEA-TL2M` 比 `MCEA/D` 长，容易挤出边界）。
+  用 `Select-String -Path HPDC-MaOEA.log -Pattern "Overfull|Output written"` 抓。
+- 肉眼验收：受管 Python 的 venv 里装 `pymupdf`（`pip install pymupdf`），
+  用 `fitz` 把含 "Comparison of IGD" 的页渲染成 PNG 再 `Read` 看。2026-09-22 实测两张表落在第 9、10 页。
 
 ## 6. 提交
 

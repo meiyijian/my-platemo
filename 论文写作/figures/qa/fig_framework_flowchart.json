@@ -1,12 +1,12 @@
 {
   "source": "../HPDC-MaOEA.tex, Section 3 and Algorithms 1 and 3",
-  "source_sha256": "8d0bacd84ef60c919ed0702accb0c7339ed2f86a13d860caf93de25136010394",
+  "source_sha256": "9da886a09ea229f70b6206c48512aff5783e42221d3df1999efa65a540f5d422",
   "width_mm": 180,
   "height_mm": 157,
   "png_dpi": 600,
   "minimum_pdf_glyph_pt": 5.880000114440918,
   "embedded_raster_count": 0,
   "semantics": "Method-level flow; c counts generated candidates, not generations.",
-  "simplifications": "Empty-pool safeguards and detailed score formulas remain in the method. Mode is drawn before candidate search. Exploration uses relation-quality screening and quality-distance batch diversification; indicator mode directly reranks its relation shortlist. No minimum-batch completion is used.",
+  "simplifications": "NoBatchDist: exploration uses relation-quality screening and ranks R_norm + 0.30*U_norm, without batch distance. Indicator mode directly reranks its relation shortlist. Mode is drawn before candidate search. Empty-pool safeguards remain in the method; no minimum-batch completion.",
   "alt_text": "PACDIS starts with an evaluated Latin hypercube design, checks the evaluation budget, constructs PAQC groups, trains relation and indicator models, runs CDIS, evaluates the selected batch, and updates the population from the archive. CDIS draws one mode, loops over relation-guided candidate generation, and branches into indicator or exploration selection before applying the batch bound."
 }

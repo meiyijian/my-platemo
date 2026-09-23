@@ -2,7 +2,7 @@
 % ==========================================================================
 %  PACDIS -- two-column manuscript draft (Elsevier elsarticle, 5p layout)
 %
-%  PAQC is the primary contribution; simplified CDIS supports batch selection.
+%  PAQC constructs supervision; CDIS allocates expensive evaluations.
 %  Implementation: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.
 %  Original-parameter checkpoint: paper-original-params-20260914.
 %  Established components are cited where they enter the framework.
@@ -52,17 +52,15 @@
 \newcommand{\vr}{\mathbf{r}}
 \newcommand{\vz}{\mathbf{z}}
 \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\bestcell}{\cellcolor{black!15}}
 
 %% Uncomment and fill in for a preprint that names its target journal.
 %% \journal{Information Sciences}
 
 \begin{document}
 
-%% Float placement. The wide ablation/sensitivity tables and the convergence
-%% figure are close to a full page each; with the defaults LaTeX refuses to
-%% put a table and a figure on the same page and drops each onto its own
-%% float page, which leaves half-empty pages. These thresholds let the pair
-%% share a page while still reserving room for running text. They must be set
+%% Float placement for wide experimental tables. These thresholds permit
+%% large floats to share pages while reserving room for running text. Set them
 %% after \begin{document}: elsarticle resets them at the start of the body.
 \renewcommand{\topfraction}{0.9}
 \renewcommand{\bottomfraction}{0.6}
@@ -98,8 +96,9 @@ information in candidate selection unspecified. Introduce PACDIS with PBI-assist
 quality classification (PAQC) and criterion-diversified infill selection (CDIS).
 PAQC constructs adaptive directions directly from the current nondominated
 objective vectors and uses PBI-based directional quality information to supplement
-representative-based positive-group construction. CDIS provides a supporting
-batch-selection strategy. Lead the results
+representative-based positive-group construction. CDIS allocates expensive evaluations through ambiguity-oriented and
+indicator-oriented selection criteria. Present the two mechanisms as
+complementary, with problem-dependent effects in the component comparisons. Lead the results
 with the strongest verified algorithm-level IGD$^+$ comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
@@ -153,30 +152,35 @@ supervision signal for relation learning while retaining REMO's three-class
 relation-learning scheme. A stage-dependent fusion strategy is further used to
 adjust the influence of the two signals over the course of optimization.
 
-To support the use of these predictions,
-criterion-diversified infill selection (CDIS) provides two batch-selection
-criteria within an explicit evaluation cap. One ranks candidates by relation
-quality and prediction ambiguity after a quality screen; the other
-reranks a relation-screened subset using a predicted indicator. This supporting
-strategy uses a fixed ambiguity reward in the first branch and predicted
-indicator values in the second branch.
+Candidate selection poses a second problem: relation scores order candidates,
+but that ordering alone does not specify how to use classification ambiguity
+or a separate quality indicator when allocating a small evaluation batch.
+Criterion-diversified infill selection (CDIS) addresses this evaluation-allocation
+interface through two alternative criteria. The ambiguity-oriented mode ranks
+candidates by relation quality and classification ambiguity after quality
+screening. The indicator-oriented mode reranks a relation-screened subset using
+a separately learned quality indicator. Each iteration activates one criterion
+to select a batch within the remaining evaluation budget.
 
-Integrating PAQC and CDIS into a relation-learning host algorithm yields PACDIS,
-a surrogate-assisted many-objective evolutionary algorithm for expensive
-optimization. The main contributions of this work are threefold. First, we
-propose PAQC, which supplements representative-based grouping with
-nondominated-derived directional quality information, enriching the supervision
-used to construct positive training groups for relation learning. Second, we
-propose CDIS, a supporting batch-selection strategy that balances predicted
-quality and prediction ambiguity, together with indicator-based reranking under a limited
-evaluation budget. Third, we conduct extensive experiments on DTLZ and WFG
-benchmarks with 10, 15, and 20 objectives, comparing PACDIS with six
-representative surrogate-assisted algorithms. The results show competitive
-overall performance on the tested settings, with particularly consistent
-advantages on WFG7 and WFG8 across all three objective counts, while PIEA
-remains stronger on several DTLZ instances. Ablation studies show that both PAQC
-and CDIS contribute to the overall performance, and diagnostic analyses provide
-insight into group composition and candidate-batch behavior.
+We propose PACDIS, a surrogate-assisted many-objective evolutionary algorithm
+that modifies two interfaces of relation-based expensive optimization:
+supervision construction and expensive-evaluation allocation. PAQC determines
+what the relation classifier learns from evaluated solutions; CDIS determines
+how its predictions guide new expensive evaluations.
+The main contributions of this work are threefold. First, PAQC supplements
+representative-based grouping with nondominated-derived directional quality
+information and combines the two signals to construct positive training groups.
+Second, CDIS uses relation quality, classification ambiguity, and indicator
+information through two alternative infill criteria to allocate a limited
+expensive-evaluation budget. These mechanisms address different stages of the
+relation-learning framework. Third, experiments on DTLZ and WFG benchmarks
+with 10, 15, and 20 objectives compare PACDIS with six surrogate-assisted
+algorithms, while deletion controls examine the respective roles of PAQC and
+CDIS. PACDIS shows competitive performance on the tested settings, with
+consistent mean IGD$^+$ advantages on WFG2 and WFG7 across the three objective
+counts; HES-EA remains stronger on DTLZ5 and DTLZ7. The reported component
+comparisons suggest complementary, problem-dependent benefits. Group-quality
+and candidate-quality diagnostics provide the planned mechanism analyses.
 
 The remainder of this paper is organized as follows.
 Section~\ref{sec:related} reviews related work on surrogate-assisted expensive
@@ -225,8 +229,8 @@ can learn and how much its predictions cost: the rule that turns the evaluated
 population into supervision labels, and the rule that turns the surrogate
 scores of a large candidate pool into a small batch of expensive evaluations.
 We propose PACDIS, a surrogate-assisted many-objective evolutionary
-algorithm centred on improving the supervision interface through PAQC,
-with CDIS providing a supporting expensive-evaluation selection strategy.
+algorithm that modifies supervision construction through PAQC and
+expensive-evaluation allocation through CDIS.
 \emph{PBI-assisted quality classification} (PAQC) augments the
 representative-based grouping of REMO~\cite{ref:remo} with PBI-based quality
 information from directions constructed directly from the current nondominated
@@ -310,7 +314,7 @@ relation-guided candidate search and criterion-dependent infill branches.
          \eqref{eq:pairlabel}
   \State Train the relation surrogate $\mathcal{M}_R$
   \State Train the indicator surrogate $\mathcal{M}_I$ on $\mathcal{P}$
-  \State Draw an exploration or indicator mode $m$
+  \State Draw an ambiguity-oriented or indicator-oriented mode $m$
   \State $\mathcal{S}\gets$ \Call{CDIS}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m$}
   \State Evaluate $\mathcal{S}$ and append it to $\mathcal{A}_{\mathrm{rc}}$
   \State $FE\gets FE+|\mathcal{S}|$
@@ -575,9 +579,9 @@ aggregate group-relative preference used to order unevaluated candidates.
 \subsection{Criterion-Diversified Infill Selection (CDIS)}
 \label{sec:method:cdis}
 
-PAQC determines the groups learned by the relation model. CDIS provides a
-supporting rule for allocating the expensive budget among the resulting
-candidates. CDIS uses two selection criteria: ambiguity-rewarded ranking
+PAQC determines the supervision supplied to the relation model, whereas CDIS
+determines how the resulting surrogate information guides expensive-evaluation
+allocation. CDIS uses two selection criteria: ambiguity-rewarded ranking
 after relation-quality screening, and indicator-based reranking of a
 relation-screened subset. The first criterion uses the relation model's
 confidence information; the second uses a separate indicator surrogate.
@@ -597,7 +601,7 @@ share a pool-construction procedure, rather than necessarily an identical pool.
 \subsubsection{Ambiguity-Rewarded Infill}
 \label{sec:method:cdis:exp}
 
-The exploration mode first applies a relation-quality screen and then
+The ambiguity-oriented mode first applies a relation-quality screen and then
 ranks the retained candidates using predicted quality and classification
 ambiguity. Its relation score uses the
 largest softmax class probability as the weight of each ordered pair in the
@@ -608,13 +612,13 @@ estimating candidate quality.
 Candidates at or above the $q_{\mathrm{keep}}$ quantile of the relation score
 form
 \begin{equation}
-\mathcal{H}^{\mathrm{exp}}=
+\mathcal{H}^{\mathrm{amb}}=
 \bigl\{\vx\in\mathcal{A}: R(\vx)\geq
 Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\bigr\}.
 \label{eq:prefilter-exp}
 \end{equation}
 With $q_{\mathrm{keep}}=0.70$, this screen usually retains the highest-scoring
-30\% of the pool; ties can increase that fraction. Importantly, ambiguity is
+30\% of the pool; ties can increase that fraction. Ambiguity is
 considered only after this quality screen, so a candidate with poor predicted
 relation quality cannot enter the evaluation batch solely because of high
 prediction uncertainty.
@@ -635,10 +639,10 @@ U(\vx)=
 Hence, $U(\vx)$ becomes large when the relation network is less decisive over
 the comparisons associated with $\vx$.
 
-Within $\mathcal{H}^{\mathrm{exp}}$, the relation score and ambiguity are
+Within $\mathcal{H}^{\mathrm{amb}}$, the relation score and ambiguity are
 min--max normalized and combined as
 \begin{equation}
-A_{\mathrm{exp}}(\vx)
+A_{\mathrm{amb}}(\vx)
 =\widetilde{R}(\vx)+\lambda\,\widetilde{U}(\vx),
 \qquad \lambda=0.30,
 \label{eq:expscore}
@@ -646,9 +650,8 @@ A_{\mathrm{exp}}(\vx)
 where a constant quantity is assigned the normalized value $0.5$. The fixed
 ambiguity weight $\lambda$ provides a moderate preference for candidates whose
 predicted relations remain uncertain while preserving relation quality as the
-dominant component of the exploration acquisition. Unlike an
-error-adaptive exploration rule, $\lambda$ remains constant throughout the
-optimization process.
+dominant component of the ambiguity-rewarded acquisition. The weight
+$\lambda$ remains constant throughout optimization.
 
 The confidence weighting used in $R(\vx)$ and the ambiguity reward in
 \eqref{eq:expscore} serve complementary purposes. The former stabilizes the
@@ -658,17 +661,15 @@ an exploration signal after the quality requirement has already been
 satisfied. Thus, uncertainty does not replace the relation-quality criterion
 but refines the choice among candidates that have passed the quality screen.
 
-The exploration branch sorts $\mathcal{H}^{\mathrm{exp}}$ by descending
-$A_{\mathrm{exp}}$ and returns the first $n_b$ candidates:
+The ambiguity-oriented branch sorts $\mathcal{H}^{\mathrm{amb}}$ by descending
+$A_{\mathrm{amb}}$ and returns the first $n_b$ candidates:
 \begin{equation}
 \mathcal{S}=\operatorname{Top}_{n_b}
-\bigl(\mathcal{H}^{\mathrm{exp}};A_{\mathrm{exp}}\bigr).
+\bigl(\mathcal{H}^{\mathrm{amb}};A_{\mathrm{amb}}\bigr).
 \label{eq:batch-ranking}
 \end{equation}
 Here $\operatorname{Top}_{n_b}$ returns an ordered list and preserves candidate
 order for exact score ties. Equation~\eqref{eq:batch} defines the batch size.
-The selector applies the same ranking to every batch member and uses no
-distance term or distance weight.
 
 The quality screen restricts the eligible set, and the ambiguity reward
 changes the ordering within that set. Classification ambiguity supplies a
@@ -678,11 +679,12 @@ The component study must assess the final optimization effect of this rule.
 \subsubsection{Indicator-Based Infill}
 \label{sec:method:cdis:ind}
 
-The indicator-oriented mode provides an alternative final ranking. Following
-PIEA~\cite{ref:piea}, an SDE-based fitness~\cite{ref:sde} is computed for each
-evaluated solution using the generalized $L_p$ front-shape estimate and its
-finite convergence fallback. An RBF-SVR model predicts this fitness from
-decision vectors,
+The indicator-oriented mode provides an alternative assessment of candidates
+that pass relation-based screening. The quality indicator combines shift-based
+density estimation (SDE)~\cite{ref:sde} with generalized $L_p$ front-shape
+adaptation~\cite{ref:piea} and a finite convergence fallback. We compute this
+indicator for each evaluated solution and train an RBF-SVR model to predict it
+from decision vectors,
 \begin{equation}
 \widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D}),\qquad
 \mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}.
@@ -694,25 +696,25 @@ $q_{\mathrm{rel}}=0.30$, to form $\mathcal{H}^{\mathrm{ind}}$.
 In this mode the family-wise relation probabilities are arithmetic averages.
 The screened candidates are then ranked by descending $\widehat I$, and up to
 $n_{\max}$ are selected directly. Failed or nonfinite indicator predictions
-fall back to relation-score ranking. There is no second indicator-quantile
-filter or minimum-batch completion rule. The role of this branch is the
-two-stage use of relation filtering followed by indicator reranking.
+fall back to relation-score ranking. This branch separates candidate screening
+from final quality assessment: relation predictions retain high-scoring
+candidates, and the indicator surrogate ranks the screened subset.
 
 \subsubsection{Selection-Criterion Switching}
 \label{sec:method:cdis:mix}
 
-Let $m\in\{\mathrm{exp},\mathrm{ind}\}$ denote the mode. With $u\sim U[0,1)$,
+Let $m\in\{\mathrm{amb},\mathrm{ind}\}$ denote the mode. With $u\sim U[0,1)$,
 \begin{equation}
 m=\begin{cases}
 \mathrm{ind}, & \text{if the indicator surrogate is available}\\
               & \text{and }u<p_{\mathrm{mix}},\\[2pt]
-\mathrm{exp}, & \text{otherwise},
+\mathrm{amb}, & \text{otherwise},
 \end{cases}
 \label{eq:mode}
 \end{equation}
 where $p_{\mathrm{mix}}=0.5$. One intact criterion is used per iteration;
 the two scores need not be combined into a single ranking. This is a fixed
-probability rule, with exploration as the fallback when the indicator
+probability rule, with the ambiguity-oriented mode as the fallback when the indicator
 surrogate is unavailable. The feasible batch size is
 \begin{equation}
 n_b=\min\bigl(n_{\max},|\mathcal{H}^{m}|,FE_{\max}-FE\bigr),
@@ -739,9 +741,9 @@ before its real evaluation and the corresponding $FE$ update.
   \State Rerank $\mathcal{H}^{\mathrm{ind}}$ by indicator predictions $\widehat I$
   \State $\mathcal{S}\gets$ the first $n_b$ candidates, with $n_b$ from \eqref{eq:batch}
 \Else
-  \State $\mathcal{H}^{\mathrm{exp}}\gets$ quality-screened candidates by \eqref{eq:prefilter-exp}
-  \State Compute $A_{\mathrm{exp}}=\widetilde R+0.30\widetilde U$ within $\mathcal{H}^{\mathrm{exp}}$
-  \State $\mathcal{S}\gets\operatorname{Top}_{n_b}(\mathcal{H}^{\mathrm{exp}};A_{\mathrm{exp}})$ by \eqref{eq:batch-ranking}
+  \State $\mathcal{H}^{\mathrm{amb}}\gets$ quality-screened candidates by \eqref{eq:prefilter-exp}
+  \State Compute $A_{\mathrm{amb}}=\widetilde R+0.30\widetilde U$ within $\mathcal{H}^{\mathrm{amb}}$
+  \State $\mathcal{S}\gets\operatorname{Top}_{n_b}(\mathcal{H}^{\mathrm{amb}};A_{\mathrm{amb}})$ by \eqref{eq:batch-ranking}
 \EndIf
 \State \Return $\mathcal{S}$
 \end{algorithmic}
@@ -767,7 +769,7 @@ In CDIS, scoring one candidate requires $2N$ network inputs of
 dimension $2D$, so the pool costs $O(N_cND)$ in data construction and
 prediction, which dominates the module. The indicator fitness costs $O(N^2M)$,
 the indicator-oriented mode adds one SVR fit on the $N$ evaluated solutions plus
-predictions on the screened subset. Sorting the exploration acquisition in
+predictions on the screened subset. Sorting the ambiguity-rewarded acquisition in
 \eqref{eq:batch-ranking} costs $O(N_c\log N_c)$.
 The corresponding cost, excluding surrogate fitting, is
 $O(N_cND+N^2M+N_c\log N_c)$.
@@ -797,32 +799,23 @@ check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode se
 The main performance study covers DTLZ1--DTLZ7 and WFG1--WFG9 with
 $M\in\{10,15,20\}$, giving 48 problem--objective configurations. These
 settings target expensive optimization with relatively large numbers of
-objectives. All experiments were conducted in PlatEMO~\cite{ref:platemo},
+objectives. The main comparison uses PlatEMO~\cite{ref:platemo},
 with a configured population size of $N=100$ and a maximum budget of
-$FE_{\max}=300$ real function evaluations, including initialization.
+$FE_{\max}=500$ real function evaluations, including initialization.
 The decision dimension was $D=30$, except for WFG2 and WFG3 at
 $M=10$ and $M=20$, where the problem definitions required $D=31$.
 All 15-objective instances used $D=30$.
 
 \paragraph{Compared algorithms.}
 PACDIS is compared with six surrogate-assisted algorithms:
-REMO~\cite{ref:remo}, PIEA~\cite{ref:piea}, CSEA~\cite{ref:csea},
-PC-SAEA~\cite{ref:pcsaea}, K-RVEA~\cite{ref:krvea} and
-MCEA/D~\cite{ref:mcead}. REMO and PC-SAEA provide relation-learning and
-pairwise-comparison baselines, respectively. PIEA represents indicator-based
-surrogate modeling, CSEA uses classification, K-RVEA combines Kriging with
-reference-vector-guided search, and MCEA/D uses multiple classifiers within
-a decomposition framework. This set compares PACDIS with related learning
-mechanisms as well as alternative surrogate and selection strategies.
-
-For PC-SAEA and K-RVEA, the initial number of real evaluations was set to
-$N_{\mathrm{init}}=100$ at all three objective counts to leave search budget
-within the 300-evaluation limit. These variants are recorded as
-\texttt{PCSAEA\_N100} and \texttt{KRVEA\_100} in the experiment exports.
-The tables use their conventional algorithm names for brevity.
-This initialization setting is distinct from the configured population size
-$N$. The PACDIS results correspond to the implementation recorded as
-\texttt{REMO\_\allowbreak UniformMix\_\allowbreak Pruned\_\allowbreak Weighted\_\allowbreak Lambdat030\_\allowbreak NoBatchDist}.
+REMO~\cite{ref:remo}, SSDE~\cite{ref:ssde}, PC-SAEA~\cite{ref:pcsaea},
+SAMOEA-TL2M~\cite{ref:samoeatl2m}, CSEA~\cite{ref:csea}, and
+HES-EA~\cite{ref:hesea}. REMO learns pairwise relations, SSDE uses a
+self-organizing surrogate, and PC-SAEA uses pairwise comparison. SAMOEA-TL2M
+uses two-level model management, CSEA uses classification, and HES-EA combines
+hierarchical and ensemble surrogates with model reduction. The configured
+population size $N$ does not specify a common initialization count across
+these implementations.
 
 \paragraph{PACDIS parameters.}
 The same configuration is used across all three objective counts:
@@ -830,7 +823,7 @@ $g_{\max}=3000$, $p_{\mathrm{mix}}=0.50$, $r_g=0.25$,
 $q_{\mathrm{keep}}=0.70$, and $n_{\max}=6$.
 The fixed internal constants are the ambiguity weight $\lambda=0.30$,
 indicator shortlist fraction $q_{\mathrm{rel}}=0.30$, and continuous-PBI
-penalty $\theta=5$. This version has no batch-distance weight.
+penalty $\theta=5$.
 The requested representative count is
 \begin{equation}
 k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
@@ -854,71 +847,84 @@ smaller values indicating a better approximation to the reference Pareto
 front. Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} group the results by
 problem, with three rows for $M=10$, 15 and 20. Each entry reports the mean
 above the standard deviation in parentheses. The cell with the lowest mean
-among the seven retained algorithms is bold. The pairwise statistical annotations
-are retained from the PlatEMO exports. A $+$ indicates that the baseline
-was reported as better than PACDIS, a $-$ indicates that it was reported as
-worse, and an $=$ indicates no detected difference. The bottom row of each
-table counts these symbols in the order $+/-/=$ for each baseline across
-all problem--objective configurations in that table. These counts summarize
-the supplied pairwise outcomes and are not a separate omnibus test across problems.
+among the seven retained algorithms has a light gray background. The pairwise
+statistical annotations come from the supplied workbooks. A $+$ indicates
+that the baseline was reported as better than PACDIS, a $-$ indicates that it
+was reported as worse, and an $=$ indicates no detected difference. The bottom
+row of each table counts these symbols in the order $+/-/=$ for each baseline
+across all problem--objective configurations in that table. These counts
+summarize the supplied pairwise outcomes and are not a separate omnibus test
+across problems.
 
-The main tables use run identifiers 1--20. A file-level audit reproduces all
-336 means and standard deviations from cached IGD$^+$ values at the displayed
-precision. All 960 NoBatchDist runs end at 300 evaluations. REMO and CSEA
-end between 300 and 311 evaluations in these tables; the other four baselines
-end at 300. The configured budget therefore does not imply identical actual
-terminal FE for every algorithm.
-\TODO{Document the IGD$^+$ reference sets and execution environment, and
-complete the statistical-protocol audit. The M=15/20 exporters use rank-sum
-tests at 0.05 without multiple-comparison adjustment; verify the M=10 export
-and specify the correction policy for final inference.}
+The tables use available runs with identifiers 1--20. All 48 PACDIS cells
+contain 20 runs. At $M=15$, REMO cells contain 10--20 runs; at $M=20$, the
+REMO, PC-SAEA, CSEA, and HES-EA cells contain 18--20, 17--20, 19--20, and
+17--20 runs, respectively. All other cells contain 20 runs. Thus, the
+reported means and standard deviations do not all have the same sample size.
+The export script applies an unpaired rank-sum test at $p<0.05$ without a
+multiple-comparison adjustment. We retain its symbols without interpreting
+them as adjusted significance. We configure a 500-evaluation budget;
+actual terminal FE can differ across implementations.
+\TODO{Document the IGD$^+$ reference sets, execution environment, and actual
+terminal FE by algorithm. Audit the rank-sum export when sample sizes differ
+and specify a multiple-comparison policy for final inference.}
 
 \subsection{Comparison with the Six Baseline Algorithms}
 \label{sec:exp:comparison}
 
-Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the supplied results
-for the NoBatchDist implementation. PACDIS has the lowest mean IGD$^+$
-on 4, 2 and 3 of the 16 problems at $M=10$, 15 and 20, respectively.
-These best means occur on WFG7 and WFG8 at all three objective counts,
-additionally on WFG1 and WFG2 at 10 objectives and on WFG6 at 20
-objectives.
+Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the 500-evaluation
+comparison. PACDIS has the lowest mean IGD$^+$ on 7, 5, and 4 of the 16
+problems at $M=10$, 15, and 20, respectively. These best means occur on
+DTLZ4, DTLZ6, WFG2, and WFG7 at all three objective counts.
 
 \input{experiments/main_performance/table_dtlz}
 \input{experiments/main_performance/table_wfg}
 
-The REMO columns have $+/-/=$ counts of 1/10/5, 2/9/5 and 3/8/5
-at $M=10$, 15 and 20. CSEA, PC-SAEA, K-RVEA and MCEA/D also have
-more reported losses than wins against PACDIS in each objective setting.
-The comparison with PIEA is less favorable: its corresponding counts are
-7/6/3, 7/6/3 and 5/7/4. Thus, the results indicate competitive performance
-against the selected baselines, with a stronger pattern on WFG than DTLZ;
-they do not establish overall superiority to PIEA.
+HES-EA has the lowest mean on DTLZ5, DTLZ7, and WFG8 at all three objective
+counts. Its $+/-/=$ counts against PACDIS are 6/8/2, 5/8/3, and 5/7/4 at
+$M=10$, 15, and 20. REMO's corresponding counts are 1/9/6, 2/9/5, and
+3/9/4. SSDE, PC-SAEA, SAMOEA-TL2M, and CSEA each have more reported losses
+than wins against PACDIS at every objective count. WFG3 remains a weakness:
+PACDIS has no lowest mean there, and several baselines receive $+$ annotations.
+These results describe complete-algorithm performance under the selected
+budget. They do not attribute the differences to PAQC or CDIS individually.
 
-PIEA has a lower mean IGD$^+$ than PACDIS on DTLZ5 and DTLZ6 at all three
-objective counts, and MCEA/D has the lowest mean on DTLZ3 at 15 and 20
-objectives. WFG3 is another persistent weakness: REMO, PIEA, CSEA and MCEA/D
-all have lower means than PACDIS in the three settings.
-K-RVEA remains stronger on DTLZ7. These counterexamples delimit the
-performance claim and motivate component-level evidence rather than an
-assumption that the complete-algorithm results demonstrate PAQC's effect.
-
+\clearpage
 \subsection{Component Ablation of PAQC and CDIS}
 \label{sec:exp:ablation}
 
-The final-version ablation uses NoBatchDist as Full and compares it with
-Full without PAQC and Full without CDIS. Each control retains the shared
-initialization, relation training, environmental selection, and evaluation
-cap. The PAQC control replaces group construction while retaining the
-NoBatchDist selection rule. The CDIS control retains PAQC and uses a
-predefined relation-only candidate rule under the same batch cap.
+We assess PAQC and CDIS through two controls of the current PACDIS
+implementation (Full). The w/o PAQC control uses REMO's
+representative-based grouping to form relation-training labels and retains
+CDIS. The control labeled w/o CDIS retains PAQC and fixes selection to the
+ambiguity-rewarded relation criterion. It removes the indicator branch and
+criterion switching while retaining CDIS's ambiguity criterion. Full and both
+controls retain the same relation model,
+environmental selection, batch-size cap, and absence of within-batch distance.
 
-Earlier exports contain Lambdat030 and other historical implementations.
-Their candidate rules and actual evaluation counts differ from this
-protocol, so those exports provide historical comparisons only.
-\TODO{Complete the two deletion controls at $M=10$ and 20, using 20 runs
-per problem and IGD$^+$. Audit the existing Full runs before reuse and test
-both controls directly against Full. Record the replacement boundaries,
-source hashes, seeds, thread settings, and actual terminal FE.}
+We evaluate DTLZ1--7 and WFG1--9 at $M=10$ and 20, with $N=100$ and a
+300-evaluation cap that includes initialization. Each configuration has 20
+independent runs. Full and the two controls end at 300 evaluations.
+We measure the final populations with IGD$^+$ and compare each control with
+Full using a two-sided, unpaired Wilcoxon rank-sum test at $p<0.05$. We make
+no multiple-comparison adjustment to the reported symbols. We also show REMO
+with $k=15$ and 30 at $M=10$ and 20 as a contextual baseline. Its archived
+runs can exceed 300 evaluations, so we exclude REMO from module attribution.
+This study uses a separate budget from the 500-evaluation main comparison.
+
+Tables~\ref{tab:ablation_igdplus_dtlz} and~\ref{tab:ablation_igdplus_wfg}
+report the results. The tests favor Full over w/o CDIS on 12 of 32
+configurations and over w/o PAQC on 10 of 32 configurations. They favor the
+controls on three and two configurations, respectively; the others carry
+no reported difference. Fixed ambiguity-only selection improves IGD$^+$ on
+DTLZ6 at both objective counts and DTLZ7 at $M=10$. Replacing PAQC grouping
+improves it on WFG3 at both objective counts. PAQC grouping and CDIS's added
+indicator and switching path therefore have problem-dependent effects on final
+IGD$^+$. The w/o CDIS control retains the ambiguity criterion, so this
+comparison does not measure the removal of all CDIS selection logic. These
+results neither establish equal effect sizes nor a statistical interaction.
+
+\input{experiments/ablation/table_ablation_igdp}
 
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
@@ -951,64 +957,63 @@ tie rule, sample coverage and run-level aggregation; insert GGP results
 and uncertainty. Verify version and budget compatibility before reusing
 historical checkpoints.}
 
-The earlier Lambdat030 GGP study uses 150 runs on DTLZ2, DTLZ4 and DTLZ5
-at $M=10$ and 20 with a 500-evaluation budget. It remains a separate
-historical trajectory study. NoBatchDist changes selection and hence the
-future-retention outcome even though PAQC retains the same grouping rule.
+\subsection{Evaluated-Candidate Quality Analysis of CDIS}
+\label{sec:exp:cdis-quality}
 
-% Queue the full-page panel figure before the next page is composed.
-\input{figures/figure_convergence.tex}
+The CDIS mechanism analysis will examine the quality of candidates selected
+for expensive evaluation, complementing the PAQC analysis of training groups.
+\TODO{Compare the ambiguity-oriented criterion, the indicator-oriented
+criterion, and relation-only ranking on matched evaluated-population
+checkpoints and a common candidate pool, with identical batch caps. Use the
+fraction of selected candidates retained by the next environmental selection
+as the primary outcome. Specify how to evaluate the union of selected batches
+under a separate diagnostic budget, fix the archive and outcome definition,
+and aggregate paired comparisons at run level. Report coverage and uncertainty.
+This fixed-pool comparison isolates final selection; the performance ablation
+also includes mode-dependent candidate generation. No CDIS mechanism results
+are available in this draft.}
+
+% Queue the historical sensitivity table before the full-page panel figure.
+\input{experiments/pmix_historical_table}
 
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
 
-Equation~\eqref{eq:mode} retains $p_{\mathrm{mix}}=0.5$ as the default.
-The existing five-setting sensitivity experiment uses Lambdat030 with batch
-distance and IGD. Its rankings do not establish a preferred setting for
-NoBatchDist under IGD$^+$.
-\TODO{Evaluate the two endpoint settings, $p_{\mathrm{mix}}=0$ and 1,
-against the default on the same six problems at $M=10$ and 20.
-Reuse default runs only after checking their protocol. Reuse old endpoint
-runs only with evidence that every executed selection path is equivalent;
-$p_{\mathrm{mix}}=1$ still permits exploration when the indicator model fails.}
+Equation~\eqref{eq:mode} sets $p_{\mathrm{mix}}=0.5$ as the default.
+Table~\ref{tab:exp:pmix} restores the earlier five-setting IGD experiment
+for Lambdat030 with batch distance. These historical results do not establish
+the sensitivity of the current NoBatchDist configuration under IGD$^+$.
+\TODO{Evaluate $p_{\mathrm{mix}}=0$, 0.5, and 1 with the current PACDIS
+configuration and IGD$^+$ under matched problems, seeds, initialization,
+and evaluation budgets at $M=10$ and 20. Specify the problem subset before
+running the experiment and verify the protocol before reusing default runs.
+Record indicator-model failures: $p_{\mathrm{mix}}=1$ still permits the
+ambiguity-oriented mode when the indicator surrogate is unavailable.
+Insert current-configuration results before drawing sensitivity conclusions.}
 
-\subsection{Convergence Behavior}
-\label{sec:exp:convergence}
-
-Figure~\ref{fig:exp:convergence} uses the cached IGD$^+$ trajectories of
-NoBatchDist and the six baselines on WFG7 and WFG8. The source files match
-the main-table run identifiers 1--20. We retain the earlier choice of
-problems to keep the figure's scope fixed during the version update.
-
-The horizontal axis counts actual evaluations, including initialization.
-We align snapshots on a unit-FE grid using the latest recorded value at or
-before each grid point, and draw vertices every 25 evaluations up to 300.
-The display starts at 95 and does not extend traces beyond their last
-snapshot. For runs that finish after 300 evaluations, the value at 300
-comes from the latest snapshot within the budget; it can differ from the
-terminal value in the main table.
-
-At 300 evaluations, PACDIS has the lowest median IGD$^+$ in five of the
-six panels. K-RVEA has the lowest median on WFG8 at $M=20$
-(17.736 versus 17.981 for PACDIS). Thus, the mean-based advantage in the
-main tables does not imply the lowest median in every panel.
+\TODO{Rebuild the convergence figure from the six current baselines with the
+500-evaluation budget and document the available run counts. The existing
+300-evaluation figure uses the previous baseline set, so we exclude it here.}
 
 
 % Experimental floats are queued early enough to precede the conclusion.
 \section{Conclusion}
 \label{sec:conclusion}
-PAQC supplements REMO's representative-based grouping with PBI-based quality information
-from directions constructed directly from the current nondominated set.
-The motivation is that representatives selected through a two-dimensional
-radial grid may not fully reflect the distribution in the original
-high-dimensional objective space. PAQC combines the two information sources to form
-the positive training group, while CDIS supports batch selection under a limited
-evaluation budget.
+PACDIS modifies supervision construction and expensive-evaluation allocation
+in relation-based surrogate-assisted optimization. PAQC combines
+representative-based grouping with directional quality information obtained
+from the current nondominated set to construct positive training groups.
+CDIS allocates expensive evaluations through ambiguity-oriented and
+indicator-oriented candidate-selection criteria after relation-quality
+screening. The reported ablation comparisons suggest that both components
+benefit the complete algorithm on different problems, with no uniform
+component dominance. These results support treating PAQC and CDIS as
+complementary mechanisms at the two interfaces.
 
-\TODO{ State the strongest verified algorithm-level
-result and its benchmark scope. Close by connecting the group-composition and
-candidate-batch findings to these two design roles, keeping empirical performance
-claims at the level supported by their matched comparisons.}
+\TODO{Complete the statistical and provenance audits before writing the
+performance conclusions. Add the matched group-quality and candidate-quality
+findings when available, and distinguish these mechanism diagnostics from
+final IGD$^+$ performance.}
 
 \begin{thebibliography}{99}
 
@@ -1040,17 +1045,38 @@ M.~Li, S.~Yang, and X.~Liu,
 many-objective optimization,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~18, no.~3, pp.~348--365, 2014.
 
+\bibitem{ref:ssde}
+A.~F.~R. Ara\'ujo, L.~R.~C. Farias, and A.~R.~C. Gon\c{c}alves,
+``Self-organizing surrogate-assisted non-dominated sorting differential
+evolution,'' \emph{Swarm Evol. Comput.}, vol.~91, art.~101703, 2024.
+\href{https://doi.org/10.1016/j.swevo.2024.101703}{doi:10.1016/j.swevo.2024.101703}.
+
 \bibitem{ref:pcsaea}
 Y.~Tian, J.~Hu, C.~He, H.~Ma, L.~Zhang, and X.~Zhang,
 ``A pairwise comparison based surrogate-assisted evolutionary algorithm for
 expensive multi-objective optimization,''
 \emph{Swarm Evol. Comput.}, vol.~80, art.~101323, 2023.
 
+\bibitem{ref:samoeatl2m}
+Y.~Liu, J.~Ding, Q.~Li, F.~Li, and J.~Liu,
+``A two-level model management-based surrogate-assisted evolutionary
+algorithm for medium-scale expensive multiobjective optimization,''
+\emph{IEEE Trans. Syst., Man, Cybern.: Syst.}, vol.~55, no.~11,
+pp.~8166--8180, 2025.
+\href{https://doi.org/10.1109/TSMC.2025.3604949}{doi:10.1109/TSMC.2025.3604949}.
+
 \bibitem{ref:csea}
 L.~Pan, C.~He, Y.~Tian, H.~Wang, X.~Zhang, and Y.~Jin,
 ``A classification based surrogate-assisted evolutionary algorithm for
 expensive many-objective optimization,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~23, no.~1, pp.~74--88, 2019.
+
+\bibitem{ref:hesea}
+Q.-T. Yang, J.-Y. Li, Z.-H. Zhan, Y.~Jiang, Y.~Jin, and J.~Zhang,
+``A hierarchical and ensemble surrogate-assisted evolutionary algorithm
+with model reduction for expensive many-objective optimization,''
+\emph{IEEE Trans. Evol. Comput.}, vol.~29, no.~6, pp.~2491--2505, 2025.
+\href{https://doi.org/10.1109/TEVC.2024.3440354}{doi:10.1109/TEVC.2024.3440354}.
 
 \bibitem{ref:krvea}
 T.~Chugh, Y.~Jin, K.~Miettinen, J.~Hakanen, and K.~Sindhya,
