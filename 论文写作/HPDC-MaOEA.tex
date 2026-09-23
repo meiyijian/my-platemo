@@ -248,15 +248,10 @@ change how its training groups are formed and how its surrogate scores are used.
 \label{sec:method:framework}
 
 We consider the expensive many-objective problem
-\begin{equation}
-\min_{\vx\in\Omega}\;
-\vf(\vx)=\bigl[f_1(\vx),\ldots,f_M(\vx)\bigr],
-\qquad
-\Omega\subseteq\mathbb{R}^{D},
-\label{eq:problem}
-\end{equation}
-in which every evaluation of $\vf$ is expensive, so the number of real function
-evaluations is limited to a budget $FE_{\max}$. Let $FE$ be the number of
+$\min_{\vx\in\Omega}\vf(\vx)=[f_1(\vx),\ldots,f_M(\vx)]$,
+where $\Omega\subseteq\mathbb{R}^{D}$ and every evaluation of $\vf$ is
+expensive. The number of real function evaluations is therefore limited to a
+budget $FE_{\max}$. Let $FE$ be the number of
 evaluations consumed so far and $t=FE/FE_{\max}\in[0,1]$ the evaluation
 progress, which controls the hybrid score in PAQC.
 
@@ -389,25 +384,20 @@ nondominated solutions, or a degenerate objective range in the nondominated set.
 
 Each objective vector is associated with the direction of largest cosine
 similarity, $a(i)=\arg\max_j
-\vf_i^{\mathsf T}\vv_j/(\|\vf_i\|_2\|\vv_j\|_2)$, and the conventional
-PBI value~\cite{ref:moead} along that direction is
+\vf_i^{\mathsf T}\vv_j/(\|\vf_i\|_2\|\vv_j\|_2)$. The conventional
+PBI value~\cite{ref:moead} and its bounded PAQC quality signal are
 \begin{equation}
 \begin{aligned}
 d_{1,i}&=(\vf_i-\vz^{*})^{\mathsf T}\vv_{a(i)}\big/\|\vv_{a(i)}\|_2,\\
 d_{2,i}&=\bigl\|(\vf_i-\vz^{*})
         -d_{1,i}\,\vv_{a(i)}/\|\vv_{a(i)}\|_2\bigr\|_2,\\
-g_i^{\mathrm{PBI}}&=d_{1,i}+\theta\,d_{2,i},
+g_i^{\mathrm{PBI}}&=d_{1,i}+\theta\,d_{2,i},\\
+S_i&=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 \end{aligned}
 \label{eq:pbi}
 \end{equation}
-with penalty $\theta$. PAQC maps this PBI value to a bounded quality signal:
-\begin{equation}
-S_i=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
-\label{eq:score-cont}
-\end{equation}
-so a larger $S_i$ indicates a smaller PBI value along the associated direction.
-This transformation expresses the directional assessment as a bounded signal
-for fusion with the representative-based label during group construction.
+where $\theta$ is the penalty parameter. A larger $S_i$ indicates a smaller
+PBI value along the associated direction.
 
 \subsubsection{Representative-Based Grouping Signal}
 \label{sec:method:paqc:coarse}
@@ -445,27 +435,20 @@ occupancy on both sides across changing population states.
 
 The representative-based label describes membership relative to the selected
 reference solutions, while the nondominated-derived directions supply additional
-quality information from the original objective space. PAQC combines these two
-information sources with a weight that follows consumption of the expensive budget. With
-$t=FE/FE_{\max}$ and $\alpha_t=1-t$, the hybrid quality score of solution $i$ is
+quality information from the original objective space. With
+$t=FE/FE_{\max}$, PAQC defines the hybrid quality score and the two groups as
 \begin{equation}
-H_i=\alpha_t S_i+(1-\alpha_t)L_i ,
-\qquad
-\alpha_t=1-t ,
-\label{eq:fuse}
-\end{equation}
-and the positive group collects the highest-ranked fraction $r_g$ of the
-population,
-\begin{equation}
-\mathcal{C}_1=\bigl\{\vx_i\;\big|\;
-\operatorname{rank}_{\downarrow}(H_i)\leq\lceil r_gN\rceil\bigr\},
-\qquad
-\mathcal{C}_2=\mathcal{P}\setminus\mathcal{C}_1 .
+\begin{aligned}
+H_i&=(1-t)S_i+tL_i,\\
+\mathcal{C}_1&=\bigl\{\vx_i\in\mathcal{P}\;\big|\;
+  \operatorname{rank}_{\downarrow}(H_i)\leq\lceil r_gN\rceil\bigr\},\\
+\mathcal{C}_2&=\mathcal{P}\setminus\mathcal{C}_1 .
+\end{aligned}
 \label{eq:group}
 \end{equation}
-With $r_g<1/2$ the non-positive group $\mathcal{C}_2$ provides a broad contrast
-set, while the compact positive group concentrates pairwise supervision on the
-highest-priority portion of the population.
+With $r_g<1/2$, the compact positive group concentrates pairwise supervision on
+the highest-ranked fraction of the population, while $\mathcal{C}_2$ provides a
+broad contrast set.
 
 Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
 signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
@@ -476,7 +459,7 @@ assessment through $S_i$, rather than directly defining a new classification
 boundary. The reassignment of $A$ and $B$ to the positive
 group and of $C$ to its complement schematically depicts how the additional
 directional information can change selection priorities through
-\eqref{eq:fuse}--\eqref{eq:group}. PAQC therefore modifies the ranking used to form
+\eqref{eq:group}. PAQC therefore modifies the ranking used to form
 the groups, without replacing the representative-based boundary with a new
 geometric boundary.
 
@@ -500,7 +483,7 @@ $\lceil r_gN\rceil$ members.
 \Require evaluated population $\mathcal{P}$, progress $t$
 \Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
 \State Construct $\mathcal{V}$ and associate solutions by cosine similarity
-\State Compute directional quality signal $S_i$ by \eqref{eq:pbi}--\eqref{eq:score-cont}
+\State Compute directional quality signal $S_i$ by \eqref{eq:pbi}
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
 \State Obtain representative-based labels $L_i$ by \eqref{eq:label-bin}
 \State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
@@ -510,20 +493,11 @@ $\lceil r_gN\rceil$ members.
 \end{algorithmic}
 \end{algorithm}
 
-The fusion connects the two information sources to relation learning through the
-chain
-\begin{equation*}
-\begin{aligned}
-&\text{signals }(S,L)\;\rightarrow\;\text{positive-group construction}\\
-&\qquad\rightarrow\;\text{relation-pair construction},
-\end{aligned}
-\end{equation*}
-so a change in the ranking matters insofar as it changes
-which solutions enter $\mathcal{C}_1$ and therefore which ordered pairs the
-relation model uses for training. Early in the search, directional quality
-receives more weight in group construction; as the search consumes the budget,
-representative-based membership becomes dominant. The group-quality analysis in
-Section~\ref{sec:exp:ggp} will examine whether this weighting improves positive-group quality.
+By changing membership of $\mathcal{C}_1$, the fusion changes the ordered pairs
+used to train the relation model. As $FE$ increases, group construction shifts
+from directional quality toward representative-based membership; the
+group-quality analysis in Section~\ref{sec:exp:ggp} examines the resulting
+positive-group quality.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -609,72 +583,36 @@ family-wise averages of \eqref{eq:relscore}. This pair-level confidence
 weighting reduces the influence of unreliable relation predictions when
 estimating candidate quality.
 
-Candidates at or above the $q_{\mathrm{keep}}$ quantile of the relation score
-form
-\begin{equation}
-\mathcal{H}^{\mathrm{amb}}=
-\bigl\{\vx\in\mathcal{A}: R(\vx)\geq
-Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\bigr\}.
-\label{eq:prefilter-exp}
-\end{equation}
-With $q_{\mathrm{keep}}=0.70$, this screen usually retains the highest-scoring
-30\% of the pool; ties can increase that fraction. Ambiguity is
-considered only after this quality screen, so a candidate with poor predicted
-relation quality cannot enter the evaluation batch solely because of high
-prediction uncertainty.
+Candidates whose relation scores are at or above the
+$q_{\mathrm{keep}}$-quantile of $R(\mathcal{A})$ form
+$\mathcal{H}^{\mathrm{amb}}$, with $q_{\mathrm{keep}}=0.70$. In the absence of
+ties, this screen retains the highest-scoring 30\% of the pool; ties can
+increase that fraction. Ambiguity is considered only after this quality
+screen, so a candidate cannot enter the batch solely because of high predicted
+ambiguity.
 
-To distinguish candidates within the retained set, we additionally measure the
-ambiguity of the relation predictions. Let $\mathcal{O}(\vx)$ denote all ordered
-comparisons constructed between candidate $\vx$ and the positive and
-non-positive training groups, and let $\pi_k(\vu,\vv)$ be the predicted
+To distinguish candidates within the retained set, let $\mathcal{O}(\vx)$
+denote all ordered comparisons between candidate $\vx$ and the positive and
+non-positive training groups. Let $\pi_k(\vu,\vv)$ be the predicted
 probability of relation class $k\in\{-1,0,+1\}$ for an ordered pair
-$(\vu,\vv)$. The candidate-level ambiguity is defined as
+$(\vu,\vv)$. The candidate-level ambiguity and the acquisition score within
+$\mathcal{H}^{\mathrm{amb}}$ are
 \begin{equation}
-U(\vx)=
-1-\frac{1}{|\mathcal{O}(\vx)|}
-\sum_{(\vu,\vv)\in\mathcal{O}(\vx)}
-\max_{k\in\{-1,0,+1\}}\pi_k(\vu,\vv).
-\label{eq:ambiguity}
-\end{equation}
-Hence, $U(\vx)$ becomes large when the relation network is less decisive over
-the comparisons associated with $\vx$.
-
-Within $\mathcal{H}^{\mathrm{amb}}$, the relation score and ambiguity are
-min--max normalized and combined as
-\begin{equation}
-A_{\mathrm{amb}}(\vx)
-=\widetilde{R}(\vx)+\lambda\,\widetilde{U}(\vx),
-\qquad \lambda=0.30,
+\begin{aligned}
+U(\vx)&=1-\frac{1}{|\mathcal{O}(\vx)|}
+  \sum_{(\vu,\vv)\in\mathcal{O}(\vx)}
+  \max_{k\in\{-1,0,+1\}}\pi_k(\vu,\vv),\\
+A_{\mathrm{amb}}(\vx)&=\widetilde{R}(\vx)+\lambda\,\widetilde{U}(\vx),
+  \qquad \lambda=0.30.
+\end{aligned}
 \label{eq:expscore}
 \end{equation}
-where a constant quantity is assigned the normalized value $0.5$. The fixed
-ambiguity weight $\lambda$ provides a moderate preference for candidates whose
-predicted relations remain uncertain while preserving relation quality as the
-dominant component of the ambiguity-rewarded acquisition. The weight
-$\lambda$ remains constant throughout optimization.
-
-The confidence weighting used in $R(\vx)$ and the ambiguity reward in
-\eqref{eq:expscore} serve complementary purposes. The former stabilizes the
-quality estimate by reducing the contribution of uncertain pairwise
-predictions, whereas the latter uses the remaining candidate-level ambiguity as
-an exploration signal after the quality requirement has already been
-satisfied. Thus, uncertainty does not replace the relation-quality criterion
-but refines the choice among candidates that have passed the quality screen.
-
-The ambiguity-oriented branch sorts $\mathcal{H}^{\mathrm{amb}}$ by descending
-$A_{\mathrm{amb}}$ and returns the first $n_b$ candidates:
-\begin{equation}
-\mathcal{S}=\operatorname{Top}_{n_b}
-\bigl(\mathcal{H}^{\mathrm{amb}};A_{\mathrm{amb}}\bigr).
-\label{eq:batch-ranking}
-\end{equation}
-Here $\operatorname{Top}_{n_b}$ returns an ordered list and preserves candidate
-order for exact score ties. Equation~\eqref{eq:batch} defines the batch size.
-
-The quality screen restricts the eligible set, and the ambiguity reward
-changes the ordering within that set. Classification ambiguity supplies a
-selection heuristic; its value alone does not establish objective improvement.
-The component study must assess the final optimization effect of this rule.
+Here tildes denote min--max normalization within
+$\mathcal{H}^{\mathrm{amb}}$, with a constant quantity assigned the normalized
+value $0.5$. Thus, ambiguity refines the relation-score ranking only among
+candidates that pass the quality screen. The ambiguity-oriented branch returns
+the first $n_b$ candidates in descending $A_{\mathrm{amb}}$ order, preserving
+candidate order for exact ties.
 
 \subsubsection{Indicator-Based Infill}
 \label{sec:method:cdis:ind}
@@ -683,13 +621,10 @@ The indicator-oriented mode provides an alternative assessment of candidates
 that pass relation-based screening. The quality indicator combines shift-based
 density estimation (SDE)~\cite{ref:sde} with generalized $L_p$ front-shape
 adaptation~\cite{ref:piea} and a finite convergence fallback. We compute this
-indicator for each evaluated solution and train an RBF-SVR model to predict it
-from decision vectors,
-\begin{equation}
-\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D}),\qquad
-\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}.
-\label{eq:svr}
-\end{equation}
+indicator $I_i$ for each solution in the current population and train an
+RBF-SVR, denoted by $\mathcal{M}_I$, on
+$\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; its prediction is written
+$\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D})$.
 The relation score first retains the top
 $\lceil q_{\mathrm{rel}}|\mathcal{A}|\rceil$ candidates, with
 $q_{\mathrm{rel}}=0.30$, to form $\mathcal{H}^{\mathrm{ind}}$.
@@ -715,12 +650,10 @@ m=\begin{cases}
 where $p_{\mathrm{mix}}=0.5$. One intact criterion is used per iteration;
 the two scores need not be combined into a single ranking. This is a fixed
 probability rule, with the ambiguity-oriented mode as the fallback when the indicator
-surrogate is unavailable. The feasible batch size is
-\begin{equation}
-n_b=\min\bigl(n_{\max},|\mathcal{H}^{m}|,FE_{\max}-FE\bigr),
-\label{eq:batch}
-\end{equation}
-with $n_{\max}=6$. A small retained set produces a smaller batch; it is not
+surrogate is unavailable. Let $\mathcal{H}$ denote the retained set selected by
+the current mode. The feasible batch size is
+$n_b=\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$, with $n_{\max}=6$.
+A small retained set produces a smaller batch; it is not
 completed to a prescribed minimum. If the pool is empty, genetic variation
 provides fallback candidates, which are deduplicated and truncated to the same
 cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
@@ -737,14 +670,14 @@ before its real evaluation and the corresponding $FE$ update.
 \State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
 \State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
 \If{$m=\mathrm{ind}$}
-  \State $\mathcal{H}^{\mathrm{ind}}\gets$ top $q_{\mathrm{rel}}$ fraction by $R$
-  \State Rerank $\mathcal{H}^{\mathrm{ind}}$ by indicator predictions $\widehat I$
-  \State $\mathcal{S}\gets$ the first $n_b$ candidates, with $n_b$ from \eqref{eq:batch}
+  \State $\mathcal{H}\gets$ top $q_{\mathrm{rel}}$ fraction by $R$
+  \State Rerank $\mathcal{H}$ by $\widehat I$, falling back to $R$ if needed
 \Else
-  \State $\mathcal{H}^{\mathrm{amb}}\gets$ quality-screened candidates by \eqref{eq:prefilter-exp}
-  \State Compute $A_{\mathrm{amb}}=\widetilde R+0.30\widetilde U$ within $\mathcal{H}^{\mathrm{amb}}$
-  \State $\mathcal{S}\gets\operatorname{Top}_{n_b}(\mathcal{H}^{\mathrm{amb}};A_{\mathrm{amb}})$ by \eqref{eq:batch-ranking}
+  \State $\mathcal{H}\gets\{\,\vx\in\mathcal{A}:R(\vx)\geq Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\,\}$
+  \State Compute $A_{\mathrm{amb}}$ within $\mathcal{H}$ by \eqref{eq:expscore}
 \EndIf
+\State $n_b\gets\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$
+\State $\mathcal{S}\gets$ the first $n_b$ candidates in $\mathcal{H}$ under the selected ranking
 \State \Return $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
@@ -757,7 +690,7 @@ size of the deduplicated candidate pool, $D$ the number of decision variables
 and $M$ the number of objectives.
 
 In PAQC, association and the continuous PBI computation
-\eqref{eq:pbi}--\eqref{eq:score-cont} cost $O(NN_vM)$, the direction set
+\eqref{eq:pbi} cost $O(NN_vM)$, the direction set
 \eqref{eq:direction} costs one normalisation of the nondominated vectors, the
 bounded bisection of \eqref{eq:label-bin} costs $O(B_\delta NkM)$ with
 $B_\delta$ fixed by the bracket and the tolerance, and representative selection
@@ -769,8 +702,8 @@ In CDIS, scoring one candidate requires $2N$ network inputs of
 dimension $2D$, so the pool costs $O(N_cND)$ in data construction and
 prediction, which dominates the module. The indicator fitness costs $O(N^2M)$,
 the indicator-oriented mode adds one SVR fit on the $N$ evaluated solutions plus
-predictions on the screened subset. Sorting the ambiguity-rewarded acquisition in
-\eqref{eq:batch-ranking} costs $O(N_c\log N_c)$.
+predictions on the screened subset. Sorting the ambiguity-rewarded acquisition
+costs $O(N_c\log N_c)$.
 The corresponding cost, excluding surrogate fitting, is
 $O(N_cND+N^2M+N_c\log N_c)$.
 Neither module directly consumes expensive evaluations. The remaining-budget
