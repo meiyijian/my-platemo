@@ -5,7 +5,7 @@
     {
       "filename": "nobatchdict以PACDIS为基准十目标IGDp.xlsx",
       "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十目标IGDp.xlsx",
-      "sha256": "1e0858143d2c8dfd569150a29520fd470c7571329f857231df0141ad1f774a61",
+      "sha256": "e347b1766b0c024cb98a14f3be35eacec64d24ae039265dc66bfcd55771dc92a",
       "sheet": "IGDp",
       "M": 10,
       "reference_algorithm": "PACDIS",
@@ -137,17 +137,17 @@
       ],
       "exported_summary": {
         "REMO": "1/9/6",
-        "SSDE": "0/14/2",
+        "SSDE": "1/15/0",
         "PC-SAEA": "0/16/0",
-        "SAMOEA-TL2M": "2/13/1",
-        "CSEA": "0/10/6",
-        "HES-EA": "6/7/3"
+        "SAMOEA-TL2M": "2/14/0",
+        "CSEA": "0/14/2",
+        "HES-EA": "6/8/2"
       }
     },
     {
       "filename": "nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
       "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
-      "sha256": "692129a801c3c4a088e6716a174ec4277d061ed1f08590d723cde026d96bca22",
+      "sha256": "fba2acd36c9e147856098e8715d71192cd32bb1b8137b4d56d92f751800a1509",
       "sheet": "IGDp",
       "M": 15,
       "reference_algorithm": "PACDIS",
@@ -278,18 +278,18 @@
         }
       ],
       "exported_summary": {
-        "REMO": "1/8/7",
-        "SSDE": "0/15/1",
-        "PC-SAEA": "0/15/1",
+        "REMO": "2/9/5",
+        "SSDE": "1/15/0",
+        "PC-SAEA": "0/16/0",
         "SAMOEA-TL2M": "1/14/1",
-        "CSEA": "1/9/6",
-        "HES-EA": "4/7/5"
+        "CSEA": "2/11/3",
+        "HES-EA": "5/8/3"
       }
     },
     {
       "filename": "nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
       "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
-      "sha256": "daffa10395171cb6631a8025b7045087ffa9775a74e98dfd17ccf3c783d2a7bc",
+      "sha256": "9eed7fdd54147519d86e5922c093bf22b4af88191cc505fcc30526e115d73c65",
       "sheet": "IGDp",
       "M": 20,
       "reference_algorithm": "PACDIS",
@@ -420,12 +420,12 @@
         }
       ],
       "exported_summary": {
-        "REMO": "2/9/5",
+        "REMO": "3/9/4",
         "SSDE": "1/15/0",
         "PC-SAEA": "0/15/1",
         "SAMOEA-TL2M": "1/15/0",
-        "CSEA": "1/8/7",
-        "HES-EA": "2/7/7"
+        "CSEA": "2/10/4",
+        "HES-EA": "5/7/4"
       }
     }
   ]
