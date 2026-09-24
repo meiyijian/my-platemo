@@ -135,11 +135,12 @@ function cfg = configuration()
     cfg.problems = {'DTLZ1','DTLZ2','DTLZ3','DTLZ4','DTLZ5','DTLZ6','DTLZ7', ...
         'WFG1','WFG2','WFG3','WFG4','WFG5','WFG6','WFG7','WFG8','WFG9'};
     cfg.problemIndex = 1:16;
-    % Ten runs per problem. The batches that were already completed at twenty
-    % runs (SSDE 320/320 and PCSAEA 320/320 on 2026-09-21) are left untouched:
-    % the runner skips any run whose file exists, so runs 1..10 of those two
-    % algorithms are found and nothing is rewritten.
-    cfg.indices = 1:10;
+    % Twenty runs per problem. Files already stored are never rewritten:
+    %   SSDE and PCSAEA already hold run 1..20 (320 files each) from the first
+    %   pass, so they are skipped entirely.
+    %   The other five algorithms hold run 1..10 only and get run 11..20 here.
+    % Anything above run 20 that might exist is simply left untouched.
+    cfg.indices = 1:20;
     cfg.N = 100;
     cfg.M = 15;
     cfg.D = 30;

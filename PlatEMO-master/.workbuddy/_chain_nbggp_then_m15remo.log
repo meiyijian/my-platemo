@@ -1,0 +1,102 @@
+﻿CHAIN START 2026-09-24 00:05:33  waiting for NBGGP to finish
+NBGGP finished, matlab procs = 0 at 01:15:34
+--- finish_NBGGP ---
+Analyzed 160 valid runs. Results: D:\PlatEMO-master\PlatEMO-master\PlatEMO\Experiments\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision\results\analysis\formal
+NoBatchDist GGP formal experiment complete: 160/160 runs.
+finish_NBGGP rc=0 at 01:17:23
+--- M15 REMO topup ---
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..20
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 2240; already present: 2108; to run: 132
+Raising the pool cap from 6 to 12 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+Using 12 process workers (NumThreads=1).
+[   1/ 132] DTLZ3   run 19 FE=500 IGD=422.078 | 27.0 min, 1617.5 s/run, eta 3531.5 min
+[   2/ 132] DTLZ3   run 20 FE=500 IGD=302.65459 | 27.2 min, 816.5 s/run, eta 1769.1 min
+[   3/ 132] DTLZ4   run 11 FE=500 IGD=0.96620833 | 27.5 min, 549.7 s/run, eta 1181.7 min
+[   4/ 132] DTLZ4   run 19 FE=500 IGD=1.01348 | 27.5 min, 412.9 s/run, eta 880.9 min
+[   5/ 132] DTLZ4   run 18 FE=500 IGD=1.0381735 | 27.7 min, 332.6 s/run, eta 703.9 min
+[   6/ 132] DTLZ4   run 13 FE=500 IGD=0.94902594 | 27.7 min, 277.4 s/run, eta 582.5 min
+[   7/ 132] DTLZ4   run 17 FE=500 IGD=0.95140546 | 27.9 min, 239.6 s/run, eta 499.1 min
+[   8/ 132] DTLZ4   run 12 FE=500 IGD=0.96236491 | 28.5 min, 213.4 s/run, eta 441.1 min
+[   9/ 132] DTLZ4   run 14 FE=500 IGD=0.94815616 | 28.5 min, 190.3 s/run, eta 390.1 min
+[  10/ 132] DTLZ4   run 20 FE=500 IGD=0.91422095 | 28.8 min, 172.6 s/run, eta 351.0 min
+[  11/ 132] DTLZ4   run 16 FE=500 IGD=0.95929167 | 28.8 min, 157.0 s/run, eta 316.5 min
+[  12/ 132] DTLZ4   run 15 FE=500 IGD=0.96787552 | 28.8 min, 144.2 s/run, eta 288.4 min
+[  13/ 132] DTLZ5   run 17 FE=500 IGD=0.36225959 | 53.7 min, 247.6 s/run, eta 491.1 min
+[  14/ 132] DTLZ5   run 12 FE=500 IGD=0.37130454 | 53.9 min, 231.0 s/run, eta 454.3 min
+[  15/ 132] DTLZ6   run 12 FE=500 IGD=11.300336 | 54.0 min, 215.9 s/run, eta 421.0 min
+[  16/ 132] DTLZ5   run 16 FE=500 IGD=0.30461062 | 54.0 min, 202.5 s/run, eta 391.6 min
+[  17/ 132] DTLZ5   run 11 FE=500 IGD=0.40094112 | 54.1 min, 190.8 s/run, eta 365.8 min
+[  18/ 132] DTLZ6   run 11 FE=500 IGD=12.73915 | 54.6 min, 181.9 s/run, eta 345.6 min
+[  19/ 132] DTLZ5   run 20 FE=500 IGD=0.36510078 | 54.7 min, 172.6 s/run, eta 325.1 min
+[  20/ 132] DTLZ5   run 15 FE=500 IGD=0.29779646 | 54.7 min, 164.0 s/run, eta 306.1 min
+[  30/ 132] DTLZ6   run 19 FE=500 IGD=11.831545 | 79.9 min, 159.8 s/run, eta 271.7 min
+[  40/ 132] DTLZ7   run 18 FE=500 IGD=18.104099 | 106.7 min, 160.0 s/run, eta 245.3 min
+[  50/ 132] WFG1    run 20 FE=500 IGD=4.1010194 | 134.2 min, 161.0 s/run, eta 220.0 min
+[  60/ 132] WFG2    run 17 FE=500 IGD=5.8177751 | 140.0 min, 140.0 s/run, eta 168.0 min
+[  70/ 132] WFG3    run 17 FE=500 IGD=1.9199656 | 165.4 min, 141.8 s/run, eta 146.5 min
+[  80/ 132] WFG4    run 20 FE=500 IGD=14.705587 | 191.9 min, 143.9 s/run, eta 124.7 min
+[  90/ 132] WFG5    run 18 FE=500 IGD=14.853378 | 216.6 min, 144.4 s/run, eta 101.1 min
+[ 100/ 132] WFG6    run 17 FE=500 IGD=10.854472 | 239.5 min, 143.7 s/run, eta 76.6 min
+[ 110/ 132] WFG8    run 11 FE=500 IGD=14.396965 | 261.5 min, 142.6 s/run, eta 52.3 min
+[ 120/ 132] WFG8    run 18 FE=500 IGD=14.855078 | 266.8 min, 133.4 s/run, eta 26.7 min
+[ 130/ 132] WFG9    run 19 FE=500 IGD=17.298072 | 287.5 min, 132.7 s/run, eta 4.4 min
+[ 132/ 132] WFG9    run 20 FE=500 IGD=14.71474 | 288.9 min, 131.3 s/run, eta 0.0 min
+COMPLETE: 132 run(s) in 288.9 min, 0 failure(s).
+
+ans = 
+
+  包含以下字段的 1x132 struct 数组:
+
+    ok
+    algorithm
+    problem
+    runId
+    IGD
+    FE
+    message
+    file
+    runtimeSeconds
+
+Parallel pool using the 'Processes' profile is shutting down.
+M15 topup rc=0 at 06:07:27
+--- M15 IGDp ---
+
+########## SSDE (M=15) ##########
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+MergeIGDpForDir SSDE M=15 : written 0, reused 320, 0.1 min
+
+########## PCSAEA (M=15) ##########
+MergeIGDpForDir PCSAEA M=15 : written 0, reused 320, 0.1 min
+
+########## SAMOEATL2M (M=15) ##########
+MergeIGDpForDir SAMOEATL2M M=15 : written 0, reused 320, 0.1 min
+
+########## CSEA (M=15) ##########
+MergeIGDpForDir CSEA M=15 : written 0, reused 320, 0.1 min
+
+########## REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist (M=15) ##########
+MergeIGDpForDir REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist M=15 : written 0, reused 320, 0.1 min
+
+########## HES_EA (M=15) ##########
+MergeIGDpForDir HES_EA M=15 : written 0, reused 320, 0.1 min
+
+########## REMO (M=15) ##########
+MergeIGDpForDir REMO M=15 : written 132, reused 188, 3.3 min
+
+MergeAllFE500IGDp M=15 DONE
+Parallel pool using the 'Processes' profile is shutting down.
+M15 IGDp rc=0 at 06:12:32
+CHAIN END 2026-09-24 06:12:32

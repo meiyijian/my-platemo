@@ -1,0 +1,908 @@
+       PBI-Assisted Quality Classification and Criterion-Diversified Infill Selection for
+                         Expensive Many-Objective Optimization
+
+                                                             [TODO: author list]
+                                          Department, University, Street, City, 000000, Province, Country
+
+
+
+
+Abstract
+[TODO: Use the challenge–contribution structure. State the two concrete gaps: REMO forms training groups using a small set of
+representatives selected through RSEA’s two-dimensional radial projection. These representatives may not fully reflect the current
+nondominated distribution in the original objective space, and relation scores alone leave the use of prediction ambiguity and
+indicator information in candidate selection unspecified. Introduce PACDIS with PBI-assisted quality classification (PAQC) and
+criterion-diversified infill selection (CDIS). PAQC constructs adaptive directions directly from the current nondominated objective
+vectors and uses PBI-based directional quality information to supplement representative-based positive-group construction. CDIS
+allocates expensive evaluations through ambiguity-oriented and indicator-oriented selection criteria. Present the two mechanisms as
+complementary in design. The REMO-referenced component comparisons report problem-dependent outcomes but do not isolate
+each module’s effect. Lead the results with the strongest verified algorithm-level IGD+ comparison in the tested many-objective
+settings. Then give one concise mechanism finding about group composition or candidate-batch utility. Keep detailed overlap
+statistics and any direct module tests in the experimental section.]
+Keywords: expensive many-objective optimization, surrogate-assisted evolutionary algorithm, relation learning, penalty-based
+boundary intersection, infill selection
+
+
+1. Introduction                                                             a sparse summary of the population. Consequently, relying ex-
+                                                                            clusively on these representatives to form training groups may
+   Expensive many-objective optimization problems (MaOPs)                   underuse the directional information provided by the current
+arise in many real-world applications where each objective                  nondominated solutions in the original objective space. To ad-
+evaluation is computationally or economically prohibitive, lim-             dress this limitation, we propose PBI-assisted quality classifica-
+iting the number of real function evaluations to a small bud-               tion (PAQC). PAQC derives nondominated-derived directional
+get. Conventional many-objective evolutionary algorithms                    quality information directly from the current nondominated ob-
+(MaOEAs) typically require tens of thousands of evaluations,                jective vectors using PBI, without relying on radial-grid rep-
+making them impractical in such scenarios. Surrogate-assisted               resentative selection. It then fuses this directional quality in-
+evolutionary algorithms (SAEAs) alleviate this burden by ap-                formation with representative-based binary labels to enrich the
+proximating objective functions or other performance indica-                information used to construct the positive training group. In this
+tors [11, 9, 7]. However, building and maintaining accurate                 way, PAQC enriches the supervision signal for relation learning
+objective-wise regression models becomes increasingly chal-                 while retaining REMO’s three-class relation-learning scheme.
+lenging as the number of objectives grows, especially when                  A stage-dependent fusion strategy is further used to adjust the
+only a limited number of expensive samples are available. Re-               influence of the two signals over the course of optimization.
+lation learning offers an alternative: instead of recovering ab-
+                                                                               Candidate selection poses a second problem: relation scores
+solute objective values, it learns the relative quality of pairs of
+                                                                            order candidates, but that ordering alone does not specify how
+solutions [2]. This paradigm has shown promise in expensive
+                                                                            to use classification ambiguity or a separate quality indicator
+multi-objective optimization. However, its effectiveness is in-
+                                                                            when allocating a small evaluation batch. Criterion-diversified
+fluenced not only by the relation model itself, but also by how
+                                                                            infill selection (CDIS) addresses this evaluation-allocation in-
+supervision is constructed and how its predictions are converted
+                                                                            terface through two alternative criteria. The ambiguity-oriented
+into expensive evaluations.
+                                                                            mode ranks candidates by relation quality and classification am-
+   REMO [2] constructs its training groups from a small set
+                                                                            biguity after quality screening. The indicator-oriented mode
+of representative solutions selected by the radial-space mech-
+                                                                            reranks a relation-screened subset using a separately learned
+anism of RSEA [3]. RSEA projects high-dimensional objective
+                                                                            quality indicator. Each iteration activates one criterion to se-
+vectors into a two-dimensional radial space and uses grid divi-
+                                                                            lect a batch within the remaining evaluation budget.
+sion for efficient selection. Although this reduction enables effi-
+cient representative selection, the resulting representative set is            We propose PACDIS, a surrogate-assisted many-objective
+evolutionary algorithm that modifies two interfaces of relation-           RSEA uses radial projection and adaptive grids for selection,
+based expensive optimization: supervision construction and              with both crowding and convergence considered to address the
+expensive-evaluation allocation. PAQC determines what the               effects of curvature information loss [3]. PAQC retains this
+relation classifier learns from evaluated solutions; CDIS de-           representative-selection mechanism and supplements its group-
+termines how its predictions guide new expensive evalua-                ing signal with a separate assessment in the original objective
+tions. The main contributions of this work are threefold.               space. The distinction concerns the source of directional infor-
+First, PAQC supplements representative-based grouping with              mation, rather than the binary form of the original labels alone.
+nondominated-derived directional quality information and
+combines the two signals to construct positive training groups.
+                                                                        3. The Proposed PACDIS
+Second, CDIS uses relation quality, classification ambiguity,
+and indicator information through two alternative infill crite-            Relation-based surrogate-assisted evolutionary algorithms
+ria to allocate a limited expensive-evaluation budget. These            replace multi-output regression by a classifier that predicts the
+mechanisms address different stages of the relation-learning            relative quality of a pair of solutions [2]. Two interfaces then
+framework. Third, experiments on DTLZ and WFG bench-                    decide what such an algorithm can learn and how much its
+marks with 10, 15, and 20 objectives compare PACDIS with six            predictions cost: the rule that turns the evaluated population
+surrogate-assisted algorithms, while REMO-referenced compo-             into supervision labels, and the rule that turns the surrogate
+nent comparisons place the complete method beside its PAQC              scores of a large candidate pool into a small batch of expensive
+and CDIS deletion controls. PACDIS shows competitive per-               evaluations. We propose PACDIS, a surrogate-assisted many-
+formance on the tested settings, with consistent mean IGD+              objective evolutionary algorithm that modifies supervision con-
+advantages on WFG2 and WFG7 across the three objective                  struction through PAQC and expensive-evaluation allocation
+counts; HES-EA remains stronger on DTLZ5 and DTLZ7. The                 through CDIS. PBI-assisted quality classification (PAQC) aug-
+REMO-referenced comparisons favor PACDIS on 28 of 32                    ments the representative-based grouping of REMO [2] with
+tested configurations, while direct module effects are not estab-       PBI-based quality information from directions constructed di-
+lished by these exports. Group-quality and candidate-quality            rectly from the current nondominated set. This additional
+diagnostics provide the planned mechanism analyses.                     source enriches the distribution information available for
+   The remainder of this paper is organized as follows. Sec-            relation-group construction. PAQC fuses the two signals to
+tion 2 reviews related work on surrogate-assisted expensive op-         determine which solutions enter the positive training group.
+timization, relation learning, and candidate selection. Section 3       Criterion-diversified infill selection (CDIS) retains relation-
+details the proposed PACDIS, including PAQC, relation learn-            guided candidate generation but uses either indicator-based
+ing on the constructed groups, and CDIS. Section 4 presents             reranking or ambiguity-rewarded ranking to choose the final
+the experimental studies and discussion. Section 5 concludes            expensive-evaluation batch. Established relation learning, indi-
+the paper and outlines future work.                                     cator assessment and environmental selection modules provide
+                                                                        the host algorithm; the two proposed mechanisms change how
+                                                                        its training groups are formed and how its surrogate scores are
+2. Related Work
+                                                                        used.
+2.1. Surrogate-Assisted Expensive Multi-/Many-Objective Op-
+                                                                        3.1. Overall Framework
+     timization
+                                                                          We consider the expensive many-objective problem
+   [TODO: Kriging/RBF-based SAEAs, their scalability limit
+                                                                                min f(x) = f1 (x), . . . , f M (x) , Ω ⊆ RD ,
+                                                                                                                 
+in M, and why regression on every objective becomes unattrac-                                                                         (1)
+                                                                                  x∈Ω
+tive when M grows.]
+                                                                        in which every evaluation of f is expensive, so the number of
+2.2. Relation Learning for Expensive Optimization                       real function evaluations is limited to a budget FEmax . Let
+                                                                        FE be the number of evaluations consumed so far and t =
+   [TODO: REMO and the pairwise-comparison SAEA line;
+                                                                        FE/FEmax ∈ [0, 1] the evaluation progress, which controls the
+compare how each method forms training groups or pairwise
+                                                                        hybrid score in PAQC.
+labels, then position the present work as group construction
+                                                                           PACDIS evaluates a Latin hypercube design of Ninit solu-
+that supplements directions induced by radially selected rep-
+                                                                        tions, stores them in an archive Arc , and then repeats five steps
+resentatives with directions obtained directly from the current
+                                                                        until the budget is exhausted. (i) The current population P is di-
+nondominated set. Explain how directional quality information
+                                                                        vided into a positive group and a non-positive group by PAQC,
+and the original binary labels jointly determine training-group
+                                                                        which also returns the set R of representative solutions reused
+membership.]
+                                                                        later as an additional mating pool. (ii) Ordered pairs are gener-
+                                                                        ated from the two groups and a three-class relation network is
+2.3. Quality Assessment and Candidate Selection                         trained using the resulting ordered group labels. (iii) An indica-
+    [TODO: Indicator-based assessment (SDE, L p shape estima-           tor value is computed for each solution in P and an RBF-SVR
+tion, PIEA), radial representative selection (RSEA), and in-            model is fitted from decision vectors to those values. (iv) One
+fill/candidate selection rules.]                                        of the two selection modes is drawn, a relation-guided inner
+                                                                    2
+Algorithm 1 PACDIS                                                                 directional quality information with the original representative-
+Input: problem (Ω, f), budget FEmax , initial size Ninit , population size N       based labels. The highest-ranked fraction forms the positive
+Output: archive Arc of evaluated solutions                                         training group, and the remaining solutions form its comple-
+ 1: P ← Ninit solutions sampled by Latin hypercube design
+ 2: Evaluate P; FE ← Ninit
+                                                                                   ment. PAQC thus retains REMO’s representative-based sig-
+ 3: Arc ← P                                                                        nal while adding another information source for relation-group
+ 4: while FE < FEmax do                                                            construction.
+ 5:    t ← FE/FEmax                                                                   Figure 2 provides a geometric overview of these two signals
+ 6:    (C1 , C2 , R) ← PBIQualityClassification(P, t)
+ 7:    Build ordered relation pairs from C1 , C2 by (8)                            and their roles in grouping.
+ 8:    Train the relation surrogate MR                                                For PAQC, P = {(xi , fi )}i=1
+                                                                                                                N
+                                                                                                                    is the current population, with
+ 9:    Train the indicator surrogate MI on P                                       N = |P|, and z = mini fi the component-wise population mini-
+                                                                                                  ∗
+10:     Draw an ambiguity-oriented or indicator-oriented mode m                    mum, taken as the ideal point.
+11:     S ← CDIS(P, R, MR , MI , m)
+12:     Evaluate S and append it to Arc
+13:     FE ← FE + |S|                                                              3.2.1. Quality Assessment Using Nondominated-Derived Di-
+14:     P ← EnvSelect(Arc , N)                                                            rections
+15: end while
+                                                                                      The current nondominated solutions provide the additional
+16: return Arc
+                                                                                   directional information. Let {f ( j) }nj=1
+                                                                                                                           ND
+                                                                                                                              denote the objective vec-
+                                                                                   tors of the first nondominated front. PAQC normalises these
+                                                                                   original objective vectors to construct the reference-direction
+search accumulates candidates under that mode, and a batch
+                                                                                   set V = {v j }:
+of at most nmax candidates is returned. (v) The batch is evalu-
+ated, appended to Arc , and the next population is obtained by                                         n 
+                                                                                                   V = f ( j) f ( j) 2
+                                                                                                                                           o
+                                                                                                                         j = 1, . . . , nND .       (2)
+the radial-grid environmental selection of RSEA [3] over the
+whole archive.                                                                     The number and orientations of these directions follow the cur-
+   Algorithm 1 states the procedure; its grouping and candidate                    rent nondominated distribution in the original objective space.
+selection steps are detailed in Algorithms 2 and 3, respectively.                  This construction uses the nondominated vectors directly, with-
+The initial design satisfies 2 ≤ Ninit ≤ FEmax , and N is the tar-                 out radial-grid representative selection. When the adaptive con-
+get population size for environmental selection. The relation                      struction is not applicable, PAQC uses uniformly distributed
+surrogate MR includes the group references and input normal-                       reference directions as a fallback. This includes M ≤ 3,
+isation needed for prediction, while MI denotes the indicator                      N < 50, too few nondominated solutions, or a degenerate ob-
+surrogate when available. The controls are shared by the three                     jective range in the nondominated set.
+procedures. All expensive evaluations after initialisation are                        Each objective vector is associated with the direction of
+consumed in step (v), so both proposed mechanisms operate                          largest cosine similarity, a(i) = arg max j fiT v j /(∥fi ∥2 ∥v j ∥2 ), and
+on already evaluated data and surrogate predictions only, and                      the conventional PBI value [1] along that direction is
+neither changes the total number of real evaluations. The two
+                                                                                                  d1,i = (fi − z∗ )T va(i) ∥va(i) ∥2 ,
+                                                                                                                          
+interfaces stay separate: grouping decides what the classifier is
+asked to learn, candidate selection decides how its scores are                                     d2,i = (fi − z∗ ) − d1,i va(i) /∥va(i) ∥2 2 ,          (3)
+spent.
+                                                                                                  gPBI
+                                                                                                   i   = d1,i + θ d2,i ,
+   Figure 1 shows the evaluation loop and expands CDIS into its
+relation-guided candidate search and criterion-dependent infill                    with penalty θ. PAQC maps this PBI value to a bounded quality
+branches.                                                                          signal:
+                                                                                                              1
+                                                                                                      Si =          ∈ (0, 1],                (4)
+                                                                                                           1 + gPBI
+                                                                                                                i
+3.2. PBI-Assisted Quality Classification (PAQC)
+                                                                                   so a larger S i indicates a smaller PBI value along the associated
+   Relation learning requires training groups that reflect the                     direction. This transformation expresses the directional assess-
+quality of evaluated solutions. REMO [2] derives its group-                        ment as a bounded signal for fusion with the representative-
+ing signal from a small set of representatives selected through                    based label during group construction.
+RSEA’s two-dimensional radial grid [3]. These representatives
+retain their original objective vectors, but the projected distribu-               3.2.2. Representative-Based Grouping Signal
+tion guides their selection. This sparse summary may not fully                        PAQC retains the representative-based grouping signal used
+reflect the directional distribution of the current nondominated                   in REMO [2]. RSEA’s radial-grid selection [3] supplies a small
+solutions in the original many-objective space.                                    set R ⊂ P of k representative solutions from the current popu-
+   PAQC supplements this representative-based grouping signal                      lation. These representatives induce the original binary group-
+with quality information derived directly from the current non-                    ing signal. The representatives are evaluated solutions that act
+dominated solutions. It constructs reference directions from                       as dynamic, population-derived reference points. We set the
+their original objective vectors, bypassing radial-grid repre-                     requested representative count to k = ⌈1.5M⌉ in the consid-
+sentative selection, and uses PBI to assess evaluated solutions                    ered experiments; the implementation bounds are given in Sec-
+along these directions. A stage-dependent fusion combines the                      tion 4.1.
+                                                                               3
+                          Start
+
+
+          Latin hypercube sampling                             Output evaluated
+                                                                                                         End
+        Evaluate and initialise archive                            archive
+
+
+
+                                                  No                            CDIS: candidate search and infill selection
+                      FE < FEmax ?
+
+                                                                                                Draw mode m (pmix = 0.5)
+                               Yes                                                   Indicator mode only if its surrogate is available
+
+             PAQC: quality grouping
+             PBI score + binary label                                                  Generate offspring using representatives
+                                                                                       Rank and retain parents by relation score
+                                                                                               Accumulate candidates
+
+               Build relation pairs
+               Train relation model                                                                                                              No
+                                                                                                              c ≥ gmax ?
+
+
+           Compute indicator fitness                                                                                 Yes
+           Train indicator surrogate                                                         Deduplicate the candidate pool
+
+
+
+                                                                                          Yes                                           No
+         CDIS: select an infill batch                                                                         m = ind?
+
+
+
+         Evaluate selected candidates                                          Top 30% by relation                       Relation quality screen
+            Update archive and FE                                              Indicator reranking                     Quality + ambiguity reward
+                                                                              Select top candidates                      Top-ranked candidates
+
+
+
+            Environmental selection                                                              Bound the evaluation batch
+           Update current population                                                               || ≤ min(nmax , FEmax − FE)
+
+
+
+Figure 1: Flowchart of PACDIS. Left: the expensive-evaluation loop, with PAQC constructing the training groups and CDIS selecting the infill batch. Right:
+expansion of CDIS (dotted connector). A mode is drawn before the relation-guided search; c counts the generated candidates and gmax bounds their accumulation.
+Indicator mode is drawn with probability pmix = 0.5 when its surrogate is available; otherwise the ambiguity-oriented mode is used. The selected mode determines
+the final filtering and selection criterion. The ambiguity-oriented mode uses a relation-quality screen followed by ambiguity-rewarded ranking; the indicator branch
+directly reranks its relation-screened subset. The batch is bounded by its cap and the remaining evaluation budget, without minimum-size completion. Detailed
+safeguards are given in Algorithms 1 and 3.
+
+
+    Given R, the binary group label applies the PBI partition of                      the class-balance variable δ is adjusted by bounded bisection
+REMO [2] with the representatives as reference points. Ev-                            so that the boundary maintains useful occupancy on both sides
+ery solution is associated with the representative rb(i) of largest                   across changing population states.
+cosine similarity, the associated direction is wb(i) = (rb(i) −
+z∗ )/∥rb(i) − z∗ ∥2 , the two distances d̂1,i , d̂2,i are formed as in (3)            3.2.3. Complementary-Signal Fusion for Positive-Group Con-
+with va(i) replaced by wb(i) , and the binary label is                                        struction
+                           "
+                             d̂1,i + δ d̂2,i
+                                                #                                        The representative-based label describes membership
+                   Li = I                    ≤ 1  ∈ {0, 1}.            (5)            relative to the selected reference solutions, while the
+                             ∥rb(i) − z∗ ∥2
+                                                                                      nondominated-derived directions supply additional quality in-
+Normalising by ∥rb(i) − z∗ ∥2 makes the associated representative                     formation from the original objective space. PAQC combines
+itself the threshold, so Li records on which side of the surface                      these two information sources with a weight that follows con-
+through that representative a solution lies. Following REMO,                          sumption of the expensive budget. With t = FE/FEmax and
+                                                                                 4
+            (a) Representative-based classification                                           (b) PAQC
+ f2                                                               f2
+                                                                                                                                                         Algorithm 2 PBIQualityClassification (PAQC)
+                         Reference-based boundary
+                                                                                        Directional PBI assessment                                       Input: evaluated population P, progress t
+       A                                              C                 A
+                                                                              v1
+                                                                                                                                   C                     Output: groups C1 , C2 and representatives R
+                   R1                                                                    R1
+                                                                                                                                                          1: Construct V and associate solutions by cosine similarity
+           P1                                                                 P1                                                                          2: Compute directional quality signal S i by (3)–(4)
+                                            R2                                                                           R2                               3: Select k representatives R by radial-grid selection
+                                                                                     Non-dominated solutions
+
+                                                                                                                                                          4: Obtain representative-based labels Li by (5)
+                                        B
+                                                                                                          v2         B    Reassigned to Good group
+                                                                                                                                                          5: Fuse the two signals: Hi ← (1 − t)S i + tLi
+                            P2                                                                       P2
+                                                 PF                                                                           PF                          6: C1 ← the top ⌈rg |P|⌉ solutions under Hi
+ O=Z                                                      f1      O=Z                                                                       f1
+                                                                                                                                                          7: C2 ← P \ C1
+                                                                                                                                                          8: return (C1 , C2 , R)
+                                     Good group           Bad group         Reference solution
+
+
+
+
+Figure 2: Conceptual illustration of representative-based classification and                                                                                The fusion connects the two information sources to relation
+PAQC. Black rays connect the ideal point Z to representative solutions, and or-                                                                          learning through the chain
+ange dash-dotted segments indicate local classification thresholds. Blue dashed
+rays show directions constructed from nondominated solutions P1 and P2 . In                                                                                        signals (S , L) → positive-group construction
+(a), “Good group” and “Bad group” denote the binary labels Li = 1 and Li = 0;
+in (b), they denote C1 and C2 , respectively. Blue rings highlight the reassign-                                                                                          → relation-pair construction,
+ment of A and B. The PF is an external reference only. Selected solutions and
+schematic boundaries are shown, rather than a complete population or a numer-                                                                            so a change in the ranking matters insofar as it changes which
+ically evaluated example. Geometric presentation adapted from REMO [2].                                                                                  solutions enter C1 and therefore which ordered pairs the relation
+                                                                                                                                                         model uses for training. Early in the search, directional quality
+                                                                                                                                                         receives more weight in group construction; as the search con-
+αt = 1 − t, the hybrid quality score of solution i is                                                                                                    sumes the budget, representative-based membership becomes
+                                                                                                                                                         dominant. The group-quality analysis in Section 4.4 will exam-
+                    Hi = αt S i + (1 − αt )Li ,                                    αt = 1 − t,                                            (6)
+                                                                                                                                                         ine whether this weighting improves positive-group quality.
+and the positive group collects the highest-ranked fraction rg of
+                                                                                                                                                         3.3. Relation Learning on the PAQC Groups
+the population,
+                                                                                                                                                            PACDIS retains the relation model of REMO [2] and supplies
+           C1 = xi               rank↓ (Hi ) ≤ ⌈rg N⌉ ,                                 C2 = P \ C1 .                                                    it with the groups constructed by PAQC. Every ordered pair of
+               
+                                                                                                                                          (7)
+                                                                                                                                                         distinct solutions becomes one training sample whose input is
+With rg < 1/2 the non-positive group C2 provides a broad con-                                                                                            the concatenation [xi , x j ] ∈ R2D and whose label
+trast set, while the compact positive group concentrates pair-                                                                                                                   
+wise supervision on the highest-priority portion of the popula-                                                                                                                  
+                                                                                                                                                                                 
+                                                                                                                                                                                 
+                                                                                                                                                                                 +1, xi ∈ C1 , x j ∈ C2 ,
+                                                                                                                                                                          yi j = −1, xi ∈ C2 , x j ∈ C1 ,
+                                                                                                                                                                                 
+tion.                                                                                                                                                                            
+                                                                                                                                                                                                                  (8)
+   Figure 2 illustrates the distinct roles of the two PBI signals.
+                                                                                                                                                                                 
+                                                                                                                                                                                 
+                                                                                                                                                                                 0,
+                                                                                                                                                                                         otherwise,
+In panel (a), the representatives R1 and R2 define the local
+thresholds used to obtain Li . In panel (b), the nondominated                                                                                            with C1 , C2 from (7), records the ordered group relation rather
+solutions P1 and P2 supply the adaptive directions v1 and v2                                                                                             than a Pareto comparison. Both same-group pair types retain la-
+through (2); these directions provide an additional directional                                                                                          bel 0 regardless of their members’ S i or Hi values. PAQC there-
+assessment through S i , rather than directly defining a new clas-                                                                                       fore changes the composition of the training groups; the relation
+sification boundary. The reassignment of A and B to the positive                                                                                         labels do not encode quality ordering within either group. Be-
+group and of C to its complement schematically depicts how the                                                                                           cause rg < 1/2 makes the same-group families larger than the
+additional directional information can change selection priori-                                                                                          cross-group ones, they are randomly subsampled towards the
+ties through (6)–(7). PAQC therefore modifies the ranking used                                                                                           cross-group count, so the three labels of (8) are balanced by
+to form the groups, without replacing the representative-based                                                                                           construction rather than by a reweighted loss.
+boundary with a new geometric boundary.                                                                                                                     We employ the same relation-learning architecture as
+   The diagram uses two objectives to visualise the two group-                                                                                           REMO: min–max normalised pair inputs, a class-balanced
+ing signals; it is not the radial projection used by RSEA and                                                                                            training/held-out split, and a feed-forward pattern network end-
+does not demonstrate projection loss. Setting O = Z makes                                                                                                ing in a softmax over the three labels. Its output for a pair is
+the radial construction in (2) visible as rays through P1 and                                                                                            written π(xa , xb ) = [π+1 , π0 , π−1 ], the predicted probabilities
+P2 . These two solutions are placed on the PF for illustration,                                                                                          that the first solution belongs to the higher group, that both
+whereas the implementation uses the current nondominated set                                                                                             belong to the same group, and that the second belongs to the
+and does not require the true PF. Their displayed positive-group                                                                                         higher group. The held-out partition is retained by the training
+membership is an illustrative assignment, not a consequence                                                                                              procedure; no held-out error is used to gate candidate selection
+guaranteed by nondominance.                                                                                                                              in the present implementation.
+   Algorithm 2 summarises the construction. Ties in the hybrid                                                                                              For an unevaluated candidate x the trained network is queried
+score are resolved by population order so that the positive group                                                                                        on the four families of ordered comparisons (C1 , x), (x, C1 ),
+has exactly ⌈rg N⌉ members.                                                                                                                              (C2 , x) and (x, C2 ), that is on 2N pairs per candidate. With
+                                                                                                                                                     5
+a, b, c, d the family-wise mean probability vectors in that order,        ambiguity is defined as
+the relation score aggregates the evidence that x is not inferior
+                                                                                                   1       X
+to the positive group and is superior to the non-positive group,                    U(x) = 1 −                        max πk (u, v).     (11)
+                                                                                                 |O(x)| (u,v)∈O(x) k∈{−1,0,+1}
+minus the opposite evidence,
+                                                                          Hence, U(x) becomes large when the relation network is less
+   R(x) = 2 c−1 (x) + d+1 (x) − a+1 (x) − b−1 (x) ∈ [−4, 4],
+                                                
+                                                               (9)
+                                                                          decisive over the comparisons associated with x.
+                                                                            Within H amb , the relation score and ambiguity are min–max
+the bound following from each probability vector summing to
+                                                                          normalized and combined as
+one. R(x) is the aggregate group-relative preference used to
+order unevaluated candidates.                                                                    e + λ U(x),
+                                                                                      Aamb (x) = R(x)  e                λ = 0.30,        (12)
+                                                                          where a constant quantity is assigned the normalized value 0.5.
+3.4. Criterion-Diversified Infill Selection (CDIS)
+                                                                          The fixed ambiguity weight λ provides a moderate preference
+   PAQC determines the supervision supplied to the relation               for candidates whose predicted relations remain uncertain while
+model, whereas CDIS determines how the resulting surro-                   preserving relation quality as the dominant component of the
+gate information guides expensive-evaluation allocation. CDIS             ambiguity-rewarded acquisition. The weight λ remains con-
+uses two selection criteria: ambiguity-rewarded ranking af-               stant throughout optimization.
+ter relation-quality screening, and indicator-based reranking of             The confidence weighting used in R(x) and the ambiguity
+a relation-screened subset. The first criterion uses the rela-            reward in (12) serve complementary purposes. The former
+tion model’s confidence information; the second uses a sepa-              stabilizes the quality estimate by reducing the contribution of
+rate indicator surrogate. A fixed cap bounds each expensive-              uncertain pairwise predictions, whereas the latter uses the re-
+evaluation batch.                                                         maining candidate-level ambiguity as an exploration signal af-
+   Both modes use the same candidate-pool construction proce-             ter the quality requirement has already been satisfied. Thus,
+dure. Genetic variation is applied to the current population and          uncertainty does not replace the relation-quality criterion but
+representatives R; the relation score in (9) ranks the offspring,         refines the choice among candidates that have passed the qual-
+and up to |R| of the best are retained as parents of the next inner       ity screen.
+generation together with R. The search stops once the cumu-                  The ambiguity-oriented branch sorts H amb by descending
+lative number of generated candidates reaches gmax . All gener-           Aamb and returns the first nb candidates:
+ated candidates are accumulated and deduplicated into A. The
+                                                                                               S = Topnb H amb ; Aamb .
+                                                                                                                     
+                                                                                                                                     (13)
+mode is drawn before this search: mode-specific aggregation
+of the pair predictions can change the inner rankings and hence           Here Topnb returns an ordered list and preserves candidate order
+the realized pool. Thus, the modes share a pool-construction              for exact score ties. Equation (16) defines the batch size.
+procedure, rather than necessarily an identical pool.                        The quality screen restricts the eligible set, and the ambiguity
+                                                                          reward changes the ordering within that set. Classification am-
+3.4.1. Ambiguity-Rewarded Infill                                          biguity supplies a selection heuristic; its value alone does not
+   The ambiguity-oriented mode first applies a relation-quality           establish objective improvement. The component study must
+screen and then ranks the retained candidates using predicted             assess the final optimization effect of this rule.
+quality and classification ambiguity. Its relation score uses the
+                                                                          3.4.2. Indicator-Based Infill
+largest softmax class probability as the weight of each ordered
+pair in the family-wise averages of (9). This pair-level con-                The indicator-oriented mode provides an alternative as-
+fidence weighting reduces the influence of unreliable relation            sessment of candidates that pass relation-based screening.
+predictions when estimating candidate quality.                            The quality indicator combines shift-based density estimation
+   Candidates at or above the qkeep quantile of the relation score        (SDE) [5] with generalized L p front-shape adaptation [4] and a
+form                                                                      finite convergence fallback. We compute this indicator for each
+                                                                          evaluated solution and train an RBF-SVR model to predict it
+             H amb = x ∈ A : R(x) ≥ Qqkeep (R(A)) .
+                      
+                                                              (10)
+                                                                          from decision vectors,
+With qkeep = 0.70, this screen usually retains the highest-
+                                                                                      I(x) = MI (x; D),
+                                                                                      b                        D = {(xi , Ii )}i=1
+                                                                                                                               N
+                                                                                                                                   .     (14)
+scoring 30% of the pool; ties can increase that fraction. Ambi-
+guity is considered only after this quality screen, so a candidate        The relation score first retains the top ⌈qrel |A|⌉ candidates, with
+with poor predicted relation quality cannot enter the evaluation          qrel = 0.30, to form H ind . In this mode the family-wise relation
+batch solely because of high prediction uncertainty.                      probabilities are arithmetic averages. The screened candidates
+   To distinguish candidates within the retained set, we ad-              are then ranked by descending b     I, and up to nmax are selected
+ditionally measure the ambiguity of the relation predictions.             directly. Failed or nonfinite indicator predictions fall back to
+Let O(x) denote all ordered comparisons constructed between               relation-score ranking. This branch separates candidate screen-
+candidate x and the positive and non-positive training groups,            ing from final quality assessment: relation predictions retain
+and let πk (u, v) be the predicted probability of relation class          high-scoring candidates, and the indicator surrogate ranks the
+k ∈ {−1, 0, +1} for an ordered pair (u, v). The candidate-level           screened subset.
+                                                                      6
+Algorithm 3 DiversifiedInfillSelection (CDIS)                                    surrogate fitting, is O(Nc ND + N 2 M + Nc log Nc ). Neither mod-
+Input: population P, representatives R, surrogates MR , MI , mode m              ule directly consumes expensive evaluations. The remaining-
+Output: ordered candidate batch S                                                budget check ensures that PACDIS does not exceed FEmax , re-
+ 1: Run relation-guided variation from P ∪ R using mode m
+ 2: A ← the accumulated, deduplicated candidate pool
+                                                                                 gardless of the mode sequence.
+ 3: if m = ind then
+ 4:     H ind ← top qrel fraction by R
+ 5:     Rerank H ind by indicator predictions bI                                 4. Experimental Studies
+ 6:     S ← the first nb candidates, with nb from (16)
+ 7: else                                                                         4.1. Experimental Settings
+ 8:     H amb ← quality-screened candidates by (10)
+ 9:     Compute Aamb = R   e + 0.30Ue within H amb                               Test problems and evaluation budget.. The main perfor-
+10:      S ← Topnb (H amb ; Aamb ) by (13)                                       mance study covers DTLZ1–DTLZ7 and WFG1–WFG9 with
+11: end if                                                                       M ∈ {10, 15, 20}, giving 48 problem–objective configura-
+12: return S
+                                                                                 tions. These settings target expensive optimization with rel-
+                                                                                 atively large numbers of objectives. The main comparison
+                                                                                 uses PlatEMO [13], with a configured population size of
+3.4.3. Selection-Criterion Switching
+                                                                                 N = 100 and a maximum budget of FEmax = 500 real function
+  Let m ∈ {amb, ind} denote the mode. With u ∼ U[0, 1),
+                                                                                 evaluations, including initialization. The decision dimension
+                                                                                was D = 30, except for WFG2 and WFG3 at M = 10 and
+          ind, if the indicator surrogate is available
+                                                                                 M = 20, where the problem definitions required D = 31. All
+         
+         
+         
+         
+    m=           and u < pmix ,
+         
+                                                        (15)                     15-objective instances used D = 30.
+         
+         
+         
+         
+         amb, otherwise,
+         
+                                                                                 Compared algorithms.. PACDIS is compared with six
+where pmix = 0.5. One intact criterion is used per iteration; the                surrogate-assisted algorithms: REMO [2], SSDE [6], PC-
+two scores need not be combined into a single ranking. This                      SAEA [7], SAMOEA-TL2M [8], CSEA [9], and HES-
+is a fixed probability rule, with the ambiguity-oriented mode as                 EA [10]. REMO learns pairwise relations, SSDE uses a self-
+the fallback when the indicator surrogate is unavailable. The                    organizing surrogate, and PC-SAEA uses pairwise comparison.
+feasible batch size is                                                           SAMOEA-TL2M uses two-level model management, CSEA
+                                                                                 uses classification, and HES-EA combines hierarchical and
+                nb = min nmax , |H m |, FEmax − FE ,
+                                                  
+                                                                      (16)       ensemble surrogates with model reduction. The configured
+                                                                                 population size N does not specify a common initialization
+with nmax = 6. A small retained set produces a smaller batch; it                 count across these implementations.
+is not completed to a prescribed minimum. If the pool is empty,
+genetic variation provides fallback candidates, which are dedu-                  PACDIS parameters.. The same configuration is used across
+plicated and truncated to the same cap and remaining budget.                     all three objective counts: gmax = 3000, pmix = 0.50, rg =
+Algorithm 3 states the main selection procedure. The frame-                      0.25, qkeep = 0.70, and nmax = 6. The fixed internal constants
+work truncates any returned batch to the remaining budget be-                    are the ambiguity weight λ = 0.30, indicator shortlist fraction
+fore its real evaluation and the corresponding FE update.                        qrel = 0.30, and continuous-PBI penalty θ = 5. The requested
+                                                                                 representative count is
+3.5. Computational Complexity
+                                                                                                 keff = min{N, max(6, ⌈1.5M⌉)},              (17)
+   Let N be the population size, Nv = O(N) the number of di-
+rections, Nc the size of the deduplicated candidate pool, D the                  giving 15, 23 and 30 at M = 10, 15 and 20 with N = 100.
+number of decision variables and M the number of objectives.                     The actual returned representative count can be smaller. No
+   In PAQC, association and the continuous PBI computation                       error-gate threshold or minimum-batch parameter is used in this
+(3)–(4) cost O(NNv M), the direction set (2) costs one normal-                   version.
+isation of the nondominated vectors, the bounded bisection of
+(5) costs O(Bδ NkM) with Bδ fixed by the bracket and the tol-                    Implementation details.. The implementation retains uniform
+erance, and representative selection adds nondominated sorting                   reference vectors for low-dimensional or small-population
+and radial-projection distances. With Nv = O(N) and k = O(N)                     cases and when adaptive direction construction is unavail-
+the module is dominated by O(N 2 M), and generating the rela-                    able. For reproducibility, cosine association uses the original
+tion pairs adds O(N 2 D).                                                        objective vectors, whereas PBI distances use vectors translated
+   In CDIS, scoring one candidate requires 2N network inputs                     by z∗ , as specified in (3).
+of dimension 2D, so the pool costs O(Nc ND) in data construc-
+tion and prediction, which dominates the module. The indica-                     Performance indicator and statistical reporting.. Performance
+tor fitness costs O(N 2 M), the indicator-oriented mode adds one                 is measured by inverted generational distance plus (IGD+ ), with
+SVR fit on the N evaluated solutions plus predictions on the                     smaller values indicating a better approximation to the refer-
+screened subset. Sorting the ambiguity-rewarded acquisition                      ence Pareto front. Tables 1 and 2 group the results by problem,
+in (13) costs O(Nc log Nc ). The corresponding cost, excluding                   with three rows for M = 10, 15 and 20. Each entry reports
+                                                                             7
+the mean above the standard deviation in parentheses. The cell
+with the lowest mean among the seven retained algorithms has
+a light gray background. The pairwise statistical annotations
+come from the supplied workbooks. A + indicates that the base-
+line was reported as better than PACDIS, a − indicates that it
+was reported as worse, and an = indicates no detected differ-
+ence. The bottom row of each table counts these symbols in the
+order +/ − / = for each baseline across all problem–objective
+configurations in that table. These counts summarize the sup-
+plied pairwise outcomes and are not a separate omnibus test
+across problems.
+   The tables use available runs with identifiers 1–20. All 48
+PACDIS cells contain 20 runs. At M = 15, REMO cells con-
+tain 10–20 runs; at M = 20, the REMO, PC-SAEA, CSEA, and
+HES-EA cells contain 18–20, 17–20, 19–20, and 17–20 runs,
+respectively. All other cells contain 20 runs. Thus, the reported
+means and standard deviations do not all have the same sam-
+ple size. The export script applies an unpaired rank-sum test
+at p < 0.05 without a multiple-comparison adjustment. We
+retain its symbols without interpreting them as adjusted signif-
+icance. We configure a 500-evaluation budget; actual terminal
+FE can differ across implementations. [TODO: Document the
+IGD+ reference sets, execution environment, and actual termi-
+nal FE by algorithm. Audit the rank-sum export when sample
+sizes differ and specify a multiple-comparison policy for final
+inference.]
+
+4.2. Comparison with the Six Baseline Algorithms
+   Tables 1 and 2 report the 500-evaluation comparison.
+PACDIS has the lowest mean IGD+ on 7, 5, and 4 of the
+16 problems at M = 10, 15, and 20, respectively. These best
+means occur on DTLZ4, DTLZ6, WFG2, and WFG7 at all
+three objective counts.
+   HES-EA has the lowest mean on DTLZ5, DTLZ7, and
+WFG8 at all three objective counts. Its +/ − / = counts
+against PACDIS are 6/8/2, 5/8/3, and 5/7/4 at M = 10, 15,
+and 20. REMO’s corresponding counts are 1/9/6, 2/9/5, and
+3/9/4. SSDE, PC-SAEA, SAMOEA-TL2M, and CSEA each
+have more reported losses than wins against PACDIS at every
+objective count. WFG3 remains a weakness: PACDIS has no
+lowest mean there, and several baselines receive + annotations.
+These results describe complete-algorithm performance under
+the selected budget. They do not attribute the differences to
+PAQC or CDIS individually.
+
+
+
+
+                                                                    8
+                                                         Table 1: Comparison of IGD+ values on DTLZ1–7.
+Problem        M        REMO                 SSDE                PC-SAEA        SAMOEA-TL2M               CSEA                HES-EA              PACDIS
+                       1.5590e+2           3.0125e+2             3.4691e+2          2.9606e+2            1.5453e+2           2.4889e+2           1.3723e+2
+             10       (3.66e+1) =         (2.19e+1) −           (2.78e+1) −        (4.62e+1) −          (2.45e+1) −         (2.64e+1) −          (3.28e+1)
+                       8.4392e+1           1.9393e+2             2.3930e+2          2.0313e+2            9.6883e+1           1.6956e+2           8.8886e+1
+ DTLZ1       15       (2.49e+1) =         (3.10e+1) −           (3.42e+1) −        (3.17e+1) −          (2.07e+1) =         (3.01e+1) −          (2.40e+1)
+                       4.0685e+1           1.1019e+2             1.3841e+2          1.2115e+2            4.2737e+1           8.0751e+1           4.7041e+1
+             20       (1.50e+1) +         (2.33e+1) −           (2.33e+1) −        (2.25e+1) −          (1.23e+1) =         (1.29e+1) −          (9.78e+0)
+                       7.2496e-1           1.9521e+0             1.3575e+0          7.3399e-1            8.5517e-1           7.6084e-1            6.8787e-1
+             10       (5.65e-2) =          (1.78e-1) −           (6.73e-2) −       (3.11e-2) −          (9.41e-2) −         (1.35e-1) =           (5.43e-2)
+                       6.8640e-1           1.5363e+0             1.1974e+0          7.8171e-1            7.7488e-1           6.8679e-1            6.8015e-1
+ DTLZ2       15       (5.91e-2) =          (2.00e-1) −           (5.64e-2) −       (1.81e-2) −          (5.06e-2) −         (5.28e-2) =           (3.63e-2)
+                       7.1476e-1           1.2435e+0             1.0366e+0          8.4644e-1            7.6517e-1           6.8671e-1            7.0057e-1
+             20       (5.59e-2) =          (9.02e-2) −           (3.52e-2) −       (2.52e-2) −          (5.85e-2) −         (3.34e-2) =           (2.72e-2)
+                       5.7372e+2           1.2148e+3             1.2800e+3          1.2202e+3            5.7177e+2           1.1258e+3           5.8860e+2
+             10       (8.87e+1) =         (1.27e+2) −           (8.89e+1) −        (1.08e+2) −          (1.18e+2) =         (1.11e+2) −          (1.13e+2)
+                       3.1110e+2           8.6963e+2             8.6289e+2          8.1760e+2            3.2313e+2           6.9556e+2           3.6359e+2
+ DTLZ3       15       (8.82e+1) +         (1.04e+2) −           (1.07e+2) −        (5.68e+1) −          (4.93e+1) +         (1.06e+2) −          (4.70e+1)
+                       1.3530e+2           5.2801e+2             4.9694e+2          4.3707e+2            1.5265e+2           3.9014e+2           1.8445e+2
+             20       (3.52e+1) +         (6.89e+1) −           (6.87e+1) −        (1.14e+2) −          (4.15e+1) +         (7.51e+1) −          (3.73e+1)
+                       6.3471e-1           1.5893e+0             1.4030e+0          9.2105e-1            7.3973e-1           9.9872e-1            6.1326e-1
+             10       (5.89e-2) =          (1.47e-1) −           (9.50e-2) −       (4.45e-2) −          (1.05e-1) −         (1.52e-1) −           (8.90e-2)
+                       6.2645e-1           1.3889e+0             1.2075e+0          9.7789e-1            6.7266e-1           8.7470e-1            6.1464e-1
+ DTLZ4       15       (5.52e-2) =          (1.27e-1) −           (4.95e-2) −       (7.82e-2) −          (6.36e-2) −         (1.04e-1) −           (5.05e-2)
+                       5.7162e-1           1.0861e+0              9.2705e-1         8.6698e-1            5.7127e-1           6.7142e-1            5.7121e-1
+             20       (4.92e-2) =          (6.11e-2) −           (2.77e-2) −       (6.23e-2) −          (4.17e-2) =         (6.50e-2) −           (4.25e-2)
+                       4.3586e-1           1.3563e+0              9.4074e-1         2.7219e-1            4.9025e-1           2.2805e-1            3.8688e-1
+             10       (9.56e-2) =          (1.50e-1) −           (7.33e-2) −       (5.45e-2) +          (1.31e-1) −         (5.46e-2) +           (8.54e-2)
+                       3.4354e-1           1.0122e+0              6.5774e-1         3.0819e-1            3.2306e-1           1.3526e-1            2.8290e-1
+ DTLZ5       15       (7.96e-2) =          (1.10e-1) −           (5.77e-2) −       (6.61e-2) =          (8.29e-2) =         (3.51e-2) +           (7.01e-2)
+                       1.5795e-1            6.2211e-1             3.7681e-1         2.3709e-1            1.9278e-1           7.6285e-2            1.8301e-1
+             20       (5.31e-2) =          (1.06e-1) −           (3.29e-2) −       (3.21e-2) −          (5.77e-2) =         (1.86e-2) +           (6.25e-2)
+                       1.5572e+1           1.4179e+1             1.7332e+1         1.7944e+1             1.4488e+1           1.5852e+1           1.3321e+1
+             10       (1.12e+0) −         (1.14e+0) −            (4.82e-1) −       (1.68e-1) −          (1.07e+0) −         (1.08e+0) −          (1.03e+0)
+                       1.0259e+1           1.0941e+1             1.3096e+1         1.3659e+1             1.0248e+1           1.1823e+1           9.1612e+0
+ DTLZ6       15       (1.22e+0) −         (8.36e-1) −            (3.74e-1) −       (8.80e-2) −          (1.39e+0) −         (7.84e-1) −          (1.01e+0)
+                       6.5759e+0           6.9243e+0             8.7917e+0         9.1041e+0             6.0725e+0           7.2056e+0           5.3861e+0
+             20       (1.12e+0) −         (8.45e-1) −            (3.49e-1) −       (2.47e-1) −          (1.11e+0) −         (5.33e-1) −           (9.92e-1)
+                       1.0878e+1           2.2413e+1             2.7442e+1          2.8888e+1            1.8333e+1          1.3833e+0            7.7784e+0
+             10       (1.65e+0) −         (3.67e+0) −           (1.66e+0) −        (1.53e+0) −          (3.04e+0) −         (7.34e-2) +           (9.46e-1)
+                       1.6202e+1           3.1420e+1             3.9735e+1          4.0298e+1            3.3877e+1          1.8045e+0            1.3195e+1
+ DTLZ7       15       (1.86e+0) −         (7.06e+0) −           (5.56e+0) −        (5.32e+0) −          (4.03e+0) −         (8.05e-2) +           (9.62e-1)
+                       1.8492e+1           3.5717e+1             4.6790e+1          3.7550e+1            4.2512e+1          2.0150e+0            1.6368e+1
+             20       (2.09e+0) −         (6.79e+0) −           (5.79e+0) −        (1.17e+1) −          (8.23e+0) −         (5.37e-2) +          (1.28e+0)
+    +/ − / =            3/6/12               0/21/0                0/21/0             1/19/1              2/13/6               6/12/3                —
+Each entry shows the mean above the standard deviation in parentheses. Light gray cells have the lowest mean in their row. Symbols +, − and = indicate that the
+baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order.
+
+
+
+
+                                                                               9
+                                                         Table 2: Comparison of IGD+ values on WFG1–9.
+Problem        M        REMO                 SSDE                PC-SAEA        SAMOEA-TL2M               CSEA                HES-EA              PACDIS
+                      2.8264e+0            3.2223e+0            3.1097e+0          3.1355e+0            2.8733e+0           2.9750e+0            2.7994e+0
+             10       (9.88e-2) =          (5.23e-2) −          (1.78e-2) −        (2.70e-2) −          (1.18e-1) −         (3.86e-2) −           (5.68e-2)
+                      3.3090e+0            3.8604e+0            3.7391e+0          3.7415e+0            3.4373e+0           3.6709e+0            3.4259e+0
+ WFG1        15       (1.87e-1) =          (5.06e-2) −          (3.70e-2) −        (4.17e-2) −          (1.32e-1) =         (4.34e-2) −           (1.44e-1)
+                      3.7799e+0            4.3574e+0            4.2664e+0          4.2675e+0            3.8317e+0           4.1899e+0            3.8483e+0
+             20       (2.49e-1) =          (1.04e-1) −          (9.91e-2) −        (9.95e-2) −          (1.49e-1) =         (1.02e-1) −           (1.72e-1)
+                       2.3808e+0           2.6744e+0             2.9604e+0          3.1734e+0            3.0505e+0          1.5975e+0            1.3686e+0
+             10       (1.01e+0) −          (3.88e-1) −          (5.00e-1) −        (8.72e-1) −          (1.21e+0) −         (3.12e-1) −           (7.70e-1)
+                       4.4823e+0           4.0334e+0             5.2645e+0          5.5333e+0            5.2313e+0          2.4646e+0            2.3440e+0
+ WFG2        15       (1.18e+0) −          (6.17e-1) −          (8.98e-1) −        (1.05e+0) −          (1.54e+0) −         (4.56e-1) =           (9.08e-1)
+                       7.1411e+0           5.1419e+0             6.8322e+0          7.0516e+0            7.3820e+0          3.6120e+0            2.5149e+0
+             20       (1.64e+0) −          (8.63e-1) −          (1.32e+0) −        (1.52e+0) −          (1.28e+0) −         (5.32e-1) −           (7.52e-1)
+                      1.2630e+0            1.8001e+0            1.6116e+0           8.9820e-1           1.4058e+0           1.6331e+0            1.4387e+0
+             10       (1.31e-1) +          (1.51e-1) −          (2.35e-2) −        (6.90e-2) +          (9.47e-2) =         (3.30e-2) −           (1.28e-1)
+                      1.4559e+0            2.2556e+0            2.0168e+0          1.2058e+0            1.5768e+0           2.0479e+0            1.9549e+0
+ WFG3        15       (1.80e-1) +          (2.19e-1) −          (4.26e-2) −        (1.26e-1) +          (1.51e-1) +         (4.64e-2) −           (9.35e-2)
+                      1.5755e+0            2.5881e+0            2.3300e+0          1.6188e+0            1.7364e+0           2.3852e+0            2.3140e+0
+             20       (3.13e-1) +          (2.04e-1) −          (8.52e-2) =        (1.29e-1) +          (2.09e-1) +         (8.27e-2) =           (1.35e-1)
+                       6.6068e+0           3.4760e+0            7.6144e+0          8.2162e+0             7.3546e+0           4.1869e+0           3.9797e+0
+             10       (8.10e-1) −         (6.78e-1) +           (3.22e-1) −        (3.72e-1) −          (8.78e-1) −         (1.36e+0) =           (6.63e-1)
+                       1.4189e+1           8.6492e+0            1.4706e+1          1.5548e+1             1.5555e+1           1.0537e+1           9.7411e+0
+ WFG4        15       (1.12e+0) −         (1.02e+0) +           (6.33e-1) −        (5.25e-1) −          (1.36e+0) −         (1.11e+0) −          (1.03e+0)
+                       2.4120e+1           1.5417e+1            2.4259e+1          2.5472e+1             2.5530e+1           1.9043e+1           1.7744e+1
+             20       (2.01e+0) −         (1.68e+0) +           (8.49e-1) −        (7.35e-1) −          (1.21e+0) −         (1.95e+0) =          (2.02e+0)
+                       5.7069e+0           5.5435e+0            5.7216e+0          5.7181e+0             5.9489e+0          3.2092e+0            4.1091e+0
+             10       (5.37e-1) −          (3.77e-1) −          (2.45e-1) −        (4.60e-1) −          (3.98e-1) −         (4.99e-1) +           (5.37e-1)
+                       1.2756e+1           1.1703e+1            1.1932e+1          1.2040e+1             1.3349e+1          8.2389e+0            9.1940e+0
+ WFG5        15       (8.39e-1) −          (5.71e-1) −          (5.71e-1) −        (9.74e-1) −          (1.16e+0) −         (7.23e-1) +          (1.07e+0)
+                       2.2009e+1           2.0304e+1            2.0644e+1          2.0564e+1             2.2993e+1          1.6319e+1            1.8122e+1
+             20       (1.22e+0) −          (8.32e-1) −          (6.67e-1) −        (8.84e-1) −          (1.35e+0) −         (7.44e-1) +          (1.66e+0)
+                       5.0640e+0           5.0029e+0            6.2082e+0          6.7279e+0             6.3834e+0           2.5016e+0           2.8635e+0
+             10       (6.99e-1) −         (5.00e-1) −           (2.85e-1) −        (2.97e-1) −          (6.46e-1) −         (3.15e-1) +           (3.47e-1)
+                       1.1759e+1           1.0898e+1            1.2419e+1          1.3164e+1             1.3317e+1           5.7338e+0           6.6398e+0
+ WFG6        15       (9.07e-1) −         (1.12e+0) −           (4.04e-1) −        (4.78e-1) −          (1.08e+0) −         (1.77e+0) =           (9.28e-1)
+                       1.9801e+1           1.8692e+1            2.1220e+1          2.2372e+1             2.3291e+1           1.3703e+1           1.4066e+1
+             20       (1.36e+0) −         (1.62e+0) −           (7.58e-1) −        (8.50e-1) −          (1.13e+0) −         (1.95e+0) =          (1.05e+0)
+                       5.3178e+0           5.3766e+0            6.3804e+0          6.7710e+0             5.8886e+0          4.0867e+0            3.1272e+0
+             10       (6.97e-1) −         (7.74e-1) −           (3.96e-1) −        (3.67e-1) −          (1.03e+0) −         (8.70e-1) −           (3.66e-1)
+                       1.1619e+1           1.1610e+1            1.2920e+1          1.3704e+1             1.4066e+1          1.1182e+1            7.3747e+0
+ WFG7        15       (1.12e+0) −         (1.28e+0) −           (3.75e-1) −        (5.16e-1) −          (1.16e+0) −         (6.26e-1) −           (7.24e-1)
+                       2.0149e+1           2.0229e+1            2.1899e+1          2.3204e+1             2.2966e+1          2.0260e+1            1.5167e+1
+             20       (1.58e+0) −         (1.40e+0) −           (7.30e-1) −        (7.10e-1) −          (1.95e+0) −         (6.29e-1) −          (1.32e+0)
+                       6.1180e+0           5.3806e+0            6.4204e+0          6.7476e+0             6.5476e+0           3.1960e+0           4.1347e+0
+             10       (4.76e-1) −         (5.15e-1) −           (4.10e-1) −        (3.65e-1) −          (5.23e-1) −         (5.48e-1) +           (4.06e-1)
+                       1.2729e+1           1.0721e+1            1.2772e+1          1.3719e+1             1.4182e+1           7.3139e+0           8.8951e+0
+ WFG8        15       (5.38e-1) −         (1.39e+0) −           (4.89e-1) −        (3.99e-1) −          (8.81e-1) −         (1.56e+0) +           (9.43e-1)
+                       2.0979e+1           1.8572e+1            2.1410e+1          2.2670e+1             2.3598e+1           1.5495e+1           1.6080e+1
+             20       (1.48e+0) −         (1.18e+0) −           (8.03e-1) −        (5.53e-1) −          (1.16e+0) −         (8.59e-1) +           (5.87e-1)
+                       6.3795e+0           6.4126e+0            6.6634e+0           5.2242e+0            7.0544e+0          3.9947e+0            4.5897e+0
+             10       (7.59e-1) −          (4.50e-1) −          (2.97e-1) −        (7.56e-1) −          (7.88e-1) −         (5.77e-1) +           (4.61e-1)
+                       1.4029e+1           1.2630e+1            1.2901e+1           1.1310e+1            1.4428e+1          9.4436e+0            1.0386e+1
+ WFG9        15       (8.92e-1) −          (6.13e-1) −          (5.93e-1) −        (1.36e+0) −          (7.02e-1) −         (8.76e-1) +          (1.45e+0)
+                       2.2439e+1           2.1862e+1            2.2096e+1           2.0911e+1            2.3468e+1          1.8036e+1            1.9220e+1
+             20       (1.36e+0) −          (8.86e-1) −          (7.32e-1) −        (1.30e+0) −          (1.58e+0) −         (8.98e-1) +          (1.67e+0)
+    +/ − / =            3/21/3               3/24/0               0/26/1              3/24/0              2/22/3              10/11/6                —
+Each entry shows the mean above the standard deviation in parentheses. Light gray cells have the lowest mean in their row. Symbols +, − and = indicate that the
+baseline is reported as better than, worse than or not significantly different from PACDIS, respectively. The last row totals these symbols in the stated order.
+
+
+
+
+                                                                              10
+4.3. REMO-Referenced Component Comparisons                                  are repeated measurements, not independent runs. Early, mid-
+                                                                            dle and late stages will be distinguished to examine how group
+   We compare the current PACDIS implementation (Full),
+                                                                            quality changes as the weights of the two signals vary. If fu-
+two deletion controls, and REMO. The w/o PAQC control
+                                                                            ture retention or another trajectory-dependent outcome is used,
+uses REMO’s representative-based grouping to form relation-
+                                                                            GGP describes association under that search trajectory; it does
+training labels and retains CDIS. The control labeled w/o CDIS
+                                                                            not replace the final-performance ablation. [TODO: Specify the
+retains PAQC and fixes selection to the ambiguity-rewarded re-
+                                                                            outcome and observation horizon, checkpoint schedule, tie rule,
+lation criterion. It removes the indicator branch and criterion
+                                                                            sample coverage and run-level aggregation; insert GGP results
+switching while retaining CDIS’s ambiguity criterion. Full and
+                                                                            and uncertainty. Verify version and budget compatibility before
+both controls retain the same relation model, environmental se-
+                                                                            reusing historical checkpoints.]
+lection, batch-size cap, and absence of within-batch distance.
+   The supplied IGD+ workbooks cover DTLZ1–7 and WFG1–                      4.5. Evaluated-Candidate Quality Analysis of CDIS
+9 at M = 10 and 20, with N = 100 and a configured 300-
+                                                                               The CDIS mechanism analysis will examine the quality of
+evaluation cap that includes initialization. Full and the two
+                                                                            candidates selected for expensive evaluation, complementing
+controls end at 300 evaluations. REMO uses k = 15 and 30
+                                                                            the PAQC analysis of training groups. [TODO: Compare the
+at M = 10 and 20, respectively; its archived runs can exceed
+                                                                            ambiguity-oriented criterion, the indicator-oriented criterion,
+300 actual evaluations. The workbooks give mean, standard de-
+                                                                            and relation-only ranking on matched evaluated-population
+viation, and comparison symbols relative to REMO. We retain
+                                                                            checkpoints and a common candidate pool, with identical batch
+those symbols without reconstructing tests from aggregate val-
+                                                                            caps. Use the fraction of selected candidates retained by the
+ues. They do not provide Full-versus-control tests or document
+                                                                            next environmental selection as the primary outcome. Specify
+a multiple-comparison adjustment. This study uses a separate
+                                                                            how to evaluate the union of selected batches under a separate
+configured budget from the 500-evaluation main comparison.
+                                                                            diagnostic budget, fix the archive and outcome definition, and
+   Tables 3 and 4 report the results. Relative to REMO, the                 aggregate paired comparisons at run level. Report coverage and
+workbooks mark Full as better on 28 of 32 configurations,                   uncertainty. This fixed-pool comparison isolates final selection;
+worse on WFG3 at both objective counts, and without a de-                   the performance ablation also includes mode-dependent candi-
+tected difference on WFG5 at both counts. The corresponding                 date generation. No CDIS mechanism results are available in
++/ − / = totals are 19/2/11 for w/o CDIS and 20/1/11 for w/o                this draft.]
+PAQC. The controls also differ from Full in their means: w/o
+CDIS has a lower mean on DTLZ6 at both objective counts and                 4.6. Effect of Selection-Criterion Switching
+DTLZ7 at M = 10. These REMO-referenced annotations de-                         Equation (15) sets pmix = 0.5 as the default. Table 5 restores
+scribe the four complete configurations. They do not isolate                the earlier five-setting IGD experiment for Lambdat030 with
+the contribution of PAQC or CDIS within Full. The w/o CDIS                  batch distance. These historical results do not establish the sen-
+control retains the ambiguity criterion, and REMO’s possible                sitivity of the current NoBatchDist configuration under IGD+ .
+budget overrun further limits attribution.                                  [TODO: Evaluate pmix = 0, 0.5, and 1 with the current PACDIS
+                                                                            configuration and IGD+ under matched problems, seeds, initial-
+4.4. Good-Group Precision Analysis of PAQC                                  ization, and evaluation budgets at M = 10 and 20. Specify the
+   The GGP study is intended to examine whether adding PBI                  problem subset before running the experiment and verify the
+information from the current nondominated directions produces               protocol before reusing default runs. Record indicator-model
+better positive groups than grouping with the selected represen-            failures: pmix = 1 still permits the ambiguity-oriented mode
+tatives alone. This comparison assesses the utility of the addi-            when the indicator surrogate is unavailable. Insert current-
+tional signal; it does not by itself identify radial-projection loss        configuration results before drawing sensitivity conclusions.]
+as the cause of any observed difference. On matched evaluated-                 [TODO: Rebuild the convergence figure from the six cur-
+population checkpoints, the reference binary label L, contin-               rent baselines with the 500-evaluation budget and document the
+uous score S , and hybrid score H will be examined using a                  available run counts. The existing 300-evaluation figure uses
+common outcome definition. Ranked positive sets will use the                the previous baseline set, so we exclude it here.]
+same cardinality, with binary-label ties handled by a specified
+rule; native reference-group results will be identified separately          5. Conclusion
+if their size differs. For a selected positive set C1 and an inde-
+pendently defined outcome-positive set Y+ , precision is                       PACDIS modifies supervision construction and expensive-
+                                                                            evaluation allocation in relation-based surrogate-assisted opti-
+                                |C1 ∩ Y+ |                                  mization. PAQC combines representative-based grouping with
+                       GGP =               .                   (18)         directional quality information obtained from the current non-
+                                   |C1 |
+                                                                            dominated set to construct positive training groups. CDIS al-
+The outcome must not be defined by the same PBI score used                  locates expensive evaluations through ambiguity-oriented and
+to construct the group. Coverage and stage-wise results will ac-            indicator-oriented candidate-selection criteria after relation-
+company precision so that missing observations and changing                 quality screening. The REMO-referenced comparisons fa-
+outcome prevalence remain visible. Checkpoints from one run                 vor PACDIS on most tested configurations, with reversals on
+                                                                       11
+                            Table 3: IGD+ ablation results on DTLZ1–7 with 10 and 20 objectives (N = 100; configured FE = 300).
+Problem           M            D                  REMO                          w/o CDIS                         w/o PAQC                           Full
+DTLZ1             10          30           2.5633e+2 (3.53e+1)            2.2171e+2 (3.55e+1)+             2.3035e+2 (2.85e+1)+            2.0865e+2 (3.22e+1)+
+                  20          30           1.0212e+2 (2.04e+1)            7.6982e+1 (1.67e+1)+             8.2264e+1 (1.84e+1)+            7.1581e+1 (1.41e+1)+
+DTLZ2             10          30           1.0250e+0 (7.08e−2)            1.0719e+0 (1.11e−1)=             9.2078e−1 (7.01e−2)+            9.1663e−1 (1.13e−1)+
+                  20          30           8.8540e−1 (5.12e−2)            9.1620e−1 (7.12e−2)=             8.1112e−1 (4.06e−2)+            8.0861e−1 (3.54e−2)+
+DTLZ3             10          30           9.7902e+2 (1.40e+2)            9.0026e+2 (1.69e+2)=             9.3610e+2 (1.56e+2)=            8.8342e+2 (1.19e+2)+
+                  20          30           3.8543e+2 (8.42e+1)            3.4770e+2 (5.32e+1)=             3.7727e+2 (8.53e+1)=            2.9643e+2 (7.29e+1)+
+DTLZ4             10          30           1.0421e+0 (1.15e−1)            9.5863e−1 (1.22e−1)+             8.7885e−1 (1.27e−1)+            8.6629e−1 (1.21e−1)+
+                  20          30           7.6967e−1 (5.07e−2)            7.1116e−1 (5.17e−2)+             7.5541e−1 (7.89e−2)=            7.1116e−1 (6.37e−2)+
+DTLZ5             10          30           6.4533e−1 (1.02e−1)            6.2406e−1 (7.10e−2)=             5.9268e−1 (1.04e−1)+            5.6802e−1 (7.89e−2)+
+                  20          30           3.1914e−1 (5.14e−2)            2.5455e−1 (7.92e−2)+             2.9675e−1 (4.15e−2)=            2.7779e−1 (7.46e−2)+
+DTLZ6             10          30           1.6046e+1 (5.95e−1)            1.3919e+1 (1.01e+0)+             1.6614e+1 (6.07e−1)−            1.5206e+1 (8.52e−1)+
+                  20          30           7.6458e+0 (4.92e−1)            6.1597e+0 (9.18e−1)+             7.6274e+0 (6.02e−1)=            7.0517e+0 (7.40e−1)+
+DTLZ7             10          30           2.1214e+1 (2.57e+0)            9.9013e+0 (1.70e+0)+             1.6206e+1 (1.76e+0)+            1.2138e+1 (1.75e+0)+
+                  20          30           4.1534e+1 (6.92e+0)            2.3639e+1 (7.57e+0)+             2.8193e+1 (3.54e+0)+            2.2885e+1 (4.26e+0)+
+      +/ − / =                 –                     –                              9/0/5                          8/1/5                           14/0/0
+Entries give mean (standard deviation); lower IGD+ is better. Light gray cells mark the lowest mean in each row, including displayed ties. The +, −, and = symbols
+reproduce the supplied workbooks’ comparisons with REMO (better, worse, and no detected difference, respectively); they do not compare Full with either control.
+Full denotes PACDIS; w/o PAQC replaces its grouping, whereas w/o CDIS fixes selection to the ambiguity criterion. REMO uses k = 15 for M = 10 and k = 30 for
+M = 20. Its archived runs can exceed 300 actual evaluations.
+
+
+
+
+                             Table 4: IGD+ ablation results on WFG1–9 with 10 and 20 objectives (N = 100; configured FE = 300).
+Problem           M            D                  REMO                          w/o CDIS                         w/o PAQC                           Full
+WFG1              10          30           2.9781e+0 (4.85e−2)            2.9153e+0 (3.62e−2)+             2.9199e+0 (5.07e−2)+            2.9009e+0 (4.89e−2)+
+                  20          30           4.2041e+0 (1.07e−1)            4.1445e+0 (1.20e−1)+             4.1273e+0 (1.34e−1)+            4.0996e+0 (1.43e−1)+
+WFG2              10          31           2.5176e+0 (1.01e+0)            2.2862e+0 (9.12e−1)=             2.3129e+0 (1.05e+0)=            1.6939e+0 (6.00e−1)+
+                  20          31           6.2140e+0 (1.82e+0)            4.7975e+0 (1.25e+0)+             5.0796e+0 (2.06e+0)=            3.5109e+0 (8.96e−1)+
+WFG3              10          31           1.4840e+0 (9.29e−2)            1.6232e+0 (6.09e−2)−             1.4508e+0 (8.07e−2)=            1.5847e+0 (8.28e−2)−
+                  20          31           2.0065e+0 (1.78e−1)            2.4942e+0 (1.35e−1)−             2.1114e+0 (1.19e−1)=            2.4608e+0 (1.25e−1)−
+WFG4              10          30           6.2095e+0 (7.93e−1)            5.6407e+0 (6.08e−1)+             5.5901e+0 (6.48e−1)+            5.5410e+0 (6.19e−1)+
+                  20          30           2.2794e+1 (1.23e+0)            2.2100e+1 (1.33e+0)=             2.0912e+1 (1.34e+0)+            2.0734e+1 (1.79e+0)+
+WFG5              10          30           5.0770e+0 (6.44e−1)            5.2289e+0 (6.93e−1)=             5.0793e+0 (7.74e−1)=            5.0006e+0 (6.46e−1)=
+                  20          30           2.0668e+1 (1.06e+0)            2.1112e+1 (1.22e+0)=             1.9652e+1 (1.35e+0)+            2.0143e+1 (1.41e+0)=
+WFG6              10          30           4.4139e+0 (4.67e−1)            3.8874e+0 (4.76e−1)+             3.9016e+0 (6.70e−1)+            3.8208e+0 (3.81e−1)+
+                  20          30           1.8847e+1 (7.93e−1)            1.6793e+1 (1.14e+0)+             1.7392e+1 (1.40e+0)+            1.6738e+1 (1.03e+0)+
+WFG7              10          30           4.6479e+0 (6.53e−1)            4.1704e+0 (3.53e−1)+             4.2405e+0 (7.47e−1)=            3.9411e+0 (5.21e−1)+
+                  20          30           1.9600e+1 (1.26e+0)            1.8214e+1 (1.03e+0)+             1.8259e+1 (8.23e−1)+            1.7584e+1 (1.36e+0)+
+WFG8              10          30           5.2600e+0 (4.22e−1)            4.9093e+0 (2.80e−1)+             4.8712e+0 (3.64e−1)+            4.5513e+0 (5.02e−1)+
+                  20          30           2.0127e+1 (9.11e−1)            1.8102e+1 (7.66e−1)+             1.8769e+1 (1.27e+0)+            1.8019e+1 (8.20e−1)+
+WFG9              10          30           6.3482e+0 (5.35e−1)            6.4647e+0 (5.03e−1)=             5.6455e+0 (4.86e−1)+            5.4815e+0 (6.37e−1)+
+                  20          30           2.2006e+1 (1.25e+0)            2.2623e+1 (1.06e+0)=             2.0784e+1 (1.43e+0)+            2.0978e+1 (1.54e+0)+
+      +/ − / =                 –                     –                            10/2/6                          12/0/6                           14/2/2
+Entries give mean (standard deviation); lower IGD+ is better. Light gray cells mark the lowest mean in each row, including displayed ties. The +, −, and = symbols
+reproduce the supplied workbooks’ comparisons with REMO (better, worse, and no detected difference, respectively); they do not compare Full with either control.
+Full denotes PACDIS; w/o PAQC replaces its grouping, whereas w/o CDIS fixes selection to the ambiguity criterion. REMO uses k = 15 for M = 10 and k = 30 for
+M = 20. Its archived runs can exceed 300 actual evaluations.
+
+
+
+
+                                                                               12
+                Table 5: Historical Lambdat030 sensitivity to the switching probability pmix at M = 10 and M = 20 (batch-distance version; IGD).
+Problem          D                   pmix = 0                     0.25                       0.50                      0.75                        1.00
+                                                                     10-objective problems
+DTLZ2            30          1.4673e + 0 (1.04e − 1)−   1.1980e + 0 (9.10e − 2)−   1.1101e + 0 (1.23e − 1)   1.1174e + 0 (1.01e − 1)=   1.0575e + 0 (1.27e − 1)=
+DTLZ4            30          1.4452e + 0 (9.75e − 2)−   1.2556e + 0 (8.69e − 2)=   1.2554e + 0 (1.06e − 1)   1.2135e + 0 (7.44e − 2)=   1.2491e + 0 (1.11e − 1)=
+DTLZ7            30          7.1374e + 0 (1.16e + 0)+   8.6532e + 0 (1.65e + 0)+   1.0613e + 1 (1.51e + 0)   1.2275e + 1 (2.38e + 0)−   1.9427e + 1 (2.99e + 0)−
+WFG1             30          3.2195e + 0 (3.59e − 2)=   3.1908e + 0 (3.58e − 2)=   3.1888e + 0 (5.33e − 2)   3.1902e + 0 (6.01e − 2)=   3.1852e + 0 (5.40e − 2)=
+WFG3             31          1.7658e + 0 (5.63e − 2)−   1.7316e + 0 (5.24e − 2)=   1.6872e + 0 (7.88e − 2)   1.6955e + 0 (6.56e − 2)=   1.6929e + 0 (7.01e − 2)=
+WFG8             30          5.5866e + 0 (2.28e − 1)=   5.7157e + 0 (1.98e − 1)=   5.7532e + 0 (2.64e − 1)   5.8423e + 0 (2.77e − 1)=   5.7964e + 0 (3.59e − 1)=
+ Average rank                          3.67                       3.33                       2.33                      3.17                         2.50
+ +/ − / = vs. 0.50                    1/3/2                      1/1/4                        –                       0/1/5                        0/1/5
+                                                                     20-objective problems
+DTLZ2            30          1.2616e + 0 (5.18e − 2)−   1.1619e + 0 (6.89e − 2)=   1.1415e + 0 (6.26e − 2)   1.1292e + 0 (5.42e − 2)=   1.1111e + 0 (3.51e − 2)=
+DTLZ4            30          1.0742e + 0 (4.16e − 2)=   1.0558e + 0 (5.35e − 2)=   1.0506e + 0 (5.17e − 2)   1.0661e + 0 (4.34e − 2)=   1.1148e + 0 (5.15e − 2)−
+DTLZ7            30          2.1062e + 1 (8.87e + 0)=   1.6810e + 1 (4.17e + 0)=   1.8298e + 1 (3.42e + 0)   2.3106e + 1 (4.24e + 0)−   3.2237e + 1 (7.51e + 0)−
+WFG1             30          5.6088e + 0 (4.12e − 2)=   5.6173e + 0 (6.19e − 2)=   5.5870e + 0 (5.53e − 2)   5.5998e + 0 (5.47e − 2)=   5.6154e + 0 (8.21e − 2)=
+WFG3             31          2.8724e + 0 (9.74e − 2)−   2.7862e + 0 (1.34e − 1)=   2.7794e + 0 (9.92e − 2)   2.7655e + 0 (9.01e − 2)=   2.7013e + 0 (1.39e − 1)=
+WFG8             30          2.0465e + 1 (9.21e − 1)=   2.0362e + 1 (8.23e − 1)=   2.0926e + 1 (8.66e − 1)   2.1141e + 1 (1.17e + 0)=   2.1744e + 1 (1.34e + 0)=
+ Average rank                          3.67                       2.83                       2.17                      2.83                         3.50
+ +/ − / = vs. 0.50                    0/2/4                      0/0/6                        –                       0/1/5                        0/2/4
+ Overall average rank                  3.67                      3.08                        2.25                     3.00                          3.00
+ Overall +/ − / = vs. 0.50            1/5/6                     1/1/10                        –                      0/2/10                        0/3/9
+Smaller IGD is better; light gray cells mark the lowest mean in each row and the lowest average ranks. The supplied PlatEMO export marks each non-default setting
+as better than (+), worse than (−), or without a detected difference from (=) pmix = 0.5. We compute average ranks from the mean IGD values within each objective
+setting.
+
+
+WFG3. The exported symbols do not compare Full with its two                         [5] M. Li, S. Yang, and X. Liu, “Shift-based density estima-
+deletion controls, so these results do not quantify either mod-                         tion for Pareto-based algorithms in many-objective op-
+ule’s conditional contribution. PAQC and CDIS address com-                              timization,” IEEE Trans. Evol. Comput., vol. 18, no. 3,
+plementary interfaces by design; their respective effects on final                      pp. 348–365, 2014.
+IGD+ require matched direct comparisons.
+   [TODO: Complete the statistical and provenance audits be-                        [6] A. F. R. Araújo, L. R. C. Farias, and A. R. C. Gonçalves,
+fore writing the performance conclusions. Add the matched                               “Self-organizing surrogate-assisted non-dominated sort-
+group-quality and candidate-quality findings when available,                            ing differential evolution,” Swarm Evol. Comput., vol. 91,
+and distinguish these mechanism diagnostics from final IGD+                             art. 101703, 2024. doi:10.1016/j.swevo.2024.101703.
+performance.]
+                                                                                    [7] Y. Tian, J. Hu, C. He, H. Ma, L. Zhang, and X. Zhang, “A
+                                                                                        pairwise comparison based surrogate-assisted evolution-
+References                                                                              ary algorithm for expensive multi-objective optimization,”
+                                                                                        Swarm Evol. Comput., vol. 80, art. 101323, 2023.
+ [1] Q. Zhang and H. Li, “MOEA/D: A multiobjective evolu-
+     tionary algorithm based on decomposition,” IEEE Trans.                         [8] Y. Liu, J. Ding, Q. Li, F. Li, and J. Liu, “A two-
+     Evol. Comput., vol. 11, no. 6, pp. 712–731, 2007.                                  level model management-based surrogate-assisted evo-
+ [2] H. Hao, A. Zhou, H. Qian, and H. Zhang, “Expensive                                 lutionary algorithm for medium-scale expensive multi-
+     multiobjective optimization by relation learning and pre-                          objective optimization,” IEEE Trans. Syst., Man, Cy-
+     diction,” IEEE Trans. Evol. Comput., vol. 26, no. 5,                               bern.: Syst., vol. 55, no. 11, pp. 8166–8180, 2025.
+     pp. 1157–1170, 2022.                                                               doi:10.1109/TSMC.2025.3604949.
+
+ [3] C. He, Y. Tian, Y. Jin, X. Zhang, and L. Pan, “A radial                        [9] L. Pan, C. He, Y. Tian, H. Wang, X. Zhang, and Y. Jin, “A
+     space division based evolutionary algorithm for many-                              classification based surrogate-assisted evolutionary algo-
+     objective optimization,” Applied Soft Computing, vol. 61,                          rithm for expensive many-objective optimization,” IEEE
+     pp. 603–621, 2017. doi:10.1016/j.asoc.2017.08.024.                                 Trans. Evol. Comput., vol. 23, no. 1, pp. 74–88, 2019.
+
+ [4] Y. Li, W. Li, S. Li, and Y. Zhao, “A performance                              [10] Q.-T. Yang, J.-Y. Li, Z.-H. Zhan, Y. Jiang, Y. Jin,
+     indicator-based evolutionary algorithm for expensive                               and J. Zhang, “A hierarchical and ensemble surrogate-
+     high-dimensional multi-/many-objective optimization,”                              assisted evolutionary algorithm with model reduction
+     Information Sciences, vol. 678, art. 121045, 2024.                                 for expensive many-objective optimization,” IEEE Trans.
+                                                                              13
+     Evol. Comput., vol. 29, no. 6, pp. 2491–2505, 2025.
+     doi:10.1109/TEVC.2024.3440354.
+[11] T. Chugh, Y. Jin, K. Miettinen, J. Hakanen, and K. Sind-
+     hya, “A surrogate-assisted reference vector guided evo-
+     lutionary algorithm for computationally expensive many-
+     objective optimization,” IEEE Trans. Evol. Comput.,
+     vol. 22, no. 1, pp. 129–142, 2018.
+[12] T. Sonoda and M. Nakata, “Multiple classifiers-assisted
+     evolutionary algorithm based on decomposition for high-
+     dimensional multi-objective problems,” IEEE Trans. Evol.
+     Comput., vol. 26, no. 6, pp. 1581–1595, 2022.
+[13] Y. Tian, R. Cheng, X. Zhang, and Y. Jin, “PlatEMO: A
+     MATLAB platform for evolutionary multi-objective op-
+     timization,” IEEE Comput. Intell. Mag., vol. 12, no. 4,
+     pp. 73–87, 2017.
+
+
+
+
+                                                                14
+

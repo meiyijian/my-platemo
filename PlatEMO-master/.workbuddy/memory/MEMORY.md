@@ -29,7 +29,7 @@
 - **默认 5 workers**：6 workers 反慢约 9%（321.9 s vs 421.1 s）；profile 上限 6，请求 8 直接失败
 - M=10 D=30 N=100 maxFE=300 约 6.1 min/波；M=20 单跑 ~5.5–5.9 min；长跑别并发开第二个 parpool（OOM）
 - AI 生成的 `.m` 一律纯 ASCII（中文只允许出现在路径字符串）
-- **Bash 工具链不可用** → 用 PowerShell，重定向到文件再 Read；日志统一 `2>&1 | Out-File -Encoding utf8`（别用 `*>`/`*>>`，会写 UTF-16）
+- **Bash 工具（Git Bash）当前可用**（2026-09-24 复核，`ls/grep/find/python` 均正常）；但 **PowerShell 的 stdout 有时直接吞掉**（exit 0 无输出）→ 先 `Out-File -Encoding utf8` 落盘再 Read。日志统一 `2>&1`；`*>`/`*>>` 会写 UTF-16，别用
 - 删文件：`Remove-Item` 常被 safe-delete 拦 → `[System.IO.File]::Delete()`
 - MAX_PATH 260：`Test-Path`/`.NET File` 会误报找不到路径（`Get-ChildItem` 正常）→ `\\?\` 前缀或 `robocopy`
 
@@ -43,6 +43,12 @@
 `platemo.m` 用 `addpath(genpath(cd))`，MATLAB 按文件名解析 → 新目录中与既有目录重名的 `.m` 必须移进该目录 `private/`（genpath 跳过 private，private 优先级最高），主类文件留顶层。
 惨案：`Shape_Estimate.m` 4 参数版抢占 PIEA/REMO 两参数版 → 被 try/catch **静默降级**，不报错只变差。**验收只能用「临时探针 + `functions(@Name).file`」**（`which` 查不到 private）。
 `ResolveUniformMixMode.m` 现存 3 个版本，解析结果取决于 addpath 顺序（其中两份哈希不同但**代码行一致**，别只看哈希）。
+
+## `.mat` 数据语义
+- `metric.IGD` / `metric.IGDp` 是**评价轨迹数组**（当前批次 M=10/M=20 均 30 点），**末值 = 最终性能**；出表一律取 `arr[-1]`
+- 轨迹点数**跨算法目录不一致**（例：`REMO_new2_AdaMaO` M=10 为 18 点、M=20 为 30 点）→ 跨目录比较前先核对点数
+- 配对种子一致性可现场验证：同 runId 下不同配置的轨迹**前 2 点应完全相同**
+- Python 出表环境：`C:\Users\lsx\.workbuddy\binaries\python\envs\default\Scripts\python.exe`（已装 scipy/numpy/openpyxl，`loadmat(..., squeeze_me=True, struct_as_record=False)` 读 `metric`）
 
 ## 进行中的关键坐标（详见 MEMORY-details.md）
 - **NoBatchDict 消融**：noCDIS / noPAQC 两臂，M=10 = 2×16×20 = **640 .mat**；M=20 被用户搁置。脚本 `run_scripts\{progress_nbd.py,RunNBD_AblationAll.m,FinishNBD_Ablation.m,build_nobatchdict_tables.py}`；出表到 `AdaMao实验表\消融实验\nobatchdict版本\`（2 张 xlsx）

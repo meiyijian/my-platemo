@@ -1,0 +1,102 @@
+﻿===== M15 runs 1..20 TOPUP 2026-09-23 00:31:18  workers=12 =====
+  source: SSDE                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SSDE\SSDE.m
+  source: PCSAEA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\PC-SAEA\PCSAEA.m
+  source: SAMOEATL2M                                           D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\SAMOEA-TL2M\SAMOEATL2M.m
+  source: CSEA                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\CSEA\CSEA.m
+  source: REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m
+  source: HES_EA                                               D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\HES-EA\HES_EA.m
+  source: REMO                                                 D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO\REMO.m
+Mode      : run
+Algorithms: SSDE, PCSAEA, SAMOEATL2M, CSEA, REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist, HES_EA, REMO
+Scale     : M=15 D=30 N=100 maxFE=500 save=30 | runs 1..20
+Dataset   : C:\Users\lsx\Desktop\REMOandDREMO测试集\15目标\FE500
+Planned runs: 2240; already present: 1440; to run: 800
+Raising the pool cap from 6 to 12 workers (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+Using 12 process workers (NumThreads=1).
+[   1/ 800] DTLZ1   run 18 FE=504 IGD=207.41591 | 1.6 min, 97.9 s/run, eta 1303.4 min
+[   2/ 800] DTLZ1   run 19 FE=504 IGD=175.27781 | 1.7 min, 49.5 s/run, eta 658.9 min
+[   3/ 800] DTLZ1   run 14 FE=504 IGD=214.04655 | 1.7 min, 33.3 s/run, eta 442.4 min
+[   4/ 800] DTLZ1   run 17 FE=504 IGD=161.11625 | 1.7 min, 25.2 s/run, eta 334.9 min
+[   5/ 800] DTLZ1   run 16 FE=504 IGD=180.54629 | 1.7 min, 20.2 s/run, eta 267.7 min
+[   6/ 800] DTLZ1   run 12 FE=504 IGD=186.44251 | 1.7 min, 17.0 s/run, eta 225.0 min
+[   7/ 800] DTLZ1   run 20 FE=504 IGD=175.66152 | 1.7 min, 15.0 s/run, eta 197.8 min
+[   8/ 800] DTLZ1   run 13 FE=504 IGD=189.50742 | 1.8 min, 13.3 s/run, eta 175.8 min
+[   9/ 800] DTLZ2   run 11 FE=504 IGD=1.0655939 | 1.8 min, 12.1 s/run, eta 159.2 min
+[  10/ 800] DTLZ1   run 11 FE=504 IGD=183.2626 | 1.9 min, 11.2 s/run, eta 146.9 min
+[  11/ 800] DTLZ2   run 12 FE=504 IGD=1.0585262 | 2.0 min, 10.8 s/run, eta 141.5 min
+[  12/ 800] DTLZ1   run 15 FE=504 IGD=237.76777 | 2.0 min, 10.0 s/run, eta 131.4 min
+[  13/ 800] DTLZ2   run 20 FE=504 IGD=1.038263 | 3.4 min, 15.5 s/run, eta 203.6 min
+[  14/ 800] DTLZ2   run 13 FE=504 IGD=1.0615328 | 3.4 min, 14.5 s/run, eta 189.3 min
+[  15/ 800] DTLZ2   run 14 FE=504 IGD=1.0744556 | 3.5 min, 14.0 s/run, eta 182.6 min
+[  16/ 800] DTLZ3   run 11 FE=504 IGD=814.32646 | 3.5 min, 13.2 s/run, eta 172.4 min
+[  17/ 800] DTLZ2   run 15 FE=504 IGD=1.0651934 | 3.6 min, 12.7 s/run, eta 165.9 min
+[  18/ 800] DTLZ2   run 17 FE=504 IGD=1.045488 | 3.6 min, 12.1 s/run, eta 158.3 min
+[  19/ 800] DTLZ2   run 18 FE=504 IGD=1.080973 | 3.7 min, 11.6 s/run, eta 151.0 min
+[  20/ 800] DTLZ3   run 13 FE=504 IGD=895.01155 | 3.7 min, 11.1 s/run, eta 144.9 min
+[  30/ 800] DTLZ3   run 20 FE=504 IGD=808.09723 | 5.3 min, 10.5 s/run, eta 134.8 min
+[  40/ 800] DTLZ5   run 12 FE=504 IGD=0.2780476 | 6.8 min, 10.1 s/run, eta 128.4 min
+[  50/ 800] DTLZ6   run 11 FE=504 IGD=13.655275 | 8.4 min, 10.0 s/run, eta 125.3 min
+[  60/ 800] DTLZ6   run 20 FE=504 IGD=13.618726 | 9.1 min, 9.1 s/run, eta 112.5 min
+[  70/ 800] DTLZ7   run 20 FE=504 IGD=37.394558 | 10.7 min, 9.2 s/run, eta 111.8 min
+[  80/ 800] WFG1    run 20 FE=504 IGD=4.2995599 | 12.1 min, 9.1 s/run, eta 109.3 min
+[  90/ 800] WFG3    run 12 FE=504 IGD=1.2554295 | 13.7 min, 9.2 s/run, eta 108.3 min
+[ 100/ 800] WFG3    run 20 FE=504 IGD=1.2454119 | 15.3 min, 9.2 s/run, eta 107.1 min
+[ 110/ 800] WFG5    run 11 FE=504 IGD=13.487002 | 16.7 min, 9.1 s/run, eta 105.0 min
+[ 120/ 800] WFG5    run 19 FE=504 IGD=14.766249 | 17.6 min, 8.8 s/run, eta 99.5 min
+[ 130/ 800] WFG6    run 20 FE=504 IGD=13.801197 | 19.1 min, 8.8 s/run, eta 98.3 min
+[ 140/ 800] WFG7    run 18 FE=504 IGD=15.103442 | 20.5 min, 8.8 s/run, eta 96.4 min
+[ 150/ 800] WFG8    run 20 FE=504 IGD=14.207031 | 21.9 min, 8.8 s/run, eta 94.8 min
+[ 160/ 800] WFG9    run 20 FE=504 IGD=14.056904 | 23.5 min, 8.8 s/run, eta 94.2 min
+[ 170/ 800] DTLZ1   run 20 FE=505 IGD=135.6448 | 26.3 min, 9.3 s/run, eta 97.3 min
+[ 180/ 800] DTLZ2   run 20 FE=509 IGD=1.0044812 | 28.3 min, 9.4 s/run, eta 97.3 min
+[ 190/ 800] DTLZ3   run 18 FE=506 IGD=320.3516 | 30.6 min, 9.7 s/run, eta 98.2 min
+[ 200/ 800] DTLZ4   run 20 FE=503 IGD=1.1137885 | 33.0 min, 9.9 s/run, eta 99.1 min
+[ 210/ 800] DTLZ6   run 11 FE=504 IGD=11.021137 | 35.4 min, 10.1 s/run, eta 99.4 min
+[ 220/ 800] DTLZ6   run 20 FE=503 IGD=9.6311176 | 37.0 min, 10.1 s/run, eta 97.5 min
+[ 230/ 800] DTLZ7   run 20 FE=505 IGD=33.322248 | 39.2 min, 10.2 s/run, eta 97.1 min
+[ 240/ 800] WFG1    run 20 FE=504 IGD=3.9752536 | 41.3 min, 10.3 s/run, eta 96.3 min
+[ 250/ 800] WFG2    run 20 FE=508 IGD=4.4393902 | 43.6 min, 10.5 s/run, eta 96.0 min
+[ 260/ 800] WFG3    run 20 FE=503 IGD=1.7926802 | 46.0 min, 10.6 s/run, eta 95.6 min
+[ 270/ 800] WFG4    run 20 FE=503 IGD=16.98397 | 48.3 min, 10.7 s/run, eta 94.8 min
+[ 280/ 800] WFG5    run 20 FE=505 IGD=16.098818 | 50.1 min, 10.7 s/run, eta 93.0 min
+[ 290/ 800] WFG6    run 20 FE=505 IGD=14.640883 | 52.6 min, 10.9 s/run, eta 92.5 min
+[ 300/ 800] WFG7    run 20 FE=500 IGD=15.619466 | 54.5 min, 10.9 s/run, eta 90.9 min
+[ 310/ 800] WFG8    run 20 FE=505 IGD=16.596979 | 57.1 min, 11.1 s/run, eta 90.3 min
+[ 320/ 800] WFG9    run 20 FE=503 IGD=15.53523 | 60.0 min, 11.3 s/run, eta 90.0 min
+[ 330/ 800] DTLZ1   run 20 FE=500 IGD=64.928746 | 76.5 min, 13.9 s/run, eta 108.9 min
+[ 340/ 800] DTLZ2   run 20 FE=500 IGD=0.89975528 | 90.6 min, 16.0 s/run, eta 122.6 min
+[ 350/ 800] DTLZ4   run 11 FE=500 IGD=0.99347037 | 105.6 min, 18.1 s/run, eta 135.8 min
+[ 360/ 800] DTLZ4   run 20 FE=500 IGD=0.9403338 | 121.1 min, 20.2 s/run, eta 148.1 min
+[ 370/ 800] DTLZ6   run 11 FE=500 IGD=10.059189 | 135.9 min, 22.0 s/run, eta 157.9 min
+[ 380/ 800] DTLZ6   run 18 FE=500 IGD=7.194053 | 138.9 min, 21.9 s/run, eta 153.6 min
+[ 390/ 800] DTLZ7   run 20 FE=500 IGD=13.393379 | 154.0 min, 23.7 s/run, eta 161.9 min
+[ 400/ 800] WFG2    run 11 FE=500 IGD=3.094357 | 168.8 min, 25.3 s/run, eta 168.8 min
+[ 410/ 800] WFG2    run 18 FE=500 IGD=2.6530895 | 183.4 min, 26.8 s/run, eta 174.5 min
+[ 420/ 800] WFG3    run 17 FE=500 IGD=2.0224691 | 198.0 min, 28.3 s/run, eta 179.1 min
+[ 430/ 800] WFG4    run 19 FE=500 IGD=9.9484627 | 213.1 min, 29.7 s/run, eta 183.4 min
+[ 440/ 800] WFG5    run 19 FE=500 IGD=10.281476 | 215.7 min, 29.4 s/run, eta 176.5 min
+[ 450/ 800] WFG6    run 18 FE=500 IGD=10.194579 | 229.7 min, 30.6 s/run, eta 178.7 min
+[ 460/ 800] WFG7    run 20 FE=500 IGD=9.5618603 | 244.3 min, 31.9 s/run, eta 180.6 min
+[ 470/ 800] WFG8    run 20 FE=500 IGD=11.181363 | 259.0 min, 33.1 s/run, eta 181.9 min
+[ 480/ 800] WFG9    run 20 FE=500 IGD=15.894066 | 279.6 min, 35.0 s/run, eta 186.4 min
+[ 490/ 800] DTLZ1   run 19 FE=504 IGD=164.08112 | 316.8 min, 38.8 s/run, eta 200.4 min
+[ 500/ 800] DTLZ2   run 20 FE=504 IGD=0.92351887 | 335.5 min, 40.3 s/run, eta 201.3 min
+[ 510/ 800] DTLZ3   run 17 FE=504 IGD=640.53089 | 371.0 min, 43.6 s/run, eta 210.9 min
+[ 520/ 800] DTLZ4   run 19 FE=504 IGD=1.214605 | 408.8 min, 47.2 s/run, eta 220.1 min
+[ 530/ 800] DTLZ5   run 20 FE=504 IGD=0.19465005 | 447.0 min, 50.6 s/run, eta 227.7 min
+[ 540/ 800] DTLZ6   run 20 FE=504 IGD=10.604918 | 475.1 min, 52.8 s/run, eta 228.8 min
+[ 550/ 800] DTLZ7   run 19 FE=504 IGD=1.9055013 | 511.9 min, 55.8 s/run, eta 232.7 min
+[ 560/ 800] WFG1    run 20 FE=504 IGD=4.1819934 | 532.2 min, 57.0 s/run, eta 228.1 min
+[ 570/ 800] WFG2    run 19 FE=504 IGD=3.3417103 | 567.3 min, 59.7 s/run, eta 228.9 min
+[ 580/ 800] WFG4    run 12 FE=504 IGD=13.737757 | 611.0 min, 63.2 s/run, eta 231.8 min
+[ 590/ 800] WFG4    run 20 FE=504 IGD=12.966256 | 646.7 min, 65.8 s/run, eta 230.2 min
+[ 600/ 800] WFG5    run 20 FE=504 IGD=11.044068 | 674.6 min, 67.5 s/run, eta 224.9 min
+[ 610/ 800] WFG6    run 20 FE=504 IGD=9.233485 | 711.7 min, 70.0 s/run, eta 221.7 min
+[ 620/ 800] WFG7    run 20 FE=504 IGD=11.932568 | 731.6 min, 70.8 s/run, eta 212.4 min
+[ 630/ 800] WFG8    run 20 FE=504 IGD=11.097838 | 769.0 min, 73.2 s/run, eta 207.5 min
+[ 640/ 800] WFG9    run 19 FE=504 IGD=10.925798 | 795.2 min, 74.5 s/run, eta 198.8 min
+[ 650/ 800] DTLZ1   run 20 FE=500 IGD=55.47388 | 817.2 min, 75.4 s/run, eta 188.6 min
+[ 660/ 800] DTLZ2   run 20 FE=500 IGD=0.90404611 | 837.5 min, 76.1 s/run, eta 177.6 min
+END 2026-09-23 14:45:37 rc=-1

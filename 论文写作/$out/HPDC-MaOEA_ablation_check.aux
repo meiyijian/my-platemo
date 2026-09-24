@@ -1,0 +1,138 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{ref:krvea,ref:csea,ref:pcsaea}
+\citation{ref:remo}
+\citation{ref:remo}
+\citation{ref:rsea}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\citation{ref:rsea}
+\citation{ref:remo}
+\citation{ref:remo}
+\citation{ref:rsea}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{2}{section.2}\protected@file@percent }
+\newlabel{sec:related}{{2}{2}{Related Work}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Surrogate-Assisted Expensive Multi-/Many-Objective Optimization}{2}{subsection.2.1}\protected@file@percent }
+\newlabel{sec:related:saea}{{2.1}{2}{Surrogate-Assisted Expensive Multi-/Many-Objective Optimization}{subsection.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Relation Learning for Expensive Optimization}{2}{subsection.2.2}\protected@file@percent }
+\newlabel{sec:related:relation}{{2.2}{2}{Relation Learning for Expensive Optimization}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Quality Assessment and Candidate Selection}{2}{subsection.2.3}\protected@file@percent }
+\newlabel{sec:related:selection}{{2.3}{2}{Quality Assessment and Candidate Selection}{subsection.2.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The Proposed PACDIS}{2}{section.3}\protected@file@percent }
+\newlabel{sec:method}{{3}{2}{The Proposed PACDIS}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Overall Framework}{2}{subsection.3.1}\protected@file@percent }
+\newlabel{sec:method:framework}{{3.1}{2}{Overall Framework}{subsection.3.1}{}}
+\newlabel{eq:problem}{{1}{2}{Overall Framework}{equation.1}{}}
+\citation{ref:remo}
+\citation{ref:rsea}
+\citation{ref:remo}
+\citation{ref:remo}
+\citation{ref:moead}
+\citation{ref:remo}
+\citation{ref:rsea}
+\citation{ref:remo}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces PACDIS}}{3}{algorithm.1}\protected@file@percent }
+\newlabel{alg:framework}{{1}{3}{Overall Framework}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}PBI-Assisted Quality Classification (PAQC)}{3}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:method:paqc}{{3.2}{3}{PBI-Assisted Quality Classification (PAQC)}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Quality Assessment Using Nondominated-Derived Directions}{3}{subsubsection.3.2.1}\protected@file@percent }
+\newlabel{sec:method:paqc:cont}{{3.2.1}{3}{Quality Assessment Using Nondominated-Derived Directions}{subsubsection.3.2.1}{}}
+\newlabel{eq:direction}{{2}{3}{Quality Assessment Using Nondominated-Derived Directions}{equation.2}{}}
+\newlabel{eq:pbi}{{3}{3}{Quality Assessment Using Nondominated-Derived Directions}{equation.3}{}}
+\newlabel{eq:score-cont}{{4}{3}{Quality Assessment Using Nondominated-Derived Directions}{equation.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Representative-Based Grouping Signal}{3}{subsubsection.3.2.2}\protected@file@percent }
+\newlabel{sec:method:paqc:coarse}{{3.2.2}{3}{Representative-Based Grouping Signal}{subsubsection.3.2.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Flowchart of PACDIS. Left: the expensive-evaluation loop, with PAQC constructing the training groups and CDIS selecting the infill batch. Right: expansion of CDIS (dotted connector). A mode is drawn before the relation-guided search; $c$ counts the generated candidates and $g_{\max }$ bounds their accumulation. Indicator mode is drawn with probability $p_{\mathrm  {mix}}=0.5$ when its surrogate is available; otherwise the ambiguity-oriented mode is used. The selected mode determines the final filtering and selection criterion. The ambiguity-oriented mode uses a relation-quality screen followed by ambiguity-rewarded ranking; the indicator branch directly reranks its relation-screened subset. The batch is bounded by its cap and the remaining evaluation budget, without minimum-size completion. Detailed safeguards are given in Algorithms~\ref {alg:framework} and~\ref {alg:cdis}. }}{4}{figure.1}\protected@file@percent }
+\newlabel{fig:framework}{{1}{4}{Flowchart of PACDIS. Left: the expensive-evaluation loop, with PAQC constructing the training groups and CDIS selecting the infill batch. Right: expansion of CDIS (dotted connector). A mode is drawn before the relation-guided search; $c$ counts the generated candidates and $g_{\max }$ bounds their accumulation. Indicator mode is drawn with probability $p_{\mathrm {mix}}=0.5$ when its surrogate is available; otherwise the ambiguity-oriented mode is used. The selected mode determines the final filtering and selection criterion. The ambiguity-oriented mode uses a relation-quality screen followed by ambiguity-rewarded ranking; the indicator branch directly reranks its relation-screened subset. The batch is bounded by its cap and the remaining evaluation budget, without minimum-size completion. Detailed safeguards are given in Algorithms~\ref {alg:framework} and~\ref {alg:cdis}}{figure.1}{}}
+\newlabel{eq:label-bin}{{5}{4}{Representative-Based Grouping Signal}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Complementary-Signal Fusion for Positive-Group Construction}{4}{subsubsection.3.2.3}\protected@file@percent }
+\newlabel{sec:method:paqc:hybrid}{{3.2.3}{4}{Complementary-Signal Fusion for Positive-Group Construction}{subsubsection.3.2.3}{}}
+\newlabel{eq:fuse}{{6}{4}{Complementary-Signal Fusion for Positive-Group Construction}{equation.6}{}}
+\citation{ref:remo}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Conceptual illustration of representative-based classification and PAQC. Black rays connect the ideal point $Z$ to representative solutions, and orange dash-dotted segments indicate local classification thresholds. Blue dashed rays show directions constructed from nondominated solutions $P_1$ and $P_2$. In (a), ``Good group'' and ``Bad group'' denote the binary labels $L_i=1$ and $L_i=0$; in (b), they denote $\mathcal  {C}_1$ and $\mathcal  {C}_2$, respectively. Blue rings highlight the reassignment of $A$ and $B$. The PF is an external reference only. Selected solutions and schematic boundaries are shown, rather than a complete population or a numerically evaluated example. Geometric presentation adapted from REMO~\cite  {ref:remo}.}}{5}{figure.2}\protected@file@percent }
+\newlabel{fig:paqc-mechanism}{{2}{5}{Conceptual illustration of representative-based classification and PAQC. Black rays connect the ideal point $Z$ to representative solutions, and orange dash-dotted segments indicate local classification thresholds. Blue dashed rays show directions constructed from nondominated solutions $P_1$ and $P_2$. In (a), ``Good group'' and ``Bad group'' denote the binary labels $L_i=1$ and $L_i=0$; in (b), they denote $\mathcal {C}_1$ and $\mathcal {C}_2$, respectively. Blue rings highlight the reassignment of $A$ and $B$. The PF is an external reference only. Selected solutions and schematic boundaries are shown, rather than a complete population or a numerically evaluated example. Geometric presentation adapted from REMO~\cite {ref:remo}}{figure.2}{}}
+\newlabel{eq:group}{{7}{5}{Complementary-Signal Fusion for Positive-Group Construction}{equation.7}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces PBIQualityClassification (PAQC)}}{5}{algorithm.2}\protected@file@percent }
+\newlabel{alg:paqc}{{2}{5}{Complementary-Signal Fusion for Positive-Group Construction}{algorithm.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Relation Learning on the PAQC Groups}{5}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:method:relation}{{3.3}{5}{Relation Learning on the PAQC Groups}{subsection.3.3}{}}
+\newlabel{eq:pairlabel}{{8}{5}{Relation Learning on the PAQC Groups}{equation.8}{}}
+\newlabel{eq:relscore}{{9}{5}{Relation Learning on the PAQC Groups}{equation.9}{}}
+\citation{ref:sde}
+\citation{ref:piea}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Criterion-Diversified Infill Selection (CDIS)}{6}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:method:cdis}{{3.4}{6}{Criterion-Diversified Infill Selection (CDIS)}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Ambiguity-Rewarded Infill}{6}{subsubsection.3.4.1}\protected@file@percent }
+\newlabel{sec:method:cdis:exp}{{3.4.1}{6}{Ambiguity-Rewarded Infill}{subsubsection.3.4.1}{}}
+\newlabel{eq:prefilter-exp}{{10}{6}{Ambiguity-Rewarded Infill}{equation.10}{}}
+\newlabel{eq:ambiguity}{{11}{6}{Ambiguity-Rewarded Infill}{equation.11}{}}
+\newlabel{eq:expscore}{{12}{6}{Ambiguity-Rewarded Infill}{equation.12}{}}
+\newlabel{eq:batch-ranking}{{13}{6}{Ambiguity-Rewarded Infill}{equation.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Indicator-Based Infill}{6}{subsubsection.3.4.2}\protected@file@percent }
+\newlabel{sec:method:cdis:ind}{{3.4.2}{6}{Indicator-Based Infill}{subsubsection.3.4.2}{}}
+\newlabel{eq:svr}{{14}{6}{Indicator-Based Infill}{equation.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Selection-Criterion Switching}{6}{subsubsection.3.4.3}\protected@file@percent }
+\newlabel{sec:method:cdis:mix}{{3.4.3}{6}{Selection-Criterion Switching}{subsubsection.3.4.3}{}}
+\newlabel{eq:mode}{{15}{6}{Selection-Criterion Switching}{equation.15}{}}
+\citation{ref:platemo}
+\citation{ref:remo}
+\citation{ref:ssde}
+\citation{ref:pcsaea}
+\citation{ref:samoeatl2m}
+\citation{ref:csea}
+\citation{ref:hesea}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces DiversifiedInfillSelection (CDIS)}}{7}{algorithm.3}\protected@file@percent }
+\newlabel{alg:cdis}{{3}{7}{Selection-Criterion Switching}{algorithm.3}{}}
+\newlabel{eq:batch}{{16}{7}{Selection-Criterion Switching}{equation.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Computational Complexity}{7}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:method:complexity}{{3.5}{7}{Computational Complexity}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Experimental Studies}{7}{section.4}\protected@file@percent }
+\newlabel{sec:exp}{{4}{7}{Experimental Studies}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Experimental Settings}{7}{subsection.4.1}\protected@file@percent }
+\newlabel{sec:exp:settings}{{4.1}{7}{Experimental Settings}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{Test problems and evaluation budget.}{7}{section*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Compared algorithms.}{7}{section*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{PACDIS parameters.}{7}{section*.3}\protected@file@percent }
+\newlabel{eq:keff}{{17}{7}{PACDIS parameters}{equation.17}{}}
+\@writefile{toc}{\contentsline {paragraph}{Implementation details.}{7}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Performance indicator and statistical reporting.}{7}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Comparison with the Six Baseline Algorithms}{8}{subsection.4.2}\protected@file@percent }
+\newlabel{sec:exp:comparison}{{4.2}{8}{Comparison with the Six Baseline Algorithms}{subsection.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Comparison of IGD$+$ values on DTLZ1--7.}}{9}{table.1}\protected@file@percent }
+\newlabel{tab:exp:dtlz}{{1}{9}{Comparison of IGD$+$ values on DTLZ1--7}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Comparison of IGD$+$ values on WFG1--9.}}{10}{table.2}\protected@file@percent }
+\newlabel{tab:exp:wfg}{{2}{10}{Comparison of IGD$+$ values on WFG1--9}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Component Ablation of PAQC and CDIS}{11}{subsection.4.3}\protected@file@percent }
+\newlabel{sec:exp:ablation}{{4.3}{11}{Component Ablation of PAQC and CDIS}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Good-Group Precision Analysis of PAQC}{11}{subsection.4.4}\protected@file@percent }
+\newlabel{sec:exp:ggp}{{4.4}{11}{Good-Group Precision Analysis of PAQC}{subsection.4.4}{}}
+\newlabel{eq:ggp}{{18}{11}{Good-Group Precision Analysis of PAQC}{equation.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Evaluated-Candidate Quality Analysis of CDIS}{11}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:exp:cdis-quality}{{4.5}{11}{Evaluated-Candidate Quality Analysis of CDIS}{subsection.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Effect of Selection-Criterion Switching}{11}{subsection.4.6}\protected@file@percent }
+\newlabel{sec:exp:pmix}{{4.6}{11}{Effect of Selection-Criterion Switching}{subsection.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusion}{11}{section.5}\protected@file@percent }
+\newlabel{sec:conclusion}{{5}{11}{Conclusion}{section.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces IGD$^{+}$ ablation results on DTLZ1--7 with 10 and 20 objectives ($N=100$; Full and controls: $FE=300$).}}{12}{table.3}\protected@file@percent }
+\newlabel{tab:ablation_igdplus_dtlz}{{3}{12}{IGD$^{+}$ ablation results on DTLZ1--7 with 10 and 20 objectives ($N=100$; Full and controls: $FE=300$)}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces IGD$^{+}$ ablation results on WFG1--9 with 10 and 20 objectives ($N=100$; Full and controls: $FE=300$).}}{12}{table.4}\protected@file@percent }
+\newlabel{tab:ablation_igdplus_wfg}{{4}{12}{IGD$^{+}$ ablation results on WFG1--9 with 10 and 20 objectives ($N=100$; Full and controls: $FE=300$)}{table.4}{}}
+\bibcite{ref:moead}{{1}{}{{}}{{}}}
+\bibcite{ref:remo}{{2}{}{{}}{{}}}
+\bibcite{ref:rsea}{{3}{}{{}}{{}}}
+\bibcite{ref:piea}{{4}{}{{}}{{}}}
+\bibcite{ref:sde}{{5}{}{{}}{{}}}
+\bibcite{ref:ssde}{{6}{}{{}}{{}}}
+\bibcite{ref:pcsaea}{{7}{}{{}}{{}}}
+\bibcite{ref:samoeatl2m}{{8}{}{{}}{{}}}
+\bibcite{ref:csea}{{9}{}{{}}{{}}}
+\bibcite{ref:hesea}{{10}{}{{}}{{}}}
+\bibcite{ref:krvea}{{11}{}{{}}{{}}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Historical Lambdat030 sensitivity to the switching probability $p_{\mathrm  {mix}}$ at $M=10$ and $M=20$ (batch-distance version; IGD).}}{13}{table.5}\protected@file@percent }
+\newlabel{tab:exp:pmix}{{5}{13}{Historical Lambdat030 sensitivity to the switching probability $p_{\mathrm {mix}}$ at $M=10$ and $M=20$ (batch-distance version; IGD)}{table.5}{}}
+\bibcite{ref:mcead}{{12}{}{{}}{{}}}
+\bibcite{ref:platemo}{{13}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\gdef \@abspage@last{14}

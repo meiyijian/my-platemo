@@ -1,0 +1,24 @@
+﻿===== NBGGP PARALLEL START 2026-09-23 23:07:05  workers=12 seg=10 =====
+NBGGP parallel: 16 subsets, 10 runs per subset, 12 workers
+Raising the pool cap from 6 to 12 (profile untouched).
+Starting parallel pool (parpool) using the 'Processes' profile ...
+Connected to parallel pool with 12 workers.
+pool ready: 12 workers
+[ 1/16] DTLZ2  M10 runs [1 2 3 4 5 6 7 8 9 10] done | 72.0 min elapsed
+[ 2/16] DTLZ2  M20 runs [1 2 3 4 5 6 7 8 9 10] done | 75.0 min elapsed
+[ 3/16] DTLZ4  M20 runs [11 12 13 14 15 16 17 18 19 20] done | 82.3 min elapsed
+[ 4/16] DTLZ4  M20 runs [1 2 3 4 5 6 7 8 9 10] done | 82.6 min elapsed
+[ 5/16] DTLZ2  M20 runs [11 12 13 14 15 16 17 18 19 20] done | 82.7 min elapsed
+[ 6/16] DTLZ7  M20 runs [11 12 13 14 15 16 17 18 19 20] done | 82.9 min elapsed
+[ 7/16] DTLZ7  M20 runs [1 2 3 4 5 6 7 8 9 10] done | 83.2 min elapsed
+[ 8/16] DTLZ7  M10 runs [1 2 3 4 5 6 7 8 9 10] done | 84.8 min elapsed
+[ 9/16] DTLZ7  M10 runs [11 12 13 14 15 16 17 18 19 20] done | 85.7 min elapsed
+[10/16] DTLZ2  M10 runs [11 12 13 14 15 16 17 18 19 20] done | 86.5 min elapsed
+[11/16] DTLZ4  M10 runs [1 2 3 4 5 6 7 8 9 10] done | 86.7 min elapsed
+[12/16] DTLZ4  M10 runs [11 12 13 14 15 16 17 18 19 20] done | 87.2 min elapsed
+[13/16] DTLZ5  M10 runs [1 2 3 4 5 6 7 8 9 10] done | 123.6 min elapsed
+[14/16] DTLZ5  M10 runs [11 12 13 14 15 16 17 18 19 20] done | 125.4 min elapsed
+[15/16] DTLZ5  M20 runs [1 2 3 4 5 6 7 8 9 10] done | 126.2 min elapsed
+[16/16] DTLZ5  M20 runs [11 12 13 14 15 16 17 18 19 20] done | 126.5 min elapsed
+ALL SUBSETS DONE in 126.5 min
+===== END 2026-09-24 01:14:28 rc=0 =====

@@ -135,12 +135,13 @@ function cfg = configuration()
     cfg.problems = {'DTLZ1','DTLZ2','DTLZ3','DTLZ4','DTLZ5','DTLZ6','DTLZ7', ...
         'WFG1','WFG2','WFG3','WFG4','WFG5','WFG6','WFG7','WFG8','WFG9'};
     cfg.problemIndex = 1:16;
-    % Ten runs per problem. This folder already holds run 1..18 for REMO,
-    % PCSAEA and HES_EA (written by an earlier batch, complete up to FE=500 and
-    % already carrying IGDp), so the runner finds runs 1..10 for them and skips
-    % without rewriting anything. CSEA, SSDE, SAMOEATL2M and the NoBatchDist
-    % variant have no data here yet and are the four that actually run.
-    cfg.indices = 1:10;
+    % Twenty runs per problem. Existing files are never rewritten, so this
+    % fills the gaps only:
+    %   run 1..10  already there for all seven algorithms
+    %   run 11..18 already there for REMO / PCSAEA / HES_EA (earlier batch)
+    %   run 19..20 missing for everyone
+    % Anything already stored with a run number above 20 is simply left alone.
+    cfg.indices = 1:20;
     cfg.N = 100;
     cfg.M = 10;
     cfg.D = 30;

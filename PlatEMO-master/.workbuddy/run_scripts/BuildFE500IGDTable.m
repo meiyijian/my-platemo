@@ -53,13 +53,16 @@ function BuildFE500IGDTable(runs,metric,M)
             means(a) = mean(vals{a});
             stds(a)  = std(vals{a});
         end
-        minlen = min(cellfun(@numel,vals(~cellfun(@isempty,vals))));
         signs = repmat(' ',1,nA);
         for a = 1:nA-1
             if isempty(vals{a}) || isempty(vals{end})
                 continue;
             end
-            pv = ranksum(vals{a}(1:minlen),vals{end}(1:minlen));
+            % Align on the shorter of this pair only. Taking a global minimum
+            % would let one incomplete algorithm (e.g. REMO midway through its
+            % top-up) shrink every other comparison as well.
+            k = min(numel(vals{a}),numel(vals{end}));
+            pv = ranksum(vals{a}(1:k),vals{end}(1:k));
             if pv >= 0.05 || means(a) == means(end)
                 signs(a) = '=';
             elseif means(a) < means(end)      % IGD is min-is-better
