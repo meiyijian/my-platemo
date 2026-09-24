@@ -144,8 +144,10 @@ def make_table(family: str, records: dict) -> str:
         "The supplied workbooks report $+$, $-$, and $=$ relative to REMO "
         "(better, worse, and no detected difference, respectively). Their symbols "
         "do not compare Full with either control. Full denotes PACDIS; w/o PAQC "
-        "replaces its grouping, whereas w/o CDIS fixes selection to the ambiguity "
-        "criterion. REMO uses $k=15$ for $M=10$ and $k=30$ for $M=20$. "
+        "uses REMO's representative-based PBI classification with a variable "
+        "positive-group size. The w/o CDIS control retains ambiguity "
+        "ranking but removes indicator modeling and criterion switching. "
+        "REMO uses $k=15$ for $M=10$ and $k=30$ for $M=20$. "
         "Its archived runs can exceed 300 actual evaluations.",
         "\\end{minipage}",
         "\\end{table*}",

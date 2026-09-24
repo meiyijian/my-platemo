@@ -831,17 +831,24 @@ budget. They do not attribute the differences to PAQC or CDIS individually.
 \label{sec:exp:ablation}
 
 We compare the current PACDIS implementation (Full), two deletion controls,
-and REMO. The w/o PAQC control uses REMO's
-representative-based grouping to form relation-training labels and retains
-CDIS. The control labeled w/o CDIS retains PAQC and fixes selection to the
-ambiguity-rewarded relation criterion. It removes the indicator branch and
-criterion switching while retaining CDIS's ambiguity criterion. Full and both
-controls retain the same relation model,
+and REMO. The w/o PAQC control uses REMO's representative-based PBI
+classification in place of PAQC's fused group construction. The REMO
+classifier adapts its PBI threshold, giving a variable positive-group size;
+Full fixes this size at 25\%. This control retains the indicator model and
+criterion switching.
+
+The w/o CDIS control retains PAQC but removes the SDE indicator model,
+indicator criterion, and criterion switching. Every round uses relation-score
+quantile screening followed by ambiguity-rewarded ranking. This control thus
+tests the indicator criterion and switching while retaining the ambiguity
+criterion. Full and both controls use the same relation-model architecture,
+representative-selection routine, candidate-generation threshold,
 environmental selection, batch-size cap, and absence of within-batch distance.
 
 The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
 with $N=100$ and a configured 300-evaluation cap that includes initialization.
-Full and the two controls end at 300 evaluations. REMO uses $k=15$ and 30
+Full and the two controls each have 20 runs per configuration and end at 300
+evaluations. REMO uses $k=15$ and 30
 at $M=10$ and 20, respectively; its archived runs can exceed 300 actual
 evaluations. The workbooks give mean, standard deviation, and comparison
 symbols relative to REMO. We retain those symbols without reconstructing tests
@@ -857,8 +864,8 @@ totals are $19/2/11$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
 also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 at
 both objective counts and DTLZ7 at $M=10$. These REMO-referenced annotations
 describe the four complete configurations. Module attribution requires
-direct Full-versus-control tests. The w/o CDIS control retains the ambiguity
-criterion, and REMO's possible budget overrun further limits attribution.
+direct Full-versus-control tests. REMO's possible budget overrun further
+limits attribution.
 
 \input{experiments/ablation/table_ablation_igdp}
 
