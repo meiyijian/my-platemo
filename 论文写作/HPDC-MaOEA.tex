@@ -893,6 +893,9 @@ tie rule, sample coverage and run-level aggregation; insert GGP results
 and uncertainty. Verify version and budget compatibility before reusing
 historical checkpoints.}
 
+% Queue the NoBatchDist sensitivity table early for two-column placement.
+\input{experiments/pmix_nobatchdist_igdp_table}
+
 \subsection{Evaluated-Candidate Quality Analysis of CDIS}
 \label{sec:exp:cdis-quality}
 
@@ -909,23 +912,20 @@ This fixed-pool comparison isolates final selection; the performance ablation
 also includes mode-dependent candidate generation. No CDIS mechanism results
 are available in this draft.}
 
-% Queue the historical sensitivity table before the full-page panel figure.
-\input{experiments/pmix_historical_table}
-
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
 
 Equation~\eqref{eq:mode} sets $p_{\mathrm{mix}}=0.5$ as the default.
-Table~\ref{tab:exp:pmix} restores the earlier five-setting IGD experiment
-for Lambdat030 with batch distance. These historical results do not establish
-the sensitivity of the current NoBatchDist configuration under IGD$^+$.
-\TODO{Evaluate $p_{\mathrm{mix}}=0$, 0.5, and 1 with the current PACDIS
-configuration and IGD$^+$ under matched problems, seeds, initialization,
-and evaluation budgets at $M=10$ and 20. Specify the problem subset before
-running the experiment and verify the protocol before reusing default runs.
-Record indicator-model failures: $p_{\mathrm{mix}}=1$ still permits the
-ambiguity-oriented mode when the indicator surrogate is unavailable.
-Insert current-configuration results before drawing sensitivity conclusions.}
+Table~\ref{tab:exp:pmix} compares five settings in the NoBatchDist
+configuration on six problems at each of $M=10$ and 20. Each cell uses
+20 runs and reports final IGD$^+$. Across the 12 problem--objective
+configurations, $p_{\mathrm{mix}}=0.50$ has the lowest average rank, 2.08;
+$p_{\mathrm{mix}}=0.75$ follows at 2.33. The default does not lead on every
+problem: $p_{\mathrm{mix}}=0$ improves DTLZ7 at $M=10$, and
+$p_{\mathrm{mix}}=0.25$ improves DTLZ7 at $M=20$, according to the paired
+tests in the source table. At $p_{\mathrm{mix}}=1$, the algorithm can still
+use the ambiguity-oriented mode when the indicator surrogate is unavailable.
+The results support $0.50$ as the best-ranked setting in this tested subset.
 
 \TODO{Rebuild the convergence figure from the six current baselines with the
 500-evaluation budget and document the available run counts. The existing
