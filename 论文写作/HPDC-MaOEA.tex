@@ -98,11 +98,13 @@ PAQC constructs adaptive directions directly from the current nondominated
 objective vectors and uses PBI-based directional quality information to supplement
 representative-based positive-group construction. CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented selection criteria. Present the two mechanisms as
-complementary, with problem-dependent effects in the component comparisons. Lead the results
+complementary in design. The REMO-referenced component comparisons report
+problem-dependent complete-configuration outcomes. Direct module effects
+require Full-versus-control tests. Lead the results
 with the strongest verified algorithm-level IGD$^+$ comparison in the tested
 many-objective settings. Then give one concise mechanism finding about group
 composition or candidate-batch utility. Keep detailed overlap statistics and
-componentwise tests in the experimental section.}
+any direct module tests in the experimental section.}
 \end{abstract}
 
 \begin{keyword}
@@ -175,11 +177,13 @@ information through two alternative infill criteria to allocate a limited
 expensive-evaluation budget. These mechanisms address different stages of the
 relation-learning framework. Third, experiments on DTLZ and WFG benchmarks
 with 10, 15, and 20 objectives compare PACDIS with six surrogate-assisted
-algorithms, while deletion controls examine the respective roles of PAQC and
-CDIS. PACDIS shows competitive performance on the tested settings, with
+algorithms, while REMO-referenced component comparisons place the complete
+method beside its PAQC and CDIS deletion controls. PACDIS shows competitive
+performance on the tested settings, with
 consistent mean IGD$^+$ advantages on WFG2 and WFG7 across the three objective
-counts; HES-EA remains stronger on DTLZ5 and DTLZ7. The reported component
-comparisons suggest complementary, problem-dependent benefits. Group-quality
+counts; HES-EA remains stronger on DTLZ5 and DTLZ7. The REMO-referenced
+comparisons favor PACDIS on 28 of 32 tested configurations. These exports
+lack direct module comparisons. Group-quality
 and candidate-quality diagnostics provide the planned mechanism analyses.
 
 The remainder of this paper is organized as follows.
@@ -823,11 +827,11 @@ These results describe complete-algorithm performance under the selected
 budget. They do not attribute the differences to PAQC or CDIS individually.
 
 \clearpage
-\subsection{Component Ablation of PAQC and CDIS}
+\subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
 
-We assess PAQC and CDIS through two controls of the current PACDIS
-implementation (Full). The w/o PAQC control uses REMO's
+We compare the current PACDIS implementation (Full), two deletion controls,
+and REMO. The w/o PAQC control uses REMO's
 representative-based grouping to form relation-training labels and retains
 CDIS. The control labeled w/o CDIS retains PAQC and fixes selection to the
 ambiguity-rewarded relation criterion. It removes the indicator branch and
@@ -835,27 +839,26 @@ criterion switching while retaining CDIS's ambiguity criterion. Full and both
 controls retain the same relation model,
 environmental selection, batch-size cap, and absence of within-batch distance.
 
-We evaluate DTLZ1--7 and WFG1--9 at $M=10$ and 20, with $N=100$ and a
-300-evaluation cap that includes initialization. Each configuration has 20
-independent runs. Full and the two controls end at 300 evaluations.
-We measure the final populations with IGD$^+$ and compare each control with
-Full using a two-sided, unpaired Wilcoxon rank-sum test at $p<0.05$. We make
-no multiple-comparison adjustment to the reported symbols. We also show REMO
-with $k=15$ and 30 at $M=10$ and 20 as a contextual baseline. Its archived
-runs can exceed 300 evaluations, so we exclude REMO from module attribution.
-This study uses a separate budget from the 500-evaluation main comparison.
+The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
+with $N=100$ and a configured 300-evaluation cap that includes initialization.
+Full and the two controls end at 300 evaluations. REMO uses $k=15$ and 30
+at $M=10$ and 20, respectively; its archived runs can exceed 300 actual
+evaluations. The workbooks give mean, standard deviation, and comparison
+symbols relative to REMO. We retain those symbols without reconstructing tests
+from aggregate values. The workbooks omit Full-versus-control tests and any
+record of multiple-comparison adjustment. This study uses a separate
+configured budget from the 500-evaluation main comparison.
 
 Tables~\ref{tab:ablation_igdplus_dtlz} and~\ref{tab:ablation_igdplus_wfg}
-report the results. The tests favor Full over w/o CDIS on 12 of 32
-configurations and over w/o PAQC on 10 of 32 configurations. They favor the
-controls on three and two configurations, respectively; the others carry
-no reported difference. Fixed ambiguity-only selection improves IGD$^+$ on
-DTLZ6 at both objective counts and DTLZ7 at $M=10$. Replacing PAQC grouping
-improves it on WFG3 at both objective counts. PAQC grouping and CDIS's added
-indicator and switching path therefore have problem-dependent effects on final
-IGD$^+$. The w/o CDIS control retains the ambiguity criterion, so this
-comparison does not measure the removal of all CDIS selection logic. These
-results neither establish equal effect sizes nor a statistical interaction.
+report the results. Relative to REMO, the workbooks mark Full as better on
+28 of 32 configurations, worse on WFG3 at both objective counts, and $=$
+on WFG5 at both counts. The corresponding $+/-/=$
+totals are $19/2/11$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
+also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 at
+both objective counts and DTLZ7 at $M=10$. These REMO-referenced annotations
+describe the four complete configurations. Module attribution requires
+direct Full-versus-control tests. The w/o CDIS control retains the ambiguity
+criterion, and REMO's possible budget overrun further limits attribution.
 
 \input{experiments/ablation/table_ablation_igdp}
 
@@ -938,10 +941,12 @@ representative-based grouping with directional quality information obtained
 from the current nondominated set to construct positive training groups.
 CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
-screening. The reported ablation comparisons suggest that both components
-benefit the complete algorithm on different problems, with no uniform
-component dominance. These results support treating PAQC and CDIS as
-complementary mechanisms at the two interfaces.
+screening. The REMO-referenced comparisons favor PACDIS on most tested
+configurations, with reversals on WFG3. The exported symbols compare each
+configuration with REMO. Quantifying either module's conditional contribution
+requires direct Full-versus-control results. PAQC and CDIS address complementary
+interfaces by design; their respective effects on final IGD$^+$ require
+matched direct comparisons.
 
 \TODO{Complete the statistical and provenance audits before writing the
 performance conclusions. Add the matched group-quality and candidate-quality
