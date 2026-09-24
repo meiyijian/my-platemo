@@ -93,3 +93,15 @@ MEMORY.md 只留高频/致命条目，本文件保存完整细节。
 - 同一病理在 M15 复现：`smoke_HES_EA_N100_M15(10,[7 8],1)`（= WFG3）13:42 启动后无输出；而同批的 DTLZ2 smoke 正常（285 s + 264 s）。→ 疑似**运行级病态**（DTLZ3 slice [15–20] 正常完成、slice [3–14] 卡死），像是某些 run 触发死循环/超慢，而不是整题不可跑。嫌疑点：`HES_EA_N100` 第 75 行 `pdist2(...,'cosine')` 在退化种群上产生 NaN → KMeans 迭代不终止。
 - 未采取的恢复动作（按巡检约定只读，未执行）：停 `chain_to_M15.sh`（PID 44472）与 M10 `driver.sh` → 杀 12 个卡死 MATLAB → 后台重启 M10 driver 补缺 → 再启链式看门狗。**在诊断出死循环根因前，盲跑会再次卡在同一批 run 上。**
 - 诊断手法（只读，可复用）：本机 PowerShell 工具 stdout 不回显 → 把 `Get-Process`/`Get-CimInstance Win32_Process`（含 `CommandLine`）的采样结果 `Set-Content` 到临时文件，再用 Read 读；`CommandLine` 能直接暴露每个 worker 的 part 号与 run 列表。
+
+## FE500 七算法全系列（2026-09-21 起）—— 六个必知坑（自 MEMORY.md 迁入归档）
+- 框架 `PlatEMO/Experiments/FE500_M20_SevenAlgs/`，后台任务 `7CMxJT`（16 路），巡检自动化 `852747ad-1eec-4afc-a421-6ca505c29ed6`（已过期）。
+- 范围：7 算法 × 16 题 × 20 跑 = 2240，maxFE=500、M=20、D=30（WFG2/3 为 31）、N=100、每题算 IGDp；落盘 `D:\REMOandDREMO测试集\20目标\FE500\<算法>\`；种子 `22260912 + 1000×题号 + run`。算法顺序 SSDE→SAMOEA→CSEA→PCSAEA→REMO→PACDIS→HES_EA（便宜→贵，卡死风险的 HES 放最后）。**PCSAEA/SAMOEATL2M/HES_EA 一律用原版类**。
+- ① 末次 FE 严禁严格判等 `maxFE`（按批评估的算法必超支，实测 SSDE 500–543）→ harness 加 `FESlack`（默认 0 = 旧行为不变）。
+- ② 固定种子下卡死的 run 重驱必定再卡 → `mark_poison.py` + `rc_part*.txt` + `poison.txt`（同一片被 timeout 124 杀 ≥2 次即把列表里第一个未落盘的 run 投毒并跳过）；`SLICE_TIMEOUT=14400 s`。
+- ③ 启动节流不能用一个固定值：`LAUNCH_GAP=20`（前 `COLD_STARTS=4` 次）+ `LAUNCH_GAP_WARM=5`（固定 `sleep 20` 会把短切片算法 SSDE 卡到只有 2–3 路在跑、CPU 12%）。
+- ④ 内存闸 `MIN_FREE_MB` 默认 0 = 关闭（本机基线空闲仅 ~16.5 GB；实测每 MATLAB 进程约 1.04 GB，SSDE/REMO 约 0.6 GB）。
+- ⑤ DTLZ7 单跑 `wall` ~100 s 但 `metric.runtime` 只有 1.5 s：`GetOptimum` 用 `UniformPoint(N,M-1,'grid')`，M=20 给出 2¹⁹=524288 参考点 → **看单跑成本必须看日志 `wall`，不能看 `metric.runtime`**。
+- ⑥ 🔴 **算法键名 ≠ 类名**：`SAMOEA` 是 registry 键，类名与目录名都是 `SAMOEATL2M`。`driver.sh` 的 `case` 必须两个都收（否则 `exit 2` 会带走整轮）；python 侧拼 MAT 文件名必须用类名（`missing_runs.py` 的 `CLASSES`/`resolve()`），用键名会让整个算法看起来"全缺"。**未知键只跳过 + 末尾汇总，绝不 `exit`**。
+- ⚠️ 三个 `11D-1` 型算法（PCSAEA/HES_EA/SAMOEATL2M）初始就吃 329/500 FE，只剩 ~171 给搜索，**报数必须交代**。
+- ⚠️ FE500/M=20 单跑 wall：REMO/PACDIS ≈1200–1600 s（是 FE300 的 3 倍以上，**别用旧数线性外推**）；实测 SSDE ≈2–5 s（DTLZ7 约 90–130 s）、SAMOEATL2M ≈110 s、HES_EA ≈628 s。
