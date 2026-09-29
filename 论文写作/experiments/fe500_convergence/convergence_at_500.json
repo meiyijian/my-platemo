@@ -1,0 +1,98 @@
+[
+  {
+    "M": 10,
+    "problem": "DTLZ1",
+    "FE": 500,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 136.75015773515747,
+      "REMO": 149.90696446262598,
+      "PCSAEA": 351.065051227249,
+      "CSEA": 158.24946633259975,
+      "HES_EA": 273.1544392248636,
+      "SSDE": 297.94618994782735,
+      "SAMOEATL2M": 305.4779597531196
+    },
+    "ranks": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
+      "REMO": 2,
+      "PCSAEA": 7,
+      "CSEA": 3,
+      "HES_EA": 4,
+      "SSDE": 5,
+      "SAMOEATL2M": 6
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 10,
+    "problem": "DTLZ6",
+    "FE": 500,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 13.367166178404535,
+      "REMO": 15.709809586735892,
+      "PCSAEA": 17.36873071449236,
+      "CSEA": 15.049592984381126,
+      "HES_EA": 16.329716774075028,
+      "SSDE": 14.089442517810875,
+      "SAMOEATL2M": 17.94324779585068
+    },
+    "ranks": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
+      "REMO": 4,
+      "PCSAEA": 6,
+      "CSEA": 3,
+      "HES_EA": 5,
+      "SSDE": 2,
+      "SAMOEATL2M": 7
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 10,
+    "problem": "WFG2",
+    "FE": 500,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1.024493311516878,
+      "REMO": 2.2331693154406596,
+      "PCSAEA": 2.797477294580748,
+      "CSEA": 2.584370510530495,
+      "HES_EA": 1.5288894228196823,
+      "SSDE": 2.6423098858792784,
+      "SAMOEATL2M": 3.1312579699760636
+    },
+    "ranks": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
+      "REMO": 3,
+      "PCSAEA": 6,
+      "CSEA": 4,
+      "HES_EA": 2,
+      "SSDE": 5,
+      "SAMOEATL2M": 7
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  },
+  {
+    "M": 10,
+    "problem": "WFG7",
+    "FE": 500,
+    "medians": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 3.119402671012427,
+      "REMO": 5.220059652761972,
+      "PCSAEA": 6.468336182539091,
+      "CSEA": 5.792630784156211,
+      "HES_EA": 4.793364528056369,
+      "SSDE": 5.358559748885343,
+      "SAMOEATL2M": 6.779649893059906
+    },
+    "ranks": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
+      "REMO": 3,
+      "PCSAEA": 6,
+      "CSEA": 5,
+      "HES_EA": 2,
+      "SSDE": 4,
+      "SAMOEATL2M": 7
+    },
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+  }
+]

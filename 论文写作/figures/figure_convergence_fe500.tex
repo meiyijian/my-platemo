@@ -1,0 +1,29 @@
+% Section 4.6 convergence figure, 500-evaluation renewal.
+% Built by figures/build_convergence_fe500.py from
+% experiments/fe500_convergence/convergence_igdp_fe500.csv, which
+% experiments/fe500_convergence/export_convergence_fe500.py exported from the
+% FE=500 MAT snapshots (10目标/n30/FE500 on the work machine).
+% PACDIS is REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist; the six
+% baselines are the current 500-evaluation comparison set (REMO, PC-SAEA,
+% CSEA, HES-EA, SSDE, SAMOEA-TL2M).
+%
+% Two layouts are available from the same drawing code:
+%   * fig_convergence_fe500_m10.pdf  -- one 2x2 panel, 180 x 132 mm, spans both columns
+%   * fig_convergence_fe500_<problem>_m10.pdf -- four single-column panels, 88 x 66 mm each
+% The 2x2 panel is used below; swap to the four \includegraphics lines to get
+% four separately placed panels.
+\begin{figure*}[tp]
+  \centering
+  \includegraphics[width=\textwidth]{figures/fig_convergence_fe500_m10.pdf}
+  \caption{Median IGD$^+$ convergence of PACDIS (NoBatchDist configuration) and
+  the six current baselines on four representative problems at $M=10$ with a
+  500-evaluation budget. Every trace summarizes the matched runs 1--20. Traces
+  are aligned on a unit-FE grid by zero-order hold, vertices mark every 50
+  evaluations, and no trace is extended past its last recorded snapshot.
+  PC-SAEA, HES-EA and SAMOEA-TL2M resume recording at $FE\approx340$ in the
+  current export, so their curves describe the late phase only; the panels show
+  the recorded interval rather than interpolating across the gap. Curves are
+  medians over runs, whereas the comparison tables report means. The initial
+  design consumes real evaluations, so the axis starts at $FE=95$.}
+  \label{fig:exp:convergence:fe500}
+\end{figure*}

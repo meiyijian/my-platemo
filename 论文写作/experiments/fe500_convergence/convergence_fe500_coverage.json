@@ -1,0 +1,178 @@
+{
+  "DTLZ1": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "REMO": {
+      "first_fe": 100,
+      "last_fe": 501,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "PCSAEA": {
+      "first_fe": 329,
+      "last_fe": 510,
+      "points_per_run_min": 14,
+      "points_per_run_max": 17
+    },
+    "CSEA": {
+      "first_fe": 109,
+      "last_fe": 511,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "HES_EA": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "SSDE": {
+      "first_fe": 100,
+      "last_fe": 511,
+      "points_per_run_min": 22,
+      "points_per_run_max": 30
+    },
+    "SAMOEATL2M": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    }
+  },
+  "DTLZ6": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "REMO": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "PCSAEA": {
+      "first_fe": 329,
+      "last_fe": 510,
+      "points_per_run_min": 14,
+      "points_per_run_max": 17
+    },
+    "CSEA": {
+      "first_fe": 109,
+      "last_fe": 505,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "HES_EA": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "SSDE": {
+      "first_fe": 100,
+      "last_fe": 509,
+      "points_per_run_min": 27,
+      "points_per_run_max": 30
+    },
+    "SAMOEATL2M": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    }
+  },
+  "WFG2": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "REMO": {
+      "first_fe": 100,
+      "last_fe": 501,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "PCSAEA": {
+      "first_fe": 340,
+      "last_fe": 507,
+      "points_per_run_min": 13,
+      "points_per_run_max": 13
+    },
+    "CSEA": {
+      "first_fe": 109,
+      "last_fe": 511,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "HES_EA": {
+      "first_fe": 340,
+      "last_fe": 500,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "SSDE": {
+      "first_fe": 100,
+      "last_fe": 513,
+      "points_per_run_min": 21,
+      "points_per_run_max": 30
+    },
+    "SAMOEATL2M": {
+      "first_fe": 340,
+      "last_fe": 500,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    }
+  },
+  "WFG7": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "REMO": {
+      "first_fe": 100,
+      "last_fe": 500,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "PCSAEA": {
+      "first_fe": 329,
+      "last_fe": 509,
+      "points_per_run_min": 14,
+      "points_per_run_max": 14
+    },
+    "CSEA": {
+      "first_fe": 109,
+      "last_fe": 511,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    },
+    "HES_EA": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 18,
+      "points_per_run_max": 30
+    },
+    "SSDE": {
+      "first_fe": 100,
+      "last_fe": 510,
+      "points_per_run_min": 24,
+      "points_per_run_max": 30
+    },
+    "SAMOEATL2M": {
+      "first_fe": 329,
+      "last_fe": 504,
+      "points_per_run_min": 30,
+      "points_per_run_max": 30
+    }
+  }
+}

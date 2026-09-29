@@ -48,7 +48,16 @@
 - `metric.IGD` / `metric.IGDp` 是**评价轨迹数组**（当前批次 M=10/M=20 均 30 点），**末值 = 最终性能**；出表一律取 `arr[-1]`
 - 轨迹点数**跨算法目录不一致**（例：`REMO_new2_AdaMaO` M=10 为 18 点、M=20 为 30 点）→ 跨目录比较前先核对点数
 - 配对种子一致性可现场验证：同 runId 下不同配置的轨迹**前 2 点应完全相同**
-- Python 出表环境：`C:\Users\lsx\.workbuddy\binaries\python\envs\default\Scripts\python.exe`（已装 scipy/numpy/openpyxl，`loadmat(..., squeeze_me=True, struct_as_record=False)` 读 `metric`）
+- **首快照 FE 跨算法不一致**（2026-09-25 实测 FE500 批：PACDIS/REMO/SSDE=100、CSEA=109、PCSAEA/HES_EA/SAMOEATL2M=329~340）→ 画收敛图前先查 `FE.min()`，后段曲线不许插值补前段
+- Python 出表环境：`C:\Users\lsx\.workbuddy\binaries\python\envs\default\Scripts\python.exe`（已装 scipy/numpy/openpyxl/pandas/matplotlib/pymupdf，`loadmat(..., squeeze_me=True, struct_as_record=False)` 读 `metric`）
+
+## 论文图件：收敛图有两条链（别混用）
+1. **Python（论文在用的那条）**：`论文写作\figures\build_convergence.py` → `fig_convergence_*`；
+   数据经 `experiments\nobatchdist_version_audit\convergence_igdp.csv` 中转，matplotlib 论文风
+   （线性轴、稀疏 marker、Times New Roman、无阴影带、图例右上/底部、QA 断言最小字号与出界）。
+   FE=500 续作：`figures\build_convergence_fe500.py` ＋ `experiments\fe500_convergence\export_convergence_fe500.py`
+2. **MATLAB（备选）**：`PlatEMO-master\ConvergencePlot\`（`PlotConvergenceCurves.m` 管画，
+   导出要自己补 `Toolbar off`/`xlim`/图例位置；`README.md` 记了全部踩坑）
 
 ## 进行中的关键坐标（详见 MEMORY-details.md）
 - **NoBatchDict 消融**：noCDIS / noPAQC 两臂，M=10 = 2×16×20 = **640 .mat**；M=20 被用户搁置。脚本 `run_scripts\{progress_nbd.py,RunNBD_AblationAll.m,FinishNBD_Ablation.m,build_nobatchdict_tables.py}`；出表到 `AdaMao实验表\消融实验\nobatchdict版本\`（2 张 xlsx）

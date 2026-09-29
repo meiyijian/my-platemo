@@ -1,0 +1,82 @@
+
+[DTLZ1 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 149.9  (IQR 134.6 - 168.3)  last-snapshot median = 149.9
+  PCSAEA                                         runs=20  IGDp at FE=500 = 351.1  (IQR 333.7 - 365.2)  last-snapshot median = 351.1
+  CSEA                                           runs=20  IGDp at FE=500 = 158.2  (IQR 146.5 - 174.9)  last-snapshot median = 156.9
+  HES_EA                                         runs=20  IGDp at FE=500 = 273.2  (IQR 239.2 - 293.9)  last-snapshot median = 248.2
+  SSDE                                           runs=20  IGDp at FE=500 = 297.9  (IQR 277.1 - 317.3)  last-snapshot median = 302.9
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 305.5  (IQR 270.7 - 327.7)  last-snapshot median = 305.5
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 136.8  (IQR 118.9 - 153.9)  last-snapshot median = 136.8
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_DTLZ1_M10_IGDp.png
+
+[DTLZ2 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 0.7111  (IQR 0.6895 - 0.7668)  last-snapshot median = 0.7111
+  PCSAEA                                         runs=20  IGDp at FE=500 = 1.369  (IQR 1.321 - 1.412)  last-snapshot median = 1.361
+  CSEA                                           runs=20  IGDp at FE=500 = 0.8593  (IQR 0.8347 - 0.9614)  last-snapshot median = 0.8411
+  HES_EA                                         runs=20  IGDp at FE=500 = 0.8976  (IQR 0.7443 - 0.9657)  last-snapshot median = 0.7504
+  SSDE                                           runs=20  IGDp at FE=500 = 1.958  (IQR 1.886 - 2.055)  last-snapshot median = 1.961
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 0.7328  (IQR 0.7211 - 0.7534)  last-snapshot median = 0.7275
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 0.6774  (IQR 0.6451 - 0.7172)  last-snapshot median = 0.6774
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_DTLZ2_M10_IGDp.png
+
+[DTLZ4 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 0.6366  (IQR 0.59 - 0.6743)  last-snapshot median = 0.6366
+  PCSAEA                                         runs=20  IGDp at FE=500 = 1.432  (IQR 1.367 - 1.465)  last-snapshot median = 1.431
+  CSEA                                           runs=20  IGDp at FE=500 = 0.7516  (IQR 0.6881 - 0.8287)  last-snapshot median = 0.7272
+  HES_EA                                         runs=20  IGDp at FE=500 = 1.136  (IQR 1.033 - 1.224)  last-snapshot median = 0.9983
+  SSDE                                           runs=20  IGDp at FE=500 = 1.623  (IQR 1.489 - 1.696)  last-snapshot median = 1.596
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 0.9242  (IQR 0.9031 - 0.9593)  last-snapshot median = 0.9204
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 0.6301  (IQR 0.5528 - 0.6763)  last-snapshot median = 0.6301
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_DTLZ4_M10_IGDp.png
+
+[DTLZ6 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 15.71  (IQR 14.95 - 16.39)  last-snapshot median = 15.71
+  PCSAEA                                         runs=20  IGDp at FE=500 = 17.37  (IQR 17.18 - 17.7)  last-snapshot median = 17.37
+  CSEA                                           runs=20  IGDp at FE=500 = 15.05  (IQR 14.35 - 15.29)  last-snapshot median = 14.6
+  HES_EA                                         runs=20  IGDp at FE=500 = 16.33  (IQR 15.59 - 16.9)  last-snapshot median = 16.15
+  SSDE                                           runs=20  IGDp at FE=500 = 14.09  (IQR 13.45 - 14.96)  last-snapshot median = 14.09
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 17.94  (IQR 17.84 - 18.08)  last-snapshot median = 17.94
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 13.37  (IQR 12.6 - 13.72)  last-snapshot median = 13.37
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_DTLZ6_M10_IGDp.png
+
+[WFG1 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 2.843  (IQR 2.758 - 2.897)  last-snapshot median = 2.843
+  PCSAEA                                         runs=20  IGDp at FE=500 = 3.106  (IQR 3.099 - 3.128)  last-snapshot median = 3.103
+  CSEA                                           runs=20  IGDp at FE=500 = 2.893  (IQR 2.79 - 2.973)  last-snapshot median = 2.883
+  HES_EA                                         runs=20  IGDp at FE=500 = 2.995  (IQR 2.969 - 3.018)  last-snapshot median = 2.976
+  SSDE                                           runs=20  IGDp at FE=500 = 3.224  (IQR 3.175 - 3.236)  last-snapshot median = 3.23
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 3.139  (IQR 3.126 - 3.149)  last-snapshot median = 3.139
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 2.8  (IQR 2.754 - 2.842)  last-snapshot median = 2.8
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_WFG1_M10_IGDp.png
+
+[WFG2 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 2.233  (IQR 1.416 - 3.546)  last-snapshot median = 2.233
+  PCSAEA                                         runs=20  IGDp at FE=500 = 2.797  (IQR 2.683 - 3.244)  last-snapshot median = 2.789
+  CSEA                                           runs=20  IGDp at FE=500 = 2.584  (IQR 2.081 - 4.217)  last-snapshot median = 2.581
+  HES_EA                                         runs=20  IGDp at FE=500 = 1.529  (IQR 1.425 - 1.69)  last-snapshot median = 1.529
+  SSDE                                           runs=20  IGDp at FE=500 = 2.642  (IQR 2.402 - 2.979)  last-snapshot median = 2.665
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 3.131  (IQR 2.646 - 3.929)  last-snapshot median = 3.131
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 1.024  (IQR 0.97 - 1.273)  last-snapshot median = 1.024
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_WFG2_M10_IGDp.png
+
+[WFG7 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 5.22  (IQR 4.932 - 5.757)  last-snapshot median = 5.22
+  PCSAEA                                         runs=20  IGDp at FE=500 = 6.468  (IQR 6.292 - 6.689)  last-snapshot median = 6.399
+  CSEA                                           runs=20  IGDp at FE=500 = 5.793  (IQR 5.346 - 6.701)  last-snapshot median = 5.666
+  HES_EA                                         runs=20  IGDp at FE=500 = 4.793  (IQR 3.878 - 5.193)  last-snapshot median = 4.118
+  SSDE                                           runs=20  IGDp at FE=500 = 5.359  (IQR 5.154 - 6.034)  last-snapshot median = 5.337
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 6.78  (IQR 6.466 - 7.063)  last-snapshot median = 6.767
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 3.119  (IQR 2.864 - 3.357)  last-snapshot median = 3.119
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_WFG7_M10_IGDp.png
+
+[WFG8 | IGDp | M=10]
+  REMO                                           runs=20  IGDp at FE=500 = 6.097  (IQR 5.745 - 6.23)  last-snapshot median = 6.097
+  PCSAEA                                         runs=20  IGDp at FE=500 = 6.466  (IQR 6.212 - 6.677)  last-snapshot median = 6.36
+  CSEA                                           runs=20  IGDp at FE=500 = 6.56  (IQR 6.175 - 6.974)  last-snapshot median = 6.541
+  HES_EA                                         runs=20  IGDp at FE=500 = 3.239  (IQR 2.899 - 4.091)  last-snapshot median = 2.899
+  SSDE                                           runs=20  IGDp at FE=500 = 5.384  (IQR 5.191 - 5.64)  last-snapshot median = 5.435
+  SAMOEATL2M                                     runs=20  IGDp at FE=500 = 6.769  (IQR 6.601 - 7.052)  last-snapshot median = 6.719
+  REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist runs=20  IGDp at FE=500 = 4.001  (IQR 3.859 - 4.406)  last-snapshot median = 4.001
+saved D:\PlatEMO-master\PlatEMO-master\ConvergencePlot\output\fe500_m10_candidates\cand_WFG8_M10_IGDp.png
+
+ALL DONE

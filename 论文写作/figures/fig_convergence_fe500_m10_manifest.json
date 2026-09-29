@@ -1,0 +1,105 @@
+{
+  "figure": "fig_convergence_fe500_m10",
+  "metric": "IGDp (IGD+)",
+  "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\experiments\\fe500_convergence\\convergence_igdp_fe500.csv",
+  "source_csv_sha256": "41704668137a6bb1fade4bf06793ed20667f0be5ab2d258cf57addbcda5343ce",
+  "algorithm_folders": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+    "REMO": "REMO",
+    "PCSAEA": "PCSAEA",
+    "CSEA": "CSEA",
+    "HES_EA": "HES_EA",
+    "SSDE": "SSDE",
+    "SAMOEATL2M": "SAMOEATL2M"
+  },
+  "runs_used": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "problems": [
+    "DTLZ1",
+    "DTLZ6",
+    "WFG2",
+    "WFG7"
+  ],
+  "objectives": [
+    10
+  ],
+  "panel_runs": {
+    "DTLZ1": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
+      "REMO": 20,
+      "PCSAEA": 20,
+      "CSEA": 20,
+      "HES_EA": 20,
+      "SSDE": 20,
+      "SAMOEATL2M": 20
+    },
+    "DTLZ6": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
+      "REMO": 20,
+      "PCSAEA": 20,
+      "CSEA": 20,
+      "HES_EA": 20,
+      "SSDE": 20,
+      "SAMOEATL2M": 20
+    },
+    "WFG2": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
+      "REMO": 20,
+      "PCSAEA": 20,
+      "CSEA": 20,
+      "HES_EA": 20,
+      "SSDE": 20,
+      "SAMOEATL2M": 20
+    },
+    "WFG7": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
+      "REMO": 20,
+      "PCSAEA": 20,
+      "CSEA": 20,
+      "HES_EA": 20,
+      "SSDE": 20,
+      "SAMOEATL2M": 20
+    }
+  },
+  "fe_budget": 500,
+  "alignment": "zero-order hold on unit-FE grid, no extrapolation past the last snapshot",
+  "drawing": "vertices every 50 real evaluations, straight-line joins",
+  "band": "none (paper style)",
+  "markers": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "D",
+    "REMO": "^",
+    "PCSAEA": "s",
+    "CSEA": "*",
+    "HES_EA": "o",
+    "SSDE": "x",
+    "SAMOEATL2M": "+"
+  },
+  "marker_every_fe": 50,
+  "line_styles": "all solid; identity carried by colour + marker shape",
+  "page_size_mm": [
+    180.0,
+    132.0
+  ],
+  "minimum_pdf_glyph_pt": 5.6,
+  "text_outside_canvas": []
+}

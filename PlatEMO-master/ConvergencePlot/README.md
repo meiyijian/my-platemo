@@ -114,3 +114,26 @@ set(gcf,'Position',[60 60 1180 620]);
   不是末代种群。两个算法口径一致，比较是公平的，但写论文时要说明。
 - `save` 决定曲线分辨率上限：每代最多存 1 个快照，所以 `save` 大于总代数没有意义。
   `maxFE=300, N=100` 时 REMO 大约 34 代，`save`,30 已接近上限。
+
+## FE=500 / M=10 的使用要点（2026-09-25）
+
+数据在 `REMOandDREMO测试集\10目标\n30\FE500\<算法>`，七目录 = 六个当前基线
+（`REMO`、`PCSAEA`、`CSEA`、`HES_EA`、`SSDE`、`SAMOEATL2M`）＋ `..._NoBatchDist`（PACDIS），
+各 320 文件（16 题 × 20 跑）。
+
+- **首快照 FE 跨算法不一致**：PACDIS/REMO/SSDE = 100、CSEA = 109、
+  PCSAEA/HES_EA/SAMOEATL2M = 329–340。横轴从 95 起没问题，但那三条基线在当前导出里
+  只有后段曲线——图注必须交代，不要插值补前段。
+- 用 `'metric','IGDp'`、`'maxFE',500`；marker 密度改 `'gridStep',50`（每 50 FE 一个顶点，
+  与 FE=300 用 20 的观感相当）。
+- **`'legendLocation','none'` 不会隐藏图例**：Position 不再自动定位，但图例照样画出来
+  （会压在中部）。多子图共用图例的正确做法是画完所有子图后
+  `delete(findall(fig,'Type','legend'))`，再 `legend(ax1, hAll, labels)`，
+  配 `Orientation='horizontal'`；`tiledlayout` 下再设 `lgd.Layout.Tile = 'south'`。
+- `tiledlayout` 的 2×2 里**每格必须独立设 y 范围**：DTLZ1（~1e2）与 DTLZ6（~1e1）同轴会把
+  后者压成一条直线贴底；上排再用 `ax.XTickLabel = []` 去掉重复刻度。
+- 现成脚本：`.workbuddy\run_scripts\PlotFE500M10Candidates.m`（8 题候选单图）、
+  `PlotFE500M10Grid.m`（2×2 四宫格）。
+- 论文最终交付走 Python 链
+  （`论文写作\figures\build_convergence_fe500.py` ＋ `experiments\fe500_convergence\export_convergence_fe500.py`），
+  与 §4.6 既有图的风格/QA 流程一致；本目录的 MATLAB 版可作备选。
