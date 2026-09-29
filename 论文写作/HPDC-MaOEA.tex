@@ -594,13 +594,13 @@ family-wise averages of \eqref{eq:relscore}. This pair-level confidence
 weighting reduces the influence of unreliable relation predictions when
 estimating candidate quality.
 
-Candidates whose relation scores are at or above the
-$q_{\mathrm{keep}}$-quantile of $R(\mathcal{A})$ form
-$\mathcal{H}^{\mathrm{amb}}$, with $q_{\mathrm{keep}}=0.70$. In the absence of
-ties, this screen retains the highest-scoring 30\% of the pool; ties can
-increase that fraction. Ambiguity is considered only after this quality
-screen, so a candidate cannot enter the batch solely because of high predicted
-ambiguity.
+Let $q=0.30$ be the nominal fraction retained by relation-quality screening
+in either mode. Candidates whose relation scores are at or above the
+$(1-q)$-quantile of $R(\mathcal{A})$ form $\mathcal{H}^{\mathrm{amb}}$.
+In the absence of ties, this screen retains approximately the highest-scoring
+30\% of the pool; ties can increase that fraction. Ambiguity is considered only
+after this quality screen, so a candidate cannot enter the batch solely because
+of high predicted ambiguity.
 
 To distinguish candidates within the retained set, let $\mathcal{O}(\vx)$
 denote all ordered comparisons between candidate $\vx$ and the positive and
@@ -637,8 +637,7 @@ RBF-SVR, denoted by $\mathcal{M}_I$, on
 $\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; its prediction is written
 $\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D})$.
 The relation score first retains the top
-$\lceil q_{\mathrm{rel}}|\mathcal{A}|\rceil$ candidates, with
-$q_{\mathrm{rel}}=0.30$, to form $\mathcal{H}^{\mathrm{ind}}$.
+$\lceil q|\mathcal{A}|\rceil$ candidates to form $\mathcal{H}^{\mathrm{ind}}$.
 In this mode the family-wise relation probabilities are arithmetic averages.
 The screened candidates are then ranked by descending $\widehat I$, and up to
 $n_{\max}$ are selected directly. Failed or nonfinite indicator predictions
@@ -681,10 +680,10 @@ before its real evaluation and the corresponding $FE$ update.
 \State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
 \State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
 \If{$m=\mathrm{ind}$}
-  \State $\mathcal{H}\gets$ top $q_{\mathrm{rel}}$ fraction by $R$
+  \State $\mathcal{H}\gets$ top $q$ fraction by $R$
   \State Rerank $\mathcal{H}$ by $\widehat I$, falling back to $R$ if needed
 \Else
-  \State $\mathcal{H}\gets\{\,\vx\in\mathcal{A}:R(\vx)\geq Q_{q_{\mathrm{keep}}}(R(\mathcal{A}))\,\}$
+  \State $\mathcal{H}\gets\{\,\vx\in\mathcal{A}:R(\vx)\geq Q_{1-q}(R(\mathcal{A}))\,\}$
   \State Compute $A_{\mathrm{amb}}$ within $\mathcal{H}$ by \eqref{eq:expscore}
 \EndIf
 \State $n_b\gets\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$
@@ -763,11 +762,9 @@ these implementations.
 
 \paragraph{PACDIS parameters.}
 The same configuration is used across all three objective counts:
-$g_{\max}=3000$, $p_{\mathrm{mix}}=0.50$, $r_g=0.25$,
-$q_{\mathrm{keep}}=0.70$, and $n_{\max}=6$.
-The fixed internal constants are the ambiguity weight $\lambda=0.30$,
-indicator shortlist fraction $q_{\mathrm{rel}}=0.30$, and continuous-PBI
-penalty $\theta=5$.
+$g_{\max}=3000$, $p_{\mathrm{mix}}=0.50$, and the nominal relation-screening
+fraction $q=0.30$. The fixed internal constants are the ambiguity weight
+$\lambda=0.30$ and continuous-PBI penalty $\theta=5$.
 The requested representative count is
 \begin{equation}
 k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
