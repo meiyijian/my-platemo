@@ -809,9 +809,9 @@ The export script applies an unpaired rank-sum test at $p<0.05$ without a
 multiple-comparison adjustment. We retain its symbols without interpreting
 them as adjusted significance. We configure a 500-evaluation budget;
 actual terminal FE can differ across implementations.
-\TODO{Document the IGD$^+$ reference sets, execution environment, and actual
-terminal FE by algorithm. Audit the rank-sum export when sample sizes differ
-and specify a multiple-comparison policy for final inference.}
+\TODO{Document the IGD$^+$ reference sets and execution environment. Audit
+the rank-sum export where sample sizes differ and specify a
+multiple-comparison policy for final inference.}
 
 \subsection{Comparison with the Six Baseline Algorithms}
 \label{sec:exp:comparison}
@@ -833,9 +833,10 @@ PACDIS has no lowest mean there, and several baselines receive $+$ annotations.
 These results describe complete-algorithm performance under the selected
 budget. They do not attribute the differences to PAQC or CDIS individually.
 
-\TODO{Rebuild the convergence figure from the six current baselines with the
-500-evaluation budget and document the available run counts. The existing
-300-evaluation figure uses the previous baseline set, so we exclude it here.}
+\TODO{Add the IGD$^+$ convergence figure for PACDIS and the six current
+baselines under the configured 500-evaluation budget when the corresponding
+trajectories are ready. The existing 300-evaluation figure uses the previous
+baseline set, so we exclude it here.}
 
 \clearpage
 \subsection{REMO-Referenced Component Comparisons}
