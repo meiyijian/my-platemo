@@ -1,18 +1,12 @@
 \begin{figure*}[!t]
   \centering
   \includegraphics[width=0.98\textwidth]{figures/fig_framework.pdf}
-  \caption{Flowchart of PACDIS. Left: the expensive-evaluation loop, with PAQC
-  constructing the training groups and CDIS selecting the infill batch.
-  Right: expansion of CDIS (dotted connector). A mode is drawn before the
-  relation-guided search; $c$ counts the generated candidates and $g_{\max}$
-  bounds their accumulation. Indicator mode is drawn with probability
-  $p_{\mathrm{mix}}=0.5$ when its surrogate is available; otherwise the ambiguity-oriented
-  mode is used. The selected mode determines the final filtering and selection
-  criterion. The ambiguity-oriented mode uses a relation-quality screen followed by
-  ambiguity-rewarded ranking; the indicator branch directly reranks
-  its relation-screened subset. The batch is bounded by its cap and the
-  remaining evaluation budget, without minimum-size completion.
-  Detailed safeguards are given in
+  \caption{PACDIS framework. Left: PAQC constructs relation-training groups,
+  the relation and indicator surrogates are trained, and CDIS selects
+  candidates for expensive evaluation. Right: CDIS generates offspring
+  through relation-guided search, screens candidates by relation quality,
+  and applies either indicator-based reranking or ambiguity-rewarded ranking.
+  Detailed selection rules and budget handling appear in
   Algorithms~\ref{alg:framework} and~\ref{alg:cdis}.
   \label{fig:framework}}
 \end{figure*}

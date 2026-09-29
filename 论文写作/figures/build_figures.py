@@ -135,9 +135,9 @@ def framework():
     from build_framework_flowchart import draw_framework
     fig = draw_framework()
     save(fig, 'fig_framework',
-         'PACDIS evaluation loop with explicit budget, candidate-search, and mode decisions.',
+         'PAQC supervision construction and CDIS infill selection in the PACDIS evaluation loop.',
          'method-level flowchart',
-         'Compact nodes and Yes/No branches; c counts generated candidates. Mode is drawn before inner search. Detailed safeguards remain in the manuscript.')
+         'Relation-guided generation and relation-quality screening precede the indicator and ambiguity selection criteria. Parameters and budget safeguards remain in the manuscript.')
     svg_path = OUT / 'fig_framework.svg'
     svg_path.write_text('\n'.join(line.rstrip() for line in svg_path.read_text(encoding='utf-8').splitlines())+'\n', encoding='utf-8')
 

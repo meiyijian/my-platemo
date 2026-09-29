@@ -3,13 +3,13 @@
   "figures": [
     {
       "name": "fig_framework",
-      "claim": "PACDIS evaluation loop and CDIS control flow.",
+      "claim": "PAQC supervision construction and CDIS infill selection in the PACDIS evaluation loop.",
       "archetype": "method-level flowchart",
       "width_mm": 180,
-      "height_mm": 157,
-      "minimum_pdf_glyph_pt": 5.88,
-      "pdf_text_spans": 68,
-      "notes": "NoBatchDist: exploration uses relation-quality screening and ranks R_norm + 0.30*U_norm, without batch distance. Indicator mode directly reranks its relation shortlist. Mode is drawn before candidate search. Empty-pool safeguards remain in the method; no minimum-batch completion.",
+      "height_mm": 136,
+      "minimum_pdf_glyph_pt": 7.8,
+      "pdf_text_spans": 24,
+      "notes": "The figure shows relation-guided generation, shared relation-quality screening, and the two infill criteria. Parameters, candidate-pool bookkeeping, and budget safeguards remain in the method text and algorithms.",
       "text_outside_canvas": []
     },
     {

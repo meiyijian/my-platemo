@@ -1,167 +1,285 @@
-"""Draw Fig. 1 from the manuscript method, with compact control-flow nodes.
+"""Render Fig. 1 from the PACDIS method at the level of its main mechanisms.
 
-Rebuild only this figure:
-uv run --with-requirements requirements-figures.txt python build_framework_flowchart.py
-Coordinates are in mm; PDF/SVG are vector artwork, PNG is exported at 600 dpi.
+Run from the figures directory with the local figure requirements.
 """
+
 from pathlib import Path
 import hashlib
 import json
 
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Polygon
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Polygon
 import pymupdf
 
+
 OUT = Path(__file__).resolve().parent
-INK = '#28313D'
-BLUE = '#E8EDF8'
-DECISION = '#FFF7D6'
+INK = "#28313D"
+BLUE = "#E8EDF8"
+PAQC = "#D9E5F6"
+CDIS = "#F6E8D9"
+DECISION = "#FFF7D6"
 
 
 def draw_framework():
-    with plt.rc_context({
-        'font.family': 'serif', 'font.serif': ['Times New Roman', 'DejaVu Serif'],
-        'font.size': 9, 'mathtext.fontset': 'stix', 'text.color': INK,
-        'pdf.fonttype': 42, 'svg.fonttype': 'none',
-    }):
-        fig = plt.figure(figsize=(180/25.4, 157/25.4))
-        ax = fig.add_axes([0, 0, 1, 1], xlim=(0, 180), ylim=(0, 157))
-        ax.axis('off')
+    with plt.rc_context(
+        {
+            "font.family": "serif",
+            "font.serif": ["Times New Roman", "DejaVu Serif"],
+            "font.size": 9,
+            "mathtext.fontset": "stix",
+            "text.color": INK,
+            "pdf.fonttype": 42,
+            "svg.fonttype": "none",
+        }
+    ):
+        fig = plt.figure(figsize=(180 / 25.4, 136 / 25.4))
+        ax = fig.add_axes([0, 0, 1, 1], xlim=(0, 180), ylim=(0, 136))
+        ax.axis("off")
         nodes = []
 
-        def box(x, y, w, h, label, fill=BLUE, bold=False, terminal=False, fs=9):
-            patch = FancyBboxPatch((x-w/2, y-h/2), w, h,
-                boxstyle=f'round,pad=0,rounding_size={h/2 if terminal else 0.8}',
-                facecolor=fill, edgecolor=INK, linewidth=.7, zorder=2)
+        def box(x, y, w, h, title, detail=None, fill=BLUE, bold=False):
+            patch = FancyBboxPatch(
+                (x - w / 2, y - h / 2),
+                w,
+                h,
+                boxstyle="round,pad=0,rounding_size=0.8",
+                facecolor=fill,
+                edgecolor=INK,
+                linewidth=0.72,
+                zorder=2,
+            )
             ax.add_patch(patch)
-            txt = ax.text(x, y, label, ha='center', va='center', fontsize=fs,
-                          fontweight='bold' if bold else 'normal', linespacing=1.15, zorder=3)
-            nodes.append((patch, txt))
+            if detail is None:
+                label = ax.text(
+                    x,
+                    y,
+                    title,
+                    ha="center",
+                    va="center",
+                    fontsize=8.9,
+                    fontweight="bold" if bold else "normal",
+                    zorder=3,
+                )
+                nodes.append((patch, label))
+            else:
+                top = ax.text(
+                    x,
+                    y + 2.3,
+                    title,
+                    ha="center",
+                    va="center",
+                    fontsize=8.5,
+                    fontweight="bold" if bold else "normal",
+                    zorder=3,
+                )
+                bottom = ax.text(
+                    x,
+                    y - 2.3,
+                    detail,
+                    ha="center",
+                    va="center",
+                    fontsize=7.8,
+                    zorder=3,
+                )
+                nodes.extend([(patch, top), (patch, bottom)])
 
-        def diamond(x, y, w, h, label, fs=9):
-            patch = Polygon([(x, y+h/2), (x+w/2, y), (x, y-h/2), (x-w/2, y)],
-                            closed=True, facecolor=DECISION, edgecolor=INK, linewidth=.7, zorder=2)
+        def diamond(x, y, w, h, title):
+            patch = Polygon(
+                [(x, y + h / 2), (x + w / 2, y), (x, y - h / 2), (x - w / 2, y)],
+                closed=True,
+                facecolor=DECISION,
+                edgecolor=INK,
+                linewidth=0.72,
+                zorder=2,
+            )
             ax.add_patch(patch)
-            txt = ax.text(x, y, label, ha='center', va='center', fontsize=fs, zorder=3)
-            nodes.append((patch, txt))
+            label = ax.text(x, y, title, ha="center", va="center", fontsize=8.3, zorder=3)
+            nodes.append((patch, label))
 
-        def arrow(points):
-            for a, b in zip(points[:-2], points[1:-1]):
-                ax.plot([a[0], b[0]], [a[1], b[1]], color=INK, lw=.75, zorder=1)
-            ax.add_patch(FancyArrowPatch(points[-2], points[-1], arrowstyle='-|>',
-                mutation_scale=7, lw=.75, color=INK, shrinkA=0, shrinkB=.5, zorder=1))
+        def line(points, arrow=True, dashed=False):
+            for start, end in zip(points[:-2], points[1:-1]):
+                ax.plot(
+                    [start[0], end[0]],
+                    [start[1], end[1]],
+                    color=INK,
+                    lw=0.76,
+                    ls=(0, (2, 2)) if dashed else "-",
+                    zorder=1,
+                )
+            if arrow:
+                ax.add_patch(
+                    FancyArrowPatch(
+                        points[-2],
+                        points[-1],
+                        arrowstyle="-|>",
+                        mutation_scale=7,
+                        lw=0.76,
+                        color=INK,
+                        shrinkA=0,
+                        shrinkB=0.5,
+                        zorder=1,
+                    )
+                )
+            else:
+                start, end = points[-2:]
+                ax.plot([start[0], end[0]], [start[1], end[1]], color=INK, lw=0.76, zorder=1)
 
-        def label(x, y, text):
-            ax.text(x, y, text, ha='center', va='center', fontsize=8.5,
-                    bbox=dict(facecolor='white', edgecolor='none', pad=.15), zorder=4)
+        ax.text(32, 133, "PACDIS evaluation loop", ha="center", va="center", fontsize=9.5, fontweight="bold")
+        box(32, 120, 52, 10, "Evaluate initial population")
+        diamond(32, 103, 42, 14, "Budget remaining?")
+        box(
+            32,
+            84,
+            53,
+            13,
+            "PAQC: form training groups",
+            "PBI + representative signals",
+            fill=PAQC,
+            bold=True,
+        )
+        box(32, 66, 52, 10, "Train relation model")
+        box(32, 50, 52, 10, "Train indicator surrogate")
+        box(32, 34, 52, 10, "CDIS: select candidates", fill=CDIS, bold=True)
+        box(32, 19, 52, 13, "Evaluate candidates", "Update archive")
+        box(32, 5.5, 52, 8, "Environmental selection")
+        box(85, 131, 38, 9, "Final archive")
 
-        # Main expensive-evaluation loop. The initial budget test also handles
-        # N_init == FE_max, as specified by Algorithm 1.
-        box(32, 151, 21, 6, 'Start', fill='#F0F0F0', terminal=True)
-        box(32, 138, 50, 12, 'Latin hypercube sampling\nEvaluate and initialise archive')
-        diamond(32, 120, 38, 16, r'$FE<FE_{\max}$?')
-        box(32, 100, 50, 12, 'PAQC: quality grouping\nPBI score + binary label',
-            fill='#D9E5F6', fs=8.6)
-        box(32, 82, 50, 11, 'Build relation pairs\nTrain relation model')
-        box(32, 64, 50, 11, 'Compute indicator fitness\nTrain indicator surrogate')
-        box(32, 46, 50, 11, 'CDIS: select an infill batch', fill='#F6E8D9', bold=True, fs=8.7)
-        box(32, 28, 50, 11, 'Evaluate selected candidates\nUpdate archive and $FE$')
-        box(32, 10, 50, 11, 'Environmental selection\nUpdate current population')
-        for top, bottom in [(148, 144), (132, 128), (112, 106), (94, 87.5),
-                            (76.5, 69.5), (58.5, 51.5), (40.5, 33.5), (22.5, 15.5)]:
-            arrow([(32, top), (32, bottom)])
-        label(36, 109, 'Yes')
-        arrow([(7, 10), (2.5, 10), (2.5, 120), (13, 120)])
-        box(83, 138, 34, 10, 'Output evaluated\narchive', fill=BLUE)
-        box(120, 138, 20, 6, 'End', fill='#F0F0F0', terminal=True)
-        arrow([(51, 120), (62, 120), (62, 138), (66, 138)])
-        label(57, 122.6, 'No')
-        arrow([(100, 138), (110, 138)])
+        for upper, lower in [
+            (115, 110),
+            (96, 90.5),
+            (77.5, 71),
+            (61, 55),
+            (45, 39),
+            (29, 25.5),
+            (12.5, 9.5),
+        ]:
+            line([(32, upper), (32, lower)])
+        ax.text(38, 93, "Yes", ha="center", va="center", fontsize=8)
+        line([(6, 5.5), (1.5, 5.5), (1.5, 103), (11, 103)])
+        line([(53, 103), (65, 103), (65, 131), (66, 131)])
+        ax.text(58, 106, "No", ha="center", va="center", fontsize=8)
 
-        # Dotted enclosure and connector indicate an expansion of the CDIS
-        # node, not a second independent execution path.
-        ax.add_patch(FancyBboxPatch((77, 1.5), 101, 126,
-            boxstyle='round,pad=0,rounding_size=2', facecolor='#FCFCFD',
-            edgecolor='#7A8391', linestyle=(0, (2, 2)), linewidth=.75, zorder=0))
-        ax.plot([57, 77], [46, 46], color='#7A8391', lw=.8, ls=(0, (2, 2)))
-        ax.text(127.5, 123, 'CDIS: candidate search and infill selection',
-                ha='center', va='center', fontsize=9.4, fontweight='bold')
-        box(128, 110, 87, 11, r'Draw mode $m$ ($p_{\mathrm{mix}}=0.5$)'+'\nIndicator mode only if its surrogate is available', fs=8.7)
-        box(128, 94, 71, 16, 'Generate offspring using representatives\nRank and retain parents by relation score\nAccumulate candidates', fs=8.7)
-        diamond(128, 76, 47, 14, r'$c\geq g_{\max}$?')
-        box(128, 61, 65, 8, 'Deduplicate the candidate pool')
-        diamond(128, 45, 35, 14, r'$m=\mathrm{ind}$?')
-        box(102, 27, 43, 15, 'Top 30% by relation\nIndicator reranking\nSelect top candidates', fs=8.4)
-        box(153, 27, 43, 15, 'Relation quality screen\nQuality + ambiguity reward\nTop-ranked candidates', fs=8.4)
-        box(128, 8.5, 87, 10, 'Bound the evaluation batch\n'+
-            r'$|\mathcal{S}|\leq\min(n_{\max},\,FE_{\max}-FE)$', fill='#F6E8D9', fs=8.4)
-        arrow([(128, 104.5), (128, 102)])
-        arrow([(128, 86), (128, 83)])
-        arrow([(151.5, 76), (173, 76), (173, 94), (163.5, 94)])
-        label(163, 78.5, 'No')
-        arrow([(128, 69), (128, 65)])
-        label(132, 67, 'Yes')
-        arrow([(128, 57), (128, 52)])
-        arrow([(110.5, 45), (102, 45), (102, 34.5)])
-        arrow([(145.5, 45), (153, 45), (153, 34.5)])
-        label(102, 48, 'Yes')
-        label(153, 48, 'No')
-        arrow([(102, 19.5), (102, 16.5), (128, 16.5), (128, 13.5)])
-        arrow([(153, 19.5), (153, 16.5), (128, 16.5)])
+        ax.add_patch(
+            FancyBboxPatch(
+                (76, 3.5),
+                102,
+                114.5,
+                boxstyle="round,pad=0,rounding_size=2",
+                facecolor="#FCFCFD",
+                edgecolor="#7A8391",
+                linestyle=(0, (2, 2)),
+                linewidth=0.75,
+                zorder=0,
+            )
+        )
+        ax.plot([58, 76], [34, 34], color="#7A8391", lw=0.8, ls=(0, (2, 2)))
+        ax.text(
+            127,
+            112,
+            "CDIS: candidate search and infill selection",
+            ha="center",
+            va="center",
+            fontsize=9.4,
+            fontweight="bold",
+        )
+        box(127, 98, 82, 10, "Choose an infill criterion", fill=CDIS)
+        box(127, 79, 82, 11, "Relation-guided offspring generation", "Population and representatives")
+        box(127, 60, 82, 10, "Screen candidates by relation quality")
+        box(101, 40, 42, 13, "Indicator-based", "reranking")
+        box(153, 40, 43, 13, "Ambiguity-rewarded", "ranking")
+        box(127, 16, 82, 10, "Candidates for expensive evaluation", fill=CDIS, bold=True)
 
-        # Check actual rendered text bounds against process and decision nodes.
+        line([(127, 93), (127, 84.5)])
+        line([(127, 73.5), (127, 65)])
+        line([(127, 55), (127, 52), (101, 52), (101, 46.5)])
+        line([(127, 52), (153, 52), (153, 46.5)])
+        line([(101, 33.5), (101, 27), (127, 27)], arrow=False)
+        line([(153, 33.5), (153, 27), (127, 27)], arrow=False)
+        line([(127, 27), (127, 21)])
+
         fig.canvas.draw()
         renderer = fig.canvas.get_renderer()
-        for patch, txt in nodes:
-            extent = txt.get_window_extent(renderer).expanded(1.015, 1.035)
+        for patch, label in nodes:
+            extent = label.get_window_extent(renderer).expanded(1.012, 1.03)
             path = patch.get_path().transformed(patch.get_transform())
-            corners = [(extent.x0, extent.y0), (extent.x0, extent.y1),
-                       (extent.x1, extent.y0), (extent.x1, extent.y1)]
-            if not all(path.contains_point(p) for p in corners):
-                raise ValueError(f'Text does not fit node: {txt.get_text()}')
+            corners = [
+                (extent.x0, extent.y0),
+                (extent.x0, extent.y1),
+                (extent.x1, extent.y0),
+                (extent.x1, extent.y1),
+            ]
+            if not all(path.contains_point(corner) for corner in corners):
+                raise ValueError(f"Text does not fit node: {label.get_text()}")
         return fig
 
 
 def main():
     fig = draw_framework()
-    with plt.rc_context({'pdf.fonttype': 42, 'svg.fonttype': 'none'}):
-        for suffix in ('pdf', 'svg', 'png'):
-            fig.savefig(OUT / f'fig_framework.{suffix}', dpi=600, facecolor='white')
-    svg_path = OUT/'fig_framework.svg'
-    svg_path.write_text('\n'.join(line.rstrip() for line in svg_path.read_text(encoding='utf-8').splitlines())+'\n', encoding='utf-8')
+    for suffix in ("pdf", "svg", "png"):
+        fig.savefig(OUT / f"fig_framework.{suffix}", dpi=600, facecolor="white")
+    svg_path = OUT / "fig_framework.svg"
+    svg_path.write_text(
+        "\n".join(line.rstrip() for line in svg_path.read_text(encoding="utf-8").splitlines())
+        + "\n",
+        encoding="utf-8",
+    )
     plt.close(fig)
-    with pymupdf.open(OUT / 'fig_framework.pdf') as doc:
-        page = doc[0]
-        spans = [s for b in page.get_text('dict')['blocks'] if 'lines' in b
-                 for line in b['lines'] for s in line['spans'] if s['text'].strip()]
-        min_font = min(s['size'] for s in spans)
-        assert min_font >= 5, min_font
-        page.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False).save(OUT/'qa/fig_framework_render.png')
+    with pymupdf.open(OUT / "fig_framework.pdf") as document:
+        page = document[0]
+        if page.get_images():
+            raise ValueError("The PDF contains a raster image")
+        spans = [
+            span
+            for block in page.get_text("dict")["blocks"]
+            if "lines" in block
+            for item in block["lines"]
+            for span in item["spans"]
+            if span["text"].strip()
+        ]
+        min_font = min(span["size"] for span in spans)
+        if min_font < 5:
+            raise ValueError("Figure text is smaller than 5 pt")
+        page.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False).save(
+            OUT / "qa/fig_framework_render.png"
+        )
         metadata = {
-            'source': '../HPDC-MaOEA.tex, Section 3 and Algorithms 1 and 3',
-            'source_sha256': hashlib.sha256((OUT.parent/'HPDC-MaOEA.tex').read_bytes()).hexdigest(),
-            'width_mm': 180, 'height_mm': 157, 'png_dpi': 600,
-            'minimum_pdf_glyph_pt': min_font, 'embedded_raster_count': len(page.get_images()),
-            'semantics': 'Method-level flow; c counts generated candidates, not generations.',
-            'simplifications': 'NoBatchDist: exploration uses relation-quality screening and ranks R_norm + 0.30*U_norm, without batch distance. Indicator mode directly reranks its relation shortlist. Mode is drawn before candidate search. Empty-pool safeguards remain in the method; no minimum-batch completion.',
-            'alt_text': 'PACDIS starts with an evaluated Latin hypercube design, checks the evaluation budget, constructs PAQC groups, trains relation and indicator models, runs CDIS, evaluates the selected batch, and updates the population from the archive. CDIS draws one mode, loops over relation-guided candidate generation, and branches into indicator or exploration selection before applying the batch bound.',
+            "source": "../HPDC-MaOEA.tex, Section 3 and Algorithms 1 and 3",
+            "source_sha256": hashlib.sha256((OUT.parent / "HPDC-MaOEA.tex").read_bytes()).hexdigest(),
+            "width_mm": 180,
+            "height_mm": 136,
+            "png_dpi": 600,
+            "minimum_pdf_glyph_pt": min_font,
+            "embedded_raster_count": 0,
+            "semantics": "PAQC builds relation-training groups; CDIS selects expensive-evaluation candidates.",
+            "simplifications": "The figure shows relation-guided generation, shared relation-quality screening, and the two infill criteria. Parameters, candidate-pool bookkeeping, and budget safeguards remain in the method text and algorithms.",
+            "alt_text": "PACDIS evaluates an initial population, constructs PAQC training groups, trains the relation and indicator surrogates, and uses CDIS to select candidates for expensive evaluation. CDIS uses relation-guided offspring generation and relation-quality screening before either indicator-based reranking or ambiguity-rewarded ranking. The evaluated archive and population are updated until the budget is exhausted.",
         }
-    (OUT/'qa/fig_framework_flowchart.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
-    manifest_path = OUT/'manifest.json'
+    (OUT / "qa/fig_framework_flowchart.json").write_text(
+        json.dumps(metadata, indent=2) + "\n", encoding="utf-8"
+    )
+    manifest_path = OUT / "manifest.json"
     if manifest_path.exists():
-        manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-        for entry in manifest['figures']:
-            if entry['name'] == 'fig_framework':
-                entry.update(width_mm=180, height_mm=157,
-                    minimum_pdf_glyph_pt=round(min_font, 2), pdf_text_spans=len(spans),
-                    claim='PACDIS evaluation loop and CDIS control flow.',
-                    archetype='method-level flowchart',
-                    notes=metadata['simplifications'], text_outside_canvas=[])
-        manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False)+'\n', encoding='utf-8')
-    print(json.dumps(metadata, indent=2))
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        for entry in manifest["figures"]:
+            if entry["name"] == "fig_framework":
+                entry.update(
+                    width_mm=180,
+                    height_mm=136,
+                    minimum_pdf_glyph_pt=round(min_font, 2),
+                    pdf_text_spans=len(spans),
+                    claim="PAQC supervision construction and CDIS infill selection in the PACDIS evaluation loop.",
+                    archetype="method-level flowchart",
+                    notes=metadata["simplifications"],
+                    text_outside_canvas=[],
+                )
+        manifest_path.write_text(
+            json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
+    print(OUT / "fig_framework.pdf")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
