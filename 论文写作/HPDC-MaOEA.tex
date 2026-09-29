@@ -118,75 +118,83 @@ infill selection
 \section{Introduction}
 \label{sec:intro}
 
-Expensive many-objective optimization problems (MaOPs) arise in many real-world
-applications where each objective evaluation is computationally or economically
-prohibitive, limiting the number of real function evaluations to a small budget.
-Conventional many-objective evolutionary algorithms (MaOEAs) typically require
-tens of thousands of evaluations, making them impractical in such scenarios.
-Surrogate-assisted evolutionary algorithms (SAEAs) alleviate this burden by
-approximating objective functions or other performance
-indicators~\cite{ref:krvea,ref:csea,ref:pcsaea}. However, building and
-maintaining accurate objective-wise regression models becomes increasingly
-challenging as the number of objectives grows, especially when only a limited
-number of expensive samples are available. Relation learning offers an
-alternative: instead of recovering absolute objective values, it learns the
-relative quality of pairs of solutions~\cite{ref:remo}. This paradigm has shown
-promise in expensive multi-objective optimization. However, its effectiveness is
-influenced not only by the relation model itself, but also by how supervision is
-constructed and how its predictions are converted into expensive evaluations.
+Aerodynamic design and building energy-system design require costly simulations to
+compare competing performance objectives~\cite{ref:aero_sbo,ref:building_energy}.
+An evaluation can involve a high-fidelity flow calculation or a simulation of
+building operation, so a search can afford only a small number of designs.
+Under the main comparison's configured 500-evaluation budget, a generational algorithm
+with 100 individuals could evaluate an initial population and only four more
+populations. Many objectives add another difficulty: Pareto dominance separates
+fewer solutions as their number grows~\cite{ref:maoea_survey}. Decomposition
+and reference-point methods such as MOEA/D and NSGA-III improve many-objective
+selection, but each new solution still requires its objective
+values~\cite{ref:moead,ref:nsga3}.
 
-REMO~\cite{ref:remo} constructs its training groups from a small set of
-representative solutions selected by the radial-space mechanism of
-RSEA~\cite{ref:rsea}. RSEA projects high-dimensional objective vectors into a
-two-dimensional radial space and uses grid division for efficient selection.
-Although this reduction enables efficient representative selection, the
-resulting representative set is a sparse summary of the population.
-Consequently, relying exclusively on these representatives to form training
-groups may underuse the directional information provided by the current
-nondominated solutions in the original objective space. To address this
-limitation, we propose PBI-assisted quality classification (PAQC). PAQC derives
-nondominated-derived directional quality information directly from the current
-nondominated objective vectors using PBI, without relying on radial-grid
-representative selection. It then fuses this directional quality information
-with representative-based binary labels to enrich the information used to
-construct the positive training group. In this way, PAQC enriches the
-supervision signal for relation learning while retaining REMO's three-class
-relation-learning scheme. A stage-dependent fusion strategy is further used to
-adjust the influence of the two signals over the course of optimization.
+Surrogate-assisted evolutionary algorithms (SAEAs) reduce the number of costly
+evaluations by using models to screen candidate solutions~\cite{ref:jin_saea,ref:saea_survey}.
+K-RVEA builds a Kriging model for each objective, so the number of models grows
+with the number of objectives~\cite{ref:krvea}. Classification and comparison
+models instead learn which solutions merit attention: CSEA classifies candidates
+relative to reference solutions, PC-SAEA predicts pairwise comparisons, and
+REMO learns three-class relations between solutions~\cite{ref:csea,ref:pcsaea,ref:remo}.
+These models still need informative labels from the evaluated population and a
+rule for choosing which predicted candidates receive the next costly
+evaluations. Model management and infill selection therefore matter alongside
+prediction accuracy~\cite{ref:jin_saea,ref:krvea}.
 
-Candidate selection poses a second problem: relation scores order candidates,
-but that ordering alone does not specify how to use classification ambiguity
-or a separate quality indicator when allocating a small evaluation batch.
-Criterion-diversified infill selection (CDIS) addresses this evaluation-allocation
-interface through two alternative criteria. The ambiguity-oriented mode ranks
-candidates by relation quality and classification ambiguity after quality
-screening. The indicator-oriented mode reranks a relation-screened subset using
-a separately learned quality indicator. Each iteration activates one criterion
-to select a batch within the remaining evaluation budget.
+REMO forms relation-training groups by comparing evaluated solutions with a
+small set of representatives chosen through RSEA's two-dimensional radial
+grid~\cite{ref:remo,ref:rsea}. These comparisons use the solutions' original
+objective vectors, but the selected representatives define the grouping
+directions. A sparse representative set may omit directions present among the
+current nondominated solutions, leaving those trade-offs without a separate
+directional quality signal in the training groups. PBI-assisted quality
+classification (PAQC) adds that signal while retaining REMO's labels.
+It constructs directions from current nondominated objective vectors when
+available, assesses solutions along them with penalty-based boundary
+intersection (PBI), and
+combines the resulting quality scores with representative-based labels to form
+the positive training group~\cite{ref:moead}. The fusion changes with evaluation
+progress; REMO's three-class relation model remains in place.
 
-We propose PACDIS, a surrogate-assisted many-objective evolutionary algorithm
-that modifies two interfaces of relation-based expensive optimization:
-supervision construction and expensive-evaluation allocation. PAQC determines
-what the relation classifier learns from evaluated solutions; CDIS determines
-how its predictions guide new expensive evaluations.
-The main contributions of this work are threefold. First, PAQC supplements
-representative-based grouping with nondominated-derived directional quality
-information and combines the two signals to construct positive training groups.
-Second, CDIS uses relation quality, classification ambiguity, and indicator
-information through two alternative infill criteria to allocate a limited
-expensive-evaluation budget. These mechanisms address different stages of the
-relation-learning framework. Third, experiments on DTLZ and WFG benchmarks
-with 10, 15, and 20 objectives compare PACDIS with six surrogate-assisted
-algorithms, while REMO-referenced component comparisons place the complete
-method beside its PAQC and CDIS deletion controls. PACDIS shows competitive
-performance on the tested settings, with
-consistent mean IGD$^+$ advantages on WFG2 and WFG7 across the three objective
-counts; HES-EA remains stronger on DTLZ5 and DTLZ7. The REMO-referenced
-comparisons favor PACDIS on 28 of 32 tested configurations. These exports
-lack direct module comparisons. Group-quality
-and candidate-quality diagnostics provide the planned mechanism analyses.
+A second design choice arises when REMO turns relation scores into a small
+evaluation batch~\cite{ref:remo}. The score ranks
+candidates by predicted relative quality without an explicit reward for
+prediction ambiguity or a separate indicator assessment. Other SAEAs use model or
+classification uncertainty in their selection rules~\cite{ref:krvea,ref:csea}.
+For REMO-style relation learning, score-only ranking leaves no rule for when a
+quality-screened candidate with uncertain class predictions should receive a
+costly evaluation, or when an indicator should decide among high-scoring
+candidates. Criterion-diversified infill selection (CDIS) supplies two such
+rules. Its ambiguity-oriented mode rewards classification ambiguity after
+relation-quality screening; its indicator-oriented mode reranks a
+relation-screened subset with a learned quality indicator based on density and
+front-shape information~\cite{ref:sde,ref:piea}. Each iteration uses one
+criterion, and the ambiguity-oriented mode remains available when the algorithm
+cannot train the indicator model.
 
-The remainder of this paper is organized as follows.
+PACDIS combines PAQC and CDIS at two interfaces of relation learning: PAQC
+constructs supervision from evaluated solutions, and CDIS allocates new
+expensive evaluations. This separation makes their roles explicit. The main
+contributions are:
+\begin{itemize}[leftmargin=*,nosep]
+\item \textbf{PAQC for training-group construction.} Unlike REMO's use of
+directions defined by selected representatives, PAQC adds PBI quality information
+from current nondominated directions and changes its weight across search
+stages when forming the positive group.
+\item \textbf{CDIS for evaluation allocation.} It distinguishes an
+ambiguity-oriented criterion for uncertain relation predictions from an
+indicator-oriented criterion for candidates that pass relation screening when
+an indicator model is available.
+\item \textbf{Many-objective evaluation.} We compare PACDIS with six SAEAs on
+DTLZ and WFG problems with 10, 15, and 20 objectives under a configured
+500-evaluation budget. A separate configured 300-evaluation setting compares
+PACDIS with REMO and the two deletion controls at 10 and 20 objectives.
+\end{itemize}
+In the 500-evaluation comparison, PACDIS attains the lowest mean IGD$^+$ on 16
+of 48 settings, including WFG2 and WFG7 at all three objective counts; HES-EA
+leads on DTLZ5 and DTLZ7.
+
 Section~\ref{sec:related} reviews related work on surrogate-assisted expensive
 optimization, relation learning, and candidate selection.
 Section~\ref{sec:method} details the proposed PACDIS, including PAQC, relation
@@ -961,6 +969,46 @@ findings when available, and distinguish these mechanism diagnostics from
 final IGD$^+$ performance.}
 
 \begin{thebibliography}{99}
+
+\bibitem{ref:aero_sbo}
+A.~I.~J. Forrester and A.~J. Keane,
+``Recent advances in surrogate-based optimization,''
+\emph{Progress in Aerospace Sciences}, vol.~45, nos.~1--3, pp.~50--79, 2009.
+\href{https://doi.org/10.1016/j.paerosci.2008.11.001}{doi:10.1016/j.paerosci.2008.11.001}.
+
+\bibitem{ref:building_energy}
+P.~Aghaei Pour, T.~Rodemann, J.~Hakanen, and K.~Miettinen,
+``Surrogate assisted interactive multiobjective optimization in energy system
+design of buildings,'' \emph{Optimization and Engineering}, vol.~23,
+pp.~303--327, 2022.
+\href{https://doi.org/10.1007/s11081-020-09587-8}{doi:10.1007/s11081-020-09587-8}.
+
+\bibitem{ref:maoea_survey}
+B.~Li, J.~Li, K.~Tang, and X.~Yao,
+``Many-objective evolutionary algorithms: A survey,''
+\emph{ACM Computing Surveys}, vol.~48, no.~1, art.~13, 2015.
+\href{https://doi.org/10.1145/2792984}{doi:10.1145/2792984}.
+
+\bibitem{ref:nsga3}
+K.~Deb and H.~Jain,
+``An evolutionary many-objective optimization algorithm using
+reference-point-based nondominated sorting approach, part I: Solving problems
+with box constraints,'' \emph{IEEE Trans. Evol. Comput.}, vol.~18, no.~4,
+pp.~577--601, 2014.
+\href{https://doi.org/10.1109/TEVC.2013.2281535}{doi:10.1109/TEVC.2013.2281535}.
+
+\bibitem{ref:jin_saea}
+Y.~Jin, ``Surrogate-assisted evolutionary computation: Recent advances and
+future challenges,'' \emph{Swarm Evol. Comput.}, vol.~1, no.~2,
+pp.~61--70, 2011.
+\href{https://doi.org/10.1016/j.swevo.2011.05.001}{doi:10.1016/j.swevo.2011.05.001}.
+
+\bibitem{ref:saea_survey}
+C.~He, Y.~Zhang, D.~Gong, and X.~Ji,
+``A review of surrogate-assisted evolutionary algorithms for expensive
+optimization problems,'' \emph{Expert Systems with Applications}, vol.~217,
+art.~119495, 2023.
+\href{https://doi.org/10.1016/j.eswa.2022.119495}{doi:10.1016/j.eswa.2022.119495}.
 
 \bibitem{ref:moead}
 Q.~Zhang and H.~Li,
