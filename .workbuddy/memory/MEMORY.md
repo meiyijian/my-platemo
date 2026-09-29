@@ -2,7 +2,8 @@
 
 > 只留最高频、最致命的条目；环境/坑位细节、数据集、论文、FE500 六坑、HES_EA 停滞事件全部归档在 `REFERENCE.md`，需要时先读它。
 
-## 现在在哪（截至 2026-09-24 02:54）
+## 现在在哪（截至 2026-09-29 20:30）
+- 🟡 **MiniMaSAEA 第一层阶段实验（另一台机器＝个人电脑，8P/16L/31 GiB）—— 09-29 20:23 起续跑，10 worker，后台 `HU3GUM`**：算法在 `PlatEMO/Algorithms/Multi-objective optimization/work2/MiniMaSAEA/`，结果根 `C:\Users\lsx\Desktop\AutoSAEA`（`manifest.csv` 1280 作业＝开发集 640 + 留出集 640；4 模式 PBI/TCH/SDE/OBJ × M=3/5/8/10 × 10 跑，FE300，主指标 IGDp）。续跑前开发集 171/640、留出集 0/640。启动脚本 `AutoSAEA\_logs\start_stage_10w_20260929.m`（先 development 再 validation 串跑），日志前缀记在 `_logs\last_run.txt`，巡检 `928aae3f`（每 2 h，只读）。MATLAB **R2021b** 在 `D:\software\mathlab\bin\matlab.exe`；Processes profile 原上限 8 已提到 10，逻辑核 16 够用，但**内存吃紧**（free 仅 3.4 GiB，10 worker≈9.2 GB；M8/M10 的 OBJ 最吃内存，OOM 就降到 8）。🔴 **续跑前必须先跑 `RunMiniMaSAEAStage('check')` 确认既有结果全 `complete`**（见下 autocrlf 红线）。
 - ✅ **NoBatchDist 版 pMix 敏感性（重跑论文 pMix 表）—— 09-24 10:41 完成 960/960**（01:07–10:41，≈9.6 h，≈102 跑/h）。verify `expected 1200 / valid 1200 / invalid 0`（1200 = 960 自跑 + 240 复用 Full 的 PMix050 行）、IGDp 覆盖 1200/1200、无 `.tmp` 残留。**结论：pMix=0.50 仍整体最稳健**（Overall 平均秩 2.42；M10 时 0.75 的 2.33 略优、M20 时 0.50 的 2.17 第一），与旧带批距版一致（旧表 0.50=2.25）；显著性 +/-/= vs 0.50：0.00 = 1/4/7、0.25 = 1/0/11、0.75 = 0/1/11、1.00 = 1/5/6。🔴 **反例须如实交代**：DTLZ7 方向相反（M10 时 0.00 显著最优且 pMix 越大越差；M20 时 0.25 最优），WFG3/M20 是 1.00 最优。分析脚本 `analyze_pMixSweep.py`（配对 Wilcoxon + 平均秩）→ `pmix_nobatchdist_summary.md` + `table_pmix_nobatchdist_igd.tex`（版式对齐论文旧表，待替换 `pmix_historical_table.tex`）。原口径：6 题（DTLZ2/4/7、WFG1/3/8）× M=10/20 × 4 档（0/0.25/0.75/1.00）× 20 跑 = **960 跑**；**PMix050 不跑**，复用 Full `..._NoBatchDist` 数据（该目录 320 文件 = 16 题全系列，**不计入**本实验）。N=100、D=30（WFG3 为 31）、maxFE=300、SaveCount=30；SeedBase M10=**21260912** / M20=**22260912**（`base+1000×题号+run`）；在线同步算 IGD+IGDp。落盘 `D:\REMOandDREMO测试集\{10目标\n30,20目标}\REMO_..._NoBatchDist_PMix{000,025,075,100}\`；框架 `PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_pMixSweep/`；巡检 `c97ea7d7`。**已核对**：四变体与 Full 的 `private/` 同构、主类只差 pMix 硬编码 ⇒ 不串味、PMix050 与 Full 逐位一致。**未使用**：`..._NoBatchDist_PMix_Sensitivity_M20`（16 题×1600 跑版，口径不同）。
   - 🔴 **单跑 wall 必须按池内实测，别拿 smoke 外推**：M10 p50 494 s、M20 p50 435 s（p90 697 / max 756）；**独占 smoke 只有 263 s**（14 路并发膨胀 ≈1.8×）——用 smoke 外推会把 9.6 h 的活估成 5–6 h。吞吐 ≈102 跑/h（14 路）。
 - 🟢 **FE500 / M=20 七算法全系列 —— 后台 `7CMxJT`，16 路**；范围、六个坑、单跑 wall 见 `REFERENCE.md`。要点：7 算法×16 题×20 跑=2240、maxFE=500、落盘 `20目标\FE500\<算法>\`；**PCSAEA/SAMOEATL2M/HES_EA 用原版类**；键名≠类名（`SAMOEA` 的类/目录是 `SAMOEATL2M`）。
@@ -26,6 +27,7 @@
 - 🔴 Git Bash → MATLAB 传路径必须 `pwd -W`（`pwd` 给 `/d/...`，MATLAB 静默失效）。
 - ⚠️ **patternnet 算法（REMO/PACDIS）不受"同种子+同线程"逐位复现保证**（同进程内第 1、2 次 Solve 会分岔）→ 等价性断言必须固定槽位（每进程一跑）；20–30 跑统计比较不受影响。
 - ⚠️ PowerShell 工具 stdout 不回显 → 结果 `Set-Content` 到临时文件再用 Read 读。
+- 🔴 **本仓库 `git config core.autocrlf=true`（无 `.gitattributes`）会让被哈希的源码在换机器后失配**：09-29 个人电脑上 MiniMaSAEA 的 171 个已完成结果全被判 `invalid`（runner 遇冲突文件直接整批报错停机）。根因只是 `MiniMaSAEA.m`/`MiniMaSAEAHandler.m` 被检出成 CRLF（blob 为 LF），内容零差异——去掉 CR 重算 SHA-256 与 record 完全一致。修法：按字节转回 LF（脚本 `AutoSAEA\_logs\fix_eol.py`，原件备份 `AutoSAEA\_logs\backup_crlf_20260929\`）。**凡用 SHA-256 校验源码的实验，换机器/重检出后先跑一次 check/verify 再开跑**。
 - Edit 偶发报成功但未落盘 → 关键编辑后 Read/Grep 复核。
 
 ## 常用口径
