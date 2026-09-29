@@ -179,21 +179,20 @@ expensive evaluations. This separation makes their roles explicit. The main
 contributions are:
 \begin{itemize}[leftmargin=*,nosep]
 \item \textbf{PAQC for training-group construction.} Unlike REMO's use of
-directions defined by selected representatives, PAQC adds PBI quality information
-from current nondominated directions and changes its weight across search
-stages when forming the positive group.
-\item \textbf{CDIS for evaluation allocation.} It distinguishes an
-ambiguity-oriented criterion for uncertain relation predictions from an
-indicator-oriented criterion for candidates that pass relation screening when
-an indicator model is available.
-\item \textbf{Many-objective evaluation.} We compare PACDIS with six SAEAs on
-DTLZ and WFG problems with 10, 15, and 20 objectives under a configured
-500-evaluation budget. A separate configured 300-evaluation setting compares
-PACDIS with REMO and the two deletion controls at 10 and 20 objectives.
+directions defined by selected representatives, PAQC adds PBI quality
+information from current nondominated directions and adaptively integrates it
+with representative-based labels to construct the positive training group.
+\item \textbf{CDIS for evaluation allocation.} CDIS introduces complementary
+ambiguity-oriented and indicator-oriented criteria to allocate limited
+expensive evaluations among relation-screened candidates.
+\item \textbf{Comprehensive experimental validation.} Experiments on widely
+used many-objective benchmark problems demonstrate the competitiveness of
+PACDIS under limited evaluation budgets, while separate ablation studies
+compare PACDIS with PAQC and CDIS deletion controls.
 \end{itemize}
-In the 500-evaluation comparison, PACDIS attains the lowest mean IGD$^+$ on 16
-of 48 settings, including WFG2 and WFG7 at all three objective counts; HES-EA
-leads on DTLZ5 and DTLZ7.
+Experimental results show that PACDIS achieves competitive overall IGD$^+$
+performance and exhibits consistent advantages on several challenging
+many-objective problems.
 
 Section~\ref{sec:related} reviews related work on surrogate-assisted expensive
 optimization, relation learning, and candidate selection.
