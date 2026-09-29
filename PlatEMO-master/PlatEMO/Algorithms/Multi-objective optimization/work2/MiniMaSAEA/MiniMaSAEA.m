@@ -36,14 +36,24 @@ classdef MiniMaSAEA < ALGORITHM
 
             while Algorithm.NotTerminated(Archive)
                 % These operators and the one-point infill rule are shared.
-                C = OperatorGA(Problem,Archive.decs);
+                archiveDec = Archive.decs;
+                scale = Problem.upper-Problem.lower;
+                quantizedArchive = round(((archiveDec-Problem.lower)./scale)*1e12);
+                C = OperatorGA(Problem,archiveDec);
                 C = Problem.CalDec(C);
-                C = unique(C,'rows','stable');
-                C(ismember(C,Archive.decs,'rows'),:) = [];
+                quantizedC = round(((C-Problem.lower)./scale)*1e12);
+                [~,first] = unique(quantizedC,'rows','stable');
+                C = C(first,:);
+                quantizedC = quantizedC(first,:);
+                C(ismember(quantizedC,quantizedArchive,'rows'),:) = [];
                 if isempty(C)
                     U = UniformPoint(max(2,Problem.N),Problem.D,'Latin');
                     C = Problem.CalDec(Problem.lower + (Problem.upper-Problem.lower).*U);
-                    C(ismember(C,Archive.decs,'rows'),:) = [];
+                    quantizedC = round(((C-Problem.lower)./scale)*1e12);
+                    [~,first] = unique(quantizedC,'rows','stable');
+                    C = C(first,:);
+                    quantizedC = quantizedC(first,:);
+                    C(ismember(quantizedC,quantizedArchive,'rows'),:) = [];
                 end
                 if isempty(C)
                     error('MiniMaSAEA:NoCandidate','No unevaluated candidate could be generated.');
@@ -55,12 +65,17 @@ classdef MiniMaSAEA < ALGORITHM
                 span = max(Obj,[],1)-zmin;
                 span(span < 1e-12) = 1;
                 F = (Obj-zmin)./span;
+                [~,trainRows] = unique(quantizedArchive,'rows','stable');
+                trainDec = archiveDec(trainRows,:);
+                if numel(trainRows) < Problem.D+2
+                    error('MiniMaSAEA:TrainingSites','Too few distinct archive decisions for the GP.');
+                end
 
                 if strcmp(mode,'OBJ')
                     % One independent GP for each normalized objective.
                     PredObj = zeros(size(C,1),Problem.M);
                     for j = 1:Problem.M
-                        model = MiniDaceFit(Archive.decs,F(:,j), ...
+                        model = MiniDaceFit(trainDec,F(trainRows,j), ...
                             'regpoly1','corrgauss',10*ones(1,Problem.D), ...
                             1e-5*ones(1,Problem.D),20*ones(1,Problem.D));
                         PredObj(:,j) = MiniDacePredictor(C,model);
@@ -68,7 +83,7 @@ classdef MiniMaSAEA < ALGORITHM
                     Pred = MiniMaSAEAHandler(PredObj,w,'PBI');
                 else
                     Y = MiniMaSAEAHandler(F,w,mode);
-                    model = MiniDaceFit(Archive.decs,Y, ...
+                    model = MiniDaceFit(trainDec,Y(trainRows), ...
                         'regpoly1','corrgauss',10*ones(1,Problem.D), ...
                         1e-5*ones(1,Problem.D),20*ones(1,Problem.D));
                     Pred = MiniDacePredictor(C,model);

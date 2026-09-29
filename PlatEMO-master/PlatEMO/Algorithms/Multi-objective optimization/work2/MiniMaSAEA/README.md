@@ -39,6 +39,8 @@ step calls it exactly once. The version is restricted to finite real
 decision variables. Its GP uses ParEGO's DACE implementation (copied and
 renamed under `private/`), first-order trend, Gaussian correlation, and
 the same hyperparameter bounds in all modes. ParEGO's EI search is absent.
+Before fitting, the same fixed `1e-12` normalized decision-space deduplication
+is applied in every mode because DACE rejects repeated design sites.
 The SDE handler uses shifted Euclidean distance to the
 `floor(sqrt(archive size))`-th neighbor, then takes `1/(distance+2)` so
 lower predicted scores remain preferred, following the form of PlatEMO's
