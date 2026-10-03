@@ -118,88 +118,116 @@ infill selection
 \section{Introduction}
 \label{sec:intro}
 
-Aerodynamic design and building energy-system design require costly simulations to
-compare competing performance objectives~\cite{ref:aero_sbo,ref:building_energy}.
-An evaluation can involve a high-fidelity flow calculation or a simulation of
-building operation, so a search can afford only a small number of designs.
-Under the main comparison's configured 500-evaluation budget, a generational algorithm
-with 100 individuals could evaluate an initial population and only four more
-populations. Many objectives add another difficulty: Pareto dominance separates
-fewer solutions as their number grows~\cite{ref:maoea_survey}. Decomposition
-and reference-point methods such as MOEA/D and NSGA-III improve many-objective
-selection, but each new solution still requires its objective
-values~\cite{ref:moead,ref:nsga3}.
+% Stakes: expensive evaluations must support progress and multiple trade-offs.
+Engineering applications such as airfoil design and power electronic circuit
+optimization involve conflicting objectives whose evaluation can require costly
+simulations~\cite{ref:gcs_pso,ref:emmoea}. The available evaluation budget limits
+how many designs an optimizer can examine. In many-objective problems, this
+restriction accompanies a selection difficulty: Pareto dominance provides less
+discrimination as the number of objectives increases~\cite{ref:maoea_survey}.
+Decomposition and reference-point methods help organize the search across
+trade-offs~\cite{ref:moead,ref:nsga3}, but conventional evolutionary search still
+requires objective evaluations for its new solutions. Expensive many-objective
+optimization therefore requires selection rules that use scarce evaluations to
+improve both convergence and the representation of different trade-offs.
 
-Surrogate-assisted evolutionary algorithms (SAEAs) reduce the number of costly
-evaluations by using models to screen candidate solutions~\cite{ref:jin_saea,ref:saea_survey}.
-K-RVEA builds a Kriging model for each objective, so the number of models grows
-with the number of objectives~\cite{ref:krvea}. Classification and comparison
-models instead learn which solutions merit attention: CSEA classifies candidates
-relative to reference solutions, PC-SAEA predicts pairwise comparisons, and
-REMO learns three-class relations between solutions~\cite{ref:csea,ref:pcsaea,ref:remo}.
-These models still need informative labels from the evaluated population and a
-rule for choosing which predicted candidates receive the next costly
-evaluations. Model management and infill selection therefore matter alongside
-prediction accuracy~\cite{ref:jin_saea,ref:krvea}.
+% Research context: connect learning targets to the decisions they support.
+Surrogate-assisted evolutionary algorithms (SAEAs) use predictions to screen
+candidates before expensive evaluation~\cite{ref:jin_saea,ref:saea_survey}.
+Learning a separate Kriging model for each objective makes the model count
+grow with the number of objectives~\cite{ref:krvea}. Recent alternatives learn
+convergence and diversity indicators, grid labels, or pairwise comparisons
+that directly support selection~\cite{ref:hesea,ref:gcs_pso,ref:pcsaea}.
+These targets offer different ways to summarize objective information. Their
+usefulness depends on which quality distinctions the training data encode and
+how the algorithm uses predictions to select the next evaluations.
 
-REMO forms relation-training groups by comparing evaluated solutions with a
-small set of representatives chosen through RSEA's two-dimensional radial
-grid~\cite{ref:remo,ref:rsea}. These comparisons use the solutions' original
-objective vectors, but the selected representatives define the grouping
-directions. A sparse representative set may omit directions present among the
-current nondominated solutions, leaving those trade-offs without a separate
-directional quality signal in the training groups. PBI-assisted quality
-classification (PAQC) adds that signal while retaining REMO's labels.
-It constructs directions from current nondominated objective vectors when
-available, assesses solutions along them with penalty-based boundary
-intersection (PBI), and
-combines the resulting quality scores with representative-based labels to form
-the positive training group~\cite{ref:moead}. The fusion changes with evaluation
-progress; REMO's three-class relation model remains in place.
+% Nearest framework: distinguish inherited relation learning from our changes.
+REMO, an evolutionary algorithm based on relation learning, connects these
+decisions through a three-class relation model~\cite{ref:remo}.
+It divides evaluated solutions into positive and
+non-positive groups, learns relations between ordered pairs from these groups,
+and aggregates predicted relations to score candidates. Group construction
+therefore specifies the preferences that the model learns, while candidate
+selection determines which predictions lead to new evaluations. The recent
+relation-model framework of Hao et al. explicitly distinguishes data
+preparation, model training, and model usage~\cite{ref:relation_framework}.
+Within this established framework, we examine two decisions that govern the
+use of objective information in expensive many-objective search.
 
-A second design choice arises when REMO turns relation scores into a small
-evaluation batch~\cite{ref:remo}. The score ranks
-candidates by predicted relative quality without an explicit reward for
-prediction ambiguity or a separate indicator assessment. Other SAEAs use model or
-classification uncertainty in their selection rules~\cite{ref:krvea,ref:csea}.
-For REMO-style relation learning, score-only ranking leaves no rule for when a
-quality-screened candidate with uncertain class predictions should receive a
-costly evaluation, or when an indicator should decide among high-scoring
-candidates. Criterion-diversified infill selection (CDIS) supplies two such
-rules. Its ambiguity-oriented mode rewards classification ambiguity after
-relation-quality screening; its indicator-oriented mode reranks a
-relation-screened subset with a learned quality indicator based on density and
-front-shape information~\cite{ref:sde,ref:piea}. Each iteration uses one
-criterion, and the ambiguity-oriented mode remains available when the algorithm
-cannot train the indicator model.
+% First motivation: limited representative directions can restrict supervision.
+First, representative-based grouping derives its directional supervision from
+a small set of selected solutions. REMO selects representatives with the radial
+space division-based evolutionary algorithm (RSEA), which uses a two-dimensional
+radial grid~\cite{ref:remo,ref:rsea}. REMO's penalty-based boundary intersection
+(PBI) comparisons use the original objective vectors, with the representatives
+providing the assessment directions. A limited representative set may leave
+directions in the current nondominated population without a separate quality
+assessment. Solutions that share a representative-based label can differ in
+quality along these additional directions. REMO gives pairs within each group
+the same relation label, so these differences do not directly enter its training
+targets. This motivates using directional information from the current
+nondominated population to refine training-group construction.
 
-PACDIS combines PAQC and CDIS at two interfaces of relation learning: PAQC
-constructs supervision from evaluated solutions, and CDIS allocates new
-expensive evaluations. This separation makes their roles explicit. The main
-contributions are:
-\begin{itemize}[leftmargin=*,nosep]
-\item \textbf{PAQC for training-group construction.} Unlike REMO's use of
-directions defined by selected representatives, PAQC adds PBI quality
-information from current nondominated directions and adaptively integrates it
-with representative-based labels to construct the positive training group.
-\item \textbf{CDIS for evaluation allocation.} CDIS introduces complementary
-ambiguity-oriented and indicator-oriented criteria to allocate limited
-expensive evaluations among relation-screened candidates.
-\item \textbf{Comprehensive experimental validation.} Experiments on widely
-used many-objective benchmark problems demonstrate the competitiveness of
-PACDIS under limited evaluation budgets, while separate ablation studies
-compare PACDIS with PAQC and CDIS deletion controls.
-\end{itemize}
-Experimental results show that PACDIS achieves competitive overall IGD$^+$
-performance and exhibits consistent advantages on several challenging
-many-objective problems.
+% Second motivation: quality scores leave additional infill priorities open.
+Second, REMO's relation score provides a quality ranking for candidates, but it
+does not assign a separate role to classification ambiguity or an additional
+quality indicator in evaluation allocation~\cite{ref:remo}. A candidate's
+predicted rank and the decisiveness of its class probabilities describe
+different properties. Existing infill methods already consider several
+criteria. The Kriging-assisted two-archive algorithm adapts sampling to
+convergence, diversity, and uncertainty~\cite{ref:kta2}. Qin et al. select
+evaluations through expected improvement in a performance
+indicator~\cite{ref:emmoea}. For relation-based search,
+these precedents motivate using additional selection criteria within a pool
+that first passes a relation-quality screen.
 
-Section~\ref{sec:related} reviews related work on surrogate-assisted expensive
-optimization, relation learning, and candidate selection.
-Section~\ref{sec:method} details the proposed PACDIS, including PAQC, relation
-learning on the constructed groups, and CDIS. Section~\ref{sec:exp} presents the
-experimental studies and discussion. Section~\ref{sec:conclusion} concludes the
-paper and outlines future work.
+% Design intuition: one overview, with established components acknowledged.
+We develop PACDIS for expensive many-objective optimization. PACDIS revises
+training-group construction and infill selection within REMO's relation-learning
+framework (Fig.~\ref{fig:framework}).
+\emph{PBI-assisted quality classification} (PAQC) supplements representative-based
+labels with PBI quality along directions derived from current nondominated
+solutions when this construction is available. A fusion that changes with
+evaluation progress determines the positive training group.
+\emph{Criterion-diversified infill selection} (CDIS) screens candidates by
+relation quality, then selects an evaluation batch through one of two modes.
+The ambiguity-oriented mode rewards less decisive relation predictions; the
+indicator-oriented mode uses a surrogate of a quality indicator based on density
+and front shape~\cite{ref:sde,ref:piea}. Each iteration selects one mode with a
+fixed probability when the indicator model is available and uses the
+ambiguity-oriented mode otherwise.
+
+% Contributions: two concrete mechanisms, with experimental evidence below.
+The two methodological contributions are:
+\begin{enumerate}[leftmargin=*,nosep]
+\item \textbf{Directional information for relation supervision.}
+PAQC combines representative-based labels with a continuous directional quality
+score to determine training-group membership. The additional assessment can
+distinguish solutions that share the same representative-based label, while
+the algorithm retains the three-class relation-model architecture.
+\item \textbf{Alternative infill criteria after relation-quality screening.}
+CDIS gives classification ambiguity and a separately learned quality indicator
+distinct roles in selecting expensive evaluations. Both modes retain the
+relation-quality screen, restricting their final rankings to candidates that
+pass this initial assessment.
+\end{enumerate}
+
+% Results preview: descriptive means from the current FE500 table snapshot.
+We compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
+15, and 20 objectives under a configured budget of 500 evaluations.
+PACDIS achieves the lowest mean inverted generational distance plus (IGD$^+$)
+in 16 configurations, including DTLZ4, DTLZ6, WFG2, and WFG7 at all three
+objective counts (Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}).
+Separate experiments compare algorithm variants and examine the probability
+of selecting each infill mode
+(Sections~\ref{sec:exp:ablation} and~\ref{sec:exp:pmix}).
+
+% Roadmap: preserve the manuscript's existing section structure.
+Section~\ref{sec:related} reviews surrogate targets, relation-learning
+supervision, and infill criteria. Section~\ref{sec:method} presents PACDIS and
+its two mechanisms. Section~\ref{sec:exp} reports the experimental comparisons,
+and Section~\ref{sec:conclusion} concludes the paper.
 
 \section{Related Work}
 \label{sec:related}
