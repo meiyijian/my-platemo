@@ -204,31 +204,123 @@ paper and outlines future work.
 \section{Related Work}
 \label{sec:related}
 
-\subsection{Surrogate-Assisted Expensive Multi-/Many-Objective Optimization}
+\subsection{Surrogate Targets for Expensive Optimization}
 \label{sec:related:saea}
-\TODO{Kriging/RBF-based SAEAs, their scalability limit in $M$, and why
-regression on every objective becomes unattractive when $M$ grows.}
 
-\subsection{Relation Learning for Expensive Optimization}
+% Modeling targets: establish alternatives to objective-wise regression.
+The choice of prediction target determines which information a surrogate
+provides for evolutionary selection. Objective-wise regression retains the
+individual trade-offs: K-RVEA trains one Kriging model per objective and uses
+reference vectors to guide the search~\cite{ref:krvea}. The Kriging-assisted
+two-archive algorithm (KTA2) also approximates individual objectives and
+maintains archives that emphasize convergence and
+diversity~\cite{ref:kta2}. Such approaches require more models as the number
+of objectives grows, and selection must combine their predictions and
+uncertainty estimates. This motivates learning a smaller set of quantities
+that directly support selection~\cite{ref:hesea}.
+
+% Indicator surrogates already address model reduction; acknowledge them.
+Indicator surrogates compress objective information into measures of solution
+quality. The hierarchical and ensemble surrogate-assisted evolutionary
+algorithm (HES-EA) learns convergence and diversity indicators through pairs
+of models within a clustering framework~\cite{ref:hesea}. A cluster surrogate
+routes candidates to the corresponding indicator models. The performance indicator-based
+evolutionary algorithm (PIEA) approximates an indicator and combines
+its predictions with distribution information during
+selection~\cite{ref:piea}. These methods already provide alternatives to
+regressing every objective; the relevant distinction is which quality
+information the learning target retains. Classification and relation models
+make a further choice: they encode quality through discrete labels or
+comparisons~\cite{ref:csea,ref:remo}.
+
+\subsection{Supervision for Classification and Relation Learning}
 \label{sec:related:relation}
-\TODO{REMO and the pairwise-comparison SAEA line; compare how each method forms
-training groups or pairwise labels, then position the present work as
-group construction that supplements directions induced by radially selected
-representatives with directions obtained directly from the current nondominated
-set. Explain how directional quality information and the original binary labels jointly
-determine training-group membership.}
 
-\subsection{Quality Assessment and Candidate Selection}
-\label{sec:related:selection}
-\TODO{Indicator-based assessment (SDE, $L_p$ shape estimation, PIEA), radial
-representative selection (RSEA), and infill/candidate selection rules.}
+% Different label constructions preserve different objective-space information.
+Classification-based selection depends on the rule that assigns quality
+labels to evaluated solutions. CSEA constructs labels from comparisons with
+reference solutions and uses a neural network to classify new
+candidates~\cite{ref:csea}. Yuan and Banzhaf's dominance-prediction approach
+trains separate classifiers for Pareto dominance and $\theta$-dominance,
+combining their predictions in a two-stage preselection
+strategy~\cite{ref:theta_dea_dp}. Grid classification-based surrogate-assisted
+particle swarm optimization (GCS-PSO) instead predicts objective-space grid
+locations, from which it assesses convergence and
+diversity~\cite{ref:gcs_pso}. The supervision rule therefore determines which
+directional or distribution information a classifier can learn.
 
+% Closest relation methods: separate group construction from model use.
+REMO constructs pairwise supervision from two groups of evaluated
+solutions~\cite{ref:remo}. It uses representative-based PBI comparisons to
+form the groups, trains a three-class relation model on ordered solution
+pairs, and aggregates predicted relations into candidate scores. PC-SAEA
+constructs comparison labels using a fitness assessment that considers
+convergence and diversity; it also validates the model before deciding how
+to use its predictions~\cite{ref:pcsaea}. The recent relation-model framework
+of Hao et al. explicitly separates data preparation, model training, and
+model usage~\cite{ref:relation_framework}. Within this framework, changing
+the quality information that defines training pairs is a distinct design
+choice from changing the classifier or its use in selection.
+
+% PAQC positioning: supplement representative-induced directions, with bounds.
 RSEA uses radial projection and adaptive grids for selection, with both
 crowding and convergence considered to address the effects of curvature
-information loss~\cite{ref:rsea}. PAQC retains this representative-selection
-mechanism and supplements its grouping signal with a separate assessment in
-the original objective space. The distinction concerns the source of directional
-information, rather than the binary form of the original labels alone.
+information loss~\cite{ref:rsea}. In REMO, the resulting representatives
+retain their original objective vectors and provide the directions for
+PBI-based grouping~\cite{ref:remo}. A limited representative set may leave
+some directions in the current nondominated population without a separate
+quality assessment. PAQC supplements this grouping signal with PBI quality
+information along directions derived from current nondominated objective
+vectors, with uniform-direction fallbacks when that construction is
+unavailable. Its progress-dependent fusion determines positive-group
+membership while retaining REMO's three-class relation model
+(Section~\ref{sec:method}). The distinction from dominance prediction and
+grid classification therefore lies in how PAQC combines two sources of
+directional information to construct relation-training groups.
+
+\subsection{Infill Criteria for Expensive Evaluations}
+\label{sec:related:selection}
+
+% Existing uncertainty and switching mechanisms preclude broad novelty claims.
+Infill selection determines which surrogate predictions lead to new
+expensive evaluations. KTA2 adapts its sampling strategy to the current need
+for convergence, diversity, or uncertainty reduction~\cite{ref:kta2}, while
+CSEA combines predicted class membership with classification uncertainty
+when selecting candidates~\cite{ref:csea}. For objectives with different
+evaluation latencies, the asynchronous influence-based evolutionary
+algorithm (AIEA) combines candidate influence with a most-uncertain-first
+rule for choosing the next objective to evaluate~\cite{ref:aiea}. These
+methods already use uncertainty and multiple selection considerations, but
+their decisions concern different prediction targets and evaluation
+settings. PACDIS considers a batch of solutions for evaluation on all
+objectives, using relation predictions as the initial quality screen.
+
+% Indicator infill is a close precedent; distinguish acquisition quantities.
+Indicator-based infill provides a further way to combine convergence and
+diversity in evaluation allocation. Qin et al. search with
+objective-wise Gaussian process models, then use a separate indicator
+model to select the candidate with the largest expected improvement in
+that indicator~\cite{ref:emmoea}. This separates candidate generation from
+the criterion for expensive evaluation. PC-SAEA uses validation reliability
+to choose between direct, reversed,
+and suspended use of its comparison model~\cite{ref:pcsaea}. Expected
+improvement, validation reliability, and ambiguity in a candidate's class
+probabilities quantify different properties: predicted gain, model-level
+correctness, and confidence in individual classifications, respectively.
+
+% CDIS positioning: identify the concrete inherited and modified operations.
+CDIS retains relation-guided candidate generation and applies relation-quality
+screening before either of its final selection criteria. Its
+ambiguity-oriented mode rewards candidates whose relation-class predictions
+are less decisive; its indicator-oriented mode reranks candidates with a
+surrogate of a quality indicator that uses shift-based density estimation
+and front-shape information~\cite{ref:sde,ref:piea}. Each iteration selects
+one mode with a fixed probability when the indicator model is available,
+and otherwise uses the ambiguity-oriented mode. Thus, CDIS specifies how
+classification ambiguity and indicator assessment allocate evaluations
+within a relation-screened pool. Together, PAQC and CDIS modify the
+supervision and evaluation-allocation rules of REMO, building on established
+relation learning and indicator-based selection.
 
 \section{The Proposed PACDIS}
 \label{sec:method}
@@ -999,6 +1091,7 @@ Q.~Zhang and H.~Li,
 H.~Hao, A.~Zhou, H.~Qian, and H.~Zhang,
 ``Expensive multiobjective optimization by relation learning and prediction,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~26, no.~5, pp.~1157--1170, 2022.
+\href{https://doi.org/10.1109/TEVC.2022.3152582}{doi:10.1109/TEVC.2022.3152582}.
 
 \bibitem{ref:rsea}
 C.~He, Y.~Tian, Y.~Jin, X.~Zhang, and L.~Pan,
@@ -1011,6 +1104,7 @@ Y.~Li, W.~Li, S.~Li, and Y.~Zhao,
 ``A performance indicator-based evolutionary algorithm for expensive
 high-dimensional multi-/many-objective optimization,''
 \emph{Information Sciences}, vol.~678, art.~121045, 2024.
+\href{https://doi.org/10.1016/j.ins.2024.121045}{doi:10.1016/j.ins.2024.121045}.
 
 \bibitem{ref:sde}
 M.~Li, S.~Yang, and X.~Liu,
@@ -1029,6 +1123,7 @@ Y.~Tian, J.~Hu, C.~He, H.~Ma, L.~Zhang, and X.~Zhang,
 ``A pairwise comparison based surrogate-assisted evolutionary algorithm for
 expensive multi-objective optimization,''
 \emph{Swarm Evol. Comput.}, vol.~80, art.~101323, 2023.
+\href{https://doi.org/10.1016/j.swevo.2023.101323}{doi:10.1016/j.swevo.2023.101323}.
 
 \bibitem{ref:samoeatl2m}
 Y.~Liu, J.~Ding, Q.~Li, F.~Li, and J.~Liu,
@@ -1062,6 +1157,47 @@ T.~Sonoda and M.~Nakata,
 ``Multiple classifiers-assisted evolutionary algorithm based on decomposition
 for high-dimensional multi-objective problems,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~26, no.~6, pp.~1581--1595, 2022.
+
+\bibitem{ref:kta2}
+Z.~Song, H.~Wang, C.~He, and Y.~Jin,
+``A Kriging-assisted two-archive evolutionary algorithm for expensive
+many-objective optimization,'' \emph{IEEE Trans. Evol. Comput.}, vol.~25,
+no.~6, pp.~1013--1027, 2021.
+\href{https://doi.org/10.1109/TEVC.2021.3073648}{doi:10.1109/TEVC.2021.3073648}.
+
+\bibitem{ref:theta_dea_dp}
+Y.~Yuan and W.~Banzhaf,
+``Expensive multiobjective evolutionary optimization assisted by dominance
+prediction,'' \emph{IEEE Trans. Evol. Comput.}, vol.~26, no.~1,
+pp.~159--173, 2022.
+\href{https://doi.org/10.1109/TEVC.2021.3098257}{doi:10.1109/TEVC.2021.3098257}.
+
+\bibitem{ref:gcs_pso}
+Q.-T. Yang, Z.-H. Zhan, X.-F. Liu, J.-Y. Li, and J.~Zhang,
+``Grid classification-based surrogate-assisted particle swarm optimization
+for expensive multiobjective optimization,'' \emph{IEEE Trans. Evol.
+Comput.}, vol.~28, no.~6, pp.~1867--1881, 2024.
+\href{https://doi.org/10.1109/TEVC.2023.3340678}{doi:10.1109/TEVC.2023.3340678}.
+
+\bibitem{ref:emmoea}
+S.~Qin, C.~Sun, Q.~Liu, and Y.~Jin,
+``A performance indicator-based infill criterion for expensive
+multi-/many-objective optimization,'' \emph{IEEE Trans. Evol. Comput.},
+vol.~27, no.~4, pp.~1085--1099, 2023.
+\href{https://doi.org/10.1109/TEVC.2023.3237605}{doi:10.1109/TEVC.2023.3237605}.
+
+\bibitem{ref:relation_framework}
+H.~Hao, X.~Zhang, and A.~Zhou,
+``Expensive optimization via relation,'' \emph{IEEE Trans. Evol. Comput.},
+vol.~30, no.~1, pp.~199--213, 2026.
+\href{https://doi.org/10.1109/TEVC.2025.3542303}{doi:10.1109/TEVC.2025.3542303}.
+
+\bibitem{ref:aiea}
+F.-F. Wei, W.-N. Chen, and J.~Zhang,
+``AIEA: An asynchronous influence-based evolutionary algorithm for expensive
+many-objective optimization,'' \emph{IEEE Trans. Cybern.}, vol.~55, no.~2,
+pp.~786--799, 2025.
+\href{https://doi.org/10.1109/TCYB.2024.3501360}{doi:10.1109/TCYB.2024.3501360}.
 
 \bibitem{ref:platemo}
 Y.~Tian, R.~Cheng, X.~Zhang, and Y.~Jin,

@@ -1,0 +1,282 @@
+{
+  "retrieved": "2026-10-02",
+  "provider": "Crossref publisher-deposited metadata",
+  "new_references": [
+    {
+      "DOI": "10.1109/tcyb.2024.3501360",
+      "title": [
+        "AIEA: An Asynchronous Influence-Based Evolutionary Algorithm for Expensive Many-Objective Optimization"
+      ],
+      "author": [
+        {
+          "given": "Feng-Feng",
+          "family": "Wei"
+        },
+        {
+          "given": "Wei-Neng",
+          "family": "Chen"
+        },
+        {
+          "given": "Jun",
+          "family": "Zhang"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Cybernetics"
+      ],
+      "volume": "55",
+      "issue": "2",
+      "page": "786-799",
+      "published": {
+        "date-parts": [
+          [
+            2025,
+            2
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2025,
+            2
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tcyb.2024.3501360"
+    },
+    {
+      "DOI": "10.1109/tevc.2023.3237605",
+      "title": [
+        "A Performance Indicator-Based Infill Criterion for Expensive Multi-/Many-Objective Optimization"
+      ],
+      "author": [
+        {
+          "given": "Shufen",
+          "family": "Qin"
+        },
+        {
+          "given": "Chaoli",
+          "family": "Sun"
+        },
+        {
+          "given": "Qiqi",
+          "family": "Liu"
+        },
+        {
+          "given": "Yaochu",
+          "family": "Jin"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Evolutionary Computation"
+      ],
+      "volume": "27",
+      "issue": "4",
+      "page": "1085-1099",
+      "published": {
+        "date-parts": [
+          [
+            2023,
+            8
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2023,
+            8
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tevc.2023.3237605"
+    },
+    {
+      "DOI": "10.1109/tevc.2023.3340678",
+      "title": [
+        "Grid Classification-Based Surrogate-Assisted Particle Swarm Optimization for Expensive Multiobjective Optimization"
+      ],
+      "author": [
+        {
+          "given": "Qi-Te",
+          "family": "Yang"
+        },
+        {
+          "given": "Zhi-Hui",
+          "family": "Zhan"
+        },
+        {
+          "given": "Xiao-Fang",
+          "family": "Liu"
+        },
+        {
+          "given": "Jian-Yu",
+          "family": "Li"
+        },
+        {
+          "given": "Jun",
+          "family": "Zhang"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Evolutionary Computation"
+      ],
+      "volume": "28",
+      "issue": "6",
+      "page": "1867-1881",
+      "published": {
+        "date-parts": [
+          [
+            2024,
+            12
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2024,
+            12
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tevc.2023.3340678"
+    },
+    {
+      "DOI": "10.1109/tevc.2021.3073648",
+      "title": [
+        "A Kriging-Assisted Two-Archive Evolutionary Algorithm for Expensive Many-Objective Optimization"
+      ],
+      "author": [
+        {
+          "given": "Zhenshou",
+          "family": "Song"
+        },
+        {
+          "given": "Handing",
+          "family": "Wang"
+        },
+        {
+          "given": "Cheng",
+          "family": "He"
+        },
+        {
+          "given": "Yaochu",
+          "family": "Jin"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Evolutionary Computation"
+      ],
+      "volume": "25",
+      "issue": "6",
+      "page": "1013-1027",
+      "published": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2021,
+            12
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tevc.2021.3073648"
+    },
+    {
+      "DOI": "10.1109/tevc.2025.3542303",
+      "title": [
+        "Expensive Optimization via Relation"
+      ],
+      "author": [
+        {
+          "given": "Hao",
+          "family": "Hao"
+        },
+        {
+          "given": "Xiaoqun",
+          "family": "Zhang"
+        },
+        {
+          "given": "Aimin",
+          "family": "Zhou"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Evolutionary Computation"
+      ],
+      "volume": "30",
+      "issue": "1",
+      "page": "199-213",
+      "published": {
+        "date-parts": [
+          [
+            2026,
+            2
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2026,
+            2
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tevc.2025.3542303"
+    },
+    {
+      "DOI": "10.1109/tevc.2021.3098257",
+      "title": [
+        "Expensive Multiobjective Evolutionary Optimization Assisted by Dominance Prediction"
+      ],
+      "author": [
+        {
+          "given": "Yuan",
+          "family": "Yuan"
+        },
+        {
+          "given": "Wolfgang",
+          "family": "Banzhaf"
+        }
+      ],
+      "container-title": [
+        "IEEE Transactions on Evolutionary Computation"
+      ],
+      "volume": "26",
+      "issue": "1",
+      "page": "159-173",
+      "published": {
+        "date-parts": [
+          [
+            2022,
+            2
+          ]
+        ]
+      },
+      "published-online": null,
+      "published-print": {
+        "date-parts": [
+          [
+            2022,
+            2
+          ]
+        ]
+      },
+      "URL": "https://doi.org/10.1109/tevc.2021.3098257"
+    }
+  ]
+}
