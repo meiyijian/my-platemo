@@ -1,0 +1,1232 @@
+[
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/NBGGPAudit.m",
+    "sha256": "bdbaffbcce6367dc1a16fd97fb02e68c66c2b78b4bd1c9d6dabff68a26bb93ac",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/ResolveUniformMixMode.m",
+    "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/calFitness_SDE.m",
+    "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/CreateSDECandidateModeStream.m",
+    "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/DataProcess.m",
+    "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/DiversifiedInfillSelection.m",
+    "sha256": "14cc6b83121b23e09c2b12d7e7152374b2f58dcd8072aefb9cab36ed4f9eadfb",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/GetRelationPairs.m",
+    "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/IndicatorSelectorSDEOnly.m",
+    "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/LVComputeLabelViews.m",
+    "sha256": "73455c3affb52f966b2ed7ec39fd49e41d91b09358c3a0dc9f9f95f207db4a5a",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/LVRefSelectWithIndex.m",
+    "sha256": "1808d8bc7c970db71c93ce74ed58fa8bdb201bc0a36ab472ad822753af0cb1ee",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/NoBatchDistWeightedBatchSelection.m",
+    "sha256": "72590cd029a5090e269eb363e106c61975b55b1f112a4006b11f15ad8bb71b93",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/onehotconv.m",
+    "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/PBIQualityClassification.m",
+    "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/PrunedIndicatorSelection.m",
+    "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/PWRepresentativeAudit.m",
+    "sha256": "b86bfaca31d0ce96e873b2891274eddf65623716d153f7cd7b36184f0f5300f7",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/RefSelect.m",
+    "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/RepresentativeBasedClassification.m",
+    "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/algorithms/private/Shape_Estimate.m",
+    "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/README.md",
+    "sha256": "c6bed5724422c3fce6bb3f2e8f2f753a524684030af3e43f7544d7c72ddae78b",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPProtocol.m",
+    "sha256": "93429ebc40d28cdbb8cef3b4078cb6b2e2c9b199b3df7212061e4a5d4a2c7d61",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPStableSeed.m",
+    "sha256": "27d2c44705bb9bbd13e39da9304d95a198e76d8f7699810bdcc02b1e14e95ef1",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPStageBin.m",
+    "sha256": "e15cdea945a15fc10eb65eb92764445351500dadf113ab45f90e357e9e61892e",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPResultPath.m",
+    "sha256": "f2917dc94c35b1a405c8f68d5f1d61ef285987b556d3f315a3f22d1cbe541776",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPHolmAdjust.m",
+    "sha256": "3fb4dd535cac7956b017b3bec64cc82113827e9b9d2a41d889b024ef7e64af86",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPComputeRunMetrics.m",
+    "sha256": "0cce5bc1167887c860be9fce1fb71984ad107d9e24cc622cbf3ce4cefa4e3519",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPBinaryMetrics.m",
+    "sha256": "2047b467f3198b896fbb66abd3da9fd167a4abe08aee8b16fb689f674de3bfcf",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPComparePaired.m",
+    "sha256": "c9c922ab6e80dc2fda773c0917fe5c7d80548642675169ff9016c6ee2bac3ce3",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/NBGGPValidateRunFile.m",
+    "sha256": "2f02f0006aaab077e89fc7e81255bdeac3cf8698b83aadbc57951ca8a4f9d2fd",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/run_NoBatchDistGoodGroupPrecision.m",
+    "sha256": "63e9d49d505a7bd28bf00bfcc90ad4be2170de18d28f72a42a36e10a35d91be3",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/analyze_NBGGPCurrentGoodPrecision.m",
+    "sha256": "3879035d09186ef30a85dac352b8bb4170901753aef2d43120e1959c3990ae08",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/verify_NBGGP.m",
+    "sha256": "2427c0fa8a146da6e71ef4657a6251505da41c8c239c5a8e5ff480d923afa115",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/equivalence_passed.txt",
+    "sha256": "c26de83abdc9496cd1301470918ec39ecca1cf389ef0ae1c6504da1800d1c431",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/NoBatchDistWeightedBatchSelection.m",
+    "sha256": "72590cd029a5090e269eb363e106c61975b55b1f112a4006b11f15ad8bb71b93",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/PrunedIndicatorSelection.m",
+    "sha256": "48d5dc81e279af0976ccc6a3e0cb94f03efae842ff0b85d32776786d6590bc95",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m",
+    "sha256": "e6d9b7cf25b797ecabd2d877b99c715e991aaf48c81dd1c82ade7d1d2b9d3fa3",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/ResolveUniformMixMode.m",
+    "sha256": "193a515d08d1b5ba06a0dadff3fbcb34b82a6537727d242b2ead87892842d90d",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/calFitness_SDE.m",
+    "sha256": "15bb1e5bb6c62be478e9bf61c8b07dd7e03b7be5948df862d29af8cf74899c48",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/CreateSDECandidateModeStream.m",
+    "sha256": "2ce57b7d3fa112d2b186cec090d40c93feb72f267bd8d110c6fa0536e0afbf5f",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/DataProcess.m",
+    "sha256": "64da2443584111a8330076a2cbe3467cff586c9ff06caeec6d4c6441934200e4",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/DiversifiedInfillSelection.m",
+    "sha256": "14cc6b83121b23e09c2b12d7e7152374b2f58dcd8072aefb9cab36ed4f9eadfb",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/GetRelationPairs.m",
+    "sha256": "c652dea774f75dea04831358ce9d7bd27f848d27a6af050d7a7257c6caf0ca71",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/IndicatorSelectorSDEOnly.m",
+    "sha256": "f5ad940f1c922f6fef232e8c261d9eca9cdb1e6c3deab42ec5dcae0eb916df60",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/onehotconv.m",
+    "sha256": "c4d742b17feddbe5a7e3ea0aa5c25bbe92c55b940f68c9a7026c38a424fb6bcb",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/PBIQualityClassification.m",
+    "sha256": "525b89de6af8dede63fb739af6886769aad2782841b7f84c45905dbf38f19195",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/RefSelect.m",
+    "sha256": "6891a4008ec6f21037fff2a6ea98cd37519acb0b18b51b6a3ddbb8e44ea55351",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/RepresentativeBasedClassification.m",
+    "sha256": "6ac28cc66529c4033be6336305bbde0a317b483f2009ebd5c14f4a39b6078a0c",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Algorithms/Multi-objective optimization/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist/private/Shape_Estimate.m",
+    "sha256": "704395566aa49f538803c2c02a659dd7b8dd1e74458bba5231145360fd7cb2d9",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Problems/Multi-objective optimization/DTLZ/DTLZ2.m",
+    "sha256": "89288250c4fa2b2cf62046d4c3787d431d3a2f0449830b47a3da7f9c15caeb06",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Problems/Multi-objective optimization/DTLZ/DTLZ4.m",
+    "sha256": "1d6423f1fd6bf6e117afab63c31fac9e94dda1628e6cb788a3329993692fc9c5",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Problems/Multi-objective optimization/DTLZ/DTLZ5.m",
+    "sha256": "e0473e84a162cdaece1b49235dfd1c04ed08d79825120eff15c3a4b4c03bdaf9",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Problems/Multi-objective optimization/DTLZ/DTLZ7.m",
+    "sha256": "965cb6efd043db1f4119426a3733cd3c3ff8da0f4b16344e805ed8563335e233",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_new2_AdaMaO_UniformMix_LabelValidation/ReconstructFutureLabelOutcomes.m",
+    "sha256": "1af1dc3e04bc0212c05ea9d6847bcaed1c34f21d2731a65f7b0d4a4d19aba558",
+    "archived": true
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_001.mat",
+    "sha256": "4b091c26afaa20d123d6692576090c8033f14e1af0ad32e600fcce553e886fdc",
+    "bytes": 2558145,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_002.mat",
+    "sha256": "5f7efe0baca50cb38328d3c095edebcc767af2ec08535580fecb35112a18d0ea",
+    "bytes": 2543327,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_003.mat",
+    "sha256": "58dec16d689bccf60479098b7fd2dda14dae52061fceb94463c4f003d52451f0",
+    "bytes": 2573689,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_004.mat",
+    "sha256": "797672812461ab2f87f3abb2176f00a11048816b62222fbdc8f8b1c5aa1a34d8",
+    "bytes": 2529913,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_005.mat",
+    "sha256": "7560df167fd26f788933650de364c53027f206bbb4c434ceb5780bddd764c0e3",
+    "bytes": 2520823,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_006.mat",
+    "sha256": "56aaded909814a4b09acd8c53d5399d1bf98f2250fb803fbb1e50aa5cae60219",
+    "bytes": 2566518,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_007.mat",
+    "sha256": "d5e187afe22727a315f0105c3d975cc9b3b16624859238bb922165e38a8261d6",
+    "bytes": 2540756,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_008.mat",
+    "sha256": "2a111aaa7e873c3becec52de39cbf114e0b19c70e8e5da17e726a3b7a1879d59",
+    "bytes": 2567453,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_009.mat",
+    "sha256": "9fa037b4c44bef0ede955c39789ba76bf89424be0a6660d9395e005a6b220f04",
+    "bytes": 2486963,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_010.mat",
+    "sha256": "184705c6617c3159bfeebd33d3483951e658b060afcad84d636a061a1ae2e046",
+    "bytes": 2577537,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_011.mat",
+    "sha256": "4286de96e2a574e03241907f0c60dabd6817d0c48ceadbc1e204c908cba5ad4b",
+    "bytes": 2494854,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_012.mat",
+    "sha256": "c5d8f16a29b3238801f669563ea6bb4323aea75752bc9c9bf53e8d59a63abb75",
+    "bytes": 2553456,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_013.mat",
+    "sha256": "4e7ceb4d15006c2f33bc88f0a9ff6ec05d8195629fe01523606638f4684ac7ab",
+    "bytes": 2556772,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_014.mat",
+    "sha256": "48e2e2400a0cc467bab333e10ad14400664b3b38e13ad15b60bb022b4d2ea2be",
+    "bytes": 2552987,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_015.mat",
+    "sha256": "d3f1a02455a99829cd7f4ed5e543964d46d3956a2e7232ac21c609d3704cf8fe",
+    "bytes": 2552218,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_016.mat",
+    "sha256": "7ef0b34cf5dfe319af0dc2b5c7c5652fb970f814a45b19c83bb62656a42ed803",
+    "bytes": 2525672,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_017.mat",
+    "sha256": "a6c7cd9d68881850829fda2ba025dad857a96ad5faec3fdbb699da6bef915008",
+    "bytes": 2491022,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_018.mat",
+    "sha256": "8e195b89065ed81f87c53bf976a024baa141fb2727ee517670d1a4b704c1d98d",
+    "bytes": 2548864,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_019.mat",
+    "sha256": "0404c464da7b32bd87ee535975a3aa9bf140da5c30c69ae1d5d614c27834a029",
+    "bytes": 2539312,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M10/run_020.mat",
+    "sha256": "e1d78a78f9e1181f01e3e5423bd2c02015692b9a137d6cc63da06a5a9c8b8920",
+    "bytes": 2567607,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_001.mat",
+    "sha256": "beabb0d14b2e6b05b0e6ccfdf2540a3ce1b9294a2c5c4d6ede2235a16253bc5e",
+    "bytes": 3411767,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_002.mat",
+    "sha256": "4d445692fa37b453bae0558a97c407ca4785ecf1ee9ee8be619f23e608a73681",
+    "bytes": 3387789,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_003.mat",
+    "sha256": "43fc06152f73a81ea9e569bab211fb6a31c202d20e851fbe697f984609f55457",
+    "bytes": 3412397,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_004.mat",
+    "sha256": "c0ff092ca88288f79967c9045ce7ec03092669814f0a9f41f1beabc061221570",
+    "bytes": 3409616,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_005.mat",
+    "sha256": "a29d44d86d4303be2a049f8c675df1b205f27dd435c49cd0a96afba901295167",
+    "bytes": 3388760,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_006.mat",
+    "sha256": "bf2cb6e2a4145fe7142a491c729974274f9353faa1c88792f04bd269c0b0046a",
+    "bytes": 3412954,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_007.mat",
+    "sha256": "5ba04ae4fb7a4809793f3eb89e9f9415c0fd61e38044f7ca35a9c14d8d72c7ab",
+    "bytes": 3380387,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_008.mat",
+    "sha256": "13bddfebb296ca64864d0b90f85446f032d8eb8b2738eeaf62fae9085a994148",
+    "bytes": 3400354,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_009.mat",
+    "sha256": "7913186d3aec22820c843f060b5e437fd12d7ac76ca49e2a2d719082a82cfb1c",
+    "bytes": 3408026,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_010.mat",
+    "sha256": "e227233cb2e2e60f8d7815609728b62cbc1613c85c69a27fc30e83096c024813",
+    "bytes": 3377473,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_011.mat",
+    "sha256": "a7c28a7d0df401d3e10e4c37985582bdc7347a67d6f8e56d32a8d2809d98c674",
+    "bytes": 3373012,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_012.mat",
+    "sha256": "e0452f74f7f0bbfcfbad1d0df0c3ae0472ccf6d7d8dc39acea0585abb06d322b",
+    "bytes": 3385546,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_013.mat",
+    "sha256": "518526153cb645f70e921c1c5e5791036621b5169f323593a0536a4b0caee6d7",
+    "bytes": 3431984,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_014.mat",
+    "sha256": "cc330eac908c50f9840c2922f22e2b9a0b9ce6b2e9295c09eef138aaac1ef14b",
+    "bytes": 3397077,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_015.mat",
+    "sha256": "c1ecc820f773315b5fbd477bc55d80829f2acbe81f984fbae17fc327bc327531",
+    "bytes": 3411524,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_016.mat",
+    "sha256": "45f518cf04670bbfb6d90ea6f9b09bdaf12c8e71fbbc5713d77bc3171356d1c0",
+    "bytes": 3407255,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_017.mat",
+    "sha256": "142a8c924c61f5de7925072b101ca0a951378368af2786931c9f9b188df256a3",
+    "bytes": 3416456,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_018.mat",
+    "sha256": "2441c39575c75c75e9c75b6c4de630eab8c754937534088c926e52bc94b8bb1c",
+    "bytes": 3429535,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_019.mat",
+    "sha256": "3364f1cbcb2091260ce6e7bd20acf1fff4c9c4fae5e809511f3a6bb1310ae090",
+    "bytes": 3413914,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ2/M20/run_020.mat",
+    "sha256": "cfc72937df7b3f501a1e3080d8fdee847c26d7878ed8dd9f263a4f9292e3fdb0",
+    "bytes": 3432864,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_001.mat",
+    "sha256": "f5be9735156920dda1f904350b5d97972a3c0254d29ce0fa2df46424f74f4bfa",
+    "bytes": 2524570,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_002.mat",
+    "sha256": "6a7ab288c63c7e53e58964daca60863a61844d84b873a697a36731be37467eb3",
+    "bytes": 2521627,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_003.mat",
+    "sha256": "289cacd5f3ff45b6d183c21ae935f306cd4d983265af04de90bb80db5ce3ec40",
+    "bytes": 2525287,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_004.mat",
+    "sha256": "629bc8d655e3190fa480bae95f82e97cf115ea5e91e8ce377ef05f5332325ce6",
+    "bytes": 2527369,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_005.mat",
+    "sha256": "7c4da7ea6ac73edaacc42f24f9045b152342d1fccea1a1d202a47730eb4193f7",
+    "bytes": 2518268,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_006.mat",
+    "sha256": "8549f8ae32f2e9af5ecf32028e440254c758fba9c132f1baebdbc194b554978b",
+    "bytes": 2523139,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_007.mat",
+    "sha256": "ec39970a75d2dd8f45eec4093c0061e14b0c986782c9cdc4575663b5165e7abe",
+    "bytes": 2542216,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_008.mat",
+    "sha256": "f0bd77ec60875d0423a40e25bf06877d8bd7fe6e55508a7a3906672151c6bb5e",
+    "bytes": 2539899,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_009.mat",
+    "sha256": "6493f8d466ddaebe1c9b1071372ccc17354e4c8e6271124a4b9fe189334b2240",
+    "bytes": 2506696,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_010.mat",
+    "sha256": "267c4cdf4da61edcbf9a6e5c824d0af65ea1862b5d6ab19175f23c7aaa292c90",
+    "bytes": 2508794,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_011.mat",
+    "sha256": "8326ef51790536981766ea9ffbf069815c8ec6925c8926e4c60cf533671c954e",
+    "bytes": 2518035,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_012.mat",
+    "sha256": "b18063aa2ccf097edaf488ab0aa78c6393b73db0110187e8184a258d3a05d7f4",
+    "bytes": 2507922,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_013.mat",
+    "sha256": "d45756cc2ced2421b7b941954cfd9c121b02c810579be5e25cd0fac48bc89d01",
+    "bytes": 2519928,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_014.mat",
+    "sha256": "4382947c20d5f2efc947d102302dfde25b1d8a6c5f3f5041fc9803a6e51d6972",
+    "bytes": 2532960,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_015.mat",
+    "sha256": "dcdbb2618b7191046fdf5096a0cf7d15845fee71112bd7004e02835dd675f23b",
+    "bytes": 2546324,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_016.mat",
+    "sha256": "3d26adac9ba760387c2df66c9250ba153864a472cbad73697f2540d761f0df2e",
+    "bytes": 2519545,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_017.mat",
+    "sha256": "b40e53b315b71a674741f8d5f68ed374c7ec16bae3fe0fc213fed07222788569",
+    "bytes": 2529917,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_018.mat",
+    "sha256": "846801654dee890741cc85e6aaf7ce53eb54e2096d5e17117a42ac8e3f8693c9",
+    "bytes": 2544039,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_019.mat",
+    "sha256": "113522b8336ec5e0973756a32b0ce34eb089c3d3c22f7d26ed6fa416d22792c5",
+    "bytes": 2543286,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M10/run_020.mat",
+    "sha256": "22035db39dc70f8cb118127f2ae10c5d82112cf85fab9bd97abb7e7140671f28",
+    "bytes": 2532610,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_001.mat",
+    "sha256": "5c930a537cda85ca696ecdaaaf91cdf156b2e63de48a88b7737d45c8abb957d9",
+    "bytes": 3434933,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_002.mat",
+    "sha256": "4f6290de8f7369ebbda17b08489a93c9242a04beb0f7ed9e169012d23125bc1b",
+    "bytes": 3430305,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_003.mat",
+    "sha256": "6ae1139659c289913fc3099b40ce828deacb9a9c054031ba75c56ca98c2ca2d1",
+    "bytes": 3386358,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_004.mat",
+    "sha256": "a3d5547cf0685b3b692dca5fa948e3d481d0025ae7f1127fdc11921525367e83",
+    "bytes": 3443624,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_005.mat",
+    "sha256": "095d4aa4c4603086a4f0ad6a1d3bad04707de8b69165d7342cf3346018d9e0da",
+    "bytes": 3427883,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_006.mat",
+    "sha256": "3b48f4831581316e4c6dd828c8236027dc7e2c4483764f13615db21e5e7bb153",
+    "bytes": 3432081,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_007.mat",
+    "sha256": "7a7065df01194eafe2a68e2f63a60d28a5fffaaebe6e0972ee9fce49900494d1",
+    "bytes": 3442152,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_008.mat",
+    "sha256": "ade7619a94a5d83fae4012f54b053a599084cc0f18755155198b5fd1ffa9eb6a",
+    "bytes": 3444147,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_009.mat",
+    "sha256": "631e2fb25063525d8de98b8d62f0f825beb2a25245ee737f9363cc47eff3bb23",
+    "bytes": 3422575,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_010.mat",
+    "sha256": "2c1596b1b96cad714217a49b3f6359fec82e29a144beb56aeda681329874021f",
+    "bytes": 3429398,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_011.mat",
+    "sha256": "4dc8238c14a4e6bc0ecbce55e3b0a83e56c5624c2cef81d821e3475213e656ff",
+    "bytes": 3437714,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_012.mat",
+    "sha256": "0d4c47bcc5d7223e33f77cafb1be0d52d6dec03c8019f1242e47829066b1c095",
+    "bytes": 3437819,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_013.mat",
+    "sha256": "800d0ec862156b1b199a261b3c598245111ccf76cc5758c2d2c075f67919a0b3",
+    "bytes": 3431818,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_014.mat",
+    "sha256": "b62cfaa351c750f7004f16f7f13271b144f7a8cdceb49eae4b07763161bcf9a6",
+    "bytes": 3416210,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_015.mat",
+    "sha256": "95ed52fffa4e2c5dc192ec5124276f6262d71006ca53d1c0bc30278cc0b53c45",
+    "bytes": 3439388,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_016.mat",
+    "sha256": "66ffa925ab5fd4f6538faa80ffce94196d369e75bf455a93f03a9068e817eda6",
+    "bytes": 3438561,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_017.mat",
+    "sha256": "852a689c266ad0340b145911e45de4b8c7f62b8acf538829ef10f87bb25f6928",
+    "bytes": 3443851,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_018.mat",
+    "sha256": "57368f9e94764918758588a394859529395f43a67399ce8c8beb8879db8c6599",
+    "bytes": 3439963,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_019.mat",
+    "sha256": "030ddb9c1c4a8df517ac6cb2f23eb8020b6334032be47fe092135e74801c194d",
+    "bytes": 3422452,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ4/M20/run_020.mat",
+    "sha256": "84d5f880dba13ff4b2bcd9bb196c91e5e2a5a48b717e9b4e37de28ae57573121",
+    "bytes": 3417073,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_001.mat",
+    "sha256": "0a0a5890974352ec08f7b9e0ef0d92dab3dd52f5d4e6dfbe6e57311b9db2de8a",
+    "bytes": 2523934,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_002.mat",
+    "sha256": "df271de7e3b259117694046181469c468f9940cea5caf26f4cdd804d54321f17",
+    "bytes": 2529792,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_003.mat",
+    "sha256": "fc4e612d2feb9156076b545034ed45bdaeb6586728f54002add32c16f59d1a3a",
+    "bytes": 2505389,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_004.mat",
+    "sha256": "0e198062690cb7f313e5595378a876b3a5fe12e0936e4d4da07ea34df4b8a871",
+    "bytes": 2513678,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_005.mat",
+    "sha256": "b0e144430c4fb2797311055071c67dbb6fdc00c0452922189fcfa976b401b1e8",
+    "bytes": 2529665,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_006.mat",
+    "sha256": "3a2c041dcccbe4f1361e9af53bb3f57bec0da9a20801d66a25e37c15d2d130a6",
+    "bytes": 2521428,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_007.mat",
+    "sha256": "f990eac6f2bb146b7db3317252d5d631fb62b1c6b81336414952021a10a1fe8d",
+    "bytes": 2542811,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_008.mat",
+    "sha256": "a4a56e6b2e4b2efee6e61bd3216d0bff4b65266a23ff26007de3795537abb1de",
+    "bytes": 2529340,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_009.mat",
+    "sha256": "da6d7f6e0a5e638253b00b3b7b836309692190eef2e4da977bab091571a4cff6",
+    "bytes": 2525326,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_010.mat",
+    "sha256": "a09d22c5f36ee48d6d44b4fd0af578f2d4a7e8ef3e4cb0cfde183fde8fd8bad4",
+    "bytes": 2520403,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_011.mat",
+    "sha256": "ff6351f75634efd751ad572967b828643bfae7606ef1fe105ddc50e74444c970",
+    "bytes": 2528754,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_012.mat",
+    "sha256": "5391551d2cca9bc77ed69712ae87f69874c380f990054cabd2d92cc76d5df60f",
+    "bytes": 2552411,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_013.mat",
+    "sha256": "220ff42d9c00136875fe0ac4f658a9a920eca812cb92d2eb97ec2b0788459704",
+    "bytes": 2542299,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_014.mat",
+    "sha256": "b7d2ebc3222e33dad0a6605d191ab6704a7a7c7e4f039dc5b6b10ea105f00d2a",
+    "bytes": 2489995,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_015.mat",
+    "sha256": "53e795c7c457a973ff09234e8da0f10ed8195ba3906b5f46af99506952419e0a",
+    "bytes": 2497357,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_016.mat",
+    "sha256": "e9a8320d2754c1bc6611c5407333769ab032cb6dd7b2678d76405afd8d75e5c7",
+    "bytes": 2519326,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_017.mat",
+    "sha256": "cf992cd17d0db9b3d0d6c4c6cf64dfeecfb42a023cee18cd7d8c159572f56908",
+    "bytes": 2482267,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_018.mat",
+    "sha256": "90e7cd812e456d0e99ab8a8e7585e72a23d19d5fbd92e2dc90e089eb914ef6f2",
+    "bytes": 2548867,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_019.mat",
+    "sha256": "5764f89ab3aa95c7f5c465953716ddcf785e177fa4cce54f80bc1e4b00f20991",
+    "bytes": 2512046,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M10/run_020.mat",
+    "sha256": "76541196aa03aa44a6145e94ceaf443d52108000b5eea61a57174f91fa2141b6",
+    "bytes": 2522862,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_001.mat",
+    "sha256": "ec17ed74e0e07a7a8ba6e7d737152e439dba0b324b2ed12a71e58a240821652d",
+    "bytes": 3372810,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_002.mat",
+    "sha256": "0e2d1531f738c8af892b26f562d1104d0e771d81a4d009c6fa52b0c9e0ddfc2c",
+    "bytes": 3375470,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_003.mat",
+    "sha256": "606029554897551755741b83c8abf2493bfe3283d268ac04123cdadb1eb108f4",
+    "bytes": 3368249,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_004.mat",
+    "sha256": "503a1852cab5a4f8c588d7cad39019943aaab302328a454e56e34583a74798d3",
+    "bytes": 3381783,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_005.mat",
+    "sha256": "7652a4bf6d368cacf61b7561f1197b8c84019e94bfa267dfa2f3f674700ed8e3",
+    "bytes": 3369681,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_006.mat",
+    "sha256": "fd4c4ea0e37dd8ec0be35ee09b4fc9f2b0f4a6dcad9df77b6adb3b2cfa1f0bd7",
+    "bytes": 3390563,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_007.mat",
+    "sha256": "5fb750ca8275255f176bad2881dd79792fdffa29edd37a0a1a8de9ab518dcefe",
+    "bytes": 3372516,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_008.mat",
+    "sha256": "e7ad54994124f61a1ca95110e0472e1ed4a5fbc94c7e8d09691cad6a5c95d532",
+    "bytes": 3392159,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_009.mat",
+    "sha256": "47a20fcba04766e485aef5dbdf9c15f9c20c9f115a28ca97db1690a8dead2f80",
+    "bytes": 3388988,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_010.mat",
+    "sha256": "39cbfad5005d887ce5444c6dcded2c31102771322d1d92e2a42a41bb8232b3ac",
+    "bytes": 3355890,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_011.mat",
+    "sha256": "2f1c69afe512a0ce1ad620637c5c56735a9f0692308efe74dc748882b9865993",
+    "bytes": 3393548,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_012.mat",
+    "sha256": "d4b261f6172e6e8ed62bd4f5b867d2116d2662ac687754a81ae4227c5cfb40e5",
+    "bytes": 3339366,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_013.mat",
+    "sha256": "31653b86e1c3110a27a393a738ba3b4b1c1122285c3c4d55daf89deea815aaf0",
+    "bytes": 3405900,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_014.mat",
+    "sha256": "259a0002feabf710df41eb37e6b50782c50ca695d4838c54b5dfdf4af34c0ac8",
+    "bytes": 3335875,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_015.mat",
+    "sha256": "df8357af86fe3dbea7c67876e11d434b0dd5c6d03cd20618c5e24af78d16d53c",
+    "bytes": 3396741,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_016.mat",
+    "sha256": "b314550d67ee251989a7ce38f0ad65d29d4edfcd5ce3db36326f17553e1e5ad3",
+    "bytes": 3386509,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_017.mat",
+    "sha256": "ba3cfb55c8cd2a832d2d8f6d0f75c1f5e76570a943acadb40359499cf205ecf4",
+    "bytes": 3389664,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_018.mat",
+    "sha256": "0b103f1940de2c2d676c1da92411d72600c7a39bdf3231915af63b2bf3091023",
+    "bytes": 3360339,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_019.mat",
+    "sha256": "a2fe53d2ba904b0b0e4c01f51a0af8fd363357beaed5eb38603ab229f03caf7a",
+    "bytes": 3413131,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ5/M20/run_020.mat",
+    "sha256": "b6333abe1386ea8920fabcda8bce758183cb4ab820c721ef1cdb063c76b46e10",
+    "bytes": 3364147,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_001.mat",
+    "sha256": "01def8b5356af222c657f3dd4c8684dfaf4b4ad4524df5a356d2d204c33491b4",
+    "bytes": 2489158,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_002.mat",
+    "sha256": "04f9d3aa9963eb00e08ae7bb0be0efde3e90863481cc4c26f1a4a49b14c7d549",
+    "bytes": 2510264,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_003.mat",
+    "sha256": "d21f11b98a2fdf2fef05c5110e52b0d8db68ffa26ac55d9eee0838995953720b",
+    "bytes": 2475134,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_004.mat",
+    "sha256": "31d7bda49bb80397c22e307d1c39541e4f4332a019d3c313c48d4c2e25c28124",
+    "bytes": 2517527,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_005.mat",
+    "sha256": "8b7e22a137cfd20cd8bc4205a63d9ddba9204778a5d82cddd5f5bd07b6c40b4a",
+    "bytes": 2493703,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_006.mat",
+    "sha256": "9f5a68aa3c6e0db8ec53d28d0e2ceeeb67710dbb548ac5a0bca8794228bb2681",
+    "bytes": 2552678,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_007.mat",
+    "sha256": "850fc6153beae648c9479848dad44bb8e3e3d79f0a79876d0609f26afd1313bc",
+    "bytes": 2501626,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_008.mat",
+    "sha256": "f0f9acbd2a03334cf29a2c1feacdcd1d0ae54b85857ed21be0c97aa2202b7f9b",
+    "bytes": 2500504,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_009.mat",
+    "sha256": "b8c39c0275e4a29f978a4756ce0ecc7dae35d7f3f6606291e94cf40959d2b1c1",
+    "bytes": 2517970,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_010.mat",
+    "sha256": "9c12e1a233834ccc5a98525e57d73a52a64e9c8e479627b213d393574929ea33",
+    "bytes": 2507014,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_011.mat",
+    "sha256": "0bc974e626d12d86ff6957a90ea8bcc8c42bb887a1a7b8d9ee6fe057c5f5fdbc",
+    "bytes": 2516108,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_012.mat",
+    "sha256": "2e878d824639c2a31d8ec1e01eb2368041e6b823c3b4d9866eb7e3b75c3845f1",
+    "bytes": 2521060,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_013.mat",
+    "sha256": "0516d6f5cf64f0d4515038971c844f0421b153f170ef7828bfa367b48bc6cb4e",
+    "bytes": 2474012,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_014.mat",
+    "sha256": "15ed10055ddead3b0260fe6255cab1d9279f3471a73a8cd4f20f92f801e0b62c",
+    "bytes": 2508411,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_015.mat",
+    "sha256": "ce24d82a66c85a4ff9aa53054f30bba8587acbfa478fa289a7ae1e0bb838cf37",
+    "bytes": 2533297,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_016.mat",
+    "sha256": "e52258a6bf1ef09f981b6380a28b6dcd6094fff112f6ab218bacbe9b346bbc3e",
+    "bytes": 2503515,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_017.mat",
+    "sha256": "367cda4a4b9c47b32b17f95c060cc72d9976adaeb255c151bb945aa938c3bda8",
+    "bytes": 2522344,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_018.mat",
+    "sha256": "e2f0998da452996682cbbcd2a5bdb73576e621e054e1f8fb0790a5bb034f400b",
+    "bytes": 2548602,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_019.mat",
+    "sha256": "1c153f269d042ba83ba4ceb5f31af526f76acfbcb1fac9abfbe3a24e8d410a1b",
+    "bytes": 2494386,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M10/run_020.mat",
+    "sha256": "fa1b6ba74e4ab199bdf64a30bcfb1d3ea6b9d55c844a8d47e54af849535383dd",
+    "bytes": 2504688,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_001.mat",
+    "sha256": "a72de8afddcc3e6fc9165a378b8b9c6a82f3cd6dfa737e5adcd4670094714155",
+    "bytes": 3282304,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_002.mat",
+    "sha256": "abdcedacf38dc583a2f2b04741f733f723dcbe4663fbd8a9e7a3e38a09327fe1",
+    "bytes": 3319144,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_003.mat",
+    "sha256": "4bac99aa28ab631f273b71dfc388c2a12d0873baf88948d3f1180ff6c292efcb",
+    "bytes": 3307039,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_004.mat",
+    "sha256": "57989d6502359af221b198e42f091e6be85bb064707f6d2bd4429ee0cb94d7d6",
+    "bytes": 3314429,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_005.mat",
+    "sha256": "df1e30f4680cb924b636de52b3ee3a27f9ac11a376b3910db4d2811453ccd4d9",
+    "bytes": 3313841,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_006.mat",
+    "sha256": "9dee89f71ff04b65b38f683a881dc0047a14e9baf80596eccadcb3caa4bc68a3",
+    "bytes": 3305391,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_007.mat",
+    "sha256": "4a7de19c68f85c53f534c6cf67420957eacb32591289aae8981a56e80733060f",
+    "bytes": 3300853,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_008.mat",
+    "sha256": "7a86d680562fb9901363a286bf747db6ef7d396e803f0931f7fa136bf3170e05",
+    "bytes": 3317595,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_009.mat",
+    "sha256": "78025b4e5a45059eb9f1ce3fa158f6dcf380cce82cfe8cc08618f90224691e2c",
+    "bytes": 3299809,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_010.mat",
+    "sha256": "48b4b3ffdee395ec85827ba05416acb42adda8a9c716c4730bb2bdca30423bc2",
+    "bytes": 3310275,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_011.mat",
+    "sha256": "16f8ed39fa2905fa7adae8b580243baf4698d9b23c52600e09775e87097aac3a",
+    "bytes": 3322786,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_012.mat",
+    "sha256": "f9f4722a0a5bd5c1f29035b73e8ac486047a40a03d53082f463a77984b4ee47b",
+    "bytes": 3317148,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_013.mat",
+    "sha256": "45f039502e2acc50b25c7a0b47de9d4312c18ac95164f11b9cb51cbb84c100c5",
+    "bytes": 3337998,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_014.mat",
+    "sha256": "6d92bc35caa3d783fee702927bd38dcda0e2baa60abbf7c00552f6d01d06b545",
+    "bytes": 3311093,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_015.mat",
+    "sha256": "3ee939bea5b478f5ad82e543ac45262c6d4a6d928f2d65a024c263a9c72c57ae",
+    "bytes": 3342013,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_016.mat",
+    "sha256": "081ef79f60902de8649653d3ecaff9792dee0d6482b8b2a716b4a6d2230d05c5",
+    "bytes": 3330928,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_017.mat",
+    "sha256": "bd12f61113bd997bc3704881236ce6eea4d957c942aecb3f5153481979f90d19",
+    "bytes": 3309724,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_018.mat",
+    "sha256": "58e892854aa5af8bc0d3acfc7a75a7e90d895d935d2f5d40bd13c8d3ee785128",
+    "bytes": 3392968,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_019.mat",
+    "sha256": "ea612222a90c5ebbe4bc954fc37ca56d9c2f145e7453aac1061a5b255276a896",
+    "bytes": 3315063,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/raw/formal/DTLZ7/M20/run_020.mat",
+    "sha256": "75f2397399336ed08748de6189e7b82be1e8bc8c8788cc245186401d02896567",
+    "bytes": 3291712,
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/analysis/formal/NBGGP_CheckpointMetrics.csv",
+    "sha256": "95c4538b699938455fba848c9592a745f7cab43eda4b9fcd9a2e0a324f8ea0ea",
+    "archived": false
+  },
+  {
+    "path": "PlatEMO-master/PlatEMO/Experiments/REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist_GoodGroupPrecision/results/analysis/formal/current_good_g/CurrentGood_Checkpoints.csv",
+    "sha256": "2a2bd1781e06ef827b60f1ece5a215c54f77707336e4279cc4dc7739ec61f475",
+    "archived": false
+  }
+]

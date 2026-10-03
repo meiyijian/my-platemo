@@ -1,0 +1,2 @@
+# Preserve source bytes so archived SHA-256 values survive checkout.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

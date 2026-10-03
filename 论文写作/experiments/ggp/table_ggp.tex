@@ -1,0 +1,35 @@
+\begin{table*}[t]
+\centering
+\caption{PAQC improves positive-group composition on matched population checkpoints. Entries report mean precision (\%) and run-level standard deviation.}
+\label{tab:exp:ggp}
+\begingroup
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.08}
+\footnotesize
+\begin{tabular}{lc ccc cccc}
+\toprule
+ & & \multicolumn{3}{c}{Current convergence precision} & \multicolumn{4}{c}{Final-retention precision} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-9}
+Problem & $M$ & Margin $A$ & Direction $S$ & PAQC $H$ & Margin $A$ & Direction $S$ & PAQC $H$ & Chance \\
+\midrule
+DTLZ2 & 10 & \shortstack{$38.91^{-}$\\$(5.27)$} & \shortstack{$\mathbf{97.81}^{+}$\\$(1.11)$} & \shortstack{$77.25$\\$(5.52)$} & \shortstack{$52.61^{-}$\\$(5.67)$} & \shortstack{$56.45^{-}$\\$(5.05)$} & \shortstack{$\mathbf{58.25}$\\$(4.92)$} & 49.67 \\
+DTLZ2 & 20 & \shortstack{$32.28^{-}$\\$(4.51)$} & \shortstack{$\mathbf{97.40}^{+}$\\$(2.34)$} & \shortstack{$78.91$\\$(5.37)$} & \shortstack{$47.01^{-}$\\$(7.52)$} & \shortstack{$54.68^{=}$\\$(5.56)$} & \shortstack{$\mathbf{55.85}$\\$(4.95)$} & 49.04 \\
+DTLZ4 & 10 & \shortstack{$23.86^{-}$\\$(8.37)$} & \shortstack{$\mathbf{98.98}^{+}$\\$(1.13)$} & \shortstack{$61.44$\\$(7.55)$} & \shortstack{$\mathbf{69.74}^{+}$\\$(8.82)$} & \shortstack{$47.37^{-}$\\$(4.88)$} & \shortstack{$60.38$\\$(4.29)$} & 48.80 \\
+DTLZ4 & 20 & \shortstack{$29.71^{-}$\\$(5.22)$} & \shortstack{$\mathbf{98.76}^{+}$\\$(1.10)$} & \shortstack{$66.54$\\$(5.53)$} & \shortstack{$58.90^{=}$\\$(6.42)$} & \shortstack{$50.12^{-}$\\$(3.19)$} & \shortstack{$\mathbf{60.01}$\\$(5.02)$} & 50.16 \\
+DTLZ5 & 10 & \shortstack{$39.36^{-}$\\$(6.08)$} & \shortstack{$\mathbf{93.86}^{+}$\\$(3.09)$} & \shortstack{$66.35$\\$(5.98)$} & \shortstack{$50.50^{-}$\\$(5.43)$} & \shortstack{$53.35^{=}$\\$(6.72)$} & \shortstack{$\mathbf{53.70}$\\$(6.28)$} & 45.42 \\
+DTLZ5 & 20 & \shortstack{$38.96^{-}$\\$(4.24)$} & \shortstack{$\mathbf{93.79}^{+}$\\$(3.42)$} & \shortstack{$76.91$\\$(3.77)$} & \shortstack{$48.21^{-}$\\$(5.18)$} & \shortstack{$50.45^{=}$\\$(5.93)$} & \shortstack{$\mathbf{52.09}$\\$(4.79)$} & 48.71 \\
+DTLZ7 & 10 & \shortstack{$45.56^{-}$\\$(4.32)$} & \shortstack{$\mathbf{92.27}^{+}$\\$(1.77)$} & \shortstack{$78.95$\\$(3.00)$} & \shortstack{$34.94^{-}$\\$(2.81)$} & \shortstack{$\mathbf{44.36}^{=}$\\$(2.71)$} & \shortstack{$43.88$\\$(2.66)$} & 33.77 \\
+DTLZ7 & 20 & \shortstack{$37.99^{-}$\\$(2.88)$} & \shortstack{$\mathbf{94.91}^{+}$\\$(1.16)$} & \shortstack{$83.11$\\$(3.91)$} & \shortstack{$31.49^{-}$\\$(4.33)$} & \shortstack{$43.79^{=}$\\$(2.99)$} & \shortstack{$\mathbf{44.51}$\\$(3.17)$} & 34.09 \\
+\midrule
+Mean &  & 35.83 & 95.97 & 73.68 & 49.18 & 50.07 & 53.58 & 44.96 \\
+\bottomrule
+\end{tabular}
+\endgroup
+\par\vspace{3pt}\begin{minipage}{0.98\textwidth}\scriptsize
+Each of the 160 runs contributes the mean of 34 checkpoints; each configuration contains 20 runs.
+All three rules select 25 of the same 100 solutions. Bold marks the largest mean within each outcome.
+A baseline superscript $+/-/=$ denotes higher/lower/no detected difference relative to PAQC under two-sided paired Wilcoxon signed-rank tests, with Holm correction across all 32 comparisons ($\alpha=0.05$).
+Chance is checkpoint prevalence for final retention; current convergence has a fixed chance level of 25\%.
+The last row averages the eight configurations and carries no pooled significance test.
+\end{minipage}
+\end{table*}
