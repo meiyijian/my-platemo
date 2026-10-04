@@ -3,14 +3,16 @@
     "M": 10,
     "problem": "DTLZ1",
     "FE": 500,
-    "medians": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 136.75015773515747,
-      "REMO": 149.90696446262598,
-      "PCSAEA": 351.065051227249,
-      "CSEA": 158.24946633259975,
-      "HES_EA": 273.1544392248636,
-      "SSDE": 297.94618994782735,
-      "SAMOEATL2M": 305.4779597531196
+    "estimator": "arithmetic mean",
+    "n": 20,
+    "means": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 137.22905341217057,
+      "REMO": 155.90159293995504,
+      "PCSAEA": 346.9108953870136,
+      "CSEA": 160.77960171583732,
+      "HES_EA": 266.72262452248094,
+      "SSDE": 297.69786891970966,
+      "SAMOEATL2M": 300.7645849348113
     },
     "ranks": {
       "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
@@ -21,20 +23,23 @@
       "SSDE": 5,
       "SAMOEATL2M": 6
     },
-    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+    "metric_policy": "latest saved value with FE <= 500 for each run"
   },
   {
     "M": 10,
     "problem": "DTLZ6",
     "FE": 500,
-    "medians": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 13.367166178404535,
-      "REMO": 15.709809586735892,
-      "PCSAEA": 17.36873071449236,
-      "CSEA": 15.049592984381126,
-      "HES_EA": 16.329716774075028,
-      "SSDE": 14.089442517810875,
-      "SAMOEATL2M": 17.94324779585068
+    "estimator": "arithmetic mean",
+    "n": 20,
+    "means": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 13.320763875907556,
+      "REMO": 15.572143297879364,
+      "PCSAEA": 17.351308923286396,
+      "CSEA": 14.700372847697576,
+      "HES_EA": 16.05620293725739,
+      "SSDE": 14.065582185075874,
+      "SAMOEATL2M": 17.94402701260248
     },
     "ranks": {
       "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
@@ -45,44 +50,50 @@
       "SSDE": 2,
       "SAMOEATL2M": 7
     },
-    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+    "metric_policy": "latest saved value with FE <= 500 for each run"
   },
   {
     "M": 10,
     "problem": "WFG2",
     "FE": 500,
-    "medians": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1.024493311516878,
-      "REMO": 2.2331693154406596,
-      "PCSAEA": 2.797477294580748,
-      "CSEA": 2.584370510530495,
-      "HES_EA": 1.5288894228196823,
-      "SSDE": 2.6423098858792784,
-      "SAMOEATL2M": 3.1312579699760636
+    "estimator": "arithmetic mean",
+    "n": 20,
+    "means": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1.3686224963489688,
+      "REMO": 2.382276651099196,
+      "PCSAEA": 2.969003402591595,
+      "CSEA": 3.058161177686371,
+      "HES_EA": 1.5974923125805802,
+      "SSDE": 2.674379056381154,
+      "SAMOEATL2M": 3.1734185322175668
     },
     "ranks": {
       "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
       "REMO": 3,
-      "PCSAEA": 6,
-      "CSEA": 4,
+      "PCSAEA": 5,
+      "CSEA": 6,
       "HES_EA": 2,
-      "SSDE": 5,
+      "SSDE": 4,
       "SAMOEATL2M": 7
     },
-    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+    "metric_policy": "latest saved value with FE <= 500 for each run"
   },
   {
     "M": 10,
     "problem": "WFG7",
     "FE": 500,
-    "medians": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 3.119402671012427,
-      "REMO": 5.220059652761972,
-      "PCSAEA": 6.468336182539091,
-      "CSEA": 5.792630784156211,
-      "HES_EA": 4.793364528056369,
-      "SSDE": 5.358559748885343,
-      "SAMOEATL2M": 6.779649893059906
+    "estimator": "arithmetic mean",
+    "n": 20,
+    "means": {
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 3.127175272394008,
+      "REMO": 5.317847068350936,
+      "PCSAEA": 6.453227733436153,
+      "CSEA": 5.942169797244914,
+      "HES_EA": 4.642579236335465,
+      "SSDE": 5.414774135043373,
+      "SAMOEATL2M": 6.790165325252092
     },
     "ranks": {
       "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
@@ -93,6 +104,7 @@
       "SSDE": 4,
       "SAMOEATL2M": 7
     },
-    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist"
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
+    "metric_policy": "latest saved value with FE <= 500 for each run"
   }
 ]

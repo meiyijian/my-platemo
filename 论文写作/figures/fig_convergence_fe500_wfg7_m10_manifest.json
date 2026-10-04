@@ -1,17 +1,12 @@
 {
   "figure": "fig_convergence_fe500_wfg7_m10",
   "metric": "IGDp (IGD+)",
-  "source_csv": "D:\\PlatEMO-master\\\u8bba\u6587\u5199\u4f5c\\experiments\\fe500_convergence\\convergence_igdp_fe500.csv",
+  "estimator": "arithmetic mean",
+  "source_csv": "experiments\\fe500_convergence\\convergence_igdp_fe500.csv",
   "source_csv_sha256": "41704668137a6bb1fade4bf06793ed20667f0be5ab2d258cf57addbcda5343ce",
-  "algorithm_folders": {
-    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
-    "REMO": "REMO",
-    "PCSAEA": "PCSAEA",
-    "CSEA": "CSEA",
-    "HES_EA": "HES_EA",
-    "SSDE": "SSDE",
-    "SAMOEATL2M": "SAMOEATL2M"
-  },
+  "source_manifest": "experiments\\fe500_convergence\\source_manifest.json",
+  "source_manifest_sha256": "99a8a776dbb07826113bc5d1ccf36a18425f7da4f3536361db5cc782c6aded89",
+  "drawing_script_sha256": "731a5e558f5db573de2f673c6ba6a450e25a212c6eb392bbfb1eac4827774c95",
   "runs_used": [
     1,
     2,
@@ -40,21 +35,15 @@
   "objectives": [
     10
   ],
-  "panel_runs": {
-    "WFG7": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 20,
-      "REMO": 20,
-      "PCSAEA": 20,
-      "CSEA": 20,
-      "HES_EA": 20,
-      "SSDE": 20,
-      "SAMOEATL2M": 20
-    }
-  },
   "fe_budget": 500,
-  "alignment": "zero-order hold on unit-FE grid, no extrapolation past the last snapshot",
-  "drawing": "vertices every 50 real evaluations, straight-line joins",
-  "band": "none (paper style)",
+  "fe_grid": [
+    100,
+    500,
+    1
+  ],
+  "alignment": "previous-snapshot hold; NaN before initialization; all 20 runs at each plotted FE",
+  "budget_policy": "Exclude all metric values at FE > 500; retain latest eligible value within observed run coverage.",
+  "drawing": "full unit-FE grid; no smoothing; no monotonic envelope",
   "markers": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "D",
     "REMO": "^",
@@ -65,11 +54,186 @@
     "SAMOEATL2M": "+"
   },
   "marker_every_fe": 50,
-  "line_styles": "all solid; identity carried by colour + marker shape",
+  "marker_endpoints": true,
+  "band": "none",
+  "line_styles": "solid",
+  "algorithm_labels": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": "PACDIS",
+    "REMO": "REMO",
+    "PCSAEA": "PC-SAEA",
+    "CSEA": "CSEA",
+    "HES_EA": "HES-EA",
+    "SSDE": "SSDE",
+    "SAMOEATL2M": "SAMOEA-TL2M"
+  },
+  "coverage": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
+    },
+    "REMO": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
+    },
+    "PCSAEA": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        509,
+        509
+      ],
+      "last_saved_fe_le500_range": [
+        497,
+        497
+      ],
+      "snapshot_count_range": [
+        14,
+        14
+      ],
+      "snapshots_above_budget_excluded": 20
+    },
+    "CSEA": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        500,
+        511
+      ],
+      "last_saved_fe_le500_range": [
+        472,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 17
+    },
+    "HES_EA": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        469,
+        479
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
+    },
+    "SSDE": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        510
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        500
+      ],
+      "snapshot_count_range": [
+        24,
+        30
+      ],
+      "snapshots_above_budget_excluded": 18
+    },
+    "SAMOEATL2M": {
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        479
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
+    }
+  },
   "page_size_mm": [
-    88.0,
-    66.0
+    88,
+    70
   ],
-  "minimum_pdf_glyph_pt": 5.6,
-  "text_outside_canvas": []
+  "minimum_ordinary_text_pt": 7.5,
+  "minimum_pdf_glyph_pt": 5.95,
+  "font_names": [
+    "CNWRJO+STIXGeneral-Italic",
+    "FJRPHE+TimesNewRomanPSMT",
+    "GMAIOS+STIXGeneral-Regular"
+  ],
+  "unembedded_fonts": [],
+  "text_outside_canvas": [],
+  "legend_obscures_curve_data": false
 }

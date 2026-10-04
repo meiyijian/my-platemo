@@ -1,0 +1,45 @@
+{
+  "source_runs_verified": 560,
+  "mean_curves_verified": 28,
+  "aggregate_rows_verified": 8411,
+  "plotted_fe_max": 500,
+  "all_plotted_sample_sizes": 20,
+  "max_absolute_mean_error": 1.1368683772161603e-13,
+  "upward_steps_retained_in_mean_curves": 216,
+  "policy_checks": [
+    "initialization",
+    "duplicate FE",
+    "preserved increase",
+    "budget exclusion",
+    "short-run coverage",
+    "arithmetic mean",
+    "partial-run rejection"
+  ],
+  "figures_verified": [
+    "fig_convergence_fe500_dtlz1_m10",
+    "fig_convergence_fe500_dtlz6_m10",
+    "fig_convergence_fe500_wfg2_m10",
+    "fig_convergence_fe500_wfg7_m10"
+  ],
+  "mechanical_gate_counts": {
+    "M1_em_dash": 0,
+    "M11_passive": 0,
+    "M2_antithesis": 0,
+    "M3_M4_M8_M9_flourish": 0,
+    "M6_openers": 0,
+    "M5_M16_words": 0,
+    "M10_hype_verbs": 0,
+    "M17_fancy_verbs": 0,
+    "M18_empty_openers": 0,
+    "M12_wordiness": 0,
+    "M13_qualifiers": 0,
+    "M14_adverbs": 0,
+    "M15_exclamation": 4,
+    "B_precision_pairs": 0
+  },
+  "mechanical_gate_justifications": {
+    "M15_exclamation": "Four ! characters are LaTeX float-placement modifiers in [!tbp]; zero prose exclamation marks."
+  },
+  "source_csv_sha256": "41704668137a6bb1fade4bf06793ed20667f0be5ab2d258cf57addbcda5343ce",
+  "aggregate_csv_sha256": "cb00e0ca740c8c86e9e4915c31ae3c775be1ccfeb444619dbd0e6d5c71c720e4"
+}

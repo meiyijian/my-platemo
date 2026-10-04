@@ -1,29 +1,18 @@
-"""Build the FE=500 convergence figures for the PACDIS manuscript.
+"""Draw four independent FE500 convergence figures for the PACDIS manuscript.
 
-Companion of build_convergence.py: same drawing code and paper style, but the
-comparison set and the budget are the current ones.
+Input columns remain Algorithm,Problem,M,D,Run,Step,FE,IGDp. Each curve is
+the arithmetic mean of runs 1-20 after previous-snapshot hold on a unit-FE
+grid. Values at FE > 500 never enter a curve. A later recorded FE establishes
+observation coverage only; its metric value is excluded. No smoothing or
+monotonic-envelope transformation is applied.
 
-Source: experiments/fe500_convergence/convergence_igdp_fe500.csv, exported by
-export_convergence_fe500.py from the saved FE=500 MAT snapshots on the work
-machine (10目标/n30/FE500). Algorithms are the six current baselines plus
-PACDIS implemented as REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.
-
-Deliverables, all from the same drawing code:
-
-* four single-column panels, fig_convergence_fe500_<problem>_m10.{pdf,svg,png}
-* one 2x2 combined panel, fig_convergence_fe500_m10.{pdf,svg,png}
-
-Style: median IGD+ traces, matched runs 1-20, zero-order-hold alignment on a
-unit-FE grid, straight polylines with one vertex every 50 evaluations, no
-interquartile band, markers carry the algorithm identity.
-
-Run:
-    C:\\Users\\lsx\\.workbuddy\\binaries\\python\\envs\\default\\Scripts\\python.exe build_convergence_fe500.py
+Run export_convergence_fe500.py first. Outputs are four 88 x 70 mm PDF/SVG/PNG
+figures, their provenance manifests, and aggregate data/coverage reports.
+The legacy composite image is not regenerated or included in the manuscript.
 """
 from pathlib import Path
 import hashlib
 import json
-import warnings
 
 import numpy as np
 import pandas as pd
@@ -32,309 +21,283 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.ticker import MaxNLocator
+import pymupdf
 
 OUT = Path(__file__).resolve().parent
-CSV = OUT.parent / 'experiments/fe500_convergence/convergence_igdp_fe500.csv'
+DATA = OUT.parent / 'experiments' / 'fe500_convergence'
+CSV = DATA / 'convergence_igdp_fe500.csv'
+SOURCE_MANIFEST = DATA / 'source_manifest.json'
 QA = OUT / 'qa'
-
-INK = '#253442'
-GRAY = '#6D7680'
-BLUE = '#24658C'
-ORANGE = '#AD5F25'
-PURPLE = '#776193'
-TEAL = '#28756B'
-
 PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist'
 ORDER = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'SAMOEATL2M']
 LABELS = {
-    PACDIS: 'PACDIS (ours)',
-    'REMO': 'REMO',
-    'PCSAEA': 'PC-SAEA',
-    'CSEA': 'CSEA',
-    'HES_EA': 'HES-EA',
-    'SSDE': 'SSDE',
+    PACDIS: 'PACDIS', 'REMO': 'REMO', 'PCSAEA': 'PC-SAEA',
+    'CSEA': 'CSEA', 'HES_EA': 'HES-EA', 'SSDE': 'SSDE',
     'SAMOEATL2M': 'SAMOEA-TL2M',
 }
 COLORS = {
-    PACDIS: '#B23A48',
-    'REMO': BLUE,
-    'PCSAEA': '#5C5187',
-    'CSEA': TEAL,
-    'HES_EA': ORANGE,
-    'SSDE': PURPLE,
-    'SAMOEATL2M': GRAY,
+    PACDIS: '#B23A48', 'REMO': '#24658C', 'PCSAEA': '#5C5187',
+    'CSEA': '#28756B', 'HES_EA': '#AD5F25', 'SSDE': '#776193',
+    'SAMOEATL2M': '#6D7680',
 }
-MARKERS = {                       # marker shape follows the role, as in the 300-FE study
-    PACDIS: 'D',
-    'REMO': '^',
-    'PCSAEA': 's',
-    'CSEA': '*',
-    'HES_EA': 'o',
-    'SSDE': 'x',
-    'SAMOEATL2M': '+',
+MARKERS = {
+    PACDIS: 'D', 'REMO': '^', 'PCSAEA': 's', 'CSEA': '*',
+    'HES_EA': 'o', 'SSDE': 'x', 'SAMOEATL2M': '+',
 }
-MARK_EVERY = 50     # one vertex every 50 real evaluations (200 -> 400 FE span)
-SHOW_BAND = False   # paper style: no shaded interquartile band
-
 M = 10
+BUDGET = 500
 PROBLEMS = ['DTLZ1', 'DTLZ6', 'WFG2', 'WFG7']
-RUNS = list(range(1, 21))          # matched subset: run ids 1-20
-# The initial design consumes real evaluations and the first snapshot lands at
-# FE=100, so the axis starts just left of 100 and the axis padding keeps the
-# plot from touching the frame.
-XMIN, XMAX = 95, 505
-GRID = np.arange(XMIN, 501)        # never plot past FE=500
-LETTERS = 'abcdef'
-
-QUAD_FIGSIZE = (180 / 25.4, 132 / 25.4)
-SINGLE_FIGSIZE = (88 / 25.4, 66 / 25.4)
-
-plt.rcParams.update({
-    'font.family': 'serif',
-    'font.serif': ['Times New Roman', 'Times', 'DejaVu Serif'],
-    'mathtext.fontset': 'stix',
-    'font.size': 8, 'axes.titlesize': 8.5, 'axes.labelsize': 8,
-    'xtick.labelsize': 7.5, 'ytick.labelsize': 7.5,
-    'legend.fontsize': 7.5, 'text.color': INK, 'axes.labelcolor': INK,
-    'axes.edgecolor': INK, 'xtick.color': INK, 'ytick.color': INK,
+RUNS = list(range(1, 21))
+GRID = np.arange(100, BUDGET + 1)
+MARK_EVERY = 50
+FIGSIZE = (88 / 25.4, 70 / 25.4)
+XTICKS = [100, 200, 300, 400, 500]
+STYLE = {
+    'font.family': 'serif', 'font.serif': ['Times New Roman'],
+    'mathtext.fontset': 'stix', 'font.size': 8,
+    'axes.titlesize': 8.5, 'axes.labelsize': 8.5,
+    'xtick.labelsize': 8, 'ytick.labelsize': 8,
+    'legend.fontsize': 7.5, 'text.color': '#111111',
+    'axes.labelcolor': '#111111', 'axes.edgecolor': '#111111',
+    'xtick.color': '#111111', 'ytick.color': '#111111',
     'axes.spines.top': True, 'axes.spines.right': True,
-    'axes.linewidth': .65, 'lines.linewidth': 1.2,
+    'axes.linewidth': 0.65, 'lines.linewidth': 1.1,
     'pdf.fonttype': 42, 'ps.fonttype': 42, 'svg.fonttype': 'none',
     'savefig.facecolor': 'white', 'figure.facecolor': 'white',
-    'legend.frameon': False,
-})
-XTICKS = [100, 200, 300, 400, 500]
+    'legend.frameon': True,
+}
 
 
-def resample(fe, igd, grid):
-    """Zero-order hold onto the common FE grid; NaN before the first snapshot."""
-    fe = np.asarray(fe, float)
-    igd = np.asarray(igd, float)
-    keep = np.isfinite(fe) & np.isfinite(igd)
-    fe, igd = fe[keep], igd[keep]
-    if fe.size == 0:
-        return np.full(grid.shape, np.nan)
-    order = np.argsort(fe, kind='stable')
-    fe, igd = fe[order], igd[order]
-    fe_u, igd_u = [], []          # duplicated FE -> last snapshot wins
-    pos = 0
-    while pos < fe.size:
-        q = pos
-        while q + 1 < fe.size and fe[q + 1] == fe[pos]:
-            q += 1
-        fe_u.append(fe[q])
-        igd_u.append(igd[q])
-        pos = q + 1
-    fe_u = np.asarray(fe_u)
-    igd_u = np.asarray(igd_u)
-    g = np.full(grid.shape, np.nan)
-    idx = np.searchsorted(fe_u, grid, side='right') - 1
-    ok = (idx >= 0) & (grid <= fe_u[-1])
-    g[ok] = igd_u[idx[ok]]
-    return g
+def resample(fe, values, grid=GRID, budget=BUDGET):
+    """Hold only eligible values, within the observed FE interval."""
+    fe, values = np.asarray(fe, float), np.asarray(values, float)
+    if (fe.ndim != 1 or values.shape != fe.shape or fe.size == 0
+            or not np.isfinite(fe).all() or not np.isfinite(values).all()
+            or (np.diff(fe) < 0).any()):
+        raise ValueError('invalid snapshot trajectory')
+    observed_until = min(budget, fe[-1])
+    eligible = fe <= budget
+    fe, values = fe[eligible], values[eligible]
+    held = np.full(grid.shape, np.nan, dtype=float)
+    if fe.size:
+        # Right-sided search selects the final entry at a duplicated FE.
+        positions = np.searchsorted(fe, grid, side='right') - 1
+        valid = (positions >= 0) & (grid <= observed_until)
+        held[valid] = values[positions[valid]]
+    return held
+
+
+def complete_run_mean(trace):
+    """Average all 20 runs; refuse an accidental changing-denominator mean."""
+    if trace.shape != (len(RUNS), GRID.size):
+        raise ValueError(f'expected {len(RUNS)} runs, received {trace.shape}')
+    counts = np.isfinite(trace).sum(axis=0)
+    if np.any((counts != 0) & (counts != len(RUNS))):
+        raise ValueError('partial run coverage at an FE coordinate')
+    valid = counts == len(RUNS)
+    if not valid.any() or not valid[-1]:
+        raise ValueError('missing complete-run coverage at the budget')
+    if not valid[np.flatnonzero(valid)[0]:].all():
+        raise ValueError('gap in complete-run observation coverage')
+    mean = np.full(GRID.shape, np.nan, dtype=float)
+    mean[valid] = trace[:, valid].mean(axis=0)
+    return mean, counts
 
 
 def load_traces():
     df = pd.read_csv(CSV)
-    df = df[(df['M'] == M) & (df['Run'].isin(RUNS))]
-    traces = {}
-    for (prob, alg), grp in df.groupby(['Problem', 'Algorithm']):
-        assert sorted(grp['Run'].unique()) == RUNS, (prob, alg, 'incomplete runs')
-        assert not grp.duplicated(['Run', 'Step']).any(), (prob, alg, 'duplicate snapshots')
-        runs = [resample(r['FE'].to_numpy(), r['IGDp'].to_numpy(), GRID)
-                for _, r in grp.groupby('Run')]
-        traces[(prob, alg)] = np.vstack(runs)
+    columns = ['Algorithm', 'Problem', 'M', 'D', 'Run', 'Step', 'FE', 'IGDp']
+    if df.columns.tolist() != columns:
+        raise ValueError('unexpected input CSV columns')
+    if (set(df['M']) != {M} or sorted(df['Run'].unique()) != RUNS
+            or df.duplicated(['Algorithm', 'Problem', 'Run', 'Step']).any()):
+        raise ValueError('wrong protocol or duplicated snapshot index')
+    manifest = json.loads(SOURCE_MANIFEST.read_text(encoding='utf-8'))
+    if manifest['source_csv_sha256'] != hashlib.sha256(CSV.read_bytes()).hexdigest():
+        raise ValueError('CSV no longer matches source manifest')
+    traces, means, counts, coverage = {}, {}, {}, {}
+    for (prob, alg), group in df.groupby(['Problem', 'Algorithm'], sort=False):
+        expected_d = 31 if prob == 'WFG2' else 30
+        if sorted(group['Run'].unique()) != RUNS or set(group['D']) != {expected_d}:
+            raise ValueError(f'{prob}/{alg}: run or dimension mismatch')
+        run_traces, first, last, eligible_last = [], [], [], []
+        for _, run in group.groupby('Run', sort=True):
+            run = run.sort_values('Step')
+            fe, metric = run['FE'].to_numpy(), run['IGDp'].to_numpy()
+            run_traces.append(resample(fe, metric))
+            first.append(int(fe[0]))
+            last.append(int(fe[-1]))
+            eligible_last.append(int(fe[fe <= BUDGET][-1]))
+        key = (prob, alg)
+        traces[key] = np.vstack(run_traces)
+        means[key], counts[key] = complete_run_mean(traces[key])
+        coverage.setdefault(prob, {})[alg] = {
+            'runs': len(RUNS), 'D': expected_d,
+            'first_saved_fe_range': [min(first), max(first)],
+            'first_plotted_fe': int(GRID[np.flatnonzero(counts[key] == len(RUNS))[0]]),
+            'terminal_fe_range': [min(last), max(last)],
+            'last_saved_fe_le500_range': [min(eligible_last), max(eligible_last)],
+            'snapshot_count_range': [
+                int(group.groupby('Run').size().min()),
+                int(group.groupby('Run').size().max()),
+            ],
+            'snapshots_above_budget_excluded': int((group['FE'] > BUDGET).sum()),
+        }
     expected = {(p, a) for p in PROBLEMS for a in ORDER}
-    assert set(traces) == expected, sorted(expected ^ set(traces))
-    return df, traces
-
-
-def percentiles(trace):
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore', category=RuntimeWarning)
-        return np.nanpercentile(trace, [25, 50, 75], axis=0)
+    if set(traces) != expected:
+        raise ValueError(f'unexpected problem/algorithm cells: {expected ^ set(traces)}')
+    return df, traces, means, counts, coverage
 
 
 def legend_handles():
-    return [Line2D([0], [0], color=COLORS[a], linestyle='-',
-                   linewidth=1.9 if a == PACDIS else 1.3,
-                   marker=MARKERS[a], markersize=3.6,
-                   markerfacecolor=COLORS[a] if a == PACDIS else 'none',
-                   markeredgecolor=COLORS[a], markeredgewidth=0.9)
-            for a in ORDER]
+    return [
+        Line2D([0], [0], color=COLORS[a], linestyle='-',
+               linewidth=1.65 if a == PACDIS else 1.05,
+               marker=MARKERS[a], markersize=3.5,
+               markerfacecolor=COLORS[a] if a == PACDIS else 'none',
+               markeredgecolor=COLORS[a], markeredgewidth=0.8)
+        for a in ORDER
+    ]
 
 
-def draw_curves(ax, curves, mark_idx, mark_x):
-    if SHOW_BAND:
-        for alg in ORDER:
-            q25, q50, q75 = curves[alg]
-            if alg == PACDIS:
-                ax.fill_between(GRID, q25, q75, color=COLORS[alg],
-                                alpha=0.15, linewidth=0, zorder=2)
+def build_single(means, prob):
+    fig, ax = plt.subplots(figsize=FIGSIZE)
     for alg in ORDER:
-        q25, q50, q75 = curves[alg]
-        if alg == PACDIS:
-            ax.plot(mark_x, q50[mark_idx], color=COLORS[alg], linewidth=1.6,
-                    marker=MARKERS[alg], markersize=3.0,
-                    markerfacecolor=COLORS[alg], markeredgecolor=COLORS[alg],
-                    zorder=6)
-        else:
-            ax.plot(mark_x, q50[mark_idx], color=COLORS[alg], linewidth=1.0,
-                    marker=MARKERS[alg], markersize=2.8, markerfacecolor='none',
-                    markeredgecolor=COLORS[alg], markeredgewidth=0.8, zorder=4)
-
-
-def panel_limits(curves, pad=0.05, pad_top=None):
-    lo = min(np.nanmin(v[0]) for v in curves.values())
-    hi = max(np.nanmax(v[2]) for v in curves.values())
-    span = hi - lo
-    if span <= 0:
-        span = max(abs(hi), 1.0)
-    return lo - pad * span, hi + (pad if pad_top is None else pad_top) * span
-
-
-def build_single(stats, prob, letter):
-    mark_idx = np.where(GRID % MARK_EVERY == 0)[0]
-    mark_x = GRID[mark_idx]
-    curves = {alg: stats[(prob, alg)] for alg in ORDER}
-    ylo, yhi = panel_limits(curves, pad=0.05, pad_top=0.42)
-
-    fig, ax = plt.subplots(figsize=SINGLE_FIGSIZE)
-    draw_curves(ax, curves, mark_idx, mark_x)
-    ax.set_title(f'({letter}) {prob}, $M={M}$', loc='left', pad=4)
-    ax.set_xlim(XMIN, XMAX)
-    ax.set_ylim(ylo, yhi)
+        mean = means[(prob, alg)]
+        valid = np.flatnonzero(np.isfinite(mean))
+        marker_grid = ((GRID[valid] % MARK_EVERY) == 0)
+        marker_grid[0] = marker_grid[-1] = True
+        ax.plot(
+            GRID[valid], mean[valid], color=COLORS[alg],
+            linewidth=1.65 if alg == PACDIS else 1.05,
+            marker=MARKERS[alg], markevery=np.flatnonzero(marker_grid).tolist(),
+            markersize=3.4 if alg == PACDIS else 3.2,
+            markerfacecolor=COLORS[alg] if alg == PACDIS else 'none',
+            markeredgecolor=COLORS[alg], markeredgewidth=0.8,
+            zorder=6 if alg == PACDIS else 4,
+        )
+    lo = min(np.nanmin(means[(prob, a)]) for a in ORDER)
+    hi = max(np.nanmax(means[(prob, a)]) for a in ORDER)
+    span = max(hi - lo, 1e-12)
+    # Uniform headroom accommodates the same two-column legend in every plot.
+    ax.set_ylim(lo - 0.05 * span, hi + 0.48 * span)
+    ax.set_xlim(95, 505)
     ax.set_xticks(XTICKS)
-    ax.yaxis.set_major_locator(MaxNLocator(nbins=4, steps=[1, 2, 5, 10]))
-    ax.set_xlabel('Number of real function evaluations')
-    ax.set_ylabel(r'IGD$^+$')
-    ax.legend(legend_handles(), [LABELS[a] for a in ORDER],
-              loc='upper right', ncol=2, fontsize=6.5,
-              columnspacing=0.9, handlelength=1.8, handletextpad=0.5,
-              borderaxespad=0.4, labelspacing=0.32)
-    fig.subplots_adjust(left=0.155, right=0.985, top=0.905, bottom=0.155)
+    ax.yaxis.set_major_locator(MaxNLocator(nbins=5, steps=[1, 2, 2.5, 5, 10]))
+    ax.set_title(f'{prob}, $M={M}$', loc='left', pad=4)
+    ax.set_xlabel('Number of real function evaluations', labelpad=3)
+    ax.set_ylabel(r'IGD$^+$', labelpad=4)
+    ax.set_axisbelow(True)
+    ax.grid(True, color='#C7C7C7', linestyle=':', linewidth=0.45, alpha=0.7)
+    legend = ax.legend(
+        legend_handles(), [LABELS[a] for a in ORDER],
+        loc='upper right', ncol=2, fontsize=7.5,
+        columnspacing=0.9, handlelength=1.7, handletextpad=0.5,
+        borderaxespad=0.45, labelspacing=0.3, borderpad=0.35,
+        edgecolor='#A0A0A0', facecolor='white', framealpha=1,
+    )
+    legend.get_frame().set_linewidth(0.45)
+    fig.subplots_adjust(left=0.16, right=0.985, top=0.91, bottom=0.155)
+    fig.canvas.draw()
+    rectangle = legend.get_window_extent(fig.canvas.get_renderer())
+    for line in ax.lines:
+        points = ax.transData.transform(line.get_xydata())
+        inside = (
+            (points[:, 0] >= rectangle.x0) & (points[:, 0] <= rectangle.x1)
+            & (points[:, 1] >= rectangle.y0) & (points[:, 1] <= rectangle.y1)
+        )
+        if inside.any():
+            raise ValueError(f'{prob}: legend obscures curve data')
     return fig
 
 
-def build_quad(stats):
-    """Four panels in one 2x2 layout; each panel keeps its own y range, because
-    the problems differ by orders of magnitude (DTLZ1 ~ 1e2, DTLZ6 ~ 1e1) and a
-    shared scale would flatten the small-magnitude panels."""
-    mark_idx = np.where(GRID % MARK_EVERY == 0)[0]
-    mark_x = GRID[mark_idx]
-    rows = [PROBLEMS[:2], PROBLEMS[2:]]
-    fig, axes = plt.subplots(2, 2, figsize=QUAD_FIGSIZE)
-    for i, row in enumerate(rows):
-        for j, prob in enumerate(row):
-            ax = axes[i, j]
-            draw_curves(ax, {alg: stats[(prob, alg)] for alg in ORDER},
-                        mark_idx, mark_x)
-            ylo, yhi = panel_limits({alg: stats[(prob, alg)] for alg in ORDER})
-            letter = LETTERS[i * 2 + j]
-            ax.set_title(f'({letter}) {prob}, $M={M}$', loc='left', pad=3)
-            ax.set_xlim(XMIN, XMAX)
-            ax.set_ylim(ylo, yhi)
-            ax.set_xticks(XTICKS)
-            ax.yaxis.set_major_locator(MaxNLocator(nbins=5, steps=[1, 2, 5, 10]))
-            if i == 1:
-                ax.set_xlabel('Number of real function evaluations')
-            if j == 0:
-                ax.set_ylabel(r'IGD$^+$')
-    fig.legend(legend_handles(), [LABELS[a] for a in ORDER],
-               loc='lower center', ncol=7, bbox_to_anchor=(0.5, 0.008),
-               columnspacing=1.2, handlelength=2.2, fontsize=7)
-    fig.subplots_adjust(left=0.075, right=0.995, top=0.955, bottom=0.135,
-                        hspace=0.30, wspace=0.16)
-    return fig
-
-
-def save(fig, name, panel_runs, problems, objectives):
+def save(fig, prob, coverage):
+    name = f'fig_convergence_fe500_{prob.lower()}_m{M}'
     for ext in ('pdf', 'svg', 'png'):
         fig.savefig(OUT / f'{name}.{ext}', dpi=600, facecolor='white')
-    import pymupdf
+    svg = OUT / f'{name}.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in
+                             svg.read_text(encoding='utf-8').splitlines()) + '\n',
+                   encoding='utf-8', newline='\n')
     doc = pymupdf.open(OUT / f'{name}.pdf')
     page = doc[0]
-    spans = [s for b in page.get_text('dict')['blocks'] if 'lines' in b
-             for l in b['lines'] for s in l['spans'] if s['text'].strip()]
-    page_w, page_h = page.rect.width, page.rect.height
-    outside = [s['text'] for s in spans
-               if s['bbox'][0] < -0.5 or s['bbox'][1] < -0.5
-               or s['bbox'][2] > page_w + 0.5 or s['bbox'][3] > page_h + 0.5]
-    if outside:
-        raise ValueError(f'{name}: text outside canvas: {outside}')
-    minimum = min(s['size'] for s in spans)
-    if minimum < 4.99:
-        raise ValueError(f'{name}: glyph below 5 pt: {minimum}')
+    spans = [
+        span for block in page.get_text('dict')['blocks'] if 'lines' in block
+        for line in block['lines'] for span in line['spans'] if span['text'].strip()
+    ]
+    outside = [
+        span['text'] for span in spans
+        if span['bbox'][0] < -0.5 or span['bbox'][1] < -0.5
+        or span['bbox'][2] > page.rect.width + 0.5
+        or span['bbox'][3] > page.rect.height + 0.5
+    ]
+    ordinary = [s['size'] for s in spans if s['text'].strip() != '+']
+    fonts = page.get_fonts(full=True)
+    unembedded = [f[3] for f in fonts if not doc.extract_font(f[0])[3]]
+    if outside or min(ordinary) < 6.99 or unembedded:
+        raise ValueError(f'{name}: clipping, small ordinary text or unembedded font')
     QA.mkdir(exist_ok=True)
-    doc[0].get_pixmap(matrix=pymupdf.Matrix(1.8, 1.8), alpha=False).save(
+    page.get_pixmap(matrix=pymupdf.Matrix(2, 2), alpha=False).save(
         QA / f'{name}_render.png')
     manifest = {
-        'figure': name,
-        'metric': 'IGDp (IGD+)',
-        'source_csv': str(CSV),
+        'figure': name, 'metric': 'IGDp (IGD+)', 'estimator': 'arithmetic mean',
+        'source_csv': str(CSV.relative_to(OUT.parent)),
         'source_csv_sha256': hashlib.sha256(CSV.read_bytes()).hexdigest(),
-        'algorithm_folders': {a: a for a in ORDER},
-        'runs_used': RUNS,
-        'problems': problems,
-        'objectives': objectives,
-        'panel_runs': panel_runs,
-        'fe_budget': 500,
-        'alignment': 'zero-order hold on unit-FE grid, no extrapolation past the last snapshot',
-        'drawing': f'vertices every {MARK_EVERY} real evaluations, straight-line joins',
-        'band': ('none (paper style)' if not SHOW_BAND else
-                 '25-75% interquartile range across runs, PACDIS only'),
-        'markers': {a: MARKERS[a] for a in ORDER},
-        'marker_every_fe': MARK_EVERY,
-        'line_styles': 'all solid; identity carried by colour + marker shape',
-        'page_size_mm': [round(fig.get_size_inches()[0] * 25.4, 1),
-                         round(fig.get_size_inches()[1] * 25.4, 1)],
-        'minimum_pdf_glyph_pt': round(minimum, 2),
-        'text_outside_canvas': outside,
+        'source_manifest': str(SOURCE_MANIFEST.relative_to(OUT.parent)),
+        'source_manifest_sha256': hashlib.sha256(SOURCE_MANIFEST.read_bytes()).hexdigest(),
+        'drawing_script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'runs_used': RUNS, 'problems': [prob], 'objectives': [M],
+        'fe_budget': BUDGET, 'fe_grid': [100, BUDGET, 1],
+        'alignment': 'previous-snapshot hold; NaN before initialization; all 20 runs at each plotted FE',
+        'budget_policy': 'Exclude all metric values at FE > 500; retain latest eligible value within observed run coverage.',
+        'drawing': 'full unit-FE grid; no smoothing; no monotonic envelope',
+        'markers': {a: MARKERS[a] for a in ORDER}, 'marker_every_fe': MARK_EVERY,
+        'marker_endpoints': True, 'band': 'none', 'line_styles': 'solid',
+        'algorithm_labels': LABELS, 'coverage': coverage[prob],
+        'page_size_mm': [88, 70],
+        'minimum_ordinary_text_pt': round(min(ordinary), 2),
+        'minimum_pdf_glyph_pt': round(min(s['size'] for s in spans), 2),
+        'font_names': sorted({f[3] for f in fonts}),
+        'unembedded_fonts': unembedded, 'text_outside_canvas': outside,
+        'legend_obscures_curve_data': False,
     }
     (OUT / f'{name}_manifest.json').write_text(
-        json.dumps(manifest, indent=2), encoding='utf-8')
-    print(f'saved {name}  [{manifest["page_size_mm"][0]}x'
-          f'{manifest["page_size_mm"][1]} mm, min glyph {minimum:.2f} pt]')
+        json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+    doc.close()
     plt.close(fig)
+    print(f'saved {name}: 88 x 70 mm; ordinary text >= {min(ordinary):.2f} pt')
+
+
+def main():
+    _, _, means, counts, coverage = load_traces()
+    aggregated = []
+    endpoints = []
+    for prob in PROBLEMS:
+        values = {a: float(means[(prob, a)][-1]) for a in ORDER}
+        endpoints.append({
+            'M': M, 'problem': prob, 'FE': BUDGET, 'estimator': 'arithmetic mean',
+            'n': len(RUNS), 'means': values,
+            'ranks': {a: 1 + sum(v < values[a] for v in values.values()) for a in ORDER},
+            'best': min(values, key=values.get),
+            'metric_policy': 'latest saved value with FE <= 500 for each run',
+        })
+        for alg in ORDER:
+            for i in np.flatnonzero(np.isfinite(means[(prob, alg)])):
+                aggregated.append({
+                    'Algorithm': alg, 'Problem': prob, 'M': M,
+                    'D': 31 if prob == 'WFG2' else 30, 'FE': int(GRID[i]),
+                    'MeanIGDp': float(means[(prob, alg)][i]),
+                    'N': int(counts[(prob, alg)][i]),
+                })
+    pd.DataFrame(aggregated).to_csv(DATA / 'convergence_mean_igdp_fe500.csv', index=False)
+    (DATA / 'convergence_at_500.json').write_text(
+        json.dumps(endpoints, indent=2) + '\n', encoding='utf-8')
+    (DATA / 'convergence_fe500_coverage.json').write_text(
+        json.dumps(coverage, indent=2) + '\n', encoding='utf-8')
+    with plt.rc_context(STYLE):
+        for prob in PROBLEMS:
+            save(build_single(means, prob), prob, coverage)
 
 
 if __name__ == '__main__':
-    df, traces = load_traces()
-    stats = {k: percentiles(v) for k, v in traces.items()}
-    runs_for = lambda ps: {p: {a: int(traces[(p, a)].shape[0]) for a in ORDER}
-                           for p in ps}                                  # noqa: E731
-
-    endpoint_report = []
-    for prob in PROBLEMS:
-        values = {a: float(stats[(prob, a)][1][-1]) for a in ORDER}
-        ranks = {a: 1 + sum(1 for b in ORDER if values[b] < values[a]) for a in ORDER}
-        endpoint_report.append({'M': M, 'problem': prob, 'FE': 500,
-                                'medians': values, 'ranks': ranks,
-                                'best': min(values, key=values.get)})
-    (CSV.parent / 'convergence_at_500.json').write_text(
-        json.dumps(endpoint_report, indent=2), encoding='utf-8')
-
-    # Snapshot coverage: three baselines start recording late on this export,
-    # so the figure has to state the interval each trace actually spans.
-    coverage = {}
-    for prob in PROBLEMS:
-        coverage[prob] = {}
-        for alg in ORDER:
-            g = df[(df['Problem'] == prob) & (df['Algorithm'] == alg)]
-            per_run = g.groupby('Run').size()
-            coverage[prob][alg] = {'first_fe': int(g['FE'].min()),
-                                   'last_fe': int(g['FE'].max()),
-                                   'points_per_run_min': int(per_run.min()),
-                                   'points_per_run_max': int(per_run.max())}
-    (CSV.parent / 'convergence_fe500_coverage.json').write_text(
-        json.dumps(coverage, indent=2), encoding='utf-8')
-    starts = sorted({v['first_fe'] for c in coverage.values() for v in c.values()})
-    print('first recorded snapshot across all panels:', starts)
-
-    for i, prob in enumerate(PROBLEMS):
-        fig = build_single(stats, prob, LETTERS[i])
-        save(fig, f'fig_convergence_fe500_{prob.lower()}_m{M}', runs_for([prob]),
-             [prob], [M])
-
-    fig = build_quad(stats)
-    save(fig, f'fig_convergence_fe500_m{M}', runs_for(PROBLEMS), PROBLEMS, [M])
+    main()
