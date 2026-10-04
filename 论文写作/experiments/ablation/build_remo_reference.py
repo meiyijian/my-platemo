@@ -1,4 +1,4 @@
-"""Build the IGD+ ablation tables from the two REMO-reference exports."""
+"""Build one IGD+ ablation table from the two REMO-reference exports."""
 
 from __future__ import annotations
 
@@ -94,28 +94,28 @@ def tex_cell(cell: tuple[str, str, str | None], best: bool) -> str:
     return f"{prefix}${tex_number(mean)}\\,({tex_number(sd)}){mark}$"
 
 
-def make_table(family: str, records: dict) -> str:
-    name_range = "1--7" if family == "DTLZ" else "1--9"
-    label = f"tab:ablation_igdplus_{family.lower()}"
+def make_table(records: dict) -> str:
     lines = [
         "\\begin{table*}[tp]",
         "\\centering",
-        f"\\caption{{IGD$^{{+}}$ ablation results on {family}{name_range} with 10 and 20 objectives "
+        "\\caption{IGD$^{+}$ ablation results on DTLZ1--7 and WFG1--9 with 10 and 20 objectives "
         "($N=100$; configured $FE=300$).}",
-        f"\\label{{{label}}}",
-        "\\footnotesize",
+        "\\label{tab:ablation_igdplus}",
+        "\\small",
         "\\setlength{\\tabcolsep}{3pt}",
-        "\\renewcommand{\\arraystretch}{1.08}",
+        "\\renewcommand{\\arraystretch}{1.35}",
         "\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}lcccccc@{}}",
         "\\toprule",
         "Problem & $M$ & $D$ & REMO & w/o CDIS & w/o PAQC & Full \\\\",
         "\\midrule",
     ]
     counts = {name: Counter() for name in SOURCE_COLUMNS if name != "REMO"}
-    for i in FAMILIES[family]:
-        if i > 1:
+    problems = [f"{family}{i}" for family, ids in FAMILIES.items() for i in ids]
+    for index, problem in enumerate(problems):
+        if problem == "WFG1":
+            lines.append("\\midrule")
+        elif index > 0:
             lines.append("\\addlinespace[2pt]")
-        problem = f"{family}{i}"
         for m in SOURCES:
             entry = records[(problem, m)]
             cells = entry["cells"]
@@ -162,7 +162,7 @@ def main() -> None:
     records = read_sources()
     generated = (
         "% Generated from the two archived REMO-reference IGD+ workbooks in sources/.\n"
-        + "\n\n".join(make_table(family, records) for family in FAMILIES)
+        + make_table(records)
         + "\n"
     )
     if args.check:

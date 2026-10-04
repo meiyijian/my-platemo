@@ -74,45 +74,12 @@ def main(from_exports=False):
             intervals[outcome+'Vs'+baseline] = {'delta_pp':100*delta, 'ci95_pp':(100*np.quantile(bootstrap,[.025,.975])).tolist()}
     (HERE/'bootstrap_intervals.json').write_text(json.dumps(intervals,indent=2)+'\n',encoding='utf-8')
 
-    lines = [r'\begin{table*}[t]', r'\centering',
-        r'\caption{PAQC improves positive-group composition on matched population checkpoints. Entries report mean precision (\%) and run-level standard deviation.}',
-        r'\label{tab:exp:ggp}', r'\begingroup', r'\setlength{\tabcolsep}{5pt}', r'\renewcommand{\arraystretch}{1.08}', r'\footnotesize',
-        r'\begin{tabular}{lc ccc cccc}', r'\toprule',
-        r' & & \multicolumn{3}{c}{Current convergence precision} & \multicolumn{4}{c}{Final-retention precision} \\',
-        r'\cmidrule(lr){3-5}\cmidrule(lr){6-9}',
-        r'Problem & $M$ & Margin $A$ & Direction $S$ & PAQC $H$ & Margin $A$ & Direction $S$ & PAQC $H$ & Chance \\', r'\midrule']
-    for key, mean in means.iterrows():
-        cells = [key[0], str(key[1])]
-        for outcome in ['Current','Retention']:
-            best = max(mean[outcome+x] for x in ['Anchor','Direction','PAQC'])
-            for name in ['Anchor','Direction','PAQC']:
-                val, sd = 100*mean[outcome+name], 100*sds.loc[key,outcome+name]
-                number = f'{val:.2f}'
-                if mean[outcome+name] == best:
-                    number = r'\mathbf{'+number+'}'
-                mark = ''
-                if name != 'PAQC':
-                    t = tests[(tests.Problem==key[0]) & (tests.M==key[1]) & (tests.Outcome==outcome) & (tests.Control==name)].iloc[0]
-                    mark = '=' if t.PHolm >= .05 else ('-' if t.Delta>0 else '+')
-                cells.append(r'\shortstack{$'+number+(r'^{'+mark+'}' if mark else '')+r'$\\$('+f'{sd:.2f}'+r')$}')
-            if outcome == 'Retention':
-                cells.append(f'{100*mean.Chance:.2f}')
-        lines.append(' & '.join(cells)+r' \\')
-    lines += [r'\midrule']
     overall = runs.mean(numeric_only=True)
-    lines.append(' & '.join(['Mean','']+[f'{100*overall[o+n]:.2f}' for o in ['Current','Retention'] for n in ['Anchor','Direction','PAQC']]+[f'{100*overall.Chance:.2f}'])+r' \\')
-    lines += [r'\bottomrule', r'\end{tabular}', r'\endgroup',
-        r'\par\vspace{3pt}\begin{minipage}{0.98\textwidth}\scriptsize',
-        r'Each of the 160 runs contributes the mean of 34 checkpoints; each configuration contains 20 runs.',
-        r'All three rules select 25 of the same 100 solutions. Bold marks the largest mean within each outcome.',
-        r'A baseline superscript $+/-/=$ denotes higher/lower/no detected difference relative to PAQC under two-sided paired Wilcoxon signed-rank tests, with Holm correction across all 32 comparisons ($\alpha=0.05$).',
-        r'Chance is checkpoint prevalence for final retention; current convergence has a fixed chance level of 25\%.',
-        r'The last row averages the eight configurations and carries no pooled significance test.',
-        r'\end{minipage}', r'\end{table*}', '']
-    (HERE/'table_ggp.tex').write_text('\n'.join(lines),encoding='utf-8')
+    write_table(means,sds,tests,overall,['Anchor','PAQC'],False)
+    write_table(means,sds,tests,overall,['Anchor','Direction','PAQC'],True)
 
     if from_exports:
-        print('GGP_EXPORTS_VERIFIED: 5440 checkpoint rows, 160 run rows, 32 comparisons; table rebuilt from committed exports.')
+        print('GGP_EXPORTS_VERIFIED: 5440 checkpoint rows, 160 run rows, 32 comparisons; main and appendix tables rebuilt from committed exports.')
         return
     sources = HERE/'sources'
     sources.mkdir(exist_ok=True)
@@ -136,6 +103,54 @@ def main(from_exports=False):
     print('OVERALL', overall.to_string())
     print('INTERVALS',json.dumps(intervals))
     print(tests.to_string(index=False))
+
+
+def write_table(means,sds,tests,overall,names,appendix):
+    n = len(names)
+    env = 'table' if appendix else 'table*'
+    placement = 'htbp' if appendix else 't'
+    label = 'tab:app:ggp' if appendix else 'tab:exp:ggp'
+    caption = (r'Complete grouping controls on matched population checkpoints.' if appendix else
+               r'PAQC versus representative-margin grouping on matched population checkpoints.')
+    headers = {'Anchor':r'Margin $A$','Direction':r'Direction $S$','PAQC':r'PAQC $H$'}
+    lines = [r'\begin{'+env+'}['+placement+']',r'\centering',
+        r'\caption{'+caption+r' Entries report mean precision (\%) and run-level standard deviation.}',
+        r'\label{'+label+'}',r'\begingroup',r'\setlength{\tabcolsep}{5pt}',r'\renewcommand{\arraystretch}{1.12}',r'\small',
+        r'\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lc '+'c'*n+' '+'c'*(n+1)+'@{}}',r'\toprule',
+        r' & & \multicolumn{'+str(n)+r'}{c}{Current convergence precision} & \multicolumn{'+str(n+1)+r'}{c}{Final-retention precision} \\',
+        r'\cmidrule(lr){3-'+str(2+n)+r'}\cmidrule(lr){'+str(3+n)+'-'+str(3+2*n)+'}',
+        ' & '.join(['Problem',r'$M$']+[headers[x] for _ in range(2) for x in names]+['Chance'])+r' \\',r'\midrule']
+    for key, mean in means.iterrows():
+        cells = [key[0], str(key[1])]
+        for outcome in ['Current','Retention']:
+            best = max(mean[outcome+x] for x in names)
+            for name in names:
+                val, sd = 100*mean[outcome+name], 100*sds.loc[key,outcome+name]
+                number = f'{val:.2f}'
+                if mean[outcome+name] == best:
+                    number = r'\mathbf{'+number+'}'
+                mark = ''
+                if name != 'PAQC':
+                    t = tests[(tests.Problem==key[0]) & (tests.M==key[1]) & (tests.Outcome==outcome) & (tests.Control==name)].iloc[0]
+                    mark = '=' if t.PHolm >= .05 else ('-' if t.Delta>0 else '+')
+                cells.append(r'\shortstack{$'+number+(r'^{'+mark+'}' if mark else '')+r'$\\$('+f'{sd:.2f}'+r')$}')
+            if outcome == 'Retention':
+                cells.append(f'{100*mean.Chance:.2f}')
+        lines.append(' & '.join(cells)+r' \\')
+    lines += [r'\midrule']
+    lines.append(' & '.join(['Mean','']+[f'{100*overall[o+n]:.2f}' for o in ['Current','Retention'] for n in names]+[f'{100*overall.Chance:.2f}'])+r' \\')
+    lines += [r'\bottomrule', r'\end{tabular*}', r'\endgroup',
+        r'\par\vspace{3pt}\begin{minipage}{0.98\textwidth}\scriptsize',
+        r'Each of the 160 runs contributes the mean of 34 checkpoints; each configuration contains 20 runs.',
+        r'Each rule selects 25 of the same 100 solutions. Bold marks the largest mean among the rules shown for each outcome.',
+        r'A baseline superscript $+/-/=$ denotes higher/lower/no detected difference relative to PAQC under two-sided paired Wilcoxon signed-rank tests, with Holm correction across all 32 comparisons ($\alpha=0.05$).',
+        r'Chance is checkpoint prevalence for final retention; current convergence has a fixed chance level of 25\%.',
+        r'The last row averages the eight configurations and carries no pooled significance test.']
+    if not appendix:
+        lines.append(r'The correction family includes the direction-only control; \ref{app:ggp} reports all three rules together.')
+    lines += [r'\end{minipage}',r'\end{'+env+'}','']
+    output = 'table_ggp_complete.tex' if appendix else 'table_ggp.tex'
+    (HERE/output).write_text('\n'.join(lines),encoding='utf-8')
 
 
 if __name__ == '__main__':

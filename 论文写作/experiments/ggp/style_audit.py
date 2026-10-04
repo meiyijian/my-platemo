@@ -5,11 +5,13 @@ import re
 HERE = Path(__file__).resolve().parent
 tex = (HERE.parents[1]/'HPDC-MaOEA.tex').read_text(encoding='utf-8')
 start = tex.index(r'\subsection{Good-Group Precision Analysis of PAQC}')
-end = tex.index('% Queue the NoBatchDist sensitivity table', start)
+end = tex.index(r'\subsection{Effect of Selection-Criterion Switching}', start)
 section = tex[start:end]
 table = (HERE/'table_ggp.tex').read_text(encoding='utf-8')
+appendix = (HERE/'appendix_ggp.tex').read_text(encoding='utf-8')
+complete_table = (HERE/'table_ggp_complete.tex').read_text(encoding='utf-8')
 conclusion = tex[tex.index('The matched group analysis shows'):tex.index('\\TODO{Complete the statistical',tex.index('The matched group analysis shows'))]
-text = '\n'.join(line for line in (section+'\n'+table+'\n'+conclusion).splitlines() if not line.lstrip().startswith('%'))
+text = '\n'.join(line for line in (section+'\n'+table+'\n'+conclusion+'\n'+appendix+'\n'+complete_table).splitlines() if not line.lstrip().startswith('%'))
 flat = re.sub(r'\s+', ' ', text)
 checks = {
  'M1': r'---|—|–| -- ',

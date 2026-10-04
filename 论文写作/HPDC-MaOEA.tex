@@ -66,6 +66,7 @@
 \renewcommand{\bottomfraction}{0.6}
 \renewcommand{\textfraction}{0.02}
 \renewcommand{\floatpagefraction}{0.7}
+\raggedbottom
 
 
 \begin{frontmatter}
@@ -850,6 +851,8 @@ check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode se
 \makeatletter
 \setlength{\@fptop}{0pt}
 \setlength{\@dblfptop}{0pt}
+\setlength{\@fpsep}{18pt plus 2pt minus 2pt}
+\setlength{\@dblfpsep}{18pt plus 2pt minus 2pt}
 \makeatother
 
 \section{Experimental Studies}
@@ -955,8 +958,6 @@ baselines under the configured 500-evaluation budget when the corresponding
 trajectories are ready. The existing 300-evaluation figure uses the previous
 baseline set, so we exclude it here.}
 
-\clearpage
-\raggedbottom
 \subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
 
@@ -986,8 +987,8 @@ from aggregate values. The workbooks omit Full-versus-control tests and any
 record of multiple-comparison adjustment. This study uses a separate
 configured budget from the 500-evaluation main comparison.
 
-Tables~\ref{tab:ablation_igdplus_dtlz} and~\ref{tab:ablation_igdplus_wfg}
-report the results. Relative to REMO, the workbooks mark Full as better on
+Table~\ref{tab:ablation_igdplus} reports the results.
+Relative to REMO, the workbooks mark Full as better on
 28 of 32 configurations, worse on WFG3 at both objective counts, and $=$
 on WFG5 at both counts. The corresponding $+/-/=$
 totals are $19/2/11$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
@@ -998,31 +999,36 @@ direct Full-versus-control tests. REMO's possible budget overrun further
 limits attribution.
 
 \input{experiments/ablation/table_ablation_igdp}
-% Queue the GGP table before its discussion so it can follow the ablation floats.
+% Queue the GGP table before its discussion so it can follow the ablation table.
 \input{experiments/ggp/table_ggp}
 
+\begin{samepage}
 \subsection{Good-Group Precision Analysis of PAQC}
 \label{sec:exp:ggp}
 
 % Claim: quantify the composition of the positive group on matched states.
 PAQC concentrates solutions with better convergence into its positive group
-and improves average final-retention precision over two equal-quota controls.
+and improves average final-retention precision relative to representative-margin
+grouping at the same quota.
 We examine 160 PACDIS runs on DTLZ2, DTLZ4, DTLZ5, and DTLZ7, with
 $M\in\{10,20\}$ and 20 runs per configuration. This diagnostic uses
 $N=100$, $D=30$, and 300 real evaluations, including 100 for initialization;
 the PACDIS parameters follow Section~\ref{sec:exp:settings}.
 Each run supplies 34 population checkpoints before relation-model training,
-at $FE=100,106,\ldots,298$, giving 5440 checkpoints.
+at $FE=100,106,\ldots,298$, giving 5440 checkpoints.\par
+\end{samepage}
 
 % Controls: equal cardinality and identical evaluated population.
-All three grouping rules select 25 solutions from the same evaluated population.
-PAQC ranks by $H$, the direction control ranks by $S$, and the
-representative-margin control ranks by $A$. We define $A$ as one minus
+The main comparison selects 25 solutions from the same evaluated population
+using either PAQC's $H$ or the representative margin $A$.
+We define $A$ as one minus
 the normalized representative-based PBI value inside the indicator in
 \eqref{eq:label-bin}. This continuous margin provides an equal-quota
 representative control; the original binary label $L$ retains its natural
-group size in a separate descriptive comparison. All rankings resolve ties
-by population order. For a selected set $\mathcal{C}$ and an outcome-positive
+group size in a separate descriptive comparison. \ref{app:ggp}
+adds the direction-only control $S$ to examine the role of representative
+membership. All rankings resolve ties by population order.
+For a selected set $\mathcal{C}$ and an outcome-positive
 set $\mathcal{Y}^{+}$, good-group precision (GGP) is
 \begin{equation}
 \mathrm{GGP}=\frac{|\mathcal{C}\cap\mathcal{Y}^{+}|}{|\mathcal{C}|}.
@@ -1030,6 +1036,9 @@ set $\mathcal{Y}^{+}$, good-group precision (GGP) is
 \end{equation}
 
 % Outcomes: preserve the original primary outcome and identify the added diagnostic.
+% Queue the sensitivity table one page ahead of its discussion.
+\input{experiments/pmix_nobatchdist_igdp_table}
+
 The primary outcome tracks which checkpoint solutions remain in the final
 100-member population, using stable evaluation identifiers. Its chance level
 is the fraction of the checkpoint population that remains at termination.
@@ -1047,7 +1056,8 @@ We first average the 34 checkpoints within each run, then summarize the
 20 independent runs per configuration. Table~\ref{tab:exp:ggp} reports
 means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
 compare PAQC with each control; Holm correction covers all 32 comparisons
-across the two outcomes and eight configurations. Overall summaries give
+across the two outcomes, both controls, and eight configurations, including
+the direction-only comparisons in \ref{app:ggp}. Overall summaries give
 equal weight to each configuration.
 
 % Convergence enrichment: a large, reproducible effect against the named control.
@@ -1057,20 +1067,15 @@ The gain reaches 37.85 percentage points overall and ranges from 26.98 to
 46.62 points across the eight configurations; every comparison passes
 Holm correction. At the same 25-solution quota, this corresponds to
 9.46 additional low-$g$ solutions per positive group on average.
-The direction control achieves 95.97\%, placing it above PAQC on this
-convergence diagnostic in all eight configurations.
-
 % Retention: show what representative membership contributes to the observed groups.
-PAQC achieves the highest overall final-retention precision, 53.58\%,
-compared with 50.07\% for the direction control and 49.18\% for the
-representative-margin control. PAQC has higher mean retention in seven
-of eight configurations against each control; Holm-adjusted tests favor
-PAQC in three comparisons against direction and six against margin.
-DTLZ4 shows the largest gains over direction: 13.01 and 9.89 percentage
-points at $M=10$ and 20, respectively, with all 20 runs favoring PAQC
-at each objective count. Margin leads on DTLZ4 at $M=10$; direction
-has a 0.48-point mean advantage on DTLZ7 at $M=10$ without a detected
-difference after correction.
+PAQC raises average final-retention precision from 49.18\% to 53.58\%
+relative to the representative-margin control. It has a higher mean in
+seven of eight configurations, with six comparisons passing Holm correction;
+margin leads on DTLZ4 at $M=10$.
+The direction-only control has higher convergence precision but lower overall
+final-retention precision than PAQC (\ref{app:ggp}). This contrast
+links representative membership to subsequent retention along the recorded
+trajectories.
 
 % Membership explains the compact positive group without inferring diversity gains.
 Inspection of group membership clarifies how PAQC uses the two signals.
@@ -1084,9 +1089,6 @@ convergence information with representative-based membership to concentrate
 supervision in a smaller positive set. These measurements characterize
 positive-group composition along PACDIS trajectories; the IGD$^+$
 experiments assess the quality of the resulting approximation sets.
-
-% Queue the NoBatchDist sensitivity table early for two-column placement.
-\input{experiments/pmix_nobatchdist_igdp_table}
 
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
@@ -1291,5 +1293,7 @@ Y.~Tian, R.~Cheng, X.~Zhang, and Y.~Jin,
 \emph{IEEE Comput. Intell. Mag.}, vol.~12, no.~4, pp.~73--87, 2017.
 
 \end{thebibliography}
+
+\input{experiments/ggp/appendix_ggp}
 
 \end{document}

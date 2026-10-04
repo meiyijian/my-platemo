@@ -1,11 +1,11 @@
 % Generated from the two archived REMO-reference IGD+ workbooks in sources/.
 \begin{table*}[tp]
 \centering
-\caption{IGD$^{+}$ ablation results on DTLZ1--7 with 10 and 20 objectives ($N=100$; configured $FE=300$).}
-\label{tab:ablation_igdplus_dtlz}
-\footnotesize
+\caption{IGD$^{+}$ ablation results on DTLZ1--7 and WFG1--9 with 10 and 20 objectives ($N=100$; configured $FE=300$).}
+\label{tab:ablation_igdplus}
+\small
 \setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
+\renewcommand{\arraystretch}{1.35}
 \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
 \toprule
 Problem & $M$ & $D$ & REMO & w/o CDIS & w/o PAQC & Full \\
@@ -30,26 +30,6 @@ DTLZ6 & 10 & 30 & $1.6046\mathrm{e}{+1}\,(5.95\mathrm{e}{-1})$ & \bestcell$1.391
 \addlinespace[2pt]
 DTLZ7 & 10 & 30 & $2.1214\mathrm{e}{+1}\,(2.57\mathrm{e}{+0})$ & \bestcell$9.9013\mathrm{e}{+0}\,(1.70\mathrm{e}{+0})^{+}$ & $1.6206\mathrm{e}{+1}\,(1.76\mathrm{e}{+0})^{+}$ & $1.2138\mathrm{e}{+1}\,(1.75\mathrm{e}{+0})^{+}$ \\
  & 20 & 30 & $4.1534\mathrm{e}{+1}\,(6.92\mathrm{e}{+0})$ & $2.3639\mathrm{e}{+1}\,(7.57\mathrm{e}{+0})^{+}$ & $2.8193\mathrm{e}{+1}\,(3.54\mathrm{e}{+0})^{+}$ & \bestcell$2.2885\mathrm{e}{+1}\,(4.26\mathrm{e}{+0})^{+}$ \\
-\midrule
-\multicolumn{2}{c}{$+/-/=$} & -- & -- & $9/0/5$ & $8/1/5$ & $14/0/0$ \\
-\bottomrule
-\end{tabular*}
-\par\smallskip
-\begin{minipage}{\textwidth}\footnotesize
-Entries give mean (standard deviation); lower IGD$^{+}$ is better. Light gray cells mark the lowest mean in each row, including displayed ties. The supplied workbooks report $+$, $-$, and $=$ relative to REMO (better, worse, and no detected difference, respectively). Their symbols do not compare Full with either control. Full denotes PACDIS; w/o PAQC uses REMO's representative-based PBI classification with a variable positive-group size. The w/o CDIS control retains ambiguity ranking but removes indicator modeling and criterion switching. REMO uses $k=15$ for $M=10$ and $k=30$ for $M=20$. Its archived runs can exceed 300 actual evaluations.
-\end{minipage}
-\end{table*}
-
-\begin{table*}[tp]
-\centering
-\caption{IGD$^{+}$ ablation results on WFG1--9 with 10 and 20 objectives ($N=100$; configured $FE=300$).}
-\label{tab:ablation_igdplus_wfg}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcccccc@{}}
-\toprule
-Problem & $M$ & $D$ & REMO & w/o CDIS & w/o PAQC & Full \\
 \midrule
 WFG1 & 10 & 30 & $2.9781\mathrm{e}{+0}\,(4.85\mathrm{e}{-2})$ & $2.9153\mathrm{e}{+0}\,(3.62\mathrm{e}{-2})^{+}$ & $2.9199\mathrm{e}{+0}\,(5.07\mathrm{e}{-2})^{+}$ & \bestcell$2.9009\mathrm{e}{+0}\,(4.89\mathrm{e}{-2})^{+}$ \\
  & 20 & 30 & $4.2041\mathrm{e}{+0}\,(1.07\mathrm{e}{-1})$ & $4.1445\mathrm{e}{+0}\,(1.20\mathrm{e}{-1})^{+}$ & $4.1273\mathrm{e}{+0}\,(1.34\mathrm{e}{-1})^{+}$ & \bestcell$4.0996\mathrm{e}{+0}\,(1.43\mathrm{e}{-1})^{+}$ \\
@@ -78,7 +58,7 @@ WFG8 & 10 & 30 & $5.2600\mathrm{e}{+0}\,(4.22\mathrm{e}{-1})$ & $4.9093\mathrm{e
 WFG9 & 10 & 30 & $6.3482\mathrm{e}{+0}\,(5.35\mathrm{e}{-1})$ & $6.4647\mathrm{e}{+0}\,(5.03\mathrm{e}{-1})^{=}$ & $5.6455\mathrm{e}{+0}\,(4.86\mathrm{e}{-1})^{+}$ & \bestcell$5.4815\mathrm{e}{+0}\,(6.37\mathrm{e}{-1})^{+}$ \\
  & 20 & 30 & $2.2006\mathrm{e}{+1}\,(1.25\mathrm{e}{+0})$ & $2.2623\mathrm{e}{+1}\,(1.06\mathrm{e}{+0})^{=}$ & \bestcell$2.0784\mathrm{e}{+1}\,(1.43\mathrm{e}{+0})^{+}$ & $2.0978\mathrm{e}{+1}\,(1.54\mathrm{e}{+0})^{+}$ \\
 \midrule
-\multicolumn{2}{c}{$+/-/=$} & -- & -- & $10/2/6$ & $12/0/6$ & $14/2/2$ \\
+\multicolumn{2}{c}{$+/-/=$} & -- & -- & $19/2/11$ & $20/1/11$ & $28/2/2$ \\
 \bottomrule
 \end{tabular*}
 \par\smallskip
