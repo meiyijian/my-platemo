@@ -88,24 +88,29 @@ for Expensive Many-Objective Optimization}
             country={Country}}
 
 \begin{abstract}
-\TODO{Use the challenge--contribution structure. State the two concrete gaps:
-REMO forms training groups using a small set of representatives selected through
-RSEA's two-dimensional radial projection. These representatives may not fully
-reflect the current nondominated distribution in the original objective space,
-and relation scores alone leave the use of prediction ambiguity and indicator
-information in candidate selection unspecified. Introduce PACDIS with PBI-assisted
-quality classification (PAQC) and criterion-diversified infill selection (CDIS).
-PAQC constructs adaptive directions directly from the current nondominated
-objective vectors and uses PBI-based directional quality information to supplement
-representative-based positive-group construction. CDIS allocates expensive evaluations through ambiguity-oriented and
-indicator-oriented selection criteria. Present the two mechanisms as
-complementary in design. The REMO-referenced component comparisons report
-problem-dependent complete-configuration outcomes. Direct module effects
-require Full-versus-control tests. Lead the results
-with the strongest verified algorithm-level IGD$^+$ comparison in the tested
-many-objective settings. Then give one concise mechanism finding about group
-composition or candidate-batch utility. Keep detailed overlap statistics and
-any direct module tests in the experimental section.}
+Relation-based expensive many-objective optimization requires informative training
+groups and effective candidate selection under limited evaluation budgets.
+Penalty-based boundary intersection (PBI) grouping with a small
+representative set can leave additional directional quality information unused.
+Ranking candidates solely by relation scores also leaves classification ambiguity
+and indicator information outside the selection rule. We propose PACDIS, a
+surrogate-assisted evolutionary algorithm that combines PBI-assisted quality
+classification (PAQC) with criterion-diversified infill selection (CDIS).
+PAQC supplements representative-based labels with continuous PBI scores along
+directions derived from current nondominated objective vectors, with uniform
+directions as a fallback. A fusion weight that changes with evaluation progress
+determines positive-group membership for relation learning.
+CDIS first screens candidates by relation quality, then applies ambiguity-oriented
+or indicator-oriented ranking to select an expensive-evaluation batch.
+These modes use classification ambiguity and a separate quality-indicator
+surrogate, respectively. Experiments compare PACDIS with six algorithms on
+48 DTLZ and WFG configurations with 10, 15, and 20 objectives under a configured
+budget of 500 evaluations. PACDIS achieves the lowest mean inverted generational
+distance plus (IGD$^+$) in 16 configurations, including DTLZ4, DTLZ6, WFG2, and WFG7
+at all three objective counts. A separate analysis of matched population
+checkpoints shows that PAQC increases the average proportion of selected solutions
+retained in the final population from 49.18\% to 53.58\% relative to
+representative-margin grouping at the same quota.
 \end{abstract}
 
 \begin{keyword}
