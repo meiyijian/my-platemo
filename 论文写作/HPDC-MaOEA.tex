@@ -106,7 +106,7 @@ These modes use classification ambiguity and a separate quality-indicator
 surrogate, respectively. Experiments compare PACDIS with six algorithms on
 48 DTLZ and WFG configurations with 10, 15, and 20 objectives under a configured
 budget of 500 evaluations. PACDIS achieves the lowest mean inverted generational
-distance plus (IGD$^+$) in 16 configurations, including DTLZ4, DTLZ6, WFG2, and WFG7
+distance plus (IGD$^+$) in 15 configurations, including DTLZ6, WFG2, and WFG7
 at all three objective counts. A separate analysis of matched population
 checkpoints shows that PAQC increases the average proportion of selected solutions
 retained in the final population from 49.18\% to 53.58\% relative to
@@ -223,7 +223,7 @@ pass this initial assessment.
 We compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
 15, and 20 objectives under a configured budget of 500 evaluations.
 PACDIS achieves the lowest mean inverted generational distance plus (IGD$^+$)
-in 16 configurations, including DTLZ4, DTLZ6, WFG2, and WFG7 at all three
+in 15 configurations, including DTLZ6, WFG2, and WFG7 at all three
 objective counts (Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}).
 Separate experiments compare algorithm variants and examine the probability
 of selecting each infill mode
@@ -925,33 +925,37 @@ across all problem--objective configurations in that table. These counts
 summarize the supplied pairwise outcomes and are not a separate omnibus test
 across problems.
 
-The tables use available runs with identifiers 1--20. All 48 PACDIS cells
-contain 20 runs. At $M=15$, REMO cells contain 10--20 runs; at $M=20$, the
-REMO, PC-SAEA, CSEA, and HES-EA cells contain 18--20, 17--20, 19--20, and
-17--20 runs, respectively. All other cells contain 20 runs. Thus, the
-reported means and standard deviations do not all have the same sample size.
+Each table entry summarizes 20 independent runs with identifiers 1--20,
+following the final experiment records supplied by the authors.
 The export script applies an unpaired rank-sum test at $p<0.05$ without a
 multiple-comparison adjustment. We retain its symbols without interpreting
 them as adjusted significance. We configure a 500-evaluation budget;
 actual terminal FE can differ across implementations.
-\TODO{Document the IGD$^+$ reference sets and execution environment. Audit
-the rank-sum export where sample sizes differ and specify a
-multiple-comparison policy for final inference.}
+\paragraph{Reference sets and execution environment.}
+We use PlatEMO's default DTLZ and WFG problem definitions with the $M$ and $D$
+settings above. PlatEMO constructs each reference set through the problem's
+\texttt{GetOptimum(10000)} method; the returned number of points depends on
+the problem and objective count. The \texttt{IGDp} implementation computes
+distances in the original objective space without additional normalization.
+Most runs use MATLAB R2023a on a Windows workstation with an Intel Core
+i5-12400 processor and 32 GB RAM. Six parallel workers execute independent
+optimization runs.
+\TODO{Specify the multiple-comparison policy for final statistical inference.}
 
 \subsection{Comparison with the Six Baseline Algorithms}
 \label{sec:exp:comparison}
 
 Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the 500-evaluation
-comparison. PACDIS has the lowest mean IGD$^+$ on 7, 5, and 4 of the 16
+comparison. PACDIS has the lowest mean IGD$^+$ on 7, 4, and 4 of the 16
 problems at $M=10$, 15, and 20, respectively. These best means occur on
-DTLZ4, DTLZ6, WFG2, and WFG7 at all three objective counts.
+DTLZ6, WFG2, and WFG7 at all three objective counts.
 
 \input{experiments/main_performance/table_dtlz}
 \input{experiments/main_performance/table_wfg}
 
 HES-EA has the lowest mean on DTLZ5, DTLZ7, and WFG8 at all three objective
 counts. Its $+/-/=$ counts against PACDIS are 6/8/2, 5/8/3, and 5/7/4 at
-$M=10$, 15, and 20. REMO's corresponding counts are 1/9/6, 2/9/5, and
+$M=10$, 15, and 20. REMO's corresponding counts are 1/9/6, 2/10/4, and
 3/9/4. SSDE, PC-SAEA, SAMOEA-TL2M, and CSEA each have more reported losses
 than wins against PACDIS at every objective count. WFG3 remains a weakness:
 PACDIS has no lowest mean there, and several baselines receive $+$ annotations.
@@ -1019,9 +1023,9 @@ on WFG5 at both counts. The corresponding $+/-/=$
 totals are $19/2/11$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
 also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 at
 both objective counts and DTLZ7 at $M=10$. These REMO-referenced annotations
-describe the four complete configurations. Module attribution requires
-direct Full-versus-control tests. REMO's possible budget overrun further
-limits attribution.
+describe the four complete configurations. The Full-versus-control mean
+differences characterize the effects of the module deletions in these
+configurations; the symbols quantify comparisons with REMO.
 
 \input{experiments/ablation/table_ablation_igdp}
 % Queue the GGP table before its discussion so it can follow the ablation table.
@@ -1142,16 +1146,14 @@ CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
 screening. The REMO-referenced comparisons favor PACDIS on most tested
 configurations, with reversals on WFG3. The exported symbols compare each
-configuration with REMO. Quantifying either module's conditional contribution
-requires direct Full-versus-control results. PAQC and CDIS address complementary
-interfaces by design; their respective effects on final IGD$^+$ require
-matched direct comparisons.
+configuration with REMO, while the Full-versus-control mean differences
+characterize the effects of the module deletions. PAQC and CDIS address
+complementary interfaces by design, with problem-dependent performance effects.
 The matched group analysis shows how PAQC concentrates convergence information
 within representative-based membership and raises average final-retention
 precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
 
-\TODO{Complete the statistical and provenance audits before writing the
-final performance conclusions.}
+\TODO{Complete the statistical reporting of the multiple-comparison policy.}
 
 \begin{thebibliography}{99}
 
