@@ -10,7 +10,7 @@ section = tex[start:end]
 table = (HERE/'table_ggp.tex').read_text(encoding='utf-8')
 appendix = (HERE/'appendix_ggp.tex').read_text(encoding='utf-8')
 complete_table = (HERE/'table_ggp_complete.tex').read_text(encoding='utf-8')
-conclusion = tex[tex.index('The matched group analysis shows'):tex.index('\\TODO{Complete the statistical',tex.index('The matched group analysis shows'))]
+conclusion = tex[tex.index('The matched group analysis shows'):tex.index(r'\begin{thebibliography}',tex.index('The matched group analysis shows'))]
 text = '\n'.join(line for line in (section+'\n'+table+'\n'+conclusion+'\n'+appendix+'\n'+complete_table).splitlines() if not line.lstrip().startswith('%'))
 flat = re.sub(r'\s+', ' ', text)
 checks = {
