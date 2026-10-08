@@ -1,0 +1,31 @@
+\appendix
+\section{Grouping Signals Favor Different Outcomes}
+\label{app:ggp}
+\setcounter{table}{0}
+\renewcommand{\thetable}{\Alph{section}.\arabic{table}}
+% Keep appendix destinations distinct after resetting the printed table counter.
+\renewcommand{\theHtable}{\Alph{section}.\arabic{table}}
+
+The direction-only control separates directional convergence ranking from
+representative-based membership. Table~\ref{tab:app:ggp} reports all three
+grouping rules on the same 160 runs and 5440 checkpoints from
+Section~\ref{sec:exp:ggp}. It retains the same 25-solution quota, run-level
+aggregation, and Holm correction across 32 comparisons.
+
+Direction-only grouping achieves higher current convergence precision than
+PAQC in all eight configurations, with overall means of 95.97\% and 73.68\%.
+PAQC achieves higher overall final-retention precision, 53.58\% versus 50.07\%,
+and higher mean retention in seven configurations. Holm-adjusted tests favor
+PAQC in three configurations and detect no difference in the other five.
+DTLZ4 provides the largest retention gains over direction: 13.01 and
+9.89 percentage points at $M=10$ and 20, with all 20 paired runs favoring
+PAQC at each objective count. Direction has a 0.48-point mean retention
+advantage on DTLZ7 at $M=10$, without a detected difference after correction.
+
+These results associate representative membership with greater subsequent
+retention while directional ranking supplies stronger low-$g$ discrimination.
+The recorded checkpoints compare group composition along PACDIS trajectories;
+comparing final IGD$^+$ after replacing PAQC with direction-only grouping
+requires an online control.
+
+\input{experiments/ggp/table_ggp_complete}

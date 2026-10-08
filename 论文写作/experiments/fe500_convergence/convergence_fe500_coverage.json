@@ -1,178 +1,626 @@
 {
   "DTLZ1": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "REMO": {
-      "first_fe": 100,
-      "last_fe": 501,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        501
+      ],
+      "last_saved_fe_le500_range": [
+        469,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 1
     },
     "PCSAEA": {
-      "first_fe": 329,
-      "last_fe": 510,
-      "points_per_run_min": 14,
-      "points_per_run_max": 17
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        509,
+        510
+      ],
+      "last_saved_fe_le500_range": [
+        497,
+        498
+      ],
+      "snapshot_count_range": [
+        14,
+        17
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "CSEA": {
-      "first_fe": 109,
-      "last_fe": 511,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        500,
+        511
+      ],
+      "last_saved_fe_le500_range": [
+        477,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 19
     },
     "HES_EA": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        469,
+        479
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "SSDE": {
-      "first_fe": 100,
-      "last_fe": 511,
-      "points_per_run_min": 22,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        511
+      ],
+      "last_saved_fe_le500_range": [
+        484,
+        500
+      ],
+      "snapshot_count_range": [
+        22,
+        30
+      ],
+      "snapshots_above_budget_excluded": 19
     },
     "SAMOEATL2M": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        479
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     }
   },
   "DTLZ6": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "REMO": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "PCSAEA": {
-      "first_fe": 329,
-      "last_fe": 510,
-      "points_per_run_min": 14,
-      "points_per_run_max": 17
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        509,
+        510
+      ],
+      "last_saved_fe_le500_range": [
+        497,
+        498
+      ],
+      "snapshot_count_range": [
+        14,
+        17
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "CSEA": {
-      "first_fe": 109,
-      "last_fe": 505,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        502,
+        505
+      ],
+      "last_saved_fe_le500_range": [
+        478,
+        481
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "HES_EA": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        469,
+        479
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "SSDE": {
-      "first_fe": 100,
-      "last_fe": 509,
-      "points_per_run_min": 27,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        509
+      ],
+      "last_saved_fe_le500_range": [
+        475,
+        500
+      ],
+      "snapshot_count_range": [
+        27,
+        30
+      ],
+      "snapshots_above_budget_excluded": 19
     },
     "SAMOEATL2M": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        479
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     }
   },
   "WFG2": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "REMO": {
-      "first_fe": 100,
-      "last_fe": 501,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        501
+      ],
+      "last_saved_fe_le500_range": [
+        472,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 2
     },
     "PCSAEA": {
-      "first_fe": 340,
-      "last_fe": 507,
-      "points_per_run_min": 13,
-      "points_per_run_max": 13
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        507,
+        507
+      ],
+      "last_saved_fe_le500_range": [
+        495,
+        495
+      ],
+      "snapshot_count_range": [
+        13,
+        13
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "CSEA": {
-      "first_fe": 109,
-      "last_fe": 511,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        500,
+        511
+      ],
+      "last_saved_fe_le500_range": [
+        472,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 19
     },
     "HES_EA": {
-      "first_fe": 340,
-      "last_fe": 500,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "SSDE": {
-      "first_fe": 100,
-      "last_fe": 513,
-      "points_per_run_min": 21,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        501,
+        513
+      ],
+      "last_saved_fe_le500_range": [
+        472,
+        498
+      ],
+      "snapshot_count_range": [
+        21,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "SAMOEATL2M": {
-      "first_fe": 340,
-      "last_fe": 500,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     }
   },
   "WFG7": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "REMO": {
-      "first_fe": 100,
-      "last_fe": 500,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 0
     },
     "PCSAEA": {
-      "first_fe": 329,
-      "last_fe": 509,
-      "points_per_run_min": 14,
-      "points_per_run_max": 14
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        509,
+        509
+      ],
+      "last_saved_fe_le500_range": [
+        497,
+        497
+      ],
+      "snapshot_count_range": [
+        14,
+        14
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "CSEA": {
-      "first_fe": 109,
-      "last_fe": 511,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        500,
+        511
+      ],
+      "last_saved_fe_le500_range": [
+        472,
+        500
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 17
     },
     "HES_EA": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 18,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        469,
+        479
+      ],
+      "snapshot_count_range": [
+        18,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     },
     "SSDE": {
-      "first_fe": 100,
-      "last_fe": 510,
-      "points_per_run_min": 24,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        510
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        500
+      ],
+      "snapshot_count_range": [
+        24,
+        30
+      ],
+      "snapshots_above_budget_excluded": 18
     },
     "SAMOEATL2M": {
-      "first_fe": 329,
-      "last_fe": 504,
-      "points_per_run_min": 30,
-      "points_per_run_max": 30
+      "runs": 20,
+      "D": 30,
+      "first_saved_fe_range": [
+        329,
+        329
+      ],
+      "first_plotted_fe": 329,
+      "terminal_fe_range": [
+        504,
+        504
+      ],
+      "last_saved_fe_le500_range": [
+        479,
+        479
+      ],
+      "snapshot_count_range": [
+        30,
+        30
+      ],
+      "snapshots_above_budget_excluded": 20
     }
   }
 }

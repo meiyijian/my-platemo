@@ -63,8 +63,8 @@
       "baseline_plus_minus_equal": {
         "REMO": [
           2,
-          9,
-          5
+          10,
+          4
         ],
         "SSDE": [
           1,
@@ -93,14 +93,14 @@
         ]
       },
       "best_mean_counts": {
-        "REMO": 3,
-        "PACDIS": 5,
+        "REMO": 4,
+        "PACDIS": 4,
         "HES-EA": 6,
         "SAMOEA-TL2M": 1,
         "SSDE": 1
       },
       "lower_mean_counts": {
-        "REMO": 12,
+        "REMO": 11,
         "SSDE": 15,
         "PC-SAEA": 16,
         "SAMOEA-TL2M": 15,
@@ -109,7 +109,6 @@
       },
       "best_mean_problems_PACDIS": [
         "DTLZ2",
-        "DTLZ4",
         "DTLZ6",
         "WFG2",
         "WFG7"
@@ -175,8 +174,8 @@
       "baseline_plus_minus_equal": {
         "REMO": [
           3,
-          6,
-          12
+          7,
+          11
         ],
         "SSDE": [
           0,

@@ -1,5 +1,7 @@
 # REMO 参照的 IGD+ 消融表
 
+2026-10-07 用户决定取消“必须补Full与两组删除对照直接检验”的待办。现有均值比较用于讨论模块删除的表现变化，表内检验符号仍只相对REMO；未补造Full-versus-control的p值。下方关于直接检验的说明是证据边界，不再作为必做实验计划。
+
 `table_ablation_igdp.tex` 由 `build_remo_reference.py` 根据 `sources/` 中两份原始工作簿生成。工作簿来自 `C:\Users\lsx\Desktop\AdaMao实验表\消融实验\nobatchdict版本\`，分别覆盖 M=10 和 M=20 的 DTLZ1--7、WFG1--9。源文件名保留了原来的 `RMEO` 拼写。
 
 | 源文件 | SHA-256 |

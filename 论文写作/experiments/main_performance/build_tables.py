@@ -14,8 +14,8 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-# Source set as of 2026-09-23: the FE500 / requested runs 1-20
-# seven-algorithm export. Some baseline cells have fewer stored runs.
+# Current source set: the refreshed FE500 seven-algorithm workbooks.
+# The authors specify 20 runs per cell; local MAT coverage is a separate audit.
 # Previous source set (git history, commit e8387bf and earlier): the FE300 /
 # runs 1-20 export lambdat030nobatch{十,十五,二十}目标IGDp.xlsx, whose baseline
 # columns were REMO / PIEA / CSEA / PCSAEA_N100 / KRVEA_100 / MCEAD.
