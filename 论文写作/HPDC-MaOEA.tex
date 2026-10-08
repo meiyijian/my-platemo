@@ -46,6 +46,7 @@
 
 \newcommand{\vf}{\mathbf{f}}
 \newcommand{\vx}{\mathbf{x}}
+\newcommand{\vy}{\mathbf{y}}
 \newcommand{\vv}{\mathbf{v}}
 \newcommand{\vu}{\mathbf{u}}
 \newcommand{\vw}{\mathbf{w}}
@@ -96,21 +97,25 @@ Ranking candidates solely by relation scores also leaves classification ambiguit
 and indicator information outside the selection rule. We propose PACDIS, a
 surrogate-assisted evolutionary algorithm that combines PBI-assisted quality
 classification (PAQC) with criterion-diversified infill selection (CDIS).
-PAQC supplements representative-based labels with continuous PBI scores along
-directions derived from current nondominated objective vectors, with uniform
-directions as a fallback. A fusion weight that changes with evaluation progress
+PAQC supplements representative-based labels with continuous PBI scores.
+Both signals use a common estimated ideal point for direction construction,
+association, and distance evaluation. Current nondominated solutions provide
+the continuous-assessment directions, with uniform directions as a fallback.
+A fusion weight that changes with evaluation progress
 determines positive-group membership for relation learning.
 CDIS first screens candidates by relation quality, then applies ambiguity-oriented
 or indicator-oriented ranking to select an expensive-evaluation batch.
 These modes use classification ambiguity and a separate quality-indicator
-surrogate, respectively. Experiments compare PACDIS with six algorithms on
+surrogate, respectively. Archived experiments compare PACDIS with six algorithms on
 48 DTLZ and WFG configurations with 10, 15, and 20 objectives under a configured
 budget of 500 evaluations. PACDIS achieves the lowest mean inverted generational
 distance plus (IGD$^+$) in 15 configurations, including DTLZ6, WFG2, and WFG7
-at all three objective counts. A separate analysis of matched population
+at all three objective counts in those recorded runs. A separate analysis of matched population
 checkpoints shows that PAQC increases the average proportion of selected solutions
 retained in the final population from 49.18\% to 53.58\% relative to
 representative-margin grouping at the same quota.
+These archived results require matched validation for the common ideal-point
+formulation.
 \end{abstract}
 
 \begin{keyword}
@@ -194,7 +199,9 @@ training-group construction and infill selection within REMO's relation-learning
 framework (Fig.~\ref{fig:framework}).
 \emph{PBI-assisted quality classification} (PAQC) supplements representative-based
 labels with PBI quality along directions derived from current nondominated
-solutions when this construction is available. A fusion that changes with
+solutions relative to the current estimated ideal point when this construction
+is available. Both assessment signals use this point as their common geometric
+reference. A fusion that changes with
 evaluation progress determines the positive training group.
 \emph{Criterion-diversified infill selection} (CDIS) screens candidates by
 relation quality, then selects an evaluation batch through one of two modes.
@@ -220,7 +227,7 @@ pass this initial assessment.
 \end{enumerate}
 
 % Results preview: descriptive means from the current FE500 table snapshot.
-We compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
+The archived experiments compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
 15, and 20 objectives under a configured budget of 500 evaluations.
 PACDIS achieves the lowest mean inverted generational distance plus (IGD$^+$)
 in 15 configurations, including DTLZ6, WFG2, and WFG7 at all three
@@ -228,6 +235,8 @@ objective counts (Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}).
 Separate experiments compare algorithm variants and examine the probability
 of selecting each infill mode
 (Sections~\ref{sec:exp:ablation} and~\ref{sec:exp:pmix}).
+Section~\ref{sec:exp:evidence} states the scope of these archived results for
+the common ideal-point formulation.
 
 % Roadmap: preserve the manuscript's existing section structure.
 Section~\ref{sec:related} reviews surrogate targets, relation-learning
@@ -371,7 +380,8 @@ expensive-evaluation allocation through CDIS.
 \emph{PBI-assisted quality classification} (PAQC) augments the
 representative-based grouping of REMO~\cite{ref:remo} with PBI-based quality
 information from directions constructed directly from the current nondominated
-set. This additional source enriches the distribution information available for
+set relative to the estimated ideal point. The representative-based signal uses
+the same point for association and distance evaluation. This additional source enriches the distribution information available for
 relation-group construction. PAQC fuses the two signals to determine which
 solutions enter the positive training group.
 \emph{Criterion-diversified infill selection} (CDIS) retains relation-guided
@@ -469,13 +479,16 @@ original many-objective space.
 
 PAQC supplements this representative-based grouping signal with quality
 information derived directly from the current nondominated solutions.
-It constructs reference directions from their original objective vectors,
+It constructs reference directions from their displacements relative to the
+current estimated ideal point,
 bypassing radial-grid representative selection, and uses PBI to assess evaluated
 solutions along these directions. A stage-dependent fusion combines the
-directional quality information with the original representative-based labels.
+directional quality information with representative-based labels. Both signals
+construct directions, associate solutions, and measure distances relative to
+the same estimated ideal point.
 The highest-ranked fraction forms the positive training group, and the remaining
 solutions form its complement. PAQC thus retains REMO's representative-based
-signal while adding another information source for relation-group construction.
+classification rule while adding another information source for relation-group construction.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -484,50 +497,60 @@ signals and their roles in grouping.
 \centering
 \includegraphics[width=\columnwidth]{figures/paqc_reference_edit/paqc_geometry_v5_editable.pdf}
 \caption{Conceptual illustration of representative-based classification and
-PAQC. Black rays connect the ideal point $Z$ to representative solutions, and
+PAQC. Black and blue rays originate at the current estimated ideal point $Z$.
+Black rays point toward representative solutions, and
 orange dash-dotted segments indicate local classification thresholds. Blue
-dashed rays show directions constructed from nondominated solutions $P_1$ and
+dashed rays point toward current nondominated solutions $P_1$ and
 $P_2$. In (a), ``Good group'' and ``Bad group'' denote the binary labels
 $L_i=1$ and $L_i=0$; in (b), they denote $\mathcal{C}_1$ and
 $\mathcal{C}_2$, respectively. Blue rings highlight the reassignment of $A$
 and $B$. The PF is an external reference only. Selected solutions and schematic
-boundaries are shown, rather than a complete population or a numerically
-evaluated example. Geometric presentation adapted from REMO~\cite{ref:remo}.}
+boundaries illustrate the two signals; they do not specify a complete population
+or a numerical example. Geometric presentation adapted from REMO~\cite{ref:remo}.}
 \label{fig:paqc-mechanism}
 \end{figure}
 
 For PAQC, $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$ is the
-current population, with $N=|\mathcal{P}|$, and $\vz^{*}=\min_i\vf_i$ the component-wise population
-minimum, taken as the ideal point.
+current population, with $N=|\mathcal{P}|$. We estimate the ideal point as the
+component-wise population minimum $\vz^{*}=\min_i\vf_i$ and define
+$\vy_i=\vf_i-\vz^{*}$. Both PAQC signals use this common displacement
+coordinate system, with $\vz^{*}$ as its origin. We translate the objective
+vectors without rescaling individual objectives.
 
 \subsubsection{Quality Assessment Using Nondominated-Derived Directions}
 \label{sec:method:paqc:cont}
 
 The current nondominated solutions provide the additional directional information.
 Let $\{\vf^{(j)}\}_{j=1}^{n_{\mathrm{ND}}}$ denote the objective vectors of
-the first nondominated front. PAQC normalises these original objective vectors
-to construct the reference-direction set $\mathcal{V}=\{\vv_j\}$:
+the first nondominated front, and let
+$\mathcal{J}=\{j\mid\|\vf^{(j)}-\vz^{*}\|_2>0\}$.
+PAQC normalises their nonzero displacements to construct the direction set:
 \begin{equation}
-\mathcal{V}=\Bigl\{\vf^{(j)}\big/\bigl\|\vf^{(j)}\bigr\|_2
-\;\Bigm|\;j=1,\ldots,n_{\mathrm{ND}}\Bigr\}.
+\begin{aligned}
+\vv_j&=\frac{\vf^{(j)}-\vz^{*}}{\|\vf^{(j)}-\vz^{*}\|_2},
+\qquad j\in\mathcal{J},\\
+\mathcal{V}&=\{\vv_j\mid j\in\mathcal{J}\}.
+\end{aligned}
 \label{eq:direction}
 \end{equation}
 The number and orientations of these directions follow the current nondominated
-distribution in the original objective space. This construction uses the
-nondominated vectors directly, without radial-grid representative selection.
+distribution relative to $\vz^{*}$. Each direction defines a ray from $\vz^{*}$
+through its source solution. This construction uses the nondominated solutions
+directly, without radial-grid representative selection.
 When the adaptive construction is not applicable, PAQC uses uniformly distributed
 reference directions as a fallback. This includes $M\leq3$, $N<50$, too few
-nondominated solutions, or a degenerate objective range in the nondominated set.
+nondominated solutions, a degenerate objective range in the nondominated set,
+or an empty $\mathcal{J}$.
 
-Each objective vector is associated with the direction of largest cosine
-similarity, $a(i)=\arg\max_j
-\vf_i^{\mathsf T}\vv_j/(\|\vf_i\|_2\|\vv_j\|_2)$. The conventional
+For $\vy_i\ne\boldsymbol{0}$, PAQC associates the solution with the direction
+of largest cosine similarity,
+$a(i)=\arg\max_j\vy_i^{\mathsf T}\vv_j/\|\vy_i\|_2$.
+All directions have unit length. The conventional
 PBI value~\cite{ref:moead} and its bounded PAQC quality signal are
 \begin{equation}
 \begin{aligned}
-d_{1,i}&=(\vf_i-\vz^{*})^{\mathsf T}\vv_{a(i)}\big/\|\vv_{a(i)}\|_2,\\
-d_{2,i}&=\bigl\|\vf_i-\bigl(\vz^{*}
-        +d_{1,i}\,\vv_{a(i)}/\|\vv_{a(i)}\|_2\bigr)\bigr\|_2,\\
+d_{1,i}&=\vy_i^{\mathsf T}\vv_{a(i)},\\
+d_{2,i}&=\|\vy_i-d_{1,i}\vv_{a(i)}\|_2,\\
 g_i^{\mathrm{PBI}}&=d_{1,i}+\theta\,d_{2,i},\\
 S_i&=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 \end{aligned}
@@ -536,34 +559,48 @@ S_i&=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 where $\theta\geq0$ is the penalty parameter. A larger $S_i$ indicates a smaller
 PBI value along the associated direction.
 
-Direction construction and PBI evaluation share the original objective
-coordinate system. Cosine association selects an orientation from the
-population, while PBI measures displacement
-from $\vz^{*}$ along that orientation~\cite{ref:moead}. For the nonnegative
-objectives considered here, $\vv_j\geq\boldsymbol{0}$ and
-$\vf_i-\vz^{*}\geq\boldsymbol{0}$ imply $g_i^{\mathrm{PBI}}\geq0$, giving
-$S_i\in(0,1]$. The angular formulas require nonzero vectors; at
-$\vf_i=\vz^{*}$, any valid direction gives $S_i=1$.
+Direction construction, cosine association, and PBI evaluation all use
+displacements from $\vz^{*}$. The population minimum gives
+$\vy_i\geq\boldsymbol{0}$; both adaptive and uniform directions are
+nonnegative, so $g_i^{\mathrm{PBI}}\geq0$ and $S_i\in(0,1]$.
+For $\vy_i=\boldsymbol{0}$, PAQC assigns $d_{1,i}=d_{2,i}=0$ and $S_i=1$
+directly, bypassing cosine association.
+
+In the adaptive branch, each nondominated solution with nonzero displacement
+aligns with its own direction in $\mathcal{V}$. Its perpendicular distance is
+therefore zero, and \eqref{eq:pbi} reduces to
+\begin{equation}
+S_i=\frac{1}{1+\|\vf_i-\vz^{*}\|_2},
+\qquad \vf_i\in\mathcal{P}^{\mathrm{ND}}.
+\label{eq:pbi-nd}
+\end{equation}
+Here $\mathcal{P}^{\mathrm{ND}}$ denotes the current nondominated objective set.
+On this set, $S_i$ ranks radial distance to $\vz^{*}$. For other solutions,
+$d_{2,i}$ also penalises deviation from the associated direction.
+The uniform-direction fallback uses the full PBI expression in \eqref{eq:pbi}.
 
 \subsubsection{Representative-Based Grouping Signal}
 \label{sec:method:paqc:coarse}
 
-PAQC retains the representative-based grouping signal used in REMO~\cite{ref:remo}.
+PAQC uses REMO's representative-based PBI classification rule~\cite{ref:remo}
+within the same displacement coordinate system.
 RSEA's radial-grid selection~\cite{ref:rsea} supplies a small set
 $\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions from the current
-population. These representatives induce the original binary grouping signal. The
+population. These representatives supply the binary grouping signal. The
 representatives are evaluated solutions that act as dynamic, population-derived
 reference points. We set the requested representative count to
 $k=\lceil1.5M\rceil$ in the considered experiments; the implementation bounds
 are given in Section~\ref{sec:exp:settings}.
 
-Given $\mathcal{R}$, the binary group label applies the PBI partition of
-REMO~\cite{ref:remo} with the representatives as reference points. Every
-solution is associated with the representative $\vr_{b(i)}$ of largest cosine
-similarity, the associated direction is
-$\vw_{b(i)}=(\vr_{b(i)}-\vz^{*})/\|\vr_{b(i)}-\vz^{*}\|_2$, the two distances
-$\hat d_{1,i},\hat d_{2,i}$ are formed as in \eqref{eq:pbi} with
-$\vv_{a(i)}$ replaced by $\vw_{b(i)}$, and the binary label is
+For each representative, define $\bar{\vr}_j=\vr_j-\vz^{*}$.
+PAQC excludes zero-displacement representatives from directional association
+and sets $\vw_j=\bar{\vr}_j/\|\bar{\vr}_j\|_2$ for the remaining ones.
+For $\vy_i\ne\boldsymbol{0}$, it selects
+$b(i)=\arg\max_j\vy_i^{\mathsf T}\vw_j/\|\vy_i\|_2$.
+Using this associated direction, the two distances are
+$\hat d_{1,i}=\vy_i^{\mathsf T}\vw_{b(i)}$ and
+$\hat d_{2,i}=\|\vy_i-\hat d_{1,i}\vw_{b(i)}\|_2$.
+The binary label is
 \begin{equation}
 L_i=\mathbb{I}\!\left[
 \frac{\hat d_{1,i}+\delta\,\hat d_{2,i}}
@@ -573,16 +610,23 @@ L_i=\mathbb{I}\!\left[
 Normalising by $\|\vr_{b(i)}-\vz^{*}\|_2$ makes the associated representative
 itself the threshold, so $L_i$ records on which side of the surface through that
 representative a solution lies. This normalisation requires
-$\vr_{b(i)}\ne\vz^{*}$. Following REMO, the class-balance variable
-$\delta$ is adjusted by bounded bisection so that the boundary maintains useful
-occupancy on both sides across changing population states.
+$\vr_{b(i)}\ne\vz^{*}$. PAQC assigns $L_i=1$ directly when
+$\vy_i=\boldsymbol{0}$. If no representative has nonzero displacement,
+it sets $L_i=\mathbb{I}[\|\vy_i\|_2=0]$ and bypasses directional classification.
+Otherwise, bounded bisection adjusts the signed class-balance coefficient
+$\delta\in[-20,20]$ toward a positive-label fraction in $[0.3,0.7]$,
+stopping when it reaches that interval or the search bracket is narrower than
+$0.1$. The target fraction need not be attainable in a degenerate population.
 
 \subsubsection{Complementary-Signal Fusion for Positive-Group Construction}
 \label{sec:method:paqc:hybrid}
 
 The representative-based label describes membership relative to the selected
 reference solutions, while the nondominated-derived directions supply additional
-quality information from the original objective space. With
+quality information relative to the same estimated ideal point. For fixed
+solutions and representatives, both signals are invariant to a common additive
+translation of the objective vectors because all calculations use their
+displacements from $\vz^{*}$. With
 $t=FE/FE_{\max}$, PAQC defines the hybrid quality score and the two groups as
 \begin{equation}
 \begin{aligned}
@@ -602,22 +646,23 @@ signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
 thresholds used to obtain $L_i$. In panel~(b), the nondominated solutions
 $P_1$ and $P_2$ supply the adaptive directions $\vv_1$ and $\vv_2$ through
 \eqref{eq:direction}; these directions provide an additional directional
-assessment through $S_i$, rather than directly defining a new classification
-boundary. The reassignment of $A$ and $B$ to the positive
+assessment through $S_i$. The fusion determines positive-group membership.
+The reassignment of $A$ and $B$ to the positive
 group and of $C$ to its complement schematically depicts how the additional
 directional information can change selection priorities through
 \eqref{eq:group}. PAQC therefore modifies the ranking used to form
 the groups, without replacing the representative-based boundary with a new
 geometric boundary.
 
-The diagram uses two objectives to visualise the two grouping signals; it is
-not the radial projection used by RSEA and does not demonstrate projection loss.
-Setting $O=Z$ makes the radial
-construction in \eqref{eq:direction} visible as rays through $P_1$ and $P_2$.
-These two solutions are placed on the PF for illustration, whereas the
-implementation uses the current nondominated set and does not require the true
-PF. Their displayed positive-group membership is an illustrative assignment,
-not a consequence guaranteed by nondominance.
+The diagram uses two objectives to visualise the common ideal-point geometry.
+The label $O=Z$ marks the origin of the displacement coordinates; it does not
+assume that the estimated ideal point equals the origin of the original
+objective coordinates. Both sets of rays start at $Z$, and the adaptive rays
+pass through $P_1$ and $P_2$ by \eqref{eq:direction}.
+The drawn PF serves only as an external visual reference: PAQC uses current
+nondominated solutions to construct these directions. Their displayed
+positive-group membership illustrates the fusion; nondominance alone does
+not guarantee membership in $\mathcal{C}_1$.
 
 Algorithm~\ref{alg:paqc} summarises the construction. Population order resolves
 ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
@@ -628,10 +673,16 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 \begin{algorithmic}[1]
 \Require evaluated population $\mathcal{P}$, progress $t$
 \Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
-\State Construct $\mathcal{V}$ and associate solutions by cosine similarity
-\State Compute directional quality signal $S_i$ by \eqref{eq:pbi}
+\State $\vz^{*}\gets\min_i\vf_i$; $\vy_i\gets\vf_i-\vz^{*}$
+\State Construct $\mathcal{V}$ from nonzero nondominated displacements
+\State Use uniform directions when the adaptive construction is unavailable
+\State Associate nonzero $\vy_i$ with $\mathcal{V}$ by cosine similarity
+\State Compute $S_i$ by \eqref{eq:pbi} for nonzero displacements
+\State Assign $S_i\gets1$ at the ideal point
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
-\State Obtain representative-based labels $L_i$ by \eqref{eq:label-bin}
+\State Form representative directions from $\vr_j-\vz^{*}$
+\State Associate nonzero $\vy_i$ with valid representative directions
+\State Obtain $L_i$ by \eqref{eq:label-bin}, with the stated zero-displacement rules
 \State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
 \State $\mathcal{C}_1\gets$ the top $\lceil|\mathcal{P}|/4\rceil$ solutions under $H_i$
 \State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$
@@ -642,8 +693,9 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 By changing membership of $\mathcal{C}_1$, the fusion changes the ordered pairs
 used to train the relation model. As $FE$ increases, group construction shifts
 from directional quality toward representative-based membership; the
-group-quality analysis in Section~\ref{sec:exp:ggp} examines the resulting
-positive-group quality.
+archived analysis in Section~\ref{sec:exp:ggp} examines positive groups from
+the recorded grouping protocol, within the evidence scope stated in
+Section~\ref{sec:exp:evidence}.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -886,6 +938,14 @@ check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode se
 \section{Experimental Studies}
 \label{sec:exp}
 
+\paragraph{Scope of the archived evidence.}
+\label{sec:exp:evidence}
+The tables, curves, and checkpoint analyses below report the archived PACDIS
+runs under their recorded experimental protocols. They retain their original
+numerical results and run identities. Matched validation of the common
+ideal-point formulation in Section~\ref{sec:method:paqc} remains necessary
+before assigning these measurements to that formulation.
+
 \subsection{Experimental Settings}
 \label{sec:exp:settings}
 
@@ -926,11 +986,13 @@ The actual returned representative count can be smaller.
 No error-gate threshold or minimum-batch
 parameter is used in this version.
 
-\paragraph{Implementation details.}
-The implementation retains uniform reference vectors for low-dimensional or
-small-population cases and when adaptive direction construction is unavailable.
-Direction construction, cosine association, and ideal-point distances follow
-Section~\ref{sec:method:paqc:cont}.
+\paragraph{Conventions of the revised formulation.}
+Section~\ref{sec:method:paqc} specifies the common ideal-point formulation:
+both signals use the same population minimum, exclude zero-length directions,
+and assign scores directly at the ideal point. It uses uniform directions when
+adaptive construction is unavailable. These conventions describe the revised
+formulation; Section~\ref{sec:exp:evidence} limits the scope of the archived
+measurements.
 
 \paragraph{Performance indicator and statistical reporting.}
 Performance is measured by inverted generational distance plus (IGD$^+$), with
@@ -1009,7 +1071,7 @@ under the 500-evaluation budget.
 \subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
 
-We compare the current PACDIS implementation (Full), two deletion controls,
+The archived comparison includes PACDIS (Full), two deletion controls,
 and REMO. The w/o PAQC control uses REMO's representative-based PBI
 classification in place of PAQC's fused group construction. The REMO
 classifier adapts its PBI threshold, giving a variable positive-group size;
@@ -1053,7 +1115,7 @@ configurations; the symbols quantify comparisons with REMO.
 \label{sec:exp:ggp}
 
 % Claim: quantify the composition of the positive group on matched states.
-PAQC concentrates solutions with better convergence into its positive group
+In the archived checkpoints, PAQC concentrates solutions with better convergence into its positive group
 and improves average final-retention precision relative to representative-margin
 grouping at the same quota.
 We examine 160 PACDIS runs on DTLZ2, DTLZ4, DTLZ5, and DTLZ7, with
@@ -1066,13 +1128,13 @@ at $FE=100,106,\ldots,298$, giving 5440 checkpoints.\par
 
 % Controls: equal cardinality and identical evaluated population.
 The main comparison selects 25 solutions from the same evaluated population
-using either PAQC's $H$ or the representative margin $A$.
+using either the recorded hybrid score $H$ or the recorded representative margin $A$.
 We define $A$ as one minus
-the normalized representative-based PBI value inside the indicator in
-\eqref{eq:label-bin}. This continuous margin provides an equal-quota
+the normalized representative-based PBI value recorded by the archived
+classification protocol. This continuous margin provides an equal-quota
 representative control; the original binary label $L$ retains its natural
 group size in a separate descriptive comparison. \ref{app:ggp}
-adds the direction-only control $S$ to examine the role of representative
+adds the recorded direction-only control $S$ to examine the role of representative
 membership. All rankings resolve ties by population order.
 For a selected set $\mathcal{C}$ and an outcome-positive
 set $\mathcal{Y}^{+}$, good-group precision (GGP) is
@@ -1161,12 +1223,12 @@ representative-based grouping with directional quality information obtained
 from the current nondominated set to construct positive training groups.
 CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
-screening. The REMO-referenced comparisons favor PACDIS on most tested
+screening. The archived REMO-referenced comparisons favor PACDIS on most tested
 configurations, with reversals on WFG3. The exported symbols compare each
 configuration with REMO, while the Full-versus-control mean differences
 characterize the effects of the module deletions. PAQC and CDIS address
 complementary interfaces by design, with problem-dependent performance effects.
-The matched group analysis shows how PAQC concentrates convergence information
+The archived matched group analysis shows how PAQC concentrates convergence information
 within representative-based membership and raises average final-retention
 precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
 
