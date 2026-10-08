@@ -926,8 +926,13 @@ check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode se
 \renewcommand{\dbltopfraction}{0.90}
 \renewcommand{\dblfloatpagefraction}{0.75}
 \setcounter{dbltopnumber}{2}
-\setlength{\dbltextfloatsep}{14pt plus 2pt minus 2pt}
-\setlength{\dblfloatsep}{12pt plus 2pt minus 2pt}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{4}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\dbltextfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\dblfloatsep}{8pt plus 2pt minus 2pt}
 \makeatletter
 \setlength{\@fptop}{0pt}
 \setlength{\@dblfptop}{0pt}
@@ -1066,7 +1071,7 @@ These selected trajectories show problem-dependent convergence patterns
 under the 500-evaluation budget.
 
 \input{figures/figure_convergence_fe500}
-\FloatBarrier
+% Let the next discussion fill space below the grouped convergence figures.
 
 \subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
@@ -1232,6 +1237,8 @@ The archived matched group analysis shows how PAQC concentrates convergence info
 within representative-based membership and raises average final-retention
 precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
 
+
+\input{experiments/ggp/appendix_ggp}
 
 \begin{thebibliography}{99}
 
@@ -1405,7 +1412,5 @@ Y.~Tian, R.~Cheng, X.~Zhang, and Y.~Jin,
 \emph{IEEE Comput. Intell. Mag.}, vol.~12, no.~4, pp.~73--87, 2017.
 
 \end{thebibliography}
-
-\input{experiments/ggp/appendix_ggp}
 
 \end{document}

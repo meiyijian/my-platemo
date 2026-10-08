@@ -107,8 +107,8 @@ def main(from_exports=False):
 
 def write_table(means,sds,tests,overall,names,appendix):
     n = len(names)
-    env = 'table' if appendix else 'table*'
-    placement = 'htbp' if appendix else 't'
+    env = 'table*'
+    placement = '!t' if appendix else 't'
     label = 'tab:app:ggp' if appendix else 'tab:exp:ggp'
     caption = (r'Complete grouping controls on matched population checkpoints.' if appendix else
                r'PAQC versus representative-margin grouping on matched population checkpoints.')

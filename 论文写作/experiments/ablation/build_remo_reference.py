@@ -96,7 +96,7 @@ def tex_cell(cell: tuple[str, str, str | None], best: bool) -> str:
 
 def make_table(records: dict) -> str:
     lines = [
-        "\\begin{table*}[tp]",
+        "\\begin{table*}[!t]",
         "\\centering",
         "\\caption{IGD$^{+}$ ablation results on DTLZ1--7 and WFG1--9 with 10 and 20 objectives "
         "($N=100$; $FE=300$).}",
