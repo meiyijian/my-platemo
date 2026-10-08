@@ -526,15 +526,24 @@ PBI value~\cite{ref:moead} and its bounded PAQC quality signal are
 \begin{equation}
 \begin{aligned}
 d_{1,i}&=(\vf_i-\vz^{*})^{\mathsf T}\vv_{a(i)}\big/\|\vv_{a(i)}\|_2,\\
-d_{2,i}&=\bigl\|(\vf_i-\vz^{*})
-        -d_{1,i}\,\vv_{a(i)}/\|\vv_{a(i)}\|_2\bigr\|_2,\\
+d_{2,i}&=\bigl\|\vf_i-\bigl(\vz^{*}
+        +d_{1,i}\,\vv_{a(i)}/\|\vv_{a(i)}\|_2\bigr)\bigr\|_2,\\
 g_i^{\mathrm{PBI}}&=d_{1,i}+\theta\,d_{2,i},\\
 S_i&=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 \end{aligned}
 \label{eq:pbi}
 \end{equation}
-where $\theta$ is the penalty parameter. A larger $S_i$ indicates a smaller
+where $\theta\geq0$ is the penalty parameter. A larger $S_i$ indicates a smaller
 PBI value along the associated direction.
+
+Direction construction and PBI evaluation share the original objective
+coordinate system. Cosine association selects an orientation from the
+population, while PBI measures displacement
+from $\vz^{*}$ along that orientation~\cite{ref:moead}. For the nonnegative
+objectives considered here, $\vv_j\geq\boldsymbol{0}$ and
+$\vf_i-\vz^{*}\geq\boldsymbol{0}$ imply $g_i^{\mathrm{PBI}}\geq0$, giving
+$S_i\in(0,1]$. The angular formulas require nonzero vectors; at
+$\vf_i=\vz^{*}$, any valid direction gives $S_i=1$.
 
 \subsubsection{Representative-Based Grouping Signal}
 \label{sec:method:paqc:coarse}
@@ -563,7 +572,8 @@ L_i=\mathbb{I}\!\left[
 \end{equation}
 Normalising by $\|\vr_{b(i)}-\vz^{*}\|_2$ makes the associated representative
 itself the threshold, so $L_i$ records on which side of the surface through that
-representative a solution lies. Following REMO, the class-balance variable
+representative a solution lies. This normalisation requires
+$\vr_{b(i)}\ne\vz^{*}$. Following REMO, the class-balance variable
 $\delta$ is adjusted by bounded bisection so that the boundary maintains useful
 occupancy on both sides across changing population states.
 
@@ -919,9 +929,8 @@ parameter is used in this version.
 \paragraph{Implementation details.}
 The implementation retains uniform reference vectors for low-dimensional or
 small-population cases and when adaptive direction construction is unavailable.
-For reproducibility, cosine association uses the original objective vectors,
-whereas PBI distances use vectors translated by $\vz^{*}$, as specified in
-\eqref{eq:pbi}.
+Direction construction, cosine association, and ideal-point distances follow
+Section~\ref{sec:method:paqc:cont}.
 
 \paragraph{Performance indicator and statistical reporting.}
 Performance is measured by inverted generational distance plus (IGD$^+$), with
