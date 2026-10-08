@@ -588,14 +588,14 @@ $t=FE/FE_{\max}$, PAQC defines the hybrid quality score and the two groups as
 \begin{aligned}
 H_i&=(1-t)S_i+tL_i,\\
 \mathcal{C}_1&=\bigl\{\vx_i\in\mathcal{P}\;\big|\;
-  \operatorname{rank}_{\downarrow}(H_i)\leq\lceil r_gN\rceil\bigr\},\\
+  \operatorname{rank}_{\downarrow}(H_i)\leq\lceil N/4\rceil\bigr\},\\
 \mathcal{C}_2&=\mathcal{P}\setminus\mathcal{C}_1 .
 \end{aligned}
 \label{eq:group}
 \end{equation}
-With $r_g<1/2$, the compact positive group concentrates pairwise supervision on
-the highest-ranked fraction of the population, while $\mathcal{C}_2$ provides a
-broad contrast set.
+PAQC fixes the positive group to the top quarter of the population under $H_i$.
+The compact positive group concentrates pairwise supervision on the
+highest-ranked solutions, while $\mathcal{C}_2$ provides a broad contrast set.
 
 Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
 signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
@@ -619,9 +619,8 @@ implementation uses the current nondominated set and does not require the true
 PF. Their displayed positive-group membership is an illustrative assignment,
 not a consequence guaranteed by nondominance.
 
-Algorithm~\ref{alg:paqc} summarises the construction. Ties in the hybrid
-score are resolved by population order so that the positive group has exactly
-$\lceil r_gN\rceil$ members.
+Algorithm~\ref{alg:paqc} summarises the construction. Population order resolves
+ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 
 \begin{algorithm}[t]
 \caption{PBIQualityClassification (PAQC)}
@@ -634,7 +633,7 @@ $\lceil r_gN\rceil$ members.
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
 \State Obtain representative-based labels $L_i$ by \eqref{eq:label-bin}
 \State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
-\State $\mathcal{C}_1\gets$ the top $\lceil r_g|\mathcal{P}|\rceil$ solutions under $H_i$
+\State $\mathcal{C}_1\gets$ the top $\lceil|\mathcal{P}|/4\rceil$ solutions under $H_i$
 \State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$
 \State \Return $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})$
 \end{algorithmic}
@@ -666,11 +665,9 @@ with $\mathcal{C}_1,\mathcal{C}_2$ from \eqref{eq:group}, records the ordered
 group relation rather than a Pareto comparison. Both same-group pair types
 retain label~0 regardless of their members' $S_i$ or $H_i$ values. PAQC therefore
 changes the composition of the training groups; the relation labels do not
-encode quality ordering within either group. Because $r_g<1/2$ makes the
-same-group families larger than the cross-group ones, they are randomly
-subsampled towards the cross-group count, so the three labels of
-\eqref{eq:pairlabel} are balanced by construction rather than by a reweighted
-loss.
+encode quality ordering within either group. PAQC randomly subsamples
+same-group pairs towards the size of each cross-group class to balance the
+three labels of \eqref{eq:pairlabel}.
 
 We employ the same relation-learning architecture as REMO: min--max normalised
 pair inputs, a class-balanced training/held-out split, and a feed-forward pattern
@@ -1015,7 +1012,7 @@ We compare the current PACDIS implementation (Full), two deletion controls,
 and REMO. The w/o PAQC control uses REMO's representative-based PBI
 classification in place of PAQC's fused group construction. The REMO
 classifier adapts its PBI threshold, giving a variable positive-group size;
-Full fixes this size at 25\%. This control retains the indicator model and
+Full uses the fixed grouping rule in \eqref{eq:group}. This control retains the indicator model and
 criterion switching.
 
 The w/o CDIS control retains PAQC but removes the SDE indicator model,
