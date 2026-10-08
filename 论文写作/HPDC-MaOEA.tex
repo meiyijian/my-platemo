@@ -755,10 +755,23 @@ candidate order for exact ties.
 \label{sec:method:cdis:ind}
 
 The indicator-oriented mode provides an alternative assessment of candidates
-that pass relation-based screening. The quality indicator combines shift-based
-density estimation (SDE)~\cite{ref:sde} with generalized $L_p$ front-shape
-adaptation~\cite{ref:piea} and a finite convergence fallback. We compute this
-indicator $I_i$ for each solution in the current population and train an
+that pass relation-based screening. The quality indicator draws on the
+modified SDE assessment in PIEA~\cite[Section~4.2, Eqs.~(7)--(10)]{ref:piea}.
+Shift-based density estimation (SDE)~\cite{ref:sde} evaluates a solution
+through distances to neighboring objective vectors after shifting each
+neighbor's better objective components to the target solution's values.
+The convergence component uses the negative $L_p$ distance to the current
+ideal point, with larger values indicating better convergence.
+PIEA estimates $p$ by minimizing the standard deviation of these distances
+among current nondominated solutions, following the shape-estimation method
+of TwoREA~\cite{ref:tworea}. PIEA combines shifted-distance assessment of
+nondominated solutions with Minkowski convergence assessment of dominated
+solutions and maps the scores to a common bounded scale.
+
+For CDIS, the SDE and Minkowski convergence components supply the scalar
+quality target $I_i$, with a finite convergence fallback. Larger values
+indicate higher quality under the indicator. We compute $I_i$ for each solution in the
+current population and train an
 RBF-SVR, denoted by $\mathcal{M}_I$, on
 $\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; its prediction is written
 $\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D})$.
@@ -1224,6 +1237,13 @@ M.~Li, S.~Yang, and X.~Liu,
 ``Shift-based density estimation for Pareto-based algorithms in
 many-objective optimization,''
 \emph{IEEE Trans. Evol. Comput.}, vol.~18, no.~3, pp.~348--365, 2014.
+\href{https://doi.org/10.1109/TEVC.2013.2262178}{doi:10.1109/TEVC.2013.2262178}.
+
+\bibitem{ref:tworea}
+Z.~Liang, K.~Hu, X.~Ma, and Z.~Zhu,
+``A many-objective evolutionary algorithm based on a two-round selection
+strategy,'' \emph{IEEE Trans. Cybern.}, vol.~51, no.~3, pp.~1417--1429, 2021.
+\href{https://doi.org/10.1109/TCYB.2019.2918087}{doi:10.1109/TCYB.2019.2918087}.
 
 \bibitem{ref:ssde}
 A.~F.~R. Ara\'ujo, L.~R.~C. Farias, and A.~R.~C. Gon\c{c}alves,
