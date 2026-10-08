@@ -1138,9 +1138,9 @@ We define $A$ as one minus
 the normalized representative-based PBI value recorded by the archived
 classification protocol. This continuous margin provides an equal-quota
 representative control; the original binary label $L$ retains its natural
-group size in a separate descriptive comparison. \ref{app:ggp}
-adds the recorded direction-only control $S$ to examine the role of representative
-membership. All rankings resolve ties by population order.
+group size in a separate descriptive comparison. The archived analysis also
+includes the recorded direction-only control $S$ to examine the role of
+representative membership. All rankings resolve ties by population order.
 For a selected set $\mathcal{C}$ and an outcome-positive
 set $\mathcal{Y}^{+}$, good-group precision (GGP) is
 \begin{equation}
@@ -1170,7 +1170,7 @@ We first average the 34 checkpoints within each run, then summarize the
 means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
 compare PAQC with each control; Holm correction covers all 32 comparisons
 across the two outcomes, both controls, and eight configurations, including
-the direction-only comparisons in \ref{app:ggp}. Overall summaries give
+the archived direction-only comparisons. Overall summaries give
 equal weight to each configuration.
 
 % Convergence enrichment: a large, reproducible effect against the named control.
@@ -1186,7 +1186,7 @@ relative to the representative-margin control. It has a higher mean in
 seven of eight configurations, with six comparisons passing Holm correction;
 margin leads on DTLZ4 at $M=10$.
 The direction-only control has higher convergence precision but lower overall
-final-retention precision than PAQC (\ref{app:ggp}). This contrast
+final-retention precision than PAQC in the archived comparisons. This contrast
 links representative membership to subsequent retention along the recorded
 trajectories.
 
@@ -1237,8 +1237,6 @@ The archived matched group analysis shows how PAQC concentrates convergence info
 within representative-based membership and raises average final-retention
 precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
 
-
-\input{experiments/ggp/appendix_ggp}
 
 \begin{thebibliography}{99}
 

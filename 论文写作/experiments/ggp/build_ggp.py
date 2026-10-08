@@ -147,7 +147,7 @@ def write_table(means,sds,tests,overall,names,appendix):
         r'Chance is checkpoint prevalence for final retention; current convergence has a fixed chance level of 25\%.',
         r'The last row averages the eight configurations and carries no pooled significance test.']
     if not appendix:
-        lines.append(r'The correction family includes the direction-only control; \ref{app:ggp} reports all three rules together.')
+        lines.append(r'The correction family includes the direction-only control.')
     lines += [r'\end{minipage}',r'\end{'+env+'}','']
     output = 'table_ggp_complete.tex' if appendix else 'table_ggp.tex'
     (HERE/output).write_text('\n'.join(lines),encoding='utf-8')
