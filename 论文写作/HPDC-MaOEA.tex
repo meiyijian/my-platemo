@@ -723,8 +723,8 @@ The ambiguity-oriented mode first applies a relation-quality screen and then
 ranks the retained candidates using predicted quality and classification
 ambiguity. Its relation score uses the
 largest softmax class probability as the weight of each ordered pair in the
-family-wise averages of \eqref{eq:relscore}. This pair-level confidence
-weighting reduces the influence of unreliable relation predictions when
+family-wise averages of \eqref{eq:relscore}. This pair-level weighting gives
+less influence to comparisons with lower maximum class probabilities when
 estimating candidate quality.
 
 Let $q=0.30$ be the nominal fraction retained by relation-quality screening
@@ -855,13 +855,16 @@ $k=O(N)$ the module is dominated by $O(N^2M)$, and generating the relation pairs
 adds $O(N^2D)$.
 
 In CDIS, scoring one candidate requires $2N$ network inputs of
-dimension $2D$, so the pool costs $O(N_cND)$ in data construction and
-prediction, which dominates the module. The indicator fitness costs $O(N^2M)$,
-the indicator-oriented mode adds one SVR fit on the $N$ evaluated solutions plus
-predictions on the screened subset. Sorting the ambiguity-rewarded acquisition
+dimension $2D$. Constructing the inputs for the pool costs $O(N_cND)$.
+The relation network has a fixed number of dense layers with hidden-layer widths
+proportional to $D$, so predicting one ordered pair costs $O(D^2)$.
+Relation prediction over the pool therefore costs $O(N_cND^2)$.
+The indicator fitness costs $O(N^2M)$, and the indicator-oriented mode adds
+one SVR fit on the $N$ evaluated solutions plus predictions on the screened
+subset. Sorting the ambiguity-rewarded acquisition
 costs $O(N_c\log N_c)$.
 The corresponding cost, excluding surrogate fitting, is
-$O(N_cND+N^2M+N_c\log N_c)$.
+$O(N_cND^2+N^2M+N_c\log N_c)$.
 Neither module directly consumes expensive evaluations. The remaining-budget
 check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode sequence.
 
