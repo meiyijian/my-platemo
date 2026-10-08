@@ -99,7 +99,7 @@ def make_table(records: dict) -> str:
         "\\begin{table*}[tp]",
         "\\centering",
         "\\caption{IGD$^{+}$ ablation results on DTLZ1--7 and WFG1--9 with 10 and 20 objectives "
-        "($N=100$; configured $FE=300$).}",
+        "($N=100$; $FE=300$).}",
         "\\label{tab:ablation_igdplus}",
         "\\small",
         "\\setlength{\\tabcolsep}{3pt}",
@@ -147,8 +147,7 @@ def make_table(records: dict) -> str:
         "uses REMO's representative-based PBI classification with a variable "
         "positive-group size. The w/o CDIS control retains ambiguity "
         "ranking but removes indicator modeling and criterion switching. "
-        "REMO uses $k=15$ for $M=10$ and $k=30$ for $M=20$. "
-        "Its archived runs can exceed 300 actual evaluations.",
+        "REMO uses $k=15$ for $M=10$ and $k=30$ for $M=20$.",
         "\\end{minipage}",
         "\\end{table*}",
     ])

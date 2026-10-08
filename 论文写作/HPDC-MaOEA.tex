@@ -951,8 +951,7 @@ Each table entry summarizes 20 independent runs with identifiers 1--20,
 following the final experiment records supplied by the authors.
 The export script applies an unpaired rank-sum test at $p<0.05$ without a
 multiple-comparison adjustment. We retain its symbols without interpreting
-them as adjusted significance. We configure a 500-evaluation budget;
-actual terminal FE can differ across implementations.
+them as adjusted significance.
 \paragraph{Reference sets and execution environment.}
 We use PlatEMO's default DTLZ and WFG problem definitions with the $M$ and $D$
 settings above. PlatEMO constructs each reference set through the problem's
@@ -992,8 +991,7 @@ unit-FE grid, carrying forward each run's latest saved value between
 checkpoints. Initialization counts toward the budget; PC-SAEA, HES-EA, and
 SAMOEA-TL2M start at $FE=329$ for $D=30$ or $FE=340$ for $D=31$.
 We exclude all recorded metric values at $FE>500$ and use each run's latest
-eligible snapshot at the budget. The endpoints can therefore differ from the
-tables, which summarize terminal values.
+eligible snapshot at the budget.
 
 On DTLZ1, PACDIS continues to improve throughout the recorded interval,
 with REMO providing the closest endpoint comparison. SSDE initially reduces
@@ -1027,15 +1025,13 @@ representative-selection routine, candidate-generation threshold,
 environmental selection, batch-size cap, and absence of within-batch distance.
 
 The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
-with $N=100$ and a configured 300-evaluation cap that includes initialization.
-Full and the two controls each have 20 runs per configuration and end at 300
-evaluations. REMO uses $k=15$ and 30
-at $M=10$ and 20, respectively; its archived runs can exceed 300 actual
-evaluations. The workbooks give mean, standard deviation, and comparison
-symbols relative to REMO. We retain those symbols without reconstructing tests
+with $N=100$ and a 300-evaluation budget that includes initialization.
+Each algorithm has 20 runs per configuration. REMO uses $k=15$ and 30
+at $M=10$ and 20, respectively. The workbooks give mean, standard deviation,
+and comparison symbols relative to REMO. We retain those symbols without reconstructing tests
 from aggregate values. The workbooks omit Full-versus-control tests and any
 record of multiple-comparison adjustment. This study uses a separate
-configured budget from the 500-evaluation main comparison.
+budget from the 500-evaluation main comparison.
 
 Table~\ref{tab:ablation_igdplus} reports the results.
 Relative to REMO, the workbooks mark Full as better on
