@@ -1,0 +1,73 @@
+{
+  "algorithm": "REMO_NoCDIS_REMOSelection",
+  "createdLocalDate": "2026-10-08",
+  "fullEntry": {
+    "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist.m",
+    "sha256": "E6D9B7CF25B797ECABD2D877B99C715E991AAF48C81DD1C82ADE7D1D2B9D3FA3"
+  },
+  "parameters": {
+    "order": [
+      "gmax",
+      "rGood",
+      "nMax"
+    ],
+    "defaults": [
+      3000,
+      0.25,
+      6
+    ]
+  },
+  "candidatePolicy": "Unmodified local REMO module; first nMax returned rows and remaining true-FE cap applied by Full host",
+  "knownInheritedImplementation": [
+    "scores=zeros(Next_num,2)",
+    "Xi-C2 positive term uses pre_XiC1(1)"
+  ],
+  "copiedFiles": [
+    {
+      "target": "private/DataProcess.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\DataProcess.m",
+      "sha256": "64DA2443584111A8330076A2CBE3467CFF586C9FF06CAEEC6D4C6441934200E4",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/GetRelationPairs.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\GetRelationPairs.m",
+      "sha256": "C652DEA774F75DEA04831358CE9D7BD27F848D27A6AF050D7A7257C6CAF0CA71",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/onehotconv.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\onehotconv.m",
+      "sha256": "C4D742B17FEDDBE5A7E3EA0AA5C25BBE92C55B940F68C9A7026C38A424FB6BCB",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/PBIQualityClassification.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\PBIQualityClassification.m",
+      "sha256": "525B89DE6AF8DEDE63FB739AF6886769AAD2782841B7F84C45905DBF38F19195",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/RefSelect.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\RefSelect.m",
+      "sha256": "6891A4008EC6F21037FFF2A6EA98CD37519ACB0B18B51B6A3DDBB8E44EA55351",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/RepresentativeBasedClassification.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist\\private\\RepresentativeBasedClassification.m",
+      "sha256": "6AC28CC66529C4033BE6336305BBDE0A317B483F2009EBD5C14F4A39B6078A0C",
+      "byteIdentical": true
+    },
+    {
+      "target": "private/RSurrogateAssistedSelection.m",
+      "source": "D:\\PlatEMO-master\\PlatEMO-master\\PlatEMO\\Algorithms\\Multi-objective optimization\\REMO\\RSurrogateAssistedSelection.m",
+      "sha256": "43D7D142027DF1FBBF232C4798B131A99030B2C404BBD049AD08820A265388F5",
+      "byteIdentical": true
+    }
+  ],
+  "algorithmEntry": {
+    "path": "REMO_NoCDIS_REMOSelection.m",
+    "sha256": "7B06FBDE94E7FA1EC85AEFBD129211DC295E66438F227B2FD3AED5294351B986"
+  }
+}

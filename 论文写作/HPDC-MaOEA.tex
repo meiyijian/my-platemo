@@ -1084,13 +1084,15 @@ classifier adapts its PBI threshold, giving a variable positive-group size;
 Full uses the fixed grouping rule in \eqref{eq:group}. This control retains the indicator model and
 criterion switching.
 
-The w/o CDIS control retains PAQC but removes the SDE indicator model,
-indicator criterion, and criterion switching. Every round uses relation-score
-quantile screening followed by ambiguity-rewarded ranking. This control thus
-tests the indicator criterion and switching while retaining the ambiguity
-criterion. Full and both controls use the same relation-model architecture,
-representative-selection routine, candidate-generation threshold,
-environmental selection, batch-size cap, and absence of within-batch distance.
+The w/o CDIS control retains PAQC but restores REMO's original
+relation-guided candidate module in place of the whole CDIS. Both CDIS
+criteria and their mode switch are therefore absent: candidate selection no
+longer uses an indicator model, confidence weighting, or an ambiguity-rewarded
+ranking, and candidates are ordered only by the relation score. Full and both
+controls share the same relation-model architecture, representative-selection
+routine, candidate-generation threshold, environmental selection, batch-size
+cap, and remaining-budget truncation, and neither applies a within-batch
+distance.
 
 The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
 with $N=100$ and a 300-evaluation budget that includes initialization.
@@ -1105,9 +1107,9 @@ Table~\ref{tab:ablation_igdplus} reports the results.
 Relative to REMO, the workbooks mark Full as better on
 28 of 32 configurations, worse on WFG3 at both objective counts, and $=$
 on WFG5 at both counts. The corresponding $+/-/=$
-totals are $19/2/11$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
-also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 at
-both objective counts and DTLZ7 at $M=10$. These REMO-referenced annotations
+totals are $18/1/13$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
+also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 and
+DTLZ7 at both objective counts. These REMO-referenced annotations
 describe the four complete configurations. The Full-versus-control mean
 differences characterize the effects of the module deletions in these
 configurations; the symbols quantify comparisons with REMO.

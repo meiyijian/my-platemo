@@ -1,0 +1,35 @@
+MATLAB 9.14.0.2254940 (R2023a) Update 2
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\REMO_NoCDIS_REMOSelection.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\DataProcess.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\GetRelationPairs.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\PBIQualityClassification.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\RSurrogateAssistedSelection.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\RefSelect.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\RepresentativeBasedClassification.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\private\onehotconv.m issues=0
+STATIC D:\PlatEMO-master\PlatEMO-master\PlatEMO\Algorithms\Multi-objective optimization\REMO_NoCDIS_REMOSelection\tests\TestREMONoCDIS.m issues=0
+正在运行 TestREMONoCDIS
+FE_CHECK M=10 D=30 gmax=3000 cap=6 FE=[100 103]
+.FE_CHECK M=20 D=30 gmax=90 cap=6 FE=[100 104 105]
+.FE_CHECK M=10 D=30 gmax=90 cap=2 FE=[100 102 104 105]
+.FE_CHECK M=3 D=5 gmax=90 cap=6 FE=7
+...
+已完成 TestREMONoCDIS
+__________
+
+PASS private REMO selector executed; all removed CDIS call paths absent
+STATIC_TOTAL=0 TEST_TOTAL=6 TEST_PASSED=6
+  1x6 TestResult 数组 - 属性:
+
+    Name
+    Passed
+    Failed
+    Incomplete
+    Duration
+    Details
+
+总计:
+   6 Passed, 0 Failed, 0 Incomplete.
+   24.2028 秒测试时间。
+
+ALL_VERIFICATION_CHECKS_PASSED

@@ -112,3 +112,7 @@ Final status: CLEAN, zero surviving CRITICAL/MAJOR/MINOR findings. One S23 headi
 - Independent mechanical scans reported zero hits in every applicable category; manual decorative-triad and semantic checks passed.
 - Inspected pages 11, 12, 13, and 15 and the final compilation log. No clipping, overlap, undefined references, duplicate labels, or overfull boxes.
 - The first follow-up review attempt stopped at a usage limit; the resumed reviewer completed this review. This follow-up did not repeat the baseline's original MAT reconstruction.
+
+## w/o CDIS arm replacement — 2026-10-09
+
+The 2026-10-04 record above states REMO-referenced `+/-/=` totals of 19/2/11 for w/o CDIS, 20/1/11 for w/o PAQC, and 28/2/2 for Full. On 2026-10-09 the w/o CDIS column was re-sourced from the new `REMO_NoCDIS_REMOSelection` sweep, so its totals are now **18/1/13**, and the Section 4.3 paragraph that reads the control's DTLZ6/DTLZ7 means was updated with it. Full (28/2/2) and w/o PAQC (20/1/11) are unchanged and still reproduce the earlier numbers, so the pipeline cross-check on the two untouched arms remains valid. The presentation, layout, and compilation statements in the 2026-10-04 record are unaffected. See `../ablation/README.md` for the new source hashes.
