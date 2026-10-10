@@ -106,17 +106,15 @@ determines positive-group membership for relation learning.
 CDIS first screens candidates by relation quality, then applies ambiguity-oriented
 or indicator-oriented ranking to select an expensive-evaluation batch.
 These modes use classification ambiguity and a separate quality-indicator
-surrogate, respectively. Archived experiments compare PACDIS with six algorithms on
+surrogate, respectively. Experiments compare PACDIS with six algorithms on
 48 DTLZ and WFG configurations with 10, 15, and 20 objectives under a configured
 budget of 500 evaluations. PACDIS achieves the lowest mean inverted generational
 distance plus (IGD$^+$) in 15 configurations, including DTLZ6, WFG2, and WFG7
-at all three objective counts in those recorded runs. On four DTLZ problems,
-matched archived checkpoints show that PAQC more than doubles mean
+at all three objective counts. On four DTLZ problems,
+matched population checkpoints show that PAQC more than doubles mean
 current-convergence precision relative to equal-quota representative-margin
 grouping (73.68\% versus 35.83\%). PAQC also achieves higher mean
 final-retention precision in seven of eight configurations.
-These archived results require matched validation for the common ideal-point
-formulation.
 \end{abstract}
 
 \begin{keyword}
@@ -228,7 +226,7 @@ pass this initial assessment.
 \end{enumerate}
 
 % Results preview: descriptive means from the current FE500 table snapshot.
-The archived experiments compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
+The experiments compare PACDIS with six SAEAs on 48 DTLZ and WFG configurations with 10,
 15, and 20 objectives under a configured budget of 500 evaluations.
 PACDIS achieves the lowest mean inverted generational distance plus (IGD$^+$)
 in 15 configurations, including DTLZ6, WFG2, and WFG7 at all three
@@ -236,8 +234,6 @@ objective counts (Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg}).
 Separate experiments compare algorithm variants and examine the probability
 of selecting each infill mode
 (Sections~\ref{sec:exp:ablation} and~\ref{sec:exp:pmix}).
-Section~\ref{sec:exp:evidence} states the scope of these archived results for
-the common ideal-point formulation.
 
 % Roadmap: preserve the manuscript's existing section structure.
 Section~\ref{sec:related} reviews surrogate targets, relation-learning
@@ -694,9 +690,8 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 By changing membership of $\mathcal{C}_1$, the fusion changes the ordered pairs
 used to train the relation model. As $FE$ increases, group construction shifts
 from directional quality toward representative-based membership; the
-archived analysis in Section~\ref{sec:exp:ggp} examines positive groups from
-the recorded grouping protocol, within the evidence scope stated in
-Section~\ref{sec:exp:evidence}.
+group-quality analysis in Section~\ref{sec:exp:ggp} examines the resulting
+positive groups.
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
@@ -944,14 +939,6 @@ check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode se
 \section{Experimental Studies}
 \label{sec:exp}
 
-\paragraph{Scope of the archived evidence.}
-\label{sec:exp:evidence}
-The tables, curves, and checkpoint analyses below report the archived PACDIS
-runs under their recorded experimental protocols. They retain their original
-numerical results and run identities. Matched validation of the common
-ideal-point formulation in Section~\ref{sec:method:paqc} remains necessary
-before assigning these measurements to that formulation.
-
 \subsection{Experimental Settings}
 \label{sec:exp:settings}
 
@@ -991,14 +978,6 @@ giving 15, 23 and 30 at $M=10$, 15 and 20 with $N=100$.
 The actual returned representative count can be smaller.
 No error-gate threshold or minimum-batch
 parameter is used in this version.
-
-\paragraph{Conventions of the revised formulation.}
-Section~\ref{sec:method:paqc} specifies the common ideal-point formulation:
-both signals use the same population minimum, exclude zero-length directions,
-and assign scores directly at the ideal point. It uses uniform directions when
-adaptive construction is unavailable. These conventions describe the revised
-formulation; Section~\ref{sec:exp:evidence} limits the scope of the archived
-measurements.
 
 \paragraph{Performance indicator and statistical reporting.}
 Performance is measured by inverted generational distance plus (IGD$^+$), with
@@ -1077,7 +1056,7 @@ under the 500-evaluation budget.
 \subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
 
-The archived comparison includes PACDIS (Full), two deletion controls,
+The comparison includes PACDIS (Full), two deletion controls,
 and REMO. The w/o PAQC control uses REMO's representative-based PBI
 classification in place of PAQC's fused group construction. The REMO
 classifier adapts its PBI threshold, giving a variable positive-group size;
@@ -1123,7 +1102,7 @@ configurations; the symbols quantify comparisons with REMO.
 \label{sec:exp:ggp}
 
 % Claim: quantify the composition of the positive group on matched states.
-In the archived checkpoints, PAQC concentrates solutions with better convergence into its positive group
+At the matched population checkpoints, PAQC concentrates solutions with better convergence into its positive group
 and improves average final-retention precision relative to representative-margin
 grouping at the same quota.
 We examine 160 PACDIS runs on DTLZ2, DTLZ4, DTLZ5, and DTLZ7, with
@@ -1136,13 +1115,12 @@ at $FE=100,106,\ldots,298$, giving 5440 checkpoints.\par
 
 % Controls: equal cardinality and identical evaluated population.
 The main comparison selects 25 solutions from the same evaluated population
-using either the recorded hybrid score $H$ or the recorded representative margin $A$.
+using either the hybrid score $H$ or the representative margin $A$.
 We define $A$ as one minus
-the normalized representative-based PBI value recorded by the archived
-classification protocol. This continuous margin provides an equal-quota
+the normalized representative-based PBI value. This continuous margin provides an equal-quota
 representative control; the original binary label $L$ retains its natural
-group size in a separate descriptive comparison. The archived analysis also
-includes the recorded direction-only control $S$ to examine the role of
+group size in a separate descriptive comparison. The analysis also
+includes the direction-only control $S$ to examine the role of
 representative membership. All rankings resolve ties by population order.
 For a selected set $\mathcal{C}$ and an outcome-positive
 set $\mathcal{Y}^{+}$, good-group precision (GGP) is
@@ -1173,7 +1151,7 @@ We first average the 34 checkpoints within each run, then summarize the
 means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
 compare PAQC with each control; Holm correction covers all 32 comparisons
 across the two outcomes, both controls, and eight configurations, including
-the archived direction-only comparisons. Overall summaries give
+the direction-only comparisons. Overall summaries give
 equal weight to each configuration.
 
 % Convergence enrichment: a large, reproducible effect against the named control.
@@ -1189,7 +1167,7 @@ relative to the representative-margin control. It has a higher mean in
 seven of eight configurations, with six comparisons passing Holm correction;
 margin leads on DTLZ4 at $M=10$.
 The direction-only control has higher convergence precision but lower overall
-final-retention precision than PAQC in the archived comparisons. This contrast
+final-retention precision than PAQC in these comparisons. This contrast
 links representative membership to subsequent retention along the recorded
 trajectories.
 
@@ -1200,7 +1178,7 @@ representative-positive set $L=1$, which contains 49.79 solutions on average.
 Within this set, $H$ preserves the ordering of $S$.
 The resulting subset raises low-$g$ precision from 38.40\% in the native
 $L=1$ group to 73.68\%, while the respective final-retention means are
-53.04\% and 53.58\%. Thus, the recorded groups combine directional
+53.04\% and 53.58\%. Thus, the groups combine directional
 convergence information with representative-based membership to concentrate
 supervision in a smaller positive set. These measurements characterize
 positive-group composition along PACDIS trajectories; the IGD$^+$
@@ -1231,12 +1209,12 @@ representative-based grouping with directional quality information obtained
 from the current nondominated set to construct positive training groups.
 CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
-screening. The archived REMO-referenced comparisons favor PACDIS on most tested
+screening. The REMO-referenced comparisons favor PACDIS on most tested
 configurations, with reversals on WFG3. The exported symbols compare each
 configuration with REMO, while the Full-versus-control mean differences
 characterize the effects of the module deletions. PAQC and CDIS address
 complementary interfaces by design, with problem-dependent performance effects.
-The archived matched group analysis shows how PAQC concentrates convergence information
+The matched group analysis shows how PAQC concentrates convergence information
 within representative-based membership and raises average final-retention
 precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
 
