@@ -4,14 +4,13 @@ import re
 
 HERE = Path(__file__).resolve().parent
 tex = (HERE.parents[1]/'HPDC-MaOEA.tex').read_text(encoding='utf-8')
-start = tex.index(r'\subsection{Good-Group Precision Analysis of PAQC}')
+start = tex.index(r'\subsection{Current-Convergence Precision of PAQC}')
 end = tex.index(r'\subsection{Effect of Selection-Criterion Switching}', start)
 section = tex[start:end]
 table = (HERE/'table_ggp.tex').read_text(encoding='utf-8')
-appendix = (HERE/'appendix_ggp.tex').read_text(encoding='utf-8')
-complete_table = (HERE/'table_ggp_complete.tex').read_text(encoding='utf-8')
+abstract = tex[tex.index(r'\begin{abstract}'):tex.index(r'\end{abstract}')]
 conclusion = tex[tex.index('The matched group analysis shows'):tex.index(r'\begin{thebibliography}',tex.index('The matched group analysis shows'))]
-text = '\n'.join(line for line in (section+'\n'+table+'\n'+conclusion+'\n'+appendix+'\n'+complete_table).splitlines() if not line.lstrip().startswith('%'))
+text = '\n'.join(line for line in (section+'\n'+table+'\n'+conclusion+'\n'+abstract).splitlines() if not line.lstrip().startswith('%'))
 flat = re.sub(r'\s+', ' ', text)
 checks = {
  'M1': r'---|—|–| -- ',
@@ -34,5 +33,5 @@ for rule, pattern in checks.items():
     print(f'{rule}: {len(matches)}')
     for match in matches:
         print('  '+flat[max(0,match.start()-50):match.end()+50])
-print('Canonical terms: PAQC; direction control S; representative-margin control A; native binary label L.')
-print('Decomposition: two outcomes, three equal-quota rules, eight configurations, 32 comparisons.')
+print('Canonical terms: PAQC H; representative-margin control A; current convergence precision.')
+print('Presentation: one outcome, two equal-quota rules, eight configurations; original 32-test correction retained.')

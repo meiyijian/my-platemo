@@ -113,8 +113,7 @@ distance plus (IGD$^+$) in 15 configurations, including DTLZ6, WFG2, and WFG7
 at all three objective counts. On four DTLZ problems,
 matched population checkpoints show that PAQC more than doubles mean
 current-convergence precision relative to equal-quota representative-margin
-grouping (73.68\% versus 35.83\%). PAQC also achieves higher mean
-final-retention precision in seven of eight configurations.
+grouping (73.68\% versus 35.83\%).
 \end{abstract}
 
 \begin{keyword}
@@ -690,7 +689,7 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 By changing membership of $\mathcal{C}_1$, the fusion changes the ordered pairs
 used to train the relation model. As $FE$ increases, group construction shifts
 from directional quality toward representative-based membership; the
-group-quality analysis in Section~\ref{sec:exp:ggp} examines the resulting
+current-convergence analysis in Section~\ref{sec:exp:ggp} examines the resulting
 positive groups.
 
 \subsection{Relation Learning on the PAQC Groups}
@@ -1098,13 +1097,13 @@ configurations; the symbols quantify comparisons with REMO.
 \input{experiments/ggp/table_ggp}
 
 \begin{samepage}
-\subsection{Good-Group Precision Analysis of PAQC}
+\subsection{Current-Convergence Precision of PAQC}
 \label{sec:exp:ggp}
 
-% Claim: quantify the composition of the positive group on matched states.
-At the matched population checkpoints, PAQC concentrates solutions with better convergence into its positive group
-and improves average final-retention precision relative to representative-margin
-grouping at the same quota.
+% Claim: compare current convergence at the same positive-group quota.
+At matched population checkpoints, PAQC selects a larger proportion of
+low-$g$ solutions than representative-margin grouping at the same quota.
+Here, $g$ denotes the DTLZ convergence quantity defined below.
 We examine 160 PACDIS runs on DTLZ2, DTLZ4, DTLZ5, and DTLZ7, with
 $M\in\{10,20\}$ and 20 runs per configuration. This diagnostic uses
 $N=100$, $D=30$, and 300 real evaluations, including 100 for initialization;
@@ -1114,45 +1113,42 @@ at $FE=100,106,\ldots,298$, giving 5440 checkpoints.\par
 \end{samepage}
 
 % Controls: equal cardinality and identical evaluated population.
-The main comparison selects 25 solutions from the same evaluated population
+The comparison selects 25 solutions from the same evaluated population
 using either the hybrid score $H$ or the representative margin $A$.
 We define $A$ as one minus
 the normalized representative-based PBI value. This continuous margin provides an equal-quota
-representative control; the original binary label $L$ retains its natural
-group size in a separate descriptive comparison. The analysis also
-includes the direction-only control $S$ to examine the role of
-representative membership. All rankings resolve ties by population order.
-For a selected set $\mathcal{C}$ and an outcome-positive
-set $\mathcal{Y}^{+}$, good-group precision (GGP) is
+representative control. Both rankings resolve ties by population order.
+
+% Queue the sensitivity table one page ahead of its discussion.
+\input{experiments/pmix_nobatchdist_igdp_table}
+
+% Outcome: assess convergence within each current population.
+We compute a retrospective convergence diagnostic from the saved decision
+vectors. The 25 solutions with the smallest DTLZ convergence quantity $g$
+form the reference set $\mathcal{Y}^{+}$ at each checkpoint.
+Here, $g=\sum_{j=M}^{D}(x_j-0.5)^2$ for DTLZ2, DTLZ4, and DTLZ5, and
+$g=1+9\sum_{j=M}^{D}x_j/(D-M+1)$ for DTLZ7.
+For a selected positive group $\mathcal{C}$, we measure current convergence
+precision through its good-group precision (GGP) against this reference set:
 \begin{equation}
 \mathrm{GGP}=\frac{|\mathcal{C}\cap\mathcal{Y}^{+}|}{|\mathcal{C}|}.
 \label{eq:ggp}
 \end{equation}
-
-% Outcomes: preserve the original primary outcome and identify the added diagnostic.
-% Queue the sensitivity table one page ahead of its discussion.
-\input{experiments/pmix_nobatchdist_igdp_table}
-
-The primary outcome tracks which checkpoint solutions remain in the final
-100-member population, using stable evaluation identifiers. Its chance level
-is the fraction of the checkpoint population that remains at termination.
-We also compute a retrospective convergence diagnostic from the saved
-decision vectors: the 25 solutions with the smallest DTLZ convergence
-quantity $g$ form $\mathcal{Y}^{+}$ at each checkpoint.
-Here, $g=\sum_{j=M}^{D}(x_j-0.5)^2$ for DTLZ2, DTLZ4, and DTLZ5, and
-$g=1+9\sum_{j=M}^{D}x_j/(D-M+1)$ for DTLZ7.
-This diagnostic measures convergence enrichment, with a fixed chance level
-of 25\%; DTLZ7 also requires the appropriate location among its disconnected
-Pareto regions. All checkpoints have distinct $g$ values at the selection
-boundary. Both analyses reuse saved trajectories and add zero real evaluations.
+This diagnostic measures convergence enrichment,
+with a fixed chance level of 25\%. DTLZ7 also requires the appropriate
+location among its disconnected Pareto regions. All checkpoints have
+distinct $g$ values at the selection boundary. The diagnostic reuses saved
+trajectories and adds zero real evaluations.
 
 We first average the 34 checkpoints within each run, then summarize the
 20 independent runs per configuration. Table~\ref{tab:exp:ggp} reports
 means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
-compare PAQC with each control; Holm correction covers all 32 comparisons
-across the two outcomes, both controls, and eight configurations, including
-the direction-only comparisons. Overall summaries give
-equal weight to each configuration.
+compare PAQC with the representative-margin control.
+The eight reported tests form a subset of the original 32-test family,
+which spans two outcomes, two controls, and eight configurations.
+We retain the original Holm-adjusted $p$-values at $\alpha=0.05$;
+the reduced presentation leaves the correction family unchanged.
+Overall summaries give equal weight to each configuration.
 
 % Convergence enrichment: a large, reproducible effect against the named control.
 PAQC more than doubles convergence precision relative to the
@@ -1161,28 +1157,13 @@ The gain reaches 37.85 percentage points overall and ranges from 26.98 to
 46.62 points across the eight configurations; every comparison passes
 Holm correction. At the same 25-solution quota, this corresponds to
 9.46 additional low-$g$ solutions per positive group on average.
-% Retention: show what representative membership contributes to the observed groups.
-PAQC raises average final-retention precision from 49.18\% to 53.58\%
-relative to the representative-margin control. It has a higher mean in
-seven of eight configurations, with six comparisons passing Holm correction;
-margin leads on DTLZ4 at $M=10$.
-The direction-only control has higher convergence precision but lower overall
-final-retention precision than PAQC in these comparisons. This contrast
-links representative membership to subsequent retention along the recorded
-trajectories.
 
-% Membership explains the compact positive group without inferring diversity gains.
-Inspection of group membership clarifies how PAQC uses the two signals.
-At every recorded checkpoint, its 25 positive solutions belong to the
-representative-positive set $L=1$, which contains 49.79 solutions on average.
-Within this set, $H$ preserves the ordering of $S$.
-The resulting subset raises low-$g$ precision from 38.40\% in the native
-$L=1$ group to 73.68\%, while the respective final-retention means are
-53.04\% and 53.58\%. Thus, the groups combine directional
-convergence information with representative-based membership to concentrate
-supervision in a smaller positive set. These measurements characterize
-positive-group composition along PACDIS trajectories; the IGD$^+$
-experiments assess the quality of the resulting approximation sets.
+% Takeaway: bound the evidence to current positive-group convergence.
+These matched-checkpoint results show that PAQC concentrates more low-$g$
+solutions in its positive training group than representative-margin grouping
+at the same quota. The comparison measures current positive-group convergence
+along PACDIS trajectories. The IGD$^+$ experiments assess the quality of
+the resulting approximation sets.
 
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
@@ -1200,7 +1181,13 @@ use the ambiguity-oriented mode when the indicator surrogate is unavailable.
 The results support $0.50$ as the best-ranked setting in this tested subset.
 
 % Keep the experimental tables before the conclusion and references.
-\FloatBarrier
+\clearpage
+% Restore full column height after flushing the double-column table queue.
+\makeatletter
+\global\@colht\textheight
+\global\@colroom\textheight
+\global\vsize\textheight
+\makeatother
 \section{Conclusion}
 \label{sec:conclusion}
 PACDIS modifies supervision construction and expensive-evaluation allocation
@@ -1214,9 +1201,10 @@ configurations, with reversals on WFG3. The exported symbols compare each
 configuration with REMO, while the Full-versus-control mean differences
 characterize the effects of the module deletions. PAQC and CDIS address
 complementary interfaces by design, with problem-dependent performance effects.
-The matched group analysis shows how PAQC concentrates convergence information
-within representative-based membership and raises average final-retention
-precision relative to equal-quota controls (Section~\ref{sec:exp:ggp}).
+The matched group analysis shows that PAQC raises mean current convergence
+precision from 35.83\% to 73.68\% relative to equal-quota
+representative-margin grouping on the four tested DTLZ problems
+(Section~\ref{sec:exp:ggp}).
 
 
 \begin{thebibliography}{99}
