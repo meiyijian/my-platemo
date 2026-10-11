@@ -1031,8 +1031,9 @@ budget. They do not attribute the differences to PAQC or CDIS individually.
 \paragraph{PACDIS reaches lower endpoint values}
 PACDIS reaches the lowest endpoint mean IGD$^+$ on the four ten-objective
 problems in Figs.~\ref{fig:exp:convergence:dtlz1}--\ref{fig:exp:convergence:wfg7}.
-We select DTLZ1, DTLZ6, WFG2, and WFG7 as representative DTLZ and WFG
-cases on which PACDIS performs well. Every curve averages runs 1--20 on a
+We select DTLZ1, DTLZ6, WFG2, and WFG7 as DTLZ and WFG
+cases on which PACDIS performs well, and add WFG3 below as a failure case.
+Every curve averages runs 1--20 on a
 unit-FE grid, carrying forward each run's latest saved value between
 checkpoints. Initialization counts toward the budget; PC-SAEA, HES-EA, and
 SAMOEA-TL2M start at $FE=329$ for $D=30$ or $FE=340$ for $D=31$.
@@ -1050,7 +1051,28 @@ These selected trajectories show problem-dependent convergence patterns
 under the 500-evaluation budget.
 
 \input{figures/figure_convergence_fe500}
-% Let the next discussion fill space below the grouped convergence figures.
+
+\paragraph{WFG3 remains a failure case}
+Figure~\ref{fig:exp:convergence:wfg3} shows the ten-objective WFG3 case
+($D=31$) under the same plotting protocol. PACDIS lowers its mean IGD$^+$
+throughout search, but REMO retains a lower mean throughout $FE=340$--500.
+SAMOEA-TL2M starts at $FE=340$ with a higher mean than PACDIS and
+subsequently reaches a lower endpoint. At $FE=500$, the means are
+1.4387 for PACDIS, 1.2630 for REMO, and 0.89820 for SAMOEA-TL2M.
+PACDIS therefore loses this comparison despite its larger post-initialization
+evaluation allowance than SAMOEA-TL2M.
+
+One possible explanation concerns coverage after quality screening.
+PAQC selects its positive group by a population-wide score ranking
+(Eq.~\eqref{eq:group}), without a quota for each reference direction.
+CDIS then restricts both infill criteria to candidates that pass the
+relation-quality screen (Section~\ref{sec:method:cdis}). Its final ranking
+cannot recover candidates that this screen excludes. Together, these
+choices could concentrate search in regions that the current scores favor
+while overlooking useful candidates elsewhere. The WFG3 trajectories
+establish the performance loss, but do not measure this proposed mechanism.
+Testing it requires tracking reference-direction coverage and the true
+quality of retained and rejected candidates on matched pools.
 
 \subsection{REMO-Referenced Component Comparisons}
 \label{sec:exp:ablation}
@@ -1205,6 +1227,15 @@ The matched group analysis shows that PAQC raises mean current convergence
 precision from 35.83\% to 73.68\% relative to equal-quota
 representative-margin grouping on the four tested DTLZ problems
 (Section~\ref{sec:exp:ggp}).
+
+The WFG3 results limit the scope of these findings: PACDIS lowers its mean
+IGD$^+$ yet finishes with a higher mean than REMO and SAMOEA-TL2M in the
+ten-objective comparison. The group analysis measures current convergence precision on
+four DTLZ problems; it does not establish Pareto-front coverage or explain
+the WFG3 loss. Future work should test the coverage and screening
+hypothesis in Section~\ref{sec:exp:comparison} before changing either module.
+Such tests would distinguish losses during candidate screening from
+insufficient coverage in the candidate pool itself.
 
 
 \begin{thebibliography}{99}

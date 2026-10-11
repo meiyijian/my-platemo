@@ -1,8 +1,10 @@
 # PACDIS FE500 independent convergence figures
 
-The active manuscript uses four separate ten-objective figures: DTLZ1,
+This dataset supplies four separate ten-objective figures: DTLZ1,
 DTLZ6, WFG2, and WFG7. Each figure compares PACDIS with REMO, SSDE,
 PC-SAEA, SAMOEA-TL2M, CSEA, and HES-EA using runs 1–20.
+The manuscript also includes a WFG3 failure case, documented in
+[`../fe500_convergence_wfg3/README.md`](../fe500_convergence_wfg3/README.md).
 
 ## Data identity and FE policy
 

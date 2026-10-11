@@ -1,0 +1,130 @@
+{
+  "WFG3": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshots_above_budget_excluded": 0
+    },
+    "REMO": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshots_above_budget_excluded": 0
+    },
+    "PCSAEA": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        507,
+        507
+      ],
+      "last_saved_fe_le500_range": [
+        495,
+        495
+      ],
+      "snapshots_above_budget_excluded": 20
+    },
+    "CSEA": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        109,
+        109
+      ],
+      "first_plotted_fe": 109,
+      "terminal_fe_range": [
+        502,
+        505
+      ],
+      "last_saved_fe_le500_range": [
+        478,
+        481
+      ],
+      "snapshots_above_budget_excluded": 20
+    },
+    "HES_EA": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshots_above_budget_excluded": 0
+    },
+    "SSDE": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        100,
+        100
+      ],
+      "first_plotted_fe": 100,
+      "terminal_fe_range": [
+        500,
+        509
+      ],
+      "last_saved_fe_le500_range": [
+        473,
+        500
+      ],
+      "snapshots_above_budget_excluded": 14
+    },
+    "SAMOEATL2M": {
+      "runs": 20,
+      "D": 31,
+      "first_saved_fe_range": [
+        340,
+        340
+      ],
+      "first_plotted_fe": 340,
+      "terminal_fe_range": [
+        500,
+        500
+      ],
+      "last_saved_fe_le500_range": [
+        500,
+        500
+      ],
+      "snapshots_above_budget_excluded": 0
+    }
+  }
+}
