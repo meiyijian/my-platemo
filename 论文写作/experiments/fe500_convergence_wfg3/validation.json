@@ -1,0 +1,63 @@
+{
+  "source_runs_verified": 140,
+  "mean_curves_verified": 7,
+  "raw_rows_verified": 3428,
+  "grid_rows_verified": 2807,
+  "max_absolute_mean_error": 8.881784197001252e-16,
+  "all_plotted_sample_sizes": 20,
+  "plotted_fe_max": 500,
+  "manuscript_trajectory_and_endpoint_claims_verified": true,
+  "vector_pdf_embedded_fonts_dimensions_and_png_resolution_verified": true,
+  "mechanical_gate_counts": {
+    "M1_em_dash": 0,
+    "M11_passive": 0,
+    "M2_antithesis": 3,
+    "M3_M4_M8_M9_flourish": 0,
+    "M6_openers": 0,
+    "M5_M16_words": 0,
+    "M10_hype_verbs": 0,
+    "M17_fancy_verbs": 0,
+    "M18_empty_openers": 0,
+    "M12_wordiness": 0,
+    "M13_qualifiers": 0,
+    "M14_adverbs": 0,
+    "M15_exclamation": 0,
+    "B_precision_pairs": 0
+  },
+  "mechanical_gate_hits": {
+    "M1_em_dash": [],
+    "M11_passive": [],
+    "M2_antithesis": [
+      {
+        "location": "HPDC-MaOEA.tex:1073",
+        "match": " not m",
+        "line": "establish the performance loss, but do not measure this proposed mechanism."
+      },
+      {
+        "location": "HPDC-MaOEA.tex:1234",
+        "match": " not e",
+        "line": "four DTLZ problems; it does not establish Pareto-front coverage or explain"
+      },
+      {
+        "location": "figure_convergence_wfg3_fe500.tex:6",
+        "match": " not e",
+        "line": "  initialization. Values recorded beyond the budget do not enter the curves.}"
+      }
+    ],
+    "M3_M4_M8_M9_flourish": [],
+    "M6_openers": [],
+    "M5_M16_words": [],
+    "M10_hype_verbs": [],
+    "M17_fancy_verbs": [],
+    "M18_empty_openers": [],
+    "M12_wordiness": [],
+    "M13_qualifiers": [],
+    "M14_adverbs": [],
+    "M15_exclamation": [],
+    "B_precision_pairs": []
+  },
+  "justifications": {
+    "M2_antithesis": "Factual evidence limits: no coverage measurement or causal WFG3 attribution; over-budget metrics excluded.",
+    "M15_exclamation": "No prose exclamations or new float-placement flags."
+  }
+}

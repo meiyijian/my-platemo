@@ -1,36 +1,33 @@
 \begin{table*}[t]
 \centering
-\caption{PAQC versus representative-margin grouping on matched population checkpoints. Entries report mean precision (\%) and run-level standard deviation.}
+\caption{Current convergence precision of PAQC and representative-margin grouping on matched population checkpoints. Entries report mean precision (\%) and run-level standard deviation.}
 \label{tab:exp:ggp}
 \begingroup
 \setlength{\tabcolsep}{5pt}
 \renewcommand{\arraystretch}{1.12}
 \small
-\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lc cc ccc@{}}
+\begin{tabular*}{0.72\textwidth}{@{\extracolsep{\fill}}lccc@{}}
 \toprule
- & & \multicolumn{2}{c}{Current convergence precision} & \multicolumn{3}{c}{Final-retention precision} \\
-\cmidrule(lr){3-4}\cmidrule(lr){5-7}
-Problem & $M$ & Margin $A$ & PAQC $H$ & Margin $A$ & PAQC $H$ & Chance \\
+Problem & $M$ & Margin $A$ & PAQC $H$ \\
 \midrule
-DTLZ2 & 10 & \shortstack{$38.91^{-}$\\$(5.27)$} & \shortstack{$\mathbf{77.25}$\\$(5.52)$} & \shortstack{$52.61^{-}$\\$(5.67)$} & \shortstack{$\mathbf{58.25}$\\$(4.92)$} & 49.67 \\
-DTLZ2 & 20 & \shortstack{$32.28^{-}$\\$(4.51)$} & \shortstack{$\mathbf{78.91}$\\$(5.37)$} & \shortstack{$47.01^{-}$\\$(7.52)$} & \shortstack{$\mathbf{55.85}$\\$(4.95)$} & 49.04 \\
-DTLZ4 & 10 & \shortstack{$23.86^{-}$\\$(8.37)$} & \shortstack{$\mathbf{61.44}$\\$(7.55)$} & \shortstack{$\mathbf{69.74}^{+}$\\$(8.82)$} & \shortstack{$60.38$\\$(4.29)$} & 48.80 \\
-DTLZ4 & 20 & \shortstack{$29.71^{-}$\\$(5.22)$} & \shortstack{$\mathbf{66.54}$\\$(5.53)$} & \shortstack{$58.90^{=}$\\$(6.42)$} & \shortstack{$\mathbf{60.01}$\\$(5.02)$} & 50.16 \\
-DTLZ5 & 10 & \shortstack{$39.36^{-}$\\$(6.08)$} & \shortstack{$\mathbf{66.35}$\\$(5.98)$} & \shortstack{$50.50^{-}$\\$(5.43)$} & \shortstack{$\mathbf{53.70}$\\$(6.28)$} & 45.42 \\
-DTLZ5 & 20 & \shortstack{$38.96^{-}$\\$(4.24)$} & \shortstack{$\mathbf{76.91}$\\$(3.77)$} & \shortstack{$48.21^{-}$\\$(5.18)$} & \shortstack{$\mathbf{52.09}$\\$(4.79)$} & 48.71 \\
-DTLZ7 & 10 & \shortstack{$45.56^{-}$\\$(4.32)$} & \shortstack{$\mathbf{78.95}$\\$(3.00)$} & \shortstack{$34.94^{-}$\\$(2.81)$} & \shortstack{$\mathbf{43.88}$\\$(2.66)$} & 33.77 \\
-DTLZ7 & 20 & \shortstack{$37.99^{-}$\\$(2.88)$} & \shortstack{$\mathbf{83.11}$\\$(3.91)$} & \shortstack{$31.49^{-}$\\$(4.33)$} & \shortstack{$\mathbf{44.51}$\\$(3.17)$} & 34.09 \\
+DTLZ2 & 10 & $38.91^{-}$ $(5.27)$ & $\mathbf{77.25}$ $(5.52)$ \\
+DTLZ2 & 20 & $32.28^{-}$ $(4.51)$ & $\mathbf{78.91}$ $(5.37)$ \\
+DTLZ4 & 10 & $23.86^{-}$ $(8.37)$ & $\mathbf{61.44}$ $(7.55)$ \\
+DTLZ4 & 20 & $29.71^{-}$ $(5.22)$ & $\mathbf{66.54}$ $(5.53)$ \\
+DTLZ5 & 10 & $39.36^{-}$ $(6.08)$ & $\mathbf{66.35}$ $(5.98)$ \\
+DTLZ5 & 20 & $38.96^{-}$ $(4.24)$ & $\mathbf{76.91}$ $(3.77)$ \\
+DTLZ7 & 10 & $45.56^{-}$ $(4.32)$ & $\mathbf{78.95}$ $(3.00)$ \\
+DTLZ7 & 20 & $37.99^{-}$ $(2.88)$ & $\mathbf{83.11}$ $(3.91)$ \\
 \midrule
-Mean &  & 35.83 & 73.68 & 49.18 & 53.58 & 44.96 \\
+Mean &  & 35.83 & 73.68 \\
 \bottomrule
 \end{tabular*}
 \endgroup
-\par\vspace{3pt}\begin{minipage}{0.98\textwidth}\scriptsize
+\par\vspace{3pt}\begin{minipage}{0.72\textwidth}\scriptsize
 Each of the 160 runs contributes the mean of 34 checkpoints; each configuration contains 20 runs.
-Each rule selects 25 of the same 100 solutions. Bold marks the largest mean among the rules shown for each outcome.
-A baseline superscript $+/-/=$ denotes higher/lower/no detected difference relative to PAQC under two-sided paired Wilcoxon signed-rank tests, with Holm correction across all 32 comparisons ($\alpha=0.05$).
-Chance is checkpoint prevalence for final retention; current convergence has a fixed chance level of 25\%.
+Each rule selects 25 of the same 100 solutions. Bold marks the larger mean. The chance level is 25\%.
+A margin superscript $+/-/=$ denotes higher/lower/no detected difference relative to PAQC under two-sided paired Wilcoxon signed-rank tests ($\alpha=0.05$).
+The eight displayed tests retain their original Holm-adjusted $p$-values from the full 32-test family (two outcomes, two controls, eight configurations).
 The last row averages the eight configurations and carries no pooled significance test.
-The correction family includes the direction-only control.
 \end{minipage}
 \end{table*}
