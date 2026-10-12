@@ -264,9 +264,11 @@ quality. The hierarchical and ensemble surrogate-assisted evolutionary
 algorithm (HES-EA) learns convergence and diversity indicators through pairs
 of models within a clustering framework~\cite{ref:hesea}. A cluster surrogate
 routes candidates to the corresponding indicator models. The performance indicator-based
-evolutionary algorithm (PIEA) approximates an indicator and combines
-its predictions with distribution information during
-selection~\cite{ref:piea}. These methods already provide alternatives to
+evolutionary algorithm (PIEA) selects among shift-based density estimation
+(SDE), additive epsilon, and
+Minkowski-distance indicators using historical feedback~\cite{ref:piea}.
+It trains a surrogate for the selected indicator and combines its predictions
+with distribution information during selection. These methods already provide alternatives to
 regressing every objective; the relevant distinction is which quality
 information the learning target retains. Classification and relation models
 make a further choice: they encode quality through discrete labels or
@@ -809,22 +811,20 @@ candidate order for exact ties.
 \label{sec:method:cdis:ind}
 
 The indicator-oriented mode provides an alternative assessment of candidates
-that pass relation-based screening. The quality indicator draws on the
-modified SDE assessment in PIEA~\cite[Section~4.2, Eqs.~(7)--(10)]{ref:piea}.
-Shift-based density estimation (SDE)~\cite{ref:sde} evaluates a solution
+that pass relation-based screening. CDIS uses a single SDE-based quality
+indicator~\cite{ref:sde,ref:piea}.
+SDE~\cite{ref:sde} evaluates a solution
 through distances to neighboring objective vectors after shifting each
 neighbor's better objective components to the target solution's values.
-The convergence component uses the negative $L_p$ distance to the current
-ideal point, with larger values indicating better convergence.
-PIEA estimates $p$ by minimizing the standard deviation of these distances
-among current nondominated solutions, following the shape-estimation method
-of TwoREA~\cite{ref:tworea}. PIEA combines shifted-distance assessment of
-nondominated solutions with Minkowski convergence assessment of dominated
-solutions and maps the scores to a common bounded scale.
+We scale the SDE scores and refine near-zero values with a scaled negative
+$L_p$ distance to the current ideal point~\cite{ref:piea}.
+We estimate $p$ from the dispersion of normalized $L_p$ distances among
+current nondominated solutions~\cite{ref:tworea,ref:piea}.
+The indicator maps the combined scores to a bounded scale, with larger
+values indicating higher quality.
 
-For CDIS, the SDE and Minkowski convergence components supply the scalar
-quality target $I_i$, with a finite convergence fallback. Larger values
-indicate higher quality under the indicator. We compute $I_i$ for each solution in the
+The indicator supplies the scalar quality target $I_i$.
+We compute $I_i$ for each solution in the
 current population and train an
 RBF-SVR, denoted by $\mathcal{M}_I$, on
 $\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; its prediction is written
