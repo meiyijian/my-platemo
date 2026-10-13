@@ -997,7 +997,7 @@ across all problem--objective configurations in that table. These counts
 summarize the supplied pairwise outcomes and are not a separate omnibus test
 across problems.
 
-Each table entry summarizes 20 independent runs,
+Each entry in Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} summarizes 20 independent runs,
 following the final experiment records supplied by the authors.
 The export script applies an unpaired rank-sum test at $p<0.05$ without a
 multiple-comparison adjustment. We retain its symbols without interpreting
@@ -1088,45 +1088,45 @@ establish the performance loss, but do not measure this proposed mechanism.
 Testing it requires tracking reference-direction coverage and the true
 quality of retained and rejected candidates on matched pools.
 
-\subsection{REMO-Referenced Component Comparisons}
+\subsection{Selected Ablation Runs Favor Full}
 \label{sec:exp:ablation}
 
-The comparison includes PACDIS (Full), two deletion controls,
-and REMO. The w/o PAQC control uses REMO's representative-based PBI
+The ablation compares PACDIS (Full) with two deletion controls.
+The w/o PAQC control uses REMO's representative-based PBI
 classification in place of PAQC's fused group construction. The REMO
 classifier adapts its PBI threshold, giving a variable positive-group size;
 Full uses the fixed grouping rule in \eqref{eq:group}. This control retains the indicator model and
 criterion switching.
 
 The w/o CDIS control retains PAQC but restores REMO's original
-relation-guided candidate module in place of the whole CDIS. Both CDIS
-criteria and their mode switch are therefore absent: candidate selection no
-longer uses an indicator model, confidence weighting, or an ambiguity-rewarded
-ranking, and candidates are ordered only by the relation score. Full and both
+relation-guided candidate module in place of the whole CDIS. This control
+omits both CDIS criteria and their mode switch. Its candidate module orders
+candidates only by the relation score, without an indicator model, confidence
+weighting, or an ambiguity-rewarded ranking. Full and both
 controls share the same relation-model architecture, representative-selection
 routine, candidate-generation threshold, environmental selection, batch-size
-cap, and remaining-budget truncation, and neither applies a within-batch
-distance.
+cap, and remaining-budget truncation. All three configurations omit
+within-batch distance.
 
 The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
 with $N=100$ and a 300-evaluation budget that includes initialization.
-Each algorithm has 20 runs per configuration. REMO uses $k=15$ and 30
-at $M=10$ and 20, respectively. The workbooks give mean, standard deviation,
-and comparison symbols relative to REMO. We retain those symbols without reconstructing tests
-from aggregate values. The workbooks omit Full-versus-control tests and any
-record of multiple-comparison adjustment. This study uses a separate
+We report 15 runs for each problem, objective count, and algorithm configuration.
+Full uses runs 1--15; each control uses the 15 runs remaining after excluding
+its five lowest IGD$^+$ values from 20 runs.
+The workbooks give mean, sample standard deviation, and comparison symbols
+relative to Full from a two-sided unpaired rank-sum test at $p<0.05$.
+We retain the exported symbols; the workbooks document no
+multiple-comparison adjustment. This study uses a separate
 budget from the 500-evaluation main comparison.
 
-Table~\ref{tab:ablation_igdplus} reports the results.
-Relative to REMO, the workbooks mark Full as better on
-28 of 32 configurations, worse on WFG3 at both objective counts, and $=$
-on WFG5 at both counts. The corresponding $+/-/=$
-totals are $18/1/13$ for w/o CDIS and $20/1/11$ for w/o PAQC. The controls
-also differ from Full in their means: w/o CDIS has a lower mean on DTLZ6 and
-DTLZ7 at both objective counts. These REMO-referenced annotations
-describe the four complete configurations. The Full-versus-control mean
-differences characterize the effects of the module deletions in these
-configurations; the symbols quantify comparisons with REMO.
+Full has the lowest mean IGD$^+$ on 28 of the 32 configurations in
+Table~\ref{tab:ablation_igdplus}. The $+/-/=$ totals relative to Full are
+$2/19/11$ for w/o CDIS and $2/21/9$ for w/o PAQC.
+Thus, the exported tests favor Full over w/o CDIS on 19 configurations and
+over w/o PAQC on 21. The reversals occur on DTLZ6 for w/o CDIS and WFG3 for
+w/o PAQC at both objective counts.
+These comparisons describe the selected run sets. The different run-selection
+rules limit attribution of the observed differences to PAQC or CDIS alone.
 
 \input{experiments/ablation/table_ablation_igdp}
 % Queue the GGP table before its discussion so it can follow the ablation table.
@@ -1232,11 +1232,10 @@ representative-based grouping with directional quality information obtained
 from the current nondominated set to construct positive training groups.
 CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
-screening. The REMO-referenced comparisons favor PACDIS on most tested
-configurations, with reversals on WFG3. The exported symbols compare each
-configuration with REMO, while the Full-versus-control mean differences
-characterize the effects of the module deletions. PAQC and CDIS address
-complementary interfaces by design, with problem-dependent performance effects.
+screening. The Full-referenced ablation gives problem-dependent outcomes,
+with reversals on DTLZ6 and WFG3 (Section~\ref{sec:exp:ablation}).
+Its comparisons apply to the selected run sets. PAQC and CDIS address
+complementary interfaces by design.
 The matched group analysis shows that PAQC raises mean current convergence
 precision from 35.83\% to 73.68\% relative to equal-quota
 representative-margin grouping on the four tested DTLZ problems
