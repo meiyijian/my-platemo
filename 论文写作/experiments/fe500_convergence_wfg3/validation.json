@@ -29,12 +29,12 @@
     "M11_passive": [],
     "M2_antithesis": [
       {
-        "location": "HPDC-MaOEA.tex:1083",
+        "location": "HPDC-MaOEA.tex:1087",
         "match": " not m",
         "line": "establish the performance loss, but do not measure this proposed mechanism."
       },
       {
-        "location": "HPDC-MaOEA.tex:1244",
+        "location": "HPDC-MaOEA.tex:1248",
         "match": " not e",
         "line": "four DTLZ problems; it does not establish Pareto-front coverage or explain"
       },
