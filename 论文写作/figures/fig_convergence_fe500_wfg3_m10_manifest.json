@@ -3,10 +3,10 @@
   "metric": "IGDp (IGD+)",
   "estimator": "arithmetic mean",
   "source_csv": "experiments\\fe500_convergence_wfg3\\convergence_igdp_fe500.csv",
-  "source_csv_sha256": "f488d4ad523e3474333076f8f060817a7e92e3f5ebc07e8e60e52e149be83925",
+  "source_csv_sha256": "1036aef6a4907eae939863d4026b82fef083b0f5a15b05ceb941fba471ea8467",
   "source_manifest": "experiments\\fe500_convergence_wfg3\\source_manifest.json",
-  "source_manifest_sha256": "482c33c0c8123dba1cfe1daef447011258a18fa2f4e3073e642f87eae8f52264",
-  "drawing_script_sha256": "04289b31eb9c864206134c756cc445f7015a6e9e5732dab267e8cf36cdd2770e",
+  "source_manifest_sha256": "0a21e29bf7b4e3c80603214f6f006c0cffcacaaf4e296c7a68df5ab05e4148b4",
+  "drawing_script_sha256": "9ee94655fe919ec6c3185de595121d081a804715728bf3066a027cb3027f225e",
   "runs_used": [
     1,
     2,
@@ -51,7 +51,7 @@
     "CSEA": "*",
     "HES_EA": "o",
     "SSDE": "x",
-    "SAMOEATL2M": "+"
+    "PIEA": "+"
   },
   "marker_every_fe": 50,
   "marker_endpoints": true,
@@ -64,7 +64,7 @@
     "CSEA": "CSEA",
     "HES_EA": "HES-EA",
     "SSDE": "SSDE",
-    "SAMOEATL2M": "SAMOEA-TL2M"
+    "PIEA": "PIEA"
   },
   "coverage": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
@@ -175,14 +175,14 @@
       ],
       "snapshots_above_budget_excluded": 14
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 31,
       "first_saved_fe_range": [
-        340,
-        340
+        100,
+        100
       ],
-      "first_plotted_fe": 340,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
         500,
         500
@@ -202,7 +202,7 @@
   "minimum_pdf_glyph_pt": 5.95,
   "font_names": [
     "CNWRJO+STIXGeneral-Italic",
-    "FGFKNH+TimesNewRomanPSMT",
+    "DNYFND+TimesNewRomanPSMT",
     "GMAIOS+STIXGeneral-Regular"
   ],
   "unembedded_fonts": [],
@@ -210,5 +210,5 @@
   "legend_obscures_curve_data": false,
   "drawing_script": "build_convergence_wfg3_fe500.py",
   "shared_style_and_alignment_script": "build_convergence_fe500.py",
-  "shared_style_and_alignment_script_sha256": "731a5e558f5db573de2f673c6ba6a450e25a212c6eb392bbfb1eac4827774c95"
+  "shared_style_and_alignment_script_sha256": "192657bae6d1b547d0824743acc4e8e609372500e080cc7c18d26836ff517d59"
 }

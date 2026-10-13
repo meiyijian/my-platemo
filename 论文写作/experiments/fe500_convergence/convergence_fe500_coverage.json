@@ -132,27 +132,27 @@
       ],
       "snapshots_above_budget_excluded": 19
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 30,
       "first_saved_fe_range": [
-        329,
-        329
+        100,
+        100
       ],
-      "first_plotted_fe": 329,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
-        504,
-        504
+        500,
+        500
       ],
       "last_saved_fe_le500_range": [
-        479,
-        479
+        500,
+        500
       ],
       "snapshot_count_range": [
-        30,
+        18,
         30
       ],
-      "snapshots_above_budget_excluded": 20
+      "snapshots_above_budget_excluded": 0
     }
   },
   "DTLZ6": {
@@ -288,27 +288,27 @@
       ],
       "snapshots_above_budget_excluded": 19
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 30,
       "first_saved_fe_range": [
-        329,
-        329
+        100,
+        100
       ],
-      "first_plotted_fe": 329,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
-        504,
-        504
+        500,
+        500
       ],
       "last_saved_fe_le500_range": [
-        479,
-        479
+        500,
+        500
       ],
       "snapshot_count_range": [
-        30,
+        18,
         30
       ],
-      "snapshots_above_budget_excluded": 20
+      "snapshots_above_budget_excluded": 0
     }
   },
   "WFG2": {
@@ -444,14 +444,14 @@
       ],
       "snapshots_above_budget_excluded": 20
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 31,
       "first_saved_fe_range": [
-        340,
-        340
+        100,
+        100
       ],
-      "first_plotted_fe": 340,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
         500,
         500
@@ -461,7 +461,7 @@
         500
       ],
       "snapshot_count_range": [
-        30,
+        18,
         30
       ],
       "snapshots_above_budget_excluded": 0
@@ -600,27 +600,27 @@
       ],
       "snapshots_above_budget_excluded": 18
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 30,
       "first_saved_fe_range": [
-        329,
-        329
+        100,
+        100
       ],
-      "first_plotted_fe": 329,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
-        504,
-        504
+        500,
+        500
       ],
       "last_saved_fe_le500_range": [
-        479,
-        479
+        500,
+        500
       ],
       "snapshot_count_range": [
-        30,
+        18,
         30
       ],
-      "snapshots_above_budget_excluded": 20
+      "snapshots_above_budget_excluded": 0
     }
   }
 }

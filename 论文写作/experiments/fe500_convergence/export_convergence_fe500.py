@@ -27,13 +27,14 @@ import json
 
 import numpy as np
 from scipy.io import loadmat
+from piea_metrics import CACHE, read_igdp
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(r'C:\Users\lsx\Desktop\REMOandDREMO测试集')
 SUBDIR = Path('10目标') / 'n30' / 'FE500'
 
 PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist'
-ALGORITHMS = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'SAMOEATL2M']
+ALGORITHMS = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'PIEA']
 PROBLEMS = ['DTLZ1', 'DTLZ6', 'WFG2', 'WFG7']
 M = 10
 RUNS = list(range(1, 21))
@@ -66,7 +67,7 @@ def main():
                     result = result.reshape(1, 2)
                 fe = np.asarray(result[:, 0], dtype=float).ravel()
                 metric = s['metric']
-                igdp = np.asarray(getattr(metric, 'IGDp'), dtype=float).ravel()
+                igdp, metric_origin = read_igdp(f, metric, fe, alg)
                 if igdp.size != fe.size:
                     raise ValueError(f'{f.name}: FE {fe.size} vs IGDp {igdp.size}')
                 if (not np.all(np.isfinite(fe)) or not np.all(np.isfinite(igdp))
@@ -80,6 +81,7 @@ def main():
                     'algorithm': alg, 'problem': prob, 'M': M, 'D': d,
                     'run': run, 'relative_path': f.relative_to(ROOT).as_posix(),
                     'sha256': hashlib.sha256(f.read_bytes()).hexdigest(),
+                    'metric_origin': metric_origin,
                     'snapshot_count': int(fe.size), 'first_fe': int(fe[0]),
                     'terminal_fe': int(fe[-1]),
                     'last_saved_fe_le500': int(fe[eligible[-1]]),
@@ -107,12 +109,17 @@ def main():
         'algorithm_labels': {
             PACDIS: 'PACDIS', 'REMO': 'REMO', 'PCSAEA': 'PC-SAEA',
             'CSEA': 'CSEA', 'HES_EA': 'HES-EA', 'SSDE': 'SSDE',
-            'SAMOEATL2M': 'SAMOEA-TL2M',
+            'PIEA': 'PIEA',
         },
         'csv_columns': ['Algorithm', 'Problem', 'M', 'D', 'Run', 'Step', 'FE', 'IGDp'],
         'source_csv_sha256': hashlib.sha256(out.read_bytes()).hexdigest(),
         'run_file_count': len(sources), 'trajectory_row_count': len(traces),
         'raw_export_policy': 'Retain all recorded snapshots; plotting excludes FE > 500.',
+        'reconstruction_cache': CACHE.name,
+        'reconstruction_cache_sha256': hashlib.sha256(CACHE.read_bytes()).hexdigest(),
+        'reconstruction_script': 'export_piea_metric_cache.m',
+        'reconstruction_script_sha256': hashlib.sha256(
+            (HERE / 'export_piea_metric_cache.m').read_bytes()).hexdigest(),
         'sources': sources,
     }
     (HERE / 'source_manifest.json').write_text(

@@ -14,21 +14,19 @@ from decimal import Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-# Current source set: the refreshed FE500 seven-algorithm workbooks.
+# Current source set: supplied FE500 workbooks, retaining seven algorithms.
 # The authors specify 20 runs per cell; local MAT coverage is a separate audit.
 # Previous source set (git history, commit e8387bf and earlier): the FE300 /
 # runs 1-20 export lambdat030nobatch{十,十五,二十}目标IGDp.xlsx, whose baseline
 # columns were REMO / PIEA / CSEA / PCSAEA_N100 / KRVEA_100 / MCEAD.
 OURS = "PACDIS"
-FILES = {10: "nobatchdict以PACDIS为基准十目标IGDp.xlsx",
-         15: "nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
-         20: "nobatchdict以PACDIS为基准二十目标IGDp.xlsx"}
+FILES = {10: "含PIEA最差20以PACDIS为基准十目标IGDp.xlsx",
+         15: "含PIEA最差20以PACDIS为基准十五目标IGDp.xlsx",
+         20: "含PIEA最差20以PACDIS为基准二十目标IGDp.xlsx"}
 SHEET = "IGDp"
-ORDER = ["REMO", "SSDE", "PC-SAEA", "SAMOEA-TL2M", "CSEA", "HES-EA", "PACDIS"]
-# The six baselines are already labelled with their paper names in these
-# workbooks; the legacy suffixed spellings are kept so the same script still
-# reads the older exports. PACDIS is the proposed method (the NoBatchDist
-# variant); any column absent from this map is ignored.
+ORDER = ["REMO", "SSDE", "PC-SAEA", "PIEA", "CSEA", "HES-EA", "PACDIS"]
+# PIEA replaces the previous fourth baseline column. Other source columns
+# retain their original values. PACDIS denotes the NoBatchDist variant.
 ALIASES = {"REMO": "REMO", "SSDE": "SSDE",
            "PC-SAEA": "PC-SAEA", "PCSAEA": "PC-SAEA", "PCSAEA_N100": "PC-SAEA",
            "SAMOEA-TL2M": "SAMOEA-TL2M", "SAMOEATL2M": "SAMOEA-TL2M",
@@ -42,10 +40,10 @@ CELL = re.compile(r"^\s*([\d.]+e[+-]\d+)\s*\(([\d.]+e[+-]\d+)\)\s*([+=-])?\s*$",
 
 def extract(source):
     from openpyxl import load_workbook
-    records, manifest = [], {"excluded_algorithm": None,
+    records, manifest = [], {"excluded_algorithm": "SAMOEA-TL2M",
                              "excluded_algorithm_note":
-                                 "The FE500 workbooks carry only the seven table columns; "
-                                 "earlier exports additionally carried the Lambdat030 column.",
+                                 "The supplied workbooks contain eight algorithms; PIEA "
+                                 "replaces SAMOEA-TL2M in the seven-column manuscript tables.",
                              "sources": []}
     for m in [10, 15, 20]:
         path = source / FILES[m]
@@ -53,7 +51,9 @@ def extract(source):
         wb = load_workbook(path, data_only=True)
         ws = wb[SHEET]
         headers = {str(c.value): c.column for c in ws[1] if c.value is not None}
-        assert set(ALIASES[h] for h in headers if h in ALIASES) == set(ORDER)
+        retained = {h: col for h, col in headers.items()
+                    if h in ALIASES and ALIASES[h] in ORDER}
+        assert set(ALIASES[h] for h in retained) == set(ORDER)
         info = {"filename": path.name, "source_path": str(path.resolve()), "sha256": hashlib.sha256(content).hexdigest(),
                 "sheet": SHEET, "M": m, "reference_algorithm": OURS,
                 "headers": list(headers), "metadata": [], "exported_summary": {}}
@@ -64,9 +64,7 @@ def extract(source):
             meta = {k: ws.cell(row, headers[k]).value if k in headers else None
                     for k in ["N", "M", "D", "FE"]}
             info["metadata"].append({"problem": problem, **meta})
-            for header, col in headers.items():
-                if header not in ALIASES:
-                    continue
+            for header, col in retained.items():
                 cell = ws.cell(row, col)
                 match = CELL.fullmatch(str(cell.value))
                 assert match, (path.name, cell.coordinate, cell.value)
@@ -77,8 +75,8 @@ def extract(source):
                                 "symbol": symbol or "", "source_file": path.name,
                                 "source_sheet": SHEET, "source_cell": cell.coordinate,
                                 "raw": cell.value})
-        for header, col in headers.items():
-            if header in ALIASES and header != OURS:
+        for header, col in retained.items():
+            if header != OURS:
                 actual = Counter(r["symbol"] for r in records
                                  if r["M"] == m and r["source_algorithm"] == header)
                 original = str(ws.cell(18, col).value)

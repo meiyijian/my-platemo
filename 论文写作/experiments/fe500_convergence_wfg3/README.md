@@ -1,5 +1,24 @@
 # WFG3 failure-case convergence at FE500
 
+## 2026-10-13 PIEA replacement
+
+The active WFG3 figure replaces SAMOEA-TL2M with PIEA using original runs
+1--20, preserving the 88 x 70 mm style, gray color, plus marker and placement.
+PIEA starts at FE100 and reaches an FE500 mean of 0.94563543, compared with
+1.43866196 for PACDIS and 1.26301468 for REMO. Both PIEA and PACDIS initialize
+with 100 evaluations. The final narrative uses these curve endpoints,
+independently of the finalized workbook means in the main table.
+
+The shared `../fe500_convergence/piea_metrics.py` reads the source-hashed
+reconstruction cache for missing PIEA IGD+ trajectories. Rebuild the cache
+with the MATLAB script described in that directory, export with
+`python figures/build_convergence_wfg3_fe500.py --export`, and run
+`python experiments/fe500_convergence_wfg3/validate.py`.
+All 140 original sources are hash-checked; seven curves retain all 20 runs.
+Earlier notes below record the original SAMOEA-TL2M extension.
+
+## Historical notes before PIEA replacement
+
 This extension adds the WFG3 ten-objective failure case to Section 4.2. It
 preserves the four existing favorable-case figures and their source exports.
 Seven algorithms use runs 1--20; the actual recorded dimension is D=31.

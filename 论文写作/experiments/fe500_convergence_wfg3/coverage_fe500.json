@@ -108,14 +108,14 @@
       ],
       "snapshots_above_budget_excluded": 14
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 31,
       "first_saved_fe_range": [
-        340,
-        340
+        100,
+        100
       ],
-      "first_plotted_fe": 340,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
         500,
         500

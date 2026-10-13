@@ -1,0 +1,40 @@
+{
+  "baseline_commit": "9c2c4d6",
+  "workbook_cells_checked": 336,
+  "PIEA_cells_replaced": 48,
+  "unchanged_comparator_cells": 288,
+  "unchanged_comparator_run_trajectories": 600,
+  "source_workbooks_archived_without_changes": 3,
+  "style_parameters_and_drawing_functions_unchanged": true,
+  "PACDIS_best_counts_M10_M15_M20": [
+    5,
+    3,
+    3
+  ],
+  "PACDIS_best_total": 11,
+  "active_English_and_Chinese_old_algorithm_mentions": 0,
+  "citation_keys_checked": 22,
+  "curve_run_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "table_and_curve_sampling_policy": "Final supplied workbook results for tables; original runs 1--20 for curves."
+}

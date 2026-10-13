@@ -16,6 +16,7 @@ import pandas as pd
 from scipy.io import loadmat
 import pymupdf
 from PIL import Image
+from piea_metrics import CACHE, read_igdp
 
 HERE = Path(__file__).resolve().parent
 PAPER = HERE.parents[1]
@@ -51,7 +52,7 @@ def policy_checks():
 
 def style_checks():
     text = (PAPER / 'HPDC-MaOEA.tex').read_text(encoding='utf-8')
-    start = text.index('\\paragraph{PACDIS reaches lower endpoint values}')
+    start = text.index('\\paragraph{PIEA reverses the DTLZ6 comparison}')
     end = text.index('\\input{figures/figure_convergence_fe500}', start)
     changed = text[start:end]
     figure = (PAPER / 'figures' / 'figure_convergence_fe500.tex').read_text(encoding='utf-8')
@@ -84,13 +85,17 @@ def style_checks():
     assert sum(counts.values()) == float_modifiers, hits
     print('M15 justification:', float_modifiers,
           'LaTeX float-placement modifiers; zero prose exclamation marks')
-    assert figure.count('\\begin{figure}') == 4 and '\\begin{figure*}' not in figure
+    assert figure.count('\\begin{figure*}') == 1
+    assert figure.count('\\begin{minipage}') == 4
+    assert figure.count('\\includegraphics') == 4
+    assert 'figure_convergence_wfg3_fe500' in figure
     return counts
 
 
 def main():
     policies = policy_checks()
     manifest = json.loads((HERE / 'source_manifest.json').read_text(encoding='utf-8'))
+    assert hashlib.sha256(CACHE.read_bytes()).hexdigest() == manifest['reconstruction_cache_sha256']
     assert manifest['run_file_count'] == 560
     root = Path(manifest['source_root'])
     reconstructed = {}
@@ -103,7 +108,7 @@ def main():
                            squeeze_me=True, struct_as_record=False)
         result = np.asarray(data['result'], object).reshape(-1, 2)
         fe = np.asarray(result[:, 0], float)
-        scores = np.asarray(data['metric'].IGDp, float).ravel()
+        scores, _ = read_igdp(path, data['metric'], fe, source['algorithm'])
         values = []
         position = -1
         for target_fe in range(100, 501):
@@ -154,7 +159,7 @@ def main():
         'policy_checks': policies, 'figures_verified': figures,
         'mechanical_gate_counts': style,
         'mechanical_gate_justifications': {
-            'M15_exclamation': 'Four ! characters are LaTeX float-placement modifiers in [!tbp]; zero prose exclamation marks.',
+            'M15_exclamation': 'Zero prose exclamation marks; the five figures share one unchanged figure* float.',
         },
         'source_csv_sha256': manifest['source_csv_sha256'],
         'aggregate_csv_sha256': hashlib.sha256(

@@ -10,12 +10,15 @@ import csv
 import hashlib
 import json
 import warnings
+import sys
 
 import numpy as np
 import pandas as pd
 from scipy.io import loadmat
 
 import build_convergence_fe500 as shared
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'experiments' / 'fe500_convergence'))
+from piea_metrics import CACHE, read_igdp
 
 HERE = Path(__file__).resolve().parent
 DATA = HERE.parent / 'experiments' / 'fe500_convergence_wfg3'
@@ -49,7 +52,7 @@ def export():
                               squeeze_me=True, struct_as_record=False)
             result = np.asarray(mat['result'], dtype=object).reshape(-1, 2)
             fe = np.asarray(result[:, 0], dtype=float)
-            values = np.asarray(mat['metric'].IGDp, dtype=float).ravel()
+            values, metric_origin = read_igdp(source, mat['metric'], fe, alg)
             if (values.shape != fe.shape or not np.isfinite(fe).all()
                     or not np.isfinite(values).all() or (np.diff(fe) < 0).any()
                     or (fe != np.floor(fe)).any() or (fe <= 0).any()
@@ -59,6 +62,7 @@ def export():
                 'algorithm': alg, 'problem': PROBLEM, 'M': 10, 'D': 31,
                 'run': run, 'relative_path': source.relative_to(ROOT).as_posix(),
                 'sha256': sha(source), 'snapshot_count': len(fe),
+                'metric_origin': metric_origin,
                 'first_fe': int(fe[0]), 'terminal_fe': int(fe[-1]),
                 'last_saved_fe_le500': int(fe[fe <= 500][-1]),
                 'snapshots_above_budget': int((fe > 500).sum()),
@@ -77,6 +81,8 @@ def export():
         'runs': shared.RUNS, 'algorithm_labels': shared.LABELS,
         'run_file_count': len(sources), 'trajectory_row_count': len(rows),
         'raw_export_policy': 'Retain recorded snapshots; plotting excludes metric values at FE > 500.',
+        'reconstruction_cache': '../fe500_convergence/' + CACHE.name,
+        'reconstruction_cache_sha256': sha(CACHE),
         'sources': sources,
     })
 

@@ -1,0 +1,19 @@
+{
+  "pdf_sha256": "6bc9e0053b2e928838f2048307f91986b4be774132e490bbcfeb4c2b0b280721",
+  "pages": 16,
+  "clean_jobname": "HPDC-MaOEA-PIEA",
+  "passes_after_final_edit": 2,
+  "unresolved_references": 0,
+  "overfull_boxes": 0,
+  "old_algorithm_mentions": 0,
+  "citation_numbers_verified": {
+    "PIEA": 10,
+    "CSEA": 15,
+    "HES-EA": 16
+  },
+  "retained_preexisting_warnings": [
+    "Author and affiliation placeholders",
+    "Existing PAQC figure PDF version 1.7 inclusion warning",
+    "Underfull text boxes"
+  ]
+}

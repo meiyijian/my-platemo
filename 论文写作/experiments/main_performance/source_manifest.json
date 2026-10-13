@@ -1,11 +1,11 @@
 {
-  "excluded_algorithm": null,
-  "excluded_algorithm_note": "The FE500 workbooks carry only the seven table columns; earlier exports additionally carried the Lambdat030 column.",
+  "excluded_algorithm": "SAMOEA-TL2M",
+  "excluded_algorithm_note": "The supplied workbooks contain eight algorithms; PIEA replaces SAMOEA-TL2M in the seven-column manuscript tables.",
   "sources": [
     {
-      "filename": "nobatchdict以PACDIS为基准十目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十目标IGDp.xlsx",
-      "sha256": "c6b2426f152ff8eb6f73b0862b1b9a4c33de429348012ea8f93104fe42458057",
+      "filename": "含PIEA最差20以PACDIS为基准十目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\FE500含PIEA\\最差20\\含PIEA最差20以PACDIS为基准十目标IGDp.xlsx",
+      "sha256": "a0f4578b63057acdc1f1501d35b56ab91900ccf58eaa2ffcd2f7b467fa34c530",
       "sheet": "IGDp",
       "M": 10,
       "reference_algorithm": "PACDIS",
@@ -19,6 +19,7 @@
         "SAMOEA-TL2M",
         "CSEA",
         "HES-EA",
+        "PIEA",
         "PACDIS"
       ],
       "metadata": [
@@ -139,15 +140,15 @@
         "REMO": "1/9/6",
         "SSDE": "1/15/0",
         "PC-SAEA": "0/16/0",
-        "SAMOEA-TL2M": "2/14/0",
         "CSEA": "0/14/2",
-        "HES-EA": "6/8/2"
+        "HES-EA": "6/8/2",
+        "PIEA": "4/9/3"
       }
     },
     {
-      "filename": "nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准十五目标IGDp.xlsx",
-      "sha256": "09ed02752514114de50e41b335a4005dd998a06fc4119b5514ce423ebd00637d",
+      "filename": "含PIEA最差20以PACDIS为基准十五目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\FE500含PIEA\\最差20\\含PIEA最差20以PACDIS为基准十五目标IGDp.xlsx",
+      "sha256": "2e88c238a3f0b9ab83529efb9e04edf7dca82436b8ace6d342fc37580ad8d59e",
       "sheet": "IGDp",
       "M": 15,
       "reference_algorithm": "PACDIS",
@@ -161,6 +162,7 @@
         "SAMOEA-TL2M",
         "CSEA",
         "HES-EA",
+        "PIEA",
         "PACDIS"
       ],
       "metadata": [
@@ -281,15 +283,15 @@
         "REMO": "2/10/4",
         "SSDE": "1/15/0",
         "PC-SAEA": "0/16/0",
-        "SAMOEA-TL2M": "1/14/1",
         "CSEA": "2/11/3",
-        "HES-EA": "5/8/3"
+        "HES-EA": "5/8/3",
+        "PIEA": "3/11/2"
       }
     },
     {
-      "filename": "nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
-      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\nobatchdict版本\\nobatchdict以PACDIS为基准二十目标IGDp.xlsx",
-      "sha256": "1d1be04b5195a6cfb46056c946cf42117e80c389afc1343d5e213b24c1c1b546",
+      "filename": "含PIEA最差20以PACDIS为基准二十目标IGDp.xlsx",
+      "source_path": "C:\\Users\\lsx\\Desktop\\AdaMao实验表\\FE500含PIEA\\最差20\\含PIEA最差20以PACDIS为基准二十目标IGDp.xlsx",
+      "sha256": "f8fbefe1186f794a3d34b36eaa27d2aebeeea6508fcf2900bff03af685c802b0",
       "sheet": "IGDp",
       "M": 20,
       "reference_algorithm": "PACDIS",
@@ -303,6 +305,7 @@
         "SAMOEA-TL2M",
         "CSEA",
         "HES-EA",
+        "PIEA",
         "PACDIS"
       ],
       "metadata": [
@@ -423,9 +426,9 @@
         "REMO": "3/9/4",
         "SSDE": "1/15/0",
         "PC-SAEA": "0/15/1",
-        "SAMOEA-TL2M": "1/15/0",
         "CSEA": "2/10/4",
-        "HES-EA": "5/7/4"
+        "HES-EA": "5/7/4",
+        "PIEA": "3/9/4"
       }
     }
   ]

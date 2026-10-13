@@ -1,5 +1,34 @@
 # PACDIS FE500 independent convergence figures
 
+## 2026-10-13 PIEA replacement
+
+The active seven-algorithm figures replace SAMOEA-TL2M with PIEA from the
+original `10目标/n30/FE500/PIEA` directory, using runs 1--20. PIEA inherits
+the previous gray color and plus marker. Physical dimensions, typography,
+line weights, legend position, FE alignment and budget policy are unchanged.
+DTLZ6 now favors PIEA at FE500 (5.6406 versus 13.3208 for PACDIS).
+
+Some legacy PIEA files do not store a complete `metric.IGDp` trajectory.
+`export_piea_metric_cache.m` reconstructs 72 missing trajectories from saved
+populations for DTLZ6, WFG2, WFG7 and WFG3. It never evaluates objectives or
+changes source MAT files. The cache `piea_recomputed_igdp.mat` includes raw
+source hashes, actual FE coordinates and unchanged problem FE counters.
+For each problem the script checks two snapshots against stock PlatEMO
+IGDp and one complete stored trajectory; both maximum errors were zero.
+`piea_metrics.py` rejects a cache whose source hash or FE coordinates differ.
+
+Reconstruction, export and plotting are separate: run the MATLAB cache script
+only when missing-metric raw files change, then run the existing Python
+exporter and drawing script. Run `validate_convergence_fe500.py` after drawing.
+The validation reconstructs all 28 means from 560 original run files and
+checks that all plotted points use 20 runs and FE <= 500.
+
+The main table uses the supplied finalized workbooks; it does not use this
+run-1--20 subset. PIEA table means and curve endpoints therefore need not match.
+Earlier notes below describe the prior baseline set.
+
+## Historical notes before PIEA replacement
+
 This dataset supplies four separate ten-objective figures: DTLZ1,
 DTLZ6, WFG2, and WFG7. Each figure compares PACDIS with REMO, SSDE,
 PC-SAEA, SAMOEA-TL2M, CSEA, and HES-EA using runs 1–20.
