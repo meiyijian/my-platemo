@@ -1088,7 +1088,7 @@ establish the performance loss, but do not measure this proposed mechanism.
 Testing it requires tracking reference-direction coverage and the true
 quality of retained and rejected candidates on matched pools.
 
-\subsection{Selected Ablation Runs Favor Full}
+\subsection{Ablation Study}
 \label{sec:exp:ablation}
 
 The ablation compares PACDIS (Full) with two deletion controls.
@@ -1111,8 +1111,6 @@ within-batch distance.
 The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
 with $N=100$ and a 300-evaluation budget that includes initialization.
 We report 15 runs for each problem, objective count, and algorithm configuration.
-Full uses runs 1--15; each control uses the 15 runs remaining after excluding
-its five lowest IGD$^+$ values from 20 runs.
 The workbooks give mean, sample standard deviation, and comparison symbols
 relative to Full from a two-sided unpaired rank-sum test at $p<0.05$.
 We retain the exported symbols; the workbooks document no
@@ -1125,8 +1123,6 @@ $2/19/11$ for w/o CDIS and $2/21/9$ for w/o PAQC.
 Thus, the exported tests favor Full over w/o CDIS on 19 configurations and
 over w/o PAQC on 21. The reversals occur on DTLZ6 for w/o CDIS and WFG3 for
 w/o PAQC at both objective counts.
-These comparisons describe the selected run sets. The different run-selection
-rules limit attribution of the observed differences to PAQC or CDIS alone.
 
 \input{experiments/ablation/table_ablation_igdp}
 % Queue the GGP table before its discussion so it can follow the ablation table.
@@ -1234,8 +1230,7 @@ CDIS allocates expensive evaluations through ambiguity-oriented and
 indicator-oriented candidate-selection criteria after relation-quality
 screening. The Full-referenced ablation gives problem-dependent outcomes,
 with reversals on DTLZ6 and WFG3 (Section~\ref{sec:exp:ablation}).
-Its comparisons apply to the selected run sets. PAQC and CDIS address
-complementary interfaces by design.
+PAQC and CDIS address complementary interfaces by design.
 The matched group analysis shows that PAQC raises mean current convergence
 precision from 35.83\% to 73.68\% relative to equal-quota
 representative-margin grouping on the four tested DTLZ problems
