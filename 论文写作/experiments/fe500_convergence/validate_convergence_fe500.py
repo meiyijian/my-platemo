@@ -16,7 +16,7 @@ import pandas as pd
 from scipy.io import loadmat
 import pymupdf
 from PIL import Image
-from piea_metrics import CACHE, read_igdp
+from piea_metrics import CACHE, DTLZ4_CACHE, read_igdp
 
 HERE = Path(__file__).resolve().parent
 PAPER = HERE.parents[1]
@@ -52,7 +52,7 @@ def policy_checks():
 
 def style_checks():
     text = (PAPER / 'HPDC-MaOEA.tex').read_text(encoding='utf-8')
-    start = text.index('\\paragraph{PIEA reverses the DTLZ6 comparison}')
+    start = text.index('\\paragraph{PACDIS reaches lower endpoint means}')
     end = text.index('\\input{figures/figure_convergence_fe500}', start)
     changed = text[start:end]
     figure = (PAPER / 'figures' / 'figure_convergence_fe500.tex').read_text(encoding='utf-8')
@@ -96,6 +96,7 @@ def main():
     policies = policy_checks()
     manifest = json.loads((HERE / 'source_manifest.json').read_text(encoding='utf-8'))
     assert hashlib.sha256(CACHE.read_bytes()).hexdigest() == manifest['reconstruction_cache_sha256']
+    assert hashlib.sha256(DTLZ4_CACHE.read_bytes()).hexdigest() == manifest['dtlz4_reconstruction_cache_sha256']
     assert manifest['run_file_count'] == 560
     root = Path(manifest['source_root'])
     reconstructed = {}

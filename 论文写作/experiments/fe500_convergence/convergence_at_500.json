@@ -28,29 +28,29 @@
   },
   {
     "M": 10,
-    "problem": "DTLZ6",
+    "problem": "DTLZ4",
     "FE": 500,
     "estimator": "arithmetic mean",
     "n": 20,
     "means": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 13.320763875907556,
-      "REMO": 15.572143297879364,
-      "PCSAEA": 17.351308923286396,
-      "CSEA": 14.700372847697576,
-      "HES_EA": 16.05620293725739,
-      "SSDE": 14.065582185075874,
-      "PIEA": 5.640573362729772
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 0.6132632637979684,
+      "REMO": 0.6347078212915864,
+      "PCSAEA": 1.4145533542205664,
+      "CSEA": 0.7610622938707051,
+      "HES_EA": 1.141709254770863,
+      "SSDE": 1.601883199733609,
+      "PIEA": 0.819819998552626
     },
     "ranks": {
-      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 2,
-      "REMO": 5,
-      "PCSAEA": 7,
-      "CSEA": 4,
-      "HES_EA": 6,
-      "SSDE": 3,
-      "PIEA": 1
+      "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 1,
+      "REMO": 2,
+      "PCSAEA": 6,
+      "CSEA": 3,
+      "HES_EA": 5,
+      "SSDE": 7,
+      "PIEA": 4
     },
-    "best": "PIEA",
+    "best": "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist",
     "metric_policy": "latest saved value with FE <= 500 for each run"
   },
   {

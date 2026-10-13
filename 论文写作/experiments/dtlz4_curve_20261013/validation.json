@@ -1,0 +1,15 @@
+{
+  "baseline": "e25f295",
+  "unchanged_run_trajectories": 420,
+  "DTLZ4_run_trajectories": 140,
+  "new_missing_PIEA_metrics": 18,
+  "all_active_favorable_cases_have_lowest_endpoint_mean": true,
+  "DTLZ4_endpoint_means": {
+    "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": 0.6132632637979682,
+    "REMO": 0.6347078212915865,
+    "PIEA": 0.819819998552626
+  },
+  "plot_functions_and_style_unchanged": true,
+  "main_tables_and_Chinese_table_rows_unchanged": true,
+  "WFG3_failure_case_retained": true
+}

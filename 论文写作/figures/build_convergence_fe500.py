@@ -46,7 +46,7 @@ MARKERS = {
 }
 M = 10
 BUDGET = 500
-PROBLEMS = ['DTLZ1', 'DTLZ6', 'WFG2', 'WFG7']
+PROBLEMS = ['DTLZ1', 'DTLZ4', 'WFG2', 'WFG7']
 RUNS = list(range(1, 21))
 GRID = np.arange(100, BUDGET + 1)
 MARK_EVERY = 50

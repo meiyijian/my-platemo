@@ -27,7 +27,7 @@ import json
 
 import numpy as np
 from scipy.io import loadmat
-from piea_metrics import CACHE, read_igdp
+from piea_metrics import CACHE, DTLZ4_CACHE, read_igdp
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(r'C:\Users\lsx\Desktop\REMOandDREMO测试集')
@@ -35,7 +35,7 @@ SUBDIR = Path('10目标') / 'n30' / 'FE500'
 
 PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist'
 ALGORITHMS = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'PIEA']
-PROBLEMS = ['DTLZ1', 'DTLZ6', 'WFG2', 'WFG7']
+PROBLEMS = ['DTLZ1', 'DTLZ4', 'WFG2', 'WFG7']
 M = 10
 RUNS = list(range(1, 21))
 PATTERN = re.compile(r'_(DTLZ\d+|WFG\d+)_M(\d+)_D(\d+)_(\d+)\.mat$')
@@ -117,6 +117,11 @@ def main():
         'raw_export_policy': 'Retain all recorded snapshots; plotting excludes FE > 500.',
         'reconstruction_cache': CACHE.name,
         'reconstruction_cache_sha256': hashlib.sha256(CACHE.read_bytes()).hexdigest(),
+        'dtlz4_reconstruction_cache': DTLZ4_CACHE.name,
+        'dtlz4_reconstruction_cache_sha256': hashlib.sha256(DTLZ4_CACHE.read_bytes()).hexdigest(),
+        'dtlz4_reconstruction_script': 'export_piea_dtlz4_metric_cache.m',
+        'dtlz4_reconstruction_script_sha256': hashlib.sha256(
+            (HERE / 'export_piea_dtlz4_metric_cache.m').read_bytes()).hexdigest(),
         'reconstruction_script': 'export_piea_metric_cache.m',
         'reconstruction_script_sha256': hashlib.sha256(
             (HERE / 'export_piea_metric_cache.m').read_bytes()).hexdigest(),

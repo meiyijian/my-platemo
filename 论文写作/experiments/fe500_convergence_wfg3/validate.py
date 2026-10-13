@@ -85,7 +85,7 @@ def main():
                     and t.id == 'patterns' for t in n.targets))
     manuscript = (PAPER / 'HPDC-MaOEA.tex').read_text(encoding='utf-8')
     starts_ends = [
-        ('We retain DTLZ1, DTLZ6', 'Every curve averages'),
+        ('We select DTLZ1, DTLZ4', 'Every curve averages'),
         ('\\paragraph{WFG3 remains', '\\subsection{REMO-Referenced Component Comparisons}'),
         ('The WFG3 results limit', 'candidate pool itself.'),
     ]

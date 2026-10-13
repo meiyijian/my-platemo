@@ -1,6 +1,30 @@
 # PACDIS FE500 independent convergence figures
 
-## 2026-10-13 PIEA replacement
+## 2026-10-13 DTLZ4 replaces the DTLZ6 convergence case
+
+The active four favorable cases are DTLZ1, DTLZ4, WFG2 and WFG7, with
+WFG3 retained as the separate failure case in the same manuscript float.
+The manuscript explicitly identifies the four as lowest-endpoint-mean cases.
+Main-table results, including the PIEA advantage on DTLZ6, are unchanged.
+
+DTLZ4 uses the original runs 1--20 at M=10, D=30 and configured FE500.
+The endpoint means are 0.6132632638 for PACDIS, 0.6347078213 for REMO
+and 0.8198199986 for PIEA. PIEA leads early; PACDIS passes it later.
+The main table's rank-sum test detects no difference between PACDIS and REMO.
+
+`export_piea_dtlz4_metric_cache.m` reconstructs 18 missing PIEA DTLZ4
+trajectories from saved populations. `piea_dtlz4_recomputed_igdp.mat`
+stores source hashes, FE coordinates and unchanged FE counters; checks
+against the stock metric and a complete stored trajectory both give zero error.
+This additional cache preserves the original cache used by WFG3 and the
+historical DTLZ6 figure. `piea_metrics.py` selects it only for missing DTLZ4
+trajectories. The source manifest records both caches and reproduction scripts.
+
+All figure dimensions, colors, markers, fonts, FE alignment and aggregation
+rules remain unchanged. The replacement audit is in
+`../dtlz4_curve_20261013/`; the previous DTLZ6 assets are historical files.
+
+## Historical notes: 2026-10-13 PIEA replacement
 
 The active seven-algorithm figures replace SAMOEA-TL2M with PIEA from the
 original `10目标/n30/FE500/PIEA` directory, using runs 1--20. PIEA inherits

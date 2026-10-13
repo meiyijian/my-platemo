@@ -155,7 +155,7 @@
       "snapshots_above_budget_excluded": 0
     }
   },
-  "DTLZ6": {
+  "DTLZ4": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
       "runs": 20,
       "D": 30,
@@ -231,11 +231,11 @@
       ],
       "first_plotted_fe": 109,
       "terminal_fe_range": [
-        502,
+        503,
         505
       ],
       "last_saved_fe_le500_range": [
-        478,
+        479,
         481
       ],
       "snapshot_count_range": [
@@ -276,15 +276,15 @@
       "first_plotted_fe": 100,
       "terminal_fe_range": [
         500,
-        509
+        539
       ],
       "last_saved_fe_le500_range": [
-        475,
+        464,
         500
       ],
       "snapshot_count_range": [
-        27,
-        30
+        15,
+        23
       ],
       "snapshots_above_budget_excluded": 19
     },

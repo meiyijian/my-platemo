@@ -1034,11 +1034,12 @@ PACDIS has no lowest mean there, and several baselines receive $+$ annotations.
 These results describe complete-algorithm performance under the selected
 budget. They do not attribute the differences to PAQC or CDIS individually.
 
-\paragraph{PIEA reverses the DTLZ6 comparison}
-PACDIS reaches the lowest endpoint mean IGD$^+$ on three of the four ten-objective
+\paragraph{PACDIS reaches lower endpoint means}
+PACDIS reaches the lowest endpoint mean IGD$^+$ on all four ten-objective
 problems in Figs.~\ref{fig:exp:convergence:dtlz1}--\ref{fig:exp:convergence:wfg7}.
-We retain DTLZ1, DTLZ6, WFG2, and WFG7 to show DTLZ and WFG
-trajectories, and add WFG3 below as a failure case.
+We select DTLZ1, DTLZ4, WFG2, and WFG7 to illustrate convergence
+on cases where PACDIS has the lowest endpoint mean, and retain WFG3 below
+as a failure case.
 The curves use original runs 1--20; the tables retain the supplied final
 workbook summaries.
 Every curve averages runs 1--20 on a
@@ -1052,10 +1053,11 @@ We exclude all recorded metric values at $FE>500$ and use each run's latest
 eligible snapshot at the budget.
 
 On DTLZ1, PACDIS continues to improve throughout the recorded interval,
-with REMO providing the closest endpoint comparison. PIEA reduces IGD$^+$
-more quickly on DTLZ6 and reaches a mean of 5.6406 at $FE=500$, compared
-with 13.3208 for PACDIS. PACDIS continues to decrease and overtakes SSDE
-late in search, but finishes above PIEA. PACDIS separates from REMO, SSDE,
+with REMO providing the closest endpoint comparison. On DTLZ4, PIEA reaches
+lower means early in search, but PACDIS continues to improve and overtakes it
+later. At $FE=500$, the means are 0.61326 for PACDIS, 0.63471 for REMO,
+and 0.81982 for PIEA. The main table's rank-sum test detects no difference
+between PACDIS and REMO. PACDIS separates from REMO, SSDE,
 and CSEA by $FE=150$
 on WFG2 and WFG7. On these two WFG cases, PACDIS retains lower means
 when all seven algorithms have begun search. HES-EA makes late gains
