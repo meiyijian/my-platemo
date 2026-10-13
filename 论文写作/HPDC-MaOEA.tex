@@ -212,11 +212,13 @@ ambiguity-oriented mode otherwise.
 % Contributions: two concrete mechanisms, with experimental evidence below.
 The two methodological contributions are:
 \begin{enumerate}[leftmargin=*,nosep]
-\item \textbf{Directional information for relation supervision.}
-PAQC combines representative-based labels with a continuous directional quality
-score to determine training-group membership. The additional assessment can
-distinguish solutions that share the same representative-based label, while
-the algorithm retains the three-class relation-model architecture.
+\item \textbf{Relation supervision using nondominated information.}
+PAQC uses current nondominated solutions to construct continuous PBI quality
+scores. It combines these scores with representative-based classification labels
+according to evaluation progress to determine the positive training group for
+relation learning. This mechanism supplements training-group construction with
+continuous quality scores while retaining the three-class relation-model
+architecture.
 \item \textbf{Alternative infill criteria after relation-quality screening.}
 CDIS gives classification ambiguity and a separately learned quality indicator
 distinct roles in selecting expensive evaluations. Both modes retain the
