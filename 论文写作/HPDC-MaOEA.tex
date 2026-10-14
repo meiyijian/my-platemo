@@ -881,7 +881,6 @@ before its real evaluation and the corresponding $FE$ update.
   \State $\mathcal{H}\gets\{\,\vx\in\mathcal{A}:R(\vx)\geq Q_{1-q}(R(\mathcal{A}))\,\}$
   \State Compute $A_{\mathrm{amb}}$ within $\mathcal{H}$ by \eqref{eq:expscore}
 \EndIf
-\State $n_b\gets\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$
 \State $\mathcal{S}\gets$ the first $n_b$ candidates in $\mathcal{H}$ under the selected ranking
 \State \Return $\mathcal{S}$
 \end{algorithmic}

@@ -308,9 +308,8 @@ $$
 4. **否则**：
    1. $\mathcal{H}\gets\{\mathbf{x}\in\mathcal{A}:R(\mathbf{x})\geq Q_{1-q}(R(\mathcal{A}))\}$。
    2. 根据式（8），在 $\mathcal{H}$ 内计算 $A_{\mathrm{amb}}$。
-5. $n_b\gets\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$。
-6. $\mathcal{S}\gets$ 按所选排序取得 $\mathcal{H}$ 的前 $n_b$ 个候选解。
-7. **返回** $\mathcal{S}$。
+5. $\mathcal{S}\gets$ 按所选排序取得 $\mathcal{H}$ 的前 $n_b$ 个候选解。
+6. **返回** $\mathcal{S}$。
 
 ### 3.5 计算复杂度
 
