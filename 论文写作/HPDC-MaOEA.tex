@@ -856,14 +856,14 @@ where $p_{\mathrm{mix}}=0.5$. One intact criterion is used per iteration;
 the two scores need not be combined into a single ranking. This is a fixed
 probability rule, with the ambiguity-oriented mode as the fallback when the indicator
 surrogate is unavailable. Let $\mathcal{H}$ denote the retained set selected by
-the current mode. The feasible batch size is
-$n_b=\min(n_{\max},|\mathcal{H}|,FE_{\max}-FE)$, with $n_{\max}=6$.
-A small retained set produces a smaller batch; it is not
-completed to a prescribed minimum. If the pool is empty, genetic variation
+the current mode. CDIS selects up to $n_{\max}=6$ candidates from
+$\mathcal{H}$ according to the current mode's ranking for real evaluation,
+with actual batch size $n_b$. It reduces the batch when fewer candidates
+are available or the remaining evaluation budget is insufficient.
+If the pool is empty, genetic variation
 provides fallback candidates, which are deduplicated and truncated to the same
 cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
-procedure. The framework truncates any returned batch to the remaining budget
-before its real evaluation and the corresponding $FE$ update.
+procedure.
 
 \begin{algorithm}[t]
 \caption{DiversifiedInfillSelection (CDIS)}
