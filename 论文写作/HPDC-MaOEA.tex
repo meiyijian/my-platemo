@@ -682,7 +682,7 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 \State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
 \State Form representative directions from $\vr_j-\vz^{*}$
 \State Associate nonzero $\vy_i$ with valid representative directions
-\State Obtain $L_i$ by \eqref{eq:label-bin}, with the stated zero-displacement rules
+\State Obtain $L_i$ by \eqref{eq:label-bin}, with bounded bisection for $\delta$ and the stated zero-displacement rules
 \State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
 \State $\mathcal{C}_1\gets$ the top $\lceil|\mathcal{P}|/4\rceil$ solutions under $H_i$
 \State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$

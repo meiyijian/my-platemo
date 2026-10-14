@@ -210,7 +210,7 @@ PAQC 将按 $H_i$ 排名最高的四分之一种群固定为正组。紧凑正�
 7. 通过径向网格选择 $k$ 个代表解，得到 $\mathcal{R}$。
 8. 由 $\mathbf{r}_j-\mathbf{z}^{*}$ 形成代表解方向。
 9. 将非零 $\mathbf{y}_i$ 关联到有效代表解方向。
-10. 根据式（4）获得 $L_i$，并应用已说明的零位移规则。
+10. 根据式（4）获得 $L_i$，对 $\delta$ 进行有界二分调整，并应用已说明的零位移规则。
 11. 融合两种信号：$H_i\gets(1-t)S_i+tL_i$。
 12. $\mathcal{C}_1\gets$ 按 $H_i$ 排名最高的 $\lceil|\mathcal{P}|/4\rceil$ 个解。
 13. $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$。
