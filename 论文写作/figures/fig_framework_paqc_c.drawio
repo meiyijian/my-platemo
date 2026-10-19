@@ -431,9 +431,6 @@
         <mxCell data-role="text" id="compact_score_27" parent="amb" vertex="1" value="Ambiguity term 0.3Ũ" style="html=1;rounded=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;spacing=0;fontFamily=Arial;fontColor=#28323D;fontSize=13.5;fontStyle=0;fillColor=none;strokeColor=none;">
           <mxGeometry as="geometry" x="180" y="140" width="164" height="23" />
         </mxCell>
-        <mxCell data-role="text" id="compact_score_28" parent="1" vertex="1" value="Illustrative scores" style="html=1;rounded=0;whiteSpace=nowrap;overflow=visible;align=center;verticalAlign=middle;spacing=0;fontFamily=Arial;fontColor=#28323D;fontSize=15;fontStyle=0;fillColor=none;strokeColor=none;">
-          <mxGeometry as="geometry" x="1725.0" y="918" width="170" height="24" />
-        </mxCell>
         <mxCell data-role="flow" id="population_to_paqc_0" parent="1" edge="1" source="population" target="pc_population" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;arcSize=4;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#28323D;strokeWidth=2.2931;endArrow=block;endFill=1;endSize=8;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitPerimeter=0;entryPerimeter=0;">
           <mxGeometry as="geometry" relative="1">
             <Array as="points">
