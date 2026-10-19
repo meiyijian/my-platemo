@@ -346,28 +346,17 @@ relation learning and indicator-based selection.
 \section{The Proposed PACDIS}
 \label{sec:method}
 
-Relation-based surrogate-assisted evolutionary algorithms replace multi-output
-regression by a classifier that predicts the relative quality of a pair of
-solutions~\cite{ref:remo}. Two interfaces then decide what such an algorithm
-can learn and how much its predictions cost: the rule that turns the evaluated
-population into supervision labels, and the rule that turns the surrogate
-scores of a large candidate pool into a small batch of expensive evaluations.
-We propose PACDIS, a surrogate-assisted many-objective evolutionary
-algorithm that modifies supervision construction through PAQC and
-expensive-evaluation allocation through CDIS.
-\emph{PBI-assisted quality classification} (PAQC) augments the
-representative-based grouping of REMO~\cite{ref:remo} with PBI-based quality
-information from directions constructed directly from the current nondominated
-set relative to the estimated ideal point. The representative-based signal uses
-the same point for association and distance evaluation. This additional source enriches the distribution information available for
-relation-group construction. PAQC fuses the two signals to determine which
-solutions enter the positive training group.
-\emph{Criterion-diversified infill selection} (CDIS) retains relation-guided
-candidate generation but uses either indicator-based reranking or
-ambiguity-rewarded ranking to choose the final expensive-evaluation
-batch. Established relation learning, indicator assessment and environmental
-selection modules provide the host algorithm; the two proposed mechanisms
-change how its training groups are formed and how its surrogate scores are used.
+PACDIS builds on relation-based surrogate-assisted optimisation, which uses a
+classifier to predict the relative quality of solution pairs~\cite{ref:remo}.
+It introduces two mechanisms. \emph{PBI-assisted quality classification}
+(PAQC) combines REMO's representative-based labels~\cite{ref:remo} with PBI
+scores along directions derived from the current nondominated set. Both signals
+use the estimated ideal point as their origin, and their combination determines
+the positive training group. \emph{Criterion-diversified infill selection}
+(CDIS) generates candidates through relation-guided search and selects a batch
+for expensive evaluation using either indicator-based reranking or
+ambiguity-rewarded ranking. The algorithm retains the existing relation-learning,
+indicator-assessment, and environmental-selection modules.
 
 \subsection{Overall Framework}
 \label{sec:method:framework}
@@ -381,36 +370,29 @@ evaluations consumed so far and $t=FE/FE_{\max}\in[0,1]$ the evaluation
 progress, which controls the hybrid score in PAQC.
 
 PACDIS evaluates a Latin hypercube design of $N_{\mathrm{init}}$ solutions,
-stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and then repeats five
-steps until the budget is exhausted. (i)~The current population $\mathcal{P}$
-is divided into a positive group and a non-positive group by
-PAQC, which also returns the set $\mathcal{R}$ of
-representative solutions reused later as an additional mating pool.
-(ii)~Ordered pairs are generated from the two groups and a three-class relation
-network is trained using the resulting ordered group labels.
-(iii)~An indicator value is computed for each solution in $\mathcal{P}$ and an
-RBF-SVR model is fitted from decision vectors to those values.
-(iv)~One of the two selection modes is drawn, a relation-guided inner search
-accumulates candidates under that mode, and a batch of at most $n_{\max}$ candidates is
-returned. (v)~The batch is evaluated, appended to
-$\mathcal{A}_{\mathrm{rc}}$, and the next population is obtained by the
-radial-grid environmental selection of RSEA~\cite{ref:rsea} over the whole
-archive.
+stores them in an archive $\mathcal{A}_{\mathrm{rc}}$, and repeats five steps
+until it exhausts the budget. (i)~PAQC divides the current population
+$\mathcal{P}$ into positive and non-positive groups and returns representatives
+$\mathcal{R}$ for use as an additional mating pool.
+(ii)~PACDIS generates ordered pairs from the groups and trains a three-class
+relation network on their group labels. (iii)~It computes an indicator value
+for each solution in $\mathcal{P}$ and fits a support vector regression model
+with a radial basis function kernel (RBF-SVR) from decision vectors to indicator
+values. (iv)~It draws a selection mode, accumulates
+candidates through relation-guided search under that mode, and selects at most
+$n_{\max}$ candidates. (v)~It evaluates the batch, appends it to
+$\mathcal{A}_{\mathrm{rc}}$, and applies RSEA's radial-grid environmental
+selection~\cite{ref:rsea} to the whole archive to obtain the next population.
 
-Algorithm~\ref{alg:framework} states the procedure; its grouping and candidate
-selection steps are detailed in Algorithms~\ref{alg:paqc}
-and~\ref{alg:cdis}, respectively. The initial design satisfies
-$2\leq N_{\mathrm{init}}\leq FE_{\max}$, and $N$ is the target population size
-for environmental selection. The relation surrogate $\mathcal{M}_R$ includes
-the group references and input normalisation needed for prediction, while
-$\mathcal{M}_I$ denotes the indicator surrogate when available. The controls
-are shared by the three procedures.
-All expensive evaluations
-after initialisation are consumed in step~(v), so both proposed mechanisms operate on already
-evaluated data and surrogate predictions only, and neither changes the total
-number of real evaluations. The two interfaces stay separate: grouping
-decides \emph{what the classifier is asked to learn}, candidate selection
-decides \emph{how its scores are spent}.
+Algorithm~\ref{alg:framework} gives the procedure, with grouping and candidate
+selection in Algorithms~\ref{alg:paqc} and~\ref{alg:cdis}.
+The initial design satisfies $2\leq N_{\mathrm{init}}\leq FE_{\max}$, and $N$
+is the target population size for environmental selection. The relation
+surrogate $\mathcal{M}_R$ includes the group references and input normalisation
+needed for prediction; $\mathcal{M}_I$ denotes the indicator surrogate when
+available. The three procedures share these controls. Initialisation and
+step~(v) consume the evaluation budget; PAQC and CDIS use evaluated data and
+surrogate predictions. The remaining budget limits each batch.
 
 Figure~\ref{fig:framework} shows the evaluation loop, PAQC group construction,
 model training, and the two CDIS ranking branches.
@@ -447,26 +429,17 @@ model training, and the two CDIS ranking branches.
 \subsection{PBI-Assisted Quality Classification (PAQC)}
 \label{sec:method:paqc}
 
-Relation learning requires training groups that reflect the quality of evaluated
-solutions. REMO~\cite{ref:remo} derives its grouping signal from a small set of
+REMO~\cite{ref:remo} constructs training groups using a small set of
 representatives selected through RSEA's two-dimensional radial grid~\cite{ref:rsea}.
-These representatives retain their original objective vectors, but the projected
-distribution guides their selection. This sparse summary may not fully reflect
-the directional distribution of the current nondominated solutions in the
-original many-objective space.
+The representatives retain their original objective vectors, but their selection
+depends on the projected distribution. This sparse summary may not fully reflect
+the directional distribution of the current nondominated set in the original
+many-objective space.
 
-PAQC supplements this representative-based grouping signal with quality
-information derived directly from the current nondominated solutions.
-It constructs reference directions from their displacements relative to the
-current estimated ideal point,
-bypassing radial-grid representative selection, and uses PBI to assess evaluated
-solutions along these directions. A stage-dependent fusion combines the
-directional quality information with representative-based labels. Both signals
-construct directions, associate solutions, and measure distances relative to
-the same estimated ideal point.
-The highest-ranked fraction forms the positive training group, and the remaining
-solutions form its complement. PAQC thus retains REMO's representative-based
-classification rule while adding another information source for relation-group construction.
+PAQC supplements the representative-based labels with PBI scores along
+directions derived directly from current nondominated solutions. It combines
+the two signals according to evaluation progress and assigns the highest-ranked
+fraction to the positive group. The remaining solutions form its complement.
 
 Figure~\ref{fig:paqc-mechanism} provides a geometric overview of these two
 signals and their roles in grouping.
@@ -482,7 +455,7 @@ dashed rays point toward current nondominated solutions $P_1$ and
 $P_2$. In (a), ``Good group'' and ``Bad group'' denote the binary labels
 $L_i=1$ and $L_i=0$; in (b), they denote $\mathcal{C}_1$ and
 $\mathcal{C}_2$, respectively. Blue rings highlight the reassignment of $A$
-and $B$. The PF is an external reference only. Selected solutions and schematic
+and $B$. The Pareto front (PF) is an external reference only. Selected solutions and schematic
 boundaries illustrate the two signals; they do not specify a complete population
 or a numerical example. Geometric presentation adapted from REMO~\cite{ref:remo}.}
 \label{fig:paqc-mechanism}
@@ -511,14 +484,10 @@ PAQC normalises their nonzero displacements to construct the direction set:
 \end{aligned}
 \label{eq:direction}
 \end{equation}
-The number and orientations of these directions follow the current nondominated
-distribution relative to $\vz^{*}$. Each direction defines a ray from $\vz^{*}$
-through its source solution. This construction uses the nondominated solutions
-directly, without radial-grid representative selection.
-When the adaptive construction is not applicable, PAQC uses uniformly distributed
-reference directions as a fallback. This includes $M\leq3$, $N<50$, too few
-nondominated solutions, a degenerate objective range in the nondominated set,
-or an empty $\mathcal{J}$.
+Each direction defines a ray from $\vz^{*}$ through its source solution, so the
+direction set follows the current nondominated distribution. PAQC uses uniform
+reference directions when $M\leq3$, $N<50$, the nondominated set has too few
+solutions or a degenerate objective range, or $\mathcal{J}$ is empty.
 
 For $\vy_i\ne\boldsymbol{0}$, PAQC associates the solution with the direction
 of largest cosine similarity,
@@ -537,8 +506,7 @@ S_i&=\frac{1}{1+g_i^{\mathrm{PBI}}}\in(0,1],
 where $\theta\geq0$ is the penalty parameter. A larger $S_i$ indicates a smaller
 PBI value along the associated direction.
 
-Direction construction, cosine association, and PBI evaluation all use
-displacements from $\vz^{*}$. The population minimum gives
+The population minimum gives
 $\vy_i\geq\boldsymbol{0}$; both adaptive and uniform directions are
 nonnegative, so $g_i^{\mathrm{PBI}}\geq0$ and $S_i\in(0,1]$.
 For $\vy_i=\boldsymbol{0}$, PAQC assigns $d_{1,i}=d_{2,i}=0$ and $S_i=1$
@@ -560,15 +528,12 @@ The uniform-direction fallback uses the full PBI expression in \eqref{eq:pbi}.
 \subsubsection{Representative-Based Grouping Signal}
 \label{sec:method:paqc:coarse}
 
-PAQC uses REMO's representative-based PBI classification rule~\cite{ref:remo}
-within the same displacement coordinate system.
-RSEA's radial-grid selection~\cite{ref:rsea} supplies a small set
-$\mathcal{R}\subset\mathcal{P}$ of $k$ representative solutions from the current
-population. These representatives supply the binary grouping signal. The
-representatives are evaluated solutions that act as dynamic, population-derived
-reference points. We set the requested representative count to
-$k=\lceil1.5M\rceil$ in the considered experiments; the implementation bounds
-are given in Section~\ref{sec:exp:settings}.
+PAQC applies REMO's representative-based PBI classification rule~\cite{ref:remo}
+in the displacement coordinate system. RSEA's radial-grid selection~\cite{ref:rsea}
+provides $k$ evaluated representatives $\mathcal{R}\subset\mathcal{P}$ as
+population-derived reference points. We request $k=\lceil1.5M\rceil$
+representatives in the experiments; Section~\ref{sec:exp:settings} gives the
+implementation bounds.
 
 For each representative, define $\bar{\vr}_j=\vr_j-\vz^{*}$.
 PAQC excludes zero-displacement representatives from directional association
@@ -599,13 +564,11 @@ $0.1$. The target fraction need not be attainable in a degenerate population.
 \subsubsection{Fusing Continuous Quality Scores with Representative-Based Labels}
 \label{sec:method:paqc:hybrid}
 
-The representative-based label describes membership relative to the selected
-reference solutions, while the nondominated-derived directions supply additional
-quality information relative to the same estimated ideal point. For fixed
-solutions and representatives, both signals are invariant to a common additive
-translation of the objective vectors because all calculations use their
-displacements from $\vz^{*}$. With
-$t=FE/FE_{\max}$, PAQC defines the hybrid quality score and the two groups as
+For fixed solutions and representatives, both signals are invariant to a common
+additive translation of the objective vectors: all calculations use
+displacements from $\vz^{*}$. With $t=FE/FE_{\max}$, PAQC combines the
+continuous scores and binary labels to define the groups:
+
 \begin{equation}
 \begin{aligned}
 H_i&=(1-t)S_i+tL_i,\\
@@ -615,32 +578,22 @@ H_i&=(1-t)S_i+tL_i,\\
 \end{aligned}
 \label{eq:group}
 \end{equation}
-PAQC fixes the positive group to the top quarter of the population under $H_i$.
-The compact positive group concentrates pairwise supervision on the
-highest-ranked solutions, while $\mathcal{C}_2$ provides a broad contrast set.
+The top quarter under $H_i$ forms the positive group, with $\mathcal{C}_2$
+containing the remaining solutions. As $FE$ increases, the weight shifts from
+directional quality to representative-based labels. Changes in group membership
+change the ordered pairs used to train the relation model.
+Section~\ref{sec:exp:ggp} examines the current convergence of the positive groups.
 
-Figure~\ref{fig:paqc-mechanism} illustrates the distinct roles of the two PBI
-signals. In panel~(a), the representatives $R_1$ and $R_2$ define the local
-thresholds used to obtain $L_i$. In panel~(b), the nondominated solutions
-$P_1$ and $P_2$ supply the adaptive directions $\vv_1$ and $\vv_2$ through
-\eqref{eq:direction}; these directions provide an additional directional
-assessment through $S_i$. The fusion determines positive-group membership.
-The reassignment of $A$ and $B$ to the positive
-group and of $C$ to its complement schematically depicts how the additional
-directional information can change selection priorities through
-\eqref{eq:group}. PAQC therefore modifies the ranking used to form
-the groups, without replacing the representative-based boundary with a new
-geometric boundary.
-
-The diagram uses two objectives to visualise the common ideal-point geometry.
-The label $O=Z$ marks the origin of the displacement coordinates; it does not
-assume that the estimated ideal point equals the origin of the original
-objective coordinates. Both sets of rays start at $Z$, and the adaptive rays
-pass through $P_1$ and $P_2$ by \eqref{eq:direction}.
-The drawn PF serves only as an external visual reference: PAQC uses current
-nondominated solutions to construct these directions. Their displayed
-positive-group membership illustrates the fusion; nondominance alone does
-not guarantee membership in $\mathcal{C}_1$.
+In Figure~\ref{fig:paqc-mechanism}(a), $R_1$ and $R_2$ define the local
+thresholds for $L_i$. In panel~(b), $P_1$ and $P_2$ supply directions
+$\vv_1$ and $\vv_2$ for $S_i$ through \eqref{eq:direction}. The reassignment
+of $A$, $B$, and $C$ illustrates how the ranking in \eqref{eq:group} changes
+group membership while retaining the representative-based thresholds.
+The two-objective diagram uses $O=Z$ as the origin of displacement coordinates,
+which may differ from the original objective-coordinate origin. Its PF is an
+external reference; PAQC constructs directions from current nondominated
+solutions. Membership in $\mathcal{C}_1$ depends on the fused ranking, so
+nondominance alone does not guarantee inclusion.
 
 Algorithm~\ref{alg:paqc} summarises the construction. Population order resolves
 ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
@@ -668,19 +621,15 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 \end{algorithmic}
 \end{algorithm}
 
-By changing membership of $\mathcal{C}_1$, the fusion changes the ordered pairs
-used to train the relation model. As $FE$ increases, group construction shifts
-from directional quality toward representative-based membership; the
-current-convergence analysis in Section~\ref{sec:exp:ggp} examines the resulting
-positive groups.
+
 
 \subsection{Relation Learning on the PAQC Groups}
 \label{sec:method:relation}
 
-PACDIS retains the relation model of REMO~\cite{ref:remo} and supplies it
-with the groups constructed by PAQC. Every ordered pair
-of distinct solutions becomes one training sample whose input is the
-concatenation $[\vx_i,\vx_j]\in\mathbb{R}^{2D}$ and whose label
+PACDIS trains REMO's relation model~\cite{ref:remo} on the PAQC groups.
+For each ordered pair of distinct solutions, it concatenates the decision
+vectors into an input $[\vx_i,\vx_j]\in\mathbb{R}^{2D}$ and assigns the label
+
 \begin{equation}
 y_{ij}=
 \begin{cases}
@@ -690,25 +639,22 @@ y_{ij}=
 \end{cases}
 \label{eq:pairlabel}
 \end{equation}
-with $\mathcal{C}_1,\mathcal{C}_2$ from \eqref{eq:group}, records the ordered
-group relation rather than a Pareto comparison. Both same-group pair types
-retain label~0 regardless of their members' $S_i$ or $H_i$ values. PAQC therefore
-changes the composition of the training groups; the relation labels do not
-encode quality ordering within either group. PAQC randomly subsamples
-same-group pairs towards the size of each cross-group class to balance the
-three labels of \eqref{eq:pairlabel}.
+where $\mathcal{C}_1,\mathcal{C}_2$ follow \eqref{eq:group}. These labels
+encode group membership, not Pareto comparisons or within-group quality order.
+Both same-group pair types receive label~0 regardless of $S_i$ or $H_i$.
+PAQC randomly subsamples same-group pairs towards the size of each cross-group
+class to balance the three labels.
 
 We employ the same relation-learning architecture as REMO: min--max normalised
 pair inputs, a class-balanced training/held-out split, and a feed-forward pattern
 network ending in a softmax over the three labels.
-Its output for a pair is written
+For a pair, the network outputs
 $\bm{\pi}(\vx_a,\vx_b)=[\pi_{+1},\pi_0,\pi_{-1}]$, the predicted probabilities
 that the first solution belongs to the higher group, that both belong to the
-same group, and that the second belongs to the higher group. The held-out
-partition is retained by the training procedure; no held-out error is
-used to gate candidate selection in the present implementation.
+same group, and that the second belongs to the higher group. The training procedure retains a held-out
+partition, but candidate selection does not use its error as a gate.
 
-For an unevaluated candidate $\vx$ the trained network is queried on the four
+For an unevaluated candidate $\vx$, the trained network predicts the four
 families of ordered comparisons $(\mathcal{C}_1,\vx)$, $(\vx,\mathcal{C}_1)$,
 $(\mathcal{C}_2,\vx)$ and $(\vx,\mathcal{C}_2)$, that is on $2N$ pairs per
 candidate. With $\mathbf{a},\mathbf{b},\mathbf{c},\mathbf{d}$ the family-wise
@@ -726,24 +672,21 @@ aggregate group-relative preference used to order unevaluated candidates.
 \subsection{Criterion-Diversified Infill Selection (CDIS)}
 \label{sec:method:cdis}
 
-PAQC determines the supervision supplied to the relation model, whereas CDIS
-determines how the resulting surrogate information guides expensive-evaluation
-allocation. CDIS uses two selection criteria: ambiguity-rewarded ranking
-after relation-quality screening, and indicator-based reranking of a
-relation-screened subset. The first criterion uses the relation model's
-confidence information; the second uses a separate indicator surrogate.
-A fixed cap bounds each expensive-evaluation batch.
+CDIS first screens candidates by relation quality, then ranks the retained
+subset using either classification ambiguity together with relation scores or
+predictions from a separate indicator surrogate. It selects a batch under a
+fixed evaluation cap. The actual batch size $n_b$ also depends on candidate
+availability and the remaining budget (Section~\ref{sec:method:cdis:mix}).
 
 Both modes use the same candidate-pool construction procedure. Genetic
-variation is applied to the current population and representatives
-$\mathcal{R}$; the relation score in \eqref{eq:relscore} ranks the offspring,
-and up to $|\mathcal{R}|$ of the best are retained as parents of the next
-inner generation together with $\mathcal{R}$. The search stops once the
-cumulative number of generated candidates reaches $g_{\max}$. All generated
-candidates are accumulated and deduplicated into $\mathcal{A}$. The mode is
-drawn before this search: mode-specific aggregation of the pair predictions
-can change the inner rankings and hence the realized pool. Thus, the modes
-share a pool-construction procedure, rather than necessarily an identical pool.
+variation acts on the current population and representatives $\mathcal{R}$.
+The relation score in \eqref{eq:relscore} ranks the offspring; up to
+$|\mathcal{R}|$ of the best join $\mathcal{R}$ as parents for the next inner
+generation. The search stops when the cumulative number of generated candidates
+reaches $g_{\max}$, then deduplicates all generated candidates to form
+$\mathcal{A}$. PACDIS draws the mode before the search. Mode-specific
+aggregation of pair predictions can change the inner rankings and the resulting
+candidate pool.
 
 \subsubsection{Ambiguity-Rewarded Infill}
 \label{sec:method:cdis:exp}
@@ -760,9 +703,7 @@ Let $q=0.30$ be the nominal fraction retained by relation-quality screening
 in either mode. Candidates whose relation scores are at or above the
 $(1-q)$-quantile of $R(\mathcal{A})$ form $\mathcal{H}^{\mathrm{amb}}$.
 In the absence of ties, this screen retains approximately the highest-scoring
-30\% of the pool; ties can increase that fraction. Ambiguity is considered only
-after this quality screen, so a candidate cannot enter the batch solely because
-of high predicted ambiguity.
+30\% of the pool; ties can increase that fraction.
 
 To distinguish candidates within the retained set, let $\mathcal{O}(\vx)$
 denote all ordered comparisons between candidate $\vx$ and the positive and
@@ -782,17 +723,14 @@ A_{\mathrm{amb}}(\vx)&=\widetilde{R}(\vx)+\lambda\,\widetilde{U}(\vx),
 \end{equation}
 Here tildes denote min--max normalization within
 $\mathcal{H}^{\mathrm{amb}}$, with a constant quantity assigned the normalized
-value $0.5$. Thus, ambiguity refines the relation-score ranking only among
-candidates that pass the quality screen. The ambiguity-oriented branch returns
+value $0.5$. The ambiguity-oriented branch returns
 the first $n_b$ candidates in descending $A_{\mathrm{amb}}$ order, preserving
 candidate order for exact ties.
 
 \subsubsection{Indicator-Based Infill}
 \label{sec:method:cdis:ind}
 
-The indicator-oriented mode provides an alternative assessment of candidates
-that pass relation-based screening. CDIS uses a single SDE-based quality
-indicator~\cite{ref:sde,ref:piea}.
+CDIS uses a single SDE-based quality indicator~\cite{ref:sde,ref:piea}.
 SDE~\cite{ref:sde} evaluates a solution
 through distances to neighboring objective vectors after shifting each
 neighbor's better objective components to the target solution's values.
@@ -807,16 +745,14 @@ The indicator supplies the scalar quality target $I_i$.
 We compute $I_i$ for each solution in the
 current population and train an
 RBF-SVR, denoted by $\mathcal{M}_I$, on
-$\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; its prediction is written
+$\mathcal{D}=\{(\vx_i,I_i)\}_{i=1}^{N}$; we denote its prediction by
 $\widehat I(\vx)=\mathcal{M}_I(\vx;\mathcal{D})$.
 The relation score first retains the top
 $\lceil q|\mathcal{A}|\rceil$ candidates to form $\mathcal{H}^{\mathrm{ind}}$.
 In this mode the family-wise relation probabilities are arithmetic averages.
-The screened candidates are then ranked by descending $\widehat I$, and up to
-$n_{\max}$ are selected directly. Failed or nonfinite indicator predictions
-fall back to relation-score ranking. This branch separates candidate screening
-from final quality assessment: relation predictions retain high-scoring
-candidates, and the indicator surrogate ranks the screened subset.
+CDIS then ranks the screened candidates by descending $\widehat I$ and
+selects up to $n_{\max}$ directly. Failed or nonfinite indicator predictions
+fall back to relation-score ranking.
 
 \subsubsection{Selection-Criterion Switching}
 \label{sec:method:cdis:mix}
@@ -830,17 +766,15 @@ m=\begin{cases}
 \end{cases}
 \label{eq:mode}
 \end{equation}
-where $p_{\mathrm{mix}}=0.5$. One intact criterion is used per iteration;
-the two scores need not be combined into a single ranking. This is a fixed
-probability rule, with the ambiguity-oriented mode as the fallback when the indicator
+where the probability $p_{\mathrm{mix}}=0.5$ stays fixed. Each iteration uses one ranking
+criterion, with the ambiguity-oriented mode as the fallback when the indicator
 surrogate is unavailable. Let $\mathcal{H}$ denote the retained set selected by
 the current mode. CDIS selects up to $n_{\max}=6$ candidates from
 $\mathcal{H}$ according to the current mode's ranking for real evaluation,
 with actual batch size $n_b$. It reduces the batch when fewer candidates
 are available or the remaining evaluation budget is insufficient.
-If the pool is empty, genetic variation
-provides fallback candidates, which are deduplicated and truncated to the same
-cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
+If the pool is empty, genetic variation provides fallback candidates. CDIS
+deduplicates them and truncates the batch to the same cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
 procedure.
 
 \begin{algorithm}[t]
@@ -871,14 +805,13 @@ Let $N$ be the population size, $N_v=O(N)$ the number of directions, $N_c$ the
 size of the deduplicated candidate pool, $D$ the number of decision variables
 and $M$ the number of objectives.
 
-In PAQC, association and the continuous PBI computation
-\eqref{eq:pbi} cost $O(NN_vM)$, the direction set
-\eqref{eq:direction} costs one normalisation of the nondominated vectors, the
-bounded bisection of \eqref{eq:label-bin} costs $O(B_\delta NkM)$ with
-$B_\delta$ fixed by the bracket and the tolerance, and representative selection
-adds nondominated sorting and radial-projection distances. With $N_v=O(N)$ and
-$k=O(N)$ the module is dominated by $O(N^2M)$, and generating the relation pairs
-adds $O(N^2D)$.
+In PAQC, association and the continuous PBI computation in \eqref{eq:pbi}
+cost $O(NN_vM)$. Constructing \eqref{eq:direction} requires one normalisation
+of the nondominated vectors. Bounded bisection for \eqref{eq:label-bin} costs
+$O(B_\delta NkM)$, where the bracket and tolerance fix $B_\delta$.
+Representative selection adds nondominated sorting and radial-projection
+distances. With $N_v=O(N)$ and $k=O(N)$, the dominant cost is $O(N^2M)$.
+Generating relation pairs adds $O(N^2D)$.
 
 In CDIS, scoring one candidate requires $2N$ network inputs of
 dimension $2D$. Constructing the inputs for the pool costs $O(N_cND)$.
@@ -891,8 +824,6 @@ subset. Sorting the ambiguity-rewarded acquisition
 costs $O(N_c\log N_c)$.
 The corresponding cost, excluding surrogate fitting, is
 $O(N_cND^2+N^2M+N_c\log N_c)$.
-Neither module directly consumes expensive evaluations. The remaining-budget
-check ensures that PACDIS does not exceed $FE_{\max}$, regardless of the mode sequence.
 
 
 % Experimental floats: allow full-width tables at page tops and keep
