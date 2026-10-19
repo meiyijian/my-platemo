@@ -41,14 +41,14 @@
         <mxCell id="paqc_frame" data-role="region" parent="1" style="rounded=1;absoluteArcSize=1;arcSize=22;html=1;fillColor=#f2f7fc;strokeColor=#6684A5;strokeWidth=2.2931;dashed=1;dashPattern=4 2.5;container=1;collapsible=0;pointerEvents=0;dropTarget=0;recursiveResize=0;" value="" vertex="1">
           <mxGeometry height="900" width="740" x="490" y="90" as="geometry" />
         </mxCell>
-        <mxCell id="text_11" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=33.5139;fontStyle=1;fontColor=#6684A5;align=center;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;" value="PAQC" vertex="1">
-          <mxGeometry height="44.8869" width="107.9531" x="806.02345" y="17.5565" as="geometry" />
+        <mxCell id="text_11" data-role="text" parent="paqc_frame" style="html=1;fontFamily=Arial;fontSize=33.5139;fontStyle=1;fontColor=#6684A5;align=center;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;" value="PAQC" vertex="1">
+          <mxGeometry height="44.8869" width="107.9531" x="316.02345" y="10" as="geometry" />
         </mxCell>
         <mxCell id="text_1" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=33.5139;fontStyle=1;fontColor=#6684A5;align=center;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;" value="MOEA loop" vertex="1">
           <mxGeometry height="44.8869" width="191.9844" x="124.0078" y="17.5565" as="geometry" />
         </mxCell>
-        <mxCell id="text_2" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=32.1028;fontStyle=1;fontColor=#28323D;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;align=center;" value="PACDIS framework" vertex="1">
-          <mxGeometry height="43.1654" width="1735" x="490" y="-50" as="geometry" />
+        <mxCell id="text_2" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=33.5139;fontStyle=1;fontColor=#28323D;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;align=center;" value="PACDIS framework" vertex="1">
+          <mxGeometry height="44.8869" width="1735" x="490" y="17.5565" as="geometry" />
         </mxCell>
         <mxCell id="text_30" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=28.5750;fontStyle=1;fontColor=#7D8791;align=center;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;" value="Model training" vertex="1">
           <mxGeometry height="38.8615" width="208" x="1326.0" y="110.5692" as="geometry" />
@@ -324,7 +324,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="text_81" data-role="text" parent="1" style="html=1;fontFamily=Arial;fontSize=33.5139;fontStyle=1;fontColor=#B58B59;align=center;verticalAlign=middle;spacing=0;text;fillColor=none;strokeColor=none;whiteSpace=nowrap;overflow=visible;" value="CDIS" vertex="1">
-          <mxGeometry height="44.8869" width="91" x="1764.5" y="17.5565" as="geometry" />
+          <mxGeometry height="44.8869" width="91" x="1764.5" y="100" as="geometry" />
         </mxCell>
         <mxCell id="mode" data-role="process" parent="1" style="html=1;fontFamily=Arial;fontSize=26.4583;fontStyle=0;fontColor=#28323D;align=center;verticalAlign=middle;spacing=0;rounded=1;absoluteArcSize=1;arcSize=7;whiteSpace=wrap;overflow=visible;fillColor=#ffffff;strokeColor=#28323D;strokeWidth=2.2931;" value="Choose one mode &lt;span style=&quot;font-family:Cambria Math;font-style:italic&quot;&gt;m&lt;/span&gt;" vertex="1">
           <mxGeometry height="80" width="400" x="1610.0" y="280" as="geometry" />
