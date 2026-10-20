@@ -848,9 +848,8 @@ self-organizing surrogate, and PC-SAEA uses pairwise comparison. PIEA learns
 the selected performance indicator with support vector regression and uses
 historical feedback to update indicator-selection probabilities.
 CSEA uses classification, and HES-EA combines hierarchical and ensemble
-surrogates with model reduction. Initialization counts differ across
-implementations; Section~\ref{sec:exp:comparison} reports the resulting FE
-start points.
+surrogates with model reduction. Section~\ref{sec:exp:comparison} reports
+the FE start point of each implementation.
 
 \paragraph{PACDIS parameters}
 We use the same configuration for all three objective counts:
@@ -863,8 +862,6 @@ k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
 \label{eq:keff}
 \end{equation}
 giving 15, 23 and 30 at $M=10$, 15 and 20 with $N=100$.
-The actual returned representative count can be smaller.
-This version omits error-gate thresholds and minimum-batch parameters.
 
 \paragraph{Performance indicator and statistical reporting}
 We measure performance by inverted generational distance plus (IGD$^+$);
@@ -876,17 +873,15 @@ parentheses, with light gray shading for the lowest mean among the seven
 algorithms.
 
 The statistical symbols follow unpaired rank-sum tests at $p<0.05$ on the
-reported runs, without multiple-comparison adjustment. Relative to PACDIS,
+reported runs. Relative to PACDIS,
 $+$ denotes a better baseline result, $-$ a worse result, and $=$ no detected
 difference. The bottom rows count these pairwise outcomes in $+/-/=$ order
-across the problem--objective configurations in each table; they do not
-constitute a separate omnibus test across problems.
+across the problem--objective configurations in each table.
 
 \paragraph{Reference sets and execution environment}
 We use PlatEMO's default DTLZ and WFG problem definitions with the $M$ and $D$
 settings above. PlatEMO constructs each reference set through the problem's
-\texttt{GetOptimum(10000)} method; the returned number of points depends on
-the problem and objective count. The \texttt{IGDp} implementation computes
+\texttt{GetOptimum(10000)} method. The \texttt{IGDp} implementation computes
 distances in the original objective space without additional normalization.
 Most runs use MATLAB R2023a on a Windows workstation with an Intel Core
 i5-12400 processor and 32 GB RAM. Six parallel workers execute independent
@@ -947,8 +942,7 @@ Panel (h) of Fig.~\ref{fig:exp:convergence} shows the ten-objective WFG3 case
 ($D=31$) under the same plotting protocol. PACDIS lowers its mean IGD$^+$
 throughout search, but REMO retains a lower mean throughout $FE=340$--500.
 At $FE=500$, the means are 1.4387 for PACDIS, 1.2630 for REMO, and 1.0013 for
-PIEA. PIEA reaches its lower endpoint with the same initialization count and
-configured evaluation budget as PACDIS.
+PIEA.
 
 Quality screening may reduce regional coverage, but the WFG3 trajectories do
 not isolate this effect. We leave the mechanism to future work.
@@ -1025,9 +1019,7 @@ precision through its good-group precision (GGP) against this reference set:
 \label{eq:ggp}
 \end{equation}
 This diagnostic measures convergence enrichment,
-with a fixed chance level of 25\%. DTLZ7 also requires the appropriate
-location among its disconnected Pareto regions. All checkpoints have
-distinct $g$ values at the selection boundary. The diagnostic reuses saved
+with a fixed chance level of 25\%. It reuses saved
 trajectories and adds zero real evaluations.
 
 We first average the 34 checkpoints within each run, then summarize the
@@ -1055,7 +1047,7 @@ reporting final IGD$^+$; shaded cells mark the best mean in each row and the
 best average rank, and superscripts report paired Wilcoxon signed-rank tests
 against $p_{\mathrm{mix}}=0.50$ on identical seeds ($\alpha=0.05$). Across these 12 problem--objective configurations,
 $p_{\mathrm{mix}}=0.50$ has the lowest average rank, 2.08, followed by
-$p_{\mathrm{mix}}=0.75$ at 2.33. The source table's paired tests favor
+$p_{\mathrm{mix}}=0.75$ at 2.33. Paired tests favor
 $p_{\mathrm{mix}}=0$ over the default on DTLZ7 at $M=10$, and
 $p_{\mathrm{mix}}=0.25$ on DTLZ7 at $M=20$.
 
