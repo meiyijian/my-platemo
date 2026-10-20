@@ -419,19 +419,19 @@ HES-EA 在全部三种目标数下的 DTLZ7 和 WFG8 上取得最低均值。当
 
 ![图 3：DTLZ1 十目标平均 IGD+ 收敛曲线](D:/PlatEMO-master/论文写作/figures/fig_convergence_fe500_dtlz1_m10.png)
 
-**图 3　DTLZ1 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。** 曲线在检查点之间保持已保存值；FE500 预算包含初始化。
+**图 3　DTLZ1 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。**
 
 ![图 4：DTLZ4 十目标平均 IGD+ 收敛曲线](D:/PlatEMO-master/论文写作/figures/fig_convergence_fe500_dtlz4_m10.png)
 
-**图 4　DTLZ4 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。** 曲线在检查点之间保持已保存值；FE500 预算包含初始化。
+**图 4　DTLZ4 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。**
 
 ![图 5：WFG2 十目标平均 IGD+ 收敛曲线](D:/PlatEMO-master/论文写作/figures/fig_convergence_fe500_wfg2_m10.png)
 
-**图 5　WFG2 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。** 曲线在检查点之间保持已保存值；FE500 预算包含初始化。
+**图 5　WFG2 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。**
 
 ![图 6：WFG7 十目标平均 IGD+ 收敛曲线](D:/PlatEMO-master/论文写作/figures/fig_convergence_fe500_wfg7_m10.png)
 
-**图 6　WFG7 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。** 曲线在检查点之间保持已保存值；FE500 预算包含初始化。
+**图 6　WFG7 上的平均 IGD$^+$ 收敛曲线（$M=10$，20 次运行）。**
 
 **WFG3 上的表现。** 图 7 展示相同绘图口径下的十目标 WFG3（$D=31$）。PACDIS 的平均 IGD$^+$ 持续下降，但 REMO 在 $FE=340$–500 全程保持更低均值。PIEA 从 $FE=100$ 开始，终点低于 PACDIS。在 $FE=500$ 时，PACDIS、REMO 和 PIEA 的均值分别为 1.4387、1.2630 和 0.94564。PIEA 在与 PACDIS 相同的初始化数量和配置评价预算下取得更低终点值。
 
@@ -439,7 +439,7 @@ HES-EA 在全部三种目标数下的 DTLZ7 和 WFG8 上取得最低均值。当
 
 ![图 7：WFG3 十目标平均 IGD+ 收敛曲线](D:/PlatEMO-master/论文写作/figures/fig_convergence_fe500_wfg3_m10.png)
 
-**图 7　WFG3 上的平均 IGD$^+$ 收敛曲线（$M=10$，$D=31$，20 次运行）。** 曲线在检查点之间保持已保存值；FE500 预算包含初始化。预算之后记录的值不进入曲线。
+**图 7　WFG3 上的平均 IGD$^+$ 收敛曲线（$M=10$，$D=31$，20 次运行）。**
 
 ### 4.3 消融研究
 
