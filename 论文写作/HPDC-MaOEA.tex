@@ -923,9 +923,6 @@ workbook means. We carry forward each run's latest saved value between
 checkpoints. FE start points differ across baselines: PC-SAEA and HES-EA start
 at $FE=329$ ($D=30$) or $FE=340$ ($D=31$); PIEA starts at $FE=100$ and
 evaluates one new solution per iteration.
-For PIEA files without a stored IGD$^+$ trajectory, we reconstruct the indicator
-from saved populations using the same PlatEMO reference sets. We exclude
-records at $FE>500$ and use each run's latest eligible snapshot at the budget.
 
 On DTLZ1, PACDIS continues to improve throughout the recorded interval,
 with REMO providing the closest endpoint comparison. On DTLZ4, PIEA reaches
@@ -1063,8 +1060,7 @@ $p_{\mathrm{mix}}=0.25$ on DTLZ7 at $M=20$.
 % No \clearpage here: the conclusion flows directly after the pmix text so
 % that page 11 is filled, and the queued double-column tables (Tables 3--5)
 % are placed at the tops of the following pages before the references.
-\section{Conclusion}
-\label{sec:conclusion}
+\section{Conclusion}\label{sec:conclusion}
 We proposed PACDIS, a surrogate-assisted evolutionary algorithm for expensive
 many-objective optimization. PACDIS introduces PBI-assisted quality classification
 (PAQC) and criterion-diversified infill selection (CDIS) into REMO's relation-learning
@@ -1082,6 +1078,15 @@ examine how candidate generation and screening affect Pareto front coverage and
 explore infill selection strategies that adapt to changes in the population.
 
 
+% No \clearpage before the conclusion: it flows directly after the pmix text
+% so that page 11 is filled, and the queued double-column tables (Tables 3--5)
+% are placed at the tops of the following pages.
+% A \clearpage IS needed before the bibliography: Tables 3--5 cannot all be
+% placed on one page, so without the barrier the reference list would start at
+% the bottom of page 12 and then be split around the floats on page 13.
+% Flushing the queued floats first keeps the references in one contiguous block
+% that starts after the last table.
+\clearpage
 \begin{thebibliography}{99}
 
 \bibitem{ref:aero_sbo}
