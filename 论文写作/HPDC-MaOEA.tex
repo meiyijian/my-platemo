@@ -531,9 +531,7 @@ The uniform-direction fallback uses the full PBI expression in \eqref{eq:pbi}.
 PAQC applies REMO's representative-based PBI classification rule~\cite{ref:remo}
 in the displacement coordinate system. RSEA's radial-grid selection~\cite{ref:rsea}
 provides $k$ evaluated representatives $\mathcal{R}\subset\mathcal{P}$ as
-population-derived reference points. We request $k=\lceil1.5M\rceil$
-representatives in the experiments; Section~\ref{sec:exp:settings} gives the
-implementation bounds.
+population-derived reference points. PAQC requests $k=\lceil1.5M\rceil$ representatives.
 
 For each representative, define $\bar{\vr}_j=\vr_j-\vz^{*}$.
 PAQC excludes zero-displacement representatives from directional association
@@ -559,14 +557,12 @@ it sets $L_i=\mathbb{I}[\|\vy_i\|_2=0]$ and bypasses directional classification.
 Otherwise, bounded bisection adjusts the signed class-balance coefficient
 $\delta\in[-20,20]$ toward a positive-label fraction in $[0.3,0.7]$,
 stopping when it reaches that interval or the search bracket is narrower than
-$0.1$. The target fraction need not be attainable in a degenerate population.
+$0.1$.
 
 \subsubsection{Fusing Continuous Quality Scores with Representative-Based Labels}
 \label{sec:method:paqc:hybrid}
 
-For fixed solutions and representatives, both signals are invariant to a common
-additive translation of the objective vectors: all calculations use
-displacements from $\vz^{*}$. With $t=FE/FE_{\max}$, PAQC combines the
+With $t=FE/FE_{\max}$, PAQC combines the
 continuous scores and binary labels to define the groups:
 
 \begin{equation}
@@ -638,8 +634,7 @@ y_{ij}=
 \label{eq:pairlabel}
 \end{equation}
 where $\mathcal{C}_1,\mathcal{C}_2$ follow \eqref{eq:group}. These labels
-encode group membership, not Pareto comparisons or within-group quality order.
-Both same-group pair types receive label~0 regardless of $S_i$ or $H_i$.
+encode group membership.
 PAQC randomly subsamples same-group pairs towards the size of each cross-group
 class to balance the three labels.
 
@@ -675,15 +670,14 @@ predictions from a separate indicator surrogate. It selects a batch under a
 fixed evaluation cap. The actual batch size $n_b$ also depends on candidate
 availability and the remaining budget (Section~\ref{sec:method:cdis:mix}).
 
-Both modes use the same candidate-pool construction procedure. Genetic
+Both modes use the same pool-construction procedure. Genetic
 variation acts on the current population and representatives $\mathcal{R}$.
 The relation score in \eqref{eq:relscore} ranks the offspring; up to
 $|\mathcal{R}|$ of the best join $\mathcal{R}$ as parents for the next inner
 generation. The search stops when the cumulative number of generated candidates
 reaches $g_{\max}$, then deduplicates all generated candidates to form
-$\mathcal{A}$. PACDIS draws the mode before the search. Mode-specific
-aggregation of pair predictions can change the inner rankings and the resulting
-candidate pool.
+$\mathcal{A}$. Mode-specific aggregation can change the inner rankings and
+hence the realized pool.
 
 \subsubsection{Ambiguity-Rewarded Infill}
 \label{sec:method:cdis:exp}
@@ -766,13 +760,10 @@ m=\begin{cases}
 where the probability $p_{\mathrm{mix}}=0.5$ stays fixed. Each iteration uses one ranking
 criterion, with the ambiguity-oriented mode as the fallback when the indicator
 surrogate is unavailable. Let $\mathcal{H}$ denote the retained set selected by
-the current mode. CDIS selects up to $n_{\max}=6$ candidates from
-$\mathcal{H}$ according to the current mode's ranking for real evaluation,
-with actual batch size $n_b$. It reduces the batch when fewer candidates
-are available or the remaining evaluation budget is insufficient.
-If the pool is empty, genetic variation provides fallback candidates. CDIS
-deduplicates them and truncates the batch to the same cap and remaining budget. Algorithm~\ref{alg:cdis} states the main selection
-procedure.
+the current mode. CDIS selects candidates in the current mode's order,
+truncating the batch to $n_{\max}=6$ and the remaining budget; if the pool is
+empty, genetic variation supplies fallback candidates.
+Algorithm~\ref{alg:cdis} states the main selection procedure.
 
 \begin{algorithm}[t]
 \caption{DiversifiedInfillSelection (CDIS)}
@@ -810,17 +801,16 @@ Representative selection adds nondominated sorting and radial-projection
 distances. With $N_v=O(N)$ and $k=O(N)$, the dominant cost is $O(N^2M)$.
 Generating relation pairs adds $O(N^2D)$.
 
-In CDIS, scoring one candidate requires $2N$ network inputs of
+In CDIS, the following per-iteration costs exclude surrogate fitting.
+Scoring one candidate requires $2N$ network inputs of
 dimension $2D$. Constructing the inputs for the pool costs $O(N_cND)$.
 The relation network has a fixed number of dense layers with hidden-layer widths
 proportional to $D$, so predicting one ordered pair costs $O(D^2)$.
 Relation prediction over the pool therefore costs $O(N_cND^2)$.
-The indicator fitness costs $O(N^2M)$, and the indicator-oriented mode adds
-one SVR fit on the $N$ evaluated solutions plus predictions on the screened
-subset. Sorting the ambiguity-rewarded acquisition
+The indicator fitness costs $O(N^2M)$; the indicator-oriented mode also
+predicts indicator values on the screened subset. Sorting the ambiguity-rewarded acquisition
 costs $O(N_c\log N_c)$.
-The corresponding cost, excluding surrogate fitting, is
-$O(N_cND^2+N^2M+N_c\log N_c)$.
+The total is $O(N_cND^2+N^2M+N_c\log N_c)$.
 
 
 % Experimental floats: allow full-width tables at page tops and keep
