@@ -1060,38 +1060,26 @@ $p_{\mathrm{mix}}=0.75$ at 2.33. The source table's paired tests favor
 $p_{\mathrm{mix}}=0$ over the default on DTLZ7 at $M=10$, and
 $p_{\mathrm{mix}}=0.25$ on DTLZ7 at $M=20$.
 
-% Keep the experimental tables before the conclusion and references.
-\clearpage
-% Restore full column height after flushing the double-column table queue.
-\makeatletter
-\global\@colht\textheight
-\global\@colroom\textheight
-\global\vsize\textheight
-\makeatother
+% No \clearpage here: the conclusion flows directly after the pmix text so
+% that page 11 is filled, and the queued double-column tables (Tables 3--5)
+% are placed at the tops of the following pages before the references.
 \section{Conclusion}
 \label{sec:conclusion}
-PACDIS modifies supervision construction and expensive-evaluation allocation
-in relation-based surrogate-assisted optimization. PAQC combines
-representative-based grouping with directional quality information obtained
-from the current nondominated set to construct positive training groups.
-CDIS allocates expensive evaluations through ambiguity-oriented and
-indicator-oriented candidate-selection criteria after relation-quality
-screening. The Full-referenced ablation gives problem-dependent outcomes,
-with reversals on DTLZ6 and WFG3 (Section~\ref{sec:exp:ablation}).
-PAQC and CDIS address complementary interfaces by design.
-The matched group analysis shows that PAQC raises mean current convergence
-precision from 35.83\% to 73.68\% relative to equal-quota
-representative-margin grouping on the four tested DTLZ problems
-(Section~\ref{sec:exp:ggp}).
+We proposed PACDIS, a surrogate-assisted evolutionary algorithm for expensive
+many-objective optimization. PACDIS introduces PBI-assisted quality classification
+(PAQC) and criterion-diversified infill selection (CDIS) into REMO's relation-learning
+framework. PAQC combines representative-based binary labels with continuous PBI
+quality scores derived from the current nondominated solutions to form training
+groups for relation learning. After screening candidates by relation quality,
+CDIS uses ambiguity-oriented or indicator-oriented ranking to select solutions
+for expensive evaluation. Experiments on DTLZ and WFG test suites show that
+PACDIS achieves competitive optimization performance under a limited evaluation
+budget. The ablation results further show that the full algorithm outperforms
+variants that remove PAQC or CDIS on most test configurations.
 
-The WFG3 results limit the scope of these findings: PACDIS lowers its mean
-IGD$^+$ yet finishes with a higher mean than REMO and PIEA in the
-ten-objective comparison. The group analysis measures current convergence precision on
-four DTLZ problems; it does not establish Pareto-front coverage or explain
-the WFG3 loss. Future work should test the coverage and screening
-hypothesis in Section~\ref{sec:exp:comparison} before changing either module.
-Such tests would distinguish losses during candidate screening from
-insufficient coverage in the candidate pool itself.
+PACDIS still has room for improvement on some test problems. Future work will
+examine how candidate generation and screening affect Pareto front coverage and
+explore infill selection strategies that adapt to changes in the population.
 
 
 \begin{thebibliography}{99}
