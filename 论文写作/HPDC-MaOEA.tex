@@ -921,7 +921,7 @@ WFG3 at $M=10$. These selected cases show PACDIS's lower endpoint means on
 WFG7, WFG2, and DTLZ1, alongside its weaker performance on WFG3.
 Curves average 20 runs per algorithm on a unit-FE grid; the tables report the
 final workbook means. We carry forward each run's latest saved value between
-checkpoints and exclude snapshots beyond $FE=500$.
+checkpoints.
 Each curve starts when all 20 runs have observations.
 PC-SAEA and HES-EA start
 at $FE=329$ ($D=30$) or $FE=340$ ($D=31$); PIEA starts at $FE=100$ and
@@ -1032,7 +1032,7 @@ trajectories and adds zero real evaluations.
 
 We first average the 34 checkpoints within each run, then summarize the
 20 independent runs per configuration. Table~\ref{tab:exp:ggp} reports
-means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
+means and standard deviations, with the larger mean of each pair in bold. Two-sided paired Wilcoxon signed-rank tests
 compare PAQC with the representative-margin control.
 The eight paired tests use Holm-adjusted $p$-values ($\alpha=0.05$) over the
 full 32-test family.
@@ -1055,7 +1055,9 @@ final-performance metric.
 Table~\ref{tab:exp:pmix} compares five switching probabilities for PACDIS,
 including the default $p_{\mathrm{mix}}=0.5$ in \eqref{eq:mode}.
 It covers six problems at each of $M=10$ and 20, with 20 runs per cell
-reporting final IGD$^+$. Across these 12 problem--objective configurations,
+reporting final IGD$^+$; shaded cells mark the best mean in each row and the
+best average rank, and superscripts report paired Wilcoxon signed-rank tests
+against $p_{\mathrm{mix}}=0.50$ on identical seeds ($\alpha=0.05$). Across these 12 problem--objective configurations,
 $p_{\mathrm{mix}}=0.50$ has the lowest average rank, 2.08, followed by
 $p_{\mathrm{mix}}=0.75$ at 2.33. The source table's paired tests favor
 $p_{\mathrm{mix}}=0$ over the default on DTLZ7 at $M=10$, and
