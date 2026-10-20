@@ -89,31 +89,26 @@ for Expensive Many-Objective Optimization}
             country={Country}}
 
 \begin{abstract}
-Relation-based expensive many-objective optimization requires informative training
-groups and effective candidate selection under limited evaluation budgets.
-Penalty-based boundary intersection (PBI) grouping with a small
-representative set can leave additional directional quality information unused.
-Ranking candidates solely by relation scores also leaves classification ambiguity
-and indicator information outside the selection rule. We propose PACDIS, a
-surrogate-assisted evolutionary algorithm that combines PBI-assisted quality
-classification (PAQC) with criterion-diversified infill selection (CDIS).
-PAQC supplements representative-based labels with continuous PBI scores.
-Both signals use a common estimated ideal point for direction construction,
-association, and distance evaluation. Current nondominated solutions provide
-the continuous-assessment directions, with uniform directions as a fallback.
-A fusion weight that changes with evaluation progress
-determines positive-group membership for relation learning.
+Expensive many-objective optimization requires using available samples to build
+surrogate models and select promising candidate solutions under a limited budget
+of expensive function evaluations. For relation-based surrogate models, quality
+grouping based on a small set of representative solutions may not fully capture
+quality differences within the population. Selecting candidates solely by relation
+scores also makes limited use of classification ambiguity and performance
+indicator information. To address these issues, we propose PACDIS, a
+surrogate-assisted evolutionary algorithm that combines penalty-based boundary
+intersection (PBI)-assisted quality classification (PAQC) with
+criterion-diversified infill selection (CDIS). PAQC constructs reference directions
+from the current nondominated solutions and computes continuous PBI quality scores.
+It combines these scores with representative-based binary labels using weights
+that vary with evaluation progress to form training groups for relation learning.
 CDIS first screens candidates by relation quality, then applies ambiguity-oriented
-or indicator-oriented ranking to select an expensive-evaluation batch.
-These modes use classification ambiguity and a separate quality-indicator
-surrogate, respectively. Experiments compare PACDIS with six algorithms on
-48 DTLZ and WFG configurations with 10, 15, and 20 objectives under a configured
-budget of 500 evaluations. PACDIS achieves the lowest mean inverted generational
-distance plus (IGD$^+$) in 11 configurations, including WFG2 and WFG7
-at all three objective counts. On four DTLZ problems,
-matched population checkpoints show that PAQC more than doubles mean
-current-convergence precision relative to equal-quota representative-margin
-grouping (73.68\% versus 35.83\%).
+or indicator-oriented ranking to select a batch of solutions for expensive
+evaluation. The two strategies use classification ambiguity and predictions from
+a separate indicator surrogate, respectively. Experiments on DTLZ and WFG test
+problems with 10, 15, and 20 objectives show that PACDIS achieves competitive
+optimization performance against six comparison algorithms under a limited
+evaluation budget.
 \end{abstract}
 
 \begin{keyword}
