@@ -851,18 +851,16 @@ $O(N_cND^2+N^2M+N_c\log N_c)$.
 \subsection{Experimental Settings}
 \label{sec:exp:settings}
 
-\paragraph{Test problems and evaluation budget.}
-The main performance study covers DTLZ1--DTLZ7 and WFG1--WFG9 with
-$M\in\{10,15,20\}$, giving 48 problem--objective configurations. These
-settings target expensive optimization with relatively large numbers of
-objectives. The main comparison uses PlatEMO~\cite{ref:platemo},
-with a configured population size of $N=100$ and a maximum budget of
-$FE_{\max}=500$ real function evaluations, including initialization.
-The decision dimension was $D=30$, except for WFG2 and WFG3 at
-$M=10$ and $M=20$, where the problem definitions required $D=31$.
-All 15-objective instances used $D=30$.
+\paragraph{Test problems and evaluation budget}
+The main comparison covers DTLZ1--DTLZ7 and WFG1--WFG9 with
+$M\in\{10,15,20\}$, giving 48 problem--objective configurations.
+We use PlatEMO~\cite{ref:platemo} with a configured population size of $N=100$
+and a maximum budget of $FE_{\max}=500$ real function evaluations, including
+initialization. The decision dimension is $D=30$, except for WFG2 and WFG3
+at $M=10$ and $M=20$, whose definitions require $D=31$.
+All 15-objective instances use $D=30$.
 
-\paragraph{Compared algorithms.}
+\paragraph{Compared algorithms}
 We compare PACDIS with six surrogate-assisted algorithms:
 REMO~\cite{ref:remo}, SSDE~\cite{ref:ssde}, PC-SAEA~\cite{ref:pcsaea},
 PIEA~\cite{ref:piea}, CSEA~\cite{ref:csea}, and
@@ -871,12 +869,11 @@ self-organizing surrogate, and PC-SAEA uses pairwise comparison. PIEA learns
 the selected performance indicator with support vector regression and uses
 historical feedback to update indicator-selection probabilities.
 CSEA uses classification, and HES-EA combines hierarchical and ensemble
-surrogates with model reduction. The configured
-population size $N$ does not specify a common initialization count across
-these implementations.
+surrogates with model reduction. Initialization counts vary across these
+implementations even with the same configured population size $N$.
 
-\paragraph{PACDIS parameters.}
-The same configuration is used across all three objective counts:
+\paragraph{PACDIS parameters}
+We use the same configuration for all three objective counts:
 $g_{\max}=3000$, $p_{\mathrm{mix}}=0.50$, and the nominal relation-screening
 fraction $q=0.30$. The fixed internal constants are the ambiguity weight
 $\lambda=0.30$ and continuous-PBI penalty $\theta=5$.
@@ -887,30 +884,25 @@ k_{\mathrm{eff}}=\min\{N,\max(6,\lceil1.5M\rceil)\},
 \end{equation}
 giving 15, 23 and 30 at $M=10$, 15 and 20 with $N=100$.
 The actual returned representative count can be smaller.
-No error-gate threshold or minimum-batch
-parameter is used in this version.
+This version omits error-gate thresholds and minimum-batch parameters.
 
-\paragraph{Performance indicator and statistical reporting.}
-Performance is measured by inverted generational distance plus (IGD$^+$), with
-smaller values indicating a better approximation to the reference Pareto
-front. Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} group the results by
-problem, with three rows for $M=10$, 15 and 20. Each entry reports the mean
-above the standard deviation in parentheses. The cell with the lowest mean
-among the seven retained algorithms has a light gray background. The pairwise
-statistical annotations come from the supplied workbooks. A $+$ indicates
-that the baseline was reported as better than PACDIS, a $-$ indicates that it
-was reported as worse, and an $=$ indicates no detected difference. The bottom
-row of each table counts these symbols in the order $+/-/=$ for each baseline
-across all problem--objective configurations in that table. These counts
-summarize the supplied pairwise outcomes and are not a separate omnibus test
-across problems.
+\paragraph{Performance indicator and statistical reporting}
+We measure performance by inverted generational distance plus (IGD$^+$);
+smaller values indicate a better approximation to the reference Pareto front.
+Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report 20 independent runs per
+entry from the final experiment workbooks. Each problem has three rows for
+$M=10$, 15 and 20. Entries show the mean above the standard deviation in
+parentheses, with light gray shading for the lowest mean among the seven
+algorithms.
 
-Each entry in Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} summarizes 20 independent runs,
-following the final experiment records supplied by the authors.
-The export script applies an unpaired rank-sum test at $p<0.05$ without a
-multiple-comparison adjustment. We retain its symbols without interpreting
-them as adjusted significance.
-\paragraph{Reference sets and execution environment.}
+The statistical symbols reproduce the export script's unpaired rank-sum tests
+at $p<0.05$, without multiple-comparison adjustment. Relative to PACDIS,
+$+$ denotes a better baseline result, $-$ a worse result, and $=$ no detected
+difference. The bottom rows count these pairwise outcomes in $+/-/=$ order
+across the problem--objective configurations in each table; they do not
+constitute a separate omnibus test across problems.
+
+\paragraph{Reference sets and execution environment}
 We use PlatEMO's default DTLZ and WFG problem definitions with the $M$ and $D$
 settings above. PlatEMO constructs each reference set through the problem's
 \texttt{GetOptimum(10000)} method; the returned number of points depends on
@@ -925,7 +917,7 @@ optimization runs.
 
 Tables~\ref{tab:exp:dtlz} and~\ref{tab:exp:wfg} report the 500-evaluation
 comparison. PACDIS has the lowest mean IGD$^+$ on 5, 3, and 3 of the 16
-problems at $M=10$, 15, and 20, respectively. These best means occur on
+problems at $M=10$, 15, and 20, respectively. These cases include
 WFG2 and WFG7 at all three objective counts. PIEA has the lowest mean on
 DTLZ6 and WFG3 at all three objective counts.
 
@@ -939,26 +931,22 @@ $M=10$, 15, and 20. REMO's corresponding counts are 1/9/6, 2/10/4, and
 SSDE, PC-SAEA, PIEA, and CSEA each have more reported losses
 than wins against PACDIS at every objective count. WFG3 remains a weakness:
 PACDIS has no lowest mean there, and several baselines receive $+$ annotations.
-These results describe complete-algorithm performance under the selected
-budget. They do not attribute the differences to PAQC or CDIS individually.
+This comparison measures complete-algorithm performance at the selected
+budget; it does not isolate the effects of PAQC and CDIS.
 
-\paragraph{PACDIS reaches lower endpoint means}
-PACDIS reaches the lowest endpoint mean IGD$^+$ on all four ten-objective
-problems in Figs.~\ref{fig:exp:convergence:dtlz1}--\ref{fig:exp:convergence:wfg7}.
-We select DTLZ1, DTLZ4, WFG2, and WFG7 to illustrate convergence
-on cases where PACDIS has the lowest endpoint mean, and retain WFG3 below
-as a failure case.
-The curves use original runs 1--20; the tables retain the supplied final
-workbook summaries.
-Every curve averages runs 1--20 on a
-unit-FE grid, carrying forward each run's latest saved value between
-checkpoints. Initialization counts toward the budget; PC-SAEA and HES-EA
-start at $FE=329$ for $D=30$ or $FE=340$ for $D=31$.
-PIEA starts at $FE=100$ and evaluates one new solution per iteration.
+\paragraph{Convergence on four favorable cases}
+We examine DTLZ1, DTLZ4, WFG2, and WFG7 at ten objectives in
+Figs.~\ref{fig:exp:convergence:dtlz1}--\ref{fig:exp:convergence:wfg7}.
+PACDIS has the lowest endpoint mean IGD$^+$ on these four selected problems;
+the WFG3 case below shows a loss.
+The curves use original runs 1--20, while the tables retain the final workbook
+summaries. We average these runs on a unit-FE grid, carrying forward each run's
+latest saved value between checkpoints. Initialization counts toward the
+budget: PC-SAEA and HES-EA start at $FE=329$ for $D=30$ or $FE=340$ for
+$D=31$; PIEA starts at $FE=100$ and evaluates one new solution per iteration.
 For PIEA files without a stored IGD$^+$ trajectory, we reconstruct the indicator
-from the saved populations with the same PlatEMO reference sets.
-We exclude all recorded metric values at $FE>500$ and use each run's latest
-eligible snapshot at the budget.
+from saved populations using the same PlatEMO reference sets. We exclude
+records at $FE>500$ and use each run's latest eligible snapshot at the budget.
 
 On DTLZ1, PACDIS continues to improve throughout the recorded interval,
 with REMO providing the closest endpoint comparison. On DTLZ4, PIEA reaches
@@ -970,31 +958,26 @@ and CSEA by $FE=150$
 on WFG2 and WFG7. On these two WFG cases, PACDIS retains lower means
 when all seven algorithms have begun search. HES-EA makes late gains
 on both WFG problems, but PACDIS retains the lowest endpoint mean.
-These selected trajectories show problem-dependent convergence patterns
-under the 500-evaluation budget.
 
 \input{figures/figure_convergence_fe500}
 
-\paragraph{WFG3 remains a failure case}
+\paragraph{Performance on WFG3}
 Figure~\ref{fig:exp:convergence:wfg3} shows the ten-objective WFG3 case
 ($D=31$) under the same plotting protocol. PACDIS lowers its mean IGD$^+$
 throughout search, but REMO retains a lower mean throughout $FE=340$--500.
 PIEA starts at $FE=100$ and reaches a lower endpoint than PACDIS.
 At $FE=500$, the means are 1.4387 for PACDIS, 1.2630 for REMO, and
-0.94564 for PIEA. PACDIS therefore loses to PIEA despite their common
-initialization count and configured evaluation budget.
+0.94564 for PIEA. PIEA reaches its lower endpoint with the same
+initialization count and configured evaluation budget as PACDIS.
 
-One possible explanation concerns coverage after quality screening.
-PAQC selects its positive group by a population-wide score ranking
-(Eq.~\eqref{eq:group}), without a quota for each reference direction.
-CDIS then restricts both infill criteria to candidates that pass the
-relation-quality screen (Section~\ref{sec:method:cdis}). Its final ranking
-cannot recover candidates that this screen excludes. Together, these
-choices could concentrate search in regions that the current scores favor
-while overlooking useful candidates elsewhere. The WFG3 trajectories
-establish the performance loss, but do not measure this proposed mechanism.
-Testing it requires tracking reference-direction coverage and the true
-quality of retained and rejected candidates on matched pools.
+Quality screening may reduce regional coverage. PAQC selects its positive
+group by a population-wide score ranking (Eq.~\eqref{eq:group}), without a
+quota for each reference direction. CDIS ranks only candidates that pass the
+relation-quality screen (Section~\ref{sec:method:cdis}). These choices could
+concentrate search in regions favored by the current scores and exclude useful
+candidates elsewhere. The WFG3 trajectories show the performance loss but
+do not test this explanation. Testing it requires tracking reference-direction coverage
+and the true quality of retained and rejected candidates on matched pools.
 
 \subsection{Ablation Study}
 \label{sec:exp:ablation}
@@ -1006,24 +989,21 @@ classifier adapts its PBI threshold, giving a variable positive-group size;
 Full uses the fixed grouping rule in \eqref{eq:group}. This control retains the indicator model and
 criterion switching.
 
-The w/o CDIS control retains PAQC but restores REMO's original
-relation-guided candidate module in place of the whole CDIS. This control
-omits both CDIS criteria and their mode switch. Its candidate module orders
-candidates only by the relation score, without an indicator model, confidence
-weighting, or an ambiguity-rewarded ranking. Full and both
-controls share the same relation-model architecture, representative-selection
-routine, candidate-generation threshold, environmental selection, batch-size
-cap, and remaining-budget truncation. All three configurations omit
-within-batch distance.
+The w/o CDIS control retains PAQC and replaces CDIS with REMO's original
+relation-guided candidate module. It ranks candidates solely by relation score,
+omitting the indicator model, confidence weighting, ambiguity reward, and
+mode switch. Full and both controls share the relation-model architecture,
+representative-selection routine, candidate-generation threshold, environmental
+selection, batch-size cap, and remaining-budget truncation. All three
+configurations omit within-batch distance.
 
-The supplied IGD$^+$ workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
-with $N=100$ and a 300-evaluation budget that includes initialization.
-We report 15 runs for each problem, objective count, and algorithm configuration.
-The workbooks give mean, sample standard deviation, and comparison symbols
-relative to Full from a two-sided unpaired rank-sum test at $p<0.05$.
-We retain the exported symbols; the workbooks document no
-multiple-comparison adjustment. This study uses a separate
-budget from the 500-evaluation main comparison.
+The ablation workbooks cover DTLZ1--7 and WFG1--9 at $M=10$ and 20,
+with $N=100$ and a 300-evaluation budget including initialization, separate
+from the 500-evaluation main comparison. Each problem, objective count, and
+algorithm configuration has 15 runs. We report the workbook means, sample
+standard deviations, and exported comparison symbols relative to Full from
+two-sided unpaired rank-sum tests at $p<0.05$. The workbooks document no
+multiple-comparison adjustment.
 
 Full has the lowest mean IGD$^+$ on 28 of the 32 configurations in
 Table~\ref{tab:ablation_igdplus}. The $+/-/=$ totals relative to Full are
@@ -1053,11 +1033,10 @@ at $FE=100,106,\ldots,298$, giving 5440 checkpoints.\par
 \end{samepage}
 
 % Controls: equal cardinality and identical evaluated population.
-The comparison selects 25 solutions from the same evaluated population
+At each checkpoint, we select 25 solutions from the same evaluated population
 using either the hybrid score $H$ or the representative margin $A$.
-We define $A$ as one minus
-the normalized representative-based PBI value. This continuous margin provides an equal-quota
-representative control. Both rankings resolve ties by population order.
+The margin $A$ equals one minus the normalized representative-based PBI value.
+Both rankings use the same quota and resolve ties by population order.
 
 % Queue the sensitivity table one page ahead of its discussion.
 \input{experiments/pmix_nobatchdist_igdp_table}
@@ -1086,39 +1065,36 @@ means and standard deviations. Two-sided paired Wilcoxon signed-rank tests
 compare PAQC with the representative-margin control.
 The eight reported tests form a subset of the original 32-test family,
 which spans two outcomes, two controls, and eight configurations.
-We retain the original Holm-adjusted $p$-values at $\alpha=0.05$;
-the reduced presentation leaves the correction family unchanged.
+We report the original Holm-adjusted $p$-values at $\alpha=0.05$, retaining
+the full correction family.
 Overall summaries give equal weight to each configuration.
 
 % Convergence enrichment: a large, reproducible effect against the named control.
-PAQC more than doubles convergence precision relative to the
-representative-margin control: 73.68\% versus 35.83\%, a 2.06-fold ratio.
-The gain reaches 37.85 percentage points overall and ranges from 26.98 to
-46.62 points across the eight configurations; every comparison passes
-Holm correction. At the same 25-solution quota, this corresponds to
-9.46 additional low-$g$ solutions per positive group on average.
+PAQC's mean convergence precision is 73.68\%, compared with 35.83\% for the
+representative-margin control, a 2.06-fold ratio. The overall gain is 37.85
+percentage points, ranging from 26.98 to 46.62 points across the eight
+configurations. All eight comparisons meet the Holm-adjusted significance
+criterion. At the same 25-solution quota, the mean gain corresponds to 9.46
+additional low-$g$ solutions per positive group.
 
 % Takeaway: bound the evidence to current positive-group convergence.
-These matched-checkpoint results show that PAQC concentrates more low-$g$
-solutions in its positive training group than representative-margin grouping
-at the same quota. The comparison measures current positive-group convergence
-along PACDIS trajectories. The IGD$^+$ experiments assess the quality of
-the resulting approximation sets.
+This comparison measures current positive-group convergence along PACDIS
+trajectories. The IGD$^+$ experiments assess the quality of the resulting
+approximation sets.
 
 \subsection{Effect of Selection-Criterion Switching}
 \label{sec:exp:pmix}
 
-Equation~\eqref{eq:mode} sets $p_{\mathrm{mix}}=0.5$ as the default.
-Table~\ref{tab:exp:pmix} compares five settings for PACDIS
-on six problems at each of $M=10$ and 20. Each cell uses
-20 runs and reports final IGD$^+$. Across the 12 problem--objective
-configurations, $p_{\mathrm{mix}}=0.50$ has the lowest average rank, 2.08;
-$p_{\mathrm{mix}}=0.75$ follows at 2.33. The default does not lead on every
-problem: $p_{\mathrm{mix}}=0$ improves DTLZ7 at $M=10$, and
-$p_{\mathrm{mix}}=0.25$ improves DTLZ7 at $M=20$, according to the paired
-tests in the source table. At $p_{\mathrm{mix}}=1$, the algorithm can still
-use the ambiguity-oriented mode when the indicator surrogate is unavailable.
-The results support $0.50$ as the best-ranked setting in this tested subset.
+Table~\ref{tab:exp:pmix} compares five switching probabilities for PACDIS,
+including the default $p_{\mathrm{mix}}=0.5$ in \eqref{eq:mode}.
+It covers six problems at each of $M=10$ and 20, with 20 runs per cell
+reporting final IGD$^+$. Across these 12 problem--objective configurations,
+$p_{\mathrm{mix}}=0.50$ has the lowest average rank, 2.08, followed by
+$p_{\mathrm{mix}}=0.75$ at 2.33. The source table's paired tests favor
+$p_{\mathrm{mix}}=0$ over the default on DTLZ7 at $M=10$, and
+$p_{\mathrm{mix}}=0.25$ on DTLZ7 at $M=20$.
+At $p_{\mathrm{mix}}=1$, the algorithm still falls back to the
+ambiguity-oriented mode when the indicator surrogate is unavailable.
 
 % Keep the experimental tables before the conclusion and references.
 \clearpage
