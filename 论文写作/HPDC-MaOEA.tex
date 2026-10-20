@@ -192,16 +192,13 @@ The two methodological contributions are:
 \item \textbf{Relation supervision using nondominated information.}
 PAQC combines representative-based labels with continuous PBI quality scores to
 determine the positive training group. Current nondominated solutions supply
-assessment directions, with uniform directions as a fallback. Both signals use
-the same estimated ideal point, and their relative weight changes with
-evaluation progress.
+the assessment directions. PAQC fuses the two signals into a
+progress-dependent positive-group ranking.
 \item \textbf{Infill criteria for relation-screened candidates.}
 CDIS first screens candidates by relation quality, then applies either an
 ambiguity-oriented or an indicator-oriented ranking. The former rewards less
 decisive relation-class predictions; the latter uses a surrogate of a quality
 indicator based on density and front shape~\cite{ref:sde,ref:piea}.
-Each iteration uses one criterion; Section~\ref{sec:method:cdis:mix} specifies
-the fixed probability rule and the fallback when the indicator model is unavailable.
 \end{enumerate}
 
 % Results preview: descriptive means from the current FE500 table snapshot.
