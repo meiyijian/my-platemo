@@ -79,9 +79,9 @@ PACDIS 先评价一个包含 $N_{\mathrm{init}}$ 个解的拉丁超立方设计�
 
 图 1 展示评价循环、PAQC 分组、模型训练以及 CDIS 的两条排序分支。
 
-![图 1：PACDIS 总体框架](D:/PlatEMO-master/论文写作/figures/fig_framework_paqc_c.svg)
+![图 1：PACDIS 算法示意](D:/PlatEMO-master/论文写作/figures/fig_framework_paqc_c.svg)
 
-**图 1　PACDIS 框架。** PAQC 将代表解标签与非支配方向得分结合，构造关系训练组。CDIS 筛选候选解，再根据指标预测或加入模糊度的关系得分排序。柱状图中的得分用于示意；只有目标函数评价消耗评价预算。
+**图 1　PACDIS 算法示意图。**
 
 **算法 1　PACDIS**
 
