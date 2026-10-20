@@ -67,6 +67,7 @@
 - **主性能表 = IGD$^+$（不是 IGD）**：`experiments\main_performance\table_{dtlz,wfg}.tex`，tex 约 1019–1020 行 `\input`
 - 主表不内联，数据只能由 `build_tables.py --source-dir <xlsx>` 生成；正文数字派生自同目录 `summary.json`，改表必须改正文并重验定性断言
 - **中文对照稿 `HPDC-MaOEA_中文版.md` 跟 tex 走**（整篇覆盖；表格用 `run_scripts/tex_table_to_md.py` / `tex_ablation_pmix_to_md.py` 转）
+- **改 tex 必须在同一次提交里同步中文稿**（逐句对照，不许润色加料），并刷新头部「更新日期 + 英文 tex 的 SHA-256」（`sha256sum HPDC-MaOEA.tex | awk '{print toupper($1)}'`）
 - 收敛图两条链**别混用**：
   1. **Python（论文在用）**：`figures\build_convergence.py` → `fig_convergence_*`；数据经 `experiments\nobatchdist_version_audit\convergence_igdp.csv` 中转；matplotlib 论文风（线性轴、稀疏 marker、Times、无阴影带、QA 断言最小字号/出界）。FE500 见 `build_convergence_fe500.py` + `export_convergence_fe500.py`
   2. **MATLAB（备选）**：`ConvergencePlot\`（`PlotConvergenceCurves.m` 管画；导出要自己补 `Toolbar off`/`xlim`/图例位置；`README.md` 记全部踩坑）
