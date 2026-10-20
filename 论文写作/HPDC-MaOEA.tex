@@ -589,11 +589,9 @@ thresholds for $L_i$. In panel~(b), $P_1$ and $P_2$ supply directions
 $\vv_1$ and $\vv_2$ for $S_i$ through \eqref{eq:direction}. The reassignment
 of $A$, $B$, and $C$ illustrates how the ranking in \eqref{eq:group} changes
 group membership while retaining the representative-based thresholds.
-The two-objective diagram uses $O=Z$ as the origin of displacement coordinates,
-which may differ from the original objective-coordinate origin. Its PF is an
+The two-objective diagram uses $O=Z$ as the origin of displacement coordinates. Its PF is an
 external reference; PAQC constructs directions from current nondominated
-solutions. Membership in $\mathcal{C}_1$ depends on the fused ranking, so
-nondominance alone does not guarantee inclusion.
+solutions. Membership in $\mathcal{C}_1$ depends on the fused ranking.
 
 Algorithm~\ref{alg:paqc} summarises the construction. Population order resolves
 ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
@@ -651,8 +649,7 @@ network ending in a softmax over the three labels.
 For a pair, the network outputs
 $\bm{\pi}(\vx_a,\vx_b)=[\pi_{+1},\pi_0,\pi_{-1}]$, the predicted probabilities
 that the first solution belongs to the higher group, that both belong to the
-same group, and that the second belongs to the higher group. The training procedure retains a held-out
-partition, but candidate selection does not use its error as a gate.
+same group, and that the second belongs to the higher group. The training procedure retains a held-out partition.
 
 For an unevaluated candidate $\vx$, the trained network predicts the four
 families of ordered comparisons $(\mathcal{C}_1,\vx)$, $(\vx,\mathcal{C}_1)$,
