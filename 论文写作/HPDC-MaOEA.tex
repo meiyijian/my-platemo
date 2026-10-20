@@ -1087,6 +1087,18 @@ explore infill selection strategies that adapt to changes in the population.
 % Flushing the queued floats first keeps the references in one contiguous block
 % that starts after the last table.
 \clearpage
+% \clearpage leaves \vsize and \@colroom at the residual height of the last
+% float page (68.5pt instead of 682pt), which would cap the first column of the
+% reference page at one entry and push the rest into the second column.
+% Reset both to \textheight (= \@colht here) before the bibliography starts.
+\makeatletter
+\global\@colroom\textheight
+\global\vsize\textheight
+\makeatother
+% Tighten the inter-entry skip so that all 25 entries fit on a single page
+% (0.5pt instead of the natbib default 0.5ex); the default spills three
+% entries onto a fifteenth page.
+\setlength{\bibsep}{0.5pt}
 \begin{thebibliography}{99}
 
 \bibitem{ref:aero_sbo}
