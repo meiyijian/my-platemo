@@ -397,24 +397,24 @@ model training, and the two CDIS ranking branches.
 \Require problem $(\Omega,\vf)$, budget $FE_{\max}$, initial size
          $N_{\mathrm{init}}$, population size $N$
 \Ensure archive $\mathcal{A}_{\mathrm{rc}}$ of evaluated solutions
-\State $\mathcal{P}\gets N_{\mathrm{init}}$ solutions sampled by Latin hypercube design
-\State Evaluate $\mathcal{P}$; $FE\gets N_{\mathrm{init}}$
-\State $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
+\State $\mathcal{P}\gets N_{\mathrm{init}}$ solutions by Latin hypercube design
+\State Evaluate $\mathcal{P}$; $FE\gets N_{\mathrm{init}}$;
+       $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{P}$
 \While{$FE<FE_{\max}$}
   \State $t\gets FE/FE_{\max}$
-  \State $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$
-         \Call{PAQC}{$\mathcal{P},t$}
-  \State Build ordered relation pairs from $\mathcal{C}_1,\mathcal{C}_2$ by
+  \Statex \hspace{\algorithmicindent}\textit{Supervision construction (Algorithm~\ref{alg:paqc})}
+  \State $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})\gets$ \Call{PAQC}{$\mathcal{P},t$}
+  \State Build ordered relation pairs from $\mathcal{C}_1$ and $\mathcal{C}_2$ by
          \eqref{eq:pairlabel}
-  \State Train the relation surrogate $\mathcal{M}_R$
-  \State Compute indicator values $I_i$ for $\mathcal{P}$
-  \State Fit RBF-SVR $\mathcal{M}_I$ to $\{(\vx_i,I_i)\}_{i=1}^{|\mathcal{P}|}$
-  \State Draw $u\sim U[0,1)$; set $m\gets\mathrm{amb}$
-  \If{$\mathcal{M}_I$ is available and $u<p_{\mathrm{mix}}$}
-    \State $m\gets\mathrm{ind}$
-  \EndIf
+  \Statex \hspace{\algorithmicindent}\textit{Surrogate training}
+  \State Train the relation surrogate $\mathcal{M}_R$ on the ordered relation pairs
+  \State Train the indicator surrogate $\mathcal{M}_I$ on $\mathcal{P}$ when the indicator is available
+  \Statex \hspace{\algorithmicindent}\textit{Mode draw and infill selection (Algorithm~\ref{alg:cdis})}
+  \State $m\gets\mathrm{ind}$ if $\mathcal{M}_I$ is available and
+         $\operatorname{rand}<p_{\mathrm{mix}}$, else $\mathrm{amb}$
   \State $\mathcal{S}\gets$ \Call{CDIS}{$\mathcal{P},\mathcal{R},\mathcal{M}_R,\mathcal{M}_I,m$}
-  \State Evaluate $\mathcal{S}$ and append it to $\mathcal{A}_{\mathrm{rc}}$
+  \Statex \hspace{\algorithmicindent}\textit{Expensive evaluation and environmental selection}
+  \State Evaluate $\mathcal{S}$; $\mathcal{A}_{\mathrm{rc}}\gets\mathcal{A}_{\mathrm{rc}}\cup\mathcal{S}$
   \State $FE\gets FE+|\mathcal{S}|$
   \State $\mathcal{P}\gets$ \Call{EnvSelect}{$\mathcal{A}_{\mathrm{rc}},N$}
 \EndWhile
