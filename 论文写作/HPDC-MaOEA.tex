@@ -781,16 +781,18 @@ Algorithm~\ref{alg:cdis} states the main selection procedure.
 \begin{algorithmic}[1]
 \Require population $\mathcal{P}$, representatives $\mathcal{R}$,
          surrogates $\mathcal{M}_R,\mathcal{M}_I$, mode $m$
-\Ensure ordered candidate batch $\mathcal{S}$
+\Ensure offspring solutions $\mathcal{S}$ for expensive evaluation
 \State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
 \State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
 \State $\mathcal{H}\gets$ the top $q$ fraction of $\mathcal{A}$ by $R$
 \If{$m=\mathrm{ind}$}
   \State Rerank $\mathcal{H}$ by $\widehat I$, falling back to $R$ if needed
 \Else
-  \State Compute $A_{\mathrm{amb}}$ within $\mathcal{H}$ by \eqref{eq:expscore}
+  \State Compute $A_{\mathrm{amb}}(\vx)=\widetilde R(\vx)+\lambda\widetilde U(\vx)$
+         for $\vx\in\mathcal{H}$,
+  \Statex \hspace{\algorithmicindent}and rank $\mathcal{H}$ by descending $A_{\mathrm{amb}}$
 \EndIf
-\State $\mathcal{S}\gets$ the first $n_b$ candidates in $\mathcal{H}$ under the selected ranking
+\State $\mathcal{S}\gets$ Select at most six top-ranked solutions from $\mathcal{H}$
 \State \Return $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
