@@ -592,20 +592,34 @@ ties in $H_i$, giving exactly $\lceil N/4\rceil$ positive-group members.
 \caption{PBIQualityClassification (PAQC)}
 \label{alg:paqc}
 \begin{algorithmic}[1]
-\Require evaluated population $\mathcal{P}$, progress $t$
-\Ensure groups $\mathcal{C}_1,\mathcal{C}_2$ and representatives $\mathcal{R}$
-\State $\vz^{*}\gets\min_i\vf_i$; $\vy_i\gets\vf_i-\vz^{*}$
-\State Construct $\mathcal{V}$ from nonzero nondominated displacements
-\State Use uniform directions when the adaptive construction is unavailable
-\State Associate nonzero $\vy_i$ with $\mathcal{V}$ by cosine similarity
-\State Compute $S_i$ by \eqref{eq:pbi} for nonzero displacements
-\State Assign $S_i\gets1$ at the ideal point
-\State Select $k$ representatives $\mathcal{R}$ by radial-grid selection
-\State Form representative directions from $\vr_j-\vz^{*}$
-\State Associate nonzero $\vy_i$ with valid representative directions
-\State Obtain $L_i$ by \eqref{eq:label-bin}, with bounded bisection for $\delta$ and the stated zero-displacement rules
-\State Fuse the two signals: $H_i\gets(1-t)S_i+tL_i$
-\State $\mathcal{C}_1\gets$ the top $\lceil|\mathcal{P}|/4\rceil$ solutions under $H_i$
+\Require evaluated population $\mathcal{P}=\{(\vx_i,\vf_i)\}_{i=1}^{N}$,
+         progress $t$, representative count $k$, penalty $\theta$
+\Ensure positive group $\mathcal{C}_1$, non-positive group $\mathcal{C}_2$,
+        representatives $\mathcal{R}$
+\State $\vz^{*}\gets\min_i\vf_i$; $\vy_i\gets\vf_i-\vz^{*}$ for $i=1,\ldots,N$
+\State $\mathcal{J}\gets\{j:\vf_j\text{ is nondominated},\ \|\vy_j\|_2>0\}$
+\Statex \hspace{\algorithmicindent}\textit{Continuous quality assessment}
+\If{adaptive-direction construction is unavailable}
+  \State $\mathcal{V}\gets$ uniform unit reference directions
+\Else
+  \State $\mathcal{V}\gets\{\vy_j/\|\vy_j\|_2:j\in\mathcal{J}\}$
+\EndIf
+\For{$i=1,\ldots,N$}
+  \If{$\|\vy_i\|_2=0$} $S_i\gets1$
+  \Else
+    \State $a(i)\gets\arg\max_j\vy_i^{\mathsf T}\vv_j/\|\vy_i\|_2$
+    \State $d_1\gets\vy_i^{\mathsf T}\vv_{a(i)}$;
+           $d_2\gets\|\vy_i-d_1\vv_{a(i)}\|_2$
+    \State $S_i\gets1/(1+d_1+\theta d_2)$
+  \EndIf
+\EndFor
+\Statex \hspace{\algorithmicindent}\textit{Representative-based grouping signal}
+\State $\mathcal{R}\gets$ \Call{RadialGridSelect}{$\mathcal{P},k$}
+\State $\mathbf{L}\gets$ \Call{RepresentativeLabels}{$\mathcal{P},\mathcal{R},\vz^{*}$}
+\Statex \hspace{\algorithmicindent}\textit{Fusion and grouping}
+\State $H_i\gets(1-t)S_i+tL_i$ for $i=1,\ldots,N$
+\State $\mathcal{C}_1\gets$ the $\lceil N/4\rceil$ solutions with largest $H_i$
+       (ties by population order)
 \State $\mathcal{C}_2\gets\mathcal{P}\setminus\mathcal{C}_1$
 \State \Return $(\mathcal{C}_1,\mathcal{C}_2,\mathcal{R})$
 \end{algorithmic}
