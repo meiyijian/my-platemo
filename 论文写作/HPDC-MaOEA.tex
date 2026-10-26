@@ -779,29 +779,18 @@ Algorithm~\ref{alg:cdis} states the main selection procedure.
 \caption{DiversifiedInfillSelection (CDIS)}
 \label{alg:cdis}
 \begin{algorithmic}[1]
-\Require population $\mathcal{P}$, representative solutions $\mathcal{R}$,
-         relation model $\mathcal{M}_R$, indicator model $\mathcal{M}_I$ (optional), mode $m$
-\Ensure selected candidate solutions $\mathcal{S}$
-\State $\mathcal{R}'\gets\mathcal{R}$; $\mathcal{A}\gets\emptyset$
-\Statex \hspace{\algorithmicindent}\textit{Candidate-pool construction}
-\While{$|\mathcal{A}|<g_{\max}$}
-  \State $\mathcal{Q}\gets$ genetic variation of $\mathcal{P}\cup\mathcal{R}'$
-  \State Append $\mathcal{Q}$ to $\mathcal{A}$
-  \State $\mathcal{R}'\gets\mathcal{R}'\cup\{\text{the }|\mathcal{R}|\text{ best candidates of }\mathcal{Q}\text{ by }s_R(\cdot;m)\}$
-\EndWhile
-\State $\mathcal{A}\gets$ deduplicate $\mathcal{A}$, preserving generation order
-\Statex \hspace{\algorithmicindent}\textit{Mode-specific screening and ranking}
-\If{$m=\mathrm{ind}$ and $\mathcal{M}_I$ is available}
-  \State $\mathcal{H}\gets$ the $\lceil q|\mathcal{A}|\rceil$ candidates with the largest $s_R(\cdot;m)$
-  \State $\widehat I(\vx)\gets\mathcal{M}_I(\vx)$ for $\vx\in\mathcal{H}$
-  \State Rank $\mathcal{H}$ by descending $\widehat I$, falling back to $s_R(\cdot;m)$ if needed
+\Require population $\mathcal{P}$, representatives $\mathcal{R}$,
+         surrogates $\mathcal{M}_R,\mathcal{M}_I$, mode $m$
+\Ensure ordered candidate batch $\mathcal{S}$
+\State Run relation-guided variation from $\mathcal{P}\cup\mathcal{R}$ using mode $m$
+\State $\mathcal{A}\gets$ the accumulated, deduplicated candidate pool
+\State $\mathcal{H}\gets$ the top $q$ fraction of $\mathcal{A}$ by $R$
+\If{$m=\mathrm{ind}$}
+  \State Rerank $\mathcal{H}$ by $\widehat I$, falling back to $R$ if needed
 \Else
-  \State $\mathcal{H}\gets\{\vx\in\mathcal{A}:s_R(\vx;m)\geq\operatorname{Quantile}_{1-q}(s_R(\mathcal{A};m))\}$
-  \State $A_{\mathrm{amb}}(\vx)\gets\widetilde R(\vx)+\lambda\widetilde U(\vx)$ for $\vx\in\mathcal{H}$
-  \State Rank $\mathcal{H}$ by descending $A_{\mathrm{amb}}$
+  \State Compute $A_{\mathrm{amb}}$ within $\mathcal{H}$ by \eqref{eq:expscore}
 \EndIf
-\Statex \hspace{\algorithmicindent}\textit{Infill selection}
-\State $\mathcal{S}\gets$ Select at most six top-ranked solutions from $\mathcal{H}$
+\State $\mathcal{S}\gets$ the first $n_b$ candidates in $\mathcal{H}$ under the selected ranking
 \State \Return $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
