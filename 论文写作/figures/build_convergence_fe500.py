@@ -29,24 +29,24 @@ CSV = DATA / 'convergence_igdp_fe500.csv'
 SOURCE_MANIFEST = DATA / 'source_manifest.json'
 QA = OUT / 'qa'
 PACDIS = 'REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist'
-ORDER = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'SAMOEATL2M']
+ORDER = [PACDIS, 'REMO', 'PCSAEA', 'CSEA', 'HES_EA', 'SSDE', 'PIEA']
 LABELS = {
     PACDIS: 'PACDIS', 'REMO': 'REMO', 'PCSAEA': 'PC-SAEA',
     'CSEA': 'CSEA', 'HES_EA': 'HES-EA', 'SSDE': 'SSDE',
-    'SAMOEATL2M': 'SAMOEA-TL2M',
+    'PIEA': 'PIEA',
 }
 COLORS = {
     PACDIS: '#B23A48', 'REMO': '#24658C', 'PCSAEA': '#5C5187',
     'CSEA': '#28756B', 'HES_EA': '#AD5F25', 'SSDE': '#776193',
-    'SAMOEATL2M': '#6D7680',
+    'PIEA': '#6D7680',
 }
 MARKERS = {
     PACDIS: 'D', 'REMO': '^', 'PCSAEA': 's', 'CSEA': '*',
-    'HES_EA': 'o', 'SSDE': 'x', 'SAMOEATL2M': '+',
+    'HES_EA': 'o', 'SSDE': 'x', 'PIEA': '+',
 }
 M = 10
 BUDGET = 500
-PROBLEMS = ['DTLZ1', 'DTLZ6', 'WFG2', 'WFG7']
+PROBLEMS = ['DTLZ1', 'DTLZ4', 'WFG2', 'WFG7']
 RUNS = list(range(1, 21))
 GRID = np.arange(100, BUDGET + 1)
 MARK_EVERY = 50

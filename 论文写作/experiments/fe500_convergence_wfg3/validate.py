@@ -5,6 +5,7 @@ import hashlib
 import json
 import re
 import warnings
+import sys
 
 import numpy as np
 import pandas as pd
@@ -13,11 +14,14 @@ from scipy.io import loadmat
 from PIL import Image
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / 'fe500_convergence'))
+from piea_metrics import CACHE, read_igdp
 PAPER = HERE.parents[1]
 
 
 def main():
     manifest = json.loads((HERE / 'source_manifest.json').read_text(encoding='utf-8'))
+    assert hashlib.sha256(CACHE.read_bytes()).hexdigest() == manifest['reconstruction_cache_sha256']
     raw = pd.read_csv(HERE / 'convergence_igdp_fe500.csv', float_precision='round_trip')
     aggregate = pd.read_csv(HERE / 'mean_igdp_fe500.csv', float_precision='round_trip')
     assert hashlib.sha256((HERE / 'convergence_igdp_fe500.csv').read_bytes()).hexdigest() == manifest['source_csv_sha256']
@@ -31,7 +35,7 @@ def main():
             mat = loadmat(path, variable_names=['result', 'metric'],
                           squeeze_me=True, struct_as_record=False)
         fe = np.asarray(mat['result'], object).reshape(-1, 2)[:, 0].astype(float)
-        metric = np.asarray(mat['metric'].IGDp, float).ravel()
+        metric, _ = read_igdp(path, mat['metric'], fe, item['algorithm'])
         csv_run = raw[(raw.Algorithm == item['algorithm']) & (raw.Run == item['run'])].sort_values('Step')
         assert np.array_equal(csv_run.FE.to_numpy(), fe)
         assert np.array_equal(csv_run.IGDp.to_numpy(), metric)
@@ -58,8 +62,8 @@ def main():
     pac = means[pac_name]
     assert (np.diff(pac) <= 1e-12).all()
     assert (means['REMO'][240:] < pac[240:]).all()
-    assert means['SAMOEATL2M'][240] > pac[240] and means['SAMOEATL2M'][-1] < pac[-1]
-    for alg, rounded in [(pac_name, '1.4387'), ('REMO', '1.2630'), ('SAMOEATL2M', '0.89820')]:
+    assert means['PIEA'][-1] < pac[-1]
+    for alg, rounded in [(pac_name, '1.4387'), ('REMO', '1.2630'), ('PIEA', '0.94564')]:
         assert f'{means[alg][-1]:.{len(rounded.split(".")[1])}f}' == rounded
     name = 'fig_convergence_fe500_wfg3_m10'
     figure = PAPER / 'figures' / (name + '.pdf')
@@ -81,7 +85,7 @@ def main():
                     and t.id == 'patterns' for t in n.targets))
     manuscript = (PAPER / 'HPDC-MaOEA.tex').read_text(encoding='utf-8')
     starts_ends = [
-        ('We select DTLZ1, DTLZ6', 'Every curve averages'),
+        ('We select DTLZ1, DTLZ4', 'Every curve averages'),
         ('\\paragraph{WFG3 remains', '\\subsection{REMO-Referenced Component Comparisons}'),
         ('The WFG3 results limit', 'candidate pool itself.'),
     ]

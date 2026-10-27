@@ -1,7 +1,7 @@
 {
   "source_runs_verified": 140,
   "mean_curves_verified": 7,
-  "raw_rows_verified": 3428,
+  "raw_rows_verified": 3212,
   "grid_rows_verified": 2807,
   "max_absolute_mean_error": 8.881784197001252e-16,
   "all_plotted_sample_sizes": 20,
@@ -29,12 +29,12 @@
     "M11_passive": [],
     "M2_antithesis": [
       {
-        "location": "HPDC-MaOEA.tex:1073",
+        "location": "HPDC-MaOEA.tex:1087",
         "match": " not m",
         "line": "establish the performance loss, but do not measure this proposed mechanism."
       },
       {
-        "location": "HPDC-MaOEA.tex:1234",
+        "location": "HPDC-MaOEA.tex:1248",
         "match": " not e",
         "line": "four DTLZ problems; it does not establish Pareto-front coverage or explain"
       },

@@ -1,44 +1,42 @@
-# REMO 参照的 IGD+ 消融表
+# 以 Full 为参照的 IGD+ 消融表
 
-2026-10-07 用户决定取消“必须补Full与两组删除对照直接检验”的待办。现有均值比较用于讨论模块删除的表现变化，表内检验符号仍只相对REMO；未补造Full-versus-control的p值。下方关于直接检验的说明是证据边界，不再作为必做实验计划。
+2026-10-13 按用户提供的两份工作簿更新消融表。论文只展示 `Full`、`w/o CDIS`、`w/o PAQC`，不展示 REMO 性能列。两种消融配置及其机制描述沿用此前版本；本次更新数据、统计参照和样本数，不修改 MATLAB 算法。
 
-`table_ablation_igdp.tex` 由 `build_remo_reference.py` 根据 `sources/` 中两份原始工作簿生成。工作簿来自 `C:\Users\lsx\Desktop\AdaMao实验表\消融实验\nobatchdict版本\`，分别覆盖 M=10 和 M=20 的 DTLZ1--7、WFG1--9。源文件名保留了原来的 `RMEO` 拼写。
+`build_full_reference.py` 从以下归档工作簿生成 `table_ablation_igdp.tex`，并可同步中文对照稿的表 3。归档为原始文件的逐字节副本，源文件名不用于推断协议；协议以 `IGDp` 和 `核对` 页实际内容为准。
 
-| 源文件 | SHA-256 |
-| --- | --- |
-| `nobatchdict以RMEO为基准十目标IGDp.xlsx` | `0437aab41205c5224c214e0a941c37c085aa6777d78050becd5376535034992f` |
-| `nobatchdict以RMEO为基准二十目标IGDp.xlsx` | `13cab8e27a4f1af87c83e017d834aa95aac3971548c8eabd8c77a092c60bc580` |
+| 归档文件 | M | SHA-256 |
+| --- | --- | --- |
+| `sources/ablation_full_reference_m10_igdp.xlsx` | 10 | `20cfbae4a67ddde67b5fa5d3e31156e21b8a9498049bba19ac2b3e20c5a6dac2` |
+| `sources/ablation_full_reference_m20_igdp.xlsx` | 20 | `db5fa53b0453ce82d0895bce2e997bc34a2ed6dc45ffa01532076ee99c362f3c` |
 
-工作簿的四列身份是 `Full`、`w/o CDIS`、`w/o PAQC`、`REMO`。后两项删减对照没有被重命名为 `REMO+CDIS`、`REMO+PAQC`。表内每个问题族只汇总一行，跨 M=10 和 M=20。
+原始文件位于 `C:\Users\lsx\Desktop\AdaMao实验表\消融实验\nobatchdict版本\`：
 
-## 2026-10-09：w/o CDIS 臂换血
+- M=10：`nobatchdict以full为基准十目标IGDp_full去后5run其他去最好5run_NoCDISREMOSelection.xlsx`
+- M=20：`nobatchdict以full为基准二十目标IGDp_full去后5run其他去最好5run_NoCDISREMOSelection.xlsx`
 
-本轮把 w/o CDIS 这一列的数据源从 `REMO_noBatchDict_noCDIS` 换成本次新跑的
-`REMO_NoCDIS_REMOSelection`（16 题 × M=10/20 × 20 跑、N=100、D=30（WFG2/3 实际 31）、
-maxFE=300、save=30，种子与旧臂同一套 `20260912 + M*1e5 + 1000*题号 + run`）。
+## 数据与统计口径
 
-- 上表两份工作簿已换成同名的新版（`..._NoCDISREMOSelection.xlsx` 的副本），因此哈希变了。
-- **换臂只影响 w/o CDIS 一列**；`Full`、`w/o PAQC`、`REMO` 三列数值与符号逐格未动，
-  两张表的 `Full`（`28/2/2`）与 `w/o PAQC`（`20/1/11`）计数复现原先的论文数字，可作为管线自校验。
-- 新的 `+/-/=`（相对 REMO，跨 M=10 与 M=20）：`Full` 为 `28/2/2`，**w/o CDIS 为 `18/1/13`**
-  （M=10 = 8/0/8、M=20 = 10/1/5），`w/o PAQC` 为 `20/1/11`。此前的 w/o CDIS 数值是 `19/2/11`。
+- DTLZ1–7、WFG1–9，M=10/20，共 32 个问题–目标数组合；N=100、FE=300，WFG2/3 的 D=31，其余 D=30。FE=300 是工作簿配置口径，本次不重新执行算法或核查实际 FE。
+- 每个单元统计 **15 次结果**，括号内为样本标准差。核对页同时保留原始 20 次运行值：Full 使用 run 1–15；两个对照各剔除自身 IGD+ 最低的 5 次，保留其余 15 次。正文和表注明确此取样方式，不将所选样本写成未经筛选的 15 次独立运行。
+- 工作簿符号以 Full 为参照：`+` 表示该对照更优、`-` 表示该对照更差、`=` 表示未检测到差异。核对页说明双侧非配对秩和检验、p<0.05；未记录多重比较校正。保留导出符号，不从均值和标准差重建 p 值。
+- Full 为参照列，不附符号；汇总为 w/o CDIS `2/19/11`、w/o PAQC `2/21/9`。M=10 分别为 `1/10/5`、`1/10/5`；M=20 分别为 `1/9/6`、`1/11/4`。
+- 行内最低显示均值以浅灰标识，中文对照稿使用加粗。Full 在 28/32 行具有最低均值；w/o CDIS 在两个目标数的 DTLZ6 上优于 Full，w/o PAQC 在两个目标数的 WFG3 上优于 Full。各臂取样规则不同，因此结果解释限定于所选样本，不能把差异全部归因于模块。
 
-### 新臂的机制与先前记录不同，正文已同步
+## 配置身份
 
-旧的 w/o CDIS 只删掉指标模型、指标准则与模式切换，仍保留模糊性奖励准则。
-新臂 `REMO_NoCDIS_REMOSelection` 把**整个 CDIS 换成本地 REMO 原始候选模块**
-（私有副本 `RSurrogateAssistedSelection.m` SHA-256 `43d7d142…`，与本地 REMO 源文件逐字节一致），
-PAQC 与优化宿主沿用 Full，并沿用 Full 的批量上限与剩余预算截断。
-`HPDC-MaOEA.tex` 的 §4.3 描述段与表注已按此改写。
+- Full：PACDIS，当前 NoBatchDist 配置。
+- w/o PAQC：采用 REMO 基于代表解、正组规模可变的 PBI 分类；保留指标模型与准则切换。
+- w/o CDIS：沿用 `REMO_NoCDIS_REMOSelection`，保留 PAQC 与 Full 宿主，用本地 REMO 原始关系引导候选模块替换整个 CDIS；批量上限和剩余预算截断沿用 Full。
 
-**需要保留的实现细节（如实交代）**：恢复的原始模块未作修正，其私有副本带有原文件的两个既有实现特征——
-评分矩阵 `scores=zeros(Next_num,2)` 只用第一列，以及 `Xi–C2` 累积项使用 `pre_XiC1(1)`。
-这是对**本地原始实现**的替换消融，不声称复现经索引修正后的关系公式。
+源工作簿中的 REMO 列仅作为原始归档内容保留，生成表不使用该列参与行内最优值或统计计数。此前 REMO 参照工作簿及旧表资产保留为历史材料，当前论文仅引用 `table_ablation_igdp.tex`。
 
-### 证据边界
+## 生成与核对
 
-工作簿给出配置 FE=300、汇总值和导出符号，但没有逐次运行数据、检验设置或多重比较调整记录。
-REMO 的历史运行可能超过 300 次真实评估，因此正文将其作为背景参照。相对 REMO 的符号不能代替
-Full 与两组删减对照之间的直接检验，也不能据此分别归因 PAQC 和 CDIS。
+在带有 `openpyxl` 的 Python 环境中运行：
 
-在带有 `openpyxl` 的 Python 环境运行 `python build_remo_reference.py --check`，可校验生成表与两份工作簿一致。
+```text
+python build_full_reference.py --sync-cn
+python build_full_reference.py --check
+```
+
+检查覆盖 32 行、96 个结果单元、配置字段、符号参照、汇总计数、每臂 15 个唯一 run ID、取样规则、导出精度下的样本均值/标准差，以及英文表和中文表的一致性。原始桌面工作簿保持不变。

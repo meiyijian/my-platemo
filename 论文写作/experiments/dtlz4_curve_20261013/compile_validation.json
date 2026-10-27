@@ -1,0 +1,13 @@
+{
+  "pdf_sha256": "c6f7107ea5169f84c3dee468841b4fea66a35dab526a30d6bd1323d300f189ed",
+  "pages": 16,
+  "final_compile_passes": 2,
+  "unresolved_references": 0,
+  "overfull_boxes": 0,
+  "prose_page": 9,
+  "five_case_figure_page": 10,
+  "retained_preexisting_placeholders": [
+    "Author list",
+    "Affiliation"
+  ]
+}

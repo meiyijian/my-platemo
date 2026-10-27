@@ -1,11 +1,11 @@
 {
   "source_runs_verified": 560,
   "mean_curves_verified": 28,
-  "aggregate_rows_verified": 8411,
+  "aggregate_rows_verified": 9338,
   "plotted_fe_max": 500,
   "all_plotted_sample_sizes": 20,
   "max_absolute_mean_error": 1.1368683772161603e-13,
-  "upward_steps_retained_in_mean_curves": 216,
+  "upward_steps_retained_in_mean_curves": 242,
   "policy_checks": [
     "initialization",
     "duplicate FE",
@@ -17,7 +17,7 @@
   ],
   "figures_verified": [
     "fig_convergence_fe500_dtlz1_m10",
-    "fig_convergence_fe500_dtlz6_m10",
+    "fig_convergence_fe500_dtlz4_m10",
     "fig_convergence_fe500_wfg2_m10",
     "fig_convergence_fe500_wfg7_m10"
   ],
@@ -34,12 +34,12 @@
     "M12_wordiness": 0,
     "M13_qualifiers": 0,
     "M14_adverbs": 0,
-    "M15_exclamation": 4,
+    "M15_exclamation": 0,
     "B_precision_pairs": 0
   },
   "mechanical_gate_justifications": {
-    "M15_exclamation": "Four ! characters are LaTeX float-placement modifiers in [!tbp]; zero prose exclamation marks."
+    "M15_exclamation": "Zero prose exclamation marks; the five figures share one unchanged figure* float."
   },
-  "source_csv_sha256": "41704668137a6bb1fade4bf06793ed20667f0be5ab2d258cf57addbcda5343ce",
-  "aggregate_csv_sha256": "cb00e0ca740c8c86e9e4915c31ae3c775be1ccfeb444619dbd0e6d5c71c720e4"
+  "source_csv_sha256": "809f059e50ba13d936beefc94035dc78e8edab6fb1b29a0fd8e9d5df86f38f07",
+  "aggregate_csv_sha256": "2ec5644055150033a318cb6af07654d56045d8a8c5f60a7ed3ceaaf72f77d40c"
 }

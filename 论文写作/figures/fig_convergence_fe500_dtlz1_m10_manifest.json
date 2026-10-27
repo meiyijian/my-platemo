@@ -3,10 +3,10 @@
   "metric": "IGDp (IGD+)",
   "estimator": "arithmetic mean",
   "source_csv": "experiments\\fe500_convergence\\convergence_igdp_fe500.csv",
-  "source_csv_sha256": "41704668137a6bb1fade4bf06793ed20667f0be5ab2d258cf57addbcda5343ce",
+  "source_csv_sha256": "809f059e50ba13d936beefc94035dc78e8edab6fb1b29a0fd8e9d5df86f38f07",
   "source_manifest": "experiments\\fe500_convergence\\source_manifest.json",
-  "source_manifest_sha256": "99a8a776dbb07826113bc5d1ccf36a18425f7da4f3536361db5cc782c6aded89",
-  "drawing_script_sha256": "731a5e558f5db573de2f673c6ba6a450e25a212c6eb392bbfb1eac4827774c95",
+  "source_manifest_sha256": "f1defab9d0c24db1ed00003d9231c958d39acdeb91be8a6036bebab876cfa042",
+  "drawing_script_sha256": "9d37fe03635cf27e71e50babbba68d40ce334056084f168fc062d1a4669f59e4",
   "runs_used": [
     1,
     2,
@@ -51,7 +51,7 @@
     "CSEA": "*",
     "HES_EA": "o",
     "SSDE": "x",
-    "SAMOEATL2M": "+"
+    "PIEA": "+"
   },
   "marker_every_fe": 50,
   "marker_endpoints": true,
@@ -64,7 +64,7 @@
     "CSEA": "CSEA",
     "HES_EA": "HES-EA",
     "SSDE": "SSDE",
-    "SAMOEATL2M": "SAMOEA-TL2M"
+    "PIEA": "PIEA"
   },
   "coverage": {
     "REMO_UniformMix_Pruned_Weighted_Lambdat030_NoBatchDist": {
@@ -199,27 +199,27 @@
       ],
       "snapshots_above_budget_excluded": 19
     },
-    "SAMOEATL2M": {
+    "PIEA": {
       "runs": 20,
       "D": 30,
       "first_saved_fe_range": [
-        329,
-        329
+        100,
+        100
       ],
-      "first_plotted_fe": 329,
+      "first_plotted_fe": 100,
       "terminal_fe_range": [
-        504,
-        504
+        500,
+        500
       ],
       "last_saved_fe_le500_range": [
-        479,
-        479
+        500,
+        500
       ],
       "snapshot_count_range": [
-        30,
+        18,
         30
       ],
-      "snapshots_above_budget_excluded": 20
+      "snapshots_above_budget_excluded": 0
     }
   },
   "page_size_mm": [

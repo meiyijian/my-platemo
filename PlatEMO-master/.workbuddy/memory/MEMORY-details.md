@@ -38,6 +38,11 @@
 - 表格口径：锚点在**末列不带符号**，`+`显著更好/`-`显著更差/`=`不显著（p≥0.05），行最小值蓝色 `FF3333E9`
 - 工具链（`.workbuddy\run_scripts\`）：`RunNBD_Ablation.m`(run/smoke/post) + `RunNBD_AblationAll.m`(workers,Ms) 跑实验；`MergeIGDpForDir.m` 补 IGDp；`FinishNBD_Ablation.m`(Ms) 收尾（覆盖率守卫 + 补 IGDp + 出 JSON）；`build_nobatchdict_tables.py` JSON→xlsx；`progress_nbd.py [M]` 进度+ETA
   - 收尾出 **2 张 xlsx**：`nobatchdict以RMEO为基准十目标IGDp.xlsx`、`nobatchdict以full为基准十目标IGDp.xlsx`（列集合相同，只有符号锚点不同；锚点末列不带符号）
+  - **2026-10-09 新增：w/o CDIS 换臂版 4 张 xlsx**（同一目录，带 `_NoCDISREMOSelection` 后缀，旧文件不动）：
+    臂 3 由 `REMO_noBatchDict_noCDIS` 换成 `REMO_NoCDIS_REMOSelection`。脚本
+    `BuildNoCDISREMOSelectionTables.m` + `build_nocdis_remosel_tables.py`（JSON 落 `nocdis_remosel_logs\`）。
+    **管线校验靠未换的两个臂复现论文数字**：full vs REMO = 28/2/2、w/o PAQC = 20/1/11，与论文 §4.3 原文一致。
+    新 w/o CDIS 相对 REMO：M=10 = 8/0/8、M=20 = 10/1/5（旧臂合计 19/2/11 → 换算法后必变）。
   - M=20 的 JSON 不存在时出表脚本会跳过（正常，不算错）
   - 巡检自动化已于 09-19 删除（十目标完成后无用途；留着每 3 h 白跑、还会重复生成文件）
 
@@ -58,3 +63,48 @@
 - 表格宽度：7 列 + 5 个数值列在 522pt 下必然超宽 → `\footnotesize` + 缩短 `\multicolumn` 标签 → skill `paper-tex-section-edit`
 - 算法目录：`Lambdat030`（= 论文里的 PACDIS）、`Lambdat050`、`Lambda020`、`RMEO_k_CDIS`（原版 REMO 框架 + CDIS，`k=min(N,max(6,ceil(1.5M)))`，16 题 × M=10/20 × 18 跑已齐）
 - 文档：`REMO_DiRel_汇报文档.md`；设计文档 `PlatEMO/docs/superpowers/{specs,plans}/`
+
+## REMO_NoCDIS_REMOSelection（w/o CDIS 换臂，2026-10-09 跑完）
+- 完整 CDIS 换成 `REMO/RSurrogateAssistedSelection.m` 逐字节原版（private，SHA 43d7d142…），PAQC 与宿主沿用 Full；
+  参数 **3 个 `{gmax,rGood,nMax}={3000,0.25,6}`**（旧 noCDIS 是 4 参数，含 pMix/qKeep）
+- 协议同 NoBatchDist 消融：16 题 × M=10/20 × 20 跑、N=100、D=30（WFG2/3→31）、maxFE=300、save=30、
+  种子 `20260912+M*1e5+题号*1000+run`；**12 workers，11.07 h，640/640，0 失败**
+- 数据 `10目标\n30\REMO_NoCDIS_REMOSelection\`、`20目标\REMO_NoCDIS_REMOSelection\`；
+  runner `run_scripts/RunNoCDISREMOSelection.m` + `nocdis_remosel_chain.sh`，校验 `verify_nocdis_remosel.py`
+- **论文表格换列时数据源必须换到新目录，勿与 `REMO_noBatchDict_noCDIS` 混用**
+
+## CI-EMO（用户口中的 "CL-EMO"）FE500 基线（2026-09-30 起）
+- `Algorithms/Multi-objective optimization/CI-EMO`，SWEVO 2026 代理模型算法
+- **M=15 不可运行**（UniformPoint 只给 30 点 < regpoly1 的 D+1=31 列 → least squares underdetermined），用户决定跳过
+- 有效种群：M=10 → N=65，M=20 → N=40（算法自己把 N 改成 `min(11D-1,100)` 再交给 UniformPoint 收缩）
+- **单跑独占机器**：M=10 ≈ 2.2 h，M=20 ≈ 3.9 h；全量 640 跑 ≈ 1959 solo-h
+- **机器吞吐封顶 ≈ 4.42× 单进程**（12 独立 MATLAB 进程；6 进程只有 3.24×；瓶颈内存带宽）→ 全量约 18–20 天
+- runner `run_scripts/RunCIEMOAll.m`（`shard` 分片，**12 进程优于 12-worker parpool**）+ `run_scripts/ciemo_chain.sh`；
+  日志 `PlatEMO-master/.workbuddy/ciemo_logs/`；输出 `10目标\n30\FE500\CIEMO\`、`20目标\FE500\CIEMO\`
+
+## FE500 批次 PIEA 列（2026-10-12）
+- 协议同全批次：16 题、N=100、maxFE=500、save=30、20 跑、seed=`20260912+M*1e5+题号*1000+run`；
+  **D=30，WFG2/WFG3 在 M=10/M=20 由 PlatEMO 自动抬到 31**（M=15 恒 30）
+- **M=15 全新**：`15目标\FE500\PIEA\` 320 个（0 失败，24.5 min），runner `RunPieaFE500_M15.m`，
+  核验 `VerifyPieaFE500_M15.m`（OK=320 BAD=0，IGDp≡IGDpFast）
+- **M=10 只补 run 19-20**：`10目标\n30\FE500\PIEA\` 320 个。旧 18 跑（288 文件）只有 18 快照、无 metadata、
+  DTLZ3–WFG9 缺 IGDp；runner `RunPieaFE500_M10Topup.m`，核验 `verify_piea_m10_topup.py`。
+  IGDp 回填 `run_scripts/PreviewPieaM10IGDp.m`（`false`=预览，`true`=写盘；预演 max|Δ|=0，**尚未回填**）。
+  旧 18 跑 seed 不可考（无 metadata）
+- **扩到 40 跑 / 最差 20 口径**：三个 M 的 PIEA 均 40 跑（640 个）；M=10/15 由 `RunPieaFE500_Extra20.m` 跑 run 21-40
+  （10 进程），M=20 用户侧补齐。**用户拍板口径**：「40 跑取最差 20」= 按末快照 IGDp 降序取前 20，
+  一套子集供 IGD 与 IGDp 两表共用，另存目录。选择器 `run_scripts/SelectPieaWorst20.m` → `<base>\PIEA_worst20\`
+  （每 M 320 个）+ 清单 `piea_worst20_manifest.csv`。
+  **坑**：参考集必须客户端每题只建一次，放 parfor 里会 OOM（实测 M=10/WFG1 失败）
+- 出表：`BuildFE500TablePIEA(1:40,metric,M,'PIEA_worst20','_worst20')`（**runs 传 1:40**，runId 非连续）
+  → `build_piea_worst20_outputs.py` → `AdaMao实验表\FE500含PIEA\最差20\`（6 xlsx + 主性能表 PDF + 清单）
+
+## 含 PIEA 的对比表（runs 1-20 口径，2026-10-12）
+- 锚点末列 PACDIS；MATLAB ranksum p<0.05；列序 `REMO, SSDE, PC-SAEA, SAMOEA-TL2M, CSEA, HES-EA, PIEA, PACDIS`
+- 链：`BuildFE500TablePIEA.m`（CSV）→ `build_fe500_piea_xlsx.py`（xlsx）→
+  `AdaMao实验表\FE500含PIEA\含PIEA以PACDIS为基准{十|十五}目标{IGD|IGDp}.xlsx`
+- PIEA +/-/= vs PACDIS：M10-IGD 5/9/2、M10-IGDp 5/7/4、M15-IGD 5/9/2、M15-IGDp 5/9/2、M20-IGD 5/9/2、M20-IGDp 6/9/1
+- **M=10 IGDp 的 PIEA 旧 252 文件是出表现场重算、未写回 .mat**（xlsx「口径说明」sheet 记录）
+- M=20 的 REMO/PCSAEA/HES_EA/CSEA **DTLZ7 不满 20 跑**（表按可用跑数取均值）
+- 主性能表 PDF：`run_scripts/build_main_table_piea.py`（读 3 张 IGDp CSV → 独立 tex）→ pdflatex；
+  产物 `AdaMao实验表\FE500含PIEA\主性能表含PIEA.pdf`。**论文文件未改**（用户要求「先不要改论文的数据」）

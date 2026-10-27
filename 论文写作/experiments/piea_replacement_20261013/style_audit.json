@@ -1,0 +1,62 @@
+{
+  "baseline_commit": "9c2c4d6",
+  "changed_prose_lines": 37,
+  "mechanical_counts": {
+    "M1_em_dash": 0,
+    "M11_passive": 0,
+    "M2_antithesis": 0,
+    "M3_M4_M8_M9_flourish": 0,
+    "M6_openers": 0,
+    "M5_M16_words": 0,
+    "M10_hype_verbs": 0,
+    "M17_fancy_verbs": 0,
+    "M18_empty_openers": 0,
+    "M12_wordiness": 0,
+    "M13_qualifiers": 0,
+    "M14_adverbs": 1,
+    "M15_exclamation": 0,
+    "B_precision_pairs": 0
+  },
+  "hits": {
+    "M1_em_dash": [],
+    "M11_passive": [],
+    "M2_antithesis": [],
+    "M3_M4_M8_M9_flourish": [],
+    "M6_openers": [],
+    "M5_M16_words": [],
+    "M10_hype_verbs": [],
+    "M17_fancy_verbs": [],
+    "M18_empty_openers": [],
+    "M12_wordiness": [],
+    "M13_qualifiers": [],
+    "M14_adverbs": [
+      {
+        "line": 960,
+        "match": "pairwise",
+        "text": "self-organizing surrogate, and PC-SAEA uses pairwise comparison. PIEA learns"
+      }
+    ],
+    "M15_exclamation": [],
+    "B_precision_pairs": []
+  },
+  "justifications": {
+    "M14_adverbs": "pairwise is the established comparison type, not a coined adverb."
+  },
+  "raw_scan_output": [
+    "M1_em_dash: 0",
+    "M11_passive: 0",
+    "M2_antithesis: 0",
+    "M3_M4_M8_M9_flourish: 0",
+    "M6_openers: 0",
+    "M5_M16_words: 0",
+    "M10_hype_verbs: 0",
+    "M17_fancy_verbs: 0",
+    "M18_empty_openers: 0",
+    "M12_wordiness: 0",
+    "M13_qualifiers: 0",
+    "M14_adverbs: 1",
+    "  L960: self-organizing surrogate, and PC-SAEA uses pairwise comparison. PIEA learns",
+    "M15_exclamation: 0",
+    "B_precision_pairs: 0"
+  ]
+}
